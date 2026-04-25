@@ -1,0 +1,154 @@
+<style>
+  #haven-demo {
+    font-family: sans-serif;
+    background-image: url('https://lulhaven.com/assets/images/lulhaven20dock20gnome-1024x1536.png');
+    background-size: cover;
+    background-position: center top;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  #haven-demo-inner {
+    background: rgba(255,255,255,0.88);
+    padding: 24px;
+  }
+  #haven-demo h2 {
+    margin-top: 0;
+    color: #223;
+    font-size: 1.6em;
+  }
+  #haven-demo p.subtitle {
+    color: #556;
+    margin-top: -10px;
+    margin-bottom: 16px;
+    font-style: italic;
+  }
+  #haven-layout { display:flex; gap:16px; }
+  #haven-cats { flex:0 0 200px; border:1px solid #ccc; border-radius:4px; overflow:hidden; background:#fff; }
+  #haven-cats ul { list-style:none; margin:0; padding:0; }
+  #haven-cats li { padding:8px 12px; cursor:pointer; border-bottom:1px solid #eee; font-size:0.88em; }
+  #haven-cats li:hover { background:#dde; }
+  #haven-cats li.hd-selected { background:#336; color:#fff; font-weight:bold; }
+  #haven-subs { flex:1; border:1px solid #ccc; border-radius:4px; padding:12px; background:#fff; }
+  #haven-subs h3 { margin-top:0; color:#334; }
+  #haven-sub-table { width:100%; border-collapse:collapse; }
+  #haven-sub-table th { text-align:left; padding:8px; border-bottom:2px solid #ccc; font-size:0.88em; color:#556; }
+  #haven-sub-table th.c { text-align:center; }
+  #haven-sub-table td { padding:8px; border-bottom:1px solid #eee; font-size:0.88em; }
+  #haven-sub-table td.c { text-align:center; }
+  #haven-footer-bar { margin-top:16px; display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
+  #haven-footer-bar label { font-weight:bold; font-size:0.9em; }
+  #haven-footer-bar input[type=number] { width:55px; padding:4px; border:1px solid #ccc; border-radius:4px; }
+  #hd-save-btn { padding:8px 28px; background:#336; color:#fff; border:none; border-radius:4px; cursor:pointer; font-size:0.95em; }
+  #hd-save-btn:hover { background:#558; }
+  #hd-save-msg { color:#336; font-weight:bold; font-size:0.9em; display:none; background:#eef; padding:6px 12px; border-radius:4px; border:1px solid #aac; }
+</style>
+
+<div id="haven-demo">
+  <div id="haven-demo-inner">
+    <h2>Haven — Live Demo</h2>
+    <p class="subtitle">Click any category on the left. Set each subcategory to Allow, Block, or Temporary. This is exactly what Haven looks like on your router.</p>
+
+    <div id="haven-layout">
+
+      <div id="haven-cats">
+        <ul id="hd-cat-ul"></ul>
+      </div>
+
+      <div id="haven-subs">
+        <h3 id="hd-sub-title">Select a category</h3>
+        <table id="haven-sub-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th class="c">Allow</th>
+              <th class="c">Block</th>
+              <th class="c">Temporary</th>
+            </tr>
+          </thead>
+          <tbody id="hd-sub-body"></tbody>
+        </table>
+      </div>
+
+    </div>
+
+    <div id="haven-footer-bar">
+      <label>Temporary duration (minutes): <input type="number" id="hd-temp-min" value="30" min="1" max="1440"></label>
+      <button id="hd-save-btn" onclick="hdSave()">Save Settings</button>
+      <span id="hd-save-msg">On your Haven router, these settings would now be active on your network.</span>
+    </div>
+
+  </div>
+</div>
+
+<script>
+var hdCats = [
+  { name: "Advertising", subs: ["Google Ads","Meta Ads","Taboola","Outbrain","Amazon Advertising","TikTok Ads"] },
+  { name: "Social Media", subs: ["Facebook","Instagram","TikTok","Snapchat","Reddit","Twitter / X"] },
+  { name: "News & Media", subs: ["CNN","BBC","Fox News","Reuters","Associated Press","Al Jazeera"] },
+  { name: "Politics & Government", subs: ["Republican Party","Democratic Party","U.S. Senate","U.S. House of Representatives","Supreme Court of the United States","Federal Election Commission"] },
+  { name: "Streaming Video", subs: ["YouTube","Netflix","Hulu","Amazon Prime Video","Disney+","Twitch"] },
+  { name: "Streaming Music", subs: ["Spotify","Apple Music","Pandora","SoundCloud","Tidal","Amazon Music"] },
+  { name: "Gaming", subs: ["Steam","Epic Games","Roblox","PlayStation Network","Xbox Live","Nintendo Online"] },
+  { name: "Adult Content", subs: ["Pornhub","XVideos","XHamster","OnlyFans","Chaturbate","BongaCams"] },
+  { name: "Gambling", subs: ["DraftKings","FanDuel","BetMGM","PokerStars","888 Casino","Bet365"] },
+  { name: "E-Commerce", subs: ["Amazon","eBay","Walmart","Etsy","Shopify","AliExpress"] },
+  { name: "Cloud Services", subs: ["AWS","Google Cloud","Microsoft Azure","Cloudflare","DigitalOcean","Linode"] },
+  { name: "Search Engines", subs: ["Google Search","Bing","DuckDuckGo","Yahoo Search","Baidu","Yandex"] },
+  { name: "Messaging & Chat", subs: ["WhatsApp","Telegram","Signal","Messenger","Discord","WeChat"] },
+  { name: "Education", subs: ["Khan Academy","Coursera","edX","Udemy","Duolingo","Quizlet"] },
+  { name: "Finance & Banking", subs: ["PayPal","Venmo","Cash App","Chase","Bank of America","Wells Fargo"] },
+  { name: "Cryptocurrency", subs: ["Coinbase","Binance","Kraken","Bitfinex","Blockchain.com","Gemini"] },
+  { name: "File Sharing", subs: ["Dropbox","Google Drive","OneDrive","Mega","WeTransfer","iCloud Drive"] },
+  { name: "VPN & Privacy Tools", subs: ["NordVPN","ExpressVPN","ProtonVPN","Surfshark","Mullvad","Private Internet Access"] },
+  { name: "AI & Automation", subs: ["ChatGPT","Claude","Gemini","Midjourney","Perplexity","HuggingFace"] },
+  { name: "Forums & Community", subs: ["Reddit","StackOverflow","Quora","SomethingAwful","4chan","Hacker News"] },
+  { name: "Shopping Aggregators", subs: ["Google Shopping","PriceGrabber","Shopzilla","CamelCamelCamel","Honey","Slickdeals"] },
+  { name: "Sports & Betting", subs: ["ESPN","NFL.com","NBA.com","MLB.com","DraftKings Sportsbook","FanDuel Sportsbook"] },
+  { name: "Health & Wellness", subs: ["WebMD","Mayo Clinic","Healthline","MyFitnessPal","Fitbit","Calm"] },
+  { name: "Travel & Transportation", subs: ["Expedia","Booking.com","Airbnb","Uber","Lyft","TripAdvisor"] },
+  { name: "Technology & Hardware", subs: ["Apple","Samsung","Intel","AMD","Nvidia","Dell"] },
+  { name: "Kids & Family", subs: ["PBS Kids","Disney Kids","Nick Jr.","Roblox Kids","ABCmouse","Khan Academy Kids"] }
+];
+
+var hdSettings = {};
+
+function hdSelect(index) {
+  var items = document.querySelectorAll('#hd-cat-ul li');
+  for (var i = 0; i < items.length; i++) items[i].classList.remove('hd-selected');
+  items[index].classList.add('hd-selected');
+  var cat = hdCats[index];
+  document.getElementById('hd-sub-title').textContent = cat.name;
+  var tbody = document.getElementById('hd-sub-body');
+  tbody.innerHTML = '';
+  for (var j = 0; j < cat.subs.length; j++) {
+    var sub = cat.subs[j];
+    var key = index + '_' + j;
+    var cur = hdSettings[key] || '';
+    tbody.innerHTML += '<tr>' +
+      '<td>' + sub + '</td>' +
+      '<td class="c"><input type="radio" name="' + key + '" value="allow"' + (cur==='allow'?' checked':'') + ' onchange="hdSet(\'' + key + '\',\'allow\')"></td>' +
+      '<td class="c"><input type="radio" name="' + key + '" value="block"' + (cur==='block'?' checked':'') + ' onchange="hdSet(\'' + key + '\',\'block\')"></td>' +
+      '<td class="c"><input type="radio" name="' + key + '" value="temporary"' + (cur==='temporary'?' checked':'') + ' onchange="hdSet(\'' + key + '\',\'temporary\')"></td>' +
+      '</tr>';
+  }
+}
+
+function hdSet(key, val) { hdSettings[key] = val; }
+
+function hdSave() {
+  var msg = document.getElementById('hd-save-msg');
+  msg.style.display = 'inline';
+  setTimeout(function() { msg.style.display = 'none'; }, 4000);
+}
+
+var ul = document.getElementById('hd-cat-ul');
+for (var i = 0; i < hdCats.length; i++) {
+  var li = document.createElement('li');
+  li.textContent = hdCats[i].name;
+  li.onclick = (function(idx) { return function() { hdSelect(idx); }; })(i);
+  ul.appendChild(li);
+}
+hdSelect(0);
+</script>
