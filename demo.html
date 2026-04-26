@@ -108,6 +108,10 @@ var hdCats = [
   { name: "Kids & Family",         subs: ["PBS Kids","Disney Kids","Nick Jr.","Roblox Kids","ABCmouse","Khan Academy Kids"] }
 ];
 
+// Sort categories alphabetically, and sort each category's contents alphabetically
+hdCats.sort(function(a,b){ return a.name.localeCompare(b.name); });
+hdCats.forEach(function(c){ c.subs.sort(function(a,b){ return a.localeCompare(b); }); });
+
 var hdSettings = {};
 var hdCurrentCat = 0;
 
