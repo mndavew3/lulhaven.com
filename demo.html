@@ -9,34 +9,112 @@
     border-radius: 8px;
     overflow: hidden;
   }
-  #haven-demo-inner { background: rgba(255,255,255,0.88); padding: 24px; }
-  #haven-demo h2 { margin-top:0; color:#223; font-size:1.6em; }
-  #haven-demo p.subtitle { color:#556; margin-top:-10px; margin-bottom:12px; font-style:italic; }
+  #haven-demo-inner { background: transparent; padding: 24px; }
+  #haven-demo h2 {
+    margin-top:0; font-size:1.6em;
+    color:#fff; text-shadow: 0 2px 8px rgba(0,0,0,0.7);
+    margin-bottom: 4px;
+  }
+  #haven-demo p.subtitle {
+    color: rgba(255,255,255,0.75);
+    margin-top:0; margin-bottom:12px; font-style:italic; font-size:0.9em;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+  }
+
+  /* Search bar */
   #hd-search-bar { margin-bottom:12px; display:flex; align-items:center; gap:10px; }
-  #hd-search-bar input { flex:1; padding:8px 12px; font-size:1em; border:2px solid #336; border-radius:4px; outline:none; }
-  #hd-search-bar button { padding:8px 14px; background:#336; color:#fff; border:none; border-radius:4px; cursor:pointer; font-size:0.9em; }
+  #hd-search-bar input {
+    flex:1; padding:8px 12px; font-size:1em;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 8px; color:#fff; outline:none;
+    transition: all 0.2s ease;
+  }
+  #hd-search-bar input::placeholder { color: rgba(255,255,255,0.55); }
+  #hd-search-bar input:focus {
+    background: rgba(255,255,255,0.22);
+    border-color: rgba(255,255,255,0.6);
+  }
+
+  /* Glass button base */
+  #hd-search-bar button, #hd-save-btn {
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 8px; cursor:pointer;
+    transition: all 0.2s ease;
+  }
+  #hd-search-bar button { padding:8px 14px; font-size:0.9em; }
+  #hd-search-bar button:hover, #hd-save-btn:hover {
+    background: rgba(255,255,255,0.28);
+    border-color: rgba(255,255,255,0.55);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  }
+  #hd-save-btn { padding:8px 28px; font-size:0.95em; }
+
+  /* Layout */
   #haven-layout { display:flex; gap:16px; }
-  #haven-cats { flex:0 0 200px; border:1px solid #ccc; border-radius:4px; overflow:hidden; background:#fff; }
+
+  /* Glass panel base */
+  #haven-cats, #haven-subs, #haven-footer-bar {
+    background: rgba(5,5,30,0.48);
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+  }
+
+  /* Category list */
+  #haven-cats { flex:0 0 200px; overflow:hidden; }
   #haven-cats ul { list-style:none; margin:0; padding:0; }
-  #haven-cats li { padding:8px 12px; cursor:pointer; border-bottom:1px solid #eee; font-size:0.88em; }
-  #haven-cats li:hover { background:#dde; }
-  #haven-cats li.hd-selected { background:#336; color:#fff; font-weight:bold; }
-  #haven-cats li.hd-highlighted { background:#eef; font-weight:bold; }
-  #haven-cats li.hd-selected.hd-highlighted { background:#336; color:#fff; }
-  #haven-subs { flex:1; border:1px solid #ccc; border-radius:4px; padding:12px; background:#fff; }
-  #haven-subs h3 { margin-top:0; color:#334; }
+  #haven-cats li {
+    padding:8px 12px; cursor:pointer;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    font-size:0.88em; color:rgba(255,255,255,0.82);
+    transition: background 0.15s ease;
+  }
+  #haven-cats li:hover { background: rgba(255,255,255,0.1); }
+  #haven-cats li.hd-selected {
+    background: rgba(255,255,255,0.2);
+    color:#fff; font-weight:bold;
+    border-left: 3px solid rgba(255,255,255,0.65);
+  }
+  #haven-cats li.hd-highlighted { background: rgba(255,255,180,0.1); font-weight:bold; }
+  #haven-cats li.hd-selected.hd-highlighted { background: rgba(255,255,255,0.2); color:#fff; }
+
+  /* Sub panel */
+  #haven-subs { flex:1; padding:12px; color:rgba(255,255,255,0.9); }
+  #haven-subs h3 { margin-top:0; color:#fff; }
   #haven-sub-table { width:100%; border-collapse:collapse; }
-  #haven-sub-table th { text-align:left; padding:8px; border-bottom:2px solid #ccc; font-size:0.88em; color:#556; }
+  #haven-sub-table th {
+    text-align:left; padding:8px;
+    border-bottom: 1px solid rgba(255,255,255,0.22);
+    color:rgba(255,255,255,0.65);
+    font-size:0.85em; text-transform:uppercase; letter-spacing:0.04em;
+  }
   #haven-sub-table th.c { text-align:center; }
-  #haven-sub-table td { padding:8px; border-bottom:1px solid #eee; font-size:0.88em; }
+  #haven-sub-table td {
+    padding:8px; border-bottom: 1px solid rgba(255,255,255,0.07);
+    font-size:0.88em; color:rgba(255,255,255,0.85);
+  }
   #haven-sub-table td.c { text-align:center; }
-  td.hd-cat-label { color:#336; font-size:0.8em; font-style:italic; }
-  #haven-footer-bar { margin-top:16px; display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
-  #haven-footer-bar label { font-weight:bold; font-size:0.9em; }
-  #haven-footer-bar input[type=number] { width:55px; padding:4px; border:1px solid #ccc; border-radius:4px; }
-  #hd-save-btn { padding:8px 28px; background:#336; color:#fff; border:none; border-radius:4px; cursor:pointer; font-size:0.95em; }
-  #hd-save-btn:hover { background:#558; }
-  #hd-save-msg { color:#336; font-weight:bold; font-size:0.9em; display:none; background:#eef; padding:6px 12px; border-radius:4px; border:1px solid #aac; }
+  #haven-sub-table a { color:rgba(255,255,255,0.55); font-size:0.8em; text-decoration:none; }
+  #haven-sub-table a:hover { color:#fff; }
+  td.hd-cat-label { color:rgba(180,210,255,0.7); font-size:0.8em; font-style:italic; }
+
+  /* Footer */
+  #haven-footer-bar { margin-top:16px; display:flex; align-items:center; gap:16px; flex-wrap:wrap; padding:12px 16px; }
+  #haven-footer-bar label { font-weight:bold; font-size:0.9em; color:rgba(255,255,255,0.85); }
+  #haven-footer-bar input[type=number] {
+    width:55px; padding:4px; text-align:center;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 6px; color:#fff;
+  }
+  #hd-save-msg { color:#7fffb0; font-weight:bold; font-size:0.9em; display:none; }
 </style>
 
 <div id="haven-demo">
