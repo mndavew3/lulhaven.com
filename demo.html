@@ -42,7 +42,7 @@
 <div id="haven-demo">
   <div id="haven-demo-inner">
     <h2>Haven — Live Demo</h2>
-    <p class="subtitle">Click any category on the left. Set each item to Allow, Block, or Temporary. This is exactly what Haven looks like on your router.</p>
+    <p class="subtitle">Click any category on the left. Block or Delayed Block each item. This is exactly what Haven looks like on your router.</p>
 
     <div id="hd-search-bar">
       <input type="text" id="hd-search-input" placeholder="Search contents... (e.g. Fox, Apple, CNN)" oninput="hdSearch(this.value)">
@@ -59,9 +59,8 @@
           <thead>
             <tr>
               <th>Contents</th>
-              <th class="c">Allow</th>
-              <th class="c">Block</th>
-              <th class="c">Temporary</th>
+              <th class="c">Block<br><a href="#" onclick="hdSelectAll('block');return false;">All</a></th>
+              <th class="c">Delayed Block<br><a href="#" onclick="hdSelectAll('delayed');return false;">All</a></th>
             </tr>
           </thead>
           <tbody id="hd-sub-body"></tbody>
@@ -70,7 +69,7 @@
     </div>
 
     <div id="haven-footer-bar">
-      <label>Temporary duration (minutes): <input type="number" id="hd-temp-min" value="30" min="1" max="1440"></label>
+      <label>Delayed Block duration (minutes): <input type="number" id="hd-temp-min" value="30" min="1" max="1440"></label>
       <button id="hd-save-btn" onclick="hdSave()">Save Settings</button>
       <span id="hd-save-msg">On your Haven router, these settings would now be active on your network.</span>
     </div>
@@ -79,36 +78,35 @@
 
 <script>
 var hdCats = [
-  { name: "Advertising",           subs: ["Google Ads","Meta Ads","Taboola","Outbrain","Amazon Advertising","TikTok Ads"] },
-  { name: "Social Media",          subs: ["Facebook","Instagram","TikTok","Snapchat","Reddit","Twitter / X"] },
-  { name: "News & Media",          subs: ["CNN","BBC","MSN","Reuters","Associated Press","Al Jazeera"] },
-  { name: "Politics & Government", subs: ["Republican Party","Democratic Party","U.S. Senate","U.S. House of Representatives","Supreme Court of the United States","Federal Election Commission"] },
-  { name: "Entertainment",         subs: ["YouTube","Netflix","Hulu","Amazon Prime Video","Disney+","Twitch","Fox Corp"] },
-  { name: "Streaming Music",       subs: ["Spotify","Apple Music","Pandora","SoundCloud","Tidal","Amazon Music"] },
-  { name: "Gaming",                subs: ["Steam","Epic Games","Roblox","PlayStation Network","Xbox Live","Nintendo Online"] },
-  { name: "Adult Content",         subs: ["Pornhub","XVideos","XHamster","OnlyFans","Chaturbate","BongaCams"] },
-  { name: "Gambling",              subs: ["DraftKings","FanDuel","BetMGM","PokerStars","888 Casino","Bet365"] },
-  { name: "E-Commerce",            subs: ["Amazon","eBay","Walmart","Etsy","Shopify","AliExpress"] },
-  { name: "Big Business",          subs: ["Apple Corp","Google Corp","Microsoft Corp","Meta Corp","Amazon Corp","Disney Corp","Fox Corp"] },
-  { name: "Cloud Services",        subs: ["AWS","Google Cloud","Microsoft Azure","Cloudflare","DigitalOcean","Linode"] },
-  { name: "Search Engines",        subs: ["Google Search","Bing","DuckDuckGo","Yahoo Search","Baidu","Yandex"] },
-  { name: "Messaging & Chat",      subs: ["WhatsApp","Telegram","Signal","Messenger","Discord","WeChat"] },
-  { name: "Education",             subs: ["Khan Academy","Coursera","edX","Udemy","Duolingo","Quizlet"] },
-  { name: "Finance & Banking",     subs: ["PayPal","Venmo","Cash App","Chase","Bank of America","Wells Fargo"] },
-  { name: "Cryptocurrency",        subs: ["Coinbase","Binance","Kraken","Bitfinex","Blockchain.com","Gemini"] },
-  { name: "File Sharing",          subs: ["Dropbox","Google Drive","OneDrive","Mega","WeTransfer","iCloud Drive"] },
-  { name: "VPN & Privacy Tools",   subs: ["NordVPN","ExpressVPN","ProtonVPN","Surfshark","Mullvad","Private Internet Access"] },
-  { name: "AI & Automation",       subs: ["ChatGPT","Claude","Gemini","Midjourney","Perplexity","HuggingFace"] },
-  { name: "Forums & Community",    subs: ["Reddit","StackOverflow","Quora","SomethingAwful","4chan","Hacker News"] },
-  { name: "Shopping Aggregators",  subs: ["Google Shopping","PriceGrabber","Shopzilla","CamelCamelCamel","Honey","Slickdeals"] },
-  { name: "Sports & Betting",      subs: ["ESPN","NFL.com","NBA.com","MLB.com","DraftKings Sportsbook","FanDuel Sportsbook"] },
-  { name: "Health & Wellness",     subs: ["WebMD","Mayo Clinic","Healthline","MyFitnessPal","Fitbit","Calm"] },
-  { name: "Travel & Transportation",subs: ["Expedia","Booking.com","Airbnb","Uber","Lyft","TripAdvisor"] },
-  { name: "Technology & Hardware", subs: ["Apple Corp","Samsung","Intel","AMD","Nvidia","Dell"] },
-  { name: "Kids & Family",         subs: ["PBS Kids","Disney Kids","Nick Jr.","Roblox Kids","ABCmouse","Khan Academy Kids"] }
+  { name: "Advertising",           subs: ["Google Ads","Meta Ads","Taboola","Outbrain","Amazon Advertising","TikTok Ads","Microsoft Advertising","LinkedIn Ads","Snapchat Ads","Pinterest Ads","AdRoll","Criteo","The Trade Desk"] },
+  { name: "Social Media",          subs: ["Facebook","Instagram","TikTok","Snapchat","Reddit","Twitter / X","LinkedIn","Pinterest","Tumblr","Threads","Bluesky","Mastodon","BeReal"] },
+  { name: "News & Media",          subs: ["CNN","BBC","MSN","Reuters","Associated Press","Al Jazeera","NPR","NBC News","ABC News","CBS News","The New York Times","Washington Post","USA Today","The Guardian","Bloomberg","Politico"] },
+  { name: "Politics & Government", subs: ["Republican Party","Democratic Party","U.S. Senate","U.S. House of Representatives","Supreme Court of the United States","Federal Election Commission","White House","Libertarian Party","Green Party","ACLU","NRA","Heritage Foundation","MoveOn.org","NAACP","Planned Parenthood"] },
+  { name: "Entertainment",         subs: ["YouTube","Netflix","Hulu","Amazon Prime Video","Disney+","Twitch","Fox Corp","Max (HBO)","Peacock","Paramount+","Apple TV+","Crunchyroll","Tubi","Shudder","Plex"] },
+  { name: "Streaming Music",       subs: ["Spotify","Apple Music","Pandora","SoundCloud","Tidal","Amazon Music","YouTube Music","Deezer","iHeart Radio","Bandcamp","Audiomack","Last.fm","Napster"] },
+  { name: "Gaming",                subs: ["Steam","Epic Games","Roblox","PlayStation Network","Xbox Live","Nintendo Online","EA Games","Activision Blizzard","Ubisoft","Battle.net","Riot Games","Rockstar Games","GOG","Mojang (Minecraft)"] },
+  { name: "Adult Content",         subs: ["Adult Tube Sites","Live Cam Sites","Adult Subscription Platforms","Premium Adult Studios","Hentai"] },
+  { name: "Gambling",              subs: ["DraftKings","FanDuel","BetMGM","PokerStars","888 Casino","Bet365","Caesars Sportsbook","PointsBet","BetRivers","Hard Rock Bet","Bovada","MyBookie","BetUS"] },
+  { name: "E-Commerce",            subs: ["Amazon","eBay","Walmart","Etsy","Shopify","AliExpress","Target","Best Buy","Wayfair","Temu","Wish","Overstock","Home Depot","Costco"] },
+  { name: "Big Business",          subs: ["Apple Corp","Google (Alphabet)","Microsoft Corp","Meta Corp","Amazon Corp","Disney Corp","Fox Corp","Comcast / NBCUniversal","Verizon","AT&T","IBM","Oracle","Walmart Corp","JPMorgan Chase","ExxonMobil","Chevron","Johnson & Johnson","Pfizer","Boeing","Lockheed Martin","UnitedHealth Group","Berkshire Hathaway"] },
+  { name: "Cloud Services",        subs: ["AWS","Google Cloud","Microsoft Azure","Cloudflare","DigitalOcean","Linode","Rackspace","Heroku","Fastly","Akamai","Oracle Cloud","IBM Cloud","Vultr","Vercel","Netlify","Salesforce"] },
+  { name: "Search Engines",        subs: ["Google Search","Bing","DuckDuckGo","Yahoo Search","Baidu","Yandex","Brave Search","Ecosia","Startpage","Kagi","Qwant","Ask.com"] },
+  { name: "Messaging & Chat",      subs: ["WhatsApp","Telegram","Signal","Messenger","Discord","WeChat","Slack","Viber","Line","Skype","GroupMe","Kik","Microsoft Teams","Zoom"] },
+  { name: "Education",             subs: ["Khan Academy","Coursera","edX","Udemy","Duolingo","Quizlet","Chegg","Skillshare","LinkedIn Learning","Brilliant","MasterClass","Rosetta Stone","Codecademy","TED","Wolfram Alpha"] },
+  { name: "Finance & Banking",     subs: ["PayPal","Venmo","Cash App","Chase","Bank of America","Wells Fargo","Fidelity","Charles Schwab","Robinhood","Zelle","Citibank","Capital One","American Express","Discover","Stripe","Square"] },
+  { name: "Cryptocurrency",        subs: ["Coinbase","Binance","Kraken","Bitfinex","Blockchain.com","Gemini","Crypto.com","KuCoin","OKX","MetaMask","Uniswap","OpenSea","CoinMarketCap","CoinGecko"] },
+  { name: "File Sharing",          subs: ["Dropbox","Google Drive","OneDrive","Mega","WeTransfer","iCloud Drive","Box","pCloud","Sync.com","MediaFire","4shared","SendSpace"] },
+  { name: "VPN & Privacy Tools",   subs: ["NordVPN","ExpressVPN","ProtonVPN","Surfshark","Mullvad","Private Internet Access","CyberGhost","IPVanish","Tor Project","Windscribe","TunnelBear","Hide.me","Hotspot Shield"] },
+  { name: "AI & Automation",       subs: ["ChatGPT","Claude","Gemini","Midjourney","Perplexity","HuggingFace","Grok","Stable Diffusion","Runway","Character.AI","Jasper","Copy.ai","Poe","DALL-E"] },
+  { name: "Forums & Community",    subs: ["Reddit","Stack Overflow","Quora","4chan","Hacker News","Fandom","DeviantArt","Nextdoor","Imgur","SomethingAwful","GitHub (community)","Digg"] },
+  { name: "Shopping Aggregators",  subs: ["Google Shopping","PriceGrabber","CamelCamelCamel","Honey","Slickdeals","RetailMeNot","Rakuten","Swagbucks","Dealnews","Coupons.com","Brad's Deals","NexTag"] },
+  { name: "Sports & Betting",      subs: ["ESPN","NFL.com","NBA.com","MLB.com","NHL.com","NCAA.com","DraftKings Sportsbook","FanDuel Sportsbook","CBS Sports","Yahoo Sports","Fox Sports","Bleacher Report","The Athletic","Barstool Sports","UFC"] },
+  { name: "Health & Wellness",     subs: ["WebMD","Mayo Clinic","Healthline","MyFitnessPal","Fitbit","Calm","Headspace","Noom","Weight Watchers","Peloton","Everyday Health","Teladoc","GoodRx","Drugs.com"] },
+  { name: "Travel & Transportation",subs: ["Expedia","Booking.com","Airbnb","Uber","Lyft","TripAdvisor","Kayak","Hotels.com","Priceline","VRBO","Google Flights","Hopper","Delta","American Airlines","Southwest Airlines","United Airlines","Amtrak"] },
+  { name: "Technology & Hardware", subs: ["Apple","Samsung","Intel","AMD","Nvidia","Dell","HP","Lenovo","ASUS","Newegg","B&H Photo","Micro Center","Corsair","Logitech","Razer","Western Digital","Seagate"] },
+  { name: "Kids & Family",         subs: ["PBS Kids","Disney Junior","Nick Jr.","Roblox","ABCmouse","Khan Academy Kids","Cartoon Network","Sesame Street","YouTube Kids","Nickelodeon","CBeebies","Starfall","Toca Boca","Common Sense Media","Discovery Kids"] }
 ];
 
-// Sort categories alphabetically, and sort each category's contents alphabetically
 hdCats.sort(function(a,b){ return a.name.localeCompare(b.name); });
 hdCats.forEach(function(c){ c.subs.sort(function(a,b){ return a.localeCompare(b); }); });
 
@@ -119,9 +117,8 @@ function hdMakeRow(key, subName, catName, showCat) {
   var cur = hdSettings[key] || '';
   return '<tr>' +
     '<td>' + subName + (showCat ? '<br><span class="hd-cat-label">' + catName + '</span>' : '') + '</td>' +
-    '<td class="c"><input type="radio" name="' + key + '" value="allow"' + (cur==='allow'?' checked':'') + ' onchange="hdSet(\'' + key + '\',\'allow\')"></td>' +
-    '<td class="c"><input type="radio" name="' + key + '" value="block"' + (cur==='block'?' checked':'') + ' onchange="hdSet(\'' + key + '\',\'block\')"></td>' +
-    '<td class="c"><input type="radio" name="' + key + '" value="temporary"' + (cur==='temporary'?' checked':'') + ' onchange="hdSet(\'' + key + '\',\'temporary\')"></td>' +
+    '<td class="c"><input type="checkbox" id="blk_' + key + '"' + (cur==='block'?' checked':'') + ' onchange="hdToggle(\'' + key + '\',\'block\',\'del_' + key + '\')"></td>' +
+    '<td class="c"><input type="checkbox" id="del_' + key + '"' + (cur==='delayed'?' checked':'') + ' onchange="hdToggle(\'' + key + '\',\'delayed\',\'blk_' + key + '\')"></td>' +
     '</tr>';
 }
 
@@ -172,7 +169,38 @@ function hdClear() {
   hdSelect(hdCurrentCat);
 }
 
-function hdSet(key, val) { hdSettings[key] = val; }
+function hdToggle(key, value, otherId) {
+  var cb = document.getElementById(value === 'block' ? 'blk_' + key : 'del_' + key);
+  if (cb && cb.checked) {
+    hdSettings[key] = value;
+    var other = document.getElementById(otherId);
+    if (other) other.checked = false;
+  } else {
+    hdSettings[key] = '';
+  }
+}
+
+function hdSelectAll(type) {
+  var rows = document.querySelectorAll('#hd-sub-body tr');
+  var allChecked = true;
+  for (var i = 0; i < rows.length; i++) {
+    var cb = rows[i].querySelector('input[id^="' + (type === 'block' ? 'blk_' : 'del_') + '"]');
+    if (cb && !cb.checked) { allChecked = false; break; }
+  }
+  for (var i = 0; i < rows.length; i++) {
+    var blk = rows[i].querySelector('input[id^="blk_"]');
+    var del = rows[i].querySelector('input[id^="del_"]');
+    if (!blk || !del) continue;
+    var key = blk.id.replace('blk_', '');
+    if (allChecked) {
+      blk.checked = false; del.checked = false; hdSettings[key] = '';
+    } else if (type === 'block') {
+      blk.checked = true; del.checked = false; hdSettings[key] = 'block';
+    } else {
+      del.checked = true; blk.checked = false; hdSettings[key] = 'delayed';
+    }
+  }
+}
 
 function hdSave() {
   var msg = document.getElementById('hd-save-msg');
