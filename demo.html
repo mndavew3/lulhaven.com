@@ -9,136 +9,146 @@
     border-radius: 8px;
     overflow: hidden;
   }
-  #haven-demo-inner { background: transparent; padding: 24px; }
-  #haven-demo h2 {
-    margin-top:0; font-size:1.6em;
-    color:#fff; text-shadow: 0 2px 8px rgba(0,0,0,0.7);
-    margin-bottom: 4px;
-  }
-  #haven-demo p.subtitle {
-    color: rgba(255,255,255,0.75);
-    margin-top:0; margin-bottom:12px; font-style:italic; font-size:0.9em;
-    text-shadow: 0 1px 4px rgba(0,0,0,0.6);
-  }
-
-  /* Search bar */
-  #hd-search-bar { margin-bottom:12px; display:flex; align-items:center; gap:10px; }
-  #hd-search-bar input {
-    flex:1; padding:8px 12px; font-size:1em;
-    background: rgba(255,255,255,0.15);
-    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,0.3);
-    border-radius: 8px; color:#fff; outline:none;
-    transition: all 0.2s ease;
-  }
-  #hd-search-bar input::placeholder { color: rgba(255,255,255,0.55); }
-  #hd-search-bar input:focus {
-    background: rgba(255,255,255,0.22);
-    border-color: rgba(255,255,255,0.6);
-  }
-
-  /* Glass button base */
-  #hd-search-bar button, #hd-save-btn {
-    background: rgba(255,255,255,0.15);
-    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-    color: #fff;
-    border: 1px solid rgba(255,255,255,0.3);
-    border-radius: 8px; cursor:pointer;
-    transition: all 0.2s ease;
-  }
-  #hd-search-bar button { padding:8px 14px; font-size:0.9em; }
-  #hd-search-bar button:hover, #hd-save-btn:hover {
-    background: rgba(255,255,255,0.28);
-    border-color: rgba(255,255,255,0.55);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-  }
-  #hd-save-btn { padding:8px 28px; font-size:0.95em; }
-
-  /* Layout */
-  #haven-layout { display:flex; gap:16px; }
+  #haven-demo-inner { background: transparent; padding: 16px; }
 
   /* Glass panel base */
-  #haven-cats, #haven-subs, #haven-footer-bar {
-    background: rgba(5,5,30,0.48);
+  .hd-glass {
+    background: rgba(255,255,255,0.55);
     backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
-    border: 1px solid rgba(255,255,255,0.18);
+    border: 1px solid rgba(0,0,0,0.12);
     border-radius: 12px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
   }
+
+  /* Header bar */
+  #hd-header {
+    display: flex; align-items: center; gap: 16px;
+    flex-wrap: wrap; margin-bottom: 12px;
+    padding: 10px 16px;
+  }
+  #hd-header h2 {
+    margin: 0; flex: 1; color: #111; font-size: 1.2em; white-space: nowrap;
+  }
+  #hd-header p.subtitle {
+    flex-basis: 100%; margin: 4px 0 0; order: 3;
+    color: rgba(0,0,0,0.55); font-style: italic; font-size: 0.85em;
+  }
+  #hd-header label { font-weight: bold; color: rgba(0,0,0,0.8); white-space: nowrap; }
+  #hd-header input[type=number] {
+    width: 55px; padding: 4px; text-align: center;
+    background: rgba(255,255,255,0.7);
+    border: 1px solid rgba(0,0,0,0.2); border-radius: 6px; color: #111;
+  }
+  #hd-save-msg { color: #007a40; font-weight: bold; font-size: 0.9em; display: none; }
+
+  /* Search bar */
+  #hd-search-bar { margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+  #hd-search-bar input {
+    flex: 1; padding: 8px 12px; font-size: 1em;
+    background: rgba(255,255,255,0.55);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 8px; color: #111; outline: none;
+    transition: all 0.2s ease;
+  }
+  #hd-search-bar input::placeholder { color: rgba(0,0,0,0.4); }
+  #hd-search-bar input:focus {
+    background: rgba(255,255,255,0.75);
+    border-color: rgba(0,0,0,0.4);
+  }
+
+  /* Buttons */
+  #hd-search-bar button, #hd-save-btn, #hd-export-btn, #hd-import-btn {
+    appearance: none; -webkit-appearance: none;
+    background: rgba(255,255,255,0.55);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    color: #111;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 8px; cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s ease;
+  }
+  #hd-search-bar button { padding: 8px 14px; font-size: 0.9em; }
+  #hd-save-btn, #hd-export-btn, #hd-import-btn { padding: 8px 18px; font-size: 0.95em; }
+  #hd-search-bar button:hover, #hd-save-btn:hover, #hd-export-btn:hover, #hd-import-btn:hover {
+    background: rgba(255,255,255,0.8);
+    border-color: rgba(0,0,0,0.35);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+
+  /* Layout */
+  #hd-layout { display: flex; gap: 16px; }
 
   /* Category list */
-  #haven-cats { flex:0 0 200px; overflow:hidden; }
-  #haven-cats ul { list-style:none; margin:0; padding:0; }
-  #haven-cats li {
-    padding:8px 12px; cursor:pointer;
-    border-bottom: 1px solid rgba(255,255,255,0.07);
-    font-size:0.88em; color:rgba(255,255,255,0.82);
+  #hd-cats { flex: 0 0 200px; overflow: hidden; }
+  #hd-cats ul { list-style: none; margin: 0; padding: 0; }
+  #hd-cats li {
+    padding: 8px 12px; cursor: pointer;
+    border-bottom: 1px solid rgba(0,0,0,0.07);
+    font-size: 0.88em; color: rgba(0,0,0,0.8);
     transition: background 0.15s ease;
   }
-  #haven-cats li:hover { background: rgba(255,255,255,0.1); }
-  #haven-cats li.hd-selected {
-    background: rgba(255,255,255,0.2);
-    color:#fff; font-weight:bold;
-    border-left: 3px solid rgba(255,255,255,0.65);
+  #hd-cats li:hover { background: rgba(0,0,0,0.07); }
+  #hd-cats li.hd-selected {
+    background: rgba(0,0,0,0.15); color: #000; font-weight: bold;
+    border-left: 3px solid rgba(0,0,0,0.4);
   }
-  #haven-cats li.hd-highlighted { background: rgba(255,255,180,0.1); font-weight:bold; }
-  #haven-cats li.hd-selected.hd-highlighted { background: rgba(255,255,255,0.2); color:#fff; }
+  #hd-cats li.hd-highlighted { background: rgba(255,220,100,0.3); font-weight: bold; }
+  #hd-cats li.hd-selected.hd-highlighted { background: rgba(0,0,0,0.15); color: #000; }
 
   /* Sub panel */
-  #haven-subs { flex:1; padding:12px; color:rgba(255,255,255,0.9); }
-  #haven-subs h3 { margin-top:0; color:#fff; }
-  #haven-sub-table { width:100%; border-collapse:collapse; }
-  #haven-sub-table th {
-    text-align:left; padding:8px;
-    border-bottom: 1px solid rgba(255,255,255,0.22);
-    color:rgba(255,255,255,0.65);
-    font-size:0.85em; text-transform:uppercase; letter-spacing:0.04em;
+  #hd-subs { flex: 1; padding: 12px; color: rgba(0,0,0,0.85); }
+  #hd-subs h3 { margin-top: 0; color: #111; }
+  #hd-sub-table { width: 100%; border-collapse: collapse; }
+  #hd-sub-table th {
+    text-align: left; padding: 8px;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+    color: rgba(0,0,0,0.55);
+    font-size: 0.85em; text-transform: uppercase; letter-spacing: 0.04em;
   }
-  #haven-sub-table th.c { text-align:center; }
-  #haven-sub-table td {
-    padding:8px; border-bottom: 1px solid rgba(255,255,255,0.07);
-    font-size:0.88em; color:rgba(255,255,255,0.85);
+  #hd-sub-table th.c { text-align: center; }
+  #hd-sub-table td {
+    padding: 8px; border-bottom: 1px solid rgba(0,0,0,0.07);
+    font-size: 0.88em; color: rgba(0,0,0,0.8);
   }
-  #haven-sub-table td.c { text-align:center; }
-  #haven-sub-table a { color:rgba(255,255,255,0.55); font-size:0.8em; text-decoration:none; }
-  #haven-sub-table a:hover { color:#fff; }
-  td.hd-cat-label { color:rgba(180,210,255,0.7); font-size:0.8em; font-style:italic; }
-
-  /* Footer */
-  #haven-footer-bar { margin-top:16px; display:flex; align-items:center; gap:16px; flex-wrap:wrap; padding:12px 16px; }
-  #haven-footer-bar label { font-weight:bold; font-size:0.9em; color:rgba(255,255,255,0.85); }
-  #haven-footer-bar input[type=number] {
-    width:55px; padding:4px; text-align:center;
-    background: rgba(255,255,255,0.15);
-    border: 1px solid rgba(255,255,255,0.3);
-    border-radius: 6px; color:#fff;
-  }
-  #hd-save-msg { color:#7fffb0; font-weight:bold; font-size:0.9em; display:none; }
+  #hd-sub-table td.c { text-align: center; }
+  #hd-sub-table a { color: rgba(0,0,0,0.45); font-size: 0.8em; text-decoration: none; }
+  #hd-sub-table a:hover { color: #000; }
+  td.hd-cat-label { color: rgba(0,80,160,0.7); font-size: 0.8em; font-style: italic; }
 </style>
 
 <div id="haven-demo">
   <div id="haven-demo-inner">
-    <h2>Haven — Live Demo</h2>
-    <p class="subtitle">Click any category on the left. Block or Delayed Block each item. This is exactly what Haven looks like on your router.</p>
+
+    <div id="hd-header" class="hd-glass">
+      <h2>Haven — Live Demo</h2>
+      <label>Delayed Filter (min): <input type="number" id="hd-temp-min" value="30" min="1" max="1440"></label>
+      <button id="hd-export-btn" onclick="hdExport()">Export</button>
+      <button id="hd-import-btn" onclick="hdImport()">Import</button>
+      <input type="file" id="hd-import-file" style="display:none" accept=".conf" onchange="hdHandleImport(this)">
+      <button id="hd-save-btn" onclick="hdSave()">Save</button>
+      <span id="hd-save-msg">Settings saved.</span>
+      <p class="subtitle">Select a category, block or delay each item. This is exactly what Haven looks like on your router.</p>
+    </div>
 
     <div id="hd-search-bar">
       <input type="text" id="hd-search-input" placeholder="Search contents... (e.g. Fox, Apple, CNN)" oninput="hdSearch(this.value)">
       <button onclick="hdClear()">Clear</button>
     </div>
 
-    <div id="haven-layout">
-      <div id="haven-cats">
+    <div id="hd-layout">
+      <div id="hd-cats" class="hd-glass">
         <ul id="hd-cat-ul"></ul>
       </div>
-      <div id="haven-subs">
+      <div id="hd-subs" class="hd-glass">
         <h3 id="hd-sub-title">Select a category</h3>
-        <table id="haven-sub-table">
+        <table id="hd-sub-table">
           <thead>
             <tr>
               <th>Contents</th>
-              <th class="c">Block<br><a href="#" onclick="hdSelectAll('block');return false;">All</a></th>
-              <th class="c">Delayed Block<br><a href="#" onclick="hdSelectAll('delayed');return false;">All</a></th>
+              <th class="c">Filter<br><a href="#" onclick="hdSelectAll('block');return false;">All</a></th>
+              <th class="c">Delayed Filter<br><a href="#" onclick="hdSelectAll('delayed');return false;">All</a></th>
             </tr>
           </thead>
           <tbody id="hd-sub-body"></tbody>
@@ -146,57 +156,87 @@
       </div>
     </div>
 
-    <div id="haven-footer-bar">
-      <label>Delayed Block duration (minutes): <input type="number" id="hd-temp-min" value="30" min="1" max="1440"></label>
-      <button id="hd-save-btn" onclick="hdSave()">Save Settings</button>
-      <span id="hd-save-msg">On your Haven router, these settings would now be active on your network.</span>
-    </div>
   </div>
 </div>
 
 <script>
-var hdCats = [
-  { name: "Advertising",           subs: ["Google Ads","Meta Ads","Taboola","Outbrain","Amazon Advertising","TikTok Ads","Microsoft Advertising","LinkedIn Ads","Snapchat Ads","Pinterest Ads","AdRoll","Criteo","The Trade Desk"] },
-  { name: "Social Media",          subs: ["Facebook","Instagram","TikTok","Snapchat","Reddit","Twitter / X","LinkedIn","Pinterest","Tumblr","Threads","Bluesky","Mastodon","BeReal"] },
-  { name: "News & Media",          subs: ["CNN","BBC","MSN","Reuters","Associated Press","Al Jazeera","NPR","NBC News","ABC News","CBS News","The New York Times","Washington Post","USA Today","The Guardian","Bloomberg","Politico"] },
-  { name: "Politics & Government", subs: ["Republican Party","Democratic Party","U.S. Senate","U.S. House of Representatives","Supreme Court of the United States","Federal Election Commission","White House","Libertarian Party","Green Party","ACLU","NRA","Heritage Foundation","MoveOn.org","NAACP","Planned Parenthood"] },
-  { name: "Entertainment",         subs: ["YouTube","Netflix","Hulu","Amazon Prime Video","Disney+","Twitch","Fox Corp","Max (HBO)","Peacock","Paramount+","Apple TV+","Crunchyroll","Tubi","Shudder","Plex"] },
-  { name: "Streaming Music",       subs: ["Spotify","Apple Music","Pandora","SoundCloud","Tidal","Amazon Music","YouTube Music","Deezer","iHeart Radio","Bandcamp","Audiomack","Last.fm","Napster"] },
-  { name: "Gaming",                subs: ["Steam","Epic Games","Roblox","PlayStation Network","Xbox Live","Nintendo Online","EA Games","Activision Blizzard","Ubisoft","Battle.net","Riot Games","Rockstar Games","GOG","Mojang (Minecraft)"] },
-  { name: "Adult Content",         subs: ["Adult Tube Sites","Live Cam Sites","Adult Subscription Platforms","Premium Adult Studios","Hentai"] },
-  { name: "Gambling",              subs: ["DraftKings","FanDuel","BetMGM","PokerStars","888 Casino","Bet365","Caesars Sportsbook","PointsBet","BetRivers","Hard Rock Bet","Bovada","MyBookie","BetUS"] },
-  { name: "E-Commerce",            subs: ["Amazon","eBay","Walmart","Etsy","Shopify","AliExpress","Target","Best Buy","Wayfair","Temu","Wish","Overstock","Home Depot","Costco"] },
-  { name: "Big Business",          subs: ["Apple Corp","Google (Alphabet)","Microsoft Corp","Meta Corp","Amazon Corp","Disney Corp","Fox Corp","Comcast / NBCUniversal","Verizon","AT&T","IBM","Oracle","Walmart Corp","JPMorgan Chase","ExxonMobil","Chevron","Johnson & Johnson","Pfizer","Boeing","Lockheed Martin","UnitedHealth Group","Berkshire Hathaway"] },
-  { name: "Cloud Services",        subs: ["AWS","Google Cloud","Microsoft Azure","Cloudflare","DigitalOcean","Linode","Rackspace","Heroku","Fastly","Akamai","Oracle Cloud","IBM Cloud","Vultr","Vercel","Netlify","Salesforce"] },
-  { name: "Search Engines",        subs: ["Google Search","Bing","DuckDuckGo","Yahoo Search","Baidu","Yandex","Brave Search","Ecosia","Startpage","Kagi","Qwant","Ask.com"] },
-  { name: "Messaging & Chat",      subs: ["WhatsApp","Telegram","Signal","Messenger","Discord","WeChat","Slack","Viber","Line","Skype","GroupMe","Kik","Microsoft Teams","Zoom"] },
-  { name: "Education",             subs: ["Khan Academy","Coursera","edX","Udemy","Duolingo","Quizlet","Chegg","Skillshare","LinkedIn Learning","Brilliant","MasterClass","Rosetta Stone","Codecademy","TED","Wolfram Alpha"] },
-  { name: "Finance & Banking",     subs: ["PayPal","Venmo","Cash App","Chase","Bank of America","Wells Fargo","Fidelity","Charles Schwab","Robinhood","Zelle","Citibank","Capital One","American Express","Discover","Stripe","Square"] },
-  { name: "Cryptocurrency",        subs: ["Coinbase","Binance","Kraken","Bitfinex","Blockchain.com","Gemini","Crypto.com","KuCoin","OKX","MetaMask","Uniswap","OpenSea","CoinMarketCap","CoinGecko"] },
-  { name: "File Sharing",          subs: ["Dropbox","Google Drive","OneDrive","Mega","WeTransfer","iCloud Drive","Box","pCloud","Sync.com","MediaFire","4shared","SendSpace"] },
-  { name: "VPN & Privacy Tools",   subs: ["NordVPN","ExpressVPN","ProtonVPN","Surfshark","Mullvad","Private Internet Access","CyberGhost","IPVanish","Tor Project","Windscribe","TunnelBear","Hide.me","Hotspot Shield"] },
-  { name: "AI & Automation",       subs: ["ChatGPT","Claude","Gemini","Midjourney","Perplexity","HuggingFace","Grok","Stable Diffusion","Runway","Character.AI","Jasper","Copy.ai","Poe","DALL-E"] },
-  { name: "Forums & Community",    subs: ["Reddit","Stack Overflow","Quora","4chan","Hacker News","Fandom","DeviantArt","Nextdoor","Imgur","SomethingAwful","GitHub (community)","Digg"] },
-  { name: "Shopping Aggregators",  subs: ["Google Shopping","PriceGrabber","CamelCamelCamel","Honey","Slickdeals","RetailMeNot","Rakuten","Swagbucks","Dealnews","Coupons.com","Brad's Deals","NexTag"] },
-  { name: "Sports & Betting",      subs: ["ESPN","NFL.com","NBA.com","MLB.com","NHL.com","NCAA.com","DraftKings Sportsbook","FanDuel Sportsbook","CBS Sports","Yahoo Sports","Fox Sports","Bleacher Report","The Athletic","Barstool Sports","UFC"] },
-  { name: "Health & Wellness",     subs: ["WebMD","Mayo Clinic","Healthline","MyFitnessPal","Fitbit","Calm","Headspace","Noom","Weight Watchers","Peloton","Everyday Health","Teladoc","GoodRx","Drugs.com"] },
-  { name: "Travel & Transportation",subs: ["Expedia","Booking.com","Airbnb","Uber","Lyft","TripAdvisor","Kayak","Hotels.com","Priceline","VRBO","Google Flights","Hopper","Delta","American Airlines","Southwest Airlines","United Airlines","Amtrak"] },
-  { name: "Technology & Hardware", subs: ["Apple","Samsung","Intel","AMD","Nvidia","Dell","HP","Lenovo","ASUS","Newegg","B&H Photo","Micro Center","Corsair","Logitech","Razer","Western Digital","Seagate"] },
-  { name: "Kids & Family",         subs: ["PBS Kids","Disney Junior","Nick Jr.","Roblox","ABCmouse","Khan Academy Kids","Cartoon Network","Sesame Street","YouTube Kids","Nickelodeon","CBeebies","Starfall","Toca Boca","Common Sense Media","Discovery Kids"] }
+var hdDataset = [
+  ["Advertising",            [["AdRoll",[]],["Amazon Advertising",[]],["Criteo",[]],["Google Ads",[]],["LinkedIn Ads",[]],["Meta Ads",[]],["Microsoft Advertising",[]],["Outbrain",[]],["Pinterest Ads",[]],["Snapchat Ads",[]],["Taboola",[]],["The Trade Desk",[]],["TikTok Ads",[]]]],
+  ["AI & Automation",        [["Character.AI",[]],["ChatGPT",[]],["Claude",[]],["Copy.ai",[]],["DALL-E",[]],["Gemini",[]],["Grok",[]],["HuggingFace",[]],["Jasper",[]],["Midjourney",[]],["Perplexity",[]],["Poe",[]],["Runway",[]],["Stable Diffusion",[]]]],
+  ["Big Business",           [["Amazon Corp",[]],["Apple Corp",[]],["AT&T",[]],["Berkshire Hathaway",[]],["Boeing",[]],["Chevron",[]],["Comcast / NBCUniversal",[]],["Disney Corp",[]],["ExxonMobil",[]],["Fox Corp",[]],["Google (Alphabet)",[]],["IBM",[]],["Johnson & Johnson",[]],["JPMorgan Chase",[]],["Lockheed Martin",[]],["Meta Corp",[]],["Microsoft Corp",[]],["Oracle",[]],["Pfizer",[]],["UnitedHealth Group",[]],["Verizon",[]],["Walmart Corp",[]]]],
+  ["Cloud Services",         [["Akamai",[]],["AWS",[]],["Cloudflare",[]],["DigitalOcean",[]],["Fastly",[]],["Google Cloud",[]],["Heroku",[]],["IBM Cloud",[]],["Linode",[]],["Microsoft Azure",[]],["Netlify",[]],["Oracle Cloud",[]],["Rackspace",[]],["Salesforce",[]],["Vercel",[]],["Vultr",[]]]],
+  ["Cryptocurrency",         [["Binance",[]],["Blockchain.com",[]],["Coinbase",[]],["CoinGecko",[]],["CoinMarketCap",[]],["Crypto.com",[]],["Gemini",[]],["Kraken",[]],["KuCoin",[]],["MetaMask",[]],["OKX",[]],["OpenSea",[]],["Uniswap",[]]]],
+  ["E-Commerce",             [["AliExpress",[]],["Amazon",[]],["Best Buy",[]],["Costco",[]],["eBay",[]],["Etsy",[]],["Home Depot",[]],["Overstock",[]],["Shopify",[]],["Target",[]],["Temu",[]],["Walmart",[]],["Wayfair",[]],["Wish",[]]]],
+  ["Education",              [["Brilliant",[]],["Chegg",[]],["Codecademy",[]],["Coursera",[]],["Duolingo",[]],["edX",[]],["Khan Academy",[]],["LinkedIn Learning",[]],["MasterClass",[]],["Quizlet",[]],["Rosetta Stone",[]],["Skillshare",[]],["TED",[]],["Udemy",[]],["Wolfram Alpha",[]]]],
+  ["Entertainment",          [["Amazon Prime Video",[]],["Apple TV+",[]],["Crunchyroll",[]],["Disney+",[]],["Fox Corp",[]],["Hulu",[]],["Max (HBO)",[]],["Paramount+",[]],["Peacock",[]],["Plex",[]],["Shudder",[]],["Tubi",[]],["Twitch",[]],["YouTube",[]]]],
+  ["File Sharing",           [["4shared",[]],["Box",[]],["Dropbox",[]],["Google Drive",[]],["iCloud Drive",[]],["MediaFire",[]],["Mega",[]],["OneDrive",[]],["pCloud",[]],["SendSpace",[]],["Sync.com",[]],["WeTransfer",[]]]],
+  ["Finance & Banking",      [["American Express",[]],["Bank of America",[]],["Capital One",[]],["Cash App",[]],["Charles Schwab",[]],["Chase",[]],["Citibank",[]],["Discover",[]],["Fidelity",[]],["PayPal",[]],["Robinhood",[]],["Square",[]],["Stripe",[]],["Venmo",[]],["Wells Fargo",[]],["Zelle",[]]]],
+  ["Forums & Community",     [["4chan",[]],["DeviantArt",[]],["Digg",[]],["Fandom",[]],["GitHub (community)",[]],["Hacker News",[]],["Imgur",[]],["Nextdoor",[]],["Quora",[]],["Reddit",[]],["SomethingAwful",[]],["Stack Overflow",[]]]],
+  ["Gambling",               [["888 Casino",[]],["Bet365",[]],["BetMGM",[]],["BetRivers",[]],["BetUS",[]],["Bovada",[]],["Caesars Sportsbook",[]],["DraftKings",[]],["FanDuel",[]],["Hard Rock Bet",[]],["MyBookie",[]],["PointsBet",[]],["PokerStars",[]]]],
+  ["Gaming",                 [["Activision Blizzard",[]],["Battle.net",[]],["EA Games",[]],["Epic Games",[]],["GOG",[]],["Mojang (Minecraft)",[]],["Nintendo Online",[]],["PlayStation Network",[]],["Riot Games",[]],["Roblox",[]],["Rockstar Games",[]],["Steam",[]],["Ubisoft",[]],["Xbox Live",[]]]],
+  ["Health & Wellness",      [["Calm",[]],["Drugs.com",[]],["Everyday Health",[]],["Fitbit",[]],["GoodRx",[]],["Headspace",[]],["Healthline",[]],["Mayo Clinic",[]],["MyFitnessPal",[]],["Noom",[]],["Peloton",[]],["Teladoc",[]],["WebMD",[]],["Weight Watchers",[]]]],
+  ["Kids & Family",          [["ABCmouse",[]],["Cartoon Network",[]],["CBeebies",[]],["Common Sense Media",[]],["Discovery Kids",[]],["Disney Junior",[]],["Khan Academy Kids",[]],["Nick Jr.",[]],["Nickelodeon",[]],["PBS Kids",[]],["Roblox",[]],["Sesame Street",[]],["Starfall",[]],["Toca Boca",[]],["YouTube Kids",[]]]],
+  ["Messaging & Chat",       [["Discord",[]],["GroupMe",[]],["Kik",[]],["Line",[]],["Messenger",[]],["Microsoft Teams",[]],["Signal",[]],["Skype",[]],["Slack",[]],["Telegram",[]],["Viber",[]],["WeChat",[]],["WhatsApp",[]],["Zoom",[]]]],
+  ["News & Media",           [["ABC News",[]],["Al Jazeera",[]],["Associated Press",[]],["BBC",[]],["Bloomberg",[]],["CBS News",[]],["CNN",[]],["MSN",[]],["NBC News",[]],["NPR",[]],["Politico",[]],["Reuters",[]],["The Guardian",[]],["The New York Times",[]],["USA Today",[]],["Washington Post",[]]]],
+  ["Politics & Government",  [["ACLU",[]],["Democratic Party",[]],["Federal Election Commission",[]],["Green Party",[]],["Heritage Foundation",[]],["Libertarian Party",[]],["MoveOn.org",[]],["NAACP",[]],["NRA",[]],["Planned Parenthood",[]],["Republican Party",[]],["Supreme Court of the United States",[]],["U.S. House of Representatives",[]],["U.S. Senate",[]],["Veterans Administration",[]],["White House",[]]]],
+  ["Search Engines",         [["Ask.com",[]],["Baidu",[]],["Bing",[]],["Brave Search",[]],["DuckDuckGo",[]],["Ecosia",[]],["Google Search",[]],["Kagi",[]],["Qwant",[]],["Startpage",[]],["Yahoo Search",[]],["Yandex",[]]]],
+  ["Shopping Aggregators",   [["Brad's Deals",[]],["CamelCamelCamel",[]],["Coupons.com",[]],["Dealnews",[]],["Google Shopping",[]],["Honey",[]],["NexTag",[]],["PriceGrabber",[]],["Rakuten",[]],["RetailMeNot",[]],["Slickdeals",[]],["Swagbucks",[]]]],
+  ["Social Media",           [["BeReal",[]],["Bluesky",[]],["Facebook",[]],["Instagram",[]],["LinkedIn",[]],["Mastodon",[]],["Pinterest",[]],["Reddit",[]],["Snapchat",[]],["Threads",[]],["TikTok",[]],["Tumblr",[]],["Twitter / X",[]]]],
+  ["Sports & Betting",       [["Barstool Sports",[]],["Bleacher Report",[]],["CBS Sports",[]],["DraftKings Sportsbook",[]],["ESPN",[]],["FanDuel Sportsbook",[]],["Fox Sports",[]],["MLB.com",[]],["NBA.com",[]],["NCAA.com",[]],["NFL.com",[]],["NHL.com",[]],["The Athletic",[]],["UFC",[]],["Yahoo Sports",[]]]],
+  ["Streaming Music",        [["Amazon Music",[]],["Apple Music",[]],["Audiomack",[]],["Bandcamp",[]],["Deezer",[]],["iHeart Radio",[]],["Last.fm",[]],["Napster",[]],["Pandora",[]],["SoundCloud",[]],["Spotify",[]],["Tidal",[]],["YouTube Music",[]]]],
+  ["Technology & Hardware",  [["AMD",[]],["Apple",[]],["ASUS",[]],["B&H Photo",[]],["Corsair",[]],["Dell",[]],["HP",[]],["Intel",[]],["Lenovo",[]],["Logitech",[]],["Micro Center",[]],["Newegg",[]],["Nvidia",[]],["Razer",[]],["Samsung",[]],["Seagate",[]],["Western Digital",[]]]],
+  ["Travel & Transportation",[["Airbnb",[]],["American Airlines",[]],["Amtrak",[]],["Booking.com",[]],["Delta",[]],["Expedia",[]],["Google Flights",[]],["Hopper",[]],["Hotels.com",[]],["Kayak",[]],["Lyft",[]],["Priceline",[]],["Southwest Airlines",[]],["TripAdvisor",[]],["Uber",[]],["United Airlines",[]],["VRBO",[]]]],
+  ["VPN & Privacy Tools",    [["CyberGhost",[]],["ExpressVPN",[]],["Hide.me",[]],["Hotspot Shield",[]],["IPVanish",[]],["Mullvad",[]],["NordVPN",[]],["Private Internet Access",[]],["ProtonVPN",[]],["Surfshark",[]],["Tor Project",[]],["TunnelBear",[]],["Windscribe",[]]]],
+  ["Adult Content",          [["Adult Subscription Platforms",[]],["Adult Tube Sites",[]],["Hentai",[]],["Live Cam Sites",[]],["Premium Adult Studios",[]]]],
+  ["Alcohol & Tobacco",      [["Anheuser-Busch (Budweiser)",[]],["Bacardi",[]],["Brown-Forman (Jack Daniel's)",[]],["Coors / MillerCoors",[]],["Drizly",[]],["Heineken",[]],["Juul",[]],["Reynolds American",[]],["Total Wine & More",[]],["Vuse",[]]]],
+  ["Dating & Relationships", [["AdultFriendFinder",[]],["Ashley Madison",[]],["Badoo",[]],["Bumble",[]],["eHarmony",[]],["Feeld",[]],["Grindr",[]],["Hinge",[]],["Match.com",[]],["MeetMe",[]],["OkCupid",[]],["Plenty of Fish",[]],["Scruff",[]],["Tinder",[]],["Zoosk",[]]]],
+  ["Drugs & Substances",     [["Bluelight",[]],["Cannabis Culture",[]],["DanceSafe",[]],["Erowid",[]],["Harm Reduction Coalition",[]],["Kratom.com",[]],["Leafly",[]],["NORML",[]],["Weedmaps",[]]]],
+  ["Extremism & Radicalization",[["4chan /pol/",[]],["American Renaissance",[]],["Daily Stormer",[]],["Gab",[]],["Parler",[]],["Stormfront",[]],["VDare",[]]]],
+  ["Firearms & Weapons",     [["Armslist",[]],["Bass Pro Shops",[]],["Brownells",[]],["Cabela's",[]],["GunBroker",[]],["Guns.com",[]],["MidwayUSA",[]],["Primary Arms",[]],["Ruger",[]],["Smith & Wesson",[]],["Sportsman's Warehouse",[]]]],
+  ["Job Search & Recruitment",[["CareerBuilder",[]],["Dice",[]],["Glassdoor",[]],["Indeed",[]],["LinkedIn Jobs",[]],["Monster",[]],["SimplyHired",[]],["Snagajob",[]],["Wellfound",[]],["ZipRecruiter",[]]]],
+  ["Occult & Alternative Beliefs",[["Astrology.com",[]],["Gaia.com",[]],["Keen Psychics",[]],["Tarot.com",[]],["Wicca Communities",[]]]],
+  ["Peer-to-Peer & Torrenting",[["1337x",[]],["BitTorrent",[]],["EZTV",[]],["LimeTorrents",[]],["Nyaa",[]],["Rutracker",[]],["The Pirate Bay",[]],["YTS / YIFY",[]]]],
+  ["Self-Harm & Crisis Content",[["Eating Disorder Forums",[]],["Pro-Anorexia Communities",[]],["Pro-Self-Harm Forums",[]],["Pro-Suicide Communities",[]],["Unmoderated Crisis Forums",[]]]],
+  ["Tracking & Stalkerware",  [["BeenVerified",[]],["Cocospy",[]],["FlexiSpy",[]],["Hoverwatch",[]],["Intelius",[]],["mSpy",[]],["Spokeo",[]],["Spyic",[]],["Truthfinder",[]],["Whitepages",[]]]],
+  ["Violence & Graphic Content",[["Bestgore",[]],["Combat Footage Sites",[]],["Goregrish",[]],["Graphic True Crime",[]],["Graphic War Footage",[]],["Horror / Slasher Streaming",[]],["LiveLeak Successors",[]],["Shock Sites",[]],["Snuff Content",[]],["Violent Extremist Media",[]],["Violent Video Game Streams",[]]]],
+  ["Hate & Discriminatory Content",[["Antisemitic Forums",[]],["Incel Communities",[]],["Men's Rights Extremism",[]],["Misogynist Content Sites",[]],["Nationalist Hate Sites",[]],["Race-Baiting Media",[]],["Racist Forums & Imageboards",[]],["White Supremacist Media",[]],["Xenophobic News Outlets",[]],["Xenophobic Social Channels",[]]]],
+  ["Misinformation & Conspiracy",  [["Brighteon",[]],["Epoch Times",[]],["Flat Earth Society",[]],["Gateway Pundit",[]],["InfoWars",[]],["Natural News",[]],["NewsMax (conspiracy content)",[]],["OAN",[]],["QAnon Hubs",[]],["Rumble (conspiracy channels)",[]],["The Great Reset Conspiracies",[]],["ZeroHedge",[]]]],
+  ["Scams & Predatory Services",   [["Ace Cash Express",[]],["Advance America",[]],["CashNetUSA",[]],["Fake IRS / Tax Sites",[]],["Fake Tech Support Sites",[]],["LendUp",[]],["Lottery Scam Sites",[]],["Miracle Cure Shops",[]],["MLM Recruitment Sites",[]],["Romance Scam Networks",[]],["Speedy Cash",[]]]],
+  ["Anonymous & Random Chat",      [["Bazoocam",[]],["Camsurf",[]],["Chatroulette",[]],["Chatspin",[]],["Emerald Chat",[]],["Fruzo",[]],["Monkey",[]],["Omegle",[]],["Shagle",[]],["Stranger Meetup Apps",[]],["Tinychat",[]]]],
+  ["Cheating & Academic Fraud",    [["Bartleby",[]],["Chegg (answer farming)",[]],["Coursehero",[]],["EduBirdie",[]],["Essay Mills",[]],["PaperHelp",[]],["Quizlet (cheating use)",[]],["StudyBay",[]],["WritePaperFor.me",[]]]],
+  ["Cult & Coercive Groups",       [["BITE Model Violators",[]],["Church of Scientology",[]],["Coercive Religious Recruitment",[]],["FLDS-affiliated Sites",[]],["Heaven's Gate Archives",[]],["High-Control Group Forums",[]],["NXIVM-adjacent Content",[]],["Sovereign Citizen Networks",[]]]],
+  ["Body Image Extremism",         [["Extreme Diet Communities",[]],["Extreme Fitness Obsession",[]],["Lookism Forums",[]],["Pro-Extreme Thinness Communities",[]],["Toxic Beauty Influencers",[]],["Toxic Cosmetic Surgery Content",[]]]],
+  ["Pseudo-Medicine & Health Fraud",[["Age of Autism",[]],["AutismOne",[]],["Fake Cancer Cure Sites",[]],["GreenMedInfo",[]],["Mercola",[]],["Miracle Supplement Sellers",[]],["Natural News Health",[]],["Stop Mandatory Vaccination",[]],["Unregulated Treatment Promoters",[]],["Vaccine Choice Canada",[]]]]
 ];
 
-hdCats.sort(function(a,b){ return a.name.localeCompare(b.name); });
-hdCats.forEach(function(c){ c.subs.sort(function(a,b){ return a.localeCompare(b); }); });
+function hdSortDataset() {
+  hdDataset.sort(function(a, b) { return a[0].localeCompare(b[0]); });
+  hdDataset.forEach(function(cat) {
+    cat[1].sort(function(a, b) { return a[0].localeCompare(b[0]); });
+  });
+}
+hdSortDataset();
 
 var hdSettings = {};
 var hdCurrentCat = 0;
 
+function hdMakeKey(catName, subName) {
+  function norm(s) {
+    return s.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
+  }
+  return norm(catName) + '/' + norm(subName);
+}
+
 function hdMakeRow(key, subName, catName, showCat) {
   var cur = hdSettings[key] || '';
-  return '<tr>' +
+  var safeId = key.replace(/\//g, '__');
+  var blkId = 'blk_' + safeId;
+  var delId = 'del_' + safeId;
+  var ek = key.replace(/'/g, "\\'");
+  return '<tr data-key="' + key + '">' +
     '<td>' + subName + (showCat ? '<br><span class="hd-cat-label">' + catName + '</span>' : '') + '</td>' +
-    '<td class="c"><input type="checkbox" id="blk_' + key + '"' + (cur==='block'?' checked':'') + ' onchange="hdToggle(\'' + key + '\',\'block\',\'del_' + key + '\')"></td>' +
-    '<td class="c"><input type="checkbox" id="del_' + key + '"' + (cur==='delayed'?' checked':'') + ' onchange="hdToggle(\'' + key + '\',\'delayed\',\'blk_' + key + '\')"></td>' +
+    '<td class="c"><input type="checkbox" id="' + blkId + '"' + (cur==='block'?' checked':'') + ' onchange="hdToggle(\'' + ek + '\',\'block\',\'' + delId + '\')"></td>' +
+    '<td class="c"><input type="checkbox" id="' + delId + '"' + (cur==='delayed'?' checked':'') + ' onchange="hdToggle(\'' + ek + '\',\'delayed\',\'' + blkId + '\')"></td>' +
     '</tr>';
 }
 
@@ -206,12 +246,13 @@ function hdSelect(index) {
   var items = document.querySelectorAll('#hd-cat-ul li');
   for (var i = 0; i < items.length; i++) items[i].classList.remove('hd-selected');
   items[index].classList.add('hd-selected');
-  var cat = hdCats[index];
-  document.getElementById('hd-sub-title').textContent = cat.name;
+  var cat = hdDataset[index];
+  document.getElementById('hd-sub-title').textContent = cat[0];
   var tbody = document.getElementById('hd-sub-body');
   tbody.innerHTML = '';
-  for (var j = 0; j < cat.subs.length; j++) {
-    tbody.innerHTML += hdMakeRow(index + '_' + j, cat.subs[j], cat.name, false);
+  for (var j = 0; j < cat[1].length; j++) {
+    var subName = cat[1][j][0];
+    tbody.innerHTML += hdMakeRow(hdMakeKey(cat[0], subName), subName, cat[0], false);
   }
 }
 
@@ -223,14 +264,15 @@ function hdSearch(term) {
   tbody.innerHTML = '';
   var count = 0;
   for (var i = 0; i < items.length; i++) items[i].classList.remove('hd-highlighted', 'hd-selected');
-  for (var ci = 0; ci < hdCats.length; ci++) {
-    var cat = hdCats[ci];
+  for (var ci = 0; ci < hdDataset.length; ci++) {
+    var catName = hdDataset[ci][0];
+    var subs = hdDataset[ci][1];
     var catMatched = false;
-    for (var si = 0; si < cat.subs.length; si++) {
-      if (cat.subs[si].toLowerCase().indexOf(term) !== -1) {
-        tbody.innerHTML += hdMakeRow(ci + '_' + si, cat.subs[si], cat.name, true);
-        catMatched = true;
-        count++;
+    for (var si = 0; si < subs.length; si++) {
+      var subName = subs[si][0];
+      if (subName.toLowerCase().indexOf(term) !== -1) {
+        tbody.innerHTML += hdMakeRow(hdMakeKey(catName, subName), subName, catName, true);
+        catMatched = true; count++;
       }
     }
     if (catMatched) items[ci].classList.add('hd-highlighted');
@@ -248,7 +290,8 @@ function hdClear() {
 }
 
 function hdToggle(key, value, otherId) {
-  var cb = document.getElementById(value === 'block' ? 'blk_' + key : 'del_' + key);
+  var safeId = key.replace(/\//g, '__');
+  var cb = document.getElementById((value === 'block' ? 'blk_' : 'del_') + safeId);
   if (cb && cb.checked) {
     hdSettings[key] = value;
     var other = document.getElementById(otherId);
@@ -260,16 +303,17 @@ function hdToggle(key, value, otherId) {
 
 function hdSelectAll(type) {
   var rows = document.querySelectorAll('#hd-sub-body tr');
+  var prefix = type === 'block' ? 'blk_' : 'del_';
   var allChecked = true;
   for (var i = 0; i < rows.length; i++) {
-    var cb = rows[i].querySelector('input[id^="' + (type === 'block' ? 'blk_' : 'del_') + '"]');
+    var cb = rows[i].querySelector('input[id^="' + prefix + '"]');
     if (cb && !cb.checked) { allChecked = false; break; }
   }
   for (var i = 0; i < rows.length; i++) {
+    var key = rows[i].getAttribute('data-key');
     var blk = rows[i].querySelector('input[id^="blk_"]');
     var del = rows[i].querySelector('input[id^="del_"]');
-    if (!blk || !del) continue;
-    var key = blk.id.replace('blk_', '');
+    if (!key || !blk || !del) continue;
     if (allChecked) {
       blk.checked = false; del.checked = false; hdSettings[key] = '';
     } else if (type === 'block') {
@@ -280,18 +324,90 @@ function hdSelectAll(type) {
   }
 }
 
+function hdExport() {
+  var delayVal = document.getElementById('hd-temp-min').value;
+  var now = Math.floor(Date.now() / 1000);
+  var delaySeconds = parseInt(delayVal) * 60;
+  var lines = ["config haven 'settings'", "\toption delay_minutes '" + delayVal + "'"];
+  for (var key in hdSettings) {
+    if (hdSettings[key]) {
+      lines.push("\toption " + key + " '" + hdSettings[key] + "'");
+      if (hdSettings[key] === 'delayed') {
+        lines.push("\toption " + key + "::at '" + (now + delaySeconds) + "'");
+      }
+    }
+  }
+  var blob = new Blob([lines.join('\n') + '\n'], {type: 'text/plain'});
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'haven.conf';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+function hdImport() {
+  document.getElementById('hd-import-file').click();
+}
+
+function hdHandleImport(input) {
+  var file = input.files[0];
+  if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var lines = e.target.result.split('\n');
+    var imported = {};
+    for (var i = 0; i < lines.length; i++) {
+      var m = lines[i].match(/^\toption (\S+) '(.*)'$/);
+      if (m) imported[m[1]] = m[2];
+    }
+    if (imported.delay_minutes) {
+      document.getElementById('hd-temp-min').value = imported.delay_minutes;
+      delete imported.delay_minutes;
+    }
+    hdSettings = {};
+    for (var k in imported) {
+      if (k.indexOf('::at') === -1) hdSettings[k] = imported[k];
+    }
+    hdSelect(hdCurrentCat);
+    var msg = document.getElementById('hd-save-msg');
+    msg.style.color = '#0060a0';
+    msg.textContent = 'Imported. Click Save to apply.';
+    msg.style.display = 'inline';
+    setTimeout(function() { msg.style.display = 'none'; msg.style.color = ''; msg.textContent = 'Settings saved.'; }, 5000);
+    input.value = '';
+  };
+  reader.readAsText(file);
+}
+
 function hdSave() {
+  var data = { s: hdSettings, m: document.getElementById('hd-temp-min').value };
+  var exp = new Date();
+  exp.setFullYear(exp.getFullYear() + 1);
+  document.cookie = 'haven_demo=' + encodeURIComponent(JSON.stringify(data)) +
+    '; expires=' + exp.toUTCString() + '; path=/; SameSite=Lax';
   var msg = document.getElementById('hd-save-msg');
+  msg.textContent = 'Settings saved.';
   msg.style.display = 'inline';
-  setTimeout(function() { msg.style.display = 'none'; }, 4000);
+  setTimeout(function() { msg.style.display = 'none'; }, 3000);
+}
+
+function hdLoad() {
+  var match = document.cookie.match(/(?:^|;\s*)haven_demo=([^;]+)/);
+  if (!match) return;
+  try {
+    var data = JSON.parse(decodeURIComponent(match[1]));
+    if (data.s) hdSettings = data.s;
+    if (data.m) document.getElementById('hd-temp-min').value = data.m;
+  } catch(e) {}
 }
 
 var ul = document.getElementById('hd-cat-ul');
-for (var i = 0; i < hdCats.length; i++) {
+for (var i = 0; i < hdDataset.length; i++) {
   var li = document.createElement('li');
-  li.textContent = hdCats[i].name;
+  li.textContent = hdDataset[i][0];
   li.onclick = (function(idx) { return function() { hdSelect(idx); }; })(i);
   ul.appendChild(li);
 }
+hdLoad();
 hdSelect(0);
 </script>
