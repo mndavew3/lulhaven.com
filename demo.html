@@ -263,18 +263,26 @@ var itemUrls = {
   "violence_graphic_content/goregrish":null
 };
 
-var hdCorpGroups = {
-  amazon: ["big_business/amazon_corp","e_commerce/amazon"],
-  apple:  ["big_business/apple_corp","technology_hardware/apple"],
-  walmart:["big_business/walmart_corp","e_commerce/walmart"]
-};
-var hdItemCorpMap = {};
-(function() {
-  for (var c in hdCorpGroups) {
-    var m = hdCorpGroups[c];
-    for (var i = 0; i < m.length; i++) hdItemCorpMap[m[i]] = c;
+var hdNameGroups = {};
+var hdKeyNameMap = {};
+function hdBuildNameGroups() {
+  hdNameGroups = {};
+  hdKeyNameMap = {};
+  for (var ci = 0; ci < hdDataset.length; ci++) {
+    var catName = hdDataset[ci][0];
+    var items = hdDataset[ci][1];
+    for (var si = 0; si < items.length; si++) {
+      var subName = items[si][0];
+      var key = hdMakeKey(catName, subName);
+      hdKeyNameMap[key] = subName;
+      if (!hdNameGroups[subName]) hdNameGroups[subName] = [];
+      hdNameGroups[subName].push(key);
+    }
   }
-})();
+  for (var name in hdNameGroups) {
+    if (hdNameGroups[name].length < 2) delete hdNameGroups[name];
+  }
+}
 
 function hdSortDataset() {
   hdDataset.sort(function(a, b) { return a[0].localeCompare(b[0]); });
@@ -283,6 +291,7 @@ function hdSortDataset() {
   });
 }
 hdSortDataset();
+hdBuildNameGroups();
 
 var hdSettings = {};
 var hdCurrentCat = 0;
@@ -381,9 +390,8 @@ function hdToggle(key, value, otherId) {
     var other = document.getElementById(otherId);
     if (other) other.checked = false;
   }
-  var corp = hdItemCorpMap[key];
-  if (corp) {
-    var siblings = hdCorpGroups[corp];
+  var siblings = hdNameGroups[hdKeyNameMap[key]];
+  if (siblings) {
     for (var i = 0; i < siblings.length; i++) {
       var sKey = siblings[i];
       if (sKey === key) continue;
