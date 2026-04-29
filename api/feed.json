@@ -457,6 +457,7 @@
         {"name":"U.S. House of Representatives","key":"politics_government/u_s_house_of_representatives","d":["house.gov"],"i":[],"a":[],"s":[]},
         {"name":"U.S. Senate","key":"politics_government/u_s_senate","d":["senate.gov"],"i":[],"a":[],"s":[]},
         {"name":"Veterans Administration","key":"politics_government/veterans_administration","d":["va.gov"],"i":[],"a":[],"s":[]},
+        {"name":"The Drudge Report","key":"politics_government/the_drudge_report","d":["drudgereport.com"],"i":[],"a":[],"s":[]},
         {"name":"White House","key":"politics_government/white_house","d":["whitehouse.gov"],"i":[],"a":[],"s":[]}
       ]
     },
