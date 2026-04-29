@@ -117,6 +117,9 @@
   #hd-sub-table a:hover { color: #000; }
   #hd-sub-table a.item-link { color:rgba(0,0,0,0.8); font-size:inherit; text-decoration:underline; text-decoration-style:dotted; text-underline-offset:2px; }
   #hd-sub-table a.item-link:hover { color:#0050a0; text-decoration-style:solid; }
+  tr.no-strategy td { color:rgba(0,0,0,0.28) !important; }
+  tr.no-strategy input[type=checkbox] { opacity:0.2; pointer-events:none; }
+  .no-strategy-name { cursor:help; }
   td.hd-cat-label { color: rgba(0,80,160,0.7); font-size: 0.8em; font-style: italic; }
 </style>
 
@@ -253,7 +256,11 @@ var itemUrls = {
   "technology_hardware/amd":"https://www.amd.com","technology_hardware/apple":"https://www.apple.com","technology_hardware/asus":"https://www.asus.com","technology_hardware/b_h_photo":"https://www.bhphotovideo.com","technology_hardware/corsair":"https://www.corsair.com","technology_hardware/dell":"https://www.dell.com","technology_hardware/hp":"https://www.hp.com","technology_hardware/intel":"https://www.intel.com","technology_hardware/lenovo":"https://www.lenovo.com","technology_hardware/logitech":"https://www.logitech.com","technology_hardware/micro_center":"https://www.microcenter.com","technology_hardware/newegg":"https://www.newegg.com","technology_hardware/nvidia":"https://www.nvidia.com","technology_hardware/razer":"https://www.razer.com","technology_hardware/samsung":"https://www.samsung.com","technology_hardware/seagate":"https://www.seagate.com","technology_hardware/western_digital":"https://www.westerndigital.com",
   "tracking_stalkerware/beenverified":"https://www.beenverified.com","tracking_stalkerware/cocospy":"https://www.cocospy.com","tracking_stalkerware/flexispy":"https://www.flexispy.com","tracking_stalkerware/hoverwatch":"https://www.hoverwatch.com","tracking_stalkerware/intelius":"https://www.intelius.com","tracking_stalkerware/mspy":"https://www.mspy.com","tracking_stalkerware/spokeo":"https://www.spokeo.com","tracking_stalkerware/spyic":"https://spyic.com","tracking_stalkerware/truthfinder":"https://www.truthfinder.com","tracking_stalkerware/whitepages":"https://www.whitepages.com",
   "travel_transportation/airbnb":"https://www.airbnb.com","travel_transportation/american_airlines":"https://www.aa.com","travel_transportation/amtrak":"https://www.amtrak.com","travel_transportation/booking_com":"https://www.booking.com","travel_transportation/delta":"https://www.delta.com","travel_transportation/expedia":"https://www.expedia.com","travel_transportation/google_flights":"https://www.google.com/flights","travel_transportation/hopper":"https://www.hopper.com","travel_transportation/hotels_com":"https://www.hotels.com","travel_transportation/kayak":"https://www.kayak.com","travel_transportation/lyft":"https://www.lyft.com","travel_transportation/priceline":"https://www.priceline.com","travel_transportation/southwest_airlines":"https://www.southwest.com","travel_transportation/tripadvisor":"https://www.tripadvisor.com","travel_transportation/uber":"https://www.uber.com","travel_transportation/united_airlines":"https://www.united.com","travel_transportation/vrbo":"https://www.vrbo.com",
-  "vpn_privacy_tools/cyberghost":"https://www.cyberghost.com","vpn_privacy_tools/expressvpn":"https://www.expressvpn.com","vpn_privacy_tools/hide_me":"https://hide.me","vpn_privacy_tools/hotspot_shield":"https://www.hotspotshield.com","vpn_privacy_tools/ipvanish":"https://www.ipvanish.com","vpn_privacy_tools/mullvad":"https://mullvad.net","vpn_privacy_tools/nordvpn":"https://nordvpn.com","vpn_privacy_tools/private_internet_access":"https://www.privateinternetaccess.com","vpn_privacy_tools/protonvpn":"https://protonvpn.com","vpn_privacy_tools/surfshark":"https://surfshark.com","vpn_privacy_tools/tor_project":"https://www.torproject.org","vpn_privacy_tools/tunnelbear":"https://www.tunnelbear.com","vpn_privacy_tools/windscribe":"https://windscribe.com"
+  "vpn_privacy_tools/cyberghost":"https://www.cyberghost.com","vpn_privacy_tools/expressvpn":"https://www.expressvpn.com","vpn_privacy_tools/hide_me":"https://hide.me","vpn_privacy_tools/hotspot_shield":"https://www.hotspotshield.com","vpn_privacy_tools/ipvanish":"https://www.ipvanish.com","vpn_privacy_tools/mullvad":"https://mullvad.net","vpn_privacy_tools/nordvpn":"https://nordvpn.com","vpn_privacy_tools/private_internet_access":"https://www.privateinternetaccess.com","vpn_privacy_tools/protonvpn":"https://protonvpn.com","vpn_privacy_tools/surfshark":"https://surfshark.com","vpn_privacy_tools/tor_project":"https://www.torproject.org","vpn_privacy_tools/tunnelbear":"https://www.tunnelbear.com","vpn_privacy_tools/windscribe":"https://windscribe.com",
+  "extremism_radicalization/daily_stormer":null,
+  "extremism_radicalization/stormfront":null,
+  "violence_graphic_content/bestgore":null,
+  "violence_graphic_content/goregrish":null
 };
 
 function hdSortDataset() {
@@ -275,17 +282,29 @@ function hdMakeKey(catName, subName) {
 }
 
 function hdMakeRow(key, subName, catName, showCat) {
+  var hasStrategy = key in itemUrls;
+  var url = hasStrategy ? (itemUrls[key] || '') : '';
+  var catHtml = showCat ? '<br><span class="hd-cat-label">' + catName + '</span>' : '';
+
+  if (!hasStrategy) {
+    var nameHtml = '<span class="no-strategy-name" title="We\'re building filtering support for this content — check back soon">' + subName + '</span>';
+    return '<tr data-key="' + key + '" class="no-strategy">' +
+      '<td>' + nameHtml + catHtml + '</td>' +
+      '<td class="c"><input type="checkbox" disabled></td>' +
+      '<td class="c"><input type="checkbox" disabled></td>' +
+      '</tr>';
+  }
+
   var cur = hdSettings[key] || '';
   var safeId = key.replace(/\//g, '__');
   var blkId = 'blk_' + safeId;
   var delId = 'del_' + safeId;
   var ek = key.replace(/'/g, "\\'");
-  var url = itemUrls[key] || '';
   var nameHtml = url
     ? '<a href="' + url + '" target="_blank" rel="noopener noreferrer" class="item-link">' + subName + '</a>'
     : subName;
   return '<tr data-key="' + key + '">' +
-    '<td>' + nameHtml + (showCat ? '<br><span class="hd-cat-label">' + catName + '</span>' : '') + '</td>' +
+    '<td>' + nameHtml + catHtml + '</td>' +
     '<td class="c"><input type="checkbox" id="' + blkId + '"' + (cur==='block'?' checked':'') + ' onchange="hdToggle(\'' + ek + '\',\'block\',\'' + delId + '\')"></td>' +
     '<td class="c"><input type="checkbox" id="' + delId + '"' + (cur==='delayed'?' checked':'') + ' onchange="hdToggle(\'' + ek + '\',\'delayed\',\'' + blkId + '\')"></td>' +
     '</tr>';
