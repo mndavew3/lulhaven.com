@@ -58,7 +58,13 @@
   }
 
   /* Buttons */
-  #hd-search-bar button, #hd-save-btn, #hd-export-btn, #hd-import-btn {
+  #hd-filter-view-btn.active {
+    background: rgba(0,80,160,0.15);
+    border-color: rgba(0,80,160,0.5);
+    color: #0050a0;
+    font-weight: bold;
+  }
+  #hd-search-bar button, #hd-save-btn, #hd-export-btn, #hd-import-btn, #hd-filter-view-btn {
     appearance: none; -webkit-appearance: none;
     background: rgba(255,255,255,0.55);
     backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
@@ -69,8 +75,8 @@
     transition: all 0.2s ease;
   }
   #hd-search-bar button { padding: 8px 14px; font-size: 0.9em; }
-  #hd-save-btn, #hd-export-btn, #hd-import-btn { padding: 8px 18px; font-size: 0.95em; }
-  #hd-search-bar button:hover, #hd-save-btn:hover, #hd-export-btn:hover, #hd-import-btn:hover {
+  #hd-save-btn, #hd-export-btn, #hd-import-btn, #hd-filter-view-btn { padding: 8px 18px; font-size: 0.95em; }
+  #hd-search-bar button:hover, #hd-save-btn:hover, #hd-export-btn:hover, #hd-import-btn:hover, #hd-filter-view-btn:hover {
     background: rgba(255,255,255,0.8);
     border-color: rgba(0,0,0,0.35);
     transform: translateY(-1px);
@@ -129,6 +135,7 @@
     <div id="hd-header" class="hd-glass">
       <h2>Haven — Live Demo</h2>
       <label>Delayed Filter (min): <input type="number" id="hd-temp-min" value="30" min="1" max="1440"></label>
+      <button id="hd-filter-view-btn" onclick="hdToggleFilteredView()">Show Filtered</button>
       <button id="hd-export-btn" onclick="hdExport()">Export</button>
       <button id="hd-import-btn" onclick="hdImport()">Import</button>
       <input type="file" id="hd-import-file" style="display:none" accept=".conf" onchange="hdHandleImport(this)">

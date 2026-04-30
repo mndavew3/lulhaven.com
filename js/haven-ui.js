@@ -30,6 +30,45 @@ hdBuildNameGroups();
 
 var hdSettings = {};
 var hdCurrentCat = 0;
+var hdIsFilteredView = false;
+
+function hdRenderFilteredView() {
+  var items = document.querySelectorAll('#hd-cat-ul li');
+  for (var i = 0; i < items.length; i++) items[i].classList.remove('hd-selected', 'hd-highlighted');
+  var tbody = document.getElementById('hd-sub-body');
+  tbody.innerHTML = '';
+  var count = 0;
+  for (var ci = 0; ci < hdDataset.length; ci++) {
+    var catName = hdDataset[ci][0];
+    var subs = hdDataset[ci][1];
+    for (var si = 0; si < subs.length; si++) {
+      var subName = subs[si][0];
+      var key = hdMakeKey(catName, subName);
+      if (hdSettings[key]) {
+        tbody.innerHTML += hdMakeRow(key, subName, catName, true);
+        count++;
+      }
+    }
+  }
+  document.getElementById('hd-sub-title').textContent = count > 0
+    ? 'Active filters (' + count + ' item' + (count > 1 ? 's' : '') + ')'
+    : 'Nothing filtered yet';
+}
+
+function hdToggleFilteredView() {
+  hdIsFilteredView = !hdIsFilteredView;
+  var btn = document.getElementById('hd-filter-view-btn');
+  if (hdIsFilteredView) {
+    btn.classList.add('active');
+    btn.textContent = 'Show All';
+    document.getElementById('hd-search-input').value = '';
+    hdRenderFilteredView();
+  } else {
+    btn.classList.remove('active');
+    btn.textContent = 'Show Filtered';
+    hdSelect(hdCurrentCat);
+  }
+}
 
 function hdMakeKey(catName, subName) {
   function norm(s) {
@@ -112,6 +151,12 @@ function hdSearch(term) {
 
 function hdClear() {
   document.getElementById('hd-search-input').value = '';
+  if (hdIsFilteredView) {
+    hdIsFilteredView = false;
+    var btn = document.getElementById('hd-filter-view-btn');
+    btn.classList.remove('active');
+    btn.textContent = 'Show Filtered';
+  }
   var items = document.querySelectorAll('#hd-cat-ul li');
   for (var i = 0; i < items.length; i++) items[i].classList.remove('hd-highlighted');
   hdSelect(hdCurrentCat);
@@ -139,6 +184,7 @@ function hdToggle(key, value, otherId) {
       if (sDel) sDel.checked = (newVal === 'delayed');
     }
   }
+  if (hdIsFilteredView) hdRenderFilteredView();
 }
 
 function hdSelectAll(type) {
