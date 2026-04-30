@@ -202,15 +202,15 @@ function hdApplyPreset(name) {
     }
   }
   hdUpdateBadges();
-  if (hdIsFilteredView) hdRenderFilteredView();
-  else hdSelect(hdCurrentCat);
+  if (!hdIsFilteredView) hdToggleFilteredView();
+  else hdRenderFilteredView();
   hdShowMsg(name + ' preset applied.', '#0060a0');
 }
 
 function hdClearAll() {
   hdSettings = {};
   hdUpdateBadges();
-  if (hdIsFilteredView) hdRenderFilteredView();
+  if (hdIsFilteredView) hdToggleFilteredView();
   else hdSelect(hdCurrentCat);
 }
 
