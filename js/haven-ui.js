@@ -1,5 +1,6 @@
 var hdNameGroups = {};
 var hdKeyNameMap = {};
+var hdBasicMode = false;
 function hdBuildNameGroups() {
   hdNameGroups = {};
   hdKeyNameMap = {};
@@ -221,6 +222,26 @@ function hdShowMsg(text, color) {
   setTimeout(function() { msg.style.display = 'none'; msg.style.color = ''; msg.textContent = 'Settings saved.'; }, 3000);
 }
 
+function hdApplyMode() {
+  var demo = document.getElementById('haven-demo');
+  var btn  = document.getElementById('hd-mode-btn');
+  if (hdBasicMode) {
+    demo.classList.add('hd-basic');
+    btn.textContent = 'Advanced';
+    btn.classList.add('hd-basic-active');
+  } else {
+    demo.classList.remove('hd-basic');
+    btn.textContent = 'Basic';
+    btn.classList.remove('hd-basic-active');
+  }
+}
+
+function hdToggleMode() {
+  hdBasicMode = !hdBasicMode;
+  localStorage.setItem('haven_mode', hdBasicMode ? 'basic' : 'advanced');
+  hdApplyMode();
+}
+
 function hdRenderFilteredView() {
   var catItems = document.querySelectorAll('#hd-cat-ul li.hd-cat-item');
   for (var i = 0; i < catItems.length; i++) catItems[i].classList.remove('hd-selected', 'hd-highlighted');
@@ -276,7 +297,7 @@ function hdMakeRow(key, subName, catName, showCat) {
     return '<tr data-key="' + key + '" class="no-strategy">' +
       '<td>' + nameHtml + catHtml + '</td>' +
       '<td class="c"><input type="checkbox" disabled></td>' +
-      '<td class="c"><input type="checkbox" disabled></td>' +
+      '<td class="c hd-delayed-col"><input type="checkbox" disabled></td>' +
       '</tr>';
   }
 
@@ -292,7 +313,7 @@ function hdMakeRow(key, subName, catName, showCat) {
   return '<tr data-key="' + key + '">' +
     '<td>' + nameHtml + catHtml + '</td>' +
     '<td class="c"><input type="checkbox" id="' + blkId + '"' + (cur==='block'?' checked':'') + ' onchange="hdToggle(\'' + ek + '\',\'block\',\'' + delId + '\')"></td>' +
-    '<td class="c"><input type="checkbox" id="' + delId + '"' + (cur==='delayed'?' checked':'') + ' onchange="hdToggle(\'' + ek + '\',\'delayed\',\'' + blkId + '\')"></td>' +
+    '<td class="c hd-delayed-col"><input type="checkbox" id="' + delId + '"' + (cur==='delayed'?' checked':'') + ' onchange="hdToggle(\'' + ek + '\',\'delayed\',\'' + blkId + '\')"></td>' +
     '</tr>';
 }
 
@@ -490,4 +511,7 @@ function hdLoad() {
 hdRenderCatList();
 hdLoad();
 hdSelect(0);
+hdUpdateBadges();
+hdBasicMode = localStorage.getItem('haven_mode') === 'basic';
+hdApplyMode();
 hdUpdateBadges();

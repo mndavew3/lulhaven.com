@@ -177,6 +177,20 @@
 
   /* A-Z toggle */
   #hd-az-btn.active { background: rgba(0,80,160,0.15); border-color: rgba(0,80,160,0.5); color: #0050a0; font-weight: bold; }
+
+  /* Basic mode — hide advanced controls */
+  #haven-demo.hd-basic #hd-preset-bar,
+  #haven-demo.hd-basic #hd-search-bar,
+  #haven-demo.hd-basic #hd-export-btn,
+  #haven-demo.hd-basic #hd-import-btn,
+  #haven-demo.hd-basic #hd-import-file,
+  #haven-demo.hd-basic #hd-filter-view-btn,
+  #haven-demo.hd-basic .hd-delay-label,
+  #haven-demo.hd-basic .hd-delayed-col,
+  #haven-demo.hd-basic .hd-badge,
+  #haven-demo.hd-basic .hd-adv-only { display: none !important; }
+  #hd-mode-btn { padding: 8px 18px; font-size: 0.95em; }
+  #hd-mode-btn.hd-basic-active { background: rgba(0,80,160,0.15); border-color: rgba(0,80,160,0.5); color: #0050a0; font-weight: bold; }
 </style>
 
 <div id="haven-demo">
@@ -184,7 +198,8 @@
 
     <div id="hd-header" class="hd-glass">
       <h2>Haven — Live Demo</h2>
-      <label>Delayed Filter (min): <input type="number" id="hd-temp-min" value="30" min="1" max="1440"></label>
+      <button id="hd-mode-btn" onclick="hdToggleMode()">Basic</button>
+      <label class="hd-delay-label">Delayed Filter (min): <input type="number" id="hd-temp-min" value="30" min="1" max="1440"></label>
       <button id="hd-filter-view-btn" onclick="hdToggleFilteredView()">Show Filtered</button>
       <button id="hd-export-btn" onclick="hdExport()">Export</button>
       <button id="hd-import-btn" onclick="hdImport()">Import</button>
@@ -218,8 +233,8 @@
           <thead>
             <tr>
               <th>Contents</th>
-              <th class="c">Filter<br><a href="#" onclick="hdSelectAll('block');return false;">All</a></th>
-              <th class="c">Delayed Filter<br><a href="#" onclick="hdSelectAll('delayed');return false;">All</a></th>
+              <th class="c">Filter<br><a class="hd-adv-only" href="#" onclick="hdSelectAll('block');return false;">All</a></th>
+              <th class="c hd-delayed-col">Delayed Filter<br><a class="hd-adv-only" href="#" onclick="hdSelectAll('delayed');return false;">All</a></th>
             </tr>
           </thead>
           <tbody id="hd-sub-body"></tbody>
