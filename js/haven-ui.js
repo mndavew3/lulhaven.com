@@ -31,10 +31,199 @@ hdBuildNameGroups();
 var hdSettings = {};
 var hdCurrentCat = 0;
 var hdIsFilteredView = false;
+var hdIsAZView = false;
+var hdSuperOpen = {};
+
+var hdSuperCats = [
+  { name: 'Adult & Sensitive', cats: [
+    'Adult Content','Alcohol & Tobacco','Anonymous & Random Chat','Body Image Extremism',
+    'Cult & Coercive Groups','Dating & Relationships','Drugs & Substances',
+    'Extremism & Radicalization','Firearms & Weapons','Gambling',
+    'Hate & Discriminatory Content','Occult & Alternative Beliefs','Scams & Predatory Services',
+    'Self-Harm & Crisis Content','Tracking & Stalkerware','Violence & Graphic Content'
+  ]},
+  { name: 'Business & Finance', cats: [
+    'Big Business','Cryptocurrency','E-Commerce','Finance & Banking',
+    'Job Search & Recruitment','Shopping Aggregators','Travel & Transportation'
+  ]},
+  { name: 'Entertainment', cats: ['Entertainment','Gaming','Sports & Betting','Streaming Music']},
+  { name: 'Health & Wellness', cats: ['Health & Wellness','Pseudo-Medicine & Health Fraud']},
+  { name: 'Kids & Education', cats: ['Cheating & Academic Fraud','Education','Kids & Family']},
+  { name: 'News & Media', cats: ['Misinformation & Conspiracy','News & Media','Politics & Government']},
+  { name: 'Social & Communication', cats: ['Forums & Community','Messaging & Chat','Social Media']},
+  { name: 'Technology', cats: [
+    'Advertising','AI & Automation','Cloud Services','File Sharing',
+    'Peer-to-Peer & Torrenting','Search Engines','Technology & Hardware','VPN & Privacy Tools'
+  ]}
+];
+
+var hdPresets = {
+  School: [
+    'Adult Content','Alcohol & Tobacco','Anonymous & Random Chat','Body Image Extremism',
+    'Cheating & Academic Fraud','Cult & Coercive Groups','Dating & Relationships',
+    'Drugs & Substances','Extremism & Radicalization','Firearms & Weapons','Gambling',
+    'Hate & Discriminatory Content','Misinformation & Conspiracy','Occult & Alternative Beliefs',
+    'Scams & Predatory Services','Self-Harm & Crisis Content','Tracking & Stalkerware',
+    'Violence & Graphic Content'
+  ],
+  Workplace: [
+    'Adult Content','Dating & Relationships','Extremism & Radicalization','Gambling',
+    'Hate & Discriminatory Content','Scams & Predatory Services','Self-Harm & Crisis Content',
+    'Violence & Graphic Content'
+  ],
+  Recovery: [
+    'Adult Content','Alcohol & Tobacco','Body Image Extremism','Cult & Coercive Groups',
+    'Dating & Relationships','Drugs & Substances','Extremism & Radicalization','Gambling',
+    'Hate & Discriminatory Content','Occult & Alternative Beliefs','Scams & Predatory Services',
+    'Self-Harm & Crisis Content','Violence & Graphic Content'
+  ]
+};
+
+function hdUpdateBadges() {
+  var items = document.querySelectorAll('#hd-cat-ul li.hd-cat-item');
+  for (var i = 0; i < items.length; i++) {
+    var idx = parseInt(items[i].getAttribute('data-cat-index'));
+    var cat = hdDataset[idx];
+    if (!cat) continue;
+    var total = 0, active = 0;
+    for (var j = 0; j < cat[1].length; j++) {
+      var key = hdMakeKey(cat[0], cat[1][j][0]);
+      if (key in itemUrls) { total++; if (hdSettings[key]) active++; }
+    }
+    var badge = items[i].querySelector('.hd-badge');
+    if (badge) {
+      badge.textContent = active > 0 ? '(' + active + '/' + total + ')' : '';
+      badge.className = 'hd-badge' + (active > 0 ? ' hd-badge-active' : '');
+    }
+  }
+}
+
+function hdRenderCatList() {
+  var ul = document.getElementById('hd-cat-ul');
+  ul.innerHTML = '';
+
+  if (hdIsAZView) {
+    for (var ci = 0; ci < hdDataset.length; ci++) {
+      var li = document.createElement('li');
+      li.className = 'hd-cat-item';
+      li.setAttribute('data-cat-index', ci);
+      li.innerHTML = hdDataset[ci][0] + '<span class="hd-badge"></span>';
+      li.onclick = (function(idx) { return function() { hdSelect(idx); }; })(ci);
+      ul.appendChild(li);
+    }
+  } else {
+    var catIndexMap = {};
+    for (var ci = 0; ci < hdDataset.length; ci++) catIndexMap[hdDataset[ci][0]] = ci;
+    var covered = {};
+
+    for (var si = 0; si < hdSuperCats.length; si++) {
+      var sc = hdSuperCats[si];
+      var open = hdSuperOpen[sc.name] !== false;
+      var hdr = document.createElement('li');
+      hdr.className = 'hd-super-hdr' + (open ? ' open' : '');
+      hdr.setAttribute('data-super-idx', si);
+      hdr.innerHTML = '<span class="hd-super-label">' + sc.name + '</span><span class="hd-chevron">&#9658;</span>';
+      hdr.onclick = (function(idx) { return function() { hdToggleSuperCat(idx); }; })(si);
+      ul.appendChild(hdr);
+
+      for (var ci2 = 0; ci2 < sc.cats.length; ci2++) {
+        var catName = sc.cats[ci2];
+        var catIdx = catIndexMap[catName];
+        if (catIdx === undefined) continue;
+        covered[catName] = true;
+        var li2 = document.createElement('li');
+        li2.className = 'hd-cat-item' + (open ? '' : ' hd-hidden');
+        li2.setAttribute('data-cat-index', catIdx);
+        li2.setAttribute('data-super-idx', si);
+        li2.innerHTML = catName + '<span class="hd-badge"></span>';
+        li2.onclick = (function(idx) { return function() { hdSelect(idx); }; })(catIdx);
+        ul.appendChild(li2);
+      }
+    }
+
+    var extra = [];
+    for (var ci = 0; ci < hdDataset.length; ci++) {
+      if (!covered[hdDataset[ci][0]]) extra.push(ci);
+    }
+    if (extra.length) {
+      var open2 = hdSuperOpen['__other__'] !== false;
+      var hdr2 = document.createElement('li');
+      hdr2.className = 'hd-super-hdr' + (open2 ? ' open' : '');
+      hdr2.setAttribute('data-super-idx', hdSuperCats.length);
+      hdr2.innerHTML = '<span class="hd-super-label">Other</span><span class="hd-chevron">&#9658;</span>';
+      hdr2.onclick = (function(idx) { return function() { hdToggleSuperCat(idx); }; })(hdSuperCats.length);
+      ul.appendChild(hdr2);
+      for (var i = 0; i < extra.length; i++) {
+        var catIdx2 = extra[i];
+        var li3 = document.createElement('li');
+        li3.className = 'hd-cat-item' + (open2 ? '' : ' hd-hidden');
+        li3.setAttribute('data-cat-index', catIdx2);
+        li3.setAttribute('data-super-idx', hdSuperCats.length);
+        li3.innerHTML = hdDataset[catIdx2][0] + '<span class="hd-badge"></span>';
+        li3.onclick = (function(idx) { return function() { hdSelect(idx); }; })(catIdx2);
+        ul.appendChild(li3);
+      }
+    }
+  }
+  hdUpdateBadges();
+}
+
+function hdToggleSuperCat(superIdx) {
+  var key = superIdx < hdSuperCats.length ? hdSuperCats[superIdx].name : '__other__';
+  hdSuperOpen[key] = hdSuperOpen[key] !== false ? false : true;
+  var open = hdSuperOpen[key];
+  var hdr = document.querySelector('#hd-cat-ul li.hd-super-hdr[data-super-idx="' + superIdx + '"]');
+  if (hdr) hdr.classList.toggle('open', open);
+  var items = document.querySelectorAll('#hd-cat-ul li.hd-cat-item[data-super-idx="' + superIdx + '"]');
+  for (var i = 0; i < items.length; i++) items[i].classList.toggle('hd-hidden', !open);
+}
+
+function hdToggleAZView() {
+  hdIsAZView = !hdIsAZView;
+  var btn = document.getElementById('hd-az-btn');
+  btn.classList.toggle('active', hdIsAZView);
+  hdRenderCatList();
+  var item = document.querySelector('#hd-cat-ul li.hd-cat-item[data-cat-index="' + hdCurrentCat + '"]');
+  if (item) item.classList.add('hd-selected');
+}
+
+function hdApplyPreset(name) {
+  var cats = hdPresets[name];
+  if (!cats) return;
+  hdSettings = {};
+  for (var ci = 0; ci < hdDataset.length; ci++) {
+    var catName = hdDataset[ci][0];
+    if (cats.indexOf(catName) === -1) continue;
+    var subs = hdDataset[ci][1];
+    for (var si = 0; si < subs.length; si++) {
+      var key = hdMakeKey(catName, subs[si][0]);
+      if (key in itemUrls) hdSettings[key] = 'block';
+    }
+  }
+  hdUpdateBadges();
+  if (hdIsFilteredView) hdRenderFilteredView();
+  else hdSelect(hdCurrentCat);
+  hdShowMsg(name + ' preset applied.', '#0060a0');
+}
+
+function hdClearAll() {
+  hdSettings = {};
+  hdUpdateBadges();
+  if (hdIsFilteredView) hdRenderFilteredView();
+  else hdSelect(hdCurrentCat);
+}
+
+function hdShowMsg(text, color) {
+  var msg = document.getElementById('hd-save-msg');
+  msg.style.color = color || '#007a40';
+  msg.textContent = text;
+  msg.style.display = 'inline';
+  setTimeout(function() { msg.style.display = 'none'; msg.style.color = ''; msg.textContent = 'Settings saved.'; }, 3000);
+}
 
 function hdRenderFilteredView() {
-  var items = document.querySelectorAll('#hd-cat-ul li');
-  for (var i = 0; i < items.length; i++) items[i].classList.remove('hd-selected', 'hd-highlighted');
+  var catItems = document.querySelectorAll('#hd-cat-ul li.hd-cat-item');
+  for (var i = 0; i < catItems.length; i++) catItems[i].classList.remove('hd-selected', 'hd-highlighted');
   var tbody = document.getElementById('hd-sub-body');
   tbody.innerHTML = '';
   var count = 0;
@@ -110,9 +299,10 @@ function hdMakeRow(key, subName, catName, showCat) {
 function hdSelect(index) {
   hdCurrentCat = index;
   document.getElementById('hd-search-input').value = '';
-  var items = document.querySelectorAll('#hd-cat-ul li');
-  for (var i = 0; i < items.length; i++) items[i].classList.remove('hd-selected');
-  items[index].classList.add('hd-selected');
+  var catItems = document.querySelectorAll('#hd-cat-ul li.hd-cat-item');
+  for (var i = 0; i < catItems.length; i++) catItems[i].classList.remove('hd-selected');
+  var item = document.querySelector('#hd-cat-ul li.hd-cat-item[data-cat-index="' + index + '"]');
+  if (item) item.classList.add('hd-selected');
   var cat = hdDataset[index];
   document.getElementById('hd-sub-title').textContent = cat[0];
   var tbody = document.getElementById('hd-sub-body');
@@ -125,12 +315,12 @@ function hdSelect(index) {
 
 function hdSearch(term) {
   term = term.trim().toLowerCase();
-  var items = document.querySelectorAll('#hd-cat-ul li');
+  var catItems = document.querySelectorAll('#hd-cat-ul li.hd-cat-item');
   if (term === '') { hdClear(); return; }
   var tbody = document.getElementById('hd-sub-body');
   tbody.innerHTML = '';
   var count = 0;
-  for (var i = 0; i < items.length; i++) items[i].classList.remove('hd-highlighted', 'hd-selected');
+  for (var i = 0; i < catItems.length; i++) catItems[i].classList.remove('hd-highlighted', 'hd-selected');
   for (var ci = 0; ci < hdDataset.length; ci++) {
     var catName = hdDataset[ci][0];
     var subs = hdDataset[ci][1];
@@ -142,7 +332,22 @@ function hdSearch(term) {
         catMatched = true; count++;
       }
     }
-    if (catMatched) items[ci].classList.add('hd-highlighted');
+    if (catMatched) {
+      var item = document.querySelector('#hd-cat-ul li.hd-cat-item[data-cat-index="' + ci + '"]');
+      if (item) {
+        item.classList.add('hd-highlighted');
+        // auto-expand the containing super-cat if it's collapsed
+        var superIdx = item.getAttribute('data-super-idx');
+        if (superIdx !== null) {
+          var superKey = parseInt(superIdx) < hdSuperCats.length ? hdSuperCats[parseInt(superIdx)].name : '__other__';
+          if (hdSuperOpen[superKey] === false) {
+            var hdr = document.querySelector('#hd-cat-ul li.hd-super-hdr[data-super-idx="' + superIdx + '"]');
+            if (hdr) hdr.classList.add('open');
+            item.classList.remove('hd-hidden');
+          }
+        }
+      }
+    }
   }
   document.getElementById('hd-sub-title').textContent = count > 0
     ? 'Search results (' + count + ' match' + (count > 1 ? 'es' : '') + ')'
@@ -157,8 +362,7 @@ function hdClear() {
     btn.classList.remove('active');
     btn.textContent = 'Show Filtered';
   }
-  var items = document.querySelectorAll('#hd-cat-ul li');
-  for (var i = 0; i < items.length; i++) items[i].classList.remove('hd-highlighted');
+  hdRenderCatList();
   hdSelect(hdCurrentCat);
 }
 
@@ -184,6 +388,7 @@ function hdToggle(key, value, otherId) {
       if (sDel) sDel.checked = (newVal === 'delayed');
     }
   }
+  hdUpdateBadges();
   if (hdIsFilteredView) hdRenderFilteredView();
 }
 
@@ -208,6 +413,7 @@ function hdSelectAll(type) {
       del.checked = true; blk.checked = false; hdSettings[key] = 'delayed';
     }
   }
+  hdUpdateBadges();
 }
 
 function hdExport() {
@@ -254,12 +460,9 @@ function hdHandleImport(input) {
     for (var k in imported) {
       if (k.indexOf('::at') === -1) hdSettings[k] = imported[k];
     }
+    hdUpdateBadges();
     hdSelect(hdCurrentCat);
-    var msg = document.getElementById('hd-save-msg');
-    msg.style.color = '#0060a0';
-    msg.textContent = 'Imported. Click Save to apply.';
-    msg.style.display = 'inline';
-    setTimeout(function() { msg.style.display = 'none'; msg.style.color = ''; msg.textContent = 'Settings saved.'; }, 5000);
+    hdShowMsg('Imported. Click Save to apply.', '#0060a0');
     input.value = '';
   };
   reader.readAsText(file);
@@ -271,10 +474,7 @@ function hdSave() {
   exp.setFullYear(exp.getFullYear() + 1);
   document.cookie = 'haven_demo=' + encodeURIComponent(JSON.stringify(data)) +
     '; expires=' + exp.toUTCString() + '; path=/; SameSite=Lax';
-  var msg = document.getElementById('hd-save-msg');
-  msg.textContent = 'Settings saved.';
-  msg.style.display = 'inline';
-  setTimeout(function() { msg.style.display = 'none'; }, 3000);
+  hdShowMsg('Settings saved.');
 }
 
 function hdLoad() {
@@ -287,12 +487,7 @@ function hdLoad() {
   } catch(e) {}
 }
 
-var ul = document.getElementById('hd-cat-ul');
-for (var i = 0; i < hdDataset.length; i++) {
-  var li = document.createElement('li');
-  li.textContent = hdDataset[i][0];
-  li.onclick = (function(idx) { return function() { hdSelect(idx); }; })(i);
-  ul.appendChild(li);
-}
+hdRenderCatList();
 hdLoad();
 hdSelect(0);
+hdUpdateBadges();

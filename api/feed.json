@@ -459,7 +459,14 @@
         {"name":"Veterans Administration","key":"politics_government/veterans_administration","d":["va.gov"],"i":[],"a":[],"s":[]},
         {"name":"AllSides","key":"politics_government/allsides","d":["allsides.com"],"i":[],"a":[],"s":[]},
         {"name":"The Drudge Report","key":"politics_government/the_drudge_report","d":["drudgereport.com"],"i":[],"a":[],"s":[]},
-        {"name":"White House","key":"politics_government/white_house","d":["whitehouse.gov"],"i":[],"a":[],"s":[]}
+        {"name":"White House","key":"politics_government/white_house","d":["whitehouse.gov"],"i":[],"a":[],"s":[]},
+        {"name":"Anti-Defamation League","key":"politics_government/anti_defamation_league","d":["adl.org"],"i":[],"a":[],"s":[]},
+        {"name":"Breitbart News","key":"politics_government/breitbart_news","d":["breitbart.com"],"i":[],"a":[],"s":[]},
+        {"name":"CAIR","key":"politics_government/cair","d":["cair.com"],"i":[],"a":[],"s":[]},
+        {"name":"CPAC","key":"politics_government/cpac","d":["cpac.org"],"i":[],"a":[],"s":[]},
+        {"name":"Government Accountability Institute","key":"politics_government/government_accountability_institute","d":["g-a-i.org"],"i":[],"a":[],"s":[]},
+        {"name":"Southern Poverty Law Center","key":"politics_government/southern_poverty_law_center","d":["splcenter.org"],"i":[],"a":[],"s":[]},
+        {"name":"Turning Point USA","key":"politics_government/turning_point_usa","d":["tpusa.com","turningpointusa.com"],"i":[],"a":[],"s":[]}
       ]
     },
     {

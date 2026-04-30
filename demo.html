@@ -87,7 +87,7 @@
   #hd-layout { display: flex; gap: 16px; }
 
   /* Category list */
-  #hd-cats { flex: 0 0 200px; overflow: hidden; }
+  #hd-cats { flex: 0 0 220px; overflow: hidden; }
   #hd-cats ul { list-style: none; margin: 0; padding: 0; }
   #hd-cats li {
     padding: 8px 12px; cursor: pointer;
@@ -127,6 +127,56 @@
   tr.no-strategy input[type=checkbox] { opacity:0.2; pointer-events:none; }
   .no-strategy-name { cursor:help; }
   td.hd-cat-label { color: rgba(0,80,160,0.7); font-size: 0.8em; font-style: italic; }
+
+  /* Super-category headers */
+  #hd-cats li.hd-super-hdr {
+    padding: 5px 12px 4px;
+    font-size: 0.72em; font-weight: bold;
+    text-transform: uppercase; letter-spacing: 0.07em;
+    color: rgba(0,0,0,0.45);
+    background: rgba(0,0,0,0.04);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: space-between;
+    user-select: none;
+    border-bottom: 1px solid rgba(0,0,0,0.07);
+  }
+  #hd-cats li.hd-super-hdr:hover { background: rgba(0,0,0,0.09); }
+  #hd-cats li.hd-super-hdr .hd-chevron {
+    font-size: 0.85em; display: inline-block;
+    transition: transform 0.2s ease; transform: rotate(0deg);
+  }
+  #hd-cats li.hd-super-hdr.open .hd-chevron { transform: rotate(90deg); }
+
+  /* Category items */
+  #hd-cats li.hd-cat-item {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-left: 18px;
+  }
+  #hd-cats li.hd-cat-item.hd-hidden { display: none !important; }
+
+  /* Filter count badges */
+  .hd-badge { font-size: 0.75em; color: rgba(0,80,160,0.6); font-weight: bold; white-space: nowrap; margin-left: 4px; flex-shrink: 0; }
+  .hd-badge.hd-badge-active { color: rgba(0,130,60,0.85); }
+
+  /* Preset bar */
+  #hd-preset-bar { margin-bottom: 10px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  #hd-preset-bar > span { font-size: 0.8em; color: rgba(0,0,0,0.5); font-style: italic; padding: 4px 0; }
+  .hd-preset-btn {
+    appearance: none; -webkit-appearance: none;
+    background: rgba(255,255,255,0.55);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(0,0,0,0.2); border-radius: 8px;
+    cursor: pointer; font-family: inherit;
+    padding: 5px 12px; font-size: 0.82em; color: #111;
+    transition: all 0.2s ease;
+  }
+  .hd-preset-btn:hover {
+    background: rgba(255,255,255,0.8); border-color: rgba(0,0,0,0.35);
+    transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+
+  /* A-Z toggle */
+  #hd-az-btn.active { background: rgba(0,80,160,0.15); border-color: rgba(0,80,160,0.5); color: #0050a0; font-weight: bold; }
 </style>
 
 <div id="haven-demo">
@@ -144,8 +194,17 @@
       <p class="subtitle">Select a category, block or delay each item. This is exactly what Haven looks like on your router.</p>
     </div>
 
+    <div id="hd-preset-bar">
+      <span>Presets:</span>
+      <button class="hd-preset-btn" onclick="hdApplyPreset('School')">School</button>
+      <button class="hd-preset-btn" onclick="hdApplyPreset('Workplace')">Workplace</button>
+      <button class="hd-preset-btn" onclick="hdApplyPreset('Recovery')">Recovery</button>
+      <button class="hd-preset-btn" onclick="hdClearAll()">Clear All</button>
+    </div>
+
     <div id="hd-search-bar">
       <input type="text" id="hd-search-input" placeholder="Search contents... (e.g. Fox, Apple, CNN)" oninput="hdSearch(this.value)">
+      <button id="hd-az-btn" onclick="hdToggleAZView()">A&#8211;Z</button>
       <button onclick="hdClear()">Clear</button>
     </div>
 
