@@ -254,7 +254,7 @@ function hdRenderFilteredView() {
     for (var si = 0; si < subs.length; si++) {
       var subName = subs[si][0];
       var key = hdMakeKey(catName, subName);
-      if (hdSettings[key]) {
+      if (hdSettings[key] && (key in itemUrls)) {
         tbody.innerHTML += hdMakeRow(key, subName, catName, true);
         count++;
       }
@@ -512,6 +512,6 @@ hdRenderCatList();
 hdLoad();
 hdSelect(0);
 hdUpdateBadges();
-hdBasicMode = localStorage.getItem('haven_mode') === 'basic';
+hdBasicMode = localStorage.getItem('haven_mode') !== 'advanced';
 hdApplyMode();
 hdUpdateBadges();
