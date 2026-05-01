@@ -512,6 +512,6 @@ hdRenderCatList();
 hdLoad();
 hdSelect(0);
 hdUpdateBadges();
-hdBasicMode = localStorage.getItem('haven_mode') !== 'advanced';
+hdBasicMode = true;
 hdApplyMode();
 hdUpdateBadges();
