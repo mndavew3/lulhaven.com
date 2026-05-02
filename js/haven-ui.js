@@ -460,13 +460,25 @@ function hdSelectAll(type) {
   hdUpdateBadges();
 }
 
+function hdValidKeys() {
+  var keys = {};
+  for (var i = 0; i < hdDataset.length; i++) {
+    var items = hdDataset[i][1];
+    for (var j = 0; j < items.length; j++) {
+      keys[hdMakeKey(hdDataset[i][0], items[j][0])] = true;
+    }
+  }
+  return keys;
+}
+
 function hdExport() {
   var delayVal = document.getElementById('hd-temp-min').value;
   var now = Math.floor(Date.now() / 1000);
   var delaySeconds = parseInt(delayVal) * 60;
+  var valid = hdValidKeys();
   var lines = ["config haven 'settings'", "\toption delay_minutes '" + delayVal + "'"];
   for (var key in hdSettings) {
-    if (hdSettings[key]) {
+    if (hdSettings[key] && valid[key]) {
       lines.push("\toption " + key + " '" + hdSettings[key] + "'");
       if (hdSettings[key] === 'delayed') {
         lines.push("\toption " + key + "::at '" + (now + delaySeconds) + "'");
@@ -513,7 +525,10 @@ function hdHandleImport(input) {
 }
 
 function hdSave() {
-  var data = { s: hdSettings, m: document.getElementById('hd-temp-min').value };
+  var valid = hdValidKeys();
+  var clean = {};
+  for (var k in hdSettings) { if (hdSettings[k] && valid[k]) clean[k] = hdSettings[k]; }
+  var data = { s: clean, m: document.getElementById('hd-temp-min').value };
   var exp = new Date();
   exp.setFullYear(exp.getFullYear() + 1);
   document.cookie = 'haven_demo=' + encodeURIComponent(JSON.stringify(data)) +
