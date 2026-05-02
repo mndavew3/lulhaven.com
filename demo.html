@@ -182,7 +182,6 @@
 
   /* Basic mode — hide advanced controls */
   #haven-demo.hd-basic #hd-preset-bar,
-  #haven-demo.hd-basic #hd-search-bar,
   #haven-demo.hd-basic #hd-export-btn,
   #haven-demo.hd-basic #hd-import-btn,
   #haven-demo.hd-basic #hd-import-file,
@@ -193,6 +192,13 @@
   #haven-demo.hd-basic .hd-adv-only { display: none !important; }
   #hd-mode-btn { padding: 8px 18px; font-size: 0.95em; }
   #hd-mode-btn.hd-basic-active { background: rgba(0,80,160,0.15); border-color: rgba(0,80,160,0.5); color: #0050a0; font-weight: bold; }
+  #hd-preset-modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.45); z-index:999; align-items:center; justify-content:center; }
+  #hd-preset-modal.show { display:flex; }
+  #hd-preset-modal-box { padding:24px 28px; max-width:400px; width:90%; text-align:center; background:rgba(255,255,255,0.85); backdrop-filter:blur(14px); border:1px solid rgba(0,0,0,0.12); border-radius:12px; box-shadow:0 8px 32px rgba(0,0,0,0.2); }
+  #hd-preset-modal-msg { margin:0 0 18px; font-size:0.95em; color:rgba(0,0,0,0.85); line-height:1.5; }
+  #hd-preset-modal-btns { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+  #hd-preset-modal-btns button { appearance:none; -webkit-appearance:none; background:rgba(255,255,255,0.55); backdrop-filter:blur(10px); border:1px solid rgba(0,0,0,0.2); border-radius:8px; cursor:pointer; font-family:inherit; padding:8px 18px; font-size:0.9em; color:#111; }
+  #hd-preset-modal-btns button:hover { background:rgba(255,255,255,0.8); border-color:rgba(0,0,0,0.35); }
 </style>
 
 <div id="haven-demo">
@@ -244,6 +250,17 @@
       </div>
     </div>
 
+  </div>
+</div>
+
+<div id="hd-preset-modal">
+  <div id="hd-preset-modal-box">
+    <p id="hd-preset-modal-msg"></p>
+    <div id="hd-preset-modal-btns">
+      <button onclick="hdDoPreset('replace')">Replace</button>
+      <button onclick="hdDoPreset('merge')">Add to existing</button>
+      <button onclick="hdClosePresetModal()">Cancel</button>
+    </div>
   </div>
 </div>
 

@@ -1,0 +1,13 @@
+{
+  "haven_app": {
+    "version": "1.0.0",
+    "url": "",
+    "sha256": ""
+  },
+  "firmware": {
+    "enabled": false,
+    "version": "25.12.0",
+    "url": "",
+    "sha256": ""
+  }
+}

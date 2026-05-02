@@ -188,10 +188,33 @@ function hdToggleAZView() {
   if (item) item.classList.add('hd-selected');
 }
 
+var hdPendingPreset = null;
+
 function hdApplyPreset(name) {
+  if (Object.keys(hdSettings).length > 0) {
+    hdPendingPreset = name;
+    document.getElementById('hd-preset-modal-msg').textContent =
+      'Apply ' + name + ' preset — replace your current settings or add ' + name + ' items to what you already have?';
+    document.getElementById('hd-preset-modal').classList.add('show');
+    return;
+  }
+  hdDoApplyPreset(name, 'replace');
+}
+
+function hdDoPreset(mode) {
+  hdClosePresetModal();
+  hdDoApplyPreset(hdPendingPreset, mode);
+}
+
+function hdClosePresetModal() {
+  document.getElementById('hd-preset-modal').classList.remove('show');
+  hdPendingPreset = null;
+}
+
+function hdDoApplyPreset(name, mode) {
   var cats = hdPresets[name];
   if (!cats) return;
-  hdSettings = {};
+  if (mode === 'replace') hdSettings = {};
   for (var ci = 0; ci < hdDataset.length; ci++) {
     var catName = hdDataset[ci][0];
     if (cats.indexOf(catName) === -1) continue;
@@ -204,7 +227,7 @@ function hdApplyPreset(name) {
   hdUpdateBadges();
   if (!hdIsFilteredView) hdToggleFilteredView();
   else hdRenderFilteredView();
-  hdShowMsg(name + ' preset applied.', '#0060a0');
+  hdShowMsg(name + ' preset ' + (mode === 'replace' ? 'applied.' : 'merged.'), '#0060a0');
 }
 
 function hdClearAll() {

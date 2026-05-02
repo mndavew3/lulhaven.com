@@ -6,596 +6,4740 @@
       "name": "Social Media",
       "key": "social_media",
       "items": [
-        {"name":"BeReal","key":"social_media/bereal","d":["bere.al"],"i":[],"a":[],"s":["*.bere.al"]},
-        {"name":"Bluesky","key":"social_media/bluesky","d":["bsky.app","bsky.social"],"i":[],"a":[],"s":["*.bsky.app","*.bsky.social"]},
-        {"name":"Facebook","key":"social_media/facebook","d":["facebook.com","fb.com","fbcdn.net","fb.me","facebook.net","accountkit.com"],"i":["31.13.24.0/21","31.13.64.0/18","66.220.144.0/20","69.63.176.0/20","69.171.224.0/19","157.240.0.0/17","173.252.64.0/18"],"a":[32934],"s":["*.facebook.com","*.fbcdn.net","*.fb.com"]},
-        {"name":"Instagram","key":"social_media/instagram","d":["instagram.com","cdninstagram.com","ig.me"],"i":[],"a":[32934],"s":["*.instagram.com","*.cdninstagram.com"]},
-        {"name":"LinkedIn","key":"social_media/linkedin","d":["linkedin.com","licdn.com","lnkd.in"],"i":[],"a":[8075],"s":["*.linkedin.com","*.licdn.com"]},
-        {"name":"Mastodon","key":"social_media/mastodon","d":["mastodon.social","mastodon.online","fosstodon.org"],"i":[],"a":[],"s":["*.mastodon.social"]},
-        {"name":"Pinterest","key":"social_media/pinterest","d":["pinterest.com","pinimg.com","pin.it"],"i":[],"a":[54252],"s":["*.pinterest.com","*.pinimg.com"]},
-        {"name":"Reddit","key":"social_media/reddit","d":["reddit.com","redd.it","redditmedia.com","reddituploads.com","redditstatic.com"],"i":[],"a":[54115],"s":["*.reddit.com","*.redditmedia.com"]},
-        {"name":"Snapchat","key":"social_media/snapchat","d":["snapchat.com","snap.com","sc-cdn.net","snapkit.com"],"i":[],"a":[36114,36351],"s":["*.snapchat.com","*.snap.com"]},
-        {"name":"Threads","key":"social_media/threads","d":["threads.net"],"i":[],"a":[32934],"s":["*.threads.net"]},
-        {"name":"TikTok","key":"social_media/tiktok","d":["tiktok.com","tiktokcdn.com","tiktokv.com","musical.ly","bytedance.com"],"i":[],"a":[138699,396982],"s":["*.tiktok.com","*.tiktokcdn.com"]},
-        {"name":"Tumblr","key":"social_media/tumblr","d":["tumblr.com"],"i":[],"a":[],"s":["*.tumblr.com"]},
-        {"name":"Twitter / X","key":"social_media/twitter_x","d":["twitter.com","x.com","t.co","twimg.com"],"i":["104.244.42.0/24","192.133.76.0/22","199.16.156.0/22","199.59.148.0/22"],"a":[13414],"s":["*.twitter.com","*.x.com","*.twimg.com"]}
+        {
+          "name": "BeReal",
+          "key": "social_media/bereal",
+          "d": [
+            "bere.al"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.bere.al"
+          ]
+        },
+        {
+          "name": "Bluesky",
+          "key": "social_media/bluesky",
+          "d": [
+            "bsky.app",
+            "bsky.social"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.bsky.app",
+            "*.bsky.social"
+          ]
+        },
+        {
+          "name": "Facebook",
+          "key": "social_media/facebook",
+          "d": [
+            "facebook.com",
+            "fb.com",
+            "fbcdn.net",
+            "fb.me",
+            "facebook.net",
+            "accountkit.com"
+          ],
+          "i": [
+            "31.13.24.0/21",
+            "31.13.64.0/18",
+            "66.220.144.0/20",
+            "69.63.176.0/20",
+            "69.171.224.0/19",
+            "157.240.0.0/17",
+            "173.252.64.0/18"
+          ],
+          "a": [
+            32934
+          ],
+          "s": [
+            "*.facebook.com",
+            "*.fbcdn.net",
+            "*.fb.com"
+          ]
+        },
+        {
+          "name": "Instagram",
+          "key": "social_media/instagram",
+          "d": [
+            "instagram.com",
+            "cdninstagram.com",
+            "ig.me"
+          ],
+          "i": [],
+          "a": [
+            32934
+          ],
+          "s": [
+            "*.instagram.com",
+            "*.cdninstagram.com"
+          ]
+        },
+        {
+          "name": "LinkedIn",
+          "key": "social_media/linkedin",
+          "d": [
+            "linkedin.com",
+            "licdn.com",
+            "lnkd.in"
+          ],
+          "i": [],
+          "a": [
+            8075
+          ],
+          "s": [
+            "*.linkedin.com",
+            "*.licdn.com"
+          ]
+        },
+        {
+          "name": "Mastodon",
+          "key": "social_media/mastodon",
+          "d": [
+            "mastodon.social",
+            "mastodon.online",
+            "fosstodon.org"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.mastodon.social"
+          ]
+        },
+        {
+          "name": "Pinterest",
+          "key": "social_media/pinterest",
+          "d": [
+            "pinterest.com",
+            "pinimg.com",
+            "pin.it"
+          ],
+          "i": [],
+          "a": [
+            54252
+          ],
+          "s": [
+            "*.pinterest.com",
+            "*.pinimg.com"
+          ]
+        },
+        {
+          "name": "Reddit",
+          "key": "social_media/reddit",
+          "d": [
+            "reddit.com",
+            "redd.it",
+            "redditmedia.com",
+            "reddituploads.com",
+            "redditstatic.com"
+          ],
+          "i": [],
+          "a": [
+            54115
+          ],
+          "s": [
+            "*.reddit.com",
+            "*.redditmedia.com"
+          ]
+        },
+        {
+          "name": "Snapchat",
+          "key": "social_media/snapchat",
+          "d": [
+            "snapchat.com",
+            "snap.com",
+            "sc-cdn.net",
+            "snapkit.com"
+          ],
+          "i": [],
+          "a": [
+            36114,
+            36351
+          ],
+          "s": [
+            "*.snapchat.com",
+            "*.snap.com"
+          ]
+        },
+        {
+          "name": "Threads",
+          "key": "social_media/threads",
+          "d": [
+            "threads.net"
+          ],
+          "i": [],
+          "a": [
+            32934
+          ],
+          "s": [
+            "*.threads.net"
+          ]
+        },
+        {
+          "name": "TikTok",
+          "key": "social_media/tiktok",
+          "d": [
+            "tiktok.com",
+            "tiktokcdn.com",
+            "tiktokv.com",
+            "musical.ly",
+            "bytedance.com"
+          ],
+          "i": [],
+          "a": [
+            138699,
+            396982
+          ],
+          "s": [
+            "*.tiktok.com",
+            "*.tiktokcdn.com"
+          ]
+        },
+        {
+          "name": "Tumblr",
+          "key": "social_media/tumblr",
+          "d": [
+            "tumblr.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.tumblr.com"
+          ]
+        },
+        {
+          "name": "Twitter / X",
+          "key": "social_media/twitter_x",
+          "d": [
+            "twitter.com",
+            "x.com",
+            "t.co",
+            "twimg.com"
+          ],
+          "i": [
+            "104.244.42.0/24",
+            "192.133.76.0/22",
+            "199.16.156.0/22",
+            "199.59.148.0/22"
+          ],
+          "a": [
+            13414
+          ],
+          "s": [
+            "*.twitter.com",
+            "*.x.com",
+            "*.twimg.com"
+          ]
+        }
       ]
     },
     {
       "name": "Advertising",
       "key": "advertising",
       "items": [
-        {"name":"AdRoll","key":"advertising/adroll","d":["adroll.com","d.adroll.com","s.adroll.com"],"i":[],"a":[],"s":["*.adroll.com"]},
-        {"name":"Amazon Advertising","key":"advertising/amazon_advertising","d":["advertising.amazon.com","aax.amazon-adsystem.com","amazon-adsystem.com"],"i":[],"a":[],"s":[]},
-        {"name":"Criteo","key":"advertising/criteo","d":["criteo.com","criteo.net","hlserve.com","social.criteo.com"],"i":[],"a":[],"s":["*.criteo.com","*.criteo.net"]},
-        {"name":"Google Ads","key":"advertising/google_ads","d":["doubleclick.net","googleadservices.com","googlesyndication.com","googletagmanager.com","googletagservices.com","g.doubleclick.net"],"i":[],"a":[15169],"s":["*.doubleclick.net","*.googlesyndication.com"]},
-        {"name":"LinkedIn Ads","key":"advertising/linkedin_ads","d":["ads.linkedin.com","lnkd.in"],"i":[],"a":[8075],"s":[]},
-        {"name":"Meta Ads","key":"advertising/meta_ads","d":["an.facebook.com","audiencenetwork.com"],"i":[],"a":[32934],"s":[]},
-        {"name":"Microsoft Advertising","key":"advertising/microsoft_advertising","d":["bat.bing.com","ads.microsoft.com","bingads.microsoft.com"],"i":[],"a":[8075],"s":[]},
-        {"name":"Outbrain","key":"advertising/outbrain","d":["outbrain.com","outbrainimg.com","widgets.outbrain.com"],"i":[],"a":[],"s":["*.outbrain.com"]},
-        {"name":"Taboola","key":"advertising/taboola","d":["taboola.com","cdn.taboola.com","trc.taboola.com"],"i":[],"a":[],"s":["*.taboola.com"]},
-        {"name":"The Trade Desk","key":"advertising/the_trade_desk","d":["thetradedesk.com","adsrvr.org","match.adsrvr.org"],"i":[],"a":[],"s":["*.adsrvr.org"]},
-        {"name":"TikTok Ads","key":"advertising/tiktok_ads","d":["ads.tiktok.com","business.tiktok.com"],"i":[],"a":[138699],"s":[]}
+        {
+          "name": "AdRoll",
+          "key": "advertising/adroll",
+          "d": [
+            "adroll.com",
+            "d.adroll.com",
+            "s.adroll.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.adroll.com"
+          ]
+        },
+        {
+          "name": "Amazon Advertising",
+          "key": "advertising/amazon_advertising",
+          "d": [
+            "advertising.amazon.com",
+            "aax.amazon-adsystem.com",
+            "amazon-adsystem.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Criteo",
+          "key": "advertising/criteo",
+          "d": [
+            "criteo.com",
+            "criteo.net",
+            "hlserve.com",
+            "social.criteo.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.criteo.com",
+            "*.criteo.net"
+          ]
+        },
+        {
+          "name": "Google Ads",
+          "key": "advertising/google_ads",
+          "d": [
+            "doubleclick.net",
+            "googleadservices.com",
+            "googlesyndication.com",
+            "googletagmanager.com",
+            "googletagservices.com",
+            "g.doubleclick.net"
+          ],
+          "i": [],
+          "a": [
+            15169
+          ],
+          "s": [
+            "*.doubleclick.net",
+            "*.googlesyndication.com"
+          ]
+        },
+        {
+          "name": "LinkedIn Ads",
+          "key": "advertising/linkedin_ads",
+          "d": [
+            "ads.linkedin.com",
+            "lnkd.in"
+          ],
+          "i": [],
+          "a": [
+            8075
+          ],
+          "s": []
+        },
+        {
+          "name": "Meta Ads",
+          "key": "advertising/meta_ads",
+          "d": [
+            "an.facebook.com",
+            "audiencenetwork.com"
+          ],
+          "i": [],
+          "a": [
+            32934
+          ],
+          "s": []
+        },
+        {
+          "name": "Microsoft Advertising",
+          "key": "advertising/microsoft_advertising",
+          "d": [
+            "bat.bing.com",
+            "ads.microsoft.com",
+            "bingads.microsoft.com"
+          ],
+          "i": [],
+          "a": [
+            8075
+          ],
+          "s": []
+        },
+        {
+          "name": "Outbrain",
+          "key": "advertising/outbrain",
+          "d": [
+            "outbrain.com",
+            "outbrainimg.com",
+            "widgets.outbrain.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.outbrain.com"
+          ]
+        },
+        {
+          "name": "Taboola",
+          "key": "advertising/taboola",
+          "d": [
+            "taboola.com",
+            "cdn.taboola.com",
+            "trc.taboola.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.taboola.com"
+          ]
+        },
+        {
+          "name": "The Trade Desk",
+          "key": "advertising/the_trade_desk",
+          "d": [
+            "thetradedesk.com",
+            "adsrvr.org",
+            "match.adsrvr.org"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.adsrvr.org"
+          ]
+        },
+        {
+          "name": "TikTok Ads",
+          "key": "advertising/tiktok_ads",
+          "d": [
+            "ads.tiktok.com",
+            "business.tiktok.com"
+          ],
+          "i": [],
+          "a": [
+            138699
+          ],
+          "s": []
+        }
       ]
     },
     {
       "name": "AI & Automation",
       "key": "ai_automation",
       "items": [
-        {"name":"Character.AI","key":"ai_automation/character_ai","d":["character.ai","character.ai"],"i":[],"a":[],"s":["*.character.ai"]},
-        {"name":"ChatGPT","key":"ai_automation/chatgpt","d":["openai.com","chat.openai.com","chatgpt.com","api.openai.com"],"i":[],"a":[],"s":["*.openai.com"]},
-        {"name":"Claude","key":"ai_automation/claude","d":["anthropic.com","claude.ai"],"i":[],"a":[],"s":["*.anthropic.com","*.claude.ai"]},
-        {"name":"Copy.ai","key":"ai_automation/copy_ai","d":["copy.ai"],"i":[],"a":[],"s":["*.copy.ai"]},
-        {"name":"DALL-E","key":"ai_automation/dall_e","d":["openai.com"],"i":[],"a":[],"s":[]},
-        {"name":"Gemini","key":"ai_automation/gemini","d":["gemini.google.com","bard.google.com","ai.google"],"i":[],"a":[15169],"s":[]},
-        {"name":"Grok","key":"ai_automation/grok","d":["x.ai","grok.x.ai"],"i":[],"a":[],"s":["*.x.ai"]},
-        {"name":"HuggingFace","key":"ai_automation/huggingface","d":["huggingface.co"],"i":[],"a":[],"s":["*.huggingface.co"]},
-        {"name":"Jasper","key":"ai_automation/jasper","d":["jasper.ai"],"i":[],"a":[],"s":["*.jasper.ai"]},
-        {"name":"Midjourney","key":"ai_automation/midjourney","d":["midjourney.com"],"i":[],"a":[],"s":["*.midjourney.com"]},
-        {"name":"Perplexity","key":"ai_automation/perplexity","d":["perplexity.ai"],"i":[],"a":[],"s":["*.perplexity.ai"]},
-        {"name":"Poe","key":"ai_automation/poe","d":["poe.com"],"i":[],"a":[],"s":["*.poe.com"]},
-        {"name":"Runway","key":"ai_automation/runway","d":["runwayml.com","runway.com"],"i":[],"a":[],"s":["*.runwayml.com"]},
-        {"name":"Stable Diffusion","key":"ai_automation/stable_diffusion","d":["stability.ai","stablediffusionweb.com","dreamstudio.ai"],"i":[],"a":[],"s":["*.stability.ai"]}
+        {
+          "name": "Character.AI",
+          "key": "ai_automation/character_ai",
+          "d": [
+            "character.ai",
+            "character.ai"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.character.ai"
+          ]
+        },
+        {
+          "name": "ChatGPT",
+          "key": "ai_automation/chatgpt",
+          "d": [
+            "openai.com",
+            "chat.openai.com",
+            "chatgpt.com",
+            "api.openai.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.openai.com"
+          ]
+        },
+        {
+          "name": "Claude",
+          "key": "ai_automation/claude",
+          "d": [
+            "anthropic.com",
+            "claude.ai"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.anthropic.com",
+            "*.claude.ai"
+          ]
+        },
+        {
+          "name": "Copy.ai",
+          "key": "ai_automation/copy_ai",
+          "d": [
+            "copy.ai"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.copy.ai"
+          ]
+        },
+        {
+          "name": "DALL-E",
+          "key": "ai_automation/dall_e",
+          "d": [
+            "openai.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Gemini",
+          "key": "ai_automation/gemini",
+          "d": [
+            "gemini.google.com",
+            "bard.google.com",
+            "ai.google"
+          ],
+          "i": [],
+          "a": [
+            15169
+          ],
+          "s": []
+        },
+        {
+          "name": "Grok",
+          "key": "ai_automation/grok",
+          "d": [
+            "x.ai",
+            "grok.x.ai"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.x.ai"
+          ]
+        },
+        {
+          "name": "HuggingFace",
+          "key": "ai_automation/huggingface",
+          "d": [
+            "huggingface.co"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.huggingface.co"
+          ]
+        },
+        {
+          "name": "Jasper",
+          "key": "ai_automation/jasper",
+          "d": [
+            "jasper.ai"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.jasper.ai"
+          ]
+        },
+        {
+          "name": "Midjourney",
+          "key": "ai_automation/midjourney",
+          "d": [
+            "midjourney.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.midjourney.com"
+          ]
+        },
+        {
+          "name": "Perplexity",
+          "key": "ai_automation/perplexity",
+          "d": [
+            "perplexity.ai"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.perplexity.ai"
+          ]
+        },
+        {
+          "name": "Poe",
+          "key": "ai_automation/poe",
+          "d": [
+            "poe.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.poe.com"
+          ]
+        },
+        {
+          "name": "Runway",
+          "key": "ai_automation/runway",
+          "d": [
+            "runwayml.com",
+            "runway.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.runwayml.com"
+          ]
+        },
+        {
+          "name": "Stable Diffusion",
+          "key": "ai_automation/stable_diffusion",
+          "d": [
+            "stability.ai",
+            "stablediffusionweb.com",
+            "dreamstudio.ai"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.stability.ai"
+          ]
+        }
       ]
     },
     {
       "name": "Alcohol & Tobacco",
       "key": "alcohol_tobacco",
       "items": [
-        {"name":"Anheuser-Busch (Budweiser)","key":"alcohol_tobacco/anheuser_busch_budweiser","d":["anheuser-busch.com","budweiser.com","bud.com"],"i":[],"a":[],"s":[]},
-        {"name":"Bacardi","key":"alcohol_tobacco/bacardi","d":["bacardi.com"],"i":[],"a":[],"s":[]},
-        {"name":"Brown-Forman (Jack Daniel's)","key":"alcohol_tobacco/brown_forman_jack_daniel_s","d":["jackdaniels.com","brown-forman.com"],"i":[],"a":[],"s":[]},
-        {"name":"Coors / MillerCoors","key":"alcohol_tobacco/coors_millercoors","d":["coors.com","millercoors.com","molsoncoorsbeveragecompany.com"],"i":[],"a":[],"s":[]},
-        {"name":"Drizly","key":"alcohol_tobacco/drizly","d":["drizly.com"],"i":[],"a":[],"s":[]},
-        {"name":"Heineken","key":"alcohol_tobacco/heineken","d":["heineken.com"],"i":[],"a":[],"s":[]},
-        {"name":"Juul","key":"alcohol_tobacco/juul","d":["juul.com"],"i":[],"a":[],"s":[]},
-        {"name":"Reynolds American","key":"alcohol_tobacco/reynolds_american","d":["reynoldsamerican.com","rjrt.com","newportpleasure.com"],"i":[],"a":[],"s":[]},
-        {"name":"Total Wine & More","key":"alcohol_tobacco/total_wine_more","d":["totalwine.com"],"i":[],"a":[],"s":[]},
-        {"name":"Vuse","key":"alcohol_tobacco/vuse","d":["vusevapor.com","vuse.com"],"i":[],"a":[],"s":[]}
+        {
+          "name": "Anheuser-Busch (Budweiser)",
+          "key": "alcohol_tobacco/anheuser_busch_budweiser",
+          "d": [
+            "anheuser-busch.com",
+            "budweiser.com",
+            "bud.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Bacardi",
+          "key": "alcohol_tobacco/bacardi",
+          "d": [
+            "bacardi.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Brown-Forman (Jack Daniel's)",
+          "key": "alcohol_tobacco/brown_forman_jack_daniel_s",
+          "d": [
+            "jackdaniels.com",
+            "brown-forman.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Coors / MillerCoors",
+          "key": "alcohol_tobacco/coors_millercoors",
+          "d": [
+            "coors.com",
+            "millercoors.com",
+            "molsoncoorsbeveragecompany.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Drizly",
+          "key": "alcohol_tobacco/drizly",
+          "d": [
+            "drizly.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Juul",
+          "key": "alcohol_tobacco/juul",
+          "d": [
+            "juul.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Reynolds American",
+          "key": "alcohol_tobacco/reynolds_american",
+          "d": [
+            "reynoldsamerican.com",
+            "rjrt.com",
+            "newportpleasure.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Total Wine & More",
+          "key": "alcohol_tobacco/total_wine_more",
+          "d": [
+            "totalwine.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Vuse",
+          "key": "alcohol_tobacco/vuse",
+          "d": [
+            "vusevapor.com",
+            "vuse.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        }
       ]
     },
     {
       "name": "Anonymous & Random Chat",
       "key": "anonymous_random_chat",
       "items": [
-        {"name":"Bazoocam","key":"anonymous_random_chat/bazoocam","d":["bazoocam.com","bazoocam.org"],"i":[],"a":[],"s":[]},
-        {"name":"Camsurf","key":"anonymous_random_chat/camsurf","d":["camsurf.com"],"i":[],"a":[],"s":[]},
-        {"name":"Chatroulette","key":"anonymous_random_chat/chatroulette","d":["chatroulette.com"],"i":[],"a":[],"s":[]},
-        {"name":"Chatspin","key":"anonymous_random_chat/chatspin","d":["chatspin.com"],"i":[],"a":[],"s":[]},
-        {"name":"Emerald Chat","key":"anonymous_random_chat/emerald_chat","d":["emeraldchat.com"],"i":[],"a":[],"s":[]},
-        {"name":"Fruzo","key":"anonymous_random_chat/fruzo","d":["fruzo.com"],"i":[],"a":[],"s":[]},
-        {"name":"Monkey","key":"anonymous_random_chat/monkey","d":["monkey.cool","monkey.app"],"i":[],"a":[],"s":[]},
-        {"name":"Omegle","key":"anonymous_random_chat/omegle","d":["omegle.com"],"i":[],"a":[],"s":[]},
-        {"name":"Shagle","key":"anonymous_random_chat/shagle","d":["shagle.com"],"i":[],"a":[],"s":[]},
-        {"name":"Tinychat","key":"anonymous_random_chat/tinychat","d":["tinychat.com"],"i":[],"a":[],"s":[]}
+        {
+          "name": "Bazoocam",
+          "key": "anonymous_random_chat/bazoocam",
+          "d": [
+            "bazoocam.com",
+            "bazoocam.org"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Camsurf",
+          "key": "anonymous_random_chat/camsurf",
+          "d": [
+            "camsurf.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Chatroulette",
+          "key": "anonymous_random_chat/chatroulette",
+          "d": [
+            "chatroulette.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Chatspin",
+          "key": "anonymous_random_chat/chatspin",
+          "d": [
+            "chatspin.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Emerald Chat",
+          "key": "anonymous_random_chat/emerald_chat",
+          "d": [
+            "emeraldchat.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Fruzo",
+          "key": "anonymous_random_chat/fruzo",
+          "d": [
+            "fruzo.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Monkey",
+          "key": "anonymous_random_chat/monkey",
+          "d": [
+            "monkey.cool",
+            "monkey.app"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Omegle",
+          "key": "anonymous_random_chat/omegle",
+          "d": [
+            "omegle.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Shagle",
+          "key": "anonymous_random_chat/shagle",
+          "d": [
+            "shagle.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Tinychat",
+          "key": "anonymous_random_chat/tinychat",
+          "d": [
+            "tinychat.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        }
       ]
     },
     {
       "name": "Adult Content",
       "key": "adult_content",
       "items": [
-        {"name":"Adult Subscription Platforms","key":"adult_content/adult_subscription_platforms","d":["onlyfans.com","fansly.com","manyvids.com","loyalfans.com","fancentro.com"],"i":[],"a":[],"s":["*.onlyfans.com","*.fansly.com"]},
-        {"name":"Adult Tube Sites","key":"adult_content/adult_tube_sites","d":["pornhub.com","xvideos.com","xnxx.com","redtube.com","xhamster.com","youporn.com","tube8.com","spankbang.com"],"i":[],"a":[],"s":["*.pornhub.com","*.xvideos.com","*.xnxx.com","*.xhamster.com"]},
-        {"name":"Hentai","key":"adult_content/hentai","d":["nhentai.net","hanime.tv","hentai-foundry.com","hentaigasm.com"],"i":[],"a":[],"s":[]},
-        {"name":"Live Cam Sites","key":"adult_content/live_cam_sites","d":["chaturbate.com","cam4.com","bongacams.com","myfreecams.com","stripchat.com","livejasmin.com","streamate.com"],"i":[],"a":[],"s":["*.chaturbate.com","*.cam4.com"]},
-        {"name":"Premium Adult Studios","key":"adult_content/premium_adult_studios","d":["brazzers.com","bangbros.com","naughtyamerica.com","realitykings.com","mofos.com"],"i":[],"a":[],"s":[]}
+        {
+          "name": "Adult Subscription Platforms",
+          "key": "adult_content/adult_subscription_platforms",
+          "d": [
+            "onlyfans.com",
+            "fansly.com",
+            "manyvids.com",
+            "loyalfans.com",
+            "fancentro.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.onlyfans.com",
+            "*.fansly.com"
+          ]
+        },
+        {
+          "name": "Adult Tube Sites",
+          "key": "adult_content/adult_tube_sites",
+          "d": [
+            "pornhub.com",
+            "xvideos.com",
+            "xnxx.com",
+            "redtube.com",
+            "xhamster.com",
+            "youporn.com",
+            "tube8.com",
+            "spankbang.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.pornhub.com",
+            "*.xvideos.com",
+            "*.xnxx.com",
+            "*.xhamster.com"
+          ]
+        },
+        {
+          "name": "Hentai",
+          "key": "adult_content/hentai",
+          "d": [
+            "nhentai.net",
+            "hanime.tv",
+            "hentai-foundry.com",
+            "hentaigasm.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Live Cam Sites",
+          "key": "adult_content/live_cam_sites",
+          "d": [
+            "chaturbate.com",
+            "cam4.com",
+            "bongacams.com",
+            "myfreecams.com",
+            "stripchat.com",
+            "livejasmin.com",
+            "streamate.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.chaturbate.com",
+            "*.cam4.com"
+          ]
+        },
+        {
+          "name": "Premium Adult Studios",
+          "key": "adult_content/premium_adult_studios",
+          "d": [
+            "brazzers.com",
+            "bangbros.com",
+            "naughtyamerica.com",
+            "realitykings.com",
+            "mofos.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        }
       ]
     },
     {
       "name": "Cheating & Academic Fraud",
       "key": "cheating_academic_fraud",
       "items": [
-        {"name":"Bartleby","key":"cheating_academic_fraud/bartleby","d":["bartleby.com"],"i":[],"a":[],"s":[]},
-        {"name":"Chegg (answer farming)","key":"cheating_academic_fraud/chegg_answer_farming","d":["chegg.com","cheggcdn.com"],"i":[],"a":[],"s":["*.chegg.com"]},
-        {"name":"Coursehero","key":"cheating_academic_fraud/coursehero","d":["coursehero.com"],"i":[],"a":[],"s":[]},
-        {"name":"EduBirdie","key":"cheating_academic_fraud/edubirdie","d":["edubirdie.com"],"i":[],"a":[],"s":[]},
-        {"name":"Essay Mills","key":"cheating_academic_fraud/essay_mills","d":["essaypro.com","essayshark.com","essaybot.com","papersowl.com"],"i":[],"a":[],"s":[]},
-        {"name":"PaperHelp","key":"cheating_academic_fraud/paperhelp","d":["paperhelp.org"],"i":[],"a":[],"s":[]},
-        {"name":"Quizlet (cheating use)","key":"cheating_academic_fraud/quizlet_cheating_use","d":["quizlet.com"],"i":[],"a":[],"s":[]},
-        {"name":"StudyBay","key":"cheating_academic_fraud/studybay","d":["studybay.com"],"i":[],"a":[],"s":[]},
-        {"name":"WritePaperFor.me","key":"cheating_academic_fraud/writepaperforme_me","d":["writepaperforme.com","writepaperforme.net"],"i":[],"a":[],"s":[]}
+        {
+          "name": "Bartleby",
+          "key": "cheating_academic_fraud/bartleby",
+          "d": [
+            "bartleby.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Chegg (answer farming)",
+          "key": "cheating_academic_fraud/chegg_answer_farming",
+          "d": [
+            "chegg.com",
+            "cheggcdn.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.chegg.com"
+          ]
+        },
+        {
+          "name": "Coursehero",
+          "key": "cheating_academic_fraud/coursehero",
+          "d": [
+            "coursehero.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "EduBirdie",
+          "key": "cheating_academic_fraud/edubirdie",
+          "d": [
+            "edubirdie.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Essay Mills",
+          "key": "cheating_academic_fraud/essay_mills",
+          "d": [
+            "essaypro.com",
+            "essayshark.com",
+            "essaybot.com",
+            "papersowl.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "PaperHelp",
+          "key": "cheating_academic_fraud/paperhelp",
+          "d": [
+            "paperhelp.org"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Quizlet (cheating use)",
+          "key": "cheating_academic_fraud/quizlet_cheating_use",
+          "d": [
+            "quizlet.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "StudyBay",
+          "key": "cheating_academic_fraud/studybay",
+          "d": [
+            "studybay.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "WritePaperFor.me",
+          "key": "cheating_academic_fraud/writepaperforme_me",
+          "d": [
+            "writepaperforme.com",
+            "writepaperforme.net"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        }
       ]
     },
     {
       "name": "Cryptocurrency",
       "key": "cryptocurrency",
       "items": [
-        {"name":"Binance","key":"cryptocurrency/binance","d":["binance.com","binance.us","bnbchain.org"],"i":[],"a":[],"s":["*.binance.com"]},
-        {"name":"Blockchain.com","key":"cryptocurrency/blockchain_com","d":["blockchain.com","blockchain.info"],"i":[],"a":[],"s":[]},
-        {"name":"Coinbase","key":"cryptocurrency/coinbase","d":["coinbase.com","cbhq.com"],"i":[],"a":[],"s":["*.coinbase.com"]},
-        {"name":"CoinGecko","key":"cryptocurrency/coingecko","d":["coingecko.com"],"i":[],"a":[],"s":[]},
-        {"name":"CoinMarketCap","key":"cryptocurrency/coinmarketcap","d":["coinmarketcap.com"],"i":[],"a":[],"s":[]},
-        {"name":"Crypto.com","key":"cryptocurrency/crypto_com","d":["crypto.com"],"i":[],"a":[],"s":["*.crypto.com"]},
-        {"name":"Gemini","key":"cryptocurrency/gemini","d":["gemini.com"],"i":[],"a":[],"s":[]},
-        {"name":"Kraken","key":"cryptocurrency/kraken","d":["kraken.com"],"i":[],"a":[],"s":[]},
-        {"name":"KuCoin","key":"cryptocurrency/kucoin","d":["kucoin.com"],"i":[],"a":[],"s":[]},
-        {"name":"MetaMask","key":"cryptocurrency/metamask","d":["metamask.io"],"i":[],"a":[],"s":[]},
-        {"name":"OKX","key":"cryptocurrency/okx","d":["okx.com","okex.com"],"i":[],"a":[],"s":["*.okx.com"]},
-        {"name":"OpenSea","key":"cryptocurrency/opensea","d":["opensea.io"],"i":[],"a":[],"s":[]},
-        {"name":"Uniswap","key":"cryptocurrency/uniswap","d":["uniswap.org","app.uniswap.org"],"i":[],"a":[],"s":[]}
+        {
+          "name": "Binance",
+          "key": "cryptocurrency/binance",
+          "d": [
+            "binance.com",
+            "binance.us",
+            "bnbchain.org"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.binance.com"
+          ]
+        },
+        {
+          "name": "Blockchain.com",
+          "key": "cryptocurrency/blockchain_com",
+          "d": [
+            "blockchain.com",
+            "blockchain.info"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Coinbase",
+          "key": "cryptocurrency/coinbase",
+          "d": [
+            "coinbase.com",
+            "cbhq.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.coinbase.com"
+          ]
+        },
+        {
+          "name": "CoinGecko",
+          "key": "cryptocurrency/coingecko",
+          "d": [
+            "coingecko.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "CoinMarketCap",
+          "key": "cryptocurrency/coinmarketcap",
+          "d": [
+            "coinmarketcap.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Crypto.com",
+          "key": "cryptocurrency/crypto_com",
+          "d": [
+            "crypto.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.crypto.com"
+          ]
+        },
+        {
+          "name": "Gemini",
+          "key": "cryptocurrency/gemini",
+          "d": [
+            "gemini.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Kraken",
+          "key": "cryptocurrency/kraken",
+          "d": [
+            "kraken.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "KuCoin",
+          "key": "cryptocurrency/kucoin",
+          "d": [
+            "kucoin.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "MetaMask",
+          "key": "cryptocurrency/metamask",
+          "d": [
+            "metamask.io"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "OKX",
+          "key": "cryptocurrency/okx",
+          "d": [
+            "okx.com",
+            "okex.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.okx.com"
+          ]
+        },
+        {
+          "name": "OpenSea",
+          "key": "cryptocurrency/opensea",
+          "d": [
+            "opensea.io"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Uniswap",
+          "key": "cryptocurrency/uniswap",
+          "d": [
+            "uniswap.org",
+            "app.uniswap.org"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        }
       ]
     },
     {
       "name": "Cult & Coercive Groups",
       "key": "cult_coercive_groups",
       "items": [
-        {"name":"Church of Scientology","key":"cult_coercive_groups/church_of_scientology","d":["scientology.org","dianetics.org","scientologynews.org"],"i":[],"a":[],"s":["*.scientology.org"]},
-        {"name":"Coercive Religious Recruitment","key":"cult_coercive_groups/coercive_religious_recruitment","d":[],"i":[],"a":[],"s":[]},
-        {"name":"FLDS-affiliated Sites","key":"cult_coercive_groups/flds_affiliated_sites","d":[],"i":[],"a":[],"s":[]},
-        {"name":"High-Control Group Forums","key":"cult_coercive_groups/high_control_group_forums","d":["exjw.com","jwfacts.com"],"i":[],"a":[],"s":[]},
-        {"name":"Sovereign Citizen Networks","key":"cult_coercive_groups/sovereign_citizen_networks","d":["sovereigncitizen.com"],"i":[],"a":[],"s":[]}
+        {
+          "name": "Church of Scientology",
+          "key": "cult_coercive_groups/church_of_scientology",
+          "d": [
+            "scientology.org",
+            "dianetics.org",
+            "scientologynews.org"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.scientology.org"
+          ]
+        },
+        {
+          "name": "Coercive Religious Recruitment",
+          "key": "cult_coercive_groups/coercive_religious_recruitment",
+          "d": [],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "FLDS-affiliated Sites",
+          "key": "cult_coercive_groups/flds_affiliated_sites",
+          "d": [],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "High-Control Group Forums",
+          "key": "cult_coercive_groups/high_control_group_forums",
+          "d": [
+            "exjw.com",
+            "jwfacts.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Sovereign Citizen Networks",
+          "key": "cult_coercive_groups/sovereign_citizen_networks",
+          "d": [
+            "sovereigncitizen.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        }
       ]
     },
     {
       "name": "Dating & Relationships",
       "key": "dating_relationships",
       "items": [
-        {"name":"AdultFriendFinder","key":"dating_relationships/adultfriendfinder","d":["adultfriendfinder.com","aff.com"],"i":[],"a":[],"s":[]},
-        {"name":"Ashley Madison","key":"dating_relationships/ashley_madison","d":["ashleymadison.com"],"i":[],"a":[],"s":[]},
-        {"name":"Badoo","key":"dating_relationships/badoo","d":["badoo.com"],"i":[],"a":[],"s":[]},
-        {"name":"Bumble","key":"dating_relationships/bumble","d":["bumble.com"],"i":[],"a":[],"s":[]},
-        {"name":"eHarmony","key":"dating_relationships/eharmony","d":["eharmony.com"],"i":[],"a":[],"s":[]},
-        {"name":"Feeld","key":"dating_relationships/feeld","d":["feeld.co"],"i":[],"a":[],"s":[]},
-        {"name":"Grindr","key":"dating_relationships/grindr","d":["grindr.com"],"i":[],"a":[],"s":[]},
-        {"name":"Hinge","key":"dating_relationships/hinge","d":["hinge.co"],"i":[],"a":[],"s":[]},
-        {"name":"Match.com","key":"dating_relationships/match_com","d":["match.com"],"i":[],"a":[],"s":[]},
-        {"name":"MeetMe","key":"dating_relationships/meetme","d":["meetme.com"],"i":[],"a":[],"s":[]},
-        {"name":"OkCupid","key":"dating_relationships/okcupid","d":["okcupid.com"],"i":[],"a":[],"s":[]},
-        {"name":"Plenty of Fish","key":"dating_relationships/plenty_of_fish","d":["plentyoffish.com","pof.com"],"i":[],"a":[],"s":[]},
-        {"name":"Scruff","key":"dating_relationships/scruff","d":["scruff.com"],"i":[],"a":[],"s":[]},
-        {"name":"Tinder","key":"dating_relationships/tinder","d":["tinder.com","gotinder.com"],"i":[],"a":[],"s":["*.tinder.com"]},
-        {"name":"Zoosk","key":"dating_relationships/zoosk","d":["zoosk.com"],"i":[],"a":[],"s":[]}
+        {
+          "name": "AdultFriendFinder",
+          "key": "dating_relationships/adultfriendfinder",
+          "d": [
+            "adultfriendfinder.com",
+            "aff.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Ashley Madison",
+          "key": "dating_relationships/ashley_madison",
+          "d": [
+            "ashleymadison.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Badoo",
+          "key": "dating_relationships/badoo",
+          "d": [
+            "badoo.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Bumble",
+          "key": "dating_relationships/bumble",
+          "d": [
+            "bumble.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "eHarmony",
+          "key": "dating_relationships/eharmony",
+          "d": [
+            "eharmony.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Feeld",
+          "key": "dating_relationships/feeld",
+          "d": [
+            "feeld.co"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Grindr",
+          "key": "dating_relationships/grindr",
+          "d": [
+            "grindr.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Hinge",
+          "key": "dating_relationships/hinge",
+          "d": [
+            "hinge.co"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Match.com",
+          "key": "dating_relationships/match_com",
+          "d": [
+            "match.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "MeetMe",
+          "key": "dating_relationships/meetme",
+          "d": [
+            "meetme.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "OkCupid",
+          "key": "dating_relationships/okcupid",
+          "d": [
+            "okcupid.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Plenty of Fish",
+          "key": "dating_relationships/plenty_of_fish",
+          "d": [
+            "plentyoffish.com",
+            "pof.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Scruff",
+          "key": "dating_relationships/scruff",
+          "d": [
+            "scruff.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Tinder",
+          "key": "dating_relationships/tinder",
+          "d": [
+            "tinder.com",
+            "gotinder.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.tinder.com"
+          ]
+        },
+        {
+          "name": "Zoosk",
+          "key": "dating_relationships/zoosk",
+          "d": [
+            "zoosk.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        }
       ]
     },
     {
       "name": "Drugs & Substances",
       "key": "drugs_substances",
       "items": [
-        {"name":"Bluelight","key":"drugs_substances/bluelight","d":["bluelight.org"],"i":[],"a":[],"s":[]},
-        {"name":"Cannabis Culture","key":"drugs_substances/cannabis_culture","d":["cannabisculture.com"],"i":[],"a":[],"s":[]},
-        {"name":"DanceSafe","key":"drugs_substances/dancesafe","d":["dancesafe.org"],"i":[],"a":[],"s":[]},
-        {"name":"Erowid","key":"drugs_substances/erowid","d":["erowid.org"],"i":[],"a":[],"s":[]},
-        {"name":"Harm Reduction Coalition","key":"drugs_substances/harm_reduction_coalition","d":["harmreduction.org"],"i":[],"a":[],"s":[]},
-        {"name":"Kratom.com","key":"drugs_substances/kratom_com","d":["kratom.com","kratomguides.com"],"i":[],"a":[],"s":[]},
-        {"name":"Leafly","key":"drugs_substances/leafly","d":["leafly.com"],"i":[],"a":[],"s":[]},
-        {"name":"NORML","key":"drugs_substances/norml","d":["norml.org"],"i":[],"a":[],"s":[]},
-        {"name":"Weedmaps","key":"drugs_substances/weedmaps","d":["weedmaps.com"],"i":[],"a":[],"s":[]}
+        {
+          "name": "Bluelight",
+          "key": "drugs_substances/bluelight",
+          "d": [
+            "bluelight.org"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Cannabis Culture",
+          "key": "drugs_substances/cannabis_culture",
+          "d": [
+            "cannabisculture.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "DanceSafe",
+          "key": "drugs_substances/dancesafe",
+          "d": [
+            "dancesafe.org"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Erowid",
+          "key": "drugs_substances/erowid",
+          "d": [
+            "erowid.org"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Harm Reduction Coalition",
+          "key": "drugs_substances/harm_reduction_coalition",
+          "d": [
+            "harmreduction.org"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Kratom.com",
+          "key": "drugs_substances/kratom_com",
+          "d": [
+            "kratom.com",
+            "kratomguides.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Leafly",
+          "key": "drugs_substances/leafly",
+          "d": [
+            "leafly.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "NORML",
+          "key": "drugs_substances/norml",
+          "d": [
+            "norml.org"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Weedmaps",
+          "key": "drugs_substances/weedmaps",
+          "d": [
+            "weedmaps.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        }
       ]
     },
     {
       "name": "E-Commerce",
       "key": "e_commerce",
       "items": [
-        {"name":"AliExpress","key":"e_commerce/aliexpress","d":["aliexpress.com","alicdn.com"],"i":[],"a":[],"s":["*.aliexpress.com"]},
-        {"name":"Amazon","key":"e_commerce/amazon","d":["amazon.com","smile.amazon.com"],"i":[],"a":[],"s":[]},
-        {"name":"Best Buy","key":"e_commerce/best_buy","d":["bestbuy.com"],"i":[],"a":[],"s":[]},
-        {"name":"Costco","key":"e_commerce/costco","d":["costco.com"],"i":[],"a":[],"s":[]},
-        {"name":"eBay","key":"e_commerce/ebay","d":["ebay.com","ebayimg.com","ebaystatic.com"],"i":[],"a":[],"s":["*.ebay.com"]},
-        {"name":"Etsy","key":"e_commerce/etsy","d":["etsy.com","etsystatic.com"],"i":[],"a":[],"s":["*.etsy.com"]},
-        {"name":"Home Depot","key":"e_commerce/home_depot","d":["homedepot.com"],"i":[],"a":[],"s":[]},
-        {"name":"Overstock","key":"e_commerce/overstock","d":["overstock.com"],"i":[],"a":[],"s":[]},
-        {"name":"Shopify","key":"e_commerce/shopify","d":["shopify.com","myshopify.com","shopifycdn.com"],"i":[],"a":[],"s":["*.shopify.com","*.myshopify.com"]},
-        {"name":"Target","key":"e_commerce/target","d":["target.com"],"i":[],"a":[],"s":[]},
-        {"name":"Temu","key":"e_commerce/temu","d":["temu.com"],"i":[],"a":[],"s":[]},
-        {"name":"Walmart","key":"e_commerce/walmart","d":["walmart.com"],"i":[],"a":[],"s":[]},
-        {"name":"Wayfair","key":"e_commerce/wayfair","d":["wayfair.com"],"i":[],"a":[],"s":[]},
-        {"name":"Wish","key":"e_commerce/wish","d":["wish.com","cloudfront.net"],"i":[],"a":[],"s":[]}
+        {
+          "name": "AliExpress",
+          "key": "e_commerce/aliexpress",
+          "d": [
+            "aliexpress.com",
+            "alicdn.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.aliexpress.com"
+          ]
+        },
+        {
+          "name": "Amazon",
+          "key": "e_commerce/amazon",
+          "d": [
+            "amazon.com",
+            "smile.amazon.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Best Buy",
+          "key": "e_commerce/best_buy",
+          "d": [
+            "bestbuy.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Costco",
+          "key": "e_commerce/costco",
+          "d": [
+            "costco.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "eBay",
+          "key": "e_commerce/ebay",
+          "d": [
+            "ebay.com",
+            "ebayimg.com",
+            "ebaystatic.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.ebay.com"
+          ]
+        },
+        {
+          "name": "Etsy",
+          "key": "e_commerce/etsy",
+          "d": [
+            "etsy.com",
+            "etsystatic.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.etsy.com"
+          ]
+        },
+        {
+          "name": "Home Depot",
+          "key": "e_commerce/home_depot",
+          "d": [
+            "homedepot.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Overstock",
+          "key": "e_commerce/overstock",
+          "d": [
+            "overstock.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Shopify",
+          "key": "e_commerce/shopify",
+          "d": [
+            "shopify.com",
+            "myshopify.com",
+            "shopifycdn.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.shopify.com",
+            "*.myshopify.com"
+          ]
+        },
+        {
+          "name": "Target",
+          "key": "e_commerce/target",
+          "d": [
+            "target.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Temu",
+          "key": "e_commerce/temu",
+          "d": [
+            "temu.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Walmart",
+          "key": "e_commerce/walmart",
+          "d": [
+            "walmart.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Wayfair",
+          "key": "e_commerce/wayfair",
+          "d": [
+            "wayfair.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Wish",
+          "key": "e_commerce/wish",
+          "d": [
+            "wish.com",
+            "cloudfront.net"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        }
       ]
     },
     {
       "name": "Entertainment",
       "key": "entertainment",
       "items": [
-        {"name":"Amazon Prime Video","key":"entertainment/amazon_prime_video","d":["primevideo.com","aiv-cdn.net"],"i":[],"a":[],"s":["*.primevideo.com"]},
-        {"name":"Apple TV+","key":"entertainment/apple_tv","d":["tv.apple.com","applehd.apple.com"],"i":[],"a":[],"s":[]},
-        {"name":"Crunchyroll","key":"entertainment/crunchyroll","d":["crunchyroll.com","vrv.co"],"i":[],"a":[],"s":["*.crunchyroll.com"]},
-        {"name":"Disney+","key":"entertainment/disney","d":["disneyplus.com","disney-plus.net","dssott.com"],"i":[],"a":[],"s":["*.disneyplus.com"]},
-        {"name":"Hulu","key":"entertainment/hulu","d":["hulu.com","hulustream.com","huluim.com"],"i":[],"a":[],"s":["*.hulu.com"]},
-        {"name":"Max (HBO)","key":"entertainment/max_hbo","d":["max.com","hbomax.com","hbo.com"],"i":[],"a":[],"s":["*.max.com","*.hbomax.com"]},
-        {"name":"Paramount+","key":"entertainment/paramount","d":["paramountplus.com","cbsinteractive.com"],"i":[],"a":[],"s":["*.paramountplus.com"]},
-        {"name":"Peacock","key":"entertainment/peacock","d":["peacocktv.com"],"i":[],"a":[],"s":["*.peacocktv.com"]},
-        {"name":"Plex","key":"entertainment/plex","d":["plex.tv","plexapp.com","plex.direct"],"i":[],"a":[],"s":["*.plex.tv"]},
-        {"name":"Shudder","key":"entertainment/shudder","d":["shudder.com"],"i":[],"a":[],"s":[]},
-        {"name":"Tubi","key":"entertainment/tubi","d":["tubi.tv","tubitv.com"],"i":[],"a":[],"s":[]},
-        {"name":"Twitch","key":"entertainment/twitch","d":["twitch.tv","twitchapps.com","jtvnw.net"],"i":[],"a":[],"s":["*.twitch.tv"]},
-        {"name":"YouTube","key":"entertainment/youtube","d":["youtube.com","youtu.be","ytimg.com","googlevideo.com","yt3.ggpht.com"],"i":[],"a":[15169],"s":["*.youtube.com","*.ytimg.com"]}
+        {
+          "name": "Amazon Prime Video",
+          "key": "entertainment/amazon_prime_video",
+          "d": [
+            "primevideo.com",
+            "aiv-cdn.net"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.primevideo.com"
+          ]
+        },
+        {
+          "name": "Apple TV+",
+          "key": "entertainment/apple_tv",
+          "d": [
+            "tv.apple.com",
+            "applehd.apple.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Crunchyroll",
+          "key": "entertainment/crunchyroll",
+          "d": [
+            "crunchyroll.com",
+            "vrv.co"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.crunchyroll.com"
+          ]
+        },
+        {
+          "name": "Disney+",
+          "key": "entertainment/disney",
+          "d": [
+            "disneyplus.com",
+            "disney-plus.net",
+            "dssott.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.disneyplus.com"
+          ]
+        },
+        {
+          "name": "Hulu",
+          "key": "entertainment/hulu",
+          "d": [
+            "hulu.com",
+            "hulustream.com",
+            "huluim.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.hulu.com"
+          ]
+        },
+        {
+          "name": "Max (HBO)",
+          "key": "entertainment/max_hbo",
+          "d": [
+            "max.com",
+            "hbomax.com",
+            "hbo.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.max.com",
+            "*.hbomax.com"
+          ]
+        },
+        {
+          "name": "Paramount+",
+          "key": "entertainment/paramount",
+          "d": [
+            "paramountplus.com",
+            "cbsinteractive.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.paramountplus.com"
+          ]
+        },
+        {
+          "name": "Peacock",
+          "key": "entertainment/peacock",
+          "d": [
+            "peacocktv.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.peacocktv.com"
+          ]
+        },
+        {
+          "name": "Plex",
+          "key": "entertainment/plex",
+          "d": [
+            "plex.tv",
+            "plexapp.com",
+            "plex.direct"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.plex.tv"
+          ]
+        },
+        {
+          "name": "Shudder",
+          "key": "entertainment/shudder",
+          "d": [
+            "shudder.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Tubi",
+          "key": "entertainment/tubi",
+          "d": [
+            "tubi.tv",
+            "tubitv.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Twitch",
+          "key": "entertainment/twitch",
+          "d": [
+            "twitch.tv",
+            "twitchapps.com",
+            "jtvnw.net"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.twitch.tv"
+          ]
+        },
+        {
+          "name": "YouTube",
+          "key": "entertainment/youtube",
+          "d": [
+            "youtube.com",
+            "youtu.be",
+            "ytimg.com",
+            "googlevideo.com",
+            "yt3.ggpht.com"
+          ],
+          "i": [],
+          "a": [
+            15169
+          ],
+          "s": [
+            "*.youtube.com",
+            "*.ytimg.com"
+          ]
+        }
       ]
     },
     {
       "name": "Extremism & Radicalization",
       "key": "extremism_radicalization",
       "items": [
-        {"name":"4chan /pol/","key":"extremism_radicalization/4chan_pol","d":["4chan.org","4channel.org"],"i":[],"a":[],"s":["*.4chan.org"]},
-        {"name":"American Renaissance","key":"extremism_radicalization/american_renaissance","d":["amren.com"],"i":[],"a":[],"s":[]},
-        {"name":"Daily Stormer","key":"extremism_radicalization/daily_stormer","d":["dailystormer.in","dailystormer.name","dailystormer.st"],"i":[],"a":[],"s":[]},
-        {"name":"Gab","key":"extremism_radicalization/gab","d":["gab.com","gab.ai"],"i":[],"a":[],"s":[]},
-        {"name":"Parler","key":"extremism_radicalization/parler","d":["parler.com"],"i":[],"a":[],"s":[]},
-        {"name":"Stormfront","key":"extremism_radicalization/stormfront","d":["stormfront.org"],"i":[],"a":[],"s":[]},
-        {"name":"VDare","key":"extremism_radicalization/vdare","d":["vdare.com"],"i":[],"a":[],"s":[]}
+        {
+          "name": "4chan /pol/",
+          "key": "extremism_radicalization/4chan_pol",
+          "d": [
+            "4chan.org",
+            "4channel.org"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.4chan.org"
+          ]
+        },
+        {
+          "name": "American Renaissance",
+          "key": "extremism_radicalization/american_renaissance",
+          "d": [
+            "amren.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Daily Stormer",
+          "key": "extremism_radicalization/daily_stormer",
+          "d": [
+            "dailystormer.in",
+            "dailystormer.name",
+            "dailystormer.st"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Gab",
+          "key": "extremism_radicalization/gab",
+          "d": [
+            "gab.com",
+            "gab.ai"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Parler",
+          "key": "extremism_radicalization/parler",
+          "d": [
+            "parler.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Stormfront",
+          "key": "extremism_radicalization/stormfront",
+          "d": [
+            "stormfront.org"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "VDare",
+          "key": "extremism_radicalization/vdare",
+          "d": [
+            "vdare.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        }
       ]
     },
     {
       "name": "File Sharing",
       "key": "file_sharing",
       "items": [
-        {"name":"Box","key":"file_sharing/box","d":["box.com","boxcdn.net","boxcloud.com"],"i":[],"a":[],"s":["*.box.com"]},
-        {"name":"Dropbox","key":"file_sharing/dropbox","d":["dropbox.com","dropboxusercontent.com"],"i":[],"a":[],"s":["*.dropbox.com"]},
-        {"name":"Google Drive","key":"file_sharing/google_drive","d":["drive.google.com","docs.google.com","sheets.google.com"],"i":[],"a":[15169],"s":[]},
-        {"name":"iCloud Drive","key":"file_sharing/icloud_drive","d":["icloud.com","icloud-content.com"],"i":[],"a":[],"s":["*.icloud.com"]},
-        {"name":"MediaFire","key":"file_sharing/mediafire","d":["mediafire.com"],"i":[],"a":[],"s":[]},
-        {"name":"Mega","key":"file_sharing/mega","d":["mega.nz","mega.co.nz","mega.io"],"i":[],"a":[],"s":["*.mega.nz"]},
-        {"name":"OneDrive","key":"file_sharing/onedrive","d":["onedrive.live.com","onedrive.com","sharepoint.com"],"i":[],"a":[8075],"s":[]},
-        {"name":"pCloud","key":"file_sharing/pcloud","d":["pcloud.com"],"i":[],"a":[],"s":[]},
-        {"name":"WeTransfer","key":"file_sharing/wetransfer","d":["wetransfer.com"],"i":[],"a":[],"s":[]}
+        {
+          "name": "Box",
+          "key": "file_sharing/box",
+          "d": [
+            "box.com",
+            "boxcdn.net",
+            "boxcloud.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.box.com"
+          ]
+        },
+        {
+          "name": "Dropbox",
+          "key": "file_sharing/dropbox",
+          "d": [
+            "dropbox.com",
+            "dropboxusercontent.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.dropbox.com"
+          ]
+        },
+        {
+          "name": "Google Drive",
+          "key": "file_sharing/google_drive",
+          "d": [
+            "drive.google.com",
+            "docs.google.com",
+            "sheets.google.com"
+          ],
+          "i": [],
+          "a": [
+            15169
+          ],
+          "s": []
+        },
+        {
+          "name": "iCloud Drive",
+          "key": "file_sharing/icloud_drive",
+          "d": [
+            "icloud.com",
+            "icloud-content.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.icloud.com"
+          ]
+        },
+        {
+          "name": "MediaFire",
+          "key": "file_sharing/mediafire",
+          "d": [
+            "mediafire.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Mega",
+          "key": "file_sharing/mega",
+          "d": [
+            "mega.nz",
+            "mega.co.nz",
+            "mega.io"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.mega.nz"
+          ]
+        },
+        {
+          "name": "OneDrive",
+          "key": "file_sharing/onedrive",
+          "d": [
+            "onedrive.live.com",
+            "onedrive.com",
+            "sharepoint.com"
+          ],
+          "i": [],
+          "a": [
+            8075
+          ],
+          "s": []
+        },
+        {
+          "name": "pCloud",
+          "key": "file_sharing/pcloud",
+          "d": [
+            "pcloud.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "WeTransfer",
+          "key": "file_sharing/wetransfer",
+          "d": [
+            "wetransfer.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        }
       ]
     },
     {
       "name": "Finance & Banking",
       "key": "finance_banking",
       "items": [
-        {"name":"American Express","key":"finance_banking/american_express","d":["americanexpress.com","aexp.com"],"i":[],"a":[],"s":[]},
-        {"name":"Bank of America","key":"finance_banking/bank_of_america","d":["bankofamerica.com","bofa.com"],"i":[],"a":[],"s":[]},
-        {"name":"Capital One","key":"finance_banking/capital_one","d":["capitalone.com"],"i":[],"a":[],"s":[]},
-        {"name":"Cash App","key":"finance_banking/cash_app","d":["cash.app","square.com","squareup.com"],"i":[],"a":[],"s":[]},
-        {"name":"Charles Schwab","key":"finance_banking/charles_schwab","d":["schwab.com"],"i":[],"a":[],"s":[]},
-        {"name":"Chase","key":"finance_banking/chase","d":["chase.com"],"i":[],"a":[],"s":[]},
-        {"name":"Citibank","key":"finance_banking/citibank","d":["citi.com","citibank.com","citigroup.com"],"i":[],"a":[],"s":[]},
-        {"name":"Discover","key":"finance_banking/discover","d":["discover.com","discovercard.com"],"i":[],"a":[],"s":[]},
-        {"name":"Fidelity","key":"finance_banking/fidelity","d":["fidelity.com","fidelityinvestments.com"],"i":[],"a":[],"s":[]},
-        {"name":"PayPal","key":"finance_banking/paypal","d":["paypal.com","paypalobjects.com"],"i":[],"a":[],"s":["*.paypal.com"]},
-        {"name":"Robinhood","key":"finance_banking/robinhood","d":["robinhood.com"],"i":[],"a":[],"s":[]},
-        {"name":"Stripe","key":"finance_banking/stripe","d":["stripe.com","js.stripe.com"],"i":[],"a":[],"s":[]},
-        {"name":"Venmo","key":"finance_banking/venmo","d":["venmo.com"],"i":[],"a":[],"s":[]},
-        {"name":"Wells Fargo","key":"finance_banking/wells_fargo","d":["wellsfargo.com"],"i":[],"a":[],"s":[]},
-        {"name":"Zelle","key":"finance_banking/zelle","d":["zellepay.com"],"i":[],"a":[],"s":[]}
+        {
+          "name": "American Express",
+          "key": "finance_banking/american_express",
+          "d": [
+            "americanexpress.com",
+            "aexp.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Bank of America",
+          "key": "finance_banking/bank_of_america",
+          "d": [
+            "bankofamerica.com",
+            "bofa.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Capital One",
+          "key": "finance_banking/capital_one",
+          "d": [
+            "capitalone.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Cash App",
+          "key": "finance_banking/cash_app",
+          "d": [
+            "cash.app",
+            "square.com",
+            "squareup.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Charles Schwab",
+          "key": "finance_banking/charles_schwab",
+          "d": [
+            "schwab.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Chase",
+          "key": "finance_banking/chase",
+          "d": [
+            "chase.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Citibank",
+          "key": "finance_banking/citibank",
+          "d": [
+            "citi.com",
+            "citibank.com",
+            "citigroup.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Discover",
+          "key": "finance_banking/discover",
+          "d": [
+            "discover.com",
+            "discovercard.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Fidelity",
+          "key": "finance_banking/fidelity",
+          "d": [
+            "fidelity.com",
+            "fidelityinvestments.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "PayPal",
+          "key": "finance_banking/paypal",
+          "d": [
+            "paypal.com",
+            "paypalobjects.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.paypal.com"
+          ]
+        },
+        {
+          "name": "Robinhood",
+          "key": "finance_banking/robinhood",
+          "d": [
+            "robinhood.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Stripe",
+          "key": "finance_banking/stripe",
+          "d": [
+            "stripe.com",
+            "js.stripe.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Venmo",
+          "key": "finance_banking/venmo",
+          "d": [
+            "venmo.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Wells Fargo",
+          "key": "finance_banking/wells_fargo",
+          "d": [
+            "wellsfargo.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Zelle",
+          "key": "finance_banking/zelle",
+          "d": [
+            "zellepay.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        }
       ]
     },
     {
       "name": "Firearms & Weapons",
       "key": "firearms_weapons",
       "items": [
-        {"name":"Armslist","key":"firearms_weapons/armslist","d":["armslist.com"],"i":[],"a":[],"s":[]},
-        {"name":"Bass Pro Shops","key":"firearms_weapons/bass_pro_shops","d":["basspro.com","cabelas.com"],"i":[],"a":[],"s":[]},
-        {"name":"Brownells","key":"firearms_weapons/brownells","d":["brownells.com"],"i":[],"a":[],"s":[]},
-        {"name":"Cabela's","key":"firearms_weapons/cabela_s","d":["cabelas.com"],"i":[],"a":[],"s":[]},
-        {"name":"GunBroker","key":"firearms_weapons/gunbroker","d":["gunbroker.com"],"i":[],"a":[],"s":[]},
-        {"name":"Guns.com","key":"firearms_weapons/guns_com","d":["guns.com"],"i":[],"a":[],"s":[]},
-        {"name":"MidwayUSA","key":"firearms_weapons/midwayusa","d":["midwayusa.com"],"i":[],"a":[],"s":[]},
-        {"name":"Primary Arms","key":"firearms_weapons/primary_arms","d":["primaryarms.com"],"i":[],"a":[],"s":[]},
-        {"name":"Ruger","key":"firearms_weapons/ruger","d":["ruger.com"],"i":[],"a":[],"s":[]},
-        {"name":"Smith & Wesson","key":"firearms_weapons/smith_wesson","d":["smith-wesson.com","swdefense.com"],"i":[],"a":[],"s":[]},
-        {"name":"Sportsman's Warehouse","key":"firearms_weapons/sportsman_s_warehouse","d":["sportsmans.com","sportsmanswarehouse.com"],"i":[],"a":[],"s":[]}
+        {
+          "name": "Armslist",
+          "key": "firearms_weapons/armslist",
+          "d": [
+            "armslist.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Bass Pro Shops",
+          "key": "firearms_weapons/bass_pro_shops",
+          "d": [
+            "basspro.com",
+            "cabelas.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Brownells",
+          "key": "firearms_weapons/brownells",
+          "d": [
+            "brownells.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Cabela's",
+          "key": "firearms_weapons/cabela_s",
+          "d": [
+            "cabelas.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "GunBroker",
+          "key": "firearms_weapons/gunbroker",
+          "d": [
+            "gunbroker.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Guns.com",
+          "key": "firearms_weapons/guns_com",
+          "d": [
+            "guns.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "MidwayUSA",
+          "key": "firearms_weapons/midwayusa",
+          "d": [
+            "midwayusa.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Primary Arms",
+          "key": "firearms_weapons/primary_arms",
+          "d": [
+            "primaryarms.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Ruger",
+          "key": "firearms_weapons/ruger",
+          "d": [
+            "ruger.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Smith & Wesson",
+          "key": "firearms_weapons/smith_wesson",
+          "d": [
+            "smith-wesson.com",
+            "swdefense.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Sportsman's Warehouse",
+          "key": "firearms_weapons/sportsman_s_warehouse",
+          "d": [
+            "sportsmans.com",
+            "sportsmanswarehouse.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        }
       ]
     },
     {
       "name": "Forums & Community",
       "key": "forums_community",
       "items": [
-        {"name":"4chan","key":"forums_community/4chan","d":["4chan.org","4channel.org"],"i":[],"a":[],"s":["*.4chan.org"]},
-        {"name":"DeviantArt","key":"forums_community/deviantart","d":["deviantart.com","deviantart.net"],"i":[],"a":[],"s":[]},
-        {"name":"Fandom","key":"forums_community/fandom","d":["fandom.com","wikia.com","wikia.org"],"i":[],"a":[],"s":["*.fandom.com","*.wikia.com"]},
-        {"name":"Hacker News","key":"forums_community/hacker_news","d":["news.ycombinator.com","ycombinator.com"],"i":[],"a":[],"s":[]},
-        {"name":"Imgur","key":"forums_community/imgur","d":["imgur.com","i.imgur.com"],"i":[],"a":[],"s":[]},
-        {"name":"Nextdoor","key":"forums_community/nextdoor","d":["nextdoor.com"],"i":[],"a":[],"s":[]},
-        {"name":"Quora","key":"forums_community/quora","d":["quora.com"],"i":[],"a":[],"s":[]},
-        {"name":"SomethingAwful","key":"forums_community/somethingawful","d":["somethingawful.com","sa.com"],"i":[],"a":[],"s":[]},
-        {"name":"Stack Overflow","key":"forums_community/stack_overflow","d":["stackoverflow.com","stackexchange.com","sstatic.net"],"i":[],"a":[],"s":["*.stackoverflow.com","*.stackexchange.com"]}
+        {
+          "name": "4chan",
+          "key": "forums_community/4chan",
+          "d": [
+            "4chan.org",
+            "4channel.org"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.4chan.org"
+          ]
+        },
+        {
+          "name": "DeviantArt",
+          "key": "forums_community/deviantart",
+          "d": [
+            "deviantart.com",
+            "deviantart.net"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Fandom",
+          "key": "forums_community/fandom",
+          "d": [
+            "fandom.com",
+            "wikia.com",
+            "wikia.org"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.fandom.com",
+            "*.wikia.com"
+          ]
+        },
+        {
+          "name": "Hacker News",
+          "key": "forums_community/hacker_news",
+          "d": [
+            "news.ycombinator.com",
+            "ycombinator.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Imgur",
+          "key": "forums_community/imgur",
+          "d": [
+            "imgur.com",
+            "i.imgur.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Nextdoor",
+          "key": "forums_community/nextdoor",
+          "d": [
+            "nextdoor.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Quora",
+          "key": "forums_community/quora",
+          "d": [
+            "quora.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "SomethingAwful",
+          "key": "forums_community/somethingawful",
+          "d": [
+            "somethingawful.com",
+            "sa.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Stack Overflow",
+          "key": "forums_community/stack_overflow",
+          "d": [
+            "stackoverflow.com",
+            "stackexchange.com",
+            "sstatic.net"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.stackoverflow.com",
+            "*.stackexchange.com"
+          ]
+        }
       ]
     },
     {
       "name": "Gambling",
       "key": "gambling",
       "items": [
-        {"name":"888 Casino","key":"gambling/888_casino","d":["888casino.com","888sport.com","888holdings.com"],"i":[],"a":[],"s":[]},
-        {"name":"Bet365","key":"gambling/bet365","d":["bet365.com"],"i":[],"a":[],"s":["*.bet365.com"]},
-        {"name":"BetMGM","key":"gambling/betmgm","d":["betmgm.com","roardigital.com"],"i":[],"a":[],"s":[]},
-        {"name":"BetRivers","key":"gambling/betrivers","d":["betrivers.com"],"i":[],"a":[],"s":[]},
-        {"name":"BetUS","key":"gambling/betus","d":["betus.com.pa","betus.com"],"i":[],"a":[],"s":[]},
-        {"name":"Bovada","key":"gambling/bovada","d":["bovada.lv"],"i":[],"a":[],"s":[]},
-        {"name":"Caesars Sportsbook","key":"gambling/caesars_sportsbook","d":["caesars.com","williamhill.com","caesarssportsbook.com"],"i":[],"a":[],"s":[]},
-        {"name":"DraftKings","key":"gambling/draftkings","d":["draftkings.com"],"i":[],"a":[],"s":["*.draftkings.com"]},
-        {"name":"FanDuel","key":"gambling/fanduel","d":["fanduel.com"],"i":[],"a":[],"s":["*.fanduel.com"]},
-        {"name":"Hard Rock Bet","key":"gambling/hard_rock_bet","d":["hardrock.bet","hardrockbet.com"],"i":[],"a":[],"s":[]},
-        {"name":"MyBookie","key":"gambling/mybookie","d":["mybookie.ag"],"i":[],"a":[],"s":[]},
-        {"name":"PointsBet","key":"gambling/pointsbet","d":["pointsbet.com"],"i":[],"a":[],"s":[]},
-        {"name":"PokerStars","key":"gambling/pokerstars","d":["pokerstars.com","pokerstars.eu","pokerstars.net"],"i":[],"a":[],"s":["*.pokerstars.com"]}
+        {
+          "name": "888 Casino",
+          "key": "gambling/888_casino",
+          "d": [
+            "888casino.com",
+            "888sport.com",
+            "888holdings.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Bet365",
+          "key": "gambling/bet365",
+          "d": [
+            "bet365.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.bet365.com"
+          ]
+        },
+        {
+          "name": "BetMGM",
+          "key": "gambling/betmgm",
+          "d": [
+            "betmgm.com",
+            "roardigital.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "BetRivers",
+          "key": "gambling/betrivers",
+          "d": [
+            "betrivers.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "BetUS",
+          "key": "gambling/betus",
+          "d": [
+            "betus.com.pa",
+            "betus.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Bovada",
+          "key": "gambling/bovada",
+          "d": [
+            "bovada.lv"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Caesars Sportsbook",
+          "key": "gambling/caesars_sportsbook",
+          "d": [
+            "caesars.com",
+            "williamhill.com",
+            "caesarssportsbook.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "DraftKings",
+          "key": "gambling/draftkings",
+          "d": [
+            "draftkings.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.draftkings.com"
+          ]
+        },
+        {
+          "name": "FanDuel",
+          "key": "gambling/fanduel",
+          "d": [
+            "fanduel.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.fanduel.com"
+          ]
+        },
+        {
+          "name": "Hard Rock Bet",
+          "key": "gambling/hard_rock_bet",
+          "d": [
+            "hardrock.bet",
+            "hardrockbet.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "MyBookie",
+          "key": "gambling/mybookie",
+          "d": [
+            "mybookie.ag"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "PointsBet",
+          "key": "gambling/pointsbet",
+          "d": [
+            "pointsbet.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "PokerStars",
+          "key": "gambling/pokerstars",
+          "d": [
+            "pokerstars.com",
+            "pokerstars.eu",
+            "pokerstars.net"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.pokerstars.com"
+          ]
+        }
       ]
     },
     {
       "name": "Gaming",
       "key": "gaming",
       "items": [
-        {"name":"Activision Blizzard","key":"gaming/activision_blizzard","d":["activision.com","blizzard.com","battle.net","blizzardentertainment.com"],"i":[],"a":[],"s":["*.blizzard.com","*.battle.net"]},
-        {"name":"EA Games","key":"gaming/ea_games","d":["ea.com","origin.com","easports.com","eacdn.com"],"i":[],"a":[],"s":["*.ea.com"]},
-        {"name":"Epic Games","key":"gaming/epic_games","d":["epicgames.com","fortnite.com","unrealengine.com"],"i":[],"a":[],"s":["*.epicgames.com"]},
-        {"name":"GOG","key":"gaming/gog","d":["gog.com"],"i":[],"a":[],"s":[]},
-        {"name":"Mojang (Minecraft)","key":"gaming/mojang_minecraft","d":["minecraft.net","mojang.com","minecraftservices.com"],"i":[],"a":[],"s":["*.minecraft.net"]},
-        {"name":"Nintendo Online","key":"gaming/nintendo_online","d":["nintendo.com","nintendo.net","nintendo-europe.com"],"i":[],"a":[],"s":["*.nintendo.com"]},
-        {"name":"PlayStation Network","key":"gaming/playstation_network","d":["playstation.com","sonyentertainmentnetwork.com","psn.com","dl.playstation.net"],"i":[],"a":[],"s":["*.playstation.com"]},
-        {"name":"Riot Games","key":"gaming/riot_games","d":["riotgames.com","leagueoflegends.com","valorant.com","riotcdn.net"],"i":[],"a":[],"s":["*.riotgames.com","*.leagueoflegends.com"]},
-        {"name":"Roblox","key":"gaming/roblox","d":["roblox.com","rbxcdn.com"],"i":[],"a":[],"s":["*.roblox.com"]},
-        {"name":"Rockstar Games","key":"gaming/rockstar_games","d":["rockstargames.com","socialclub.rockstargames.com"],"i":[],"a":[],"s":["*.rockstargames.com"]},
-        {"name":"Steam","key":"gaming/steam","d":["steampowered.com","steamcommunity.com","steamstatic.com","steam-chat.com"],"i":[],"a":[],"s":["*.steampowered.com","*.steamcommunity.com"]},
-        {"name":"Ubisoft","key":"gaming/ubisoft","d":["ubisoft.com","ubi.com","ubisoft-dns.com"],"i":[],"a":[],"s":["*.ubisoft.com"]},
-        {"name":"Xbox Live","key":"gaming/xbox_live","d":["xbox.com","xboxlive.com","xboxservices.com"],"i":[],"a":[8075],"s":["*.xbox.com","*.xboxlive.com"]}
+        {
+          "name": "Activision Blizzard",
+          "key": "gaming/activision_blizzard",
+          "d": [
+            "activision.com",
+            "blizzard.com",
+            "battle.net",
+            "blizzardentertainment.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.blizzard.com",
+            "*.battle.net"
+          ]
+        },
+        {
+          "name": "EA Games",
+          "key": "gaming/ea_games",
+          "d": [
+            "ea.com",
+            "origin.com",
+            "easports.com",
+            "eacdn.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.ea.com"
+          ]
+        },
+        {
+          "name": "Epic Games",
+          "key": "gaming/epic_games",
+          "d": [
+            "epicgames.com",
+            "fortnite.com",
+            "unrealengine.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.epicgames.com"
+          ]
+        },
+        {
+          "name": "GOG",
+          "key": "gaming/gog",
+          "d": [
+            "gog.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Mojang (Minecraft)",
+          "key": "gaming/mojang_minecraft",
+          "d": [
+            "minecraft.net",
+            "mojang.com",
+            "minecraftservices.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.minecraft.net"
+          ]
+        },
+        {
+          "name": "Nintendo Online",
+          "key": "gaming/nintendo_online",
+          "d": [
+            "nintendo.com",
+            "nintendo.net",
+            "nintendo-europe.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.nintendo.com"
+          ]
+        },
+        {
+          "name": "PlayStation Network",
+          "key": "gaming/playstation_network",
+          "d": [
+            "playstation.com",
+            "sonyentertainmentnetwork.com",
+            "psn.com",
+            "dl.playstation.net"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.playstation.com"
+          ]
+        },
+        {
+          "name": "Riot Games",
+          "key": "gaming/riot_games",
+          "d": [
+            "riotgames.com",
+            "leagueoflegends.com",
+            "valorant.com",
+            "riotcdn.net"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.riotgames.com",
+            "*.leagueoflegends.com"
+          ]
+        },
+        {
+          "name": "Roblox",
+          "key": "gaming/roblox",
+          "d": [
+            "roblox.com",
+            "rbxcdn.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.roblox.com"
+          ]
+        },
+        {
+          "name": "Rockstar Games",
+          "key": "gaming/rockstar_games",
+          "d": [
+            "rockstargames.com",
+            "socialclub.rockstargames.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.rockstargames.com"
+          ]
+        },
+        {
+          "name": "Steam",
+          "key": "gaming/steam",
+          "d": [
+            "steampowered.com",
+            "steamcommunity.com",
+            "steamstatic.com",
+            "steam-chat.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.steampowered.com",
+            "*.steamcommunity.com"
+          ]
+        },
+        {
+          "name": "Ubisoft",
+          "key": "gaming/ubisoft",
+          "d": [
+            "ubisoft.com",
+            "ubi.com",
+            "ubisoft-dns.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.ubisoft.com"
+          ]
+        },
+        {
+          "name": "Xbox Live",
+          "key": "gaming/xbox_live",
+          "d": [
+            "xbox.com",
+            "xboxlive.com",
+            "xboxservices.com"
+          ],
+          "i": [],
+          "a": [
+            8075
+          ],
+          "s": [
+            "*.xbox.com",
+            "*.xboxlive.com"
+          ]
+        }
       ]
     },
     {
       "name": "Job Search & Recruitment",
       "key": "job_search_recruitment",
       "items": [
-        {"name":"CareerBuilder","key":"job_search_recruitment/careerbuilder","d":["careerbuilder.com"],"i":[],"a":[],"s":[]},
-        {"name":"Dice","key":"job_search_recruitment/dice","d":["dice.com"],"i":[],"a":[],"s":[]},
-        {"name":"Glassdoor","key":"job_search_recruitment/glassdoor","d":["glassdoor.com"],"i":[],"a":[],"s":[]},
-        {"name":"Indeed","key":"job_search_recruitment/indeed","d":["indeed.com"],"i":[],"a":[],"s":["*.indeed.com"]},
-        {"name":"LinkedIn Jobs","key":"job_search_recruitment/linkedin_jobs","d":["linkedin.com","lnkd.in"],"i":[],"a":[8075],"s":[]},
-        {"name":"Monster","key":"job_search_recruitment/monster","d":["monster.com"],"i":[],"a":[],"s":[]},
-        {"name":"SimplyHired","key":"job_search_recruitment/simplyhired","d":["simplyhired.com"],"i":[],"a":[],"s":[]},
-        {"name":"Snagajob","key":"job_search_recruitment/snagajob","d":["snagajob.com"],"i":[],"a":[],"s":[]},
-        {"name":"Wellfound","key":"job_search_recruitment/wellfound","d":["wellfound.com","angel.co"],"i":[],"a":[],"s":[]},
-        {"name":"ZipRecruiter","key":"job_search_recruitment/ziprecruiter","d":["ziprecruiter.com"],"i":[],"a":[],"s":[]}
+        {
+          "name": "CareerBuilder",
+          "key": "job_search_recruitment/careerbuilder",
+          "d": [
+            "careerbuilder.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Dice",
+          "key": "job_search_recruitment/dice",
+          "d": [
+            "dice.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Glassdoor",
+          "key": "job_search_recruitment/glassdoor",
+          "d": [
+            "glassdoor.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Indeed",
+          "key": "job_search_recruitment/indeed",
+          "d": [
+            "indeed.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.indeed.com"
+          ]
+        },
+        {
+          "name": "LinkedIn Jobs",
+          "key": "job_search_recruitment/linkedin_jobs",
+          "d": [
+            "linkedin.com",
+            "lnkd.in"
+          ],
+          "i": [],
+          "a": [
+            8075
+          ],
+          "s": []
+        },
+        {
+          "name": "Monster",
+          "key": "job_search_recruitment/monster",
+          "d": [
+            "monster.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "SimplyHired",
+          "key": "job_search_recruitment/simplyhired",
+          "d": [
+            "simplyhired.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Snagajob",
+          "key": "job_search_recruitment/snagajob",
+          "d": [
+            "snagajob.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Wellfound",
+          "key": "job_search_recruitment/wellfound",
+          "d": [
+            "wellfound.com",
+            "angel.co"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "ZipRecruiter",
+          "key": "job_search_recruitment/ziprecruiter",
+          "d": [
+            "ziprecruiter.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        }
       ]
     },
     {
       "name": "Messaging & Chat",
       "key": "messaging_chat",
       "items": [
-        {"name":"Discord","key":"messaging_chat/discord","d":["discord.com","discordapp.com","discord.gg","discordcdn.com"],"i":[],"a":[],"s":["*.discord.com","*.discordapp.com"]},
-        {"name":"GroupMe","key":"messaging_chat/groupme","d":["groupme.com"],"i":[],"a":[],"s":[]},
-        {"name":"Kik","key":"messaging_chat/kik","d":["kik.com"],"i":[],"a":[],"s":[]},
-        {"name":"Line","key":"messaging_chat/line","d":["line.me","lin.ee","line-scdn.net"],"i":[],"a":[],"s":["*.line.me"]},
-        {"name":"Messenger","key":"messaging_chat/messenger","d":["messenger.com"],"i":[],"a":[32934],"s":[]},
-        {"name":"Microsoft Teams","key":"messaging_chat/microsoft_teams","d":["teams.microsoft.com","teams.live.com"],"i":[],"a":[8075],"s":[]},
-        {"name":"Signal","key":"messaging_chat/signal","d":["signal.org"],"i":[],"a":[],"s":[]},
-        {"name":"Skype","key":"messaging_chat/skype","d":["skype.com","skypeassets.com"],"i":[],"a":[8075],"s":[]},
-        {"name":"Slack","key":"messaging_chat/slack","d":["slack.com","slack-edge.com","slack-imgs.com"],"i":[],"a":[],"s":["*.slack.com"]},
-        {"name":"Telegram","key":"messaging_chat/telegram","d":["telegram.org","t.me","telegram.me"],"i":[],"a":[],"s":["*.telegram.org"]},
-        {"name":"Viber","key":"messaging_chat/viber","d":["viber.com"],"i":[],"a":[],"s":[]},
-        {"name":"WeChat","key":"messaging_chat/wechat","d":["wechat.com","wx.qq.com","weixin.qq.com"],"i":[],"a":[],"s":["*.wechat.com"]},
-        {"name":"WhatsApp","key":"messaging_chat/whatsapp","d":["whatsapp.com","whatsapp.net"],"i":[],"a":[32934],"s":["*.whatsapp.com"]},
-        {"name":"Zoom","key":"messaging_chat/zoom","d":["zoom.us","zoom.com","zoomgov.com"],"i":[],"a":[],"s":["*.zoom.us"]}
+        {
+          "name": "Discord",
+          "key": "messaging_chat/discord",
+          "d": [
+            "discord.com",
+            "discordapp.com",
+            "discord.gg",
+            "discordcdn.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.discord.com",
+            "*.discordapp.com"
+          ]
+        },
+        {
+          "name": "GroupMe",
+          "key": "messaging_chat/groupme",
+          "d": [
+            "groupme.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Kik",
+          "key": "messaging_chat/kik",
+          "d": [
+            "kik.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Line",
+          "key": "messaging_chat/line",
+          "d": [
+            "line.me",
+            "lin.ee",
+            "line-scdn.net"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.line.me"
+          ]
+        },
+        {
+          "name": "Messenger",
+          "key": "messaging_chat/messenger",
+          "d": [
+            "messenger.com"
+          ],
+          "i": [],
+          "a": [
+            32934
+          ],
+          "s": []
+        },
+        {
+          "name": "Microsoft Teams",
+          "key": "messaging_chat/microsoft_teams",
+          "d": [
+            "teams.microsoft.com",
+            "teams.live.com"
+          ],
+          "i": [],
+          "a": [
+            8075
+          ],
+          "s": []
+        },
+        {
+          "name": "Signal",
+          "key": "messaging_chat/signal",
+          "d": [
+            "signal.org"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Skype",
+          "key": "messaging_chat/skype",
+          "d": [
+            "skype.com",
+            "skypeassets.com"
+          ],
+          "i": [],
+          "a": [
+            8075
+          ],
+          "s": []
+        },
+        {
+          "name": "Slack",
+          "key": "messaging_chat/slack",
+          "d": [
+            "slack.com",
+            "slack-edge.com",
+            "slack-imgs.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.slack.com"
+          ]
+        },
+        {
+          "name": "Telegram",
+          "key": "messaging_chat/telegram",
+          "d": [
+            "telegram.org",
+            "t.me",
+            "telegram.me"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.telegram.org"
+          ]
+        },
+        {
+          "name": "Viber",
+          "key": "messaging_chat/viber",
+          "d": [
+            "viber.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "WeChat",
+          "key": "messaging_chat/wechat",
+          "d": [
+            "wechat.com",
+            "wx.qq.com",
+            "weixin.qq.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.wechat.com"
+          ]
+        },
+        {
+          "name": "WhatsApp",
+          "key": "messaging_chat/whatsapp",
+          "d": [
+            "whatsapp.com",
+            "whatsapp.net"
+          ],
+          "i": [],
+          "a": [
+            32934
+          ],
+          "s": [
+            "*.whatsapp.com"
+          ]
+        },
+        {
+          "name": "Zoom",
+          "key": "messaging_chat/zoom",
+          "d": [
+            "zoom.us",
+            "zoom.com",
+            "zoomgov.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.zoom.us"
+          ]
+        }
       ]
     },
     {
       "name": "Misinformation & Conspiracy",
       "key": "misinformation_conspiracy",
       "items": [
-        {"name":"Brighteon","key":"misinformation_conspiracy/brighteon","d":["brighteon.com"],"i":[],"a":[],"s":[]},
-        {"name":"Epoch Times","key":"misinformation_conspiracy/epoch_times","d":["theepochtimes.com","epochtimes.com"],"i":[],"a":[],"s":[]},
-        {"name":"Flat Earth Society","key":"misinformation_conspiracy/flat_earth_society","d":["theflatearthsociety.org","flat-earther.org"],"i":[],"a":[],"s":[]},
-        {"name":"Gateway Pundit","key":"misinformation_conspiracy/gateway_pundit","d":["thegatewaypundit.com"],"i":[],"a":[],"s":[]},
-        {"name":"InfoWars","key":"misinformation_conspiracy/infowars","d":["infowars.com","newswars.com","prisonplanet.com","bandaidalex.com"],"i":[],"a":[],"s":[]},
-        {"name":"Natural News","key":"misinformation_conspiracy/natural_news","d":["naturalnews.com"],"i":[],"a":[],"s":[]},
-        {"name":"NewsMax (conspiracy content)","key":"misinformation_conspiracy/newsmax_conspiracy_content","d":["newsmax.com"],"i":[],"a":[],"s":[]},
-        {"name":"OAN","key":"misinformation_conspiracy/oan","d":["oann.com","oann.tv"],"i":[],"a":[],"s":[]},
-        {"name":"Rumble (conspiracy channels)","key":"misinformation_conspiracy/rumble_conspiracy_channels","d":["rumble.com"],"i":[],"a":[],"s":[]},
-        {"name":"ZeroHedge","key":"misinformation_conspiracy/zerohedge","d":["zerohedge.com"],"i":[],"a":[],"s":[]}
+        {
+          "name": "Brighteon",
+          "key": "misinformation_conspiracy/brighteon",
+          "d": [
+            "brighteon.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Epoch Times",
+          "key": "misinformation_conspiracy/epoch_times",
+          "d": [
+            "theepochtimes.com",
+            "epochtimes.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Flat Earth Society",
+          "key": "misinformation_conspiracy/flat_earth_society",
+          "d": [
+            "theflatearthsociety.org",
+            "flat-earther.org"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Gateway Pundit",
+          "key": "misinformation_conspiracy/gateway_pundit",
+          "d": [
+            "thegatewaypundit.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "InfoWars",
+          "key": "misinformation_conspiracy/infowars",
+          "d": [
+            "infowars.com",
+            "newswars.com",
+            "prisonplanet.com",
+            "bandaidalex.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Natural News",
+          "key": "misinformation_conspiracy/natural_news",
+          "d": [
+            "naturalnews.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "NewsMax (conspiracy content)",
+          "key": "misinformation_conspiracy/newsmax_conspiracy_content",
+          "d": [
+            "newsmax.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "OAN",
+          "key": "misinformation_conspiracy/oan",
+          "d": [
+            "oann.com",
+            "oann.tv"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Rumble (conspiracy channels)",
+          "key": "misinformation_conspiracy/rumble_conspiracy_channels",
+          "d": [
+            "rumble.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "ZeroHedge",
+          "key": "misinformation_conspiracy/zerohedge",
+          "d": [
+            "zerohedge.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        }
       ]
     },
     {
       "name": "News & Media",
       "key": "news_media",
       "items": [
-        {"name":"ABC News","key":"news_media/abc_news","d":["abcnews.go.com"],"i":[],"a":[],"s":[]},
-        {"name":"Al Jazeera","key":"news_media/al_jazeera","d":["aljazeera.com","aljazeera.net"],"i":[],"a":[],"s":[]},
-        {"name":"Associated Press","key":"news_media/associated_press","d":["apnews.com","ap.org"],"i":[],"a":[],"s":[]},
-        {"name":"BBC","key":"news_media/bbc","d":["bbc.com","bbc.co.uk","bbci.co.uk"],"i":[],"a":[],"s":["*.bbc.com","*.bbc.co.uk"]},
-        {"name":"Bloomberg","key":"news_media/bloomberg","d":["bloomberg.com"],"i":[],"a":[],"s":[]},
-        {"name":"CBS News","key":"news_media/cbs_news","d":["cbsnews.com"],"i":[],"a":[],"s":[]},
-        {"name":"CNN","key":"news_media/cnn","d":["cnn.com","cnngo.com","turner.com"],"i":[],"a":[],"s":["*.cnn.com"]},
-        {"name":"MSN","key":"news_media/msn","d":["msn.com"],"i":[],"a":[8075],"s":[]},
-        {"name":"NBC News","key":"news_media/nbc_news","d":["nbcnews.com","nbcuni.com"],"i":[],"a":[],"s":[]},
-        {"name":"NPR","key":"news_media/npr","d":["npr.org"],"i":[],"a":[],"s":[]},
-        {"name":"Politico","key":"news_media/politico","d":["politico.com"],"i":[],"a":[],"s":[]},
-        {"name":"Reuters","key":"news_media/reuters","d":["reuters.com"],"i":[],"a":[],"s":[]},
-        {"name":"The Guardian","key":"news_media/the_guardian","d":["theguardian.com","guardianapis.com"],"i":[],"a":[],"s":[]},
-        {"name":"The New York Times","key":"news_media/the_new_york_times","d":["nytimes.com","nyt.com"],"i":[],"a":[],"s":["*.nytimes.com"]},
-        {"name":"USA Today","key":"news_media/usa_today","d":["usatoday.com"],"i":[],"a":[],"s":[]},
-        {"name":"Washington Post","key":"news_media/washington_post","d":["washingtonpost.com","wapo.st"],"i":[],"a":[],"s":[]}
+        {
+          "name": "ABC News",
+          "key": "news_media/abc_news",
+          "d": [
+            "abcnews.go.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Al Jazeera",
+          "key": "news_media/al_jazeera",
+          "d": [
+            "aljazeera.com",
+            "aljazeera.net"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Associated Press",
+          "key": "news_media/associated_press",
+          "d": [
+            "apnews.com",
+            "ap.org"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "BBC",
+          "key": "news_media/bbc",
+          "d": [
+            "bbc.com",
+            "bbc.co.uk",
+            "bbci.co.uk"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.bbc.com",
+            "*.bbc.co.uk"
+          ]
+        },
+        {
+          "name": "Bloomberg",
+          "key": "news_media/bloomberg",
+          "d": [
+            "bloomberg.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "CBS News",
+          "key": "news_media/cbs_news",
+          "d": [
+            "cbsnews.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "CNN",
+          "key": "news_media/cnn",
+          "d": [
+            "cnn.com",
+            "cnngo.com",
+            "turner.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.cnn.com"
+          ]
+        },
+        {
+          "name": "MSN",
+          "key": "news_media/msn",
+          "d": [
+            "msn.com"
+          ],
+          "i": [],
+          "a": [
+            8075
+          ],
+          "s": []
+        },
+        {
+          "name": "NBC News",
+          "key": "news_media/nbc_news",
+          "d": [
+            "nbcnews.com",
+            "nbcuni.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "NPR",
+          "key": "news_media/npr",
+          "d": [
+            "npr.org"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Politico",
+          "key": "news_media/politico",
+          "d": [
+            "politico.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Reuters",
+          "key": "news_media/reuters",
+          "d": [
+            "reuters.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "The Guardian",
+          "key": "news_media/the_guardian",
+          "d": [
+            "theguardian.com",
+            "guardianapis.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "The New York Times",
+          "key": "news_media/the_new_york_times",
+          "d": [
+            "nytimes.com",
+            "nyt.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.nytimes.com"
+          ]
+        },
+        {
+          "name": "USA Today",
+          "key": "news_media/usa_today",
+          "d": [
+            "usatoday.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Washington Post",
+          "key": "news_media/washington_post",
+          "d": [
+            "washingtonpost.com",
+            "wapo.st"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        }
       ]
     },
     {
       "name": "Occult & Alternative Beliefs",
       "key": "occult_alternative_beliefs",
       "items": [
-        {"name":"Astrology.com","key":"occult_alternative_beliefs/astrology_com","d":["astrology.com"],"i":[],"a":[],"s":[]},
-        {"name":"Gaia.com","key":"occult_alternative_beliefs/gaia_com","d":["gaia.com"],"i":[],"a":[],"s":[]},
-        {"name":"Keen Psychics","key":"occult_alternative_beliefs/keen_psychics","d":["keen.com"],"i":[],"a":[],"s":[]},
-        {"name":"Tarot.com","key":"occult_alternative_beliefs/tarot_com","d":["tarot.com"],"i":[],"a":[],"s":[]}
+        {
+          "name": "Astrology.com",
+          "key": "occult_alternative_beliefs/astrology_com",
+          "d": [
+            "astrology.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Gaia.com",
+          "key": "occult_alternative_beliefs/gaia_com",
+          "d": [
+            "gaia.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Keen Psychics",
+          "key": "occult_alternative_beliefs/keen_psychics",
+          "d": [
+            "keen.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Tarot.com",
+          "key": "occult_alternative_beliefs/tarot_com",
+          "d": [
+            "tarot.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        }
       ]
     },
     {
       "name": "Peer-to-Peer & Torrenting",
       "key": "peer_to_peer_torrenting",
       "items": [
-        {"name":"1337x","key":"peer_to_peer_torrenting/1337x","d":["1337x.to","1337x.st","x1337x.com"],"i":[],"a":[],"s":[]},
-        {"name":"BitTorrent","key":"peer_to_peer_torrenting/bittorrent","d":["bittorrent.com","utorrent.com"],"i":[],"a":[],"s":[]},
-        {"name":"EZTV","key":"peer_to_peer_torrenting/eztv","d":["eztv.re","eztv.tf"],"i":[],"a":[],"s":[]},
-        {"name":"LimeTorrents","key":"peer_to_peer_torrenting/limetorrents","d":["limetorrents.info","limetorrents.cc"],"i":[],"a":[],"s":[]},
-        {"name":"Nyaa","key":"peer_to_peer_torrenting/nyaa","d":["nyaa.si","nyaa.land"],"i":[],"a":[],"s":[]},
-        {"name":"Rutracker","key":"peer_to_peer_torrenting/rutracker","d":["rutracker.org","rutracker.net"],"i":[],"a":[],"s":[]},
-        {"name":"The Pirate Bay","key":"peer_to_peer_torrenting/the_pirate_bay","d":["thepiratebay.org","pirateproxy.live","tpb.party"],"i":[],"a":[],"s":[]},
-        {"name":"YTS / YIFY","key":"peer_to_peer_torrenting/yts_yify","d":["yts.mx","yts.am","yify-torrent.org"],"i":[],"a":[],"s":[]}
+        {
+          "name": "1337x",
+          "key": "peer_to_peer_torrenting/1337x",
+          "d": [
+            "1337x.to",
+            "1337x.st",
+            "x1337x.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "BitTorrent",
+          "key": "peer_to_peer_torrenting/bittorrent",
+          "d": [
+            "bittorrent.com",
+            "utorrent.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "EZTV",
+          "key": "peer_to_peer_torrenting/eztv",
+          "d": [
+            "eztv.re",
+            "eztv.tf"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "LimeTorrents",
+          "key": "peer_to_peer_torrenting/limetorrents",
+          "d": [
+            "limetorrents.info",
+            "limetorrents.cc"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Nyaa",
+          "key": "peer_to_peer_torrenting/nyaa",
+          "d": [
+            "nyaa.si",
+            "nyaa.land"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Rutracker",
+          "key": "peer_to_peer_torrenting/rutracker",
+          "d": [
+            "rutracker.org",
+            "rutracker.net"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "The Pirate Bay",
+          "key": "peer_to_peer_torrenting/the_pirate_bay",
+          "d": [
+            "thepiratebay.org",
+            "pirateproxy.live",
+            "tpb.party"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "YTS / YIFY",
+          "key": "peer_to_peer_torrenting/yts_yify",
+          "d": [
+            "yts.mx",
+            "yts.am",
+            "yify-torrent.org"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        }
       ]
     },
     {
       "name": "Politics & Government",
       "key": "politics_government",
       "items": [
-        {"name":"ACLU","key":"politics_government/aclu","d":["aclu.org"],"i":[],"a":[],"s":[]},
-        {"name":"Democratic Party","key":"politics_government/democratic_party","d":["democrats.org","dnc.org"],"i":[],"a":[],"s":[]},
-        {"name":"Federal Election Commission","key":"politics_government/federal_election_commission","d":["fec.gov"],"i":[],"a":[],"s":[]},
-        {"name":"Green Party","key":"politics_government/green_party","d":["gp.org","greenparty.org"],"i":[],"a":[],"s":[]},
-        {"name":"Heritage Foundation","key":"politics_government/heritage_foundation","d":["heritage.org"],"i":[],"a":[],"s":[]},
-        {"name":"Libertarian Party","key":"politics_government/libertarian_party","d":["lp.org"],"i":[],"a":[],"s":[]},
-        {"name":"MoveOn.org","key":"politics_government/moveon_org","d":["moveon.org"],"i":[],"a":[],"s":[]},
-        {"name":"NAACP","key":"politics_government/naacp","d":["naacp.org"],"i":[],"a":[],"s":[]},
-        {"name":"NRA","key":"politics_government/nra","d":["nra.org","nraila.org"],"i":[],"a":[],"s":[]},
-        {"name":"Planned Parenthood","key":"politics_government/planned_parenthood","d":["plannedparenthood.org"],"i":[],"a":[],"s":[]},
-        {"name":"Republican Party","key":"politics_government/republican_party","d":["gop.com","rnc.org"],"i":[],"a":[],"s":[]},
-        {"name":"Supreme Court of the United States","key":"politics_government/supreme_court_of_the_united_states","d":["supremecourt.gov"],"i":[],"a":[],"s":[]},
-        {"name":"U.S. House of Representatives","key":"politics_government/u_s_house_of_representatives","d":["house.gov"],"i":[],"a":[],"s":[]},
-        {"name":"U.S. Senate","key":"politics_government/u_s_senate","d":["senate.gov"],"i":[],"a":[],"s":[]},
-        {"name":"Veterans Administration","key":"politics_government/veterans_administration","d":["va.gov"],"i":[],"a":[],"s":[]},
-        {"name":"AllSides","key":"politics_government/allsides","d":["allsides.com"],"i":[],"a":[],"s":[]},
-        {"name":"The Drudge Report","key":"politics_government/the_drudge_report","d":["drudgereport.com"],"i":[],"a":[],"s":[]},
-        {"name":"White House","key":"politics_government/white_house","d":["whitehouse.gov"],"i":[],"a":[],"s":[]},
-        {"name":"Anti-Defamation League","key":"politics_government/anti_defamation_league","d":["adl.org"],"i":[],"a":[],"s":[]},
-        {"name":"Breitbart News","key":"politics_government/breitbart_news","d":["breitbart.com"],"i":[],"a":[],"s":[]},
-        {"name":"CAIR","key":"politics_government/cair","d":["cair.com"],"i":[],"a":[],"s":[]},
-        {"name":"CPAC","key":"politics_government/cpac","d":["cpac.org"],"i":[],"a":[],"s":[]},
-        {"name":"Government Accountability Institute","key":"politics_government/government_accountability_institute","d":["g-a-i.org"],"i":[],"a":[],"s":[]},
-        {"name":"Southern Poverty Law Center","key":"politics_government/southern_poverty_law_center","d":["splcenter.org"],"i":[],"a":[],"s":[]},
-        {"name":"Turning Point USA","key":"politics_government/turning_point_usa","d":["tpusa.com","turningpointusa.com"],"i":[],"a":[],"s":[]}
+        {
+          "name": "ACLU",
+          "key": "politics_government/aclu",
+          "d": [
+            "aclu.org"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Democratic Party",
+          "key": "politics_government/democratic_party",
+          "d": [
+            "democrats.org",
+            "dnc.org"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Federal Election Commission",
+          "key": "politics_government/federal_election_commission",
+          "d": [
+            "fec.gov"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Green Party",
+          "key": "politics_government/green_party",
+          "d": [
+            "gp.org",
+            "greenparty.org"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Heritage Foundation",
+          "key": "politics_government/heritage_foundation",
+          "d": [
+            "heritage.org"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Libertarian Party",
+          "key": "politics_government/libertarian_party",
+          "d": [
+            "lp.org"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "MoveOn.org",
+          "key": "politics_government/moveon_org",
+          "d": [
+            "moveon.org"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "NAACP",
+          "key": "politics_government/naacp",
+          "d": [
+            "naacp.org"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "NRA",
+          "key": "politics_government/nra",
+          "d": [
+            "nra.org",
+            "nraila.org"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Planned Parenthood",
+          "key": "politics_government/planned_parenthood",
+          "d": [
+            "plannedparenthood.org"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Republican Party",
+          "key": "politics_government/republican_party",
+          "d": [
+            "gop.com",
+            "rnc.org"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Supreme Court of the United States",
+          "key": "politics_government/supreme_court_of_the_united_states",
+          "d": [
+            "supremecourt.gov"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "U.S. House of Representatives",
+          "key": "politics_government/u_s_house_of_representatives",
+          "d": [
+            "house.gov"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "U.S. Senate",
+          "key": "politics_government/u_s_senate",
+          "d": [
+            "senate.gov"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Veterans Administration",
+          "key": "politics_government/veterans_administration",
+          "d": [
+            "va.gov"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "AllSides",
+          "key": "politics_government/allsides",
+          "d": [
+            "allsides.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "The Drudge Report",
+          "key": "politics_government/the_drudge_report",
+          "d": [
+            "drudgereport.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "White House",
+          "key": "politics_government/white_house",
+          "d": [
+            "whitehouse.gov"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Anti-Defamation League",
+          "key": "politics_government/anti_defamation_league",
+          "d": [
+            "adl.org"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Breitbart News",
+          "key": "politics_government/breitbart_news",
+          "d": [
+            "breitbart.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "CAIR",
+          "key": "politics_government/cair",
+          "d": [
+            "cair.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "CPAC",
+          "key": "politics_government/cpac",
+          "d": [
+            "cpac.org"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Government Accountability Institute",
+          "key": "politics_government/government_accountability_institute",
+          "d": [
+            "g-a-i.org"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Southern Poverty Law Center",
+          "key": "politics_government/southern_poverty_law_center",
+          "d": [
+            "splcenter.org"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Turning Point USA",
+          "key": "politics_government/turning_point_usa",
+          "d": [
+            "tpusa.com",
+            "turningpointusa.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        }
       ]
     },
     {
       "name": "Pseudo-Medicine & Health Fraud",
       "key": "pseudo_medicine_health_fraud",
       "items": [
-        {"name":"Age of Autism","key":"pseudo_medicine_health_fraud/age_of_autism","d":["ageofautism.com"],"i":[],"a":[],"s":[]},
-        {"name":"GreenMedInfo","key":"pseudo_medicine_health_fraud/greenmedinfo","d":["greenmedinfo.com","greenmedinfo.health"],"i":[],"a":[],"s":[]},
-        {"name":"Mercola","key":"pseudo_medicine_health_fraud/mercola","d":["mercola.com","articles.mercola.com"],"i":[],"a":[],"s":[]},
-        {"name":"Natural News Health","key":"pseudo_medicine_health_fraud/natural_news_health","d":["naturalnews.com","naturalnewsblogs.com"],"i":[],"a":[],"s":[]},
-        {"name":"Stop Mandatory Vaccination","key":"pseudo_medicine_health_fraud/stop_mandatory_vaccination","d":["stopmandatoryvaccination.com"],"i":[],"a":[],"s":[]},
-        {"name":"Vaccine Choice Canada","key":"pseudo_medicine_health_fraud/vaccine_choice_canada","d":["vaccinechoicecanada.com"],"i":[],"a":[],"s":[]}
+        {
+          "name": "Age of Autism",
+          "key": "pseudo_medicine_health_fraud/age_of_autism",
+          "d": [
+            "ageofautism.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "GreenMedInfo",
+          "key": "pseudo_medicine_health_fraud/greenmedinfo",
+          "d": [
+            "greenmedinfo.com",
+            "greenmedinfo.health"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Mercola",
+          "key": "pseudo_medicine_health_fraud/mercola",
+          "d": [
+            "mercola.com",
+            "articles.mercola.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Natural News Health",
+          "key": "pseudo_medicine_health_fraud/natural_news_health",
+          "d": [
+            "naturalnews.com",
+            "naturalnewsblogs.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Stop Mandatory Vaccination",
+          "key": "pseudo_medicine_health_fraud/stop_mandatory_vaccination",
+          "d": [
+            "stopmandatoryvaccination.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Vaccine Choice Canada",
+          "key": "pseudo_medicine_health_fraud/vaccine_choice_canada",
+          "d": [
+            "vaccinechoicecanada.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        }
       ]
     },
     {
       "name": "Scams & Predatory Services",
       "key": "scams_predatory_services",
       "items": [
-        {"name":"Ace Cash Express","key":"scams_predatory_services/ace_cash_express","d":["acecashexpress.com"],"i":[],"a":[],"s":[]},
-        {"name":"Advance America","key":"scams_predatory_services/advance_america","d":["advanceamerica.net"],"i":[],"a":[],"s":[]},
-        {"name":"CashNetUSA","key":"scams_predatory_services/cashnetusa","d":["cashnetusa.com"],"i":[],"a":[],"s":[]},
-        {"name":"Speedy Cash","key":"scams_predatory_services/speedy_cash","d":["speedycash.com"],"i":[],"a":[],"s":[]}
+        {
+          "name": "Ace Cash Express",
+          "key": "scams_predatory_services/ace_cash_express",
+          "d": [
+            "acecashexpress.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Advance America",
+          "key": "scams_predatory_services/advance_america",
+          "d": [
+            "advanceamerica.net"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "CashNetUSA",
+          "key": "scams_predatory_services/cashnetusa",
+          "d": [
+            "cashnetusa.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Speedy Cash",
+          "key": "scams_predatory_services/speedy_cash",
+          "d": [
+            "speedycash.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        }
       ]
     },
     {
       "name": "Search Engines",
       "key": "search_engines",
       "items": [
-        {"name":"Ask.com","key":"search_engines/ask_com","d":["ask.com"],"i":[],"a":[],"s":[]},
-        {"name":"Baidu","key":"search_engines/baidu","d":["baidu.com","baidu.com.cn"],"i":[],"a":[],"s":["*.baidu.com"]},
-        {"name":"Bing","key":"search_engines/bing","d":["bing.com"],"i":[],"a":[8075],"s":[]},
-        {"name":"Brave Search","key":"search_engines/brave_search","d":["search.brave.com"],"i":[],"a":[],"s":[]},
-        {"name":"DuckDuckGo","key":"search_engines/duckduckgo","d":["duckduckgo.com","duckduckgo.com"],"i":[],"a":[],"s":[]},
-        {"name":"Ecosia","key":"search_engines/ecosia","d":["ecosia.org"],"i":[],"a":[],"s":[]},
-        {"name":"Google Search","key":"search_engines/google_search","d":["google.com","googleapis.com","gstatic.com"],"i":[],"a":[15169],"s":["*.google.com"]},
-        {"name":"Kagi","key":"search_engines/kagi","d":["kagi.com"],"i":[],"a":[],"s":[]},
-        {"name":"Qwant","key":"search_engines/qwant","d":["qwant.com"],"i":[],"a":[],"s":[]},
-        {"name":"Startpage","key":"search_engines/startpage","d":["startpage.com"],"i":[],"a":[],"s":[]},
-        {"name":"Yahoo Search","key":"search_engines/yahoo_search","d":["yahoo.com","yimg.com","yahooapis.com"],"i":[],"a":[],"s":["*.yahoo.com"]},
-        {"name":"Yandex","key":"search_engines/yandex","d":["yandex.com","yandex.ru","ya.ru"],"i":[],"a":[],"s":["*.yandex.com","*.yandex.ru"]}
+        {
+          "name": "Ask.com",
+          "key": "search_engines/ask_com",
+          "d": [
+            "ask.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Baidu",
+          "key": "search_engines/baidu",
+          "d": [
+            "baidu.com",
+            "baidu.com.cn"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.baidu.com"
+          ]
+        },
+        {
+          "name": "Bing",
+          "key": "search_engines/bing",
+          "d": [
+            "bing.com"
+          ],
+          "i": [],
+          "a": [
+            8075
+          ],
+          "s": []
+        },
+        {
+          "name": "Brave Search",
+          "key": "search_engines/brave_search",
+          "d": [
+            "search.brave.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "DuckDuckGo",
+          "key": "search_engines/duckduckgo",
+          "d": [
+            "duckduckgo.com",
+            "duckduckgo.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Ecosia",
+          "key": "search_engines/ecosia",
+          "d": [
+            "ecosia.org"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Google Search",
+          "key": "search_engines/google_search",
+          "d": [
+            "google.com",
+            "googleapis.com",
+            "gstatic.com"
+          ],
+          "i": [],
+          "a": [
+            15169
+          ],
+          "s": [
+            "*.google.com"
+          ]
+        },
+        {
+          "name": "Kagi",
+          "key": "search_engines/kagi",
+          "d": [
+            "kagi.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Qwant",
+          "key": "search_engines/qwant",
+          "d": [
+            "qwant.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Startpage",
+          "key": "search_engines/startpage",
+          "d": [
+            "startpage.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Yahoo Search",
+          "key": "search_engines/yahoo_search",
+          "d": [
+            "yahoo.com",
+            "yimg.com",
+            "yahooapis.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.yahoo.com"
+          ]
+        },
+        {
+          "name": "Yandex",
+          "key": "search_engines/yandex",
+          "d": [
+            "yandex.com",
+            "yandex.ru",
+            "ya.ru"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.yandex.com",
+            "*.yandex.ru"
+          ]
+        }
       ]
     },
     {
       "name": "Shopping Aggregators",
       "key": "shopping_aggregators",
       "items": [
-        {"name":"Brad's Deals","key":"shopping_aggregators/brad_s_deals","d":["bradsdeals.com"],"i":[],"a":[],"s":[]},
-        {"name":"CamelCamelCamel","key":"shopping_aggregators/camelcamelcamel","d":["camelcamelcamel.com"],"i":[],"a":[],"s":[]},
-        {"name":"Coupons.com","key":"shopping_aggregators/coupons_com","d":["coupons.com"],"i":[],"a":[],"s":[]},
-        {"name":"Dealnews","key":"shopping_aggregators/dealnews","d":["dealnews.com"],"i":[],"a":[],"s":[]},
-        {"name":"Honey","key":"shopping_aggregators/honey","d":["joinhoney.com","honey.com"],"i":[],"a":[],"s":[]},
-        {"name":"Rakuten","key":"shopping_aggregators/rakuten","d":["rakuten.com","ebates.com"],"i":[],"a":[],"s":[]},
-        {"name":"RetailMeNot","key":"shopping_aggregators/retailmenot","d":["retailmenot.com"],"i":[],"a":[],"s":[]},
-        {"name":"Slickdeals","key":"shopping_aggregators/slickdeals","d":["slickdeals.net"],"i":[],"a":[],"s":[]},
-        {"name":"Swagbucks","key":"shopping_aggregators/swagbucks","d":["swagbucks.com"],"i":[],"a":[],"s":[]}
+        {
+          "name": "Brad's Deals",
+          "key": "shopping_aggregators/brad_s_deals",
+          "d": [
+            "bradsdeals.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "CamelCamelCamel",
+          "key": "shopping_aggregators/camelcamelcamel",
+          "d": [
+            "camelcamelcamel.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Coupons.com",
+          "key": "shopping_aggregators/coupons_com",
+          "d": [
+            "coupons.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Dealnews",
+          "key": "shopping_aggregators/dealnews",
+          "d": [
+            "dealnews.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Honey",
+          "key": "shopping_aggregators/honey",
+          "d": [
+            "joinhoney.com",
+            "honey.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Rakuten",
+          "key": "shopping_aggregators/rakuten",
+          "d": [
+            "rakuten.com",
+            "ebates.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "RetailMeNot",
+          "key": "shopping_aggregators/retailmenot",
+          "d": [
+            "retailmenot.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Slickdeals",
+          "key": "shopping_aggregators/slickdeals",
+          "d": [
+            "slickdeals.net"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Swagbucks",
+          "key": "shopping_aggregators/swagbucks",
+          "d": [
+            "swagbucks.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        }
       ]
     },
     {
       "name": "Sports & Betting",
       "key": "sports_betting",
       "items": [
-        {"name":"Barstool Sports","key":"sports_betting/barstool_sports","d":["barstoolsports.com"],"i":[],"a":[],"s":[]},
-        {"name":"Bleacher Report","key":"sports_betting/bleacher_report","d":["bleacherreport.com","br.com"],"i":[],"a":[],"s":[]},
-        {"name":"CBS Sports","key":"sports_betting/cbs_sports","d":["cbssports.com"],"i":[],"a":[],"s":[]},
-        {"name":"DraftKings Sportsbook","key":"sports_betting/draftkings_sportsbook","d":["draftkings.com"],"i":[],"a":[],"s":[]},
-        {"name":"ESPN","key":"sports_betting/espn","d":["espn.com","espncdn.com","espnplus.com"],"i":[],"a":[],"s":["*.espn.com"]},
-        {"name":"FanDuel Sportsbook","key":"sports_betting/fanduel_sportsbook","d":["fanduel.com"],"i":[],"a":[],"s":[]},
-        {"name":"Fox Sports","key":"sports_betting/fox_sports","d":["foxsports.com"],"i":[],"a":[],"s":[]},
-        {"name":"MLB.com","key":"sports_betting/mlb_com","d":["mlb.com","mlbstatic.com"],"i":[],"a":[],"s":[]},
-        {"name":"NBA.com","key":"sports_betting/nba_com","d":["nba.com","nbastatic.com"],"i":[],"a":[],"s":[]},
-        {"name":"NCAA.com","key":"sports_betting/ncaa_com","d":["ncaa.com"],"i":[],"a":[],"s":[]},
-        {"name":"NFL.com","key":"sports_betting/nfl_com","d":["nfl.com","nflcdn.com"],"i":[],"a":[],"s":[]},
-        {"name":"NHL.com","key":"sports_betting/nhl_com","d":["nhl.com"],"i":[],"a":[],"s":[]},
-        {"name":"The Athletic","key":"sports_betting/the_athletic","d":["theathletic.com"],"i":[],"a":[],"s":[]},
-        {"name":"UFC","key":"sports_betting/ufc","d":["ufc.com","ufcfightpass.com"],"i":[],"a":[],"s":[]},
-        {"name":"Yahoo Sports","key":"sports_betting/yahoo_sports","d":["sports.yahoo.com","yahoo.com"],"i":[],"a":[],"s":[]}
+        {
+          "name": "Barstool Sports",
+          "key": "sports_betting/barstool_sports",
+          "d": [
+            "barstoolsports.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Bleacher Report",
+          "key": "sports_betting/bleacher_report",
+          "d": [
+            "bleacherreport.com",
+            "br.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "CBS Sports",
+          "key": "sports_betting/cbs_sports",
+          "d": [
+            "cbssports.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "DraftKings Sportsbook",
+          "key": "sports_betting/draftkings_sportsbook",
+          "d": [
+            "draftkings.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "ESPN",
+          "key": "sports_betting/espn",
+          "d": [
+            "espn.com",
+            "espncdn.com",
+            "espnplus.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.espn.com"
+          ]
+        },
+        {
+          "name": "FanDuel Sportsbook",
+          "key": "sports_betting/fanduel_sportsbook",
+          "d": [
+            "fanduel.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Fox Sports",
+          "key": "sports_betting/fox_sports",
+          "d": [
+            "foxsports.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "MLB.com",
+          "key": "sports_betting/mlb_com",
+          "d": [
+            "mlb.com",
+            "mlbstatic.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "NBA.com",
+          "key": "sports_betting/nba_com",
+          "d": [
+            "nba.com",
+            "nbastatic.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "NCAA.com",
+          "key": "sports_betting/ncaa_com",
+          "d": [
+            "ncaa.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "NFL.com",
+          "key": "sports_betting/nfl_com",
+          "d": [
+            "nfl.com",
+            "nflcdn.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "NHL.com",
+          "key": "sports_betting/nhl_com",
+          "d": [
+            "nhl.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "The Athletic",
+          "key": "sports_betting/the_athletic",
+          "d": [
+            "theathletic.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "UFC",
+          "key": "sports_betting/ufc",
+          "d": [
+            "ufc.com",
+            "ufcfightpass.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Yahoo Sports",
+          "key": "sports_betting/yahoo_sports",
+          "d": [
+            "sports.yahoo.com",
+            "yahoo.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        }
       ]
     },
     {
       "name": "Streaming Music",
       "key": "streaming_music",
       "items": [
-        {"name":"Amazon Music","key":"streaming_music/amazon_music","d":["music.amazon.com","amazonmusic.com"],"i":[],"a":[],"s":[]},
-        {"name":"Apple Music","key":"streaming_music/apple_music","d":["music.apple.com","itunes.apple.com"],"i":[],"a":[],"s":[]},
-        {"name":"Audiomack","key":"streaming_music/audiomack","d":["audiomack.com"],"i":[],"a":[],"s":[]},
-        {"name":"Bandcamp","key":"streaming_music/bandcamp","d":["bandcamp.com"],"i":[],"a":[],"s":[]},
-        {"name":"Deezer","key":"streaming_music/deezer","d":["deezer.com","dzcdn.net"],"i":[],"a":[],"s":[]},
-        {"name":"iHeart Radio","key":"streaming_music/iheart_radio","d":["iheart.com","iheartradio.com"],"i":[],"a":[],"s":[]},
-        {"name":"Last.fm","key":"streaming_music/last_fm","d":["last.fm","lastfm.freetls.fastly.net"],"i":[],"a":[],"s":[]},
-        {"name":"Pandora","key":"streaming_music/pandora","d":["pandora.com"],"i":[],"a":[],"s":[]},
-        {"name":"SoundCloud","key":"streaming_music/soundcloud","d":["soundcloud.com","sndcdn.com"],"i":[],"a":[],"s":["*.soundcloud.com"]},
-        {"name":"Spotify","key":"streaming_music/spotify","d":["spotify.com","scdn.co","spotifycdn.com"],"i":[],"a":[],"s":["*.spotify.com","*.scdn.co"]},
-        {"name":"Tidal","key":"streaming_music/tidal","d":["tidal.com"],"i":[],"a":[],"s":[]},
-        {"name":"YouTube Music","key":"streaming_music/youtube_music","d":["music.youtube.com"],"i":[],"a":[15169],"s":[]}
+        {
+          "name": "Amazon Music",
+          "key": "streaming_music/amazon_music",
+          "d": [
+            "music.amazon.com",
+            "amazonmusic.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Apple Music",
+          "key": "streaming_music/apple_music",
+          "d": [
+            "music.apple.com",
+            "itunes.apple.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Audiomack",
+          "key": "streaming_music/audiomack",
+          "d": [
+            "audiomack.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Bandcamp",
+          "key": "streaming_music/bandcamp",
+          "d": [
+            "bandcamp.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Deezer",
+          "key": "streaming_music/deezer",
+          "d": [
+            "deezer.com",
+            "dzcdn.net"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "iHeart Radio",
+          "key": "streaming_music/iheart_radio",
+          "d": [
+            "iheart.com",
+            "iheartradio.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Last.fm",
+          "key": "streaming_music/last_fm",
+          "d": [
+            "last.fm",
+            "lastfm.freetls.fastly.net"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Pandora",
+          "key": "streaming_music/pandora",
+          "d": [
+            "pandora.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "SoundCloud",
+          "key": "streaming_music/soundcloud",
+          "d": [
+            "soundcloud.com",
+            "sndcdn.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.soundcloud.com"
+          ]
+        },
+        {
+          "name": "Spotify",
+          "key": "streaming_music/spotify",
+          "d": [
+            "spotify.com",
+            "scdn.co",
+            "spotifycdn.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.spotify.com",
+            "*.scdn.co"
+          ]
+        },
+        {
+          "name": "Tidal",
+          "key": "streaming_music/tidal",
+          "d": [
+            "tidal.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "YouTube Music",
+          "key": "streaming_music/youtube_music",
+          "d": [
+            "music.youtube.com"
+          ],
+          "i": [],
+          "a": [
+            15169
+          ],
+          "s": []
+        }
       ]
     },
     {
       "name": "Tracking & Stalkerware",
       "key": "tracking_stalkerware",
       "items": [
-        {"name":"BeenVerified","key":"tracking_stalkerware/beenverified","d":["beenverified.com"],"i":[],"a":[],"s":[]},
-        {"name":"Cocospy","key":"tracking_stalkerware/cocospy","d":["cocospy.com"],"i":[],"a":[],"s":[]},
-        {"name":"FlexiSpy","key":"tracking_stalkerware/flexispy","d":["flexispy.com"],"i":[],"a":[],"s":[]},
-        {"name":"Hoverwatch","key":"tracking_stalkerware/hoverwatch","d":["hoverwatch.com"],"i":[],"a":[],"s":[]},
-        {"name":"Intelius","key":"tracking_stalkerware/intelius","d":["intelius.com"],"i":[],"a":[],"s":[]},
-        {"name":"mSpy","key":"tracking_stalkerware/mspy","d":["mspy.com"],"i":[],"a":[],"s":[]},
-        {"name":"Spokeo","key":"tracking_stalkerware/spokeo","d":["spokeo.com"],"i":[],"a":[],"s":[]},
-        {"name":"Spyic","key":"tracking_stalkerware/spyic","d":["spyic.com"],"i":[],"a":[],"s":[]},
-        {"name":"Truthfinder","key":"tracking_stalkerware/truthfinder","d":["truthfinder.com"],"i":[],"a":[],"s":[]},
-        {"name":"Whitepages","key":"tracking_stalkerware/whitepages","d":["whitepages.com"],"i":[],"a":[],"s":[]}
+        {
+          "name": "BeenVerified",
+          "key": "tracking_stalkerware/beenverified",
+          "d": [
+            "beenverified.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Cocospy",
+          "key": "tracking_stalkerware/cocospy",
+          "d": [
+            "cocospy.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "FlexiSpy",
+          "key": "tracking_stalkerware/flexispy",
+          "d": [
+            "flexispy.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Hoverwatch",
+          "key": "tracking_stalkerware/hoverwatch",
+          "d": [
+            "hoverwatch.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Intelius",
+          "key": "tracking_stalkerware/intelius",
+          "d": [
+            "intelius.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "mSpy",
+          "key": "tracking_stalkerware/mspy",
+          "d": [
+            "mspy.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Spokeo",
+          "key": "tracking_stalkerware/spokeo",
+          "d": [
+            "spokeo.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Spyic",
+          "key": "tracking_stalkerware/spyic",
+          "d": [
+            "spyic.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Truthfinder",
+          "key": "tracking_stalkerware/truthfinder",
+          "d": [
+            "truthfinder.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Whitepages",
+          "key": "tracking_stalkerware/whitepages",
+          "d": [
+            "whitepages.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        }
       ]
     },
     {
       "name": "VPN & Privacy Tools",
       "key": "vpn_privacy_tools",
       "items": [
-        {"name":"CyberGhost","key":"vpn_privacy_tools/cyberghost","d":["cyberghost.com","cyberghostvpn.com"],"i":[],"a":[],"s":[]},
-        {"name":"ExpressVPN","key":"vpn_privacy_tools/expressvpn","d":["expressvpn.com","xvtechus.net"],"i":[],"a":[],"s":[]},
-        {"name":"Hide.me","key":"vpn_privacy_tools/hide_me","d":["hide.me"],"i":[],"a":[],"s":[]},
-        {"name":"Hotspot Shield","key":"vpn_privacy_tools/hotspot_shield","d":["hotspotshield.com"],"i":[],"a":[],"s":[]},
-        {"name":"IPVanish","key":"vpn_privacy_tools/ipvanish","d":["ipvanish.com"],"i":[],"a":[],"s":[]},
-        {"name":"Mullvad","key":"vpn_privacy_tools/mullvad","d":["mullvad.net"],"i":[],"a":[],"s":[]},
-        {"name":"NordVPN","key":"vpn_privacy_tools/nordvpn","d":["nordvpn.com","nordvpnteams.com"],"i":[],"a":[],"s":["*.nordvpn.com"]},
-        {"name":"Private Internet Access","key":"vpn_privacy_tools/private_internet_access","d":["privateinternetaccess.com","piaproxy.com"],"i":[],"a":[],"s":[]},
-        {"name":"ProtonVPN","key":"vpn_privacy_tools/protonvpn","d":["protonvpn.com","proton.me"],"i":[],"a":[],"s":[]},
-        {"name":"Surfshark","key":"vpn_privacy_tools/surfshark","d":["surfshark.com"],"i":[],"a":[],"s":[]},
-        {"name":"Tor Project","key":"vpn_privacy_tools/tor_project","d":["torproject.org","torcheck.onion.ly"],"i":[],"a":[],"s":[]},
-        {"name":"TunnelBear","key":"vpn_privacy_tools/tunnelbear","d":["tunnelbear.com"],"i":[],"a":[],"s":[]},
-        {"name":"Windscribe","key":"vpn_privacy_tools/windscribe","d":["windscribe.com"],"i":[],"a":[],"s":[]}
+        {
+          "name": "CyberGhost",
+          "key": "vpn_privacy_tools/cyberghost",
+          "d": [
+            "cyberghost.com",
+            "cyberghostvpn.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "ExpressVPN",
+          "key": "vpn_privacy_tools/expressvpn",
+          "d": [
+            "expressvpn.com",
+            "xvtechus.net"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Hide.me",
+          "key": "vpn_privacy_tools/hide_me",
+          "d": [
+            "hide.me"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Hotspot Shield",
+          "key": "vpn_privacy_tools/hotspot_shield",
+          "d": [
+            "hotspotshield.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "IPVanish",
+          "key": "vpn_privacy_tools/ipvanish",
+          "d": [
+            "ipvanish.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Mullvad",
+          "key": "vpn_privacy_tools/mullvad",
+          "d": [
+            "mullvad.net"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "NordVPN",
+          "key": "vpn_privacy_tools/nordvpn",
+          "d": [
+            "nordvpn.com",
+            "nordvpnteams.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.nordvpn.com"
+          ]
+        },
+        {
+          "name": "Private Internet Access",
+          "key": "vpn_privacy_tools/private_internet_access",
+          "d": [
+            "privateinternetaccess.com",
+            "piaproxy.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "ProtonVPN",
+          "key": "vpn_privacy_tools/protonvpn",
+          "d": [
+            "protonvpn.com",
+            "proton.me"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Surfshark",
+          "key": "vpn_privacy_tools/surfshark",
+          "d": [
+            "surfshark.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Tor Project",
+          "key": "vpn_privacy_tools/tor_project",
+          "d": [
+            "torproject.org",
+            "torcheck.onion.ly"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "TunnelBear",
+          "key": "vpn_privacy_tools/tunnelbear",
+          "d": [
+            "tunnelbear.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Windscribe",
+          "key": "vpn_privacy_tools/windscribe",
+          "d": [
+            "windscribe.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        }
+      ]
+    },
+    {
+      "name": "Security",
+      "items": [
+        {
+          "name": "Malware & Ransomware",
+          "key": "security/malware_ransomware",
+          "d": [
+            "emotet.com",
+            "trickbot.net",
+            "ryuk-ransomware.com",
+            "malware-traffic-analysis.net",
+            "bazarloader.com",
+            "qakbot.net",
+            "dridex.net",
+            "lokibot.net",
+            "nanocore.net",
+            "njrat.net",
+            "asyncrat.com",
+            "redlinestealer.com",
+            "raccoonstealer.com",
+            "vidar-stealer.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Phishing & Credential Theft",
+          "key": "security/phishing_credential_theft",
+          "d": [
+            "paypa1.com",
+            "appleid-verify.net",
+            "microsoft-verify.net",
+            "amazon-security-alert.com",
+            "netflix-billing-update.com",
+            "google-account-verify.com",
+            "icloud-locked.net",
+            "secure-bankofamerica.net",
+            "wellsfargo-alert.com",
+            "chase-secure-login.com",
+            "usps-delivery-alert.com",
+            "irs-tax-refund.net",
+            "covid-relief-payment.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Command & Control (C2)",
+          "key": "security/command_control",
+          "d": [
+            "cobalt-strike.net",
+            "metasploit-c2.com",
+            "cobaltstrike-teamserver.com",
+            "havoc-c2.net",
+            "sliver-c2.com",
+            "brute-ratel.net"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        }
+      ]
+    },
+    {
+      "name": "Big Business",
+      "items": [
+        {
+          "name": "Coca-Cola Corp",
+          "key": "big_business/coca_cola_corp",
+          "d": [
+            "coca-cola.com",
+            "thecoca-colacompany.com",
+            "coke.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": [
+            "*.coca-cola.com",
+            "*.coke.com"
+          ]
+        }
       ]
     }
   ]
