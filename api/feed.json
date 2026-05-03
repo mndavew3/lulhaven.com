@@ -733,19 +733,6 @@
           "s": []
         },
         {
-          "name": "Constellation Brands",
-          "key": "alcohol_tobacco/constellation_brands",
-          "d": [
-            "cbrands.com",
-            "coronausa.com",
-            "modelousa.com",
-            "pacificousa.com"
-          ],
-          "i": [],
-          "a": [],
-          "s": []
-        },
-        {
           "name": "Deschutes Brewery",
           "key": "alcohol_tobacco/deschutes_brewery",
           "d": [
@@ -946,21 +933,6 @@
           "s": []
         },
         {
-          "name": "Molson Coors Beverage Company",
-          "key": "alcohol_tobacco/molson_coors_beverage_company",
-          "d": [
-            "molsoncoors.com",
-            "coorslight.com",
-            "millerlite.com",
-            "bluemoon.com",
-            "leinenkugels.com",
-            "coors.com"
-          ],
-          "i": [],
-          "a": [],
-          "s": []
-        },
-        {
           "name": "Mo\u00ebt Hennessy (LVMH)",
           "key": "alcohol_tobacco/moet_hennessy_lvmh",
           "d": [
@@ -991,18 +963,6 @@
           "d": [
             "newbelgium.com",
             "fattire.com"
-          ],
-          "i": [],
-          "a": [],
-          "s": []
-        },
-        {
-          "name": "Pabst Brewing Company",
-          "key": "alcohol_tobacco/pabst_brewing_company",
-          "d": [
-            "pabstbrewingco.com",
-            "pabstblueribbon.com",
-            "oldmilwaukee.com"
           ],
           "i": [],
           "a": [],
