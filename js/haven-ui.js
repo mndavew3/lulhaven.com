@@ -31,6 +31,7 @@ hdBuildNameGroups();
 
 var hdSettings = {};
 var hdCurrentCat = 0;
+for (var _hdi = 0; _hdi < hdDataset.length; _hdi++) { if (hdDataset[_hdi][0] === 'Social Media') { hdCurrentCat = _hdi; break; } }
 var hdIsFilteredView = false;
 var hdIsAZView = false;
 var hdSuperOpen = {};

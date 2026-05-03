@@ -588,6 +588,18 @@
       "key": "alcohol_tobacco",
       "items": [
         {
+          "name": "Altria Group",
+          "key": "alcohol_tobacco/altria_group",
+          "d": [
+            "altria.com",
+            "pm.com",
+            "on-nicotine.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
           "name": "Anheuser-Busch (Budweiser)",
           "key": "alcohol_tobacco/anheuser_busch_budweiser",
           "d": [
@@ -600,10 +612,73 @@
           "s": []
         },
         {
+          "name": "Asahi Group Holdings",
+          "key": "alcohol_tobacco/asahi_group_holdings",
+          "d": [
+            "asahibeer.com",
+            "asahiusa.com",
+            "asahigroup-holdings.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
           "name": "Bacardi",
           "key": "alcohol_tobacco/bacardi",
           "d": [
             "bacardi.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Beam Suntory",
+          "key": "alcohol_tobacco/beam_suntory",
+          "d": [
+            "beamsuntory.com",
+            "jimbeam.com",
+            "makersmark.com",
+            "knobcreek.com",
+            "laphroaig.com",
+            "couvoisier.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "BevMo",
+          "key": "alcohol_tobacco/bevmo",
+          "d": [
+            "bevmo.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Boston Beer Company (Samuel Adams)",
+          "key": "alcohol_tobacco/boston_beer_company_samuel_adams",
+          "d": [
+            "bostonbeer.com",
+            "samueladams.com",
+            "trulyhardseltzer.com",
+            "twistedtea.com",
+            "angryorchard.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "British American Tobacco",
+          "key": "alcohol_tobacco/british_american_tobacco",
+          "d": [
+            "bat.com",
+            "velo-nicotine.com",
+            "grizzlydip.com"
           ],
           "i": [],
           "a": [],
@@ -621,12 +696,90 @@
           "s": []
         },
         {
-          "name": "Coors / MillerCoors",
-          "key": "alcohol_tobacco/coors_millercoors",
+          "name": "Campari Group",
+          "key": "alcohol_tobacco/campari_group",
           "d": [
-            "coors.com",
-            "millercoors.com",
-            "molsoncoorsbeveragecompany.com"
+            "camparigroup.com",
+            "aperol.com",
+            "wildturkey.com",
+            "grandmarnier.com",
+            "campari.com",
+            "espolon.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Carlsberg Group",
+          "key": "alcohol_tobacco/carlsberg_group",
+          "d": [
+            "carlsberg.com",
+            "carlsberggroup.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Concha y Toro",
+          "key": "alcohol_tobacco/concha_y_toro",
+          "d": [
+            "conchaytoro.com",
+            "casillerodeidiablo.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Constellation Brands",
+          "key": "alcohol_tobacco/constellation_brands",
+          "d": [
+            "cbrands.com",
+            "coronausa.com",
+            "modelousa.com",
+            "pacificousa.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Deschutes Brewery",
+          "key": "alcohol_tobacco/deschutes_brewery",
+          "d": [
+            "deschutesbrewery.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Diageo",
+          "key": "alcohol_tobacco/diageo",
+          "d": [
+            "diageo.com",
+            "johnniewalker.com",
+            "smirnoff.com",
+            "captainmorgan.com",
+            "tanqueray.com",
+            "baileys.com",
+            "guinness.com",
+            "bulleit.com",
+            "donjulio.com",
+            "casamigos.com",
+            "ketelone.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Dogfish Head Brewery",
+          "key": "alcohol_tobacco/dogfish_head_brewery",
+          "d": [
+            "dogfish.com"
           ],
           "i": [],
           "a": [],
@@ -643,10 +796,273 @@
           "s": []
         },
         {
+          "name": "Duvel Moortgat",
+          "key": "alcohol_tobacco/duvel_moortgat",
+          "d": [
+            "duvel.com",
+            "boulevardbeer.com",
+            "firestonebeer.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "E&J Gallo Winery",
+          "key": "alcohol_tobacco/e_j_gallo_winery",
+          "d": [
+            "gallo.com",
+            "barefootwine.com",
+            "apothicwines.com",
+            "darkhorsewineco.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Edrington Group",
+          "key": "alcohol_tobacco/edrington_group",
+          "d": [
+            "edrington.com",
+            "themacallan.com",
+            "thefamousgrouse.com",
+            "highlandpark.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Flaviar",
+          "key": "alcohol_tobacco/flaviar",
+          "d": [
+            "flaviar.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Founders Brewing",
+          "key": "alcohol_tobacco/founders_brewing",
+          "d": [
+            "foundersbrewing.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Heaven Hill Distilleries",
+          "key": "alcohol_tobacco/heaven_hill_distilleries",
+          "d": [
+            "heavenhill.com",
+            "evanwilliams.com",
+            "elijahcraig.com",
+            "deepeddyvodka.com",
+            "rittenhouse-rye.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Imperial Brands",
+          "key": "alcohol_tobacco/imperial_brands",
+          "d": [
+            "imperialbrandsplc.com",
+            "blu.com",
+            "davidoff.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Jackson Family Wines",
+          "key": "alcohol_tobacco/jackson_family_wines",
+          "d": [
+            "jacksonfamilywines.com",
+            "kendall-jackson.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Japan Tobacco International",
+          "key": "alcohol_tobacco/japan_tobacco_international",
+          "d": [
+            "jti.com",
+            "winston.com",
+            "camel.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
           "name": "Juul",
           "key": "alcohol_tobacco/juul",
           "d": [
             "juul.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Kirin Holdings",
+          "key": "alcohol_tobacco/kirin_holdings",
+          "d": [
+            "kirinholdings.com",
+            "kirinusa.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Mark Anthony Brands (White Claw)",
+          "key": "alcohol_tobacco/mark_anthony_brands_white_claw",
+          "d": [
+            "markanthonybrands.com",
+            "whiteclaw.com",
+            "mikesharder.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Minibar Delivery",
+          "key": "alcohol_tobacco/minibar_delivery",
+          "d": [
+            "minibardelivery.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Molson Coors Beverage Company",
+          "key": "alcohol_tobacco/molson_coors_beverage_company",
+          "d": [
+            "molsoncoors.com",
+            "coorslight.com",
+            "millerlite.com",
+            "bluemoon.com",
+            "leinenkugels.com",
+            "coors.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Mo\u00ebt Hennessy (LVMH)",
+          "key": "alcohol_tobacco/moet_hennessy_lvmh",
+          "d": [
+            "moethennessy.com",
+            "hennessy.com",
+            "moet.com",
+            "domperignon.com",
+            "veuveclicquot.com",
+            "krug.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "NJOY",
+          "key": "alcohol_tobacco/njoy",
+          "d": [
+            "njoy.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "New Belgium Brewing (Fat Tire)",
+          "key": "alcohol_tobacco/new_belgium_brewing_fat_tire",
+          "d": [
+            "newbelgium.com",
+            "fattire.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Pabst Brewing Company",
+          "key": "alcohol_tobacco/pabst_brewing_company",
+          "d": [
+            "pabstbrewingco.com",
+            "pabstblueribbon.com",
+            "oldmilwaukee.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Patr\u00f3n Spirits",
+          "key": "alcohol_tobacco/patron_spirits",
+          "d": [
+            "patrontequila.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Pernod Ricard",
+          "key": "alcohol_tobacco/pernod_ricard",
+          "d": [
+            "pernod-ricard.com",
+            "absolutvodka.com",
+            "jamesonwhiskey.com",
+            "chivas.com",
+            "beefeatergin.com",
+            "malibu-drinks.com",
+            "kahlua.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Philip Morris International",
+          "key": "alcohol_tobacco/philip_morris_international",
+          "d": [
+            "pmi.com",
+            "marlboro.com",
+            "iqos.com",
+            "lm-cigarettes.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "RELX Technology",
+          "key": "alcohol_tobacco/relx_technology",
+          "d": [
+            "relxtech.com",
+            "relx.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "ReserveBar",
+          "key": "alcohol_tobacco/reservebar",
+          "d": [
+            "reservebar.com"
           ],
           "i": [],
           "a": [],
@@ -665,10 +1081,138 @@
           "s": []
         },
         {
+          "name": "R\u00e9my Cointreau",
+          "key": "alcohol_tobacco/remy_cointreau",
+          "d": [
+            "remy-cointreau.com",
+            "remymartin.com",
+            "cointreau.com",
+            "bruichladdich.com",
+            "mountgayrum.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Sapporo Holdings",
+          "key": "alcohol_tobacco/sapporo_holdings",
+          "d": [
+            "sapporobeer.com",
+            "sapporo-usa.com",
+            "sapporoholdings.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Sazerac Company",
+          "key": "alcohol_tobacco/sazerac_company",
+          "d": [
+            "sazerac.com",
+            "buffalotracedistillery.com",
+            "fireballwhisky.com",
+            "southerncomfort.com",
+            "99schnapps.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Sierra Nevada Brewing",
+          "key": "alcohol_tobacco/sierra_nevada_brewing",
+          "d": [
+            "sierranevada.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Stone Brewing",
+          "key": "alcohol_tobacco/stone_brewing",
+          "d": [
+            "stonebrewing.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Swedish Match (ZYN)",
+          "key": "alcohol_tobacco/swedish_match_zyn",
+          "d": [
+            "swedishmatch.com",
+            "zyn.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Swisher International",
+          "key": "alcohol_tobacco/swisher_international",
+          "d": [
+            "swisher.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "The Wine Group (Franzia)",
+          "key": "alcohol_tobacco/the_wine_group_franzia",
+          "d": [
+            "thewinegroup.com",
+            "franziawines.com",
+            "cupcakewinery.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Tito's Handmade Vodka",
+          "key": "alcohol_tobacco/tito_s_handmade_vodka",
+          "d": [
+            "titosvodka.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
           "name": "Total Wine & More",
           "key": "alcohol_tobacco/total_wine_more",
           "d": [
             "totalwine.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Treasury Wine Estates",
+          "key": "alcohol_tobacco/treasury_wine_estates",
+          "d": [
+            "tweglobal.com",
+            "penfolds.com",
+            "beringerwine.com",
+            "19crimes.com",
+            "stags-leap.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "Vector Group",
+          "key": "alcohol_tobacco/vector_group",
+          "d": [
+            "vectorgroupltd.com",
+            "liggett.com"
           ],
           "i": [],
           "a": [],
@@ -680,6 +1224,21 @@
           "d": [
             "vusevapor.com",
             "vuse.com"
+          ],
+          "i": [],
+          "a": [],
+          "s": []
+        },
+        {
+          "name": "William Grant & Sons",
+          "key": "alcohol_tobacco/william_grant_sons",
+          "d": [
+            "williamgrant.com",
+            "glenfiddich.com",
+            "hendricksgin.com",
+            "tullamoredew.com",
+            "grantwhisky.com",
+            "thebalvenie.com"
           ],
           "i": [],
           "a": [],
