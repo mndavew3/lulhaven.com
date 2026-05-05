@@ -19,6 +19,11 @@
 - **Cross-category sync**: `hdBuildNameGroups()` auto-detects identical names across categories — no hardcoded rules
 - **AllSides / Drudge Report**: appear in both News & Media AND Politics & Government — nameGroups syncs them automatically
 
+## Git discipline
+- **Start of every session**: run `git pull` before doing anything else
+- **Before any file modification**: run `git pull` if not already done this session
+- Multiple machines may be active; always pull first to avoid overwriting work
+
 ## Deploy
 ```
 ~/scripts/deploy-lulhaven.sh
