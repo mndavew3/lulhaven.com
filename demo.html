@@ -35,7 +35,7 @@
   }
   #hd-header label { font-weight: bold; color: rgba(0,0,0,0.8); white-space: nowrap; }
   #hd-header input[type=number] {
-    width: 55px; padding: 4px; text-align: center;
+    width: 60px; padding: 4px; text-align: center;
     background: rgba(255,255,255,0.7);
     border: 1px solid rgba(0,0,0,0.2); border-radius: 6px; color: #111;
   }
@@ -75,7 +75,7 @@
     transition: all 0.2s ease;
   }
   #hd-search-bar button { padding: 8px 14px; font-size: 0.9em; }
-  #hd-save-btn, #hd-export-btn, #hd-import-btn, #hd-filter-view-btn { padding: 8px 18px; font-size: 0.95em; }
+  #hd-save-btn, #hd-export-btn, #hd-import-btn, #hd-filter-view-btn { padding: 8px 18px; font-size: 1em; }
   #hd-search-bar button:hover, #hd-save-btn:hover, #hd-export-btn:hover, #hd-import-btn:hover, #hd-filter-view-btn:hover {
     background: rgba(255,255,255,0.8);
     border-color: rgba(0,0,0,0.35);
@@ -92,7 +92,7 @@
   #hd-cats li {
     padding: 8px 12px; cursor: pointer;
     border-bottom: 1px solid rgba(0,0,0,0.07);
-    font-size: 0.88em; color: rgba(0,0,0,0.8);
+    font-size: 0.9em; color: rgba(0,0,0,0.8);
     transition: background 0.15s ease;
   }
   #hd-cats li:hover { background: rgba(0,0,0,0.07); }
@@ -116,7 +116,7 @@
   #hd-sub-table th.c { text-align: center; }
   #hd-sub-table td {
     padding: 8px; border-bottom: 1px solid rgba(0,0,0,0.07);
-    font-size: 0.88em; color: rgba(0,0,0,0.8);
+    font-size: 0.9em; color: rgba(0,0,0,0.8);
   }
   #hd-sub-table td.c { text-align: center; }
   #hd-sub-table a { color: rgba(0,0,0,0.45); font-size: 0.8em; text-decoration: none; }
@@ -192,6 +192,10 @@
   #haven-demo.hd-basic .hd-adv-only { display: none !important; }
   #hd-mode-btn { padding: 8px 18px; font-size: 0.95em; }
   #hd-mode-btn.hd-basic-active { background: rgba(0,120,130,0.15); border-color: rgba(0,120,130,0.5); color: #007a8a; font-weight: bold; }
+  #hd-log-btn.active { background: rgba(0,120,130,0.15); border-color: rgba(0,120,130,0.5); color: #007a8a; font-weight: bold; }
+  #hd-log-panel { display: none; margin-top: 16px; padding: 16px; }
+  #hd-log-panel.hd-log-visible { display: block; }
+  #hd-log-notice { font-size: 0.9em; color: rgba(0,0,0,0.55); font-style: italic; }
   #hd-preset-modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.45); z-index:999; align-items:center; justify-content:center; }
   #hd-preset-modal.show { display:flex; }
   #hd-preset-modal-box { padding:24px 28px; max-width:400px; width:90%; text-align:center; background:rgba(255,255,255,0.85); backdrop-filter:blur(14px); border:1px solid rgba(0,0,0,0.12); border-radius:12px; box-shadow:0 8px 32px rgba(0,0,0,0.2); }
@@ -214,6 +218,7 @@
       <input type="file" id="hd-import-file" style="display:none" accept=".conf" onchange="hdHandleImport(this)">
       <button id="hd-save-btn" onclick="hdSave()">Save</button>
       <span id="hd-save-msg">Settings saved.</span>
+      <button id="hd-log-btn" onclick="hdToggleLog()">Log</button>
       <p class="subtitle">Select a category, block or delay each item. This is exactly what Haven looks like on your router.</p>
     </div>
 
@@ -248,6 +253,10 @@
           <tbody id="hd-sub-body"></tbody>
         </table>
       </div>
+    </div>
+
+    <div id="hd-log-panel" class="hd-glass">
+      <p id="hd-log-notice">The activity log shows recent filtered requests by device. Available on your Haven router at <span style="font-family:monospace">192.168.1.1 → Haven → Log</span>.</p>
     </div>
 
   </div>

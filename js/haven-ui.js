@@ -547,6 +547,13 @@ function hdLoad() {
   } catch(e) {}
 }
 
+function hdToggleLog() {
+  var panel = document.getElementById('hd-log-panel');
+  var btn = document.getElementById('hd-log-btn');
+  var visible = panel.classList.toggle('hd-log-visible');
+  btn.classList.toggle('active', visible);
+}
+
 hdRenderCatList();
 hdLoad();
 hdSelect(0);
