@@ -99,6 +99,14 @@ body {
     line-height: calc( 1.4 * (1.14rem + (1.4 - 1.14) * ((100vw - 20rem) / (48 - 20))));
   }
 }
+/* Phone-only: shrink display-1 toward display-2 size (roughly halfway between)
+   so big headlines don't dominate small portrait viewports. */
+@media (max-width: 576px) {
+  .display-1 {
+    font-size: 2.5rem;
+    line-height: 1.15;
+  }
+}
 @media (min-width: 992px) and (max-width: 1400px) {
   .display-1 {
     font-size: 3.5rem;
