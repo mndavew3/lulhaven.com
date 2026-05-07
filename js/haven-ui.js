@@ -582,13 +582,34 @@ function hdAllowDomain(domain) {
   hdShowMsg('Added to whitelist: ' + domain + ' — click Save to apply');
 }
 
-// Sample log entries shown in the demo (real log on the router uses live data)
+// Sample log entries shown in the demo (real log on the router uses live data).
+// Domains are fictional cartoon-villain placeholders so customers see the
+// experience without us having to display real adult or harmful URLs.
 var HD_SAMPLE_LOG = [
-  { time: '14:42:08', device: 'iPad-Kids', domain: 'tiktok.com', cat: 'Social Media', item: 'TikTok' },
-  { time: '14:39:51', device: 'iPad-Kids', domain: 'pornhub.com', cat: 'Adult Content', item: 'Adult Content' },
-  { time: '14:35:22', device: 'Laptop-Den', domain: 'instagram.com', cat: 'Social Media', item: 'Instagram' },
-  { time: '14:28:14', device: 'iPad-Kids', domain: 'discord.com', cat: 'Messaging & Chat', item: 'Discord' },
-  { time: '14:21:03', device: 'Phone-Mom', domain: 'reddit.com', cat: 'Social Media', item: 'Reddit' }
+  { time: '15:42:08', device: 'iPad-Kids',     domain: 'wile-e-coyote.com',    cat: 'E-Commerce',             item: 'ACME Corp' },
+  { time: '15:39:51', device: 'Laptop-Den',    domain: 'dr-doofenshmirtz.com', cat: 'Tracking & Stalkerware', item: 'Doofenshmirtz Evil Inc.' },
+  { time: '15:35:22', device: 'iPad-Kids',     domain: 'snidely-whiplash.com', cat: 'Politics & Government',  item: 'Whiplash Lobbying' },
+  { time: '15:28:14', device: 'Phone-Mom',     domain: 'boris-n-natasha.com',  cat: 'Misinformation & Conspiracy', item: 'Pottsylvania Daily' },
+  { time: '15:21:03', device: 'Phone-Dad',     domain: 'yosemite-sam.com',     cat: 'Firearms & Weapons',     item: 'Sam\'s Six-Shooters' },
+  { time: '14:58:47', device: 'iPad-Kids',     domain: 'gargamel.com',         cat: 'Forums & Community',     item: 'Smurf Hunters Guild' },
+  { time: '14:51:22', device: 'Laptop-Den',    domain: 'mojo-jojo.com',        cat: 'AI & Automation',        item: 'Townsville Takeover' },
+  { time: '14:43:09', device: 'TV-Family',     domain: 'sideshow-bob.com',     cat: 'Politics & Government',  item: 'Springfield Mayoral Fraud' },
+  { time: '14:33:55', device: 'Phone-Mom',     domain: 'cobra-commander.com',  cat: 'Extremism & Radicalization', item: 'Cobra Recruitment' },
+  { time: '14:28:11', device: 'iPad-Kids',     domain: 'shredder.net',         cat: 'Anonymous & Random Chat',item: 'Foot Clan Chat' },
+  { time: '14:20:43', device: 'Phone-Dad',     domain: 'dick-dastardly.com',   cat: 'Sports & Betting',       item: 'Wacky Race Bookies' },
+  { time: '14:11:08', device: 'Laptop-Den',    domain: 'skeletor.com',         cat: 'Gaming',                 item: 'Eternia Online' },
+  { time: '14:02:31', device: 'iPad-Kids',     domain: 'captain-hook.com',     cat: 'Peer-to-Peer & Torrenting', item: 'Neverland Bay' },
+  { time: '13:55:18', device: 'Phone-Mom',     domain: 'cruella-deville.com',  cat: 'Big Business',           item: 'DeVille Fur Holdings' },
+  { time: '13:47:44', device: 'TV-Family',     domain: 'jafar.com',            cat: 'Politics & Government',  item: 'Agrabah Royal Council' },
+  { time: '13:38:02', device: 'Tablet-Sis',    domain: 'ursula.com',           cat: 'Dating & Relationships', item: 'Sea Witch Singles' },
+  { time: '13:31:27', device: 'iPad-Kids',     domain: 'maleficent.com',       cat: 'Misinformation & Conspiracy', item: 'Curse News Network' },
+  { time: '13:24:55', device: 'Laptop-Den',    domain: 'plankton.com',         cat: 'E-Commerce',             item: 'Chum Bucket Express' },
+  { time: '13:14:39', device: 'iPad-Kids',     domain: 'pinky-n-brain.com',    cat: 'AI & Automation',        item: 'World Domination Labs' },
+  { time: '13:06:21', device: 'Phone-Dad',     domain: 'lex-luthor.com',       cat: 'Big Business',           item: 'LexCorp' },
+  { time: '12:58:53', device: 'Tablet-Sis',    domain: 'mr-burns.com',         cat: 'Big Business',           item: 'Springfield Nuclear' },
+  { time: '12:49:14', device: 'iPad-Kids',     domain: 'bowser.com',           cat: 'Gaming',                 item: 'Koopa Castle MMO' },
+  { time: '12:41:08', device: 'Phone-Mom',     domain: 'negaduck.com',         cat: 'Social Media',           item: 'Negaverse Network' },
+  { time: '12:32:47', device: 'Laptop-Den',    domain: 'dr-claw.com',          cat: 'Tracking & Stalkerware', item: 'M.A.D. Surveillance' }
 ];
 
 function hdRenderSampleLog() {
