@@ -217,6 +217,7 @@
       <button id="hd-import-btn" onclick="hdImport()">Import</button>
       <input type="file" id="hd-import-file" style="display:none" accept=".conf" onchange="hdHandleImport(this)">
       <button id="hd-save-btn" onclick="hdSave()">Save</button>
+      <span id="hd-dirty-indicator" style="display:none;color:#a86d00;margin-left:8px;font-weight:bold;">● Unsaved changes</span>
       <span id="hd-save-msg">Settings saved.</span>
       <button id="hd-log-btn" onclick="hdToggleLog()">Log</button>
       <p class="subtitle">Select a category, block or delay each item. This is exactly what Haven looks like on your router.</p>
@@ -256,7 +257,25 @@
     </div>
 
     <div id="hd-log-panel" class="hd-glass">
-      <p id="hd-log-notice">The activity log shows recent filtered requests by device. Available on your Haven router at <span style="font-family:monospace">192.168.1.1 → Haven → Log</span>.</p>
+      <p id="hd-log-notice">The activity log shows recent filtered requests on your real Haven router at <span style="font-family:monospace">192.168.1.1 → Haven → Log</span>. The sample below illustrates the experience.</p>
+      <table id="hd-log-table" style="width:100%;border-collapse:collapse;margin-top:10px;">
+        <thead>
+          <tr style="text-align:left;border-bottom:1px solid rgba(0,0,0,0.1);">
+            <th style="padding:6px;">Time</th>
+            <th style="padding:6px;">Device</th>
+            <th style="padding:6px;">Domain</th>
+            <th style="padding:6px;">Category</th>
+            <th style="padding:6px;">Item</th>
+            <th style="padding:6px;">Action</th>
+          </tr>
+        </thead>
+        <tbody id="hd-log-body"></tbody>
+      </table>
+      <div style="margin-top:18px;">
+        <label for="hd-whitelist-area" style="font-weight:bold;display:block;margin-bottom:4px;">Allowed domains (one per line)</label>
+        <p style="font-size:0.85em;color:#555;margin:0 0 6px;">Domains listed here are passed through even when their category is filtered. Add via the "Allow" buttons above or type directly. Click the main <strong>Save</strong> button to persist.</p>
+        <textarea id="hd-whitelist-area" rows="6" style="width:100%;font-family:monospace;font-size:0.9em;box-sizing:border-box;padding:6px;"></textarea>
+      </div>
     </div>
 
   </div>

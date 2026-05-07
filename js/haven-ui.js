@@ -416,6 +416,7 @@ function hdToggle(key, value, otherId) {
   var cb = document.getElementById((value === 'block' ? 'blk_' : 'del_') + safeId);
   var newVal = (cb && cb.checked) ? value : '';
   hdSettings[key] = newVal;
+  if (typeof hdMarkDirty === 'function') hdMarkDirty();
   if (newVal) {
     var other = document.getElementById(otherId);
     if (other) other.checked = false;
@@ -529,11 +530,17 @@ function hdSave() {
   var valid = hdValidKeys();
   var clean = {};
   for (var k in hdSettings) { if (hdSettings[k] && valid[k]) clean[k] = hdSettings[k]; }
-  var data = { s: clean, m: document.getElementById('hd-temp-min').value };
+  var wlArea = document.getElementById('hd-whitelist-area');
+  var data = {
+    s: clean,
+    m: document.getElementById('hd-temp-min').value,
+    w: wlArea ? wlArea.value : ''
+  };
   var exp = new Date();
   exp.setFullYear(exp.getFullYear() + 1);
   document.cookie = 'haven_demo=' + encodeURIComponent(JSON.stringify(data)) +
     '; expires=' + exp.toUTCString() + '; path=/; SameSite=Lax';
+  hdMarkClean();
   hdShowMsg('Settings saved.');
 }
 
@@ -544,7 +551,57 @@ function hdLoad() {
     var data = JSON.parse(decodeURIComponent(match[1]));
     if (data.s) hdSettings = data.s;
     if (data.m) document.getElementById('hd-temp-min').value = data.m;
+    if (data.w !== undefined) {
+      var wl = document.getElementById('hd-whitelist-area');
+      if (wl) wl.value = data.w;
+    }
   } catch(e) {}
+}
+
+// Unsaved-changes indicator — mirrors router UI behavior
+var hdPendingChanges = false;
+function hdMarkDirty() {
+  hdPendingChanges = true;
+  var ind = document.getElementById('hd-dirty-indicator');
+  if (ind) ind.style.display = 'inline';
+}
+function hdMarkClean() {
+  hdPendingChanges = false;
+  var ind = document.getElementById('hd-dirty-indicator');
+  if (ind) ind.style.display = 'none';
+}
+
+// Append a domain to the whitelist textarea — user must click Save to persist.
+function hdAllowDomain(domain) {
+  var area = document.getElementById('hd-whitelist-area');
+  if (!area) return;
+  var existing = area.value.split(/\r?\n/).map(function(s){return s.trim();}).filter(Boolean);
+  if (existing.indexOf(domain) === -1) existing.push(domain);
+  area.value = existing.join('\n');
+  hdMarkDirty();
+  hdShowMsg('Added to whitelist: ' + domain + ' — click Save to apply');
+}
+
+// Sample log entries shown in the demo (real log on the router uses live data)
+var HD_SAMPLE_LOG = [
+  { time: '14:42:08', device: 'iPad-Kids', domain: 'tiktok.com', cat: 'Social Media', item: 'TikTok' },
+  { time: '14:39:51', device: 'iPad-Kids', domain: 'pornhub.com', cat: 'Adult Content', item: 'Adult Content' },
+  { time: '14:35:22', device: 'Laptop-Den', domain: 'instagram.com', cat: 'Social Media', item: 'Instagram' },
+  { time: '14:28:14', device: 'iPad-Kids', domain: 'discord.com', cat: 'Messaging & Chat', item: 'Discord' },
+  { time: '14:21:03', device: 'Phone-Mom', domain: 'reddit.com', cat: 'Social Media', item: 'Reddit' }
+];
+
+function hdRenderSampleLog() {
+  var tbody = document.getElementById('hd-log-body');
+  if (!tbody) return;
+  tbody.innerHTML = HD_SAMPLE_LOG.map(function(e) {
+    var domEsc = e.domain.replace(/'/g, "\\'");
+    return '<tr><td style="padding:6px;">' + e.time + '</td><td style="padding:6px;">' + e.device +
+      '</td><td style="padding:6px;">' + e.domain + '</td><td style="padding:6px;">' + e.cat +
+      '</td><td style="padding:6px;">' + e.item + '</td><td style="padding:6px;">' +
+      '<button onclick="hdAllowDomain(\'' + domEsc + '\')" style="font-size:0.8em;padding:2px 8px;">Allow</button>' +
+      '</td></tr>';
+  }).join('');
 }
 
 function hdToggleLog() {
@@ -552,7 +609,16 @@ function hdToggleLog() {
   var btn = document.getElementById('hd-log-btn');
   var visible = panel.classList.toggle('hd-log-visible');
   btn.classList.toggle('active', visible);
+  if (visible) hdRenderSampleLog();
 }
+
+// Wire up live inputs for dirty tracking
+document.addEventListener('DOMContentLoaded', function() {
+  var wl = document.getElementById('hd-whitelist-area');
+  if (wl) wl.addEventListener('input', hdMarkDirty);
+  var dm = document.getElementById('hd-temp-min');
+  if (dm) dm.addEventListener('input', hdMarkDirty);
+});
 
 hdRenderCatList();
 hdLoad();
