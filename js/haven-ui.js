@@ -38,7 +38,7 @@ var hdSuperOpen = {};
 
 var hdSuperCats = [
   { name: 'Adult & Sensitive', cats: [
-    'Adult Content','Alcohol & Tobacco','Anonymous & Random Chat','Body Image Extremism',
+    'Adult Content','Alcohol & Tobacco','Anonymous & Random Chat',
     'Cult & Coercive Groups','Dating & Relationships','Drugs & Substances',
     'Extremism & Radicalization','Firearms & Weapons','Gambling',
     'Hate & Discriminatory Content','Occult & Alternative Beliefs','Scams & Predatory Services',
@@ -61,7 +61,7 @@ var hdSuperCats = [
 
 var hdPresets = {
   School: [
-    'Adult Content','Alcohol & Tobacco','Anonymous & Random Chat','Body Image Extremism',
+    'Adult Content','Alcohol & Tobacco','Anonymous & Random Chat',
     'Cheating & Academic Fraud','Cult & Coercive Groups','Dating & Relationships',
     'Drugs & Substances','Extremism & Radicalization','Firearms & Weapons','Gambling',
     'Hate & Discriminatory Content','Misinformation & Conspiracy','Occult & Alternative Beliefs',
@@ -74,7 +74,7 @@ var hdPresets = {
     'Violence & Graphic Content'
   ],
   Recovery: [
-    'Adult Content','Alcohol & Tobacco','Body Image Extremism','Cult & Coercive Groups',
+    'Adult Content','Alcohol & Tobacco','Cult & Coercive Groups',
     'Dating & Relationships','Drugs & Substances','Extremism & Radicalization','Gambling',
     'Hate & Discriminatory Content','Occult & Alternative Beliefs','Scams & Predatory Services',
     'Self-Harm & Crisis Content','Violence & Graphic Content'
