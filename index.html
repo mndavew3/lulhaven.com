@@ -4,6 +4,24 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+  <script>
+    /* TV-class displays render the desktop layout, not the phone layout.
+       Fire TV / Roku / Tizen / WebOS browsers are Android-derived and
+       advertise mobile-class viewports despite running on 50" screens,
+       which trips Bootstrap's stacked mobile layout. Override viewport
+       to a desktop width so Bootstrap responds with the PC layout. */
+    (function() {
+      var ua = navigator.userAgent || '';
+      var tvRE = /AFT[A-Z]+|Fire[ -]?TV|SmartTV|SMART-TV|GoogleTV|AppleTV|HbbTV|NetCast|Viera|Bravia|CrKey|WebOS|Tizen|Roku|PlayStation|Xbox/i;
+      var bigLandscape = window.matchMedia &&
+        window.matchMedia('(min-aspect-ratio: 16/9) and (min-width: 1280px) and (pointer: coarse)').matches;
+      if (tvRE.test(ua) || bigLandscape) {
+        var meta = document.querySelector('meta[name="viewport"]');
+        if (meta) meta.setAttribute('content', 'width=1280, initial-scale=1');
+        document.documentElement.classList.add('haven-tv');
+      }
+    })();
+  </script>
   <link rel="shortcut icon" href="assets/images/lulhaven20dock20line20art202-64x42.png" type="image/x-icon">
   <meta name="description" content="">
   
