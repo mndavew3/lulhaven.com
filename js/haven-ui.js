@@ -78,6 +78,18 @@ var hdPresets = {
     'Dating & Relationships','Drugs & Substances','Extremism & Radicalization','Gambling',
     'Hate & Discriminatory Content','Occult & Alternative Beliefs','Scams & Predatory Services',
     'Self-Harm & Crisis Content','Violence & Graphic Content'
+  ],
+  Parenting: [
+    'Adult Content','AI & Automation','Alcohol & Tobacco','Anonymous & Random Chat',
+    'Cheating & Academic Fraud','Cult & Coercive Groups','Dating & Relationships',
+    'Drugs & Substances','Extremism & Radicalization','Firearms & Weapons','Gambling',
+    'Hate & Discriminatory Content','Misinformation & Conspiracy','Mobile Game Ads',
+    'Pseudo-Medicine & Health Fraud','Scams & Predatory Services','Self-Harm & Crisis Content',
+    'Social Media','Sports & Betting','Tracking & Stalkerware','Violence & Graphic Content'
+  ],
+  Privacy: [
+    'Advertising','AI & Automation','Big Business','Cloud Services','Mobile Game Ads',
+    'Search Engines','Social Media','Tracking & Stalkerware'
   ]
 };
 
