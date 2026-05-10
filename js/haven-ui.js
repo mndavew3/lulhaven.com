@@ -90,6 +90,11 @@ var hdPresets = {
   Privacy: [
     'Advertising','AI & Automation','Big Business','Cloud Services','Mobile Game Ads',
     'Search Engines','Social Media','Tracking & Stalkerware'
+  ],
+  Senior: [
+    'Cryptocurrency','Gambling','Misinformation & Conspiracy',
+    'Pseudo-Medicine & Health Fraud','Scams & Predatory Services',
+    'Security','Sports & Betting'
   ]
 };
 
