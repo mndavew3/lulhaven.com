@@ -220,8 +220,12 @@ function hdApplyPreset(name) {
 }
 
 function hdDoPreset(mode) {
+  // Capture the pending preset BEFORE closing the modal — hdClosePresetModal()
+  // sets hdPendingPreset = null, so we must snapshot it first or the apply call
+  // sees a null name and returns early (silent no-op).
+  var name = hdPendingPreset;
   hdClosePresetModal();
-  hdDoApplyPreset(hdPendingPreset, mode);
+  hdDoApplyPreset(name, mode);
 }
 
 function hdClosePresetModal() {
