@@ -19,6 +19,9 @@
     h2 { font-size: 1em; margin: 28px 0 12px; color: #a0b3cf;
          text-transform: uppercase; letter-spacing: 0.05em; }
     .breadcrumb { font-size: 0.85em; color: #6f87a8; margin-bottom: 8px; }
+    .breadcrumb a { color: #a0b3cf; text-decoration: none; }
+    .breadcrumb a:hover { color: #e0e6f0; }
+    .breadcrumb .sep { margin: 0 8px; color: #4a5a7a; }
     .header-grid {
         display: grid; grid-template-columns: max-content 1fr; gap: 4px 16px;
         background: #142b4d; padding: 14px 18px; border-radius: 6px;
@@ -88,7 +91,11 @@
 </head>
 <body>
 
-<div class="breadcrumb"><a href="/build-maint/list.html">← All builds</a></div>
+<div class="breadcrumb">
+    <a href="/">← lulhaven.com</a>
+    <span class="sep">/</span>
+    <a href="/build-maint/list.html">All builds</a>
+</div>
 <h1 id="page-title">Build…</h1>
 <div id="error"></div>
 

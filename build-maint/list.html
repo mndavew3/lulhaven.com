@@ -18,6 +18,12 @@
         margin-bottom: 24px;
     }
     h1 { margin: 0; font-size: 1.4em; font-weight: 600; }
+    .home-link {
+        color: #a0b3cf; text-decoration: none; font-size: 0.9em;
+        margin-right: 16px;
+    }
+    .home-link:hover { color: #e0e6f0; }
+    .title-row { display: flex; align-items: center; gap: 4px; }
     .actions { display: flex; gap: 8px; }
     button {
         padding: 8px 16px; font-size: 0.95em; font-weight: 500;
@@ -58,7 +64,10 @@
 </head>
 <body>
 <header>
-    <h1>Haven Builds</h1>
+    <div class="title-row">
+        <a class="home-link" href="/">← lulhaven.com</a>
+        <h1>Haven Builds</h1>
+    </div>
     <div class="actions">
         <button id="btn-add">Add</button>
         <button id="btn-build" disabled>Build</button>

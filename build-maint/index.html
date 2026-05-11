@@ -41,9 +41,15 @@
         min-height: 1.2em;
     }
     .hint { margin-top: 16px; font-size: 0.75em; color: #6f87a8; }
+    .home-link {
+        position: absolute; top: 16px; left: 16px;
+        color: #a0b3cf; text-decoration: none; font-size: 0.9em;
+    }
+    .home-link:hover { color: #e0e6f0; }
 </style>
 </head>
 <body>
+<a class="home-link" id="home-link" href="/">← lulhaven.com</a>
 <div class="card">
     <h1>Haven Build Maintenance</h1>
     <form id="auth-form">
@@ -59,6 +65,27 @@ const form = document.getElementById("auth-form");
 const pw = document.getElementById("pw");
 const btn = document.getElementById("submit");
 const err = document.getElementById("error");
+const homeLink = document.getElementById("home-link");
+
+// Capture where we came from so the 3-strike redirect knows where to go.
+// Falls back to "/" if referrer is empty, cross-origin, or inside /build-maint/
+// (which would otherwise loop).
+const RETURN_URL = (() => {
+    const r = document.referrer;
+    if (!r) return "/";
+    try {
+        const u = new URL(r);
+        if (u.origin !== window.location.origin) return "/";
+        if (u.pathname.startsWith("/build-maint")) return "/";
+        return r;
+    } catch {
+        return "/";
+    }
+})();
+homeLink.href = RETURN_URL;
+
+const MAX_ATTEMPTS = 3;
+let failedAttempts = 0;
 
 form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -75,10 +102,20 @@ form.addEventListener("submit", async (e) => {
             // Cookie set by server; navigate to list.
             window.location.href = "/build-maint/list.html";
         } else if (res.status === 401) {
-            err.textContent = "Invalid password.";
-            pw.value = "";
-            pw.focus();
-            btn.disabled = false;
+            failedAttempts++;
+            if (failedAttempts >= MAX_ATTEMPTS) {
+                err.textContent = `Too many failed attempts. Returning to ${RETURN_URL}…`;
+                pw.value = "";
+                pw.disabled = true;
+                btn.disabled = true;
+                setTimeout(() => { window.location.href = RETURN_URL; }, 1500);
+            } else {
+                const remaining = MAX_ATTEMPTS - failedAttempts;
+                err.textContent = `Invalid password. ${remaining} attempt${remaining === 1 ? "" : "s"} remaining.`;
+                pw.value = "";
+                pw.focus();
+                btn.disabled = false;
+            }
         } else {
             const j = await res.json().catch(() => ({}));
             err.textContent = j.error || `Error ${res.status}`;
