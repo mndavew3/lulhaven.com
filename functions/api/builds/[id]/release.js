@@ -2,6 +2,12 @@
 //
 // Body: { released_by: str, force?: bool }
 // Refuses unless all steps are success/skipped and all NCRs resolved, unless force.
+//
+// On successful release, commits a JSON snapshot of the build to mndavew3/haven-data
+// at builds/<site>/<serial>.json. If the git commit fails (e.g., token not set),
+// the release itself still succeeds — durability is best-effort, not blocking.
+
+import { commitBuildSnapshot } from "../../../lib/git.js";
 
 export async function onRequestPost(context) {
     const { env, params, request } = context;
@@ -57,7 +63,29 @@ export async function onRequestPost(context) {
           WHERE id = ?`
     ).bind(body.released_by, buildId).run();
 
-    return new Response(JSON.stringify({ ok: true, build_id: buildId }), {
+    // Durability: commit a JSON snapshot of the released build to haven-data git.
+    // Best-effort — if the git commit fails (e.g., HAVEN_DATA_GITHUB_TOKEN not set,
+    // GitHub API hiccup), the release itself still succeeds. We surface the git
+    // result (success or failure reason) in the response so the caller knows.
+    let gitInfo = { committed: false, reason: "skipped" };
+    try {
+        const build = await env.haven_builds.prepare(
+            `SELECT serial FROM builds WHERE id = ?`
+        ).bind(buildId).first();
+        const result = await commitBuildSnapshot(
+            env, env.haven_builds, buildId,
+            `release: ${build.serial} (released_by ${body.released_by})`,
+        );
+        gitInfo = { committed: true, ...result };
+    } catch (e) {
+        gitInfo = { committed: false, reason: String(e.message || e) };
+    }
+
+    return new Response(JSON.stringify({
+        ok: true,
+        build_id: buildId,
+        git: gitInfo,
+    }), {
         status: 200, headers: { "Content-Type": "application/json" },
     });
 }
