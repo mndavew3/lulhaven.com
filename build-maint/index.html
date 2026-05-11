@@ -67,7 +67,7 @@ const btn = document.getElementById("submit");
 const err = document.getElementById("error");
 const homeLink = document.getElementById("home-link");
 
-// Capture where we came from so the 3-strike redirect knows where to go.
+// Capture where we came from so the bad-password redirect knows where to go.
 // Falls back to "/" if referrer is empty, cross-origin, or inside /build-maint/
 // (which would otherwise loop).
 const RETURN_URL = (() => {
