@@ -279,7 +279,6 @@ function hdApplyMode() {
 
 function hdToggleMode() {
   hdBasicMode = !hdBasicMode;
-  localStorage.setItem('haven_mode', hdBasicMode ? 'basic' : 'advanced');
   hdApplyMode();
 }
 
