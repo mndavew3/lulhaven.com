@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Builds — Haven Build Maint</title>
+<style>
+    :root { color-scheme: dark; }
+    * { box-sizing: border-box; }
+    body {
+        font-family: -apple-system, "Segoe UI", Roboto, sans-serif;
+        background: #0a1f3d; color: #e0e6f0;
+        margin: 0; padding: 24px;
+    }
+    header {
+        display: flex; align-items: center; justify-content: space-between;
+        margin-bottom: 24px;
+    }
+    h1 { margin: 0; font-size: 1.4em; font-weight: 600; }
+    .actions { display: flex; gap: 8px; }
+    button {
+        padding: 8px 16px; font-size: 0.95em; font-weight: 500;
+        background: #2858a8; color: #fff; border: 0; border-radius: 4px;
+        cursor: pointer;
+    }
+    button:hover:not(:disabled) { background: #3469bc; }
+    button:disabled { background: #1f3d6b; cursor: not-allowed; opacity: 0.5; }
+    button.secondary { background: #3a4a6c; }
+    button.secondary:hover { background: #4a5a7c; }
+    table {
+        width: 100%; border-collapse: collapse;
+        background: #142b4d; border-radius: 6px; overflow: hidden;
+    }
+    th, td {
+        text-align: left; padding: 10px 12px; font-size: 0.92em;
+        border-bottom: 1px solid #1f3d6b;
+    }
+    th {
+        background: #1f3d6b; font-weight: 600;
+        text-transform: uppercase; font-size: 0.75em; letter-spacing: 0.05em;
+        color: #a0b3cf;
+    }
+    tr.selectable { cursor: pointer; }
+    tr.selectable:hover { background: #1a3460; }
+    tr.selected { background: #2a4a7a !important; }
+    .status {
+        display: inline-block; padding: 2px 8px; border-radius: 3px;
+        font-size: 0.78em; font-weight: 500;
+    }
+    .status-in-progress { background: #3a4a6c; color: #cdd6e6; }
+    .status-success     { background: #1d6432; color: #c8e6c9; }
+    .status-failure     { background: #7a2a2a; color: #ffd0d0; }
+    .status-aborted     { background: #5a3a1a; color: #ffd8a0; }
+    .empty { text-align: center; padding: 40px; color: #6f87a8; }
+    #error { color: #ff8888; padding: 8px; min-height: 1.2em; }
+</style>
+</head>
+<body>
+<header>
+    <h1>Haven Builds</h1>
+    <div class="actions">
+        <button id="btn-add">Add</button>
+        <button id="btn-build" disabled>Build</button>
+        <button id="btn-refresh" class="secondary">Refresh</button>
+        <button id="btn-logout" class="secondary">Sign out</button>
+    </div>
+</header>
+
+<div id="error"></div>
+
+<table id="builds-table">
+    <thead><tr>
+        <th>ID</th>
+        <th>Serial</th>
+        <th>Model</th>
+        <th>Customer</th>
+        <th>Site</th>
+        <th>Status</th>
+        <th>Started</th>
+        <th>Released</th>
+    </tr></thead>
+    <tbody id="builds-tbody">
+        <tr><td colspan="8" class="empty">Loading...</td></tr>
+    </tbody>
+</table>
+
+<script>
+const tbody = document.getElementById("builds-tbody");
+const btnBuild = document.getElementById("btn-build");
+const btnAdd = document.getElementById("btn-add");
+const btnRefresh = document.getElementById("btn-refresh");
+const btnLogout = document.getElementById("btn-logout");
+const errEl = document.getElementById("error");
+
+let selectedBuildId = null;
+
+function fmtTs(ts) {
+    if (!ts) return "";
+    return new Date(ts * 1000).toLocaleString();
+}
+
+async function loadBuilds() {
+    errEl.textContent = "";
+    try {
+        const res = await fetch("/api/builds", { credentials: "same-origin" });
+        if (res.status === 401) {
+            window.location.href = "/build-maint/";
+            return;
+        }
+        if (!res.ok) {
+            errEl.textContent = "Failed to load builds (HTTP " + res.status + ")";
+            return;
+        }
+        const data = await res.json();
+        renderTable(data.builds || []);
+    } catch (e) {
+        errEl.textContent = "Network error: " + e.message;
+    }
+}
+
+function renderTable(builds) {
+    if (!builds.length) {
+        tbody.innerHTML = '<tr><td colspan="8" class="empty">No builds yet. Click <strong>Add</strong> to start one.</td></tr>';
+        return;
+    }
+    tbody.innerHTML = "";
+    for (const b of builds) {
+        const tr = document.createElement("tr");
+        tr.className = "selectable";
+        tr.dataset.id = b.id;
+        tr.innerHTML = `
+            <td>${b.id}</td>
+            <td><code>${b.serial}</code></td>
+            <td>${b.model_code || ""}</td>
+            <td>${b.customer || ""}</td>
+            <td>${b.site || ""}</td>
+            <td><span class="status status-${b.overall_status}">${b.overall_status}</span></td>
+            <td>${fmtTs(b.started_datetime)}</td>
+            <td>${fmtTs(b.released_datetime)}</td>
+        `;
+        tr.addEventListener("click", () => {
+            document.querySelectorAll("tr.selected").forEach(r => r.classList.remove("selected"));
+            tr.classList.add("selected");
+            selectedBuildId = b.id;
+            btnBuild.disabled = false;
+        });
+        tr.addEventListener("dblclick", () => {
+            window.location.href = `/build-maint/detail.html?id=${b.id}`;
+        });
+        tbody.appendChild(tr);
+    }
+}
+
+btnAdd.addEventListener("click", () => {
+    window.location.href = "/build-maint/detail.html?new=1";
+});
+
+btnBuild.addEventListener("click", () => {
+    if (selectedBuildId) {
+        window.location.href = `/build-maint/detail.html?id=${selectedBuildId}`;
+    }
+});
+
+btnRefresh.addEventListener("click", loadBuilds);
+
+btnLogout.addEventListener("click", async () => {
+    await fetch("/api/auth", { method: "DELETE", credentials: "same-origin" });
+    window.location.href = "/build-maint/";
+});
+
+loadBuilds();
+</script>
+</body>
+</html>

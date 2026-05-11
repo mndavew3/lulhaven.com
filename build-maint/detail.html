@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Build Detail — Haven Build Maint</title>
+<style>
+    :root { color-scheme: dark; }
+    * { box-sizing: border-box; }
+    body {
+        font-family: -apple-system, "Segoe UI", Roboto, sans-serif;
+        background: #0a1f3d; color: #e0e6f0;
+        margin: 0; padding: 24px;
+    }
+    a { color: #88aadd; }
+    header { margin-bottom: 20px; }
+    h1 { margin: 0; font-size: 1.4em; }
+    h2 { font-size: 1em; margin: 28px 0 12px; color: #a0b3cf;
+         text-transform: uppercase; letter-spacing: 0.05em; }
+    .breadcrumb { font-size: 0.85em; color: #6f87a8; margin-bottom: 8px; }
+    .header-grid {
+        display: grid; grid-template-columns: max-content 1fr; gap: 4px 16px;
+        background: #142b4d; padding: 14px 18px; border-radius: 6px;
+        font-size: 0.92em;
+    }
+    .header-grid dt { color: #a0b3cf; }
+    .header-grid dd { margin: 0; font-family: ui-monospace, monospace; }
+    table.steps {
+        width: 100%; border-collapse: collapse;
+        background: #142b4d; border-radius: 6px; overflow: hidden;
+        font-size: 0.88em;
+    }
+    table.steps th, table.steps td {
+        text-align: left; padding: 8px 10px;
+        border-bottom: 1px solid #1f3d6b;
+        vertical-align: top;
+    }
+    table.steps th {
+        background: #1f3d6b; font-weight: 600;
+        text-transform: uppercase; font-size: 0.72em; letter-spacing: 0.05em;
+        color: #a0b3cf;
+    }
+    tr.qc { background: rgba(74, 110, 168, 0.08); }
+    tr.qc td:nth-child(3) { font-weight: 600; color: #cdd6e6; }
+    .status {
+        display: inline-block; padding: 2px 6px; border-radius: 3px;
+        font-size: 0.78em; font-weight: 500; min-width: 70px; text-align: center;
+    }
+    .status-pending   { background: #3a4a6c; color: #cdd6e6; }
+    .status-executing { background: #2858a8; color: #fff; }
+    .status-success   { background: #1d6432; color: #c8e6c9; }
+    .status-failure   { background: #7a2a2a; color: #ffd0d0; }
+    .status-skipped   { background: #4a4a4a; color: #d0d0d0; }
+    button {
+        padding: 4px 10px; font-size: 0.85em; font-weight: 500;
+        background: #2858a8; color: #fff; border: 0; border-radius: 4px;
+        cursor: pointer; margin-right: 4px;
+    }
+    button:hover:not(:disabled) { background: #3469bc; }
+    button.secondary { background: #3a4a6c; }
+    button.secondary:hover { background: #4a5a7c; }
+    button.danger { background: #7a2a2a; }
+    button.danger:hover { background: #8a3a3a; }
+    .top-actions { display: flex; gap: 8px; margin-bottom: 16px; }
+    .desc { color: #a0b3cf; font-size: 0.85em; margin-top: 4px; }
+    .meta-row { font-size: 0.75em; color: #6f87a8; }
+    #error { color: #ff8888; padding: 8px; min-height: 1.2em; }
+
+    /* Inline form widgets used in popups */
+    .inline-form {
+        background: #142b4d; padding: 16px; border-radius: 6px;
+        border: 1px solid #2a4a7a; margin: 10px 0;
+    }
+    .inline-form label { font-size: 0.78em; color: #a0b3cf; display: block; margin: 6px 0 2px; }
+    .inline-form input, .inline-form select, .inline-form textarea {
+        width: 100%; padding: 6px 8px; font-size: 0.92em;
+        background: #0a1f3d; border: 1px solid #2a4a7a; color: #e0e6f0;
+        border-radius: 3px;
+    }
+    .inline-form .row { display: flex; gap: 12px; margin-top: 8px; }
+    .ncr {
+        background: #2a1a1a; border-left: 3px solid #7a2a2a;
+        padding: 12px 14px; border-radius: 4px; margin-bottom: 8px;
+    }
+    .ncr.resolved { background: #1a2a1a; border-left-color: #2a7a2a; }
+</style>
+</head>
+<body>
+
+<div class="breadcrumb"><a href="/build-maint/list.html">← All builds</a></div>
+<h1 id="page-title">Build…</h1>
+<div id="error"></div>
+
+<div id="new-form-wrap" style="display:none">
+    <h2>New Build</h2>
+    <div class="inline-form">
+        <label>Serial (yymmddMODnnnn)</label>
+        <input id="new-serial" placeholder="260510NAV0001">
+        <label>Hardware</label>
+        <input id="new-hardware" placeholder="MT6000 (Navy)">
+        <label>Customer</label>
+        <input id="new-customer" placeholder="Jason Bernick">
+        <label>Site</label>
+        <input id="new-site" value="mn-st-cloud">
+        <label>Firmware version</label>
+        <input id="new-firmware" placeholder="1.0.0">
+        <label>Notes</label>
+        <textarea id="new-notes" rows="3"></textarea>
+        <div class="row">
+            <button id="new-create">Create</button>
+            <button class="secondary" id="new-cancel">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<div id="existing-wrap" style="display:none">
+    <div class="top-actions">
+        <button id="btn-refresh" class="secondary">Refresh</button>
+        <button id="btn-release">Release</button>
+        <button id="btn-add-ncr" class="danger">Open Non-Conformance</button>
+    </div>
+
+    <dl class="header-grid" id="header-grid"></dl>
+
+    <h2>Steps</h2>
+    <table class="steps">
+        <thead><tr>
+            <th>#</th>
+            <th>Kind</th>
+            <th>Name</th>
+            <th>Status</th>
+            <th>Operator</th>
+            <th>Verifier</th>
+            <th>Actions</th>
+        </tr></thead>
+        <tbody id="steps-tbody"></tbody>
+    </table>
+
+    <h2 id="ncr-heading">Non-Conformances</h2>
+    <div id="ncrs-wrap"></div>
+</div>
+
+<script>
+const url = new URL(window.location);
+const isNew = url.searchParams.get("new") === "1";
+const buildId = url.searchParams.get("id");
+const errEl = document.getElementById("error");
+
+if (isNew) {
+    document.getElementById("page-title").textContent = "New Build";
+    document.getElementById("new-form-wrap").style.display = "block";
+    document.getElementById("new-create").addEventListener("click", createBuild);
+    document.getElementById("new-cancel").addEventListener("click", () => {
+        window.location.href = "/build-maint/list.html";
+    });
+} else if (buildId) {
+    document.getElementById("existing-wrap").style.display = "block";
+    loadBuild(buildId);
+    document.getElementById("btn-refresh").addEventListener("click", () => loadBuild(buildId));
+    document.getElementById("btn-release").addEventListener("click", () => releaseBuild(buildId));
+    document.getElementById("btn-add-ncr").addEventListener("click", () => openNcrPrompt(buildId));
+} else {
+    errEl.textContent = "Missing id parameter.";
+}
+
+async function createBuild() {
+    errEl.textContent = "";
+    const serial = document.getElementById("new-serial").value.trim();
+    if (!serial) { errEl.textContent = "Serial is required."; return; }
+    const body = {
+        serial,
+        hardware: document.getElementById("new-hardware").value.trim() || null,
+        customer: document.getElementById("new-customer").value.trim() || null,
+        site: document.getElementById("new-site").value.trim() || "mn-st-cloud",
+        firmware_version: document.getElementById("new-firmware").value.trim() || null,
+        notes: document.getElementById("new-notes").value.trim() || null,
+    };
+    try {
+        const res = await fetch("/api/builds", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            credentials: "same-origin",
+            body: JSON.stringify(body),
+        });
+        if (res.status === 401) { window.location.href = "/build-maint/"; return; }
+        const j = await res.json();
+        if (!res.ok) { errEl.textContent = j.error || `Error ${res.status}`; return; }
+        window.location.href = `/build-maint/detail.html?id=${j.build_id}`;
+    } catch (e) { errEl.textContent = "Network error: " + e.message; }
+}
+
+function fmtTs(ts) {
+    if (!ts) return "";
+    return new Date(ts * 1000).toLocaleString();
+}
+
+async function loadBuild(id) {
+    errEl.textContent = "";
+    const res = await fetch(`/api/builds/${id}`, { credentials: "same-origin" });
+    if (res.status === 401) { window.location.href = "/build-maint/"; return; }
+    if (!res.ok) { errEl.textContent = `Failed to load (HTTP ${res.status})`; return; }
+    const data = await res.json();
+    renderBuild(data);
+}
+
+function renderBuild(data) {
+    const b = data.build;
+    document.getElementById("page-title").textContent = `Build #${b.id} — ${b.serial}`;
+    const dl = document.getElementById("header-grid");
+    dl.innerHTML = `
+        <dt>Serial</dt><dd>${b.serial}</dd>
+        <dt>Model</dt><dd>${b.model_code || ""} (unit ${b.unit_number || "?"})</dd>
+        <dt>Hardware</dt><dd>${b.hardware || ""}</dd>
+        <dt>Customer</dt><dd>${b.customer || ""}</dd>
+        <dt>Site</dt><dd>${b.site || ""}</dd>
+        <dt>Status</dt><dd><span class="status status-${b.overall_status}">${b.overall_status}</span></dd>
+        <dt>Started</dt><dd>${fmtTs(b.started_datetime)}</dd>
+        <dt>Ended</dt><dd>${fmtTs(b.ended_datetime)}</dd>
+        <dt>Released by</dt><dd>${b.released_by || ""} ${b.released_datetime ? "@ " + fmtTs(b.released_datetime) : ""}</dd>
+        <dt>Firmware</dt><dd>${b.firmware_version || ""}</dd>
+        <dt>Feed.db</dt><dd>${b.feed_db_version || ""}</dd>
+        <dt>Notes</dt><dd>${b.notes || ""}</dd>
+    `;
+
+    const tbody = document.getElementById("steps-tbody");
+    tbody.innerHTML = "";
+    for (const s of data.steps) {
+        const tr = document.createElement("tr");
+        if (s.step_kind === "qc") tr.classList.add("qc");
+        tr.innerHTML = `
+            <td>${s.step_order}</td>
+            <td>${s.step_kind}</td>
+            <td>
+                <div>${s.step_name}</div>
+                <div class="desc">${s.description || ""}</div>
+                <div class="meta-row">
+                    ${s.executed_datetime ? "executed: " + fmtTs(s.executed_datetime) : ""}
+                    ${s.verified_datetime ? " • verified: " + fmtTs(s.verified_datetime) : ""}
+                    ${s.procedure_ref ? " • ref: " + s.procedure_ref : ""}
+                </div>
+                ${s.actual_result ? `<div class="meta-row">result: ${s.actual_result}</div>` : ""}
+                ${s.error ? `<div class="meta-row" style="color:#ff8888">error: ${s.error}</div>` : ""}
+            </td>
+            <td><span class="status status-${s.status}">${s.status}</span></td>
+            <td>${s.operator || ""}</td>
+            <td>${s.verifier || ""}</td>
+            <td>
+                <button data-action="execute" data-step="${s.id}">Execute</button>
+                <button data-action="verify" data-step="${s.id}" class="secondary">Verify</button>
+            </td>
+        `;
+        tbody.appendChild(tr);
+    }
+    tbody.addEventListener("click", onStepAction);
+
+    // NCRs
+    const ncwrap = document.getElementById("ncrs-wrap");
+    ncwrap.innerHTML = "";
+    if (!data.nonconformances.length) {
+        ncwrap.innerHTML = '<div style="color:#6f87a8">No non-conformances.</div>';
+    } else {
+        for (const n of data.nonconformances) {
+            const div = document.createElement("div");
+            div.className = "ncr" + (n.disposition !== "open" ? " resolved" : "");
+            div.innerHTML = `
+                <strong>NC#${n.id}</strong> &nbsp; disposition: <code>${n.disposition}</code>
+                ${n.discovered_at_step ? `&nbsp; step: ${n.discovered_at_step}` : ""}
+                <div class="desc">${n.description}</div>
+                ${n.root_cause ? `<div class="meta-row">root cause: ${n.root_cause}</div>` : ""}
+                ${n.corrective_action ? `<div class="meta-row">action: ${n.corrective_action}</div>` : ""}
+                ${n.disposition === "open" ? `<div style="margin-top:8px"><button data-action="resolve-ncr" data-ncr="${n.id}">Resolve</button></div>` : ""}
+            `;
+            ncwrap.appendChild(div);
+        }
+        ncwrap.addEventListener("click", onNcrAction);
+    }
+}
+
+function onStepAction(e) {
+    const btn = e.target.closest("button[data-action]");
+    if (!btn) return;
+    const action = btn.dataset.action;
+    const stepId = btn.dataset.step;
+    if (action === "execute") executeStep(stepId);
+    if (action === "verify") verifyStep(stepId);
+}
+
+function onNcrAction(e) {
+    const btn = e.target.closest("button[data-action]");
+    if (!btn) return;
+    if (btn.dataset.action === "resolve-ncr") resolveNcrPrompt(btn.dataset.ncr);
+}
+
+async function executeStep(stepId) {
+    const status = prompt("Status (success / failure / skipped / executing):", "success");
+    if (!status) return;
+    const operator = prompt("Operator name:", "dave");
+    if (!operator) return;
+    const result = prompt("Actual result (optional):", "");
+    let error = null;
+    if (status === "failure") error = prompt("Error message:", "");
+    const res = await fetch(`/api/builds/${buildId}/step/${stepId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
+        body: JSON.stringify({ status, operator, actual_result: result, error }),
+    });
+    if (res.status === 401) { window.location.href = "/build-maint/"; return; }
+    if (!res.ok) {
+        const j = await res.json().catch(() => ({}));
+        errEl.textContent = j.error || `Error ${res.status}`;
+        return;
+    }
+    loadBuild(buildId);
+}
+
+async function verifyStep(stepId) {
+    const verifier = prompt("Verifier name:", "dave");
+    if (!verifier) return;
+    const res = await fetch(`/api/builds/${buildId}/step/${stepId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
+        body: JSON.stringify({ verifier }),
+    });
+    if (res.status === 401) { window.location.href = "/build-maint/"; return; }
+    if (!res.ok) {
+        const j = await res.json().catch(() => ({}));
+        errEl.textContent = j.error || `Error ${res.status}`;
+        return;
+    }
+    loadBuild(buildId);
+}
+
+async function openNcrPrompt(buildId) {
+    const stepStr = prompt("Step ID where the issue was discovered (blank for build-level):", "");
+    const description = prompt("Description of the non-conformance:", "");
+    if (!description) return;
+    const by = prompt("Discovered by:", "dave");
+    const body = {
+        discovered_at_step: stepStr ? parseInt(stepStr, 10) : null,
+        discovered_by: by || null,
+        description,
+    };
+    const res = await fetch(`/api/builds/${buildId}/nc`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
+        body: JSON.stringify(body),
+    });
+    if (res.status === 401) { window.location.href = "/build-maint/"; return; }
+    if (!res.ok) {
+        const j = await res.json().catch(() => ({}));
+        errEl.textContent = j.error || `Error ${res.status}`;
+        return;
+    }
+    loadBuild(buildId);
+}
+
+async function resolveNcrPrompt(ncId) {
+    const disposition = prompt("Disposition (rework / accept-with-deviation / scrap / closed):", "rework");
+    if (!disposition) return;
+    const resolved_by = prompt("Resolved by:", "dave");
+    if (!resolved_by) return;
+    const root_cause = prompt("Root cause (optional):", "");
+    const corrective_action = prompt("Corrective action (optional):", "");
+    const res = await fetch(`/api/builds/${buildId}/nc/${ncId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
+        body: JSON.stringify({ disposition, resolved_by, root_cause, corrective_action }),
+    });
+    if (res.status === 401) { window.location.href = "/build-maint/"; return; }
+    if (!res.ok) {
+        const j = await res.json().catch(() => ({}));
+        errEl.textContent = j.error || `Error ${res.status}`;
+        return;
+    }
+    loadBuild(buildId);
+}
+
+async function releaseBuild(buildId) {
+    const released_by = prompt("Releasing operator:", "dave");
+    if (!released_by) return;
+    let body = { released_by };
+    let res = await fetch(`/api/builds/${buildId}/release`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
+        body: JSON.stringify(body),
+    });
+    if (res.status === 409) {
+        const j = await res.json();
+        if (!confirm(j.error + "\n\nProceed anyway?")) return;
+        body.force = true;
+        res = await fetch(`/api/builds/${buildId}/release`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            credentials: "same-origin",
+            body: JSON.stringify(body),
+        });
+    }
+    if (res.status === 401) { window.location.href = "/build-maint/"; return; }
+    if (!res.ok) {
+        const j = await res.json().catch(() => ({}));
+        errEl.textContent = j.error || `Error ${res.status}`;
+        return;
+    }
+    loadBuild(buildId);
+}
+</script>
+</body>
+</html>

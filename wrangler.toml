@@ -1,0 +1,14 @@
+# Cloudflare Pages configuration for lulhaven.com
+#
+# D1 binding for the haven-builds database (router build-tracking).
+# Secrets (BUILD_MAINT_PASSWORD) set via `wrangler secret put` against this
+# Pages project — never committed to the repo.
+
+name = "lulhaven"
+compatibility_date = "2026-05-10"
+pages_build_output_dir = "."
+
+[[d1_databases]]
+binding       = "haven_builds"
+database_name = "haven-builds"
+database_id   = "81825dcc-f0c7-4af6-82ae-76db72a2448a"

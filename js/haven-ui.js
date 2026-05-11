@@ -650,6 +650,19 @@ function hdToggleLog() {
   if (visible) hdRenderSampleLog();
 }
 
+// Shift+click on the Log button opens the password-gated Build Maintenance UI
+// (admin-only). Normal click toggles the log panel as usual. The wrapper is
+// invoked via the demo.html onclick; the modifier-key branch is fully in JS
+// per the project's "no JS in demo.html" rule.
+function hdHandleLogClick(e) {
+  if (e && e.shiftKey) {
+    e.preventDefault();
+    window.open('/build-maint/', '_blank', 'noopener');
+    return;
+  }
+  hdToggleLog();
+}
+
 // Wire up live inputs for dirty tracking
 document.addEventListener('DOMContentLoaded', function() {
   var wl = document.getElementById('hd-whitelist-area');
