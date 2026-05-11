@@ -84,9 +84,10 @@ const RETURN_URL = (() => {
 })();
 homeLink.href = RETURN_URL;
 
-const MAX_ATTEMPTS = 3;
-let failedAttempts = 0;
-
+// One-strike rule: any failed password attempt jettisons the user to the
+// calling page. Server-side rate limiting would be stronger, but is not in
+// place yet — so we make a wrong password expensive at the UX layer by
+// forcing the user to navigate back here deliberately to try again.
 form.addEventListener("submit", async (e) => {
     e.preventDefault();
     err.textContent = "";
@@ -102,20 +103,11 @@ form.addEventListener("submit", async (e) => {
             // Cookie set by server; navigate to list.
             window.location.href = "/build-maint/list.html";
         } else if (res.status === 401) {
-            failedAttempts++;
-            if (failedAttempts >= MAX_ATTEMPTS) {
-                err.textContent = `Too many failed attempts. Returning to ${RETURN_URL}…`;
-                pw.value = "";
-                pw.disabled = true;
-                btn.disabled = true;
-                setTimeout(() => { window.location.href = RETURN_URL; }, 1500);
-            } else {
-                const remaining = MAX_ATTEMPTS - failedAttempts;
-                err.textContent = `Invalid password. ${remaining} attempt${remaining === 1 ? "" : "s"} remaining.`;
-                pw.value = "";
-                pw.focus();
-                btn.disabled = false;
-            }
+            err.textContent = `Invalid password. Returning to ${RETURN_URL}…`;
+            pw.value = "";
+            pw.disabled = true;
+            btn.disabled = true;
+            setTimeout(() => { window.location.href = RETURN_URL; }, 1500);
         } else {
             const j = await res.json().catch(() => ({}));
             err.textContent = j.error || `Error ${res.status}`;
