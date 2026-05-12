@@ -691,7 +691,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
 hdRenderCatList();
 hdLoad();
-hdSelect(0);
+// Landing state: open Social & Communication, select Social Media.
+hdSuperOpen['Social & Communication'] = true;
+hdRenderCatList();
+var _initialIdx = 0;
+for (var _i = 0; _i < hdDataset.length; _i++) {
+  if (hdDataset[_i][0] === 'Social Media') { _initialIdx = _i; break; }
+}
+hdSelect(_initialIdx);
 hdUpdateBadges();
 hdBasicMode = true;
 hdApplyMode();
