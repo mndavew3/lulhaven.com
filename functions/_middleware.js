@@ -60,8 +60,23 @@ export async function onRequest(context) {
         return next();
     }
 
-    // Anything else under /api/ requires a valid cookie.
-    if (url.pathname.startsWith("/api/")) {
+    // Public router-facing endpoints — these MUST stay unauthenticated
+    // because routers fetch them at first boot before they have any creds.
+    // (live-fire finding 2026-05-11 — Jason burn: middleware was over-gating
+    // /api/* and blocking /api/feed*.db. The endpoints are static files;
+    // they're the subscription feed delivery surface for every Haven router.)
+    const PUBLIC_API_PATHS = [
+        "/api/feed.db",
+        "/api/feed-delta.db",
+        "/api/feed.json",     // legacy JSON artifact; keep public
+        "/api/update.json",   // version-check ping
+    ];
+    if (PUBLIC_API_PATHS.includes(url.pathname)) {
+        return next();
+    }
+
+    // Build-maint endpoints (everything under /api/builds/) requires auth cookie.
+    if (url.pathname.startsWith("/api/builds/") || url.pathname === "/api/builds") {
         const secret = env.BUILD_MAINT_PASSWORD || "";
         if (!secret) {
             return new Response(
