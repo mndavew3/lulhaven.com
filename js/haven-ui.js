@@ -137,12 +137,12 @@ function hdRenderCatList() {
 
     for (var si = 0; si < hdSuperCats.length; si++) {
       var sc = hdSuperCats[si];
-      var open = hdSuperOpen[sc.name] !== false;
+      var open = hdSuperOpen[sc.name] === true;
       var hdr = document.createElement('li');
       hdr.className = 'hd-super-hdr' + (open ? ' open' : '');
       hdr.setAttribute('data-super-idx', si);
       hdr.innerHTML = '<span class="hd-super-label">' + sc.name + '</span><span class="hd-chevron">&#9658;</span>';
-      hdr.onclick = (function(idx) { return function() { hdToggleSuperCat(idx); }; })(si);
+      hdr.onclick = (function(idx) { return function(e) { hdToggleSuperCat(idx, !!(e && (e.ctrlKey || e.metaKey))); }; })(si);
       ul.appendChild(hdr);
 
       for (var ci2 = 0; ci2 < sc.cats.length; ci2++) {
@@ -165,12 +165,12 @@ function hdRenderCatList() {
       if (!covered[hdDataset[ci][0]]) extra.push(ci);
     }
     if (extra.length) {
-      var open2 = hdSuperOpen['__other__'] !== false;
+      var open2 = hdSuperOpen['__other__'] === true;
       var hdr2 = document.createElement('li');
       hdr2.className = 'hd-super-hdr' + (open2 ? ' open' : '');
       hdr2.setAttribute('data-super-idx', hdSuperCats.length);
       hdr2.innerHTML = '<span class="hd-super-label">Other</span><span class="hd-chevron">&#9658;</span>';
-      hdr2.onclick = (function(idx) { return function() { hdToggleSuperCat(idx); }; })(hdSuperCats.length);
+      hdr2.onclick = (function(idx) { return function(e) { hdToggleSuperCat(idx, !!(e && (e.ctrlKey || e.metaKey))); }; })(hdSuperCats.length);
       ul.appendChild(hdr2);
       for (var i = 0; i < extra.length; i++) {
         var catIdx2 = extra[i];
@@ -187,14 +187,29 @@ function hdRenderCatList() {
   hdUpdateBadges();
 }
 
-function hdToggleSuperCat(superIdx) {
+function hdToggleSuperCat(superIdx, additive) {
   var key = superIdx < hdSuperCats.length ? hdSuperCats[superIdx].name : '__other__';
-  hdSuperOpen[key] = hdSuperOpen[key] !== false ? false : true;
-  var open = hdSuperOpen[key];
-  var hdr = document.querySelector('#hd-cat-ul li.hd-super-hdr[data-super-idx="' + superIdx + '"]');
-  if (hdr) hdr.classList.toggle('open', open);
-  var items = document.querySelectorAll('#hd-cat-ul li.hd-cat-item[data-super-idx="' + superIdx + '"]');
-  for (var i = 0; i < items.length; i++) items[i].classList.toggle('hd-hidden', !open);
+  var willOpen = hdSuperOpen[key] !== true;  // currently closed (or undef) -> open it
+  if (willOpen && !additive) {
+    // Accordion: opening one collapses all others. Ctrl/Cmd-click suppresses this.
+    for (var k in hdSuperOpen) { hdSuperOpen[k] = false; }
+    hdSuperOpen[key] = true;
+    var allHdrs = document.querySelectorAll('#hd-cat-ul li.hd-super-hdr');
+    for (var h = 0; h < allHdrs.length; h++) {
+      var hi = allHdrs[h].getAttribute('data-super-idx');
+      var isThis = (hi === String(superIdx));
+      allHdrs[h].classList.toggle('open', isThis);
+      var items = document.querySelectorAll('#hd-cat-ul li.hd-cat-item[data-super-idx="' + hi + '"]');
+      for (var i = 0; i < items.length; i++) items[i].classList.toggle('hd-hidden', !isThis);
+    }
+  } else {
+    // Additive toggle: just flip this one, leave others alone.
+    hdSuperOpen[key] = willOpen;
+    var hdr = document.querySelector('#hd-cat-ul li.hd-super-hdr[data-super-idx="' + superIdx + '"]');
+    if (hdr) hdr.classList.toggle('open', willOpen);
+    var items2 = document.querySelectorAll('#hd-cat-ul li.hd-cat-item[data-super-idx="' + superIdx + '"]');
+    for (var j = 0; j < items2.length; j++) items2[j].classList.toggle('hd-hidden', !willOpen);
+  }
 }
 
 function hdToggleAZView() {
