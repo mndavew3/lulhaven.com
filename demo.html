@@ -27,7 +27,18 @@
     padding: 10px 16px;
   }
   #hd-header h2 {
-    margin: 0; flex: 1; color: #111; font-size: 1.2em; white-space: nowrap;
+    margin: 0; flex: 1; color: #111; line-height: 1.1;
+  }
+  #hd-header h2 .ht-brand {
+    display: block; font-size: 1.4em; font-weight: 700; white-space: nowrap;
+  }
+  #hd-header h2 .ht-model {
+    display: block; font-size: 0.95em; font-weight: 500;
+    opacity: 0.85; letter-spacing: 0.06em; white-space: nowrap;
+  }
+  #hd-header h2 .ht-tag {
+    display: block; font-size: 0.7em; font-weight: normal;
+    opacity: 0.65; font-style: italic; margin-top: 2px; white-space: nowrap;
   }
   #hd-header p.subtitle {
     flex-basis: 100%; margin: 4px 0 0; order: 3;
@@ -209,7 +220,11 @@
   <div id="haven-demo-inner">
 
     <div id="hd-header" class="hd-glass">
-      <h2>Haven by Lulhaven - n of 100</h2>
+      <h2 class="haven-title">
+        <span class="ht-brand">Haven</span>
+        <span class="ht-model">Navy</span>
+        <span class="ht-tag">by Lulhaven &middot; Unit 001 of 100</span>
+      </h2>
       <button id="hd-mode-btn" onclick="hdToggleMode()">Basic</button>
       <label class="hd-delay-label">Delayed Filter (min): <input type="number" id="hd-temp-min" value="30" min="1" max="1440"></label>
       <button id="hd-filter-view-btn" onclick="hdToggleFilteredView()">Show Filtered</button>
