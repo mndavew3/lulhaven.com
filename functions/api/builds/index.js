@@ -156,15 +156,18 @@ export async function onRequestPost(context) {
 
     const buildId = ins.meta.last_row_id;
 
-    // Auto-seed 20 standard steps. Batch for atomicity.
+    // Auto-seed the standard steps. Batch for atomicity.
+    // 7th element (addresses_issue) is optional — STANDARD_STEPS is pending a
+    // rewrite to match BURN procedure reality; when rewritten, every step gets
+    // its addresses_issue filled. Until then a 6-element entry seeds NULL.
     const stmts = STANDARD_STEPS.map(
-        ([order, kind, name, description, ref, expected]) =>
+        ([order, kind, name, description, ref, expected, addresses]) =>
             env.haven_builds.prepare(
                 `INSERT INTO build_steps
                     (build_id, step_order, step_kind, step_name,
-                     description, procedure_ref, expected_result)
-                 VALUES (?, ?, ?, ?, ?, ?, ?)`
-            ).bind(buildId, order, kind, name, description, ref, expected)
+                     description, procedure_ref, expected_result, addresses_issue)
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
+            ).bind(buildId, order, kind, name, description, ref, expected, addresses || null)
     );
     await env.haven_builds.batch(stmts);
 

@@ -67,6 +67,7 @@
     button.danger:hover { background: #8a3a3a; }
     .top-actions { display: flex; gap: 8px; margin-bottom: 16px; }
     .desc { color: #a0b3cf; font-size: 0.85em; margin-top: 4px; }
+    .addresses { color: #e0b870; font-size: 0.8em; margin-top: 4px; }
     .meta-row { font-size: 0.75em; color: #6f87a8; }
     #error { color: #ff8888; padding: 8px; min-height: 1.2em; }
 
@@ -241,6 +242,7 @@ function renderBuild(data) {
             <td>
                 <div>${s.step_name}</div>
                 <div class="desc">${s.description || ""}</div>
+                ${s.addresses_issue ? `<div class="addresses">⚠ addresses: ${s.addresses_issue}</div>` : ""}
                 <div class="meta-row">
                     ${s.executed_datetime ? "executed: " + fmtTs(s.executed_datetime) : ""}
                     ${s.verified_datetime ? " • verified: " + fmtTs(s.verified_datetime) : ""}

@@ -28,8 +28,8 @@ export async function onRequestGet(context) {
     // Steps (ordered)
     const stepsRes = await env.haven_builds.prepare(
         `SELECT id, step_order, step_kind, step_name, description, procedure_ref,
-                expected_result, actual_result, status, operator, executed_datetime,
-                verifier, verified_datetime, error, nonconformance_id
+                addresses_issue, expected_result, actual_result, status, operator,
+                executed_datetime, verifier, verified_datetime, error, nonconformance_id
            FROM build_steps WHERE build_id = ? ORDER BY step_order`
     ).bind(id).all();
 
