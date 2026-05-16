@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Launch Signups — Haven Build Maint</title>
+<style>
+    :root { color-scheme: dark; }
+    * { box-sizing: border-box; }
+    body {
+        font-family: -apple-system, "Segoe UI", Roboto, sans-serif;
+        background: #0a1f3d; color: #e0e6f0;
+        margin: 0; padding: 24px;
+    }
+    header {
+        display: flex; align-items: center; justify-content: space-between;
+        margin-bottom: 24px;
+    }
+    h1 { margin: 0; font-size: 1.4em; font-weight: 600; }
+    .title-row { display: flex; align-items: center; gap: 4px; }
+    .home-link {
+        color: #a0b3cf; text-decoration: none; font-size: 0.9em;
+        margin-right: 16px;
+    }
+    .home-link:hover { color: #e0e6f0; }
+    .actions { display: flex; gap: 8px; align-items: center; }
+    button {
+        padding: 8px 16px; font-size: 0.95em; font-weight: 500;
+        background: #2858a8; color: #fff; border: 0; border-radius: 4px;
+        cursor: pointer;
+    }
+    button:hover:not(:disabled) { background: #3469bc; }
+    button:disabled { background: #1f3d6b; cursor: not-allowed; opacity: 0.5; }
+    button.secondary { background: #3a4a6c; }
+    button.secondary:hover:not(:disabled) { background: #4a5a7c; }
+    .count-badge {
+        display: inline-block; background: #1a237e; color: #90caf9;
+        border: 1px solid #2858a8; border-radius: 20px;
+        padding: 4px 14px; font-size: 0.9em; font-weight: 600;
+        min-width: 48px; text-align: center;
+    }
+    table {
+        width: 100%; border-collapse: collapse;
+        background: #142b4d; border-radius: 6px; overflow: hidden;
+    }
+    th, td {
+        text-align: left; padding: 10px 12px; font-size: 0.92em;
+        border-bottom: 1px solid #1f3d6b;
+    }
+    th {
+        background: #1f3d6b; font-weight: 600;
+        text-transform: uppercase; font-size: 0.75em; letter-spacing: 0.05em;
+        color: #a0b3cf; cursor: pointer; user-select: none;
+    }
+    th:hover { color: #e0e6f0; }
+    th.sort-asc::after  { content: " ▲"; }
+    th.sort-desc::after { content: " ▼"; }
+    .empty { text-align: center; padding: 40px; color: #6f87a8; }
+    #error { color: #ff8888; padding: 8px; min-height: 1.2em; }
+    code { font-size: 0.9em; color: #90caf9; }
+</style>
+</head>
+<body>
+<header>
+    <div class="title-row">
+        <a class="home-link" href="/build-maint/list.html">← Builds</a>
+        <h1>Launch Signups</h1>
+        <span class="count-badge" id="count-badge" style="margin-left:12px;">—</span>
+    </div>
+    <div class="actions">
+        <button id="btn-csv" class="secondary">Download CSV</button>
+        <button id="btn-refresh" class="secondary">Refresh</button>
+        <button id="btn-logout" class="secondary">Sign out</button>
+    </div>
+</header>
+<div id="error"></div>
+<table id="signups-table">
+    <thead><tr>
+        <th data-col="id">#</th>
+        <th data-col="email">Email</th>
+        <th data-col="signed_up_at" class="sort-desc">Signed Up</th>
+        <th data-col="source">Source</th>
+        <th data-col="source_ip">IP</th>
+    </tr></thead>
+    <tbody id="signups-tbody">
+        <tr><td colspan="5" class="empty">Loading…</td></tr>
+    </tbody>
+</table>
+<script>
+const tbody   = document.getElementById("signups-tbody");
+const badge   = document.getElementById("count-badge");
+const errEl   = document.getElementById("error");
+const btnCsv  = document.getElementById("btn-csv");
+const btnRef  = document.getElementById("btn-refresh");
+const btnOut  = document.getElementById("btn-logout");
+
+let allRows  = [];
+let sortCol  = "signed_up_at";
+let sortDir  = "desc";   // newest first on load
+
+function fmt(ts) {
+    if (!ts) return "";
+    // D1 returns ISO-ish string "2026-05-16 17:42:29" — make it readable
+    return ts.replace("T", " ").replace(/\.\d+$/, "");
+}
+
+async function load() {
+    errEl.textContent = "";
+    try {
+        const res = await fetch("/api/signups", { credentials: "same-origin" });
+        if (res.status === 401) { window.location.href = "/build-maint/"; return; }
+        if (!res.ok) { errEl.textContent = "Failed to load (HTTP " + res.status + ")"; return; }
+        const data = await res.json();
+        allRows = data.signups || [];
+        badge.textContent = allRows.length;
+        renderTable();
+    } catch(e) {
+        errEl.textContent = "Network error: " + e.message;
+    }
+}
+
+function renderTable() {
+    const rows = [...allRows].sort((a, b) => {
+        const av = a[sortCol] ?? "";
+        const bv = b[sortCol] ?? "";
+        const cmp = String(av).localeCompare(String(bv), undefined, { numeric: true });
+        return sortDir === "asc" ? cmp : -cmp;
+    });
+
+    if (!rows.length) {
+        tbody.innerHTML = '<tr><td colspan="5" class="empty">No signups yet.</td></tr>';
+        return;
+    }
+    tbody.innerHTML = "";
+    for (const r of rows) {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td>${r.id}</td>
+            <td><code>${r.email}</code></td>
+            <td>${fmt(r.signed_up_at)}</td>
+            <td>${r.source ? `<code>${r.source}</code>` : ""}</td>
+            <td>${r.source_ip || ""}</td>
+        `;
+        tbody.appendChild(tr);
+    }
+}
+
+// Column sort
+document.querySelectorAll("th[data-col]").forEach(th => {
+    th.addEventListener("click", () => {
+        const col = th.dataset.col;
+        if (sortCol === col) {
+            sortDir = sortDir === "asc" ? "desc" : "asc";
+        } else {
+            sortCol = col;
+            sortDir = "asc";
+        }
+        document.querySelectorAll("th").forEach(h => h.classList.remove("sort-asc","sort-desc"));
+        th.classList.add(sortDir === "asc" ? "sort-asc" : "sort-desc");
+        renderTable();
+    });
+});
+
+btnCsv.addEventListener("click", () => {
+    // Auth cookie is sent automatically — browser treats it as a navigation
+    const a = document.createElement("a");
+    a.href = "/api/signups?format=csv";
+    a.download = "launch_signups.csv";
+    a.click();
+});
+
+btnRef.addEventListener("click", load);
+
+btnOut.addEventListener("click", async () => {
+    await fetch("/api/auth", { method: "DELETE", credentials: "same-origin" });
+    window.location.href = "/build-maint/";
+});
+
+load();
+</script>
+</body>
+</html>

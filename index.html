@@ -77,7 +77,7 @@
 						<a class="nav-link link text-black text-primary display-4" href="index.html#contacts02-9">Contacts</a>
 					</li></ul>
 				
-				<div class="navbar-buttons mbr-section-btn"><a class="btn btn-primary display-4" href="index.html#form02-6"> Start now</a></div>
+				<div class="navbar-buttons mbr-section-btn"><a class="btn btn-primary display-4" href="#notify"> Start now</a></div>
 			</div>
 		</div>
 	</nav>
@@ -105,7 +105,7 @@
 					</div>
 				</div>
 				<p class="mbr-text mbr-fonts-style mb-4 display-7">Haven is a content filter. Haven is for anyone who wants more control over what flows through their network. It could be valuable in several different contexts. For example, if you manage a nursing home, filtering violent content is a real mental health benefit for residents.<br><br>Haven was designed with a specific purpose: to help people express their values. If you’ve got children in your home and you filter adult content from your network, that’s an expression of your values.<br><br>To filter something with Haven, you select a category. Then you see content providers to filter. When you select one of those content providers, Haven will use as many as 47 unique strategies to block that content from your Local Area Network.<br><br>Click "Save" and you are finished. Everyone you know could do this.<br><br>Our single overriding goal in Haven is ease of use. So no matter what your values are, you can choose a profile that reflects them.<br><br>We maintain a live demo on our website. Haven is launching on Kickstarter — visit <a href="demo.html" class="text-primary">lulhaven.com/demo</a> to get an early look.</p>
-				<div class="mbr-section-btn mt-3"><a class="btn btn-primary display-7" href="index.html#form02-6">Start now</a> <a class="btn btn-primary display-7" href="demo.html">Live demo</a></div>
+				<div class="mbr-section-btn mt-3"><a class="btn btn-primary display-7" href="#notify">Start now</a> <a class="btn btn-primary display-7" href="demo.html">Live demo</a></div>
 			</div>
 		</div>
 		<div class="row mt-5 justify-content-center">
@@ -401,6 +401,92 @@
 	</div>
 </section>
 
+<section id="notify" style="background:#1a237e;padding:80px 0;">
+  <div class="container">
+    <div class="row justify-content-center text-center">
+      <div class="col-12 col-md-8 col-lg-6">
+        <h2 class="mbr-fonts-style display-2" style="color:#fff;font-weight:700;margin-bottom:16px;">
+          Haven is launching on Kickstarter.
+        </h2>
+        <p class="mbr-fonts-style display-7" style="color:rgba(255,255,255,0.82);margin-bottom:36px;">
+          Enter your email and we&rsquo;ll notify you the moment we go live&mdash;before anyone else.
+        </p>
+        <form id="haven-notify-form" style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
+          <input
+            id="haven-notify-email"
+            type="email"
+            placeholder="Your email address"
+            required
+            style="flex:1 1 260px;max-width:340px;padding:14px 18px;border:none;border-radius:40px;
+                   font-size:1rem;outline:none;"
+          />
+          <button
+            type="submit"
+            style="padding:14px 32px;border:none;border-radius:40px;background:#e53935;color:#fff;
+                   font-size:1rem;font-weight:700;cursor:pointer;white-space:nowrap;"
+          >Notify me at launch</button>
+        </form>
+        <p id="haven-notify-msg" style="margin-top:20px;font-size:1rem;min-height:1.4em;color:#fff;display:none;"></p>
+      </div>
+    </div>
+  </div>
+  <script>
+  (function(){
+    var form  = document.getElementById("haven-notify-form");
+    var email = document.getElementById("haven-notify-email");
+    var msg   = document.getElementById("haven-notify-msg");
+    if (!form) return;
+
+    // Source attribution: capture ?ref=<channel> OR ?utm_source=<channel> from
+    // the landing URL and persist for the session so a deep-link from HN
+    // (lulhaven.com/?ref=hn) still tags the signup even if the user clicks
+    // around before submitting. sessionStorage scope = single browser tab.
+    var qs = new URLSearchParams(window.location.search);
+    var pageSource = qs.get("ref") || qs.get("utm_source") || null;
+    if (pageSource) {
+      try { sessionStorage.setItem("haven_notify_source", pageSource); } catch(e){}
+    }
+
+    form.addEventListener("submit", function(e){
+      e.preventDefault();
+      var btn = form.querySelector("button[type=submit]");
+      btn.disabled = true;
+      btn.textContent = "Sending…";
+      msg.style.display = "none";
+      var src = null;
+      try { src = sessionStorage.getItem("haven_notify_source"); } catch(e){}
+      var payload = { email: email.value.trim() };
+      if (src) payload.source = src;
+      fetch("/api/notify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      })
+      .then(function(r){ return r.json(); })
+      .then(function(d){
+        if (d.ok) {
+          form.style.display = "none";
+          msg.textContent = d.message || "You’re on the list!";
+          msg.style.color = "#a5d6a7";
+        } else {
+          msg.textContent = d.error || "Something went wrong. Please try again.";
+          msg.style.color = "#ef9a9a";
+          btn.disabled = false;
+          btn.textContent = "Notify me at launch";
+        }
+        msg.style.display = "block";
+      })
+      .catch(function(){
+        msg.textContent = "Network error. Please try again.";
+        msg.style.color = "#ef9a9a";
+        msg.style.display = "block";
+        btn.disabled = false;
+        btn.textContent = "Notify me at launch";
+      });
+    });
+  })();
+  </script>
+</section>
 <section data-bs-version="5.1" class="form5 cid-tJS9pBcTSa" id="form02-6">
     
     
