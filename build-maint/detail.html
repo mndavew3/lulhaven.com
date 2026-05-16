@@ -218,7 +218,7 @@ function renderBuild(data) {
     const dl = document.getElementById("header-grid");
     dl.innerHTML = `
         <dt>Serial</dt><dd>${b.serial}</dd>
-        <dt>Model</dt><dd>${b.model_code || ""} (unit ${b.unit_number || "?"})</dd>
+        <dt>Model</dt><dd>${b.model_code || ""} (unit ${b.unit_number ?? "?"})</dd>
         <dt>Hardware</dt><dd>${b.hardware || ""}</dd>
         <dt>Customer</dt><dd>${b.customer || ""}</dd>
         <dt>Site</dt><dd>${b.site || ""}</dd>
