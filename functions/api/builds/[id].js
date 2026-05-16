@@ -12,7 +12,7 @@ export async function onRequestGet(context) {
     // Header
     const buildRow = await env.haven_builds.prepare(
         `SELECT id, serial, model_code, unit_number, hardware, customer, site,
-                firmware_version, feed_db_version, manifest_hash,
+                firmware_version, oem_firmware_version, feed_db_version, manifest_hash,
                 started_datetime, ended_datetime, overall_status,
                 released_by, released_datetime, notes,
                 created_datetime, modified_datetime

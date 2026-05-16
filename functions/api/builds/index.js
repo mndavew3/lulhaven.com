@@ -22,7 +22,7 @@ export async function onRequestGet(context) {
 
     const result = await env.haven_builds.prepare(
         `SELECT id, serial, model_code, unit_number, hardware, customer, site,
-                firmware_version, started_datetime, ended_datetime,
+                firmware_version, oem_firmware_version, started_datetime, ended_datetime,
                 overall_status, released_by, released_datetime, notes
            FROM builds
           ORDER BY started_datetime DESC
@@ -47,8 +47,8 @@ export async function onRequestPost(context) {
         });
     }
 
-    const { serial, hardware, customer, site, firmware_version, feed_db_version,
-            manifest_hash, notes } = body;
+    const { serial, hardware, customer, site, firmware_version, oem_firmware_version,
+            feed_db_version, manifest_hash, notes } = body;
 
     if (!serial) {
         return new Response(JSON.stringify({ error: "serial is required" }), {
@@ -85,13 +85,13 @@ export async function onRequestPost(context) {
         const ins = await env.haven_builds.prepare(
             `INSERT INTO builds
                 (serial, model_code, unit_number, hardware, customer, site,
-                 firmware_version, feed_db_version, manifest_hash, notes)
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+                 firmware_version, oem_firmware_version, feed_db_version, manifest_hash, notes)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
         ).bind(
             serial, parsed.model_code, parsed.unit_number, hardware || null,
             customer || null, site || "mn-st-cloud",
-            firmware_version || null, feed_db_version || null,
-            manifest_hash || null, notes || null
+            firmware_version || null, oem_firmware_version || null,
+            feed_db_version || null, manifest_hash || null, notes || null
         ).run();
         buildId = ins.meta.last_row_id;
         reused = false;

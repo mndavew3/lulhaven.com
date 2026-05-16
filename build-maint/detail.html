@@ -227,6 +227,7 @@ function renderBuild(data) {
         <dt>Ended</dt><dd>${fmtTs(b.ended_datetime)}</dd>
         <dt>Released by</dt><dd>${b.released_by || ""} ${b.released_datetime ? "@ " + fmtTs(b.released_datetime) : ""}</dd>
         <dt>Firmware</dt><dd>${b.firmware_version || ""}</dd>
+        <dt>OEM Firmware</dt><dd>${b.oem_firmware_version || ""}</dd>
         <dt>Feed.db</dt><dd>${b.feed_db_version || ""}</dd>
         <dt>Notes</dt><dd>${b.notes || ""}</dd>
     `;
