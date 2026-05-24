@@ -681,6 +681,34 @@ function hdHandleLogClick(e) {
   hdToggleLog();
 }
 
+// Toggle the Administrators panel. Mirrors hdToggleLog. Shows the multi-admin
+// concept — first-run UX, named superusers, lock/remove, no Linux jargon.
+function hdToggleAdminPanel() {
+  var panel = document.getElementById('hd-admin-panel');
+  if (!panel) return;
+  panel.style.display = (panel.style.display === 'none' || !panel.style.display) ? 'block' : 'none';
+}
+
+// No-op handlers for the demo admin actions — show a friendly confirmation
+// dialog so the visitor experiences the UX without us actually mutating
+// anything on the demo page (it has no real backend; the live version on
+// the router does the actual work).
+function hdAdminDemo(action, name) {
+  var verbs = {
+    lock:   'Lock administrator "' + name + '"? They would not be able to log in until you unlocked them.',
+    unlock: 'Unlock administrator "' + name + '"?',
+    remove: 'Remove administrator "' + name + '"? They would no longer be able to log in.'
+  };
+  alert((verbs[action] || ('Action: ' + action + ' on ' + name)) +
+        '\n\nThis is a demo. On your real Haven router, the action would be logged and audited.');
+}
+
+function hdAdminAddDemo(ev) {
+  if (ev && ev.preventDefault) ev.preventDefault();
+  alert('On your real Haven router, this would create a new administrator account with the name and password you typed.\n\nOnce you create your first administrator, the underlying root account is locked automatically.');
+  return false;
+}
+
 // Wire up live inputs for dirty tracking
 document.addEventListener('DOMContentLoaded', function() {
   var wl = document.getElementById('hd-whitelist-area');

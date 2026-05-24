@@ -234,6 +234,7 @@
       <span id="hd-dirty-indicator" style="display:none;color:#a86d00;margin-left:8px;font-weight:bold;">● Unsaved changes</span>
       <span id="hd-save-msg">Settings saved.</span>
       <button id="hd-log-btn" onclick="hdHandleLogClick(event)">Log</button>
+      <button id="hd-admin-btn" onclick="hdToggleAdminPanel()">Administrators</button>
       <p class="subtitle">Select a category, block or delay each item. This is exactly what Haven looks like on your router.</p>
     </div>
 
@@ -273,6 +274,71 @@
       </div>
     </div>
 
+    <div id="hd-admin-panel" class="hd-glass" style="display:none; padding:18px 20px; margin-top:14px;">
+      <h3 style="margin:0 0 6px; font-size:1.2em;">Administrators</h3>
+      <p style="margin:0 0 12px; color:#555; font-size:0.92em;">
+        People who can change Haven settings on this router. Your name goes on your own router &mdash; there is no Linux jargon, no shared <code>root</code>, no "support" account hiding in the background. Haven has no back door.
+      </p>
+
+      <table style="width:100%; border-collapse:collapse; margin-bottom:14px;">
+        <thead>
+          <tr style="text-align:left; border-bottom:1px solid rgba(0,0,0,0.1);">
+            <th style="padding:8px 6px; font-weight:600;">Name</th>
+            <th style="padding:8px 6px; font-weight:600;">Status</th>
+            <th style="padding:8px 6px; font-weight:600; text-align:right;">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid rgba(0,0,0,0.06);">
+            <td style="padding:10px 6px; font-weight:600;">Mom</td>
+            <td style="padding:10px 6px; color:#0a7a3b;">active</td>
+            <td style="padding:10px 6px; text-align:right;">
+              <button onclick="hdAdminDemo('lock','Mom')" style="padding:5px 10px; border:1px solid rgba(0,0,0,0.2); border-radius:6px; background:rgba(255,255,255,0.8); cursor:pointer;">Lock</button>
+              <button onclick="hdAdminDemo('remove','Mom')" style="padding:5px 10px; border:1px solid #e89; border-radius:6px; background:rgba(255,255,255,0.8); color:#c43; cursor:pointer;">Remove</button>
+            </td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(0,0,0,0.06);">
+            <td style="padding:10px 6px; font-weight:600;">Dad</td>
+            <td style="padding:10px 6px; color:#0a7a3b;">active</td>
+            <td style="padding:10px 6px; text-align:right;">
+              <button onclick="hdAdminDemo('lock','Dad')" style="padding:5px 10px; border:1px solid rgba(0,0,0,0.2); border-radius:6px; background:rgba(255,255,255,0.8); cursor:pointer;">Lock</button>
+              <button onclick="hdAdminDemo('remove','Dad')" style="padding:5px 10px; border:1px solid #e89; border-radius:6px; background:rgba(255,255,255,0.8); color:#c43; cursor:pointer;">Remove</button>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:10px 6px; font-weight:600;">Grandma</td>
+            <td style="padding:10px 6px; color:#a86d00;">locked</td>
+            <td style="padding:10px 6px; text-align:right;">
+              <button onclick="hdAdminDemo('unlock','Grandma')" style="padding:5px 10px; border:1px solid rgba(0,0,0,0.2); border-radius:6px; background:rgba(255,255,255,0.8); cursor:pointer;">Unlock</button>
+              <button onclick="hdAdminDemo('remove','Grandma')" style="padding:5px 10px; border:1px solid #e89; border-radius:6px; background:rgba(255,255,255,0.8); color:#c43; cursor:pointer;">Remove</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div style="background:rgba(255,255,255,0.6); border:1px solid rgba(0,0,0,0.12); border-radius:10px; padding:14px; margin-bottom:14px;">
+        <h4 style="margin:0 0 10px; font-size:1.05em;">Add an administrator</h4>
+        <form onsubmit="hdAdminAddDemo(event); return false;" style="display:grid; gap:8px;">
+          <input type="text" placeholder="username (e.g. uncle_pat)" style="padding:8px 12px; border:1px solid rgba(0,0,0,0.2); border-radius:6px; font-size:1em;">
+          <input type="text" placeholder="Display name (e.g. Uncle Pat)" style="padding:8px 12px; border:1px solid rgba(0,0,0,0.2); border-radius:6px; font-size:1em;">
+          <input type="password" placeholder="Password (6+ characters)" style="padding:8px 12px; border:1px solid rgba(0,0,0,0.2); border-radius:6px; font-size:1em;">
+          <button type="submit" style="padding:9px 18px; border:none; border-radius:6px; background:#007a8a; color:#fff; font-size:1em; font-weight:600; cursor:pointer;">Add Administrator</button>
+        </form>
+      </div>
+
+      <details>
+        <summary style="cursor:pointer; color:#555; font-size:0.9em; padding:6px 0;">Recover root access (advanced)</summary>
+        <div style="margin-top:10px; padding:12px; background:rgba(255,245,245,0.85); border-left:4px solid #d44; border-radius:6px; font-size:0.9em;">
+          <p style="margin:0 0 8px; color:#555;">Forgot your password and your spouse forgot too? This unlocks the underlying recovery account so you can set a new administrator password without factory-resetting the router.</p>
+          <p style="margin:0; color:#555;">Root login is normally <strong>locked</strong>.</p>
+        </div>
+      </details>
+
+      <p style="margin-top:14px; padding-top:12px; border-top:1px solid rgba(0,0,0,0.08); color:#555; font-size:0.85em; line-height:1.45;">
+        <strong>How this works on a real Haven router:</strong> the first time you log in to your fresh router, you are taken straight here to create your first administrator. Once you do, the underlying Linux <code>root</code> account is locked &mdash; from then on, you and any administrator you add are the only people with access. We never use Linux jargon: it is <em>your</em> router, with <em>your</em> name on it.
+      </p>
+    </div>
+
     <div id="hd-log-panel" class="hd-glass">
       <p id="hd-log-notice">The activity log shows recent filtered requests on your real Haven router at <span style="font-family:monospace">192.168.1.1 → Haven → Log</span>. The sample below illustrates the experience.</p>
       <table id="hd-log-table" style="width:100%;border-collapse:collapse;margin-top:10px;">
@@ -309,6 +375,6 @@
   </div>
 </div>
 
-<script src="js/haven-data.js?v=20260512c"></script>
-<script src="js/haven-tooltips.js?v=20260512c"></script>
-<script src="js/haven-ui.js?v=20260512c"></script>
+<script src="js/haven-data.js?v=20260524-admin"></script>
+<script src="js/haven-tooltips.js?v=20260524-admin"></script>
+<script src="js/haven-ui.js?v=20260524-admin"></script>
