@@ -16,8 +16,9 @@
 <style>
   body { background: #fff; }
   .cf-page-title { text-align: center; padding: 40px 16px 24px; }
-  .cf-sort-bar { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; padding: 0 16px 40px; }
-  .cf-sort-bar .btn { min-width: 220px; }
+  .cf-sort-bar { display: flex; justify-content: center; align-items: center; gap: 12px; flex-wrap: wrap; padding: 0 16px 40px; }
+  .cf-sort-bar .cf-sort-label { font-weight: 600; margin-right: 4px; }
+  .cf-sort-bar .btn { min-width: 160px; }
   .cf-sort-bar .btn.cf-inactive { opacity: 0.55; }
   .cf-content { max-width: 760px; margin: 0 auto; padding: 0 24px 80px; }
   .cf-section { margin-bottom: 36px; }
@@ -38,8 +39,9 @@
 </section>
 
 <div class="cf-sort-bar">
-  <a class="btn btn-primary display-7" id="cf-sort-family"  href="#">Sort for families</a>
-  <a class="btn btn-primary display-7" id="cf-sort-privacy" href="#">Sort for privacy</a>
+  <span class="cf-sort-label mbr-fonts-style display-7">Sort:</span>
+  <a class="btn btn-primary display-7" id="cf-sort-family"  href="#">Family</a>
+  <a class="btn btn-primary display-7" id="cf-sort-privacy" href="#">Privacy</a>
 </div>
 
 <div class="cf-content" id="cf-content">
