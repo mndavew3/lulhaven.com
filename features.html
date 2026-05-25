@@ -25,11 +25,22 @@
   .cf-section-title { margin: 0 0 16px; font-weight: 700; }
   .cf-bullet { padding: 10px 0; line-height: 1.55; }
   .cf-bullet strong { display: block; }
+  .cf-bullet-with-image { display: flex; align-items: flex-start; gap: 14px; }
+  .cf-bullet-with-image .cf-bullet-text { flex: 1; }
+  .cf-bullet-thumb { flex: 0 0 96px; width: 96px; height: auto; border-radius: 8px; }
+  @media (max-width: 480px) {
+    .cf-bullet-thumb { flex-basis: 72px; width: 72px; }
+  }
   .cf-details-btn { display: inline-block; margin-top: 4px; padding: 2px 10px; font-size: 0.85em;
                     background: transparent; color: #1f6b5a; border: 1px solid #1f6b5a;
                     border-radius: 12px; cursor: pointer; }
   .cf-details-btn:hover { background: #1f6b5a; color: #fff; }
   .cf-details-btn.cf-active { background: #1f6b5a; color: #fff; }
+  .cf-milestone-link { display: inline-block; margin-left: 8px; font-size: 0.85em; color: #1f6b5a; text-decoration: none; }
+  .cf-milestone-link:hover { text-decoration: underline; }
+  .cf-benefit-banner { display: none; max-width: 760px; margin: 0 auto 24px; padding: 14px 18px; background: #f4f7f6; border-left: 4px solid #1f6b5a; border-radius: 4px; font-size: 0.95em; line-height: 1.5; }
+  .cf-benefit-banner.cf-banner-on { display: block; }
+  .cf-benefit-banner a { color: #1f6b5a; font-weight: 600; }
   .cf-details-panel { display: none; margin: 4px 0 12px; padding: 14px 18px;
                       background: #f4f7f6; border-left: 3px solid #1f6b5a;
                       border-radius: 4px; font-size: 0.95em; line-height: 1.55; }
@@ -55,6 +66,8 @@
   <a class="btn btn-primary display-7" id="cf-sort-privacy" href="#">Privacy</a>
 </div>
 
+<div id="cf-benefit-banner" class="cf-benefit-banner mbr-text mbr-fonts-style display-7"></div>
+
 <div class="cf-content" id="cf-content">
   <p class="mbr-text mbr-fonts-style display-7" style="text-align:center;opacity:0.5;">Loading…</p>
 </div>
@@ -63,8 +76,10 @@
   <a class="mbr-text mbr-fonts-style display-7" href="index.html">← Back to home</a>
 </div>
 
-<script src="js/customer-features.js?v=20260525-3"></script>
-<script src="js/customer-features-ui.js?v=20260525-3"></script>
+<script src="js/customer-features.js?v=20260525-1659"></script>
+<script src="js/customer-features-ui.js?v=20260525-1659"></script>
+
+<script src="js/kyc.js?v=20260525-2"></script>
 
 </body>
 </html>

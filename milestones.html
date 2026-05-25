@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Milestones — Haven</title>
+<meta name="description" content="What we have built and when. Project milestones for the Haven content-filtering router.">
+
+<link rel="icon" type="image/png" href="assets/images/haven-icon-32x32.png">
+<link rel="stylesheet" href="assets/web/assets/mobirise-icons2/mobirise2.css">
+<link rel="preload" as="style" href="assets/mobirise/css/mbr-additional.css%3Fv=2WGiz1.css">
+<link rel="stylesheet" href="assets/mobirise/css/mbr-additional.css%3Fv=2WGiz1.css" type="text/css">
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Inter+Tight:100,200,300,400,500,600,700,800,900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter+Tight:100,200,300,400,500,600,700,800,900&display=swap"></noscript>
+
+<style>
+  body { background: #fff; }
+  .ms-page-title { text-align: center; padding: 40px 16px 24px; }
+  .ms-sort-bar { display: flex; justify-content: center; align-items: center; gap: 12px; flex-wrap: wrap; padding: 0 16px 12px; }
+  .ms-sort-bar .ms-sort-label { font-weight: 600; margin-right: 4px; }
+  .ms-sort-bar .btn { min-width: 140px; }
+  .ms-sort-bar .btn.ms-inactive { opacity: 0.45; }
+  .ms-filter-bar { display: flex; justify-content: center; align-items: center; gap: 12px; flex-wrap: wrap; padding: 0 16px 8px; }
+  .ms-filter-bar .ms-filter-label { font-weight: 600; margin-right: 4px; }
+  .ms-filter-bar select { font-size: 1em; padding: 6px 10px; min-width: 220px; border: 1px solid #bbb; border-radius: 4px; background: #fff; }
+  .ms-blurb { text-align: center; max-width: 640px; margin: 0 auto 36px; padding: 0 24px; opacity: 0.85; line-height: 1.5; }
+  .ms-feature-banner { display: none; max-width: 820px; margin: 0 auto 24px; padding: 14px 18px; background: #f4f7f6; border-left: 4px solid #1f6b5a; border-radius: 4px; font-size: 0.95em; line-height: 1.5; }
+  .ms-feature-banner.ms-banner-on { display: block; }
+  .ms-feature-banner a { color: #1f6b5a; font-weight: 600; }
+  .ms-content { max-width: 820px; margin: 0 auto; padding: 0 24px 80px; }
+  .ms-row { padding: 14px 0; border-bottom: 1px solid #eaeaea; }
+  .ms-row:last-child { border-bottom: none; }
+  .ms-meta { display: flex; gap: 12px; align-items: center; font-size: 0.85em; opacity: 0.75; margin-bottom: 4px; flex-wrap: wrap; }
+  .ms-date  { font-variant-numeric: tabular-nums; }
+  .ms-theme { background: #f0f4f3; padding: 2px 10px; border-radius: 10px; font-size: 0.9em; }
+  .ms-impact { color: #c08400; letter-spacing: 1px; }
+  .ms-summary { line-height: 1.45; }
+  .ms-benefit { font-style: italic; opacity: 0.8; margin-top: 4px; line-height: 1.45; }
+  .ms-details-btn { display: inline-block; margin-top: 4px; padding: 2px 10px; font-size: 0.85em;
+                    background: transparent; color: #1f6b5a; border: 1px solid #1f6b5a;
+                    border-radius: 12px; cursor: pointer; }
+  .ms-details-btn:hover, .ms-details-btn.ms-active { background: #1f6b5a; color: #fff; }
+  .ms-details-panel { display: none; margin: 6px 0 4px; padding: 12px 16px;
+                      background: #f4f7f6; border-left: 3px solid #1f6b5a;
+                      border-radius: 4px; font-size: 0.95em; line-height: 1.55; }
+  .ms-details-panel.ms-open { display: block; }
+  .ms-back-link { display: block; text-align: center; padding: 0 0 60px; }
+</style>
+</head>
+
+<body>
+
+<section class="ms-page-title">
+  <h1 class="mbr-section-title mbr-fonts-style display-1"><strong>Milestones <span id="ms-total" style="font-weight:400;opacity:0.6;">(…)</span></strong></h1>
+  <p class="mbr-text mbr-fonts-style display-7" style="max-width:640px;margin:18px auto 0;">
+    What we have built and when. Receipts, not promises.
+  </p>
+</section>
+
+<div class="ms-sort-bar">
+  <span class="ms-sort-label mbr-fonts-style display-7">Sort:</span>
+  <a class="btn btn-primary display-7" id="ms-sort-newest"  href="#">Newest</a>
+  <a class="btn btn-primary display-7" id="ms-sort-biggest" href="#">Biggest</a>
+</div>
+
+<div class="ms-filter-bar">
+  <span class="ms-filter-label mbr-fonts-style display-7">Filter:</span>
+  <select id="ms-filter" class="mbr-fonts-style display-7">
+    <option value="5">Earth shakers only</option>
+    <option value="4" selected>Major and above</option>
+    <option value="3">Substantial and above</option>
+    <option value="2">Iterations and above</option>
+    <option value="1">All — including housekeeping</option>
+  </select>
+</div>
+
+<p id="ms-blurb" class="ms-blurb mbr-text mbr-fonts-style display-7"></p>
+
+<div id="ms-feature-banner" class="ms-feature-banner mbr-text mbr-fonts-style display-7"></div>
+
+<div class="ms-content" id="ms-content">
+  <p class="mbr-text mbr-fonts-style display-7" style="text-align:center;opacity:0.5;">Loading…</p>
+</div>
+
+<div class="ms-back-link">
+  <a class="mbr-text mbr-fonts-style display-7" href="index.html">← Back to home</a>
+</div>
+
+<script src="js/milestones.js?v=20260525-1659"></script>
+<script src="js/milestones-ui.js?v=20260525-1659"></script>
+
+<script src="js/kyc.js?v=20260525-2"></script>
+
+</body>
+</html>

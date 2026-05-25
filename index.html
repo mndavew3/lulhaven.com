@@ -38,10 +38,51 @@
   <link rel="preload" href="https://fonts.googleapis.com/css?family=Inter+Tight:100,200,300,400,500,600,700,800,900,100i,200i,300i,400i,500i,600i,700i,800i,900i&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter+Tight:100,200,300,400,500,600,700,800,900,100i,200i,300i,400i,500i,600i,700i,800i,900i&display=swap"></noscript>
   <link rel="preload" as="style" href="assets/mobirise/css/mbr-additional.css%3Fv=2WGiz1.css"><link rel="stylesheet" href="assets/mobirise/css/mbr-additional.css%3Fv=2WGiz1.css" type="text/css">
+  <style>
+    /* Hero CTA — Live demo: same green background as the other buttons,
+       but the label is gold and the gold pulses softly. Pauses on hover. */
+    .btn-haven-demo {
+      color: #f0c040 !important;
+      animation: haven-demo-flash 1.2s ease-in-out infinite;
+    }
+    .btn-haven-demo:hover {
+      animation: none;
+      color: #ffd700 !important;
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.85);
+    }
+    @keyframes haven-demo-flash {
+      0%, 100% {
+        color: #d4a017;
+        text-shadow: 0 0 0 rgba(255, 215, 0, 0);
+      }
+      50% {
+        color: #ffd700;
+        text-shadow: 0 0 12px rgba(255, 215, 0, 0.9);
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .btn-haven-demo {
+        animation: none;
+        color: #f0c040 !important;
+      }
+    }
+    /* 47 Strategies card — expandable explainer */
+    .strat47-panel {
+      display: none;
+      margin-top: 16px;
+      padding: 14px 18px;
+      background: #f4f7f6;
+      border-left: 3px solid #1f6b5a;
+      border-radius: 4px;
+      font-size: 0.92em;
+      line-height: 1.55;
+    }
+    .strat47-panel.strat47-open { display: block; }
+    .strat47-panel p:last-child { margin-bottom: 0; }
+  </style>
 
-  
-  
-  
+
+
 </head>
 <body>
   
@@ -96,20 +137,28 @@
 				<h2 class="mbr-section-subtitle mbr-fonts-style mb-4 display-2" style="font-weight:400;">It shouldn't spew garbage.</h2>
 				<div class="mbr-section-btn mb-4">
 					<div class="row justify-content-center">
-						<div class="col-md-4 align-center px-2 mb-2"><a class="btn btn-primary display-7 w-100" href="#notify">Get notified at launch →</a></div>
-						<div class="col-md-4 align-center px-2 mb-2"><a class="btn btn-primary display-7 w-100" href="demo.html">Interactive live demo</a></div>
-						<div class="col-md-4 align-center px-2 mb-2"><a class="btn btn-primary display-7 w-100" href="features.html">Features</a></div>
+						<div class="col-md align-center px-2 mb-2"><a class="btn btn-primary display-7 w-100" href="benefits.html">Benefits</a></div>
+						<div class="col-md align-center px-2 mb-2"><a class="btn btn-primary display-7 w-100" href="features.html">Features</a></div>
+						<div class="col-md align-center px-2 mb-2"><a class="btn btn-primary btn-haven-demo display-7 w-100" href="demo.html">Interactive Live Demo</a></div>
+						<div class="col-md align-center px-2 mb-2"><a class="btn btn-primary display-7 w-100" href="milestones.html">Milestones</a></div>
+						<div class="col-md align-center px-2 mb-2"><a class="btn btn-primary display-7 w-100" href="#notify">Get notified at launch →</a></div>
 					</div>
 				</div>
 				<div class="haven-hero-pillars row justify-content-center mb-4">
-					<div class="col-md-4 align-center px-2">
-						<p class="mbr-fonts-style display-7 mb-0"><strong>Blocks at your router — before it reaches any device.</strong></p>
+					<div class="col-md align-center px-2">
+						<p class="mbr-fonts-style display-7 mb-0"><strong>What you get.</strong></p>
 					</div>
-					<div class="col-md-4 align-center px-2">
-						<p class="mbr-fonts-style display-7 mb-0"><strong>Every phone, tablet, TV, console. One click per category.</strong></p>
+					<div class="col-md align-center px-2">
+						<p class="mbr-fonts-style display-7 mb-0"><strong>What Haven does.</strong></p>
 					</div>
-					<div class="col-md-4 align-center px-2">
-						<p class="mbr-fonts-style display-7 mb-0"><strong>The bypasses they have learned do not bypass this.</strong></p>
+					<div class="col-md align-center px-2">
+						<p class="mbr-fonts-style display-7 mb-0"><strong>The Full Monte</strong></p>
+					</div>
+					<div class="col-md align-center px-2">
+						<p class="mbr-fonts-style display-7 mb-0"><strong>How and when we did it.</strong></p>
+					</div>
+					<div class="col-md align-center px-2">
+						<p class="mbr-fonts-style display-7 mb-0"><strong>Be in the loop.</strong></p>
 					</div>
 				</div>
 				<p class="mbr-text mbr-fonts-style mb-4 display-7">Haven is the whole household content filter.<br><br>It fixes:<br>The weak content-control apps and Wi-Fi rules.<br>The streaming devices that force content you never asked for.<br>The sidebar that takes half an hour when you only meant to look up one thing.<br>The autoplay you didn't autoplay.<br><br>You have watched all of them fail.<br><br>Haven works at the level all of those bypass: your home network. One device, one interface, one click per category. Adult content. Violence. Gambling. Mobile game ads. Misinformation. Trackers.<br><br>On or off — your house, your call. Click. Save. Gone.</p>
@@ -123,6 +172,28 @@
 	</div>
 </section>
 
+<section data-bs-version="5.1" class="features1 haven-routers" id="haven-routers">
+	<div class="container">
+		<div class="row justify-content-center mb-4">
+			<div class="col-12 align-center">
+				<h2 class="mbr-section-title mbr-fonts-style mb-3 display-2"><strong>Meet Haven's Routers</strong></h2>
+			</div>
+		</div>
+		<div class="row justify-content-center align-items-start">
+			<div class="col-md-6 col-lg-5 align-center px-3 mb-4">
+				<img src="assets/images/haven-olive-gnome.png" alt="Haven Olive — gnome in U.S. Army camouflage uniform with sergeant chevrons" style="max-width: 360px; width: 100%; height: auto; display: block; margin: 0 auto;">
+				<h3 class="mbr-section-subtitle mbr-fonts-style mt-3 mb-1 display-5"><strong>Haven Olive</strong></h3>
+				<p class="mbr-text mbr-fonts-style mb-0 display-7">Linksys E8450 — Essential Wi-Fi 6</p>
+			</div>
+			<div class="col-md-6 col-lg-5 align-center px-3 mb-4">
+				<img src="assets/images/haven-navy-gnome.png" alt="Haven Navy — gnome in U.S. Navy uniform" style="max-width: 360px; width: 100%; height: auto; display: block; margin: 0 auto;">
+				<h3 class="mbr-section-subtitle mbr-fonts-style mt-3 mb-1 display-5"><strong>Haven Navy</strong></h3>
+				<p class="mbr-text mbr-fonts-style mb-0 display-7">GL.iNet MT6000 — Performance flagship</p>
+			</div>
+		</div>
+	</div>
+</section>
+
 <section data-bs-version="5.1" class="features4 cid-tMlEXTHLbS" id="features04-w">
 	
 	
@@ -131,7 +202,7 @@
 			<div class="col-12 content-head">
 				<div class="mbr-section-head mb-5">
 					<h4 class="mbr-section-title mbr-fonts-style align-center mb-0 display-2"><strong>How It Works</strong></h4>
-					<h5 class="mbr-section-subtitle mbr-fonts-style align-center mb-0 mt-4 display-7">Haven is an add-on to the OpenWRT router software. Many routers come directly from the manufacturer with OpenWRT as their software. OpenWRT can replace the original software in millions of other routers. OpenWRT is the leading open-source router software available.<br><br>If you choose to filter nothing with Haven, then you’re just running unaltered OpenWRT, and that’s fine. Haven adds its own interface on top of OpenWRT, but all original OpenWRT screens and settings remain fully accessible.<br><br>Many content providers use a large number of IP addresses to provide their content. And that’s just one of about a dozen attributes that are used to filter content. And each attribute can be used in multiple strategies. With a single mouse click, you activate all those strategies.</h5>
+					<h5 class="mbr-section-subtitle mbr-fonts-style align-center mb-0 mt-4 display-7">Haven is an extension of the OpenWRT router software. Many routers come directly from the manufacturer with OpenWRT as their software. OpenWRT can replace the original software in millions of other routers. OpenWRT is the leading open-source router software available.<br><br>If you choose to filter nothing with Haven, then you’re just running unaltered OpenWRT, and that’s fine. Haven adds its own interface on top of OpenWRT, but all original OpenWRT screens and settings remain fully accessible.<br><br>Many content providers use a large number of IP addresses to provide their content. And that’s just one of about a dozen attributes that are used to filter content. And each attribute can be used in multiple strategies. With a single mouse click, you activate all those strategies.</h5>
 					
 				</div>
 			</div>
@@ -160,14 +231,17 @@
 						<img src="assets/images/51505739-398x225.png" alt="">
 					</div>
 					<div class="item-content">
-						<p class="mbr-fonts-style" style="font-size: 0.85em; font-style: italic; color: #666; margin-bottom: 0.5rem;">Who drives your bus? Everyone knows it's dangerous. They got on anyway. Now look at your phone.</p>
+						<p class="mbr-fonts-style" style="font-size: 0.85em; font-style: italic; color: #666; margin-bottom: 0.5rem;">Who drives your bus? Everyone knows it's dangerous. They got on anyway. Now take a good look at your phone.</p>
 						<h5 class="item-title mbr-fonts-style display-5">
 							<strong>47 Strategies</strong>
 						</h5>
 
 						<p class="mbr-text mbr-fonts-style display-7">
 							When you select a content provider, Haven uses as many as 47 unique strategies to block that content from your network — with a single click.</p>
-						<div class="mbr-section-btn item-footer"><a href="demo.html" class="btn item-btn btn-primary display-7">Learn more</a></div>
+						<div class="mbr-section-btn item-footer"><button type="button" class="btn item-btn btn-primary display-7 strat47-toggle">Learn more</button></div>
+						<div class="strat47-panel mbr-text mbr-fonts-style display-7" id="strat47-panel">
+							<p>It was very early in the product development cycle when we identified a content provider that had 47 unique attributes by which we could filter their content. It was "Meta Corp". True, they were an outlier so we said "up to 47 unique strategies". However, we did 90% of our product development after that. We added blacklist data sources like the Toulouse University blacklist, for example. The true maximum number of strategies by which we could filter a single provider's content is unknown at this time. All we can say is that it is most certainly more than 47.</p>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -619,6 +693,11 @@
     <div class="row justify-content-center">
       <div class="mbr-figure col-12 col-md-12"><iframe class="mbr-embedded-video" src="https://www.youtube.com/embed/T4Upf_B9RLQ?rel=0&amp;amp;mute=1&amp;showinfo=0&amp;autoplay=1&amp;loop=1&amp;playlist=T4Upf_B9RLQ" width="1280" height="720" frameborder="0" allowfullscreen></iframe></div>
     </div>
+    <div class="row justify-content-center">
+      <div class="col-md-12 align-center mt-3">
+        <p class="mbr-text mbr-fonts-style display-7" style="font-style: italic; opacity: 0.8;">The Norwegian Consumer Council does not endorse this product — yet.</p>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -638,8 +717,9 @@
         <h1 class="mbr-section-title mbr-fonts-style mb-4 display-1">
           <strong>Is the Norwegan Consumer Council on to something?</strong></h1>
         <p class="mbr-text mbr-fonts-style mb-4 display-7">
-          What's the worst that could happen?</p>
-        <div class="mbr-section-btn mt-4"><a class="btn btn-primary display-7" href="https://mangaka.app/en/story/haven-ver-3-7663/chapter-0-8263">Our manga</a> <a class="btn btn-primary display-7" href="https://heyzine.com/flip-book/8aaa691d99.html" target="_blank">Chapter 2a</a> <a class="btn btn-primary display-7" href="https://heyzine.com/flip-book/9ec65d5f25.html" target="_blank">Chapter 2b</a></div>
+          What's the worst that could happen? (Our "Dramatized" origin story)</p>
+        <div class="mbr-section-btn mt-4"><a class="btn btn-primary display-7" href="https://mangaka.app/en/story/haven-ver-3-7663/chapter-0-8263">Chapter 1</a> <a class="btn btn-primary display-7" href="https://heyzine.com/flip-book/8aaa691d99.html" target="_blank">Chapter 2a</a> <a class="btn btn-primary display-7" href="https://heyzine.com/flip-book/9ec65d5f25.html" target="_blank">Chapter 2b</a></div>
+        <p class="mbr-text mbr-fonts-style display-7 mt-3" style="font-style: italic; opacity: 0.8;">Unbox Therapy&reg; does not endorse this product &mdash; yet.</p>
       </div>
     </div>
   </div>
@@ -647,5 +727,18 @@
   
   
   <input name="animation" type="hidden">
+  <script>
+    // 47 Strategies card — toggle the explainer panel.
+    (function () {
+      var btn = document.querySelector('.strat47-toggle');
+      var panel = document.getElementById('strat47-panel');
+      if (!btn || !panel) return;
+      btn.addEventListener('click', function () {
+        var open = panel.classList.toggle('strat47-open');
+        btn.textContent = open ? 'Show less' : 'Learn more';
+      });
+    })();
+  </script>
+  <script src="js/kyc.js?v=20260525-2"></script>
   </body>
 </html>

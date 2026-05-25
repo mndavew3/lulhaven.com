@@ -1,0 +1,122 @@
+var cbDataset = [
+  {
+    "section": "top",
+    "lead": "Stop being the household cop",
+    "body": "The router enforces the household rules, not you.",
+    "family_rank": 1,
+    "privacy_rank": 8,
+    "family_lead": null,
+    "privacy_lead": null,
+    "related_feature_ids": "15,16,23,24",
+    "details": "<p>You're the parent. You set the rules. You are not the daily enforcer. Haven runs the rules continuously, on every device, every site, every time — without you having to be in the room. Presets give you starting points for common household goals; the activity log tells you what happened; multiple admins share the work so it is not one parent's job alone.</p>",
+    "link": null
+  },
+  {
+    "section": "top",
+    "lead": "Real privacy, not promised privacy",
+    "body": "Filter prefs, device list, and activity log live on your router — and only on your router.",
+    "family_rank": 4,
+    "privacy_rank": 1,
+    "family_lead": null,
+    "privacy_lead": null,
+    "related_feature_ids": "4,5,6,7",
+    "details": "<p>Haven is built so the company that made the router cannot read what flows through it. Your settings, your device list, the timestamped log of what got blocked — all of it lives on your router and never leaves. The only outbound conversation is a once-a-day check for fresh category lists, and that check carries nothing identifying. If you opt in to encrypted cloud backup, the encryption happens on your router with a key your router holds. We can store the blob; we cannot read it.</p>",
+    "link": null
+  },
+  {
+    "section": "top",
+    "lead": "The bypasses don't bypass this",
+    "body": "DoH, VPN apps, Private Relay, app-store loopholes — the tricks they learn don't work here.",
+    "family_rank": 2,
+    "privacy_rank": 2,
+    "family_lead": null,
+    "privacy_lead": null,
+    "related_feature_ids": "13,18",
+    "details": "<p>Old content filters break when their bypasses become well known — and over time, every bypass becomes well known. The workarounds that circulate online — encrypted DNS, VPN apps, Private Relay, browser-built-in DoH, manual DNS changes — do not work against Haven.</p><p>What gets closed off:</p><ul><li><strong>Encrypted DNS (DoH).</strong> Apps and browsers that try to look up sites through Cloudflare, Google, Quad9, etc. are routed back through Haven.</li><li><strong>Apple Private Relay.</strong> The iCloud+ feature that hides browsing from the network is shut down — Haven sees and filters anyway.</li><li><strong>VPN apps.</strong> Consumer VPN apps that pretend to be other traffic are detected and blocked from establishing tunnels.</li><li><strong>Manual DNS changes.</strong> Setting \"Cloudflare DNS\" or \"Google DNS\" in a device's network settings does nothing — Haven catches those too.</li><li><strong>Browser-built-in encrypted lookups.</strong> DNS-over-HTTPS shipped inside Chrome, Firefox, and Edge — built in to dodge home filters automatically — is intercepted before it leaves the home. Same for any app that ships its own encrypted-lookup library.</li></ul><p>This is the difference between \"we have a blocklist\" and \"the blocklist actually holds.\"</p>",
+    "link": null
+  },
+  {
+    "section": "top",
+    "lead": "Covers every device in the house",
+    "body": "Computers, phones, tablets, TVs, consoles — wired or wireless, all filtered.",
+    "family_rank": 3,
+    "privacy_rank": 4,
+    "family_lead": null,
+    "privacy_lead": null,
+    "related_feature_ids": "1,14",
+    "details": "<p>Filtering at the router covers everything you let onto your network — anything plugged in by Ethernet, anything joining over Wi-Fi. Desktops, laptops, phones, tablets, smart TVs, game consoles, e-readers, smart speakers. There is no per-device app to install and nothing for a household member to disable on their own phone. When a new device joins, it is filtered the same way as everything else from the moment it connects.</p>",
+    "link": null
+  },
+  {
+    "section": "main",
+    "lead": "No vendor lock-in",
+    "body": "Cancel the subscription anytime. Your router and its filter keep working.",
+    "family_rank": 8,
+    "privacy_rank": 3,
+    "family_lead": null,
+    "privacy_lead": null,
+    "related_feature_ids": "3,9,10,27",
+    "details": "<p>The router is yours, the filter on it is yours, the settings stay on it. The $4/month subscription pays for ongoing list updates — the moment you cancel, those stop, but the filter keeps doing what it was doing with the most recent list. Survives a factory reset too: your settings come back. This matters specifically because trust in subscription services has been eroded by years of products that hold features hostage when payment stops.</p>",
+    "link": null
+  },
+  {
+    "section": "main",
+    "lead": "Genuinely affordable",
+    "body": "$4 per month covers ongoing updates. Competitors charge $70–100 per year for the same baseline.",
+    "family_rank": 5,
+    "privacy_rank": 6,
+    "family_lead": null,
+    "privacy_lead": null,
+    "related_feature_ids": "28",
+    "details": "<p>$4 per month covers weekly category and provider list updates, the research that adds new sites and bypass tactics, and one lightweight off-network mobile device. Competitors in the consumer content-filter category typically charge $70–$100 per year for comparable baseline coverage, frequently with paywalls in front of basic features. Haven keeps the basics in the base price and names the few optional add-ons clearly.</p>",
+    "link": null
+  },
+  {
+    "section": "main",
+    "lead": "Plug in, set a password, done",
+    "body": "No firmware to flash, no DNS settings to change, no app to install per device.",
+    "family_rank": 6,
+    "privacy_rank": 7,
+    "family_lead": null,
+    "privacy_lead": null,
+    "related_feature_ids": "2,26",
+    "details": "<p>No firmware flashing, no command line, no YouTube tutorial, no changing DNS settings on every device. Plug Haven into your modem the same way your old router connected, set a Wi-Fi password, and filtering is in effect. The router auto-detects whether it should be the main router or sit behind an existing ISP router, and avoids the IP-address conflicts that silently break consumer setups.</p>",
+    "link": null
+  },
+  {
+    "section": "main",
+    "lead": "Survives the household stress test",
+    "body": "Settings come back after a factory reset. Tampering does not open the gates.",
+    "family_rank": 9,
+    "privacy_rank": 9,
+    "family_lead": null,
+    "privacy_lead": null,
+    "related_feature_ids": "10,13",
+    "details": "<p>Reset buttons are reachable. We do not want the difference between \"filtered house\" and \"unfiltered house\" to be ten seconds with a paperclip. Your settings live in a partition of the router that the normal factory reset does not touch — press and hold reset, watch the lights blink, the router comes back up with the same admin accounts, the same filter prefs, the same device list. The bypass-resistance closes off the remote tricks too.</p>",
+    "link": null
+  },
+  {
+    "section": "main",
+    "lead": "Built for households, not solo operators",
+    "body": "Multiple admins, no master/secondary hierarchy, a transparent change history.",
+    "family_rank": 7,
+    "privacy_rank": 10,
+    "family_lead": null,
+    "privacy_lead": null,
+    "related_feature_ids": "15,17,23",
+    "details": "<p>The Haven Helm supports any number of admin accounts, each named. No primary/secondary hierarchy — Mom, Dad, a grandparent, an older sibling brought in: all admins see the same screens and can make the same changes. Every change is timestamped against the admin who made it, so \"who turned X back on last Tuesday\" has an answer. New-device email alerts go to every admin. The coming Family Dashboard extends this view across multiple homes.</p>",
+    "link": null
+  },
+  {
+    "section": "main",
+    "lead": "Adult choices, not algorithmic ones",
+    "body": "YouHaven hides channels you have decided not to see. Adult content is opt-in. Trackers blocked.",
+    "family_rank": 10,
+    "privacy_rank": 5,
+    "family_lead": null,
+    "privacy_lead": null,
+    "related_feature_ids": "8,19",
+    "details": "<p>The standard YouTube and social-media apps decide what to recommend to you. YouHaven (companion Android app) puts that decision back in your hands — hide channels and providers you have decided you do not want in your feed. On the router itself: adult content is blocked by default and only an admin can opt in. Trackers are blocked. Mobile game ads are blocked. The defaults respect that you are an adult making your own choices, not a target for algorithmic shaping.</p>",
+    "link": null
+  }
+];

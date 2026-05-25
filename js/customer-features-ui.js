@@ -3,6 +3,20 @@
 // for default-audience telemetry.
 
 (function () {
+  // Parse ?ids=N,N,N&label=... — when present, restrict the page to those
+  // customer_features IDs and show a banner naming the benefit they deliver.
+  var params      = new URLSearchParams(window.location.search);
+  var idsParam    = params.get('ids');
+  var labelParam  = params.get('label');
+  var benefitFilter = null;
+  if (idsParam) {
+    var parsedIds = idsParam.split(',').map(function (s) { return parseInt(s, 10); })
+                                       .filter(function (n) { return !isNaN(n); });
+    if (parsedIds.length) {
+      benefitFilter = { ids: parsedIds, label: labelParam || '' };
+    }
+  }
+
   var SECTION_ORDER = ['headline', 'main', 'how_it_works', 'what_we_dont', 'coming_soon'];
   var SECTION_TITLES = {
     headline:     null,
@@ -27,8 +41,20 @@
   function renderFor(audience) {
     var rankKey = audience + '_rank';
     var leadKey = audience + '_lead';
-    var rows = cfDataset.filter(function (r) { return r[rankKey] != null; });
-    rows.sort(function (a, b) { return a[rankKey] - b[rankKey]; });
+    var rows;
+    if (benefitFilter) {
+      var allow = {};
+      benefitFilter.ids.forEach(function (id) { allow[id] = true; });
+      rows = cfDataset.filter(function (r) { return allow[r.id]; });
+      rows.sort(function (a, b) {
+        var ar = a[rankKey] != null ? a[rankKey] : (a.family_rank != null ? a.family_rank : 999);
+        var br = b[rankKey] != null ? b[rankKey] : (b.family_rank != null ? b.family_rank : 999);
+        return ar - br;
+      });
+    } else {
+      rows = cfDataset.filter(function (r) { return r[rankKey] != null; });
+      rows.sort(function (a, b) { return a[rankKey] - b[rankKey]; });
+    }
     var bySection = {};
     rows.forEach(function (r) {
       (bySection[r.section] = bySection[r.section] || []).push(r);
@@ -50,12 +76,24 @@
           leadHtml = '<a href="' + escapeHtml(r.link) + '">' + leadHtml + '</a>';
         }
         var panelId = 'cf-detail-' + section + '-' + i;
-        html += '<div class="cf-bullet mbr-text mbr-fonts-style display-7">';
+        var rowClass = 'cf-bullet mbr-text mbr-fonts-style display-7';
+        if (r.image) rowClass += ' cf-bullet-with-image';
+        html += '<div class="' + rowClass + '">';
+        if (r.image) {
+          html += '<img class="cf-bullet-thumb" src="assets/images/' + escapeHtml(r.image) + '" alt="' + escapeHtml(lead) + '">';
+        }
+        html += '<div class="cf-bullet-text">';
         html += '<strong>' + leadHtml + '</strong>';
         if (r.body) html += escapeHtml(r.body);
         if (r.details) {
           html += ' <button type="button" class="cf-details-btn" data-cf-target="' + panelId + '">Details</button>';
         }
+        if (r.milestone_ids) {
+          var mUrl = 'milestones.html?ids=' + encodeURIComponent(r.milestone_ids) +
+                     '&label=' + encodeURIComponent(lead);
+          html += ' <a class="cf-milestone-link" href="' + mUrl + '">See when we built this →</a>';
+        }
+        html += '</div>';  // /.cf-bullet-text
         html += '</div>';
         if (r.details) {
           html += '<div class="cf-details-panel" id="' + panelId + '">' + r.details + '</div>';
@@ -128,6 +166,15 @@
     if (typeof cfDataset === 'undefined') {
       document.getElementById('cf-content').innerHTML = '<p class="mbr-text mbr-fonts-style display-7" style="text-align:center;color:#a00;">Feature data failed to load.</p>';
       return;
+    }
+    if (benefitFilter) {
+      var banner = document.getElementById('cf-benefit-banner');
+      if (banner) {
+        banner.innerHTML = 'Showing features for benefit: <strong>' +
+                           escapeHtml(benefitFilter.label || 'selected benefit') + '</strong>' +
+                           '  &middot;  <a href="features.html">Show all features</a>';
+        banner.classList.add('cf-banner-on');
+      }
     }
     renderFor(DEFAULT_AUDIENCE);
     wireButtons();
