@@ -45,8 +45,12 @@
       }
       bullets.forEach(function (r) {
         var lead = r[leadKey] || r.lead;
+        var leadHtml = escapeHtml(lead);
+        if (r.link) {
+          leadHtml = '<a href="' + escapeHtml(r.link) + '">' + leadHtml + '</a>';
+        }
         html += '<div class="cf-bullet mbr-text mbr-fonts-style display-7">';
-        html += '<strong>' + escapeHtml(lead) + '</strong>';
+        html += '<strong>' + leadHtml + '</strong>';
         if (r.body) html += escapeHtml(r.body);
         html += '</div>';
       });
