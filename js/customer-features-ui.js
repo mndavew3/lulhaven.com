@@ -43,16 +43,23 @@
       if (title) {
         html += '<h2 class="cf-section-title mbr-fonts-style display-5">' + escapeHtml(title) + '</h2>';
       }
-      bullets.forEach(function (r) {
+      bullets.forEach(function (r, i) {
         var lead = r[leadKey] || r.lead;
         var leadHtml = escapeHtml(lead);
         if (r.link) {
           leadHtml = '<a href="' + escapeHtml(r.link) + '">' + leadHtml + '</a>';
         }
+        var panelId = 'cf-detail-' + section + '-' + i;
         html += '<div class="cf-bullet mbr-text mbr-fonts-style display-7">';
         html += '<strong>' + leadHtml + '</strong>';
         if (r.body) html += escapeHtml(r.body);
+        if (r.details) {
+          html += ' <button type="button" class="cf-details-btn" data-cf-target="' + panelId + '">Details</button>';
+        }
         html += '</div>';
+        if (r.details) {
+          html += '<div class="cf-details-panel" id="' + panelId + '">' + r.details + '</div>';
+        }
       });
       html += '</div>';
     });
@@ -85,6 +92,36 @@
     }
     document.getElementById('cf-sort-family').addEventListener('click',  handler('family'));
     document.getElementById('cf-sort-privacy').addEventListener('click', handler('privacy'));
+
+    // Delegated handler for the per-bullet Details buttons. Re-render of
+    // cf-content tears off direct listeners, so delegation on the container
+    // survives every sort switch.
+    document.getElementById('cf-content').addEventListener('click', function (ev) {
+      var btn = ev.target.closest && ev.target.closest('.cf-details-btn');
+      if (!btn) return;
+      ev.preventDefault();
+      var targetId = btn.getAttribute('data-cf-target');
+      var panel = document.getElementById(targetId);
+      var wasOpen = panel && panel.classList.contains('cf-open');
+      closeAllDetails();
+      if (panel && !wasOpen) {
+        panel.classList.add('cf-open');
+        btn.classList.add('cf-active');
+      }
+    });
+
+    // Click outside any bullet/panel closes whatever is open.
+    document.addEventListener('click', function (ev) {
+      if (ev.target.closest && (ev.target.closest('.cf-details-panel') || ev.target.closest('.cf-details-btn'))) return;
+      closeAllDetails();
+    });
+  }
+
+  function closeAllDetails() {
+    var panels = document.querySelectorAll('.cf-details-panel.cf-open');
+    for (var i = 0; i < panels.length; i++) panels[i].classList.remove('cf-open');
+    var btns = document.querySelectorAll('.cf-details-btn.cf-active');
+    for (var j = 0; j < btns.length; j++) btns[j].classList.remove('cf-active');
   }
 
   document.addEventListener('DOMContentLoaded', function () {

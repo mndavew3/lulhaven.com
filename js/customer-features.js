@@ -7,7 +7,8 @@ var cfDataset = [
     "privacy_rank": 1,
     "family_lead": null,
     "privacy_lead": null,
-    "link": null
+    "link": null,
+    "details": null
   },
   {
     "section": "headline",
@@ -17,7 +18,8 @@ var cfDataset = [
     "privacy_rank": 2,
     "family_lead": null,
     "privacy_lead": null,
-    "link": null
+    "link": null,
+    "details": null
   },
   {
     "section": "headline",
@@ -27,7 +29,8 @@ var cfDataset = [
     "privacy_rank": 3,
     "family_lead": null,
     "privacy_lead": null,
-    "link": null
+    "link": null,
+    "details": null
   },
   {
     "section": "headline",
@@ -37,7 +40,8 @@ var cfDataset = [
     "privacy_rank": 4,
     "family_lead": null,
     "privacy_lead": null,
-    "link": null
+    "link": null,
+    "details": null
   },
   {
     "section": "main",
@@ -47,7 +51,8 @@ var cfDataset = [
     "privacy_rank": 1,
     "family_lead": null,
     "privacy_lead": null,
-    "link": null
+    "link": null,
+    "details": null
   },
   {
     "section": "main",
@@ -57,7 +62,8 @@ var cfDataset = [
     "privacy_rank": 2,
     "family_lead": null,
     "privacy_lead": null,
-    "link": null
+    "link": null,
+    "details": null
   },
   {
     "section": "main",
@@ -67,7 +73,8 @@ var cfDataset = [
     "privacy_rank": 3,
     "family_lead": null,
     "privacy_lead": null,
-    "link": null
+    "link": null,
+    "details": null
   },
   {
     "section": "main",
@@ -77,7 +84,8 @@ var cfDataset = [
     "privacy_rank": 4,
     "family_lead": null,
     "privacy_lead": null,
-    "link": null
+    "link": null,
+    "details": null
   },
   {
     "section": "main",
@@ -87,7 +95,8 @@ var cfDataset = [
     "privacy_rank": 5,
     "family_lead": null,
     "privacy_lead": null,
-    "link": null
+    "link": null,
+    "details": null
   },
   {
     "section": "main",
@@ -97,7 +106,8 @@ var cfDataset = [
     "privacy_rank": 6,
     "family_lead": null,
     "privacy_lead": null,
-    "link": null
+    "link": null,
+    "details": null
   },
   {
     "section": "main",
@@ -107,7 +117,8 @@ var cfDataset = [
     "privacy_rank": 30,
     "family_lead": null,
     "privacy_lead": null,
-    "link": null
+    "link": null,
+    "details": null
   },
   {
     "section": "main",
@@ -117,7 +128,8 @@ var cfDataset = [
     "privacy_rank": 31,
     "family_lead": null,
     "privacy_lead": null,
-    "link": null
+    "link": null,
+    "details": null
   },
   {
     "section": "main",
@@ -127,7 +139,8 @@ var cfDataset = [
     "privacy_rank": 32,
     "family_lead": null,
     "privacy_lead": null,
-    "link": null
+    "link": null,
+    "details": null
   },
   {
     "section": "main",
@@ -137,7 +150,8 @@ var cfDataset = [
     "privacy_rank": 33,
     "family_lead": null,
     "privacy_lead": null,
-    "link": null
+    "link": null,
+    "details": "<p>Haven follows your devices off your home Wi-Fi in two ways, and you pick the one that fits each device:</p>\n<p><strong>Lightweight (recommended).</strong> Your phone or tablet gets a small DNS setting that points at your home router through Cloudflare. When the device asks for a blocked site &mdash; even on cellular &mdash; the question goes back to your router, gets filtered, and the device sees the same block page it would at home. No VPN icon, no battery hit, no app traffic re-routed.</p>\n<p><strong>Full protection (Pro tier).</strong> Your phone connects to your home router as a private VPN. Every app and every connection runs through Haven&rsquo;s filter. The trade-off: a VPN icon shows in your status bar, slightly more battery use, and a few apps that don&rsquo;t like VPNs may complain.</p>\n<p>Both work even on carrier networks that block normal home VPNs. Mobile setup is a one-time install of a small configuration profile &mdash; we provide the file and a one-page walkthrough for each phone type.</p>"
   },
   {
     "section": "main",
@@ -147,7 +161,8 @@ var cfDataset = [
     "privacy_rank": 34,
     "family_lead": null,
     "privacy_lead": null,
-    "link": null
+    "link": null,
+    "details": null
   },
   {
     "section": "main",
@@ -157,7 +172,8 @@ var cfDataset = [
     "privacy_rank": 35,
     "family_lead": null,
     "privacy_lead": null,
-    "link": null
+    "link": null,
+    "details": null
   },
   {
     "section": "main",
@@ -167,7 +183,8 @@ var cfDataset = [
     "privacy_rank": 36,
     "family_lead": null,
     "privacy_lead": null,
-    "link": null
+    "link": null,
+    "details": null
   },
   {
     "section": "main",
@@ -177,7 +194,8 @@ var cfDataset = [
     "privacy_rank": 37,
     "family_lead": null,
     "privacy_lead": null,
-    "link": null
+    "link": null,
+    "details": null
   },
   {
     "section": "main",
@@ -187,7 +205,8 @@ var cfDataset = [
     "privacy_rank": 38,
     "family_lead": null,
     "privacy_lead": null,
-    "link": null
+    "link": null,
+    "details": null
   },
   {
     "section": "how_it_works",
@@ -197,7 +216,8 @@ var cfDataset = [
     "privacy_rank": 1,
     "family_lead": null,
     "privacy_lead": null,
-    "link": null
+    "link": null,
+    "details": null
   },
   {
     "section": "how_it_works",
@@ -207,7 +227,8 @@ var cfDataset = [
     "privacy_rank": 2,
     "family_lead": null,
     "privacy_lead": null,
-    "link": null
+    "link": null,
+    "details": null
   },
   {
     "section": "how_it_works",
@@ -217,7 +238,8 @@ var cfDataset = [
     "privacy_rank": 3,
     "family_lead": null,
     "privacy_lead": null,
-    "link": null
+    "link": null,
+    "details": null
   },
   {
     "section": "how_it_works",
@@ -227,7 +249,8 @@ var cfDataset = [
     "privacy_rank": 4,
     "family_lead": null,
     "privacy_lead": null,
-    "link": null
+    "link": null,
+    "details": null
   },
   {
     "section": "how_it_works",
@@ -237,7 +260,8 @@ var cfDataset = [
     "privacy_rank": 5,
     "family_lead": null,
     "privacy_lead": null,
-    "link": null
+    "link": null,
+    "details": null
   },
   {
     "section": "how_it_works",
@@ -247,7 +271,8 @@ var cfDataset = [
     "privacy_rank": 6,
     "family_lead": null,
     "privacy_lead": null,
-    "link": null
+    "link": null,
+    "details": null
   },
   {
     "section": "how_it_works",
@@ -257,7 +282,8 @@ var cfDataset = [
     "privacy_rank": 7,
     "family_lead": null,
     "privacy_lead": null,
-    "link": null
+    "link": null,
+    "details": null
   },
   {
     "section": "how_it_works",
@@ -267,7 +293,8 @@ var cfDataset = [
     "privacy_rank": 8,
     "family_lead": null,
     "privacy_lead": null,
-    "link": null
+    "link": null,
+    "details": null
   },
   {
     "section": "how_it_works",
@@ -277,7 +304,8 @@ var cfDataset = [
     "privacy_rank": 9,
     "family_lead": null,
     "privacy_lead": null,
-    "link": null
+    "link": null,
+    "details": null
   },
   {
     "section": "how_it_works",
@@ -287,7 +315,8 @@ var cfDataset = [
     "privacy_rank": 10,
     "family_lead": null,
     "privacy_lead": null,
-    "link": null
+    "link": null,
+    "details": null
   },
   {
     "section": "how_it_works",
@@ -297,7 +326,8 @@ var cfDataset = [
     "privacy_rank": 11,
     "family_lead": null,
     "privacy_lead": null,
-    "link": null
+    "link": null,
+    "details": null
   },
   {
     "section": "how_it_works",
@@ -307,7 +337,8 @@ var cfDataset = [
     "privacy_rank": 12,
     "family_lead": null,
     "privacy_lead": null,
-    "link": "https://lulhaven.com/demo"
+    "link": "https://lulhaven.com/demo",
+    "details": null
   },
   {
     "section": "what_we_dont",
@@ -317,7 +348,8 @@ var cfDataset = [
     "privacy_rank": 1,
     "family_lead": null,
     "privacy_lead": null,
-    "link": null
+    "link": null,
+    "details": null
   },
   {
     "section": "coming_soon",
@@ -327,7 +359,8 @@ var cfDataset = [
     "privacy_rank": 1,
     "family_lead": null,
     "privacy_lead": null,
-    "link": null
+    "link": null,
+    "details": null
   },
   {
     "section": "coming_soon",
@@ -337,7 +370,8 @@ var cfDataset = [
     "privacy_rank": 2,
     "family_lead": null,
     "privacy_lead": null,
-    "link": null
+    "link": null,
+    "details": null
   },
   {
     "section": "coming_soon",
@@ -347,6 +381,7 @@ var cfDataset = [
     "privacy_rank": 3,
     "family_lead": null,
     "privacy_lead": null,
-    "link": null
+    "link": null,
+    "details": null
   }
 ];
