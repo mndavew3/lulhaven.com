@@ -1,5 +1,45 @@
 var milestonesDataset = [
   {
+    "id": 460,
+    "date": "2026-05-25",
+    "theme": "Filtering",
+    "impact": 5,
+    "summary": "Per-device filtering shipped end-to-end: devices table + DHCP auto-discovery + tag-bound dnsmasq rules + Helm dropdown with on/off toggle",
+    "detail": "Implemented end-to-end. <database> schema: devices table added; prefs got device_id INTEGER NULL (NULL=household) with partial UNIQUE indexes; migration via state_db.lua rebuilds existing tables idempotently. New devices.lua CRUD library. prefs.lua + prefs_writer.lua got read_by_device / write_for_device. New dnsmasq_devices.lua emits dhcp-host=MAC,set:hvdev-N tags plus tag-bound address= and server= rules per enabled device — 'On' devices get a fresh filter set (household blocks they don't include become tag-bound whitelists for that device); 'Off' devices emit nothing and inherit household defaults. DHCP auto-discovery via dnsmasq dhcp-script hook (haven-dhcp-script.sh + haven-device-touch.lua + uci-defaults/93-haven-dhcp-script). LuCI controller: action_load returns devices + device_prefs; action_save accepts device_id; new device_enable/rename/remove endpoints. main.htm: device picker dropdown in header + on/off checkbox + rename button + JS state refactor (allPrefs scope-keyed, settings aliased). Universal bypass-resistance stays universal — per-device toggle only affects category filtering.",
+    "benefit": "Households can apply different content rules to different devices — one household member's device can have stricter blocks than the household default while another stays untouched, all from one Helm page",
+    "ref": "wiki-137"
+  },
+  {
+    "id": 455,
+    "date": "2026-05-25",
+    "theme": "Tooling & infrastructure",
+    "impact": 5,
+    "summary": "Know Your Client (KYC): first-party pageview/event analytics live",
+    "detail": "<backend table> + <backend table> tables in D1 <backend table>. Pages Functions /api/visit and /api/event. js/kyc.js beacon wired into every HTML page captures path, referrer, country/region/city, timezone, ASN+org, ua_class, daily-rotating visitor_hash, sessionStorage session_id, localStorage visitor_id for repeat-visit tracking. Owner-tag (not block) via havenowner=on URL flag.",
+    "benefit": "First answer to 'is anyone visiting'; queries split lifetime uniques from returners; no third-party trackers, no consent banner needed.",
+    "ref": "f6e964f533"
+  },
+  {
+    "id": 452,
+    "date": "2026-05-25",
+    "theme": "Customer features (website)",
+    "impact": 5,
+    "summary": "New /milestones page: 436-row data-driven project history with impact filter + feature cross-link",
+    "detail": "Milestones page reads accomplishments.public_* columns, paginated by impact (1-5 dropdown), sortable by newest/biggest. Banner-by-level blurb varies copy per impact tier. URL filter (?ids=...&label=...) lets feature rows link to the specific milestones that built them, with 'Show all' escape link.",
+    "benefit": "Receipts not promises — 436 dated, themed, impact-scored milestones visible to prospective customers as proof-of-work.",
+    "ref": "f6e964f533"
+  },
+  {
+    "id": 451,
+    "date": "2026-05-25",
+    "theme": "Customer features (website)",
+    "impact": 5,
+    "summary": "New /benefits page: Why-the-customer-cares surface with 10 seeded benefits",
+    "detail": "customer_benefits table (top/main sections, family/privacy ranks, related_feature_ids CSV, details HTML). Benefits-ui.js renders Family/Privacy sort + per-row Details panel + 'See the features that deliver this' cross-link. Pipeline mirrors features: <database> -> build.py -> js/customer-benefits.js -> benefits.html. Each benefit links to the features that deliver it via /features?ids=...&label=..., creating a three-page WHY -> WHAT -> WHEN cascade with filter banners.",
+    "benefit": "Visitors land on customer outcomes first, with one-click navigation to the features that deliver them and the milestones that built them.",
+    "ref": "f6e964f533"
+  },
+  {
     "id": 450,
     "date": "2026-05-25",
     "theme": "SQLite source-of-truth pipeline",
@@ -18,6 +58,66 @@ var milestonesDataset = [
     "detail": "Wrap-up record capturing the day: accomplishments table seeded with 421 rows; /features page deployed with audience sort + telemetry; demo bullet linked from features list.",
     "benefit": "Decisions and discoveries persist across sessions; future-us picks up where past-us left off.",
     "ref": "30c097f2b3"
+  },
+  {
+    "id": 458,
+    "date": "2026-05-25",
+    "theme": "Process & discipline",
+    "impact": 4,
+    "summary": "Hasta routine extended: step 3 logs accomplishments with auto-scrubbed public columns",
+    "detail": "CLAUDE.md and feedback_hasta memory updated to six-step ritual. New step 3: run haven-accomplishment.py for each substantial piece of work. Helper uses redact.py (15-category KYC rules) to auto-populate public_summary/detail/benefit/source_ref. Residue scan flags surviving tokens. Originals stay as-written; public_* is what ships.",
+    "benefit": "Every session's work auto-logs to the customer-visible milestones page with public-safe scrubbing baked in; no manual review step needed.",
+    "ref": "7df464a598"
+  },
+  {
+    "id": 457,
+    "date": "2026-05-25",
+    "theme": "Marketing & website",
+    "impact": 4,
+    "summary": "Wi-Fi-exclusivity sweep + child/kid -> household-member rewrite across all customer surfaces",
+    "detail": "Audited every customer-facing reference to 'Wi-Fi' or 'kid/kids' across features, benefits, and milestones tables. Rewrote network-medium-exclusive copy to include wired Ethernet ('on your network' + explicit Wi-Fi/Ethernet pairing where meaningful). Substituted 'kid' -> 'child' then 'children' -> 'household member' in 25 mentions across all surfaces. Two intentional keeps preserved: Parenting preset name, cultural critique line.",
+    "benefit": "Copy now welcomes adult-self-filtering and senior-anti-scam users instead of framing Haven as exclusively family-filtering; no one feels excluded by the phrasing.",
+    "ref": "f6e964f533"
+  },
+  {
+    "id": 456,
+    "date": "2026-05-25",
+    "theme": "Customer features (website)",
+    "impact": 4,
+    "summary": "Customer features Details: 34 entries authored with audit fixes",
+    "detail": "Wrote pull-back-curtain Details for 32 customer_features rows (~19000 chars HTML); audited and refined the existing two; corrected id 30 bullet_body Wi-Fi 5 -> Wi-Fi 6; built haven-feature-details.py CLI editor with auto-build + cache-bust on save.",
+    "benefit": "Every customer feature claim now has a single click to the engineering reality behind it.",
+    "ref": "f6e964f533"
+  },
+  {
+    "id": 454,
+    "date": "2026-05-25",
+    "theme": "Brand & packaging",
+    "impact": 4,
+    "summary": "Meet Haven's Routers section — Olive and Navy gnomes introduce the product lineup",
+    "detail": "New section between hero and How-It-Works introduces Haven Olive (Linksys E8450 - Essential Wi-Fi 6) and Haven Navy (GL.iNet MT6000 - Performance flagship) with the gnome illustrations. Page previously did not name any specific product.",
+    "benefit": "Customer-facing product introduction with attention-grabbing visuals; brand mascots get prime real estate.",
+    "ref": "f6e964f533"
+  },
+  {
+    "id": 453,
+    "date": "2026-05-25",
+    "theme": "Marketing & website",
+    "impact": 4,
+    "summary": "Hero restructured: 5 button-relevant pillars (Benefits / Features / Live Demo / Milestones / Get notified)",
+    "detail": "Replaced 3-button + 3-product-pillar hero with 5-button row over 5 button-relevant pillars. Interactive Live Demo label pulses gold on green (CSS keyframes, pauses on hover, respects prefers-reduced-motion). Product pillars absorbed into Features page entries per anti-duplication rule.",
+    "benefit": "Visitors see five clear doors into Haven at a glance; the call-to-action that converts is the visually loudest.",
+    "ref": "f6e964f533"
+  },
+  {
+    "id": 459,
+    "date": "2026-05-25",
+    "theme": "Tooling & infrastructure",
+    "impact": 3,
+    "summary": "publish-content.sh: unified one-shot publish for /features /benefits /milestones",
+    "detail": "Build + timestamp-based cache-buster bump + deploy in one command. Cache-buster discipline (Cloudflare max-age=14400 means stale browsers without ?v= bump) now automated. Workflow becomes: edit <database> in DB Browser -> <script> -> live.",
+    "benefit": "End-to-end publish in one command; no human-error path for cache-busters; data edits land on the live site within seconds.",
+    "ref": "7df464a598"
   },
   {
     "id": 271,
