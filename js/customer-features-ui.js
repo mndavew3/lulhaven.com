@@ -93,6 +93,12 @@
                      '&label=' + encodeURIComponent(lead);
           html += ' <a class="cf-milestone-link" href="' + mUrl + '">See when we built this →</a>';
         }
+        if (r.benefits && r.benefits.length) {
+          var bIds   = r.benefits.map(function (b) { return b.id; }).join(',');
+          var bUrl   = 'benefits.html?ids=' + encodeURIComponent(bIds) +
+                       '&label=' + encodeURIComponent(lead);
+          html += ' <a class="cf-benefit-link" href="' + bUrl + '">Why this matters →</a>';
+        }
         html += '</div>';  // /.cf-bullet-text
         html += '</div>';
         if (r.details) {
@@ -170,8 +176,8 @@
     if (benefitFilter) {
       var banner = document.getElementById('cf-benefit-banner');
       if (banner) {
-        banner.innerHTML = 'Showing features for benefit: <strong>' +
-                           escapeHtml(benefitFilter.label || 'selected benefit') + '</strong>' +
+        banner.innerHTML = 'Showing features for: <strong>' +
+                           escapeHtml(benefitFilter.label || 'selected') + '</strong>' +
                            '  &middot;  <a href="features.html">Show all features</a>';
         banner.classList.add('cf-banner-on');
       }

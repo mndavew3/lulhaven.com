@@ -10,6 +10,21 @@
 // rows are sorted by the audience-rank.
 
 (function () {
+  // Parse ?ids=N,N,N&label=... — when present (e.g. arriving from a feature's
+  // "Why this matters →" back-link), restrict to those benefit IDs and show a
+  // banner naming the originating feature.
+  var params       = new URLSearchParams(window.location.search);
+  var idsParam     = params.get('ids');
+  var labelParam   = params.get('label');
+  var featureFilter = null;
+  if (idsParam) {
+    var parsedIds = idsParam.split(',').map(function (s) { return parseInt(s, 10); })
+                                       .filter(function (n) { return !isNaN(n); });
+    if (parsedIds.length) {
+      featureFilter = { ids: parsedIds, label: labelParam || '' };
+    }
+  }
+
   var SECTION_ORDER  = ['top', 'main'];
   var SECTION_TITLES = { top: null, main: 'More' };
   var DEFAULT_AUDIENCE = 'family';
@@ -27,8 +42,20 @@
   function renderFor(audience) {
     var rankKey = audience + '_rank';
     var leadKey = audience + '_lead';
-    var rows = cbDataset.filter(function (r) { return r[rankKey] != null; });
-    rows.sort(function (a, b) { return a[rankKey] - b[rankKey]; });
+    var rows;
+    if (featureFilter) {
+      var allow = {};
+      featureFilter.ids.forEach(function (id) { allow[id] = true; });
+      rows = cbDataset.filter(function (r) { return allow[r.id]; });
+      rows.sort(function (a, b) {
+        var ar = a[rankKey] != null ? a[rankKey] : (a.family_rank != null ? a.family_rank : 999);
+        var br = b[rankKey] != null ? b[rankKey] : (b.family_rank != null ? b.family_rank : 999);
+        return ar - br;
+      });
+    } else {
+      rows = cbDataset.filter(function (r) { return r[rankKey] != null; });
+      rows.sort(function (a, b) { return a[rankKey] - b[rankKey]; });
+    }
 
     var bySection = {};
     rows.forEach(function (r) {
@@ -121,6 +148,15 @@
     if (typeof cbDataset === 'undefined') {
       document.getElementById('cb-content').innerHTML = '<p style="text-align:center;color:#a00;">Benefit data failed to load.</p>';
       return;
+    }
+    if (featureFilter) {
+      var banner = document.getElementById('cb-feature-banner');
+      if (banner) {
+        banner.innerHTML = 'Showing the benefit behind: <strong>' +
+                           escapeHtml(featureFilter.label || 'selected feature') + '</strong>' +
+                           '  &middot;  <a href="benefits.html">Show all benefits</a>';
+        banner.classList.add('cb-banner-on');
+      }
     }
     renderFor(DEFAULT_AUDIENCE);
     wireButtons();

@@ -1,5 +1,6 @@
 var cbDataset = [
   {
+    "id": 1,
     "section": "top",
     "lead": "Stop being the household cop",
     "body": "The router enforces the household rules, not you.",
@@ -12,6 +13,7 @@ var cbDataset = [
     "link": null
   },
   {
+    "id": 2,
     "section": "top",
     "lead": "Real privacy, not promised privacy",
     "body": "Filter prefs, device list, and activity log live on your router — and only on your router.",
@@ -24,6 +26,7 @@ var cbDataset = [
     "link": null
   },
   {
+    "id": 3,
     "section": "top",
     "lead": "The bypasses don't bypass this",
     "body": "DoH, VPN apps, Private Relay, app-store loopholes — the tricks they learn don't work here.",
@@ -36,6 +39,7 @@ var cbDataset = [
     "link": null
   },
   {
+    "id": 4,
     "section": "top",
     "lead": "Covers every device in the house",
     "body": "Computers, phones, tablets, TVs, consoles — wired or wireless, all filtered.",
@@ -48,6 +52,7 @@ var cbDataset = [
     "link": null
   },
   {
+    "id": 5,
     "section": "main",
     "lead": "No vendor lock-in",
     "body": "Cancel the subscription anytime. Your router and its filter keep working.",
@@ -60,6 +65,7 @@ var cbDataset = [
     "link": null
   },
   {
+    "id": 6,
     "section": "main",
     "lead": "Genuinely affordable",
     "body": "$4 per month covers ongoing updates. Competitors charge $70–100 per year for the same baseline.",
@@ -72,6 +78,7 @@ var cbDataset = [
     "link": null
   },
   {
+    "id": 7,
     "section": "main",
     "lead": "Plug in, set a password, done",
     "body": "No firmware to flash, no DNS settings to change, no app to install per device.",
@@ -84,6 +91,7 @@ var cbDataset = [
     "link": null
   },
   {
+    "id": 8,
     "section": "main",
     "lead": "Survives the household stress test",
     "body": "Settings come back after a factory reset. Tampering does not open the gates.",
@@ -96,6 +104,7 @@ var cbDataset = [
     "link": null
   },
   {
+    "id": 9,
     "section": "main",
     "lead": "Built for households, not solo operators",
     "body": "Multiple admins, no master/secondary hierarchy, a transparent change history.",
@@ -108,6 +117,7 @@ var cbDataset = [
     "link": null
   },
   {
+    "id": 10,
     "section": "main",
     "lead": "Adult choices, not algorithmic ones",
     "body": "YouHaven hides channels you have decided not to see. Adult content is opt-in. Trackers blocked.",

@@ -78,6 +78,15 @@
       html += '<span class="ms-date">' + escapeHtml(r.date) + '</span>';
       if (r.theme)  html += '<span class="ms-theme">'  + escapeHtml(r.theme)  + '</span>';
       if (r.impact) html += '<span class="ms-impact" title="Impact ' + r.impact + ' of 5">' + '★'.repeat(r.impact) + '</span>';
+      if (r.features && r.features.length) {
+        var fids   = r.features.map(function (f) { return f.id; }).join(',');
+        var flabel = r.features.map(function (f) { return f.lead; }).join(' / ');
+        var fUrl   = 'features.html?ids=' + encodeURIComponent(fids) +
+                     '&label=' + encodeURIComponent(flabel);
+        html += '<a class="ms-feature-star" href="' + fUrl +
+                '" title="This milestone shipped a feature: ' + escapeHtml(flabel) +
+                ' — click to see it">&#10022;</a>';
+      }
       html += '</div>';
       html += '<div class="ms-summary"><strong>' + escapeHtml(r.summary) + '</strong></div>';
       if (r.benefit) html += '<div class="ms-benefit">' + escapeHtml(r.benefit) + '</div>';
