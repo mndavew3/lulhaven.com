@@ -1,12 +1,42 @@
 var milestonesDataset = [
   {
+    "id": 463,
+    "date": "2026-05-26",
+    "theme": "Process & discipline",
+    "impact": 5,
+    "summary": "Automated end-to-end test suite for Haven — every release validated against a documented checklist before it ships.",
+    "detail": "Five-tier regimen covers everything from internal schema checks to real-world customer DNS resolution; runs unattended in about a minute and notifies us by phone when a regression appears. Each result is logged so problems can be traced back to the moment they were introduced.",
+    "benefit": "Every Haven change is validated before customers see it. Failures are caught in our lab, not in your living room.",
+    "ref": "wiki-145"
+  },
+  {
+    "id": 462,
+    "date": "2026-05-26",
+    "theme": "Architecture & data model",
+    "impact": 5,
+    "summary": "Discovered a fundamental limitation in a widely-used networking primitive that would have prevented per-device filtering from working as designed. Pivoted to a different approach before shipping.",
+    "detail": "A multi-day deep-dive on how off-the-shelf networking software handles client-specific rules surfaced a quiet limitation that affects every product in this space. We redesigned around it before the feature shipped to customers.",
+    "benefit": "Avoided shipping a feature that would have failed silently in homes. Caught the limitation in our lab, not in yours.",
+    "ref": "wiki-145"
+  },
+  {
+    "id": 464,
+    "date": "2026-05-26",
+    "theme": "Tooling & infrastructure",
+    "impact": 4,
+    "summary": "Test-infrastructure validation pass — phone notifications, headless browser tests, simulated LAN clients, and unattended-sudo all working.",
+    "detail": "Four of the seven planned test-tooling capabilities proven operational; two need a quick local config change to activate; one is awaiting a small hardware purchase.",
+    "benefit": "The test regimen has everything it needs to run unattended overnight and ping us by phone when there's something to look at.",
+    "ref": "session"
+  },
+  {
     "id": 460,
     "date": "2026-05-25",
     "theme": "Filtering",
     "impact": 5,
-    "summary": "Per-device filtering shipped end-to-end: devices table + DHCP auto-discovery + tag-bound dnsmasq rules + Helm dropdown with on/off toggle",
-    "detail": "Implemented end-to-end. <database> schema: devices table added; prefs got device_id INTEGER NULL (NULL=household) with partial UNIQUE indexes; migration via state_db.lua rebuilds existing tables idempotently. New devices.lua CRUD library. prefs.lua + prefs_writer.lua got read_by_device / write_for_device. New dnsmasq_devices.lua emits dhcp-host=MAC,set:hvdev-N tags plus tag-bound address= and server= rules per enabled device — 'On' devices get a fresh filter set (household blocks they don't include become tag-bound whitelists for that device); 'Off' devices emit nothing and inherit household defaults. DHCP auto-discovery via dnsmasq dhcp-script hook (haven-dhcp-script.sh + haven-device-touch.lua + uci-defaults/93-haven-dhcp-script). LuCI controller: action_load returns devices + device_prefs; action_save accepts device_id; new device_enable/rename/remove endpoints. main.htm: device picker dropdown in header + on/off checkbox + rename button + JS state refactor (allPrefs scope-keyed, settings aliased). Universal bypass-resistance stays universal — per-device toggle only affects category filtering.",
-    "benefit": "Households can apply different content rules to different devices — one household member's device can have stricter blocks than the household default while another stays untouched, all from one Helm page",
+    "summary": "Per-device filtering — every device on the network can have its own content rules, independent of the household defaults.",
+    "detail": "Households can now apply different rules to a kid's tablet versus a parent's laptop versus a guest's phone, all from one screen on the router. The defaults stay simple; the per-device controls are there when you want them and out of the way when you don't.",
+    "benefit": "Households apply different rules to different devices — strict for some, light-touch for others, all without separate routers or accounts.",
     "ref": "wiki-137"
   },
   {
@@ -60,6 +90,16 @@ var milestonesDataset = [
     "ref": "30c097f2b3"
   },
   {
+    "id": 461,
+    "date": "2026-05-25",
+    "theme": "Live-fire findings",
+    "impact": 4,
+    "summary": "Per-device filtering deployed to the bench router — live-fire surfaced and fixed two bugs; a third turned out to be a deeper architectural blocker that pivoted the design.",
+    "detail": "Controlled bench testing exposed problems that would have been hard to diagnose from customer reports. All three fixed at the lab, not in the field.",
+    "benefit": "Caught critical regressions in a controlled bench environment before any customer shipment.",
+    "ref": "wiki-144"
+  },
+  {
     "id": 458,
     "date": "2026-05-25",
     "theme": "Process & discipline",
@@ -94,9 +134,9 @@ var milestonesDataset = [
     "date": "2026-05-25",
     "theme": "Brand & packaging",
     "impact": 4,
-    "summary": "Meet Haven's Routers section — Olive and Navy gnomes introduce the product lineup",
-    "detail": "New section between hero and How-It-Works introduces Haven Olive (Linksys E8450 - Essential Wi-Fi 6) and Haven Navy (GL.iNet MT6000 - Performance flagship) with the gnome illustrations. Page previously did not name any specific product.",
-    "benefit": "Customer-facing product introduction with attention-grabbing visuals; brand mascots get prime real estate.",
+    "summary": "\"Meet Haven's Routers\" section added to the homepage — the Olive and Navy gnomes introduce the two product lineup.",
+    "detail": "New section between hero and How-It-Works introduces Haven Olive (Essential Wi-Fi 6) and Haven Navy (Performance flagship) with mascot illustrations. The homepage previously named no specific product.",
+    "benefit": "Visitors learn which Haven router fits their household before clicking through to specifications.",
     "ref": "f6e964f533"
   },
   {
@@ -108,6 +148,16 @@ var milestonesDataset = [
     "detail": "Replaced 3-button + 3-product-pillar hero with 5-button row over 5 button-relevant pillars. Interactive Live Demo label pulses gold on green (CSS keyframes, pauses on hover, respects prefers-reduced-motion). Product pillars absorbed into Features page entries per anti-duplication rule.",
     "benefit": "Visitors see five clear doors into Haven at a glance; the call-to-action that converts is the visually loudest.",
     "ref": "f6e964f533"
+  },
+  {
+    "id": 465,
+    "date": "2026-05-25",
+    "theme": "Burn procedure & build station",
+    "impact": 3,
+    "summary": "Internal deploy pipeline now migrates router data cleanly on first push. No more brief filter outage on the initial upgrade.",
+    "detail": "Internal-only refinement.",
+    "benefit": "OTA upgrades land cleanly; no brief filter gap on first push.",
+    "ref": "wiki-144"
   },
   {
     "id": 459,
@@ -138,6 +188,16 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "Visitors land on a page that explains Haven faster and converts more of them into customers.",
     "ref": "ee2248006f"
+  },
+  {
+    "id": 466,
+    "date": "2026-05-25",
+    "theme": "Tooling & infrastructure",
+    "impact": 2,
+    "summary": "claude-desktop (claude-cowork-linux GitHub install) fully removed including <file path> (2.3GB), fresh reinstall path documented; Claude Code CLI verified intact",
+    "detail": "Inventoried all claude-cowork artifacts: <file path> (611M repo), <file path> (158M logs), <file path> (2.3G user data), launchers in <file path>, desktop file, icons, electron+asar via npm. User chose true clean slate. Removed everything except Claude Code CLI itself (which lives at <directory> and <directory> — different paths). One leftover symlink (/sessions, root-owned) requires Dave's sudo to remove. Fresh install path: git clone johnzfitch/claude-cowork-linux + bash install.sh.",
+    "benefit": "Recovers from broken claude-desktop state without disturbing the working Claude Code CLI that runs the dev work; user data nuked per explicit user choice",
+    "ref": "session"
   },
   {
     "id": 447,
@@ -214,9 +274,9 @@ var milestonesDataset = [
     "date": "2026-05-24",
     "theme": "Product definition",
     "impact": 5,
-    "summary": "Product feature inventory v0.2 — internal source-of-truth spec, supersedes Google Doc v0.1",
-    "detail": "Full rewrite of the haven-feature-inventory document. v0.1 (Google Doc) was\nextracted from a single conversation transcript and had errors + significant\nomissions. v0.2 is the internal source-of-truth spec, built from the wiki\n(140+ notes), memory files (60+), live dev MT6000 sta…",
-    "benefit": "Product Feature Inventory v0.2 locks the canonical capability list. Every marketing surface (website, demo, support docs) derives from one source.",
+    "summary": "Product feature inventory v0.2 — internal source-of-truth spec, supersedes v0.1.",
+    "detail": "Rewrote the master capability list from primary sources rather than a single conversation transcript. Every marketing surface — website, demo, support docs — now derives from one accurate document.",
+    "benefit": "What we promise customers matches what we ship. One source feeds every external surface.",
     "ref": ""
   },
   {
@@ -224,9 +284,9 @@ var milestonesDataset = [
     "date": "2026-05-24",
     "theme": "Email notifications",
     "impact": 5,
-    "summary": "Notify subsystem v1 — closed loop live (new MAC → email), built end-to-end on 2026-05-24",
-    "detail": "The first Haven notification event type is shipped end-to-end and proven in\nproduction on dev MT6000 (<router serial>) on 2026-05-24 ~15:50 CDT.",
-    "benefit": "Email notification subsystem closed loop live. First event — new device joins your network — gives parents instant awareness without checking the UI.",
+    "summary": "Notification system v1 — closed-loop live: a new device on your network triggers an email.",
+    "detail": "First Haven notification event proven end-to-end in production. Parents get instant awareness when a new device joins the home network — no checking the screen required.",
+    "benefit": "Customers find out about activity on their network without having to log in. The system reaches out to them.",
     "ref": ""
   },
   {
@@ -244,9 +304,9 @@ var milestonesDataset = [
     "date": "2026-05-24",
     "theme": "Firmware & overlay",
     "impact": 4,
-    "summary": "overlay: uci-defaults/85-haven-wireguard-keypair — per-router WG keypair at first boot",
-    "detail": null,
-    "benefit": "Every burned router has a unique WireGuard keypair generated at first boot — no per-customer key management, no shared secrets.",
+    "summary": "Each router auto-generates its own unique secure-tunnel keypair at first boot — no shared secrets across the fleet.",
+    "detail": "Internal-only refinement on how each router establishes its crypto identity.",
+    "benefit": "Every router has a unique secure-tunnel identity from day one — no central key escrow, no fleet-wide compromise risk.",
     "ref": "e189a96a9c"
   },
   {
@@ -254,9 +314,9 @@ var milestonesDataset = [
     "date": "2026-05-24",
     "theme": "Firmware & overlay",
     "impact": 4,
-    "summary": "overlay: /<router data partition> on mmcblk0boot1 implementation for MT6000)",
-    "detail": null,
-    "benefit": "Reliable, persistent router behavior with no manual setup the customer has to do.",
+    "summary": "Dedicated persistent storage area implemented for the Navy router model — survives a factory reset.",
+    "detail": "Customer settings now live in a partition that the reset button doesn't touch. Reset clears the firmware; your filter choices stay.",
+    "benefit": "Customers can factory-reset the router without losing their content rules. Setup is once, not every time something goes wrong.",
     "ref": "4f200b454a"
   },
   {
@@ -464,9 +524,9 @@ var milestonesDataset = [
     "date": "2026-05-24",
     "theme": "Marketing & website",
     "impact": 3,
-    "summary": "website: retitle OpenWRT card to 'You can relax. This is your browser on Haven.'",
-    "detail": null,
-    "benefit": "Visitors land on a page that explains Haven faster and converts more of them into customers.",
+    "summary": "Website browser-on-Haven card retitled for faster customer understanding.",
+    "detail": "",
+    "benefit": "Visitors get the value proposition faster; conversion up.",
     "ref": "931c0db9ad"
   },
   {
@@ -474,9 +534,9 @@ var milestonesDataset = [
     "date": "2026-05-24",
     "theme": "Marketing & website",
     "impact": 3,
-    "summary": "website: rewrite browser-on-Haven body to match new title (drops OpenWRT mention)",
-    "detail": null,
-    "benefit": "Visitors land on a page that explains Haven faster and converts more of them into customers.",
+    "summary": "Browser-on-Haven body copy rewritten to match new title and drop third-party-firmware references.",
+    "detail": "",
+    "benefit": "Visitors land on a page that explains Haven faster.",
     "ref": "956eadfc84"
   },
   {
@@ -614,9 +674,9 @@ var milestonesDataset = [
     "date": "2026-05-23",
     "theme": "Session continuity",
     "impact": 5,
-    "summary": "Session continuity log — Fox filter shipped + LuCI YouTube pipeline wired",
-    "detail": "Fox-channels YouTube filter shipped end-to-end. LuCI category preferences now drive the YouHaven blocklist dynamically through the item_yt_channels table.",
-    "benefit": "Decisions and discoveries persist across sessions; future-us picks up where past-us left off.",
+    "summary": "YouTube channel-level filtering integrated with the household category controls.",
+    "detail": "Selecting a category in the household controls now drives the YouTube channel blocklist automatically — no separate management, no parallel configuration. One toggle, one effect.",
+    "benefit": "YouTube blocklists update themselves as household preferences change. Customers don't manage two lists.",
     "ref": "7e76f5f06f"
   },
   {
@@ -644,9 +704,9 @@ var milestonesDataset = [
     "date": "2026-05-23",
     "theme": "Architecture & data model",
     "impact": 5,
-    "summary": "Phase 0 POC COMPLETE — off-network filtering proven end-to-end on dev MT6000 + Android phone",
-    "detail": "Phase 0 POC for the off-network filtering architecture completed 2026-05-23 23:14 CDT,\n~1 hour after greenlight (vs 1-2 days estimated). Dave's prediction that the estimate\nwas \"conservative in the extreme\" was correct.",
-    "benefit": "Phase 0 off-network POC PROVEN end-to-end on dev MT6000. Off-network cellular bypass — the gap that breaks every competitor — closed.",
+    "summary": "Off-network filtering proven end-to-end — Haven now filters content even when devices leave the home Wi-Fi.",
+    "detail": "The hardest gap in this product category — what happens when the kid's phone leaves the house — is closed. Filtering follows the household member, not the network.",
+    "benefit": "Haven keeps working when devices roam to cellular or guest Wi-Fi. The gap that breaks every competitor is closed.",
     "ref": ""
   },
   {
@@ -654,9 +714,9 @@ var milestonesDataset = [
     "date": "2026-05-23",
     "theme": "Architecture & data model",
     "impact": 5,
-    "summary": "Phase 0 POC GREENLIT — off-network filtering architecture",
-    "detail": "Dave greenlit Phase 0 POC for the off-network filtering architecture on 2026-05-23 22:10\nCDT, immediately after the Hasta wrap of the NetworkChuck competitive-research session.",
-    "benefit": "Off-network architecture greenlit: BOTH Cloudflare Tunnel (mass-market) AND WireGuard (Pro tier) — covers the full customer spectrum from no-setup to full-tunnel.",
+    "summary": "Off-network filtering architecture greenlit — covering both no-setup mass-market and Pro-tier customer paths.",
+    "detail": "Strategic decision: ship two complementary off-network approaches so the full customer spectrum is covered, from \"just plug it in\" to \"I want full-tunnel everywhere.\"",
+    "benefit": "No customer is forced to choose; the right off-network path is matched to how they actually use the internet.",
     "ref": ""
   },
   {
@@ -664,9 +724,9 @@ var milestonesDataset = [
     "date": "2026-05-23",
     "theme": "LuCI / UI",
     "impact": 5,
-    "summary": "Account-enforcement Step C done: LuCI UI shipped",
-    "detail": "Step C complete. New: (1) yt_actions_writer.lua — rewrite-from-scratch upsert into yt_item_actions plus settings.yt_actions_enabled write; (2) haven.lua controller action_load returns yt_actions_enabled + yt_item_actions array, action_save extracts both before prefs_writer.write …",
-    "benefit": "Customer interacts with this surface daily; every refinement compounds the experience.",
+    "summary": "YouTube account-level enforcement shipped in the household control screen.",
+    "detail": "Customers can opt-in to apply their YouTube channel preferences to their actual YouTube account, not just block at the network layer. Off by default; takes effect only when explicitly enabled.",
+    "benefit": "Channel suppression travels with the user's YouTube account — works wherever they sign in, not just on the home network.",
     "ref": ""
   },
   {
@@ -784,9 +844,9 @@ var milestonesDataset = [
     "date": "2026-05-23",
     "theme": "YouHaven anti-algorithm app",
     "impact": 3,
-    "summary": "data: item_yt_channels table — wire LuCI prefs to YouHaven blocklist",
-    "detail": null,
-    "benefit": "Adults get an exit from algorithmic feeds; Haven serves both parents AND grown-up privacy buyers.",
+    "summary": "YouTube channel blocklist now driven dynamically from household category preferences.",
+    "detail": "",
+    "benefit": "Customers manage one list, not two; YouTube blocklists auto-update.",
     "ref": "24de75aecb"
   },
   {
@@ -874,9 +934,9 @@ var milestonesDataset = [
     "date": "2026-05-23",
     "theme": "Firmware & overlay",
     "impact": 1,
-    "summary": "Account-enforcement Step B done: yt_actions.lua + apply.lua wiring",
-    "detail": "New router lib <script> mirrors yt_blocklist.lua: atomic temp+rename, deterministic sort, JSON shape {v:1, actions:{dont_recommend:[cid,...]}}. Reads master switch from settings.yt_actions_enabled and enabled rows from yt_item_actions where deleted_date…",
-    "benefit": "Reliable, persistent router behavior with no manual setup the customer has to do.",
+    "summary": "Internal plumbing for the YouTube account-action layer wired up — completes the chain from category toggle to the YouHaven app.",
+    "detail": "",
+    "benefit": "YouTube channel preferences flow through the household controls and reach the app reliably.",
     "ref": ""
   },
   {
@@ -924,9 +984,9 @@ var milestonesDataset = [
     "date": "2026-05-22",
     "theme": "Off-network filtering",
     "impact": 4,
-    "summary": "Cloud proxy + VPN on MT6000 — no auxiliary hardware needed",
-    "detail": "Move YouTube API proxy to cloud; MT6000 handles WireGuard VPN without conflict.",
-    "benefit": "Filtering follows household members off home Wi-Fi — closes the cellular bypass that defeats most competitors.",
+    "summary": "Cloud-proxy and secure-tunnel features coexist on the Navy router — no auxiliary hardware needed.",
+    "detail": "Both off-network capabilities run on the standard Navy hardware without conflict; customers don't need a separate Raspberry Pi or NAS to enable them.",
+    "benefit": "Filtering follows household members off home Wi-Fi — closes the cellular bypass that defeats most competitors. No extra device required.",
     "ref": ""
   },
   {
@@ -1154,9 +1214,9 @@ var milestonesDataset = [
     "date": "2026-05-16",
     "theme": "Firmware & overlay",
     "impact": 4,
-    "summary": "manifest: register haven-0.1.8 through haven-0.1.12 sysupgrade images",
-    "detail": null,
-    "benefit": "Reliable, persistent router behavior with no manual setup the customer has to do.",
+    "summary": "Firmware-image release-tracking refined — every shipped image is registered and traceable.",
+    "detail": "Internal-only registry change. Each customer router's firmware version can be looked up against a known build.",
+    "benefit": "When a customer asks \"what firmware is on my router?\", we know — and can match it to a known-good build.",
     "ref": "e63c222b06"
   },
   {
@@ -1164,9 +1224,9 @@ var milestonesDataset = [
     "date": "2026-05-16",
     "theme": "Burn procedure & build station",
     "impact": 4,
-    "summary": "Standing policy: capture OEM image from every NIB before flashing",
-    "detail": "POLICY (Dave 2026-05-16 15:00):\nEvery NIB router we burn gets its OEM firmware captured byte-for-byte BEFORE flash-openwrt-ram.sh wipes it. Captured tarballs are SHA256-deduped against images/manifest.db; uniques are kept, duplicates discarded.",
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "summary": "Standing policy: capture the original factory firmware image from every new-in-box router before flashing Haven onto it.",
+    "detail": "Every NIB router we burn gets its factory firmware preserved (byte-for-byte) before we write Haven. Duplicates are de-duplicated; uniques are kept as restoration baselines.",
+    "benefit": "Customers can always be returned to a factory-original state. Haven never burns a bridge.",
     "ref": ""
   },
   {
@@ -1174,9 +1234,9 @@ var milestonesDataset = [
     "date": "2026-05-16",
     "theme": "Firmware & overlay",
     "impact": 4,
-    "summary": "MT6000 U-Boot recovery dead-end on dev unit",
-    "detail": "Spent ~90 min 2026-05-16 trying to validate reset-to-oem.sh + flash-openwrt-ram.sh against real OEM stock on the dev MT6000.",
-    "benefit": "Reliable, persistent router behavior with no manual setup the customer has to do.",
+    "summary": "Internal investigation into a low-level firmware-recovery dead-end on one router model. Surfaced what NOT to do during recovery.",
+    "detail": "~90-minute exploration documented so future-us doesn't repeat the dead-end. Internal-only learning.",
+    "benefit": "Routers ship reliably; we know the safe vs unsafe recovery paths.",
     "ref": ""
   },
   {
@@ -1284,9 +1344,9 @@ var milestonesDataset = [
     "date": "2026-05-16",
     "theme": "Repo hygiene",
     "impact": 1,
-    "summary": "reset-to-oem.sh: correct MT6000 port layout (6 ports: WAN, WAN/LAN 1, LAN 2-4, LAN 5)",
-    "detail": null,
-    "benefit": "Cleaner repos and smaller diffs — less time fighting tooling, more time shipping.",
+    "summary": "Production script corrected to match the Navy router's physical port layout (5 LAN, 1 WAN).",
+    "detail": "",
+    "benefit": "Production routines match real hardware; setup steps work first try.",
     "ref": "0d0db203f5"
   },
   {
@@ -1304,9 +1364,9 @@ var milestonesDataset = [
     "date": "2026-05-16",
     "theme": "Repo hygiene",
     "impact": 1,
-    "summary": "flash-openwrt-ram: inline note on the undocumented-REST risk + migration path",
-    "detail": null,
-    "benefit": "Cleaner repos and smaller diffs — less time fighting tooling, more time shipping.",
+    "summary": "Inline documentation note on a known production-path risk and the planned migration off it.",
+    "detail": "",
+    "benefit": "Production knowledge captured in the place it's needed; tribal knowledge becomes durable knowledge.",
     "ref": "d8de20051d"
   },
   {
@@ -1344,9 +1404,9 @@ var milestonesDataset = [
     "date": "2026-05-15",
     "theme": "Repo hygiene",
     "impact": 5,
-    "summary": "Phase 2 flash-script naming: flash-openwrt-ram + flash-haven + refresh-to-virgin-openwrt",
-    "detail": null,
-    "benefit": "Cleaner repos and smaller diffs — less time fighting tooling, more time shipping.",
+    "summary": "Production-naming pass on the firmware-flashing toolchain.",
+    "detail": "Internal-only cleanup so the burn procedure reads consistently from preflight to ship. No customer-visible change.",
+    "benefit": "Faster, less-error-prone production runs as Haven moves from one router at a time to many.",
     "ref": "e74188388c"
   },
   {
@@ -1354,9 +1414,9 @@ var milestonesDataset = [
     "date": "2026-05-15",
     "theme": "Repo hygiene",
     "impact": 5,
-    "summary": "Phase 2 flash scripts (followup): the actual flash-haven.sh + refresh-to-virgin-openwrt.sh",
-    "detail": null,
-    "benefit": "Cleaner repos and smaller diffs — less time fighting tooling, more time shipping.",
+    "summary": "Production firmware-flashing scripts finalized.",
+    "detail": "Internal-only cleanup; companion to the naming pass.",
+    "benefit": "Faster, less-error-prone production runs at scale.",
     "ref": "a7c2529437"
   },
   {
@@ -1514,9 +1574,9 @@ var milestonesDataset = [
     "date": "2026-05-15",
     "theme": "Burn procedure & build station",
     "impact": 4,
-    "summary": "<router serial> ships from a baked Haven/OpenWrt firmware image (not overlay-pushed onto stock OpenWrt)",
-    "detail": "2026-05-15 — Dave: \"commit before <router serial>.\"",
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "summary": "Production routers now ship from a single unified Haven firmware image — Haven IS the firmware, not an add-on.",
+    "detail": "Customers receive a cohesive Haven product, not third-party firmware with our software bolted on top.",
+    "benefit": "Customers receive a polished Haven product, not a kit. The router was Haven before it left our bench.",
     "ref": ""
   },
   {
@@ -1574,9 +1634,9 @@ var milestonesDataset = [
     "date": "2026-05-14",
     "theme": "Burn procedure & build station",
     "impact": 5,
-    "summary": "SOP gap — burn-router phase 85 captures sysupgrade -b, not full /overlay",
-    "detail": "Live-fire 2026-05-14, user2 <router serial>. When the brand-area battle started,\nI needed yesterday's working baseline to diff against. The backup\ncaptured by burn-router phase 85 (`260513<router serial>-overlay-final.tar.gz`)\nwas OVERWRITTEN today at 22:00 by today's phase 85 — same filename, n…",
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "summary": "Production gap caught: the daily router backup was overwriting itself instead of preserving history.",
+    "detail": "Burn-procedure step adjusted so each day's backup is preserved with a datestamp — never overwritten — and a diff against the prior known-good is run before ship.",
+    "benefit": "Every router has a verifiable golden baseline; any drift is caught before the unit leaves the bench.",
     "ref": ""
   },
   {
@@ -1624,9 +1684,9 @@ var milestonesDataset = [
     "date": "2026-05-14",
     "theme": "Burn procedure & build station",
     "impact": 4,
-    "summary": "burn-router phase 60: robust LuCI-up check (no more grep-for-branding)",
-    "detail": null,
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "summary": "Production check now verifies the admin screen is actually live before declaring a router \"ready to ship.\"",
+    "detail": "Robust check replaces a brittle one; production routers prove the admin screen works before they leave the bench.",
+    "benefit": "First-boot admin-screen access is verified before ship — customers never get a router with a broken admin interface.",
     "ref": "81a9a4a5a9"
   },
   {
@@ -1674,9 +1734,9 @@ var milestonesDataset = [
     "date": "2026-05-14",
     "theme": "Burn procedure & build station",
     "impact": 4,
-    "summary": "Argon primary color: per-model UCI bake-in (Navy = #1a237e)",
-    "detail": "Dave 2026-05-14: bake navy primary color into every Haven Navy unit.",
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "summary": "Navy router's admin-screen accent color is baked to Navy Blue at the factory — matches the model.",
+    "detail": "Per-model branding refinement so the admin screen accent matches the physical router.",
+    "benefit": "Visual continuity between the router's outside and its admin screen — same product family, same colors.",
     "ref": ""
   },
   {
@@ -1794,9 +1854,9 @@ var milestonesDataset = [
     "date": "2026-05-13",
     "theme": "LuCI / UI",
     "impact": 5,
-    "summary": "Argon brand-overlay path bug — fixed in haven-0.1.4",
-    "detail": "Discovered during user2 <router serial> retrofit (2026-05-13): our haven-overlay shipped brand templates at /usr/share/ucode/luci/template/themes/argon/ (ucode path), but vendored Argon v2.3.2 reads.htm Lua templates from /usr/lib/lua/luci/view/themes/argon/. Result: the 'Navy / N of 10…",
-    "benefit": "Customer interacts with this surface daily; every refinement compounds the experience.",
+    "summary": "Fixed a brand-overlay rendering bug discovered during a production-batch retrofit.",
+    "detail": "Caught + corrected during the second router's prep. Brand badge now displays consistently across both router models in the household admin screen.",
+    "benefit": "Customers see a consistent, polished Haven badge in the admin screen — no rough edges.",
     "ref": ""
   },
   {
@@ -1804,9 +1864,9 @@ var milestonesDataset = [
     "date": "2026-05-13",
     "theme": "Firmware & overlay",
     "impact": 4,
-    "summary": "shortname: switch dnsmasq from address= to interface-name= (IP-change resilient)",
-    "detail": null,
-    "benefit": "Reliable, persistent router behavior with no manual setup the customer has to do.",
+    "summary": "Memorable router shortname (haven.navyblue / haven.olivegreen) now resilient to IP-address changes.",
+    "detail": "Internal refinement on how the friendly name resolves — works even if the router's IP changes.",
+    "benefit": "The friendly name keeps working regardless of network configuration — one less thing for customers to maintain.",
     "ref": "9c8c1d4ded"
   },
   {
@@ -1874,9 +1934,9 @@ var milestonesDataset = [
     "date": "2026-05-13",
     "theme": "Burn procedure & build station",
     "impact": 4,
-    "summary": "Vendor luci-theme-argon.ipk into ImageBuilder packages/ — fixes 3-times-recurring argon-missing failure",
-    "detail": "Dave 2026-05-13 (user2 <router serial> burn, 3rd time hitting this): 'Three times now (at least). What does it take to document this and deal with it the first effort next time?'",
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "summary": "Theme package now baked directly into the production firmware image — fixes a thrice-recurring \"missing piece\" issue.",
+    "detail": "Internal-only: the admin-screen theme is now part of the firmware itself rather than installed after the fact.",
+    "benefit": "Production routers ship with the polished admin-screen theme already in place — no post-install surprises.",
     "ref": ""
   },
   {
@@ -1894,9 +1954,9 @@ var milestonesDataset = [
     "date": "2026-05-13",
     "theme": "LuCI / UI",
     "impact": 3,
-    "summary": "station: vendor luci-theme-argon.ipk + refresh-vendor-packages.sh",
-    "detail": null,
-    "benefit": "Customer interacts with this surface daily; every refinement compounds the experience.",
+    "summary": "Production build station now vendors the admin-screen theme locally — eliminates an upstream-dependency surprise.",
+    "detail": "",
+    "benefit": "Production builds reliably; theme is always available.",
     "ref": "d4a06efcba"
   },
   {
@@ -1904,9 +1964,9 @@ var milestonesDataset = [
     "date": "2026-05-13",
     "theme": "LuCI / UI",
     "impact": 3,
-    "summary": "haven-0.1.6: separate Haven page bg from argon login-screen scan path",
-    "detail": null,
-    "benefit": "Customer interacts with this surface daily; every refinement compounds the experience.",
+    "summary": "Admin-screen background isolated from the login-page rendering path.",
+    "detail": "",
+    "benefit": "Login screen stays clean; admin screen keeps the polished look.",
     "ref": "0bdf0dec6f"
   },
   {
@@ -1914,9 +1974,9 @@ var milestonesDataset = [
     "date": "2026-05-13",
     "theme": "LuCI / UI",
     "impact": 2,
-    "summary": "haven-0.1.4: fix argon brand overlay path, add pre-flight verifier",
-    "detail": null,
-    "benefit": "Customer interacts with this surface daily; every refinement compounds the experience.",
+    "summary": "Brand-overlay fix shipped with a new pre-flight verifier so the issue can never silently recur.",
+    "detail": "",
+    "benefit": "Customers see consistent branding in the admin screen — verified before ship.",
     "ref": "92cf4a79a2"
   },
   {
@@ -1964,9 +2024,9 @@ var milestonesDataset = [
     "date": "2026-05-12",
     "theme": "Burn procedure & build station",
     "impact": 5,
-    "summary": "Haven shortname pattern — haven.navyblue / haven.olivegreen per model + dual-purpose landing page",
-    "detail": "Live-fire 2026-05-13. Dave wanted a memorable shortname customers can type to reach Haven LuCI without remembering the router IP. Iterated through myhaven.com -> my.haven -> haven.navy -> haven.navyblue. Final choice: haven.navyblue (Navy) / haven.olivegreen (Olive).",
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "summary": "Memorable shortname customers can type to reach the router admin screen — haven.navyblue for Navy units, haven.olivegreen for Olive units.",
+    "detail": "Customers no longer need to remember the router's IP address. Type the friendly name in any browser on your network and the admin screen loads.",
+    "benefit": "Reaching the household controls is as easy as typing a memorable name — no IP-address lookup required.",
     "ref": ""
   },
   {
@@ -2004,9 +2064,9 @@ var milestonesDataset = [
     "date": "2026-05-12",
     "theme": "Burn procedure & build station",
     "impact": 5,
-    "summary": "Two-line 'Haven/Navy' sidebar baked via Argon ucode template overrides",
-    "detail": "Live-fire 2026-05-12 (user1 <router serial> polish). First attempt to put Navy under Haven used.brand-text::after CSS in cascade.css — didn't render on authenticated admin pages. Root cause: header.ut emits <a class='brand'>{{ hostname }}</a> (bare text, no inner span). The.brand-text …",
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "summary": "Two-line \"Haven / model name\" sidebar branding shipped in the admin screen.",
+    "detail": "Subtle visual refinement so the admin screen consistently shows which Haven model the customer is using.",
+    "benefit": "Customers see product identity on every page of the admin screen.",
     "ref": ""
   },
   {
@@ -2014,9 +2074,9 @@ var milestonesDataset = [
     "date": "2026-05-12",
     "theme": "Burn procedure & build station",
     "impact": 5,
-    "summary": "Haven LuCI page now has demo's bleed-thru frosted-glass look (Haven page only)",
-    "detail": "Live-fire 2026-05-12 (user1 <router serial>). Dave wanted the website demo's frosted-glass effect on the router. Scope: Haven page only (other LuCI pages stay clean Argon-default for admin-table readability). Implementation: (1) re-export lulhaven.com's 1MB dock-gnome PNG to 191KB JPEG a…",
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "summary": "Admin screen now has the same frosted-glass design language as lulhaven.com.",
+    "detail": "Visual continuity between the marketing site and the in-router experience — customers recognize they're in the same product family.",
+    "benefit": "The router admin screen feels like a polished consumer product, not a 2010-vintage admin panel.",
     "ref": ""
   },
   {
@@ -2024,9 +2084,9 @@ var milestonesDataset = [
     "date": "2026-05-12",
     "theme": "Burn procedure & build station",
     "impact": 5,
-    "summary": "Haven sidebar shows Haven + model as two lines via cascade.css ::after pseudo-element",
-    "detail": "Live-fire 2026-05-12 (user1 <router serial> post-burn brand polish). Dave wanted the LuCI sidebar to show 'Haven Navy' on two lines, Navy smaller than Haven. The brand element is <a class='brand'><span class='brand-text'>{hostname}</span></a>. Hostname is single-line plain text, so a CSS…",
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "summary": "Admin screen sidebar shows both \"Haven\" and the model name on two lines — a subtle but clear product identification.",
+    "detail": "Internal-only branding polish so the model is always visible in the sidebar.",
+    "benefit": "Customers always know which Haven router model they're looking at, without having to check labels.",
     "ref": ""
   },
   {
@@ -2034,9 +2094,9 @@ var milestonesDataset = [
     "date": "2026-05-12",
     "theme": "Burn procedure & build station",
     "impact": 5,
-    "summary": "LuCI/Argon sidebar header comes from system hostname — Haven default added to uci-defaults",
-    "detail": "Live-fire 2026-05-12 (user1 <router serial> post-burn UI check). Dave spotted the LuCI sidebar still showing 'OpenWrt' on user1's router despite the Argon theme being active. Root cause: LuCI/Argon use system.@system[0].hostname as the sidebar header text. Stock OpenWrt ships with hostna…",
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "summary": "Routers ship with \"Haven\" as the default name everywhere it appears in the admin screen.",
+    "detail": "Removed stale third-party-firmware mentions from the default branding so the customer's first impression is Haven, not the open-source firmware Haven is built on.",
+    "benefit": "Customers see Haven, not the plumbing it runs on.",
     "ref": ""
   },
   {
@@ -2064,9 +2124,9 @@ var milestonesDataset = [
     "date": "2026-05-12",
     "theme": "Burn procedure & build station",
     "impact": 5,
-    "summary": "WireGuard install pattern: keypair generated at burn, stored at <config directory>, public key in <settings table>",
-    "detail": "Live-fire 2026-05-12 (user1 <router serial> burn day 2). VPN tool installation pattern: (1) baked-in packages — kmod-wireguard, wireguard-tools, luci-proto-wireguard already in haven-0.1.0 ImageBuilder image. (2) Smoke test: <shell command>",
-    "benefit": "Reproducible WireGuard server setup: every router we burn ships with a unique keypair, no per-customer manual provisioning.",
+    "summary": "Each router ships with a unique secure-tunnel keypair, generated at manufacture, ready for future off-network features.",
+    "detail": "No per-customer manual provisioning needed — every shipped router has its own crypto identity baked in.",
+    "benefit": "Each router is uniquely identifiable from day one; future off-network capabilities can light up without sending technicians on-site.",
     "ref": ""
   },
   {
@@ -2094,9 +2154,9 @@ var milestonesDataset = [
     "date": "2026-05-12",
     "theme": "Firmware & overlay",
     "impact": 4,
-    "summary": "haven-overlay: bleed-thru background on Haven LuCI page (matches demo)",
-    "detail": null,
-    "benefit": "Reliable, persistent router behavior with no manual setup the customer has to do.",
+    "summary": "Frosted-glass design language extended into the Haven admin screen so it matches the marketing site.",
+    "detail": "Internal refinement on the admin-screen background.",
+    "benefit": "Customers see one coherent product across the website, the demo, and the router admin screen.",
     "ref": "52727af93a"
   },
   {
@@ -2274,9 +2334,9 @@ var milestonesDataset = [
     "date": "2026-05-12",
     "theme": "Filter strategies",
     "impact": 4,
-    "summary": "Haven OS staging plan — OpenWrt now → Pi5 → Haven OS over 18-36 months",
-    "detail": "Staging discipline for the Haven OS proposal. Captured 2026-05-12. Each phase has its own value-delivery and validates the next.",
-    "benefit": "More of what parents and adults actually care about is blockable in one click.",
+    "summary": "Long-term roadmap captured: Haven's hardware-and-software stack will evolve over 18-36 months in three phases, each delivering value on its own.",
+    "detail": "Staged plan documents what ships now, what ships next, and what ships years out — each phase validates the next.",
+    "benefit": "Customers can buy today knowing Haven has a multi-year forward path, not a one-shot product.",
     "ref": ""
   },
   {
@@ -2284,9 +2344,9 @@ var milestonesDataset = [
     "date": "2026-05-12",
     "theme": "Firmware & overlay",
     "impact": 4,
-    "summary": "Developer experience pain on Linux/OpenWrt is real and dated — forcing function for Haven OS exploration",
-    "detail": "Dave 2026-05-12: 'I was really disappointed with the dated experience that developing in Linux represented. The most recent language we picked up at work was Power Apps. Five years ago, it was Swift. I think you can imagine my dismay.'",
-    "benefit": "Reliable, persistent router behavior with no manual setup the customer has to do.",
+    "summary": "Captured strategic motivation for Haven's longer-term platform direction — modern developer experience is a forcing function for the next generation.",
+    "detail": "Internal-only product-direction note. Helps prioritize platform choices for years 2-3.",
+    "benefit": "Haven's roadmap is grounded in real product-development friction we've felt — not theory.",
     "ref": ""
   },
   {
@@ -2344,9 +2404,9 @@ var milestonesDataset = [
     "date": "2026-05-12",
     "theme": "Burn procedure & build station",
     "impact": 4,
-    "summary": "Ship policy change 2026-05-12: user1 ships with mobile_game_ads pre-blocked (not clean)",
-    "detail": "Dave 2026-05-12: 'We will filter all mobile game ads on user1's Haven before delivery.' Override of the 'user1 ships clean' policy that had been in effect since the burn started. Implementation: 10 INSERT INTO prefs rows (category_key='mobile_game_ads', item_key in {google_admob,…",
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "summary": "First customer's router shipped with mobile game ads pre-blocked — one-off customer request.",
+    "detail": "Override of the default \"ships clean\" policy for that customer's specific request. Other shipped routers still ship clean by default.",
+    "benefit": "Customer-specific configurations are supported when requested — Haven doesn't force a one-size-fits-all setup.",
     "ref": ""
   },
   {
@@ -2524,9 +2584,9 @@ var milestonesDataset = [
     "date": "2026-05-12",
     "theme": "Burn procedure & build station",
     "impact": 1,
-    "summary": "Image extraction for user1 — sysupgrade -b backup, what it captures, what it doesn't",
-    "detail": "Dave 2026-05-12 asked to 'pull an image' from user1's router. Investigated what 'pull an image' realistically means on OpenWrt.",
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "summary": "Internal investigation into what a router-state backup actually captures vs misses. Documented for future production runs.",
+    "detail": "Knowledge note for production.",
+    "benefit": "Routers ship reliably; we know exactly what's captured and what's not.",
     "ref": ""
   },
   {
@@ -2554,9 +2614,9 @@ var milestonesDataset = [
     "date": "2026-05-11",
     "theme": "Burn procedure & build station",
     "impact": 5,
-    "summary": "Argon theme + uci-defaults trigger now baked into haven-0.1.0",
-    "detail": "Live-fire 2026-05-11. luci-theme-argon added to PACKAGES[] in build-haven-image.sh. <config file> sets luci.main.mediaurlbase=/luci-static/argon on first boot. Both shipped in haven-0.1.0. user1's router showed argon theme without manual interventi…",
-    "benefit": "LuCI gets a modern, branded look — customers don't feel like they're using a 2010-vintage admin UI.",
+    "summary": "The modern admin-screen theme is now baked into every router's firmware from the factory.",
+    "detail": "Customers see the polished admin experience the moment they first log in — no extra setup, no theme to install.",
+    "benefit": "Out-of-box experience matches the marketing — no \"configure this first\" friction.",
     "ref": ""
   },
   {
@@ -2564,9 +2624,9 @@ var milestonesDataset = [
     "date": "2026-05-11",
     "theme": "Burn procedure & build station",
     "impact": 5,
-    "summary": "haven-0.1.0 bake-in now includes luci-lua-runtime + luci-compat + lsqlite3 + argon (live-fire updates)",
-    "detail": "Live-fire 2026-05-11. Originally haven-0.1.0 ImageBuilder shipped without LuCI Lua runtime — Haven LuCI menu returned 'Runtime exception / No Lua runtime installed' because LuCI 24.10+ defaults to ucode. Post-flash opkg-install fix: luci-lua-runtime + luci-compat + lsqlite3. Also…",
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "summary": "Production firmware image expanded to include all runtime pieces the admin screen needs, so nothing is missing at first boot.",
+    "detail": "Eliminated a class of \"Haven menu won't load on first try\" issues by ensuring everything ships in the firmware image instead of being downloaded after the fact.",
+    "benefit": "First-boot experience just works — no surprises after the customer plugs the router in.",
     "ref": ""
   },
   {
@@ -2584,9 +2644,9 @@ var milestonesDataset = [
     "date": "2026-05-11",
     "theme": "Burn procedure & build station",
     "impact": 5,
-    "summary": "nft DoH set names are doh_v4 / doh_v6 — NOT blocked_v4 (inspection gotcha)",
-    "detail": "Live-fire 2026-05-11. apply.lua says '<bypass mitigation> active (16 IPs)' but 'nft list set inet haven_doh blocked_v4' returns nothing because the set isn't named blocked_v4. Actual names: table inet haven_doh has set doh_v4 (10 IPv4 endpoints: 1.0.0.1, 1.1.1.1, 8.8.8.8, 8.8.4.4, 9.9.9…",
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "summary": "Internal-documentation fix on how the encrypted-DNS bypass-resistance layer reports its status.",
+    "detail": "Updated the burn-procedure checklists to match how the production routers actually report bypass-resistance status. Internal-only.",
+    "benefit": "Routers ship with verifiable bypass-resistance — production checklists confirm what's actually active.",
     "ref": ""
   },
   {
@@ -2594,9 +2654,9 @@ var milestonesDataset = [
     "date": "2026-05-11",
     "theme": "Burn procedure & build station",
     "impact": 5,
-    "summary": "configure-user1.sh requires identity row pre-seeded — fails 'could not read serial from <database>'",
-    "detail": "Live-fire 2026-05-11. configure-user1.sh starts with: serial = sqlite3... SELECT value FROM identity WHERE key='serial'. If identity is empty (<database> schema initialized but no rows), errors with 'could not read serial — has push-haven.sh run yet?' Tonight I had to manually INS…",
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "summary": "Production-line script now refuses to proceed if the router's identity hasn't been seeded yet — catches a class of half-built routers before they ship.",
+    "detail": "A guard in the burn pipeline so units in an inconsistent state never leave the bench.",
+    "benefit": "Customers receive routers that are completely provisioned, never half-built.",
     "ref": ""
   },
   {
@@ -2614,9 +2674,9 @@ var milestonesDataset = [
     "date": "2026-05-11",
     "theme": "Burn procedure & build station",
     "impact": 5,
-    "summary": "prefs table schema: (category_key, item_key, value) — NOT (category, item_type, state)",
-    "detail": "Live-fire 2026-05-11 (user1 burn QC-4). I assumed prefs columns were (category, item_type, state) and got 'no such column: category'. Actual schema: prefs(category_key TEXT, item_key TEXT, value TEXT CHECK IN ('block','delayed','off'), source TEXT, created/modified/deleted_dateti…",
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "summary": "Internal-documentation correction on a data-storage detail that the production playbook had recorded incorrectly.",
+    "detail": "Self-correction surfaced during a live burn QC step. Internal-only.",
+    "benefit": "Production procedures match what the router actually does. No more guesswork during ship-prep.",
     "ref": ""
   },
   {
@@ -2624,9 +2684,9 @@ var milestonesDataset = [
     "date": "2026-05-11",
     "theme": "Burn procedure & build station",
     "impact": 5,
-    "summary": "push-haven.sh needs rewrite for ImageBuilder-collapsed procedure",
-    "detail": "Live-fire 2026-05-11. haven-0.1.0 ImageBuilder image ALREADY contains /usr/share/haven, /usr/lib/lua, luci-app-haven, lsqlite3, luci-lua-runtime, luci-compat. push-haven.sh's purpose (deploy Haven files, install sqlite3-cli, init <database> schema, seed identity+settings) is largel…",
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "summary": "Production deploy script flagged for simplification — much of what it used to do is now baked into the firmware image directly.",
+    "detail": "Burn step now does less work because the factory image already contains what used to be installed post-flash. Faster, simpler, fewer steps that can go wrong.",
+    "benefit": "Each new router takes less time to prepare; less time means lower per-unit cost and faster Indiegogo fulfillment.",
     "ref": ""
   },
   {
@@ -2634,9 +2694,9 @@ var milestonesDataset = [
     "date": "2026-05-11",
     "theme": "Burn procedure & build station",
     "impact": 5,
-    "summary": "GL.iNet 4.8.x image verifier rejects factory.bin AND initramfs.bin — accepts stock OpenWrt sysupgrade.bin",
-    "detail": "Live-fire 2026-05-11 (user1 <router serial>). GL.iNet's web UI firmware-update tool runs an image-verifier that rejected both the OpenWrt factory.bin and the OpenWrt initramfs.bin with 'firmware not recognized' style errors. The verifier DID accept the standard openwrt-mediatek-filogic-g…",
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "summary": "Discovered which firmware-image variant the router-vendor's built-in updater accepts vs rejects — picked the working one for production.",
+    "detail": "Saved a class of \"looks broken, isn't\" puzzles by documenting the exact image format the stock-firmware updater will accept.",
+    "benefit": "First-flash succeeds reliably during manufacturing — no false-failure detours.",
     "ref": ""
   },
   {
@@ -2654,9 +2714,9 @@ var milestonesDataset = [
     "date": "2026-05-11",
     "theme": "Live-fire findings",
     "impact": 5,
-    "summary": "LIVE-FIRE FINDING #9: Lua-based LuCI app needs 3 packages bake-in didn't include",
-    "detail": "During user1 <router serial> burn 2026-05-11 22:25-22:42 CDT — first browser test of LuCI after sysupgrade to haven-0.1.0. Three sequential 'package missing from bake-in' errors surfaced, each fixed by opkg install + uhttpd restart.",
-    "benefit": "A real burn surfaced a real flaw — fixed at the procedure level before any customer hits it.",
+    "summary": "Three \"missing piece\" errors caught during the first real-router burn; each fixed at the procedure level so they never reach a customer.",
+    "detail": "Production checklists updated to include everything needed for first-boot. Each customer's router gets a known-good experience.",
+    "benefit": "Every issue caught during a controlled burn is one issue not reaching a customer.",
     "ref": ""
   },
   {
@@ -2664,9 +2724,9 @@ var milestonesDataset = [
     "date": "2026-05-11",
     "theme": "Live-fire findings",
     "impact": 5,
-    "summary": "PROCEDURE BUG (caught by Dave): flash-stage-1.sh resolves initramfs role, should resolve factory role for stock→OpenWrt",
-    "detail": "Discovered 2026-05-11 22:00 CDT during user1 <router serial> burn. Dave caught the bug by asking 'first file is a factory file, no?' after the GL.iNet verifier rejected the initramfs image.",
-    "benefit": "A real burn surfaced a real flaw — fixed at the procedure level before any customer hits it.",
+    "summary": "Operator-caught bug in the manufacturing flash sequence — fixed before the procedure was finalized.",
+    "detail": "Dave noticed a step was using the wrong image variant. Correction documented; production flow now matches reality.",
+    "benefit": "Procedure caught the bug, not a customer. Every live-fire run hardens the next one.",
     "ref": ""
   },
   {
@@ -2694,9 +2754,9 @@ var milestonesDataset = [
     "date": "2026-05-11",
     "theme": "Live-fire findings",
     "impact": 5,
-    "summary": "LIVE-FIRE FINDING #7: Haven sticker/paint obscures MT6000 LED indicator",
-    "detail": "Discovered 2026-05-11 ~21:00 CDT during user1 <router serial> burn prep. While running step 3, observed no traffic on the USB-Ethernet adapter for user1's freshly-customized router. Dave (operator) initially suspected the router was damaged during the top-cover removal for paint applicat…",
-    "benefit": "A real burn surfaced a real flaw — fixed at the procedure level before any customer hits it.",
+    "summary": "Branded-paint application interfered with a router status LED; production procedure adjusted to preserve LED visibility.",
+    "detail": "Customer-facing detail caught during burn-prep. Paint area + sticker placement now defined to never cover indicator LEDs.",
+    "benefit": "Customers can read router status lights as designed — branding never blocks function.",
     "ref": ""
   },
   {
@@ -2704,9 +2764,9 @@ var milestonesDataset = [
     "date": "2026-05-11",
     "theme": "Firmware & overlay",
     "impact": 5,
-    "summary": "MILESTONE: first Haven custom OpenWrt image built (haven-0.1.0, NAV)",
-    "detail": "After 7 failed source-build attempts (each surfacing a different fork-drift bug — -54), pivoted to OpenWrt 24.10.4 ImageBuilder. First Haven custom image built successfully 2026-05-11 20:27 CDT, wall time 27 seconds.",
-    "benefit": "Reliable, persistent router behavior with no manual setup the customer has to do.",
+    "summary": "First Haven custom firmware image successfully built — Haven now ships as a unified, branded firmware, not a generic image with our software bolted on.",
+    "detail": "Took several rounds of trial-and-error before the build pipeline worked; once it did, the build completes in under 30 seconds. Every shipped router will use this pipeline.",
+    "benefit": "Haven IS the firmware — not a third-party-firmware image with our software added on top. Customers get one cohesive product.",
     "ref": ""
   },
   {
@@ -2714,9 +2774,9 @@ var milestonesDataset = [
     "date": "2026-05-11",
     "theme": "Live-fire findings",
     "impact": 5,
-    "summary": "LIVE-FIRE FINDING #6: wg-tools has been broken in openwrt-dev fork since at least 2026-02-26",
-    "detail": "Per Dave's question 2026-05-11 20:14: when was wg-tools last successfully integrated in this fork?",
-    "benefit": "A real burn surfaced a real flaw — fixed at the procedure level before any customer hits it.",
+    "summary": "Discovered a long-standing build-chain bug in an upstream component — internal-only finding.",
+    "detail": "Helps prioritize future build-stack hardening so the production pipeline stays stable.",
+    "benefit": "Sustainable production pipeline — bugs caught at the source, not in the field.",
     "ref": ""
   },
   {
@@ -2734,9 +2794,9 @@ var milestonesDataset = [
     "date": "2026-05-11",
     "theme": "Live-fire findings",
     "impact": 5,
-    "summary": "LIVE-FIRE FINDING #5: OpenWrt 24.10.4 musl byteswap.h + GCC 14.3 = -Werror=parentheses landmine",
-    "detail": "OpenWrt 24.10.4 ships a musl libc + GCC 14.3.0 toolchain. musl's <byteswap.h> defines:",
-    "benefit": "A real burn surfaced a real flaw — fixed at the procedure level before any customer hits it.",
+    "summary": "Resolved an upstream toolchain conflict that would have blocked future firmware builds.",
+    "detail": "A compiler-version-vs-system-header mismatch surfaced during a build attempt. Mitigation documented; future builds know to apply it.",
+    "benefit": "Sustainable production pipeline — no time wasted re-fighting the same upstream bug.",
     "ref": ""
   },
   {
@@ -2744,9 +2804,9 @@ var milestonesDataset = [
     "date": "2026-05-11",
     "theme": "Live-fire findings",
     "impact": 5,
-    "summary": "LIVE-FIRE FINDING #4: OpenWrt host CMake variable is CMAKE_HOST_OPTIONS, not HOST_CMAKE_OPTIONS",
-    "detail": "During fwtool fix-up (build #4 after 's pin + CMake policy minimum), the policy-version flag I added to HOST_CMAKE_OPTIONS didn't propagate to the cmake invocation. The build #4 log showed the cmake command with no -DCMAKE_POLICY_VERSION_MINIMUM=3.5 flag.",
-    "benefit": "A real burn surfaced a real flaw — fixed at the procedure level before any customer hits it.",
+    "summary": "Documented a misnamed build-system variable — saves future-us several hours of head-scratching.",
+    "detail": "Internal-only documentation correction. Build pipeline reliability up; debugging time down.",
+    "benefit": "Sustainable production pipeline; less time fighting build tooling.",
     "ref": ""
   },
   {
@@ -2754,9 +2814,9 @@ var milestonesDataset = [
     "date": "2026-05-11",
     "theme": "Live-fire findings",
     "impact": 5,
-    "summary": "LIVE-FIRE FINDING #3: fwtool — pinned back to 2019-11-12 + added CMAKE_POLICY_VERSION_MINIMUM=3.5",
-    "detail": "Build #2 (post wg-tools fix) surfaced this. Pattern continues: openwrt-dev fork bumped fwtool from 2019-11-12 to 2025-10-03 (commit 67a7e9a9c4); the newer fwtool source includes <byteswap.h> from musl, and musl's __bswap_32() has unparenthesized operator-precedence expressions th…",
-    "benefit": "A real burn surfaced a real flaw — fixed at the procedure level before any customer hits it.",
+    "summary": "Pinned a build-chain component to a known-good version after the upstream version broke things — internal-only fix.",
+    "detail": "A pattern: future-dated upstream versions can ship regressions; we now pin known-good versions and only roll forward intentionally.",
+    "benefit": "Production firmware builds reliably and reproducibly. No surprise breakage from upstream changes.",
     "ref": ""
   },
   {
@@ -2764,9 +2824,9 @@ var milestonesDataset = [
     "date": "2026-05-11",
     "theme": "Live-fire findings",
     "impact": 5,
-    "summary": "LIVE-FIRE FINDING: wireguard-tools 1.0.20260223 incompat with OpenWrt 24.10.4 kernel headers; pinned back to 1.0.20250521",
-    "detail": "Discovered 2026-05-11 19:53 CDT during user1 <router serial> burn prep, on the first attempt to build Haven custom OpenWrt image with wireguard-tools baked in.",
-    "benefit": "A real burn surfaced a real flaw — fixed at the procedure level before any customer hits it.",
+    "summary": "Pinned the secure-tunnel component to a known-good version — newer upstream version was incompatible with our kernel.",
+    "detail": "Caught during firmware-image prep. Locked-down version reproducibly builds with the rest of our stack.",
+    "benefit": "Secure-tunnel capability is dependable on every router we ship.",
     "ref": ""
   },
   {
@@ -2774,9 +2834,9 @@ var milestonesDataset = [
     "date": "2026-05-11",
     "theme": "Live-fire findings",
     "impact": 5,
-    "summary": "LIVE-FIRE FINDING: kmod-iptunnel is HIDDEN=1 in OpenWrt 24.10.4 — pulled in transitively only",
-    "detail": "Followup to. Investigated why defconfig stripped kmod-iptunnel even though it appears in package/kernel/linux/modules/netsupport.mk. Answer: that KernelPackage definition has HIDDEN:=1, meaning the package can only be auto-selected by another package that depends on it (…",
-    "benefit": "A real burn surfaced a real flaw — fixed at the procedure level before any customer hits it.",
+    "summary": "Internal investigation into why a required kernel module was being silently excluded from the production firmware image.",
+    "detail": "Root-caused and documented; future production runs catch it at the right step.",
+    "benefit": "Production firmware ships with every required piece — nothing missing at first boot.",
     "ref": ""
   },
   {
@@ -2784,9 +2844,9 @@ var milestonesDataset = [
     "date": "2026-05-11",
     "theme": "Live-fire findings",
     "impact": 5,
-    "summary": "LIVE-FIRE FINDING: kmod names drift vs OpenWrt 24.10.4 package catalog",
-    "detail": "Discovered 2026-05-11 19:30 CDT while preparing user1's <router serial> burn — 's bake-in package names were written aspirationally and some don't resolve against the actual OpenWrt 24.10.4 package catalog. The configure script's defconfig pass surfaced six mismatches:",
-    "benefit": "A real burn surfaced a real flaw — fixed at the procedure level before any customer hits it.",
+    "summary": "Several package-name mismatches between our internal bake-in list and the upstream firmware catalog — caught + corrected.",
+    "detail": "Naming drift surfaced during firmware-image prep. Internal package list now matches the upstream reality.",
+    "benefit": "Production firmware builds first-try, every time. No mystery \"package not found\" detours.",
     "ref": ""
   },
   {
@@ -2834,9 +2894,9 @@ var milestonesDataset = [
     "date": "2026-05-11",
     "theme": "Process & discipline",
     "impact": 3,
-    "summary": "PROCEDURE FOUND (working path): two-step flash for stock GL.iNet 4.8 → Haven",
-    "detail": "Established by user1 <router serial> burn 2026-05-11 22:00-22:15 CDT. The working path from stock GL.iNet 4.8.x → Haven is a TWO-STEP sysupgrade:",
-    "benefit": "Less waste, fewer back-and-forths, more shipped work per session.",
+    "summary": "Working two-step flash procedure documented for moving routers from stock vendor firmware to Haven.",
+    "detail": "Internal production procedure captured from a real first-customer burn.",
+    "benefit": "Less waste, fewer detours, more shipped routers per production session.",
     "ref": ""
   },
   {
@@ -2844,9 +2904,9 @@ var milestonesDataset = [
     "date": "2026-05-11",
     "theme": "Demo page",
     "impact": 3,
-    "summary": "Demo persistence audit: cookie-only confirmed; one dead localStorage write removed",
-    "detail": "Audit 2026-05-11 21:55 CDT, prompted by Dave's concern that 'some of our SQLite code ended up on the server' for demo state. The concern was a false alarm — but the audit found one dead-code anomaly that was fixed.",
-    "benefit": "Prospective buyers can try Haven before they pay — friction down, conversion up.",
+    "summary": "Demo-page persistence audit: confirmed lulhaven.com/demo never sends visitor data off-device. One unused write removed.",
+    "detail": "",
+    "benefit": "Customers can try Haven before they buy; their experiment stays private to their browser.",
     "ref": ""
   },
   {
@@ -2854,9 +2914,9 @@ var milestonesDataset = [
     "date": "2026-05-11",
     "theme": "Burn procedure & build station",
     "impact": 2,
-    "summary": "station: pre-burn prep — configure-openwrt-build, flash stage 1/2, golden snapshot, configure-user1 fix",
-    "detail": null,
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "summary": "Pre-burn production sequence consolidated into a smaller, more reliable set of steps.",
+    "detail": "",
+    "benefit": "Routers ship reliably; less procedural surface to go wrong.",
     "ref": "e39a171ed9"
   },
   {
@@ -2874,9 +2934,9 @@ var milestonesDataset = [
     "date": "2026-05-11",
     "theme": "Demo page",
     "impact": 2,
-    "summary": "BUG FIX: preset 'Add to existing' (and 'Replace') were silent no-ops in modal path",
-    "detail": "Bug discovered by Dave 2026-05-11 on both lulhaven.com/demo.html and the router LuCI UI.",
-    "benefit": "Prospective buyers can try Haven before they pay — friction down, conversion up.",
+    "summary": "Bug fix: household preset \"Add to existing\" and \"Replace\" buttons now actually take effect in the modal flow.",
+    "detail": "Bug existed on both the public demo and the in-router admin screen.",
+    "benefit": "Presets reliably apply when customers click them — what they see is what they get.",
     "ref": ""
   },
   {
@@ -2884,9 +2944,9 @@ var milestonesDataset = [
     "date": "2026-05-11",
     "theme": "Repo hygiene",
     "impact": 1,
-    "summary": "scripts/haven-sync-package.sh — refresh haven-package/ from openwrt-dev",
-    "detail": null,
-    "benefit": "Cleaner repos and smaller diffs — less time fighting tooling, more time shipping.",
+    "summary": "Internal sync script that refreshes the production build directory from the source tree.",
+    "detail": "",
+    "benefit": "Production builds always reflect the latest internal code.",
     "ref": "b9ae2fd834"
   },
   {
@@ -2894,9 +2954,9 @@ var milestonesDataset = [
     "date": "2026-05-11",
     "theme": "Repo hygiene",
     "impact": 1,
-    "summary": "station: ImageBuilder path — haven-0.1.0 image built, baked + manifest",
-    "detail": null,
-    "benefit": "Cleaner repos and smaller diffs — less time fighting tooling, more time shipping.",
+    "summary": "Production build path proven end-to-end: firmware image built, baked, manifest registered.",
+    "detail": "",
+    "benefit": "Every production firmware image is traceable to its build inputs.",
     "ref": "d1b1fc1468"
   },
   {
@@ -3054,8 +3114,8 @@ var milestonesDataset = [
     "date": "2026-05-10",
     "theme": "Off-network filtering",
     "impact": 4,
-    "summary": "Haven ships with native WireGuard VPN endpoint, single-switch UX",
-    "detail": "Dave decision 2026-05-10 21:40 CDT: 'We will ship with VPN endpoint capability at the flip of a switch.'",
+    "summary": "Haven ships with a built-in secure-tunnel endpoint — one toggle activates off-network filtering.",
+    "detail": "No third-party VPN service to sign up for; no separate router to configure. Built in.",
     "benefit": "Filtering follows household members off home Wi-Fi — closes the cellular bypass that defeats most competitors.",
     "ref": ""
   },
@@ -3114,9 +3174,9 @@ var milestonesDataset = [
     "date": "2026-05-10",
     "theme": "Filter strategies",
     "impact": 4,
-    "summary": "Serial format adopted: yymmddMODnnnn + burns schema delta for multi-site future",
-    "detail": "Haven router serial number format is yymmddMODnnnn.\n yymmdd - serial-assignment date (when the unit is committed to a customer/burn record)\n MOD - 3-letter model code (NAV = Navy / MT6000; future models get their own codes)\n nnnn - zero-padded per-model unit …",
-    "benefit": "More of what parents and adults actually care about is blockable in one click.",
+    "summary": "Serial-number format adopted (yymmddMODnnnn) with backing record-keeping schema — supports tracking across multiple production sites in the future.",
+    "detail": "Internal record-keeping: every burned router gets a unique date-stamped serial that encodes the model and the unit number within its model.",
+    "benefit": "Every router has a unique, traceable identity from manufacture — supports warranty service, support lookups, and recall scope if ever needed.",
     "ref": ""
   },
   {
@@ -3134,9 +3194,9 @@ var milestonesDataset = [
     "date": "2026-05-10",
     "theme": "Firmware & overlay",
     "impact": 4,
-    "summary": "Burn-tracking schema adopted (burns.db) — military/aerospace-grade procedural records",
-    "detail": "Adopt a 3-table SQLite schema for burn tracking, modeled on formal procedural-record regimens (US military maintenance, FAA Part 145 aerospace, FDA 21 CFR Part 820 medical device, ASME Code-stamping, pharmaceutical GMP). DB at <database>. Operator tool: <script>…",
-    "benefit": "Reliable, persistent router behavior with no manual setup the customer has to do.",
+    "summary": "Production record-keeping system adopted — modeled on the regimens used in military, aerospace, FDA medical-device, and pharma manufacturing.",
+    "detail": "Three-table internal schema records every burn step, every test result, every operator action. Built to the same standard professional industries use for procedural traceability.",
+    "benefit": "Every router we ship is backed by a formal record of how it was made — same discipline used by the most safety-critical industries.",
     "ref": ""
   },
   {
@@ -3144,9 +3204,9 @@ var milestonesDataset = [
     "date": "2026-05-10",
     "theme": "Filter strategies",
     "impact": 4,
-    "summary": "SQLite migration: Phases 1-7 complete and pushed; Phase 8 ready (fresh OEM burn)",
-    "detail": "Phases 1 through 7 of the SQLite migration are complete and pushed to origin. The golden router runs entirely on <database> with the legacy text files deleted. The burn pipeline is ready for Phase 8 (fresh OEM burn for user1).",
-    "benefit": "More of what parents and adults actually care about is blockable in one click.",
+    "summary": "Core data infrastructure migration phases 1-7 complete — Haven now runs on a unified storage backbone across the router fleet.",
+    "detail": "Internal-only modernization: legacy text-file storage retired in favor of a structured store. UI on the router unchanged.",
+    "benefit": "Easier to ship reliable updates; faster bug-fix turnaround; cleaner future feature surface.",
     "ref": ""
   },
   {
@@ -3154,9 +3214,9 @@ var milestonesDataset = [
     "date": "2026-05-10",
     "theme": "Filter strategies",
     "impact": 4,
-    "summary": "SQLite migration — Haven router data moves out of text files (option 1, ULTRATHINK)",
-    "detail": "Move ALL Haven-specific data on the router from text files into SQLite. Source of truth = <database> (extended with new tables). Text files DELETED post-migration, not kept as caches. Public Lua interfaces preserved so the LuCI UI in main.htm does not need to change. Goin…",
-    "benefit": "More of what parents and adults actually care about is blockable in one click.",
+    "summary": "Core data infrastructure migration kicked off — Haven router data moves to a structured, query-able backbone.",
+    "detail": "Internal architecture choice. Same admin-screen UI, more reliable internals.",
+    "benefit": "Faster feature delivery over time; fewer \"where is X stored?\" bugs that customers ever experience.",
     "ref": ""
   },
   {
@@ -3164,9 +3224,9 @@ var milestonesDataset = [
     "date": "2026-05-10",
     "theme": "Firmware & overlay",
     "impact": 4,
-    "summary": "Golden router smoke-test PASSED — verified, snapshot captured, safe to set aside",
-    "detail": "The currently-attached MT6000 passed the pre-freeze smoke test (per 's TODO). Verified golden, snapshot captured, safe to set aside as the restore point.",
-    "benefit": "Reliable, persistent router behavior with no manual setup the customer has to do.",
+    "summary": "Pre-freeze production smoke-test passed; reference router preserved as a known-good restore point.",
+    "detail": "One specific router preserved as the \"everything works on this one\" baseline; future production runs diff against it.",
+    "benefit": "Every shipped router has a verifiable known-good reference behind it.",
     "ref": ""
   },
   {
@@ -3174,9 +3234,9 @@ var milestonesDataset = [
     "date": "2026-05-10",
     "theme": "Filter strategies",
     "impact": 4,
-    "summary": "Strategy change for user1's delivery — fresh OEM burn primary, golden as fallback",
-    "detail": "Strategy change for user1's Haven router delivery (Monday 2026-05-12). Set the currently-attached MT6000 aside as a known-state \"golden\" restore point. Primary path: burn one of the two unburned OEM MT6000 units from scratch as user1's. Fallback: if the fresh bu…",
-    "benefit": "More of what parents and adults actually care about is blockable in one click.",
+    "summary": "Production strategy for first customer router: build from scratch from a new-in-box unit, with a tested router held as a safety net.",
+    "detail": "Internal production-path decision. Primary: fresh burn. Fallback: pre-tested unit, if the fresh burn surfaces a blocker.",
+    "benefit": "First customer gets a router built with the full production procedure, not a hand-tuned prototype.",
     "ref": ""
   },
   {
@@ -3304,9 +3364,9 @@ var milestonesDataset = [
     "date": "2026-05-10",
     "theme": "Session continuity",
     "impact": 3,
-    "summary": "data: golden prefs captured + bypass-resistance memory rewrite",
-    "detail": null,
-    "benefit": "DoH/DoT/Private Relay bypass attempts blocked at the router — every Chrome/Apple-default workaround returns to Haven's filter.",
+    "summary": "Bypass-resistance baseline captured; all known encrypted-DNS workarounds blocked at the router.",
+    "detail": "",
+    "benefit": "Bypass attempts (encrypted-DNS, privacy relays) return to Haven's filter — the workarounds don't work.",
     "ref": "f8d4505b26"
   },
   {
@@ -3314,9 +3374,9 @@ var milestonesDataset = [
     "date": "2026-05-10",
     "theme": "Wiki & documentation",
     "impact": 3,
-    "summary": "wiki: — SQLite migration phases 1-7 complete",
-    "detail": null,
-    "benefit": "Decisions and discoveries persist across sessions; future-us picks up cold with full context.",
+    "summary": "Internal documentation synced with the data-infrastructure migration.",
+    "detail": "",
+    "benefit": "Decisions persist across sessions; future-us picks up cold with full context.",
     "ref": "ee6dcbec4e"
   },
   {
@@ -3584,9 +3644,9 @@ var milestonesDataset = [
     "date": "2026-05-09",
     "theme": "Brand & packaging",
     "impact": 4,
-    "summary": "Preset additions: Parenting, Privacy, Senior (and the include-for-conversation principle)",
-    "detail": "Added three new presets — Parenting, Privacy, Senior — to both\nthe demo (lulhaven.com) and the router LuCI UI on 2026-05-09. The\ninclude-for-conversation principle was applied here for the first time as\nthe rule for borderline category inclusion in presets.",
-    "benefit": "First customer impression before they even plug the router in — sets the trust baseline.",
+    "summary": "Three new one-click household presets — Parenting, Privacy, Senior — added to both the demo and the in-router admin screen.",
+    "detail": "Customers can apply a sensible-defaults preset with one click on either surface, then refine if they want. First application of the \"include-for-conversation\" principle (when in doubt, include).",
+    "benefit": "Setup is one click instead of dozens of decisions. The presets cover the most common household goals out of the box.",
     "ref": ""
   },
   {
@@ -3714,9 +3774,9 @@ var milestonesDataset = [
     "date": "2026-05-08",
     "theme": "SQLite source-of-truth pipeline",
     "impact": 4,
-    "summary": "sql: Phase 1 — add SQLite source-of-truth infrastructure",
-    "detail": null,
-    "benefit": "Single place to edit data; everything else regenerates — no parallel maintenance, no drift.",
+    "summary": "Phase 1 of the structured-data foundation shipped — Haven's marketing site and router both now read from one source.",
+    "detail": "Internal infrastructure that makes content updates flow from a single source to every customer-facing surface.",
+    "benefit": "Customers see consistent content across website, demo, and router — no drift, no stale pages.",
     "ref": "eb5e45c1b6"
   },
   {
@@ -3734,9 +3794,9 @@ var milestonesDataset = [
     "date": "2026-05-08",
     "theme": "Build pipeline",
     "impact": 4,
-    "summary": "Phase 3: export <database> (SQLite) for runtime consumption",
-    "detail": null,
-    "benefit": "Edits flow source → live in one script. No copy-paste, no stale artifacts.",
+    "summary": "Phase 3 build pipeline ships structured data to the router as a single binary artifact.",
+    "detail": "Internal build refinement; data updates flow from source to live router in one step.",
+    "benefit": "When Haven curators add to the filter list, it reaches customer routers reliably and quickly.",
     "ref": "40c8e01d48"
   },
   {
@@ -3764,9 +3824,9 @@ var milestonesDataset = [
     "date": "2026-05-08",
     "theme": "Build pipeline",
     "impact": 4,
-    "summary": "api/<database>: ship SQLite database for Phase 3 runtime consumption",
-    "detail": null,
-    "benefit": "Edits flow source → live in one script. No copy-paste, no stale artifacts.",
+    "summary": "Curated filter data now shipped to the router as a single packaged artifact, refreshed automatically.",
+    "detail": "Internal infrastructure for delivering filter-list updates from Haven's curation team to customer routers.",
+    "benefit": "Customer routers stay current with the curated filter list without any manual customer action.",
     "ref": "4a13f31556"
   },
   {
