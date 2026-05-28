@@ -11,7 +11,7 @@ var cfDataset = [
     "link": null,
     "details": "<p>Filtering at the router covers everything you let onto your network — anything plugged in by Ethernet, anything joining over Wi-Fi: desktops and laptops, phones and tablets, smart TVs and streaming sticks, game consoles, e-readers, even the smart speaker in the kitchen. There is no per-device app to install and nothing for a household member to disable on their own phone.</p><p>When a new device joins the network — a friend's tablet, a delivered phone, a desktop just plugged in by Ethernet, a new TV — it is filtered the same way as everything else from the moment it connects.</p>",
     "image": null,
-    "milestone_ids": null,
+    "milestone_ids": "20,338,460",
     "benefits": [
       {
         "id": 4,
@@ -31,7 +31,7 @@ var cfDataset = [
     "link": null,
     "details": "<p>Plug in the power, connect to your modem the same way your old router did, set a Wi-Fi password — you are filtering. The router seeks the same subnet that was in use. No flashing firmware, no following a YouTube tutorial, no command-line, no DNS settings to change on every device in the house.</p><p>The filtering runs at the router itself, ahead of any device. So filtering is in effect from the very first connection, before a single phone touches the network.</p>",
     "image": null,
-    "milestone_ids": "114,378,383",
+    "milestone_ids": "69,114,117,340,378,379,383,417,467",
     "benefits": [
       {
         "id": 7,
@@ -71,7 +71,7 @@ var cfDataset = [
     "link": null,
     "details": "<p>Haven was built with a hard architectural rule: the company that makes the router cannot read what flows through it. The router never uploads what you do, what you block, who is on your network, or how you configured it. The only outbound conversation is a once-a-day check for new category lists — and that request does not include your settings, your device list, or your activity.</p><p>If you opt in to encrypted cloud backup, the encryption happens on your router with a key your router holds. Haven Inc. stores the encrypted blob; Haven Inc. cannot decrypt it. Math, not a promise.</p>",
     "image": null,
-    "milestone_ids": null,
+    "milestone_ids": "112",
     "benefits": [
       {
         "id": 2,
@@ -91,7 +91,7 @@ var cfDataset = [
     "link": null,
     "details": "<p>Every choice you make in the Haven Helm is stored on the router itself, in a partition designed to survive a factory reset. Filter prefs, device list, the timestamped activity log — none of it ever leaves your home.</p><p>The router talks to Haven Inc. exactly once per day, for one reason: to check whether the category lists have been updated. That request does not include who you are, what is on your network, or what got blocked. Haven Inc. cannot read your traffic because Haven Inc. is not in your traffic.</p>",
     "image": null,
-    "milestone_ids": null,
+    "milestone_ids": "112",
     "benefits": [
       {
         "id": 2,
@@ -111,7 +111,7 @@ var cfDataset = [
     "link": null,
     "details": "<p>This is intentional and structural, not aspirational. The router examines metadata — the names of sites being requested, the categories they belong to — and decides allow or block at that level. It does not buffer page contents, does not capture browsing history, does not assemble a profile of who in the household browses what.</p><p>The decision to design Haven this way locked in early. Every later choice — where settings live, how subscriptions work, how cloud backup is encrypted — flows from the rule that Haven Inc. does not get to see your traffic.</p>",
     "image": null,
-    "milestone_ids": null,
+    "milestone_ids": "40,112",
     "benefits": [
       {
         "id": 2,
@@ -131,7 +131,7 @@ var cfDataset = [
     "link": null,
     "details": "<p>If you want a safety net for your settings — protection against a router dying, a fire, a move — turn on encrypted cloud backup. The router encrypts a copy of your settings and activity log with a key that never leaves the router itself, then ships the encrypted blob up to Haven Inc. We store it. We cannot decrypt it.</p><p>To restore: print or save your recovery phrase from the Helm. That phrase is the only thing that can unlock the backup. Lose the phrase, lose the backup — and that is the point. If we could unlock it for you, so could anyone else with the right court order.</p>",
     "image": null,
-    "milestone_ids": null,
+    "milestone_ids": "112",
     "benefits": [
       {
         "id": 2,
@@ -151,7 +151,7 @@ var cfDataset = [
     "link": null,
     "details": "<p>YouTube decides what to recommend to you, whether you watch on your phone, your tablet, a smart TV, or in a browser on your computer. YouHaven is a companion Android app that puts that decision back in your hands. Tell it the channels you have decided you do not want to see, and it hides them. From the home feed, from recommendations, from the sidebar.</p><p>This pairs with the router-level filtering — YouHaven shapes what the YouTube apps you do allow show you, while Haven blocks the apps you decided to not have at all.</p>",
     "image": null,
-    "milestone_ids": "290",
+    "milestone_ids": "127,290,449",
     "benefits": [
       {
         "id": 10,
@@ -191,7 +191,7 @@ var cfDataset = [
     "link": null,
     "details": "<p>Your settings live in a partition of the router that the normal factory reset does not touch. Press and hold the reset button, watch the lights blink, the router comes back up — with the same filter preferences, the same device list, the same admin accounts.</p><p>This is on purpose. Reset buttons are reachable. We do not want the difference between \"filtered house\" and \"unfiltered house\" to be ten seconds with a paperclip.</p>",
     "image": null,
-    "milestone_ids": null,
+    "milestone_ids": "112,366",
     "benefits": [
       {
         "id": 5,
@@ -215,7 +215,7 @@ var cfDataset = [
     "link": null,
     "details": "<p>Categories are broad buckets — Adult Content, Gambling, Mobile Game Ads, Trackers, Social Media, Misinformation, Violence, and around two dozen more. Toggle a category on and every site in it is blocked across every device in the house.</p><p>Inside each category there are 150+ named providers. So instead of \"block all social media,\" you can block specific platforms; instead of \"block all gambling,\" you can block the specific gambling brands that show up in your household's YouTube ads. Toggle the bucket, or open it and pick individual items. One click either way.</p>",
     "image": null,
-    "milestone_ids": null,
+    "milestone_ids": "20,249,265,351",
     "benefits": []
   },
   {
@@ -230,7 +230,7 @@ var cfDataset = [
     "link": null,
     "details": "<p>Old content filters break when their bypasses become well known — and over time, every bypass becomes well known. The workarounds that circulate online — encrypted DNS, VPN apps, Private Relay, browser-built-in DoH, manual DNS changes — do not work against Haven.</p><p>What gets closed off:</p><ul><li><strong>Encrypted DNS (DoH).</strong> Apps and browsers that try to look up sites through Cloudflare, Google, Quad9, etc. are routed back through Haven.</li><li><strong>Apple Private Relay.</strong> The iCloud+ feature that hides browsing from the network is shut down — Haven sees and filters anyway.</li><li><strong>VPN apps.</strong> Consumer VPN apps that pretend to be other traffic are detected and blocked from establishing tunnels.</li><li><strong>Manual DNS changes.</strong> Setting \"Cloudflare DNS\" or \"Google DNS\" in a device's network settings does nothing — Haven catches those too.</li><li><strong>Browser-built-in encrypted lookups.</strong> DNS-over-HTTPS shipped inside Chrome, Firefox, and Edge — built in to dodge home filters automatically — is intercepted before it leaves the home. Same for any app that ships its own encrypted-lookup library.</li></ul><p>This is the difference between \"we have a blocklist\" and \"the blocklist actually holds.\"</p>",
     "image": null,
-    "milestone_ids": "19,20,67,132,367",
+    "milestone_ids": "19,20,67,132,338,367",
     "benefits": [
       {
         "id": 3,
@@ -254,7 +254,7 @@ var cfDataset = [
     "link": null,
     "details": "<p>Haven follows your devices off your home Wi-Fi in two ways, and you pick the one that fits each device:</p><p><strong>Lightweight (recommended).</strong> Your phone or tablet gets a small DNS setting that points at your home router. Cloudflare carries the request anonymously between the device and your home router &mdash; but your router does the filtering, exactly the way it does on your home Wi-Fi. When the device asks for a blocked site, even on cellular, the question reaches your router, gets filtered, and the device sees the same block page it would at home. No VPN icon, no battery hit, no app traffic re-routed.</p><p><strong>Full protection (Pro tier).</strong> Your phone connects to your home router as a private VPN. Every app and every connection runs through Haven&rsquo;s filter. The trade-off: a VPN icon shows in your status bar, slightly more battery use, and a few apps that don&rsquo;t like VPNs may complain.</p><p>Both work where regular home VPNs cannot &mdash; including most mobile carriers and any ISP that uses carrier-grade NAT to share one public address across many homes. Mobile setup is a one-time install of a small configuration profile, with a one-page walkthrough for each phone type.</p>",
     "image": null,
-    "milestone_ids": "133,367",
+    "milestone_ids": "38,40,71,81,82,123,133,367",
     "benefits": [
       {
         "id": 4,
@@ -274,7 +274,7 @@ var cfDataset = [
     "link": null,
     "details": "<p>The Haven Helm supports any number of administrator accounts, each with a name. There is no \"primary admin\" / \"secondary admin\" hierarchy — Mom, Dad, a grandparent, an older sibling who has been brought in: all administrators see the same screens, can make the same changes, and share the same view of the household.</p><p>Every change is timestamped against the admin who made it, so when somebody asks \"who turned X back on last Tuesday,\" the answer is in the history. Households are not solo operations; Haven is built that way.</p>",
     "image": null,
-    "milestone_ids": "157,281,360,447",
+    "milestone_ids": "137,157,281,360,447",
     "benefits": [
       {
         "id": 1,
@@ -298,7 +298,7 @@ var cfDataset = [
     "link": null,
     "details": "<p>Presets are starting points, not lock-ins. Each one flips a thoughtful set of category toggles in a single click — useful when you do not feel like reading every bullet from scratch.</p><ul><li><strong>Parenting.</strong> Adult content, gambling, mobile game ads, misinformation off by default. Social media on a delayed-allow schedule.</li><li><strong>Senior.</strong> Scam sites, crypto pump-and-dump, fake-virus pop-ups, fake invoices, \"your computer is infected\" pages — all turned off. Built around the kinds of attacks that target older adults specifically.</li><li><strong>School.</strong> Homework-time pass that blocks games and social during a configurable window, then opens back up.</li></ul><p>Apply a preset, then refine. Anything a preset turned on, you can turn back off individually.</p>",
     "image": null,
-    "milestone_ids": null,
+    "milestone_ids": "4,192,193,249,442",
     "benefits": [
       {
         "id": 1,
@@ -318,7 +318,7 @@ var cfDataset = [
     "link": null,
     "details": "<p>Every time a device joins your network that the router has never seen before — over Wi-Fi or plugged in by Ethernet — you get an email. The message names the device the way the device named itself (\"Sarah's iPhone,\" \"Dad-Desktop,\" \"Roku Ultra,\" \"Pixel-7\"), the time it joined, and a one-click link in the email to mark it known.</p><p>This matters when a guest brings a tablet over, when a new computer gets plugged in for the first time, when a delivery driver's hotspot lingers on your network, when a new smart-home gadget you forgot you ordered finally arrives, or — occasionally — when something is connecting that nobody in the house can identify.</p>",
     "image": null,
-    "milestone_ids": null,
+    "milestone_ids": "139,279,363,365",
     "benefits": [
       {
         "id": 9,
@@ -338,7 +338,7 @@ var cfDataset = [
     "link": null,
     "details": "<p>Every week, the router pulls down a fresh set of category and provider lists. New gambling fronts, freshly registered scam domains, copy-cat social platforms, new ad networks running mobile game spam — they all land in the lists before they show up in your household.</p><p>Bypass tactics get the same treatment. When a new encrypted-DNS provider goes mainstream, when a browser ships a new way of looking up sites that tries to dodge home filters, the next weekly update closes that route. You do not need to do anything; the router just keeps getting better at the job.</p>",
     "image": null,
-    "milestone_ids": null,
+    "milestone_ids": "39,43,198,352",
     "benefits": [
       {
         "id": 3,
@@ -358,7 +358,7 @@ var cfDataset = [
     "link": null,
     "details": "<p>Out of the box, the adult-content category is blocked. To allow any of it, an administrator has to deliberately turn the category off — or open it and individually allow specific providers. There is no path by which it accidentally turns on, no first-time setup that asks the question, no preset that flips it on without you reading what the preset does.</p><p>The default state for adult content is \"not coming through.\" Every alternative state requires an admin saying so on purpose.</p>",
     "image": null,
-    "milestone_ids": null,
+    "milestone_ids": "172,203,213,220",
     "benefits": [
       {
         "id": 10,
@@ -378,7 +378,7 @@ var cfDataset = [
     "link": null,
     "details": "<p>The Haven Helm is the steering wheel — a web page you reach by typing <code>haven.lan</code> in a browser on any device connected to your network. Desktop, laptop, phone, tablet, even a Kindle. No app install, no account login the first time, no QR code dance.</p><p>From the Helm: change category toggles, see what was blocked, manage admin accounts, mark devices known, set up scheduled filters, restore from backup. Every choice the household has to make about its filtering lives here.</p>",
     "image": null,
-    "milestone_ids": null,
+    "milestone_ids": "105,221,222,263,407,411",
     "benefits": []
   },
   {
@@ -393,7 +393,7 @@ var cfDataset = [
     "link": null,
     "details": "<p>The Helm has a search bar at the top. Type a few letters of any category or provider name and it filters the page in real time. \"Discord\" returns Discord's row and the category it belongs to. \"Casino\" returns every named gambling provider plus the parent category. \"Mobile\" returns the Mobile Game Ads category and every advertiser in it.</p><p>Useful when you suspect a specific site is the problem and want to confirm Haven knows about it, or when a friend mentions a platform you have not heard of and you want to see whether Haven already handles it.</p>",
     "image": null,
-    "milestone_ids": null,
+    "milestone_ids": "86",
     "benefits": []
   },
   {
@@ -408,7 +408,7 @@ var cfDataset = [
     "link": null,
     "details": "<p>Simple mode is the default. It shows the category toggles, the active preset, the alerts page, the always-allow list, and the activity feed. That is enough for most households on most days.</p><p>Advanced mode unlocks per-provider tuning, scheduled filters (homework hours, bedtime, weekends), the detailed admin audit log, custom always-block additions, and the router-level diagnostics. The toggle is in the corner of the Helm; flip back to Simple whenever you do not feel like seeing all of it.</p>",
     "image": null,
-    "milestone_ids": null,
+    "milestone_ids": "86,177,425,436,444",
     "benefits": []
   },
   {
@@ -447,7 +447,7 @@ var cfDataset = [
     "link": null,
     "details": "<p>Some sites should never be blocked, even if the category they belong to is. School portals that happen to be in social-media-adjacent buckets. A grandparent's tiny blog hosted on a free service the rest of which is full of garbage. A specific subreddit someone in the home uses for research. Add the address to the always-allow list and Haven never blocks it, regardless of what category it would otherwise be in.</p><p>Only administrators can add to the list, and every addition is logged in the admin history so the household knows what got allowed and when.</p>",
     "image": null,
-    "milestone_ids": null,
+    "milestone_ids": "212",
     "benefits": [
       {
         "id": 1,
@@ -482,7 +482,7 @@ var cfDataset = [
     "link": null,
     "details": "<p>You do not have to choose between \"replace my ISP router\" and \"set up a complicated double-NAT.\" Plug Haven in, give it a Wi-Fi password, and it figures out what kind of network it sees on the other side. If the cable goes to a real modem, Haven runs as your main router. If it goes to an ISP router that is already handing out addresses, Haven runs in transparent mode and filters everything coming through it without fighting the upstream.</p><p>The most common silent killer of consumer routers — IP-address conflicts — does not happen here. Haven detects them and adjusts before there is a problem.</p>",
     "image": null,
-    "milestone_ids": null,
+    "milestone_ids": "69,117,340,379,417,467",
     "benefits": [
       {
         "id": 7,
@@ -522,7 +522,7 @@ var cfDataset = [
     "link": null,
     "details": "<p>$4 per month pays for: weekly category and provider list updates, the underlying research that adds new sites and new bypass tactics to those lists, the cloud-side infrastructure that delivers updates, and one off-network device on the lightweight mobile filtering tier.</p><p>For comparison, consumer content-filter products on the market sit between $70 and $100 per year for similar baseline coverage, frequently with paywalls in front of basic features. Haven keeps the basics in the base price and clearly names the few optional add-ons (encrypted cloud backup, Pro-tier off-network filtering) for the households that want them.</p>",
     "image": null,
-    "milestone_ids": "80,85",
+    "milestone_ids": "39,80,85",
     "benefits": [
       {
         "id": 6,
@@ -542,7 +542,7 @@ var cfDataset = [
     "link": null,
     "details": "<p>Haven Navy is built on the GL.iNet MT6000. Wi-Fi 6 dual-band, four 2.5GbE LAN ports plus a 2.5GbE WAN, USB 3 for storage, generous RAM and CPU headroom for households doing heavy filtering across many devices. If you have a multi-gigabit internet plan or a household full of streaming, gaming, and smart-home traffic, Navy is the right choice.</p><p>This is our primary recommendation. The hardware leaves room for Haven to grow into features that the entry-level model would have to throttle.</p>",
     "image": "haven-navy-gnome.png",
-    "milestone_ids": "77,100,133",
+    "milestone_ids": "2,77,100,133,329,413,422,426",
     "benefits": []
   },
   {
@@ -557,7 +557,7 @@ var cfDataset = [
     "link": null,
     "details": "<p>Haven Olive is built on the Linksys E8450 — a well-supported, widely deployed Wi-Fi 6 router that has been a community favorite on OpenWRT for years. Dual-band Wi-Fi 6 (AX3200), four gigabit LAN ports, USB 3. For most households this is more than enough.</p><p>Pick Olive if you want the Haven experience at the lower price point, or if your home has gigabit-class internet rather than multi-gig. The filtering is identical to Navy; the difference is in network capacity at peak load.</p>",
     "image": "haven-olive-gnome.png",
-    "milestone_ids": "70,100,105",
+    "milestone_ids": "70,83,100,105,329,413,422,454",
     "benefits": []
   },
   {
@@ -572,7 +572,7 @@ var cfDataset = [
     "link": "https://lulhaven.com/demo",
     "details": "<p>Visit <a href=\"demo.html\">lulhaven.com/demo</a> to use a working copy of the Haven Helm in your browser. The categories are real, the toggles work, the activity log fills in as you click. Decide whether the interface feels right before you spend a cent.</p><p>No signup, no email capture, no \"free trial\" with a credit card. Everything you do in the demo resets when you close the tab, so feel free to make a mess.</p>",
     "image": null,
-    "milestone_ids": null,
+    "milestone_ids": "86,252,267,269,440,442",
     "benefits": []
   },
   {
@@ -587,7 +587,7 @@ var cfDataset = [
     "link": null,
     "details": "<p>Network-level filtering means Haven sees the names of sites being asked for and decides allow or block at that level. It does not buffer page contents, transcribe what household members type, or capture screenshots of what they viewed on sites that did get through.</p><p>This trade-off is on purpose. Filters that work at the page-content level have to read everything to make their decisions — and once a thing is being read by a piece of software, it can be logged, transmitted, leaked, subpoenaed, or sold. Haven made the architectural choice that \"we can stop you from reaching it\" is more important than \"we can tell you what was on it once you got there.\" The good sites stay private.</p>",
     "image": null,
-    "milestone_ids": null,
+    "milestone_ids": "20,338",
     "benefits": []
   },
   {
@@ -602,7 +602,7 @@ var cfDataset = [
     "link": null,
     "details": "<p>Today, every device on the network sees the same rules. That is the right default — it covers the household uniformly without anyone having to think about which phone is which. Coming soon: the option to attach specific category rules to specific devices, so one household member's phone can be on stricter rules than the living room TV.</p><p>We held this feature back deliberately. Device identification has to be reliable before per-device rules can be safe — otherwise the wrong rules end up on the wrong device. The new-device alerts and device-naming work in the Helm are the foundation that makes per-device profiles trustworthy.</p>",
     "image": null,
-    "milestone_ids": "135",
+    "milestone_ids": "135,283,284,460,461,462",
     "benefits": []
   },
   {
@@ -617,7 +617,7 @@ var cfDataset = [
     "link": null,
     "details": "<p>Block pages will carry an \"Unblock for 15 minutes\" button. Tapping it opens a brief justification field and unblocks the specific destination for a quarter hour. An administrator gets an immediate email about the temporary unblock, so the household can have a calm conversation about it later.</p><p>Independent of the unblock button, certain destinations are always allowed and cannot be blocked by anything: poison control, suicide and crisis hotlines, 911-adjacent services, the IRS, Social Security. The filter never gets in the way of someone reaching help.</p>",
     "image": null,
-    "milestone_ids": null,
+    "milestone_ids": "134,285",
     "benefits": []
   },
   {

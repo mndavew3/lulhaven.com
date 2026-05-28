@@ -8,7 +8,16 @@ var milestonesDataset = [
     "detail": "On first power-up the router examines the network on both sides, chooses an address range that won't conflict, and quietly reconfigures itself if needed. Your existing devices keep working, and the router's filtering and admin page follow the new address automatically. The behavior is covered by an automated regression check. Rollout note: confirm the earliest Early-Adopter units receive this update.",
     "benefit": "A customer can plug a Haven router into any home network and have it just work — no manual setup — even when their existing router uses the same common address range or an unusual one.",
     "ref": "8ae6134362",
-    "features": []
+    "features": [
+      {
+        "id": 2,
+        "lead": "Pre-flashed router"
+      },
+      {
+        "id": 26,
+        "lead": "Plug in, set a password, you are filtering"
+      }
+    ]
   },
   {
     "id": 463,
@@ -30,7 +39,12 @@ var milestonesDataset = [
     "detail": "A multi-day deep-dive on how off-the-shelf networking software handles client-specific rules surfaced a quiet limitation that affects every product in this space. We redesigned around it before the feature shipped to customers.",
     "benefit": "Avoided shipping a feature that would have failed silently in homes. Caught the limitation in our lab, not in yours.",
     "ref": "wiki-145",
-    "features": []
+    "features": [
+      {
+        "id": 33,
+        "lead": "Per-device profiles"
+      }
+    ]
   },
   {
     "id": 464,
@@ -52,7 +66,16 @@ var milestonesDataset = [
     "detail": "Households can now apply different rules to a kid's tablet versus a parent's laptop versus a guest's phone, all from one screen on the router. The defaults stay simple; the per-device controls are there when you want them and out of the way when you don't.",
     "benefit": "Households apply different rules to different devices — strict for some, light-touch for others, all without separate routers or accounts.",
     "ref": "wiki-137",
-    "features": []
+    "features": [
+      {
+        "id": 1,
+        "lead": "Whole-home filtering"
+      },
+      {
+        "id": 33,
+        "lead": "Per-device profiles"
+      }
+    ]
   },
   {
     "id": 455,
@@ -118,7 +141,12 @@ var milestonesDataset = [
     "detail": "Controlled bench testing exposed problems that would have been hard to diagnose from customer reports. All three fixed at the lab, not in the field.",
     "benefit": "Caught critical regressions in a controlled bench environment before any customer shipment.",
     "ref": "wiki-144",
-    "features": []
+    "features": [
+      {
+        "id": 33,
+        "lead": "Per-device profiles"
+      }
+    ]
   },
   {
     "id": 458,
@@ -162,7 +190,12 @@ var milestonesDataset = [
     "detail": "New section between hero and How-It-Works introduces Haven Olive (Essential Wi-Fi 6) and Haven Navy (Performance flagship) with mascot illustrations. The homepage previously named no specific product.",
     "benefit": "Visitors learn which Haven router fits their household before clicking through to specifications.",
     "ref": "f6e964f533",
-    "features": []
+    "features": [
+      {
+        "id": 30,
+        "lead": "Haven Olive"
+      }
+    ]
   },
   {
     "id": 453,
@@ -275,7 +308,12 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "Parents see what is happening on their network without having to log in and look.",
     "ref": "730fa71d8e",
-    "features": []
+    "features": [
+      {
+        "id": 17,
+        "lead": "New-device email alerts"
+      }
+    ]
   },
   {
     "id": 278,
@@ -341,7 +379,12 @@ var milestonesDataset = [
     "detail": "First Haven notification event proven end-to-end in production. Parents get instant awareness when a new device joins the home network — no checking the screen required.",
     "benefit": "Customers find out about activity on their network without having to log in. The system reaches out to them.",
     "ref": "",
-    "features": []
+    "features": [
+      {
+        "id": 17,
+        "lead": "New-device email alerts"
+      }
+    ]
   },
   {
     "id": 136,
@@ -374,7 +417,12 @@ var milestonesDataset = [
     "detail": "Customer settings now live in a partition that the reset button doesn't touch. Reset clears the firmware; your filter choices stay.",
     "benefit": "Customers can factory-reset the router without losing their content rules. Setup is once, not every time something goes wrong.",
     "ref": "4f200b454a",
-    "features": []
+    "features": [
+      {
+        "id": 10,
+        "lead": "Survives a factory reset"
+      }
+    ]
   },
   {
     "id": 365,
@@ -385,7 +433,12 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "Parents see what is happening on their network without having to log in and look.",
     "ref": "173f36dbd4",
-    "features": []
+    "features": [
+      {
+        "id": 17,
+        "lead": "New-device email alerts"
+      }
+    ]
   },
   {
     "id": 363,
@@ -396,7 +449,12 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "Parents see what is happening on their network without having to log in and look.",
     "ref": "1072f3dcdb",
-    "features": []
+    "features": [
+      {
+        "id": 17,
+        "lead": "New-device email alerts"
+      }
+    ]
   },
   {
     "id": 361,
@@ -526,7 +584,12 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "Decisions and discoveries persist across sessions; future-us picks up cold with full context.",
     "ref": "fbf722c23b",
-    "features": []
+    "features": [
+      {
+        "id": 34,
+        "lead": "Emergency-unblock button"
+      }
+    ]
   },
   {
     "id": 284,
@@ -537,7 +600,12 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "Decisions and discoveries persist across sessions; future-us picks up cold with full context.",
     "ref": "abe4377b9e",
-    "features": []
+    "features": [
+      {
+        "id": 33,
+        "lead": "Per-device profiles"
+      }
+    ]
   },
   {
     "id": 283,
@@ -548,7 +616,12 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "Decisions and discoveries persist across sessions; future-us picks up cold with full context.",
     "ref": "2210393efb",
-    "features": []
+    "features": [
+      {
+        "id": 33,
+        "lead": "Per-device profiles"
+      }
+    ]
   },
   {
     "id": 282,
@@ -713,7 +786,12 @@ var milestonesDataset = [
     "detail": "Dave 2026-05-24 09:32 CDT: \"I think that the root user is only a thing for Linux people,\nand that to make this a friendlier, less Linux specific kind of application, we're gonna\nend up with additional users.\"",
     "benefit": "First-run UX locked: Mom names herself the admin, root disappears. Customer never sees the word 'root' or has to think about Linux user accounts.",
     "ref": "",
-    "features": []
+    "features": [
+      {
+        "id": 15,
+        "lead": "Multi-administrator"
+      }
+    ]
   },
   {
     "id": 134,
@@ -724,7 +802,12 @@ var milestonesDataset = [
     "detail": "Dave 2026-05-24 09:12 CDT, in a \"mixed feelings\" reflection on filtering: imagine you're\ntrying to figure out how to put together a tourniquet, you're searching online, and a\nHaven category block puts you between you and the page. That's the failure mode where the\nfilter actively…",
     "benefit": "Emergency info-seeking design baked in. Anyone bleeding out can always reach poison control / Red Cross / Mayo — filter never blocks the actual emergency.",
     "ref": "",
-    "features": []
+    "features": [
+      {
+        "id": 34,
+        "lead": "Emergency-unblock button"
+      }
+    ]
   },
   {
     "id": 153,
@@ -790,7 +873,12 @@ var milestonesDataset = [
     "detail": "Selecting a category in the household controls now drives the YouTube channel blocklist automatically — no separate management, no parallel configuration. One toggle, one effect.",
     "benefit": "YouTube blocklists update themselves as household preferences change. Customers don't manage two lists.",
     "ref": "7e76f5f06f",
-    "features": []
+    "features": [
+      {
+        "id": 8,
+        "lead": "Quiet the feed"
+      }
+    ]
   },
   {
     "id": 287,
@@ -854,7 +942,12 @@ var milestonesDataset = [
     "detail": "Customers can opt-in to apply their YouTube channel preferences to their actual YouTube account, not just block at the network layer. Off by default; takes effect only when explicitly enabled.",
     "benefit": "Channel suppression travels with the user's YouTube account — works wherever they sign in, not just on the home network.",
     "ref": "",
-    "features": []
+    "features": [
+      {
+        "id": 8,
+        "lead": "Quiet the feed"
+      }
+    ]
   },
   {
     "id": 125,
@@ -1117,7 +1210,12 @@ var milestonesDataset = [
     "detail": "QUESTION: Can the cloud proxy call back to the router's dynamic IP to get the blocklist in real time?",
     "benefit": "Today's design supports tomorrow's features without painful rewrites.",
     "ref": "",
-    "features": []
+    "features": [
+      {
+        "id": 14,
+        "lead": "Filtering follows household members wherever they go"
+      }
+    ]
   },
   {
     "id": 122,
@@ -1364,7 +1462,16 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
     "ref": "b4c9e37b56",
-    "features": []
+    "features": [
+      {
+        "id": 2,
+        "lead": "Pre-flashed router"
+      },
+      {
+        "id": 26,
+        "lead": "Plug in, set a password, you are filtering"
+      }
+    ]
   },
   {
     "id": 377,
@@ -1419,7 +1526,16 @@ var milestonesDataset = [
     "detail": "Every NIB router we burn gets its factory firmware preserved (byte-for-byte) before we write Haven. Duplicates are de-duplicated; uniques are kept as restoration baselines.",
     "benefit": "Customers can always be returned to a factory-original state. Haven never burns a bridge.",
     "ref": "",
-    "features": []
+    "features": [
+      {
+        "id": 2,
+        "lead": "Pre-flashed router"
+      },
+      {
+        "id": 26,
+        "lead": "Plug in, set a password, you are filtering"
+      }
+    ]
   },
   {
     "id": 116,
@@ -1748,7 +1864,28 @@ var milestonesDataset = [
     "detail": "2026-05-15 — Dave's privacy stance crystallized this architecture during Phase 2 design.",
     "benefit": "/<router data partition> concept locked: customer settings survive a factory reset because they live on raw eMMC that firstboot does not touch.",
     "ref": "",
-    "features": []
+    "features": [
+      {
+        "id": 4,
+        "lead": "Haven Inc. cannot read your data"
+      },
+      {
+        "id": 5,
+        "lead": "Your data stays on your router"
+      },
+      {
+        "id": 6,
+        "lead": "Haven cannot read your traffic"
+      },
+      {
+        "id": 7,
+        "lead": "Optional encrypted cloud backup"
+      },
+      {
+        "id": 10,
+        "lead": "Survives a factory reset"
+      }
+    ]
   },
   {
     "id": 391,
@@ -2124,6 +2261,10 @@ var milestonesDataset = [
     "ref": "",
     "features": [
       {
+        "id": 20,
+        "lead": "The Helm — where you steer"
+      },
+      {
         "id": 30,
         "lead": "Haven Olive"
       }
@@ -2138,7 +2279,16 @@ var milestonesDataset = [
     "detail": "Internal refinement on how the friendly name resolves — works even if the router's IP changes.",
     "benefit": "The friendly name keeps working regardless of network configuration — one less thing for customers to maintain.",
     "ref": "9c8c1d4ded",
-    "features": []
+    "features": [
+      {
+        "id": 29,
+        "lead": "Haven Navy"
+      },
+      {
+        "id": 30,
+        "lead": "Haven Olive"
+      }
+    ]
   },
   {
     "id": 409,
@@ -2204,7 +2354,12 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "More of what parents and adults actually care about is blockable in one click.",
     "ref": "0652c53196",
-    "features": []
+    "features": [
+      {
+        "id": 19,
+        "lead": "Adult content is opt-in"
+      }
+    ]
   },
   {
     "id": 104,
@@ -2237,7 +2392,12 @@ var milestonesDataset = [
     "detail": "",
     "benefit": "Production builds reliably; theme is always available.",
     "ref": "d4a06efcba",
-    "features": []
+    "features": [
+      {
+        "id": 20,
+        "lead": "The Helm — where you steer"
+      }
+    ]
   },
   {
     "id": 407,
@@ -2248,7 +2408,12 @@ var milestonesDataset = [
     "detail": "",
     "benefit": "Login screen stays clean; admin screen keeps the polished look.",
     "ref": "0bdf0dec6f",
-    "features": []
+    "features": [
+      {
+        "id": 20,
+        "lead": "The Helm — where you steer"
+      }
+    ]
   },
   {
     "id": 410,
@@ -2345,7 +2510,20 @@ var milestonesDataset = [
     "detail": "Dave 2026-05-12 incremental UX requests, all deployed.",
     "benefit": "Prospective buyers can try Haven before they pay — friction down, conversion up.",
     "ref": "",
-    "features": []
+    "features": [
+      {
+        "id": 21,
+        "lead": "Search across categories and providers"
+      },
+      {
+        "id": 22,
+        "lead": "Two modes"
+      },
+      {
+        "id": 31,
+        "lead": "Interactive demo at lulhaven.com/demo"
+      }
+    ]
   },
   {
     "id": 85,
@@ -2443,7 +2621,12 @@ var milestonesDataset = [
     "detail": "No per-customer manual provisioning needed — every shipped router has its own crypto identity baked in.",
     "benefit": "Each router is uniquely identifiable from day one; future off-network capabilities can light up without sending technicians on-site.",
     "ref": "",
-    "features": []
+    "features": [
+      {
+        "id": 14,
+        "lead": "Filtering follows household members wherever they go"
+      }
+    ]
   },
   {
     "id": 430,
@@ -2487,7 +2670,12 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "Reliable, persistent router behavior with no manual setup the customer has to do.",
     "ref": "8a2080e17f",
-    "features": []
+    "features": [
+      {
+        "id": 29,
+        "lead": "Haven Navy"
+      }
+    ]
   },
   {
     "id": 425,
@@ -2498,7 +2686,12 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "Reliable, persistent router behavior with no manual setup the customer has to do.",
     "ref": "a966af2120",
-    "features": []
+    "features": [
+      {
+        "id": 22,
+        "lead": "Two modes"
+      }
+    ]
   },
   {
     "id": 424,
@@ -2531,7 +2724,16 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "Reliable, persistent router behavior with no manual setup the customer has to do.",
     "ref": "d7ad159895",
-    "features": []
+    "features": [
+      {
+        "id": 29,
+        "lead": "Haven Navy"
+      },
+      {
+        "id": 30,
+        "lead": "Haven Olive"
+      }
+    ]
   },
   {
     "id": 420,
@@ -2575,7 +2777,16 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
     "ref": "2384dd7b21",
-    "features": []
+    "features": [
+      {
+        "id": 2,
+        "lead": "Pre-flashed router"
+      },
+      {
+        "id": 26,
+        "lead": "Plug in, set a password, you are filtering"
+      }
+    ]
   },
   {
     "id": 416,
@@ -2597,7 +2808,16 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
     "ref": "b59285c776",
-    "features": []
+    "features": [
+      {
+        "id": 29,
+        "lead": "Haven Navy"
+      },
+      {
+        "id": 30,
+        "lead": "Haven Olive"
+      }
+    ]
   },
   {
     "id": 328,
@@ -2718,7 +2938,12 @@ var milestonesDataset = [
     "detail": "Discussion 2026-05-12 (continuation of exit-node analysis). Dave probed three angles in sequence: (1) hybrid VPN to commercial provider, (2) corporate/wholesale pricing, (3) preservation of the original 'no bandwidth penalty' dream.",
     "benefit": "Filtering follows household members off home Wi-Fi — closes the cellular bypass that defeats most competitors.",
     "ref": "",
-    "features": []
+    "features": [
+      {
+        "id": 14,
+        "lead": "Filtering follows household members wherever they go"
+      }
+    ]
   },
   {
     "id": 81,
@@ -2729,7 +2954,12 @@ var milestonesDataset = [
     "detail": "Discussion 2026-05-12. Dave's framing: 'If A is sending packets to a website served by B (B's Haven hosts a VPN endpoint), packets go encrypted A->B, decrypted at B, leave B's LAN unencrypted, and something triggers at the NSA, talk me through it.'",
     "benefit": "Filtering follows household members off home Wi-Fi — closes the cellular bypass that defeats most competitors.",
     "ref": "",
-    "features": []
+    "features": [
+      {
+        "id": 14,
+        "lead": "Filtering follows household members wherever they go"
+      }
+    ]
   },
   {
     "id": 79,
@@ -2795,7 +3025,12 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "Prospective buyers can try Haven before they pay — friction down, conversion up.",
     "ref": "cc7157dfec",
-    "features": []
+    "features": [
+      {
+        "id": 22,
+        "lead": "Two modes"
+      }
+    ]
   },
   {
     "id": 175,
@@ -2883,7 +3118,12 @@ var milestonesDataset = [
     "detail": "Dave 2026-05-12: 'Brands are Navy and Olive at this time. Scrub archaic brand references.'",
     "benefit": "First customer impression before they even plug the router in — sets the trust baseline.",
     "ref": "",
-    "features": []
+    "features": [
+      {
+        "id": 30,
+        "lead": "Haven Olive"
+      }
+    ]
   },
   {
     "id": 80,
@@ -3003,7 +3243,16 @@ var milestonesDataset = [
     "detail": "Eliminated a class of \"Haven menu won't load on first try\" issues by ensuring everything ships in the firmware image instead of being downloaded after the fact.",
     "benefit": "First-boot experience just works — no surprises after the customer plugs the router in.",
     "ref": "",
-    "features": []
+    "features": [
+      {
+        "id": 2,
+        "lead": "Pre-flashed router"
+      },
+      {
+        "id": 26,
+        "lead": "Plug in, set a password, you are filtering"
+      }
+    ]
   },
   {
     "id": 68,
@@ -3283,7 +3532,12 @@ var milestonesDataset = [
     "detail": "Per Dave 2026-05-11 (after the burning-strategy discussion + OS-portability question): prepped two of the high-value items from that analysis — image cache + preflight script — and structured them so a remote station (Southern Missouri etc.) can bootstrap from clean with three co…",
     "benefit": "Reliable, persistent router behavior with no manual setup the customer has to do.",
     "ref": "",
-    "features": []
+    "features": [
+      {
+        "id": 18,
+        "lead": "Updated weekly"
+      }
+    ]
   },
   {
     "id": 184,
@@ -3439,8 +3693,20 @@ var milestonesDataset = [
     "ref": "",
     "features": [
       {
+        "id": 1,
+        "lead": "Whole-home filtering"
+      },
+      {
+        "id": 12,
+        "lead": "Block what you choose"
+      },
+      {
         "id": 13,
         "lead": "Bypass-resistant"
+      },
+      {
+        "id": 32,
+        "lead": "We block at the network level"
       }
     ]
   },
@@ -3491,7 +3757,16 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
     "ref": "4e8b24eabf",
-    "features": []
+    "features": [
+      {
+        "id": 2,
+        "lead": "Pre-flashed router"
+      },
+      {
+        "id": 26,
+        "lead": "Plug in, set a password, you are filtering"
+      }
+    ]
   },
   {
     "id": 336,
@@ -3535,7 +3810,16 @@ var milestonesDataset = [
     "detail": "Dave decision 2026-05-10 21:48 CDT: 'We will host a vpn endpoint (as will all our routers). Any such traffic will be encrypted.'",
     "benefit": "The cardinal: Haven Inc. never sees customer cleartext on its infrastructure. Architecture, not policy — anchors every privacy claim in the product.",
     "ref": "",
-    "features": []
+    "features": [
+      {
+        "id": 6,
+        "lead": "Haven cannot read your traffic"
+      },
+      {
+        "id": 14,
+        "lead": "Filtering follows household members wherever they go"
+      }
+    ]
   },
   {
     "id": 39,
@@ -3546,7 +3830,16 @@ var milestonesDataset = [
     "detail": "Dave decision 2026-05-10 21:45 CDT: DDNS for the VPN endpoint will piggyback on the existing daily subscription check-in. No external DDNS provider (DuckDNS, Dynu, etc.), no separate update daemon — the router already calls home once a day for the subscription delta; we just add …",
     "benefit": "Filtering follows household members off home Wi-Fi — closes the cellular bypass that defeats most competitors.",
     "ref": "",
-    "features": []
+    "features": [
+      {
+        "id": 18,
+        "lead": "Updated weekly"
+      },
+      {
+        "id": 28,
+        "lead": "$4/month for category updates"
+      }
+    ]
   },
   {
     "id": 38,
@@ -3557,7 +3850,12 @@ var milestonesDataset = [
     "detail": "No third-party VPN service to sign up for; no separate router to configure. Built in.",
     "benefit": "Filtering follows household members off home Wi-Fi — closes the cellular bypass that defeats most competitors.",
     "ref": "",
-    "features": []
+    "features": [
+      {
+        "id": 14,
+        "lead": "Filtering follows household members wherever they go"
+      }
+    ]
   },
   {
     "id": 37,
@@ -3832,7 +4130,20 @@ var milestonesDataset = [
     "detail": "",
     "benefit": "Bypass attempts (encrypted-DNS, privacy relays) return to Haven's filter — the workarounds don't work.",
     "ref": "f8d4505b26",
-    "features": []
+    "features": [
+      {
+        "id": 1,
+        "lead": "Whole-home filtering"
+      },
+      {
+        "id": 13,
+        "lead": "Bypass-resistant"
+      },
+      {
+        "id": 32,
+        "lead": "We block at the network level"
+      }
+    ]
   },
   {
     "id": 337,
@@ -4074,7 +4385,12 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "Single place to edit data; everything else regenerates — no parallel maintenance, no drift.",
     "ref": "188c75ee30",
-    "features": []
+    "features": [
+      {
+        "id": 18,
+        "lead": "Updated weekly"
+      }
+    ]
   },
   {
     "id": 351,
@@ -4085,7 +4401,12 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "More of what parents and adults actually care about is blockable in one click.",
     "ref": "bd28fc348a",
-    "features": []
+    "features": [
+      {
+        "id": 12,
+        "lead": "Block what you choose"
+      }
+    ]
   },
   {
     "id": 198,
@@ -4096,7 +4417,12 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "Edits flow source → live in one script. No copy-paste, no stale artifacts.",
     "ref": "c6113ad705",
-    "features": []
+    "features": [
+      {
+        "id": 18,
+        "lead": "Updated weekly"
+      }
+    ]
   },
   {
     "id": 197,
@@ -4140,7 +4466,12 @@ var milestonesDataset = [
     "detail": "Customers can apply a sensible-defaults preset with one click on either surface, then refine if they want. First application of the \"include-for-conversation\" principle (when in doubt, include).",
     "benefit": "Setup is one click instead of dozens of decisions. The presets cover the most common household goals out of the box.",
     "ref": "",
-    "features": []
+    "features": [
+      {
+        "id": 16,
+        "lead": "Presets for real situations"
+      }
+    ]
   },
   {
     "id": 3,
@@ -4162,7 +4493,12 @@ var milestonesDataset = [
     "detail": "Pipeline transforms the Copilot-generated Navy Gnome source PNG\ninto the final printable sticker design with white background, navy outline,\nand a navy label band at the bottom for the 'HAVEN - N OF 100' caption.",
     "benefit": "First customer impression before they even plug the router in — sets the trust baseline.",
     "ref": "",
-    "features": []
+    "features": [
+      {
+        "id": 29,
+        "lead": "Haven Navy"
+      }
+    ]
   },
   {
     "id": 1,
@@ -4206,7 +4542,12 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "Prospective buyers can try Haven before they pay — friction down, conversion up.",
     "ref": "ea037baa1f",
-    "features": []
+    "features": [
+      {
+        "id": 16,
+        "lead": "Presets for real situations"
+      }
+    ]
   },
   {
     "id": 192,
@@ -4217,7 +4558,12 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "Prospective buyers can try Haven before they pay — friction down, conversion up.",
     "ref": "ff7caa7228",
-    "features": []
+    "features": [
+      {
+        "id": 16,
+        "lead": "Presets for real situations"
+      }
+    ]
   },
   {
     "id": 354,
@@ -4371,7 +4717,12 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "12M curated domains across 30 categories integrated; we benefit from the world's most comprehensive non-commercial blacklist without paying or maintaining it.",
     "ref": "2a86b7f36b",
-    "features": []
+    "features": [
+      {
+        "id": 19,
+        "lead": "Adult content is opt-in"
+      }
+    ]
   },
   {
     "id": 202,
@@ -4426,7 +4777,12 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "More of what parents and adults actually care about is blockable in one click.",
     "ref": "c08d5a4402",
-    "features": []
+    "features": [
+      {
+        "id": 19,
+        "lead": "Adult content is opt-in"
+      }
+    ]
   },
   {
     "id": 205,
@@ -4448,7 +4804,12 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "Prospective buyers can try Haven before they pay — friction down, conversion up.",
     "ref": "a33e94d671",
-    "features": []
+    "features": [
+      {
+        "id": 24,
+        "lead": "Always-allow list"
+      }
+    ]
   },
   {
     "id": 211,
@@ -4525,7 +4886,12 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "More of what parents and adults actually care about is blockable in one click.",
     "ref": "eca54e86b9",
-    "features": []
+    "features": [
+      {
+        "id": 19,
+        "lead": "Adult content is opt-in"
+      }
+    ]
   },
   {
     "id": 219,
@@ -4591,7 +4957,12 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "Customer interacts with this surface daily; every refinement compounds the experience.",
     "ref": "d1ed216987",
-    "features": []
+    "features": [
+      {
+        "id": 20,
+        "lead": "The Helm — where you steer"
+      }
+    ]
   },
   {
     "id": 221,
@@ -4602,7 +4973,12 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "Customer interacts with this surface daily; every refinement compounds the experience.",
     "ref": "f6407abd0e",
-    "features": []
+    "features": [
+      {
+        "id": 20,
+        "lead": "The Helm — where you steer"
+      }
+    ]
   },
   {
     "id": 218,
@@ -4756,7 +5132,12 @@ var milestonesDataset = [
     "detail": "Pinned hdBasicMode = true at script load — first-time visitors and returning visitors both land in Basic mode regardless of localStorage (Advanced still reachable via the toggle).",
     "benefit": "Prospective customers see the same UI in the demo as the router ships with — no 'wait, the real thing looks different' jolt at unboxing.",
     "ref": "7875b2268c",
-    "features": []
+    "features": [
+      {
+        "id": 22,
+        "lead": "Two modes"
+      }
+    ]
   },
   {
     "id": 443,
@@ -4789,7 +5170,12 @@ var milestonesDataset = [
     "detail": "Tried splitting the title into \"Lulhaven\" + a \"Live Demo\" subscript line, with new .hd-unit-line CSS. Reverted in the next commit (less readable at small widths).",
     "benefit": "Prospective customers see the same UI in the demo as the router ships with — no 'wait, the real thing looks different' jolt at unboxing.",
     "ref": "e5293b7f78",
-    "features": []
+    "features": [
+      {
+        "id": 31,
+        "lead": "Interactive demo at lulhaven.com/demo"
+      }
+    ]
   },
   {
     "id": 442,
@@ -4800,7 +5186,16 @@ var milestonesDataset = [
     "detail": "hdApplyPreset() and hdClearAll() now call hdToggleFilteredView() instead of plain hdRenderFilteredView(), so applying a preset enters the filtered-view mode automatically.",
     "benefit": "Prospective customers see the same UI in the demo as the router ships with — no 'wait, the real thing looks different' jolt at unboxing.",
     "ref": "47a9d12654",
-    "features": []
+    "features": [
+      {
+        "id": 16,
+        "lead": "Presets for real situations"
+      },
+      {
+        "id": 31,
+        "lead": "Interactive demo at lulhaven.com/demo"
+      }
+    ]
   },
   {
     "id": 441,
@@ -4833,7 +5228,12 @@ var milestonesDataset = [
     "detail": "New Basic-mode CSS class hides advanced controls (delayed-filter, search, import/export, filter-view, badges); Basic/Advanced button + hdToggleMode() persisted via localStorage. 44 lines of new CSS + JS function + class wiring in demo.html and js/haven-ui.js.",
     "benefit": "Prospective customers see the same UI in the demo as the router ships with — no 'wait, the real thing looks different' jolt at unboxing.",
     "ref": "125b8567cc",
-    "features": []
+    "features": [
+      {
+        "id": 22,
+        "lead": "Two modes"
+      }
+    ]
   },
   {
     "id": 439,
@@ -4866,7 +5266,16 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "More of what parents and adults actually care about is blockable in one click.",
     "ref": "f7de32b61b",
-    "features": []
+    "features": [
+      {
+        "id": 12,
+        "lead": "Block what you choose"
+      },
+      {
+        "id": 16,
+        "lead": "Presets for real situations"
+      }
+    ]
   },
   {
     "id": 252,
@@ -4877,7 +5286,12 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "Prospective buyers can try Haven before they pay — friction down, conversion up.",
     "ref": "537f81b686",
-    "features": []
+    "features": [
+      {
+        "id": 31,
+        "lead": "Interactive demo at lulhaven.com/demo"
+      }
+    ]
   },
   {
     "id": 250,
@@ -5020,7 +5434,12 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "Visitors land on a page that explains Haven faster and find it more appealing.",
     "ref": "dcb847aa13",
-    "features": []
+    "features": [
+      {
+        "id": 20,
+        "lead": "The Helm — where you steer"
+      }
+    ]
   },
   {
     "id": 264,
@@ -5053,7 +5472,12 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "Prospective buyers can try Haven before they pay — friction down, conversion up.",
     "ref": "f41fe3cf49",
-    "features": []
+    "features": [
+      {
+        "id": 31,
+        "lead": "Interactive demo at lulhaven.com/demo"
+      }
+    ]
   },
   {
     "id": 269,
@@ -5064,7 +5488,12 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "Prospective buyers can try Haven before they pay — friction down, conversion up.",
     "ref": "20a32856c7",
-    "features": []
+    "features": [
+      {
+        "id": 31,
+        "lead": "Interactive demo at lulhaven.com/demo"
+      }
+    ]
   },
   {
     "id": 268,
@@ -5097,6 +5526,11 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "Visitors land on a page that explains Haven faster and find it more appealing.",
     "ref": "80f3e3f44a",
-    "features": []
+    "features": [
+      {
+        "id": 12,
+        "lead": "Block what you choose"
+      }
+    ]
   }
 ];
