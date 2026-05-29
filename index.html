@@ -172,6 +172,39 @@
 	</div>
 </section>
 
+<section id="founders" style="background:#f4f7f6;padding:64px 0;">
+  <div class="container">
+    <div class="row justify-content-center text-center">
+      <div class="col-12 col-lg-10">
+        <h2 class="mbr-fonts-style display-2" style="font-weight:700;margin-bottom:10px;">Become a Haven Founder</h2>
+        <p class="mbr-fonts-style display-7" style="max-width:680px;margin:0 auto 34px;color:#444;">
+          Be one of the first 100. Each Founders router is hand-built and shipped by the founder&mdash;your household protected, the mission funded.
+        </p>
+        <div style="display:inline-flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:30px;
+                    background:#fff;border-radius:16px;padding:30px 36px;box-shadow:0 8px 30px rgba(0,0,0,0.10);
+                    text-align:left;max-width:780px;">
+          <img src="assets/images/haven-navy-gnome.png" alt="Haven Navy" style="height:160px;width:auto;border-radius:12px;flex:0 0 auto;">
+          <div style="flex:1 1 330px;">
+            <h3 class="mbr-fonts-style display-5" style="font-weight:700;margin:0 0 4px;">Haven Navy &mdash; Founders Edition</h3>
+            <p class="mbr-fonts-style" style="color:#666;margin:0 0 12px;">Wi-Fi 6 household content filter &middot; GL-MT6000</p>
+            <p style="margin:0 0 14px;"><span style="font-size:2rem;font-weight:800;color:#1f6b5a;">$299</span>
+              <span style="color:#777;"> one-time &middot; free updates through launch</span></p>
+            <p style="margin:0 0 18px;color:#444;">Plug it in where your old router was, click the categories you want blocked, and Haven enforces them for every device in the home. Filter everything&mdash;or nothing. You&rsquo;re in control.</p>
+            <a href="https://buy.stripe.com/14A14ogqD62A7TN31kdIA00" id="founders-buy"
+              style="display:inline-block;padding:15px 34px;border-radius:40px;background:#2b7a69;color:#fff;
+                     font-size:1.05rem;font-weight:700;text-decoration:none;">Reserve your Haven &rarr;</a>
+            <p style="margin:14px 0 0;font-size:0.92rem;color:#888;">
+              <!-- MANUAL FOUNDERS COUNTER: bump this number as orders come in -->
+              <strong id="founders-count">0</strong> of 100 claimed &middot; ships by November&nbsp;25,&nbsp;2026
+            </p>
+            <p style="margin:6px 0 0;font-size:0.82rem;color:#aaa;">Secure checkout by Stripe &middot; ships to US addresses</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section data-bs-version="5.1" class="features1 haven-routers" id="haven-routers">
 	<div class="container">
 		<div class="row justify-content-center mb-4">
@@ -478,10 +511,10 @@
     <div class="row justify-content-center text-center">
       <div class="col-12 col-md-8 col-lg-6">
         <h2 class="mbr-fonts-style display-2" style="color:#fff;font-weight:700;margin-bottom:16px;">
-          Haven is launching on Kickstarter.
+          Not ready yet? Stay in the loop.
         </h2>
         <p class="mbr-fonts-style display-7" style="color:rgba(255,255,255,0.82);margin-bottom:36px;">
-          Enter your email and we&rsquo;ll notify you the moment we go live&mdash;before anyone else.
+          Drop your email for new-batch alerts and first word when the monthly list-update service goes live.
         </p>
         <form id="haven-notify-form" style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
           <input
@@ -496,7 +529,7 @@
             type="submit"
             style="padding:14px 32px;border:none;border-radius:40px;background:#e53935;color:#fff;
                    font-size:1rem;font-weight:700;cursor:pointer;white-space:nowrap;"
-          >Notify me at launch</button>
+          >Keep me posted</button>
         </form>
         <p id="haven-notify-msg" style="margin-top:20px;font-size:1rem;min-height:1.4em;color:#fff;display:none;"></p>
       </div>
@@ -544,7 +577,7 @@
           msg.textContent = d.error || "Something went wrong. Please try again.";
           msg.style.color = "#ef9a9a";
           btn.disabled = false;
-          btn.textContent = "Notify me at launch";
+          btn.textContent = "Keep me posted";
         }
         msg.style.display = "block";
       })
@@ -553,7 +586,7 @@
         msg.style.color = "#ef9a9a";
         msg.style.display = "block";
         btn.disabled = false;
-        btn.textContent = "Notify me at launch";
+        btn.textContent = "Keep me posted";
       });
     });
   })();
