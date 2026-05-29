@@ -571,19 +571,17 @@ function hdSave() {
     m: document.getElementById('hd-temp-min').value,
     w: wlArea ? wlArea.value : ''
   };
-  var exp = new Date();
-  exp.setFullYear(exp.getFullYear() + 1);
-  document.cookie = 'haven_demo=' + encodeURIComponent(JSON.stringify(data)) +
-    '; expires=' + exp.toUTCString() + '; path=/; SameSite=Lax';
+  try { localStorage.setItem('havenDemo', JSON.stringify(data)); } catch (e) {}
   hdMarkClean();
   hdShowMsg('Settings saved.');
 }
 
 function hdLoad() {
-  var match = document.cookie.match(/(?:^|;\s*)haven_demo=([^;]+)/);
-  if (!match) return;
+  var raw;
+  try { raw = localStorage.getItem('havenDemo'); } catch (e) {}
+  if (!raw) return;
   try {
-    var data = JSON.parse(decodeURIComponent(match[1]));
+    var data = JSON.parse(raw);
     if (data.s) hdSettings = data.s;
     if (data.m) document.getElementById('hd-temp-min').value = data.m;
     if (data.w !== undefined) {
@@ -731,3 +729,26 @@ hdUpdateBadges();
 hdBasicMode = true;
 hdApplyMode();
 hdUpdateBadges();
+
+// Auto-persist demo state to localStorage (same 'havenDemo' key + format hdLoad
+// reads on init) so the windowed landing-page preview and the full /demo page
+// resume each other without needing an explicit Save click. localStorage (not a
+// cookie) because a full preset is >4KB and would be silently dropped by the
+// per-cookie size limit.
+(function () {
+  function autosave() {
+    try {
+      var valid = hdValidKeys(), clean = {};
+      for (var k in hdSettings) { if (hdSettings[k] && valid[k]) clean[k] = hdSettings[k]; }
+      var dm = document.getElementById('hd-temp-min');
+      var wl = document.getElementById('hd-whitelist-area');
+      var data = { s: clean, m: dm ? dm.value : '', w: wl ? wl.value : '' };
+      localStorage.setItem('havenDemo', JSON.stringify(data));
+    } catch (e) {}
+  }
+  setInterval(autosave, 2000);
+  window.addEventListener('pagehide', autosave);
+  document.addEventListener('visibilitychange', function () {
+    if (document.visibilityState === 'hidden') autosave();
+  });
+})();

@@ -10,6 +10,10 @@
 // Persists in localStorage; set it once per browser/device you use for dev.
 
 (function () {
+  // Don't beacon when embedded (e.g. the landing-page demo preview iframe) —
+  // that would log a phantom /demo pageview on every homepage visit.
+  if (window.top !== window.self) return;
+
   var ENDPOINT_VISIT = '/api/visit';
   var ENDPOINT_EVENT = '/api/event';
   var OWNER_KEY      = 'havenOwner';
