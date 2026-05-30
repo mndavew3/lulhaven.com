@@ -1,5 +1,148 @@
 var milestonesDataset = [
   {
+    "id": 472,
+    "date": "2026-05-29",
+    "theme": "Marketing & website",
+    "impact": 5,
+    "summary": "Launched the Haven Founders campaign on lulhaven.com — a Founders-edition Haven Navy router buyable now via secure Stripe checkout, limited to 100, ships Nov 25 2026.",
+    "detail": null,
+    "benefit": "Haven can take real orders today and fund the first production run.",
+    "ref": "36fc519e18",
+    "features": []
+  },
+  {
+    "id": 469,
+    "date": "2026-05-29",
+    "theme": "Marketing & website",
+    "impact": 5,
+    "summary": "Launched the Haven Founders campaign on lulhaven.com: a Founders edition router buyable now through secure checkout, limited to a run of 100.",
+    "detail": "Founders band below the hero with Stripe checkout for the 299 dollar Haven Navy, a manual of-100 counter, and a ships-by date; replaced outdated crowdfunding copy.",
+    "benefit": "Haven can start taking real orders today, funding the first production run.",
+    "ref": "36fc519e18",
+    "features": []
+  },
+  {
+    "id": 480,
+    "date": "2026-05-29",
+    "theme": "Testing & quality",
+    "impact": 4,
+    "summary": "Rebuilt and hardened Haven's automated test suite and, in the process, caught and fixed a real defect where the feature that auto-detects new devices would quietly stop working after the router refreshed its records. The suite now passes cleanly end to end.",
+    "detail": null,
+    "benefit": "Higher confidence the product works as shipped; a silent failure caught before customers hit it.",
+    "ref": "7e1cb0784b",
+    "features": []
+  },
+  {
+    "id": 479,
+    "date": "2026-05-29",
+    "theme": "Per-device filtering",
+    "impact": 4,
+    "summary": "Simplified how Haven recognizes devices: it now identifies them purely by their friendly name, with the router resolving the rest behind the scenes. Name several devices the same (all your 'sales' laptops) and they automatically share one set of filters.",
+    "detail": null,
+    "benefit": "One simple rule — name = filter group — with nothing to maintain per device.",
+    "ref": "44f45c0fdc",
+    "features": []
+  },
+  {
+    "id": 478,
+    "date": "2026-05-29",
+    "theme": "Per-device filtering",
+    "impact": 4,
+    "summary": "Haven now identifies devices by their friendly name instead of their MAC address: one row per name, set the filter once and it follows the name wherever it shows up. Side benefit — if you give multiple devices the same name (everyone in the sales department named 'sales'), they all share one filter profile by design, no setup required.",
+    "detail": null,
+    "benefit": "Set once, follows everyone using that name — no hidden duplicates.",
+    "ref": "3526fdbc88",
+    "features": []
+  },
+  {
+    "id": 476,
+    "date": "2026-05-29",
+    "theme": "Per-device filtering",
+    "impact": 4,
+    "summary": "Devices that join the home network now appear in Haven's per-device picker automatically — name and all — without anyone touching the router; if a device disappears for 30 days it quietly fades from the list, and the moment it comes back its place and any saved choices return with it.",
+    "detail": null,
+    "benefit": "Households can set per-device rules without learning router admin.",
+    "ref": "108eb6d127",
+    "features": []
+  },
+  {
+    "id": 473,
+    "date": "2026-05-29",
+    "theme": "Demo page",
+    "impact": 4,
+    "summary": "Embedded the live interactive Haven Helm demo on the homepage as a windowed preview that expands to the full demo and remembers your choices between the two.",
+    "detail": null,
+    "benefit": "Visitors try the real controls without leaving the landing page.",
+    "ref": "2297ac9956",
+    "features": []
+  },
+  {
+    "id": 468,
+    "date": "2026-05-29",
+    "theme": "Demo page",
+    "impact": 4,
+    "summary": "Put the live interactive Haven Helm demo on the homepage as a windowed preview that expands to the full demo, and made it remember the visitor choices between the preview and the full page.",
+    "detail": "Windowed iframe embed with expand-to-full and a Back link; added localStorage persistence and fixed a latent cookie-size bug that silently dropped large selections; suppressed the analytics beacon inside the embed.",
+    "benefit": "Visitors can try the controls without leaving the landing page and pick up where they left off in the full demo.",
+    "ref": "2297ac9956",
+    "features": []
+  },
+  {
+    "id": 475,
+    "date": "2026-05-29",
+    "theme": "Process & discipline",
+    "impact": 3,
+    "summary": "Hardened the end-of-session routine and assistant guidelines for reliability and efficiency, and moved a stored password into the system keyring with its git history purged.",
+    "detail": null,
+    "benefit": "Safer, leaner, more consistent operations.",
+    "ref": "b9baea50-8637-449a-8fc6-34d755d70326",
+    "features": []
+  },
+  {
+    "id": 474,
+    "date": "2026-05-29",
+    "theme": "Tooling & infrastructure",
+    "impact": 3,
+    "summary": "Built a searchable catalog of development tools and adopted ones that make build, data, and feed work faster and cheaper; fixed the conversation-transcript backup to capture every session automatically.",
+    "detail": null,
+    "benefit": "More reliable, more efficient development behind Haven.",
+    "ref": "b9baea50-8637-449a-8fc6-34d755d70326",
+    "features": []
+  },
+  {
+    "id": 471,
+    "date": "2026-05-29",
+    "theme": "Process & discipline",
+    "impact": 3,
+    "summary": "Slimmed the assistant standing instructions by about half and moved the end-of-session routine into an on-demand skill, cutting ongoing overhead with no loss of behavior.",
+    "detail": "Audited the instruction files, moved the Hasta ritual to an on-demand skill, removed duplicated blocks, and documented the harness token-cost model.",
+    "benefit": "Lower per-session overhead and cleaner, more reliable instruction-following.",
+    "ref": "b9baea50-8637-449a-8fc6-34d755d70326",
+    "features": []
+  },
+  {
+    "id": 470,
+    "date": "2026-05-29",
+    "theme": "Brand & packaging",
+    "impact": 3,
+    "summary": "Created clean Lulhaven brand assets: a crisp LULHAVEN logo and a square gnome icon, and cleaned up the hand-drawn Live demo note for the site.",
+    "detail": "Re-rendered the LULHAVEN sign as a scalable logo, built a 512px gnome icon for store branding, and redrew the demo note arrow and cut it to a transparent image on the teal band.",
+    "benefit": "Consistent, professional branding for the storefront and marketing.",
+    "ref": "b9baea50-8637-449a-8fc6-34d755d70326",
+    "features": []
+  },
+  {
+    "id": 477,
+    "date": "2026-05-29",
+    "theme": "Demo page",
+    "impact": 2,
+    "summary": "The Haven Helm router UI now wears Haven's own brand — the Lulhaven sailor gnome in the browser tab and in the sidebar above the Lulhaven name — instead of the generic OpenWrt theme logo.",
+    "detail": null,
+    "benefit": "Owners see a Haven-branded product from first click, not a stock router admin.",
+    "ref": "19cc90f743",
+    "features": []
+  },
+  {
     "id": 467,
     "date": "2026-05-28",
     "theme": "Firmware & overlay",
@@ -2357,7 +2500,7 @@ var milestonesDataset = [
     "features": [
       {
         "id": 19,
-        "lead": "Adult content is opt-in"
+        "lead": "Adult content: off until you choose it"
       }
     ]
   },
@@ -4469,7 +4612,7 @@ var milestonesDataset = [
     "features": [
       {
         "id": 16,
-        "lead": "Presets for real situations"
+        "lead": "Templates for real situations"
       }
     ]
   },
@@ -4545,7 +4688,7 @@ var milestonesDataset = [
     "features": [
       {
         "id": 16,
-        "lead": "Presets for real situations"
+        "lead": "Templates for real situations"
       }
     ]
   },
@@ -4561,7 +4704,7 @@ var milestonesDataset = [
     "features": [
       {
         "id": 16,
-        "lead": "Presets for real situations"
+        "lead": "Templates for real situations"
       }
     ]
   },
@@ -4720,7 +4863,7 @@ var milestonesDataset = [
     "features": [
       {
         "id": 19,
-        "lead": "Adult content is opt-in"
+        "lead": "Adult content: off until you choose it"
       }
     ]
   },
@@ -4780,7 +4923,7 @@ var milestonesDataset = [
     "features": [
       {
         "id": 19,
-        "lead": "Adult content is opt-in"
+        "lead": "Adult content: off until you choose it"
       }
     ]
   },
@@ -4889,7 +5032,7 @@ var milestonesDataset = [
     "features": [
       {
         "id": 19,
-        "lead": "Adult content is opt-in"
+        "lead": "Adult content: off until you choose it"
       }
     ]
   },
@@ -5189,7 +5332,7 @@ var milestonesDataset = [
     "features": [
       {
         "id": 16,
-        "lead": "Presets for real situations"
+        "lead": "Templates for real situations"
       },
       {
         "id": 31,
@@ -5273,7 +5416,7 @@ var milestonesDataset = [
       },
       {
         "id": 16,
-        "lead": "Presets for real situations"
+        "lead": "Templates for real situations"
       }
     ]
   },

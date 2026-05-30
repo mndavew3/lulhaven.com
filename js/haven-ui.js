@@ -227,7 +227,7 @@ function hdApplyPreset(name) {
   if (Object.keys(hdSettings).length > 0) {
     hdPendingPreset = name;
     document.getElementById('hd-preset-modal-msg').textContent =
-      'Apply ' + name + ' preset — replace your current settings or add ' + name + ' items to what you already have?';
+      'Apply the ' + name + ' template — replace your current settings or add ' + name + ' items to what you already have?';
     document.getElementById('hd-preset-modal').classList.add('show');
     return;
   }
@@ -264,7 +264,7 @@ function hdDoApplyPreset(name, mode) {
   hdUpdateBadges();
   if (!hdIsFilteredView) hdToggleFilteredView();
   else hdRenderFilteredView();
-  hdShowMsg(name + ' preset ' + (mode === 'replace' ? 'applied.' : 'merged.'), '#0060a0');
+  hdShowMsg(name + ' template ' + (mode === 'replace' ? 'applied.' : 'merged.'), '#0060a0');
 }
 
 function hdClearAll() {

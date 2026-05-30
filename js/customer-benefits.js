@@ -9,7 +9,7 @@ var cbDataset = [
     "family_lead": null,
     "privacy_lead": null,
     "related_feature_ids": "15,16,23,24",
-    "details": "<p>You're the parent. You set the rules. You are not the daily enforcer. Haven runs the rules continuously, on every device, every site, every time — without you having to be in the room. Presets give you starting points for common household goals; the activity log tells you what happened; multiple admins share the work so it is not one parent's job alone.</p>",
+    "details": "<p>You're the parent. You set the rules. You are not the daily enforcer. Haven runs the rules continuously, on every device, every site, every time — without you having to be in the room. Templates give you starting points for common household goals; the activity log tells you what happened; multiple admins share the work so it is not one parent's job alone.</p>",
     "link": null
   },
   {

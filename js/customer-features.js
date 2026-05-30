@@ -121,7 +121,7 @@ var cfDataset = [
   },
   {
     "id": 7,
-    "section": "main",
+    "section": "coming_soon",
     "lead": "Optional encrypted cloud backup",
     "body": "even Haven cannot decrypt it (math, not promises)",
     "family_rank": 22,
@@ -244,7 +244,7 @@ var cfDataset = [
   },
   {
     "id": 14,
-    "section": "main",
+    "section": "coming_soon",
     "lead": "Filtering follows household members wherever they go",
     "body": "phone, tablet, laptop, even on cellular (quick mobile setup required)",
     "family_rank": 4,
@@ -289,14 +289,14 @@ var cfDataset = [
   {
     "id": 16,
     "section": "main",
-    "lead": "Presets for real situations",
+    "lead": "Templates for real situations",
     "body": "Parenting (child-safe defaults) · Senior (scam and clickbait protection) · School (homework focus) · Workplace (distraction control) · Recovery (support staying away from chosen triggers)",
     "family_rank": 6,
     "privacy_rank": 35,
     "family_lead": null,
     "privacy_lead": null,
     "link": null,
-    "details": "<p>Presets are starting points, not lock-ins. Each one flips a thoughtful set of category toggles in a single click — useful when you do not feel like reading every bullet from scratch.</p><ul><li><strong>Parenting.</strong> Adult content, gambling, mobile game ads, misinformation off by default. Social media on a delayed-allow schedule.</li><li><strong>Senior.</strong> Scam sites, crypto pump-and-dump, fake-virus pop-ups, fake invoices, \"your computer is infected\" pages — all turned off. Built around the kinds of attacks that target older adults specifically.</li><li><strong>School.</strong> Homework-time pass that blocks games and social during a configurable window, then opens back up.</li></ul><p>Apply a preset, then refine. Anything a preset turned on, you can turn back off individually.</p>",
+    "details": "<p>Templates are starting points, not lock-ins. Each one flips a thoughtful set of category toggles in a single click — useful when you do not feel like reading every bullet from scratch.</p><ul><li><strong>Parenting.</strong> Adult content, gambling, mobile game ads, misinformation off by default. Social media on a delayed-allow schedule.</li><li><strong>Senior.</strong> Scam sites, crypto pump-and-dump, fake-virus pop-ups, fake invoices, \"your computer is infected\" pages — all turned off. Built around the kinds of attacks that target older adults specifically.</li><li><strong>School.</strong> Homework-time pass that blocks games and social during a configurable window, then opens back up.</li></ul><p>Apply a template, then refine. Anything a template turned on, you can turn back off individually.</p>",
     "image": null,
     "milestone_ids": "4,192,193,249,442",
     "benefits": [
@@ -308,7 +308,7 @@ var cfDataset = [
   },
   {
     "id": 17,
-    "section": "main",
+    "section": "coming_soon",
     "lead": "New-device email alerts",
     "body": "get notified when a new device joins your network",
     "family_rank": 7,
@@ -349,14 +349,14 @@ var cfDataset = [
   {
     "id": 19,
     "section": "main",
-    "lead": "Adult content is opt-in",
-    "body": "never on by default",
+    "lead": "Adult content: off until you choose it",
+    "body": "one category among many — nothing's blocked by default",
     "family_rank": 9,
     "privacy_rank": 38,
     "family_lead": null,
     "privacy_lead": null,
     "link": null,
-    "details": "<p>Out of the box, the adult-content category is blocked. To allow any of it, an administrator has to deliberately turn the category off — or open it and individually allow specific providers. There is no path by which it accidentally turns on, no first-time setup that asks the question, no preset that flips it on without you reading what the preset does.</p><p>The default state for adult content is \"not coming through.\" Every alternative state requires an admin saying so on purpose.</p>",
+    "details": "<p>Haven ships filtering nothing, adult content included — it's one category among roughly fifty, off by default. An administrator switches it on in the Helm, directly or via a template that lists it.</p><p>When it's on, Haven layers extra protection on that one category: a dedicated adult-site blocklist plus family-safe upstream DNS. Until then, nothing about adult content is touched.</p>",
     "image": null,
     "milestone_ids": "172,203,213,220",
     "benefits": [
@@ -406,7 +406,7 @@ var cfDataset = [
     "family_lead": null,
     "privacy_lead": null,
     "link": null,
-    "details": "<p>Simple mode is the default. It shows the category toggles, the active preset, the alerts page, the always-allow list, and the activity feed. That is enough for most households on most days.</p><p>Advanced mode unlocks per-provider tuning, scheduled filters (homework hours, bedtime, weekends), the detailed admin audit log, custom always-block additions, and the router-level diagnostics. The toggle is in the corner of the Helm; flip back to Simple whenever you do not feel like seeing all of it.</p>",
+    "details": "<p>Simple mode is the default. It shows the category toggles, the active template, the alerts page, the always-allow list, and the activity feed. That is enough for most households on most days.</p><p>Advanced mode unlocks per-provider tuning, scheduled filters (homework hours, bedtime, weekends), the detailed admin audit log, custom always-block additions, and the router-level diagnostics. The toggle is in the corner of the Helm; flip back to Simple whenever you do not feel like seeing all of it.</p>",
     "image": null,
     "milestone_ids": "86,177,425,436,444",
     "benefits": []
