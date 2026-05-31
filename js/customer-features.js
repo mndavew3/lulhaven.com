@@ -548,14 +548,14 @@ var cfDataset = [
   {
     "id": 30,
     "section": "how_it_works",
-    "lead": "Haven Olive",
+    "lead": "Haven OD",
     "body": "Wi-Fi 6, secondary",
     "family_rank": 11,
     "privacy_rank": 11,
     "family_lead": null,
     "privacy_lead": null,
     "link": null,
-    "details": "<p>Haven Olive is built on the Linksys E8450 — a well-supported, widely deployed Wi-Fi 6 router that has been a community favorite on OpenWRT for years. Dual-band Wi-Fi 6 (AX3200), four gigabit LAN ports, USB 3. For most households this is more than enough.</p><p>Pick Olive if you want the Haven experience at the lower price point, or if your home has gigabit-class internet rather than multi-gig. The filtering is identical to Navy; the difference is in network capacity at peak load.</p>",
+    "details": "<p>Haven OD is built on the Linksys E8450 — a well-supported, widely deployed Wi-Fi 6 router that has been a community favorite on OpenWRT for years. Dual-band Wi-Fi 6 (AX3200), four gigabit LAN ports, USB 3. For most households this is more than enough.</p><p>Pick OD if you want the Haven experience at the lower price point, or if your home has gigabit-class internet rather than multi-gig. The filtering is identical to Navy; the difference is in network capacity at peak load.</p>",
     "image": "haven-olive-gnome.png",
     "milestone_ids": "70,83,100,105,329,413,422,454",
     "benefits": []

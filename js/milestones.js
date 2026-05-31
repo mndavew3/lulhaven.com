@@ -1,5 +1,27 @@
 var milestonesDataset = [
   {
+    "id": 485,
+    "date": "2026-05-31",
+    "theme": "Off-network filtering",
+    "impact": 4,
+    "summary": "Off-network filtering became per-device and self-serve: a parent picks a device in the Helm, scans its code, and that specific device keeps its own filtering rules on cellular — different devices, different rules, even away from home.",
+    "detail": "Helm enroll action mints an opaque per-device handle and registers it with the relay over the tunnel; relay routes the handle to that device's filter; proven end-to-end on the bench.",
+    "benefit": "Each device now carries its own protection off the home network, set up in one scan, with the device's name never leaving your router.",
+    "ref": "",
+    "features": []
+  },
+  {
+    "id": 484,
+    "date": "2026-05-30",
+    "theme": "Off-network filtering",
+    "impact": 5,
+    "summary": "Off-network filtering went live: a device keeps Haven's protection on cellular with no app, set up by scanning a code on the router. Proven end-to-end on a real phone, and each home routes to its own router.",
+    "detail": "Cloud relay (DoT/DoH) over WireGuard to the home router's filter; per-router provisioning scripted into the burn; SNI selector routes each household to its own router; per-device routing mechanism proven.",
+    "benefit": "Protection that used to stop at the front door now follows phones and tablets wherever they go, with a one-scan setup and nothing to install.",
+    "ref": "",
+    "features": []
+  },
+  {
     "id": 483,
     "date": "2026-05-30",
     "theme": "Off-network filtering",
@@ -369,7 +391,7 @@ var milestonesDataset = [
     "features": [
       {
         "id": 30,
-        "lead": "Haven Olive"
+        "lead": "Haven OD"
       }
     ]
   },
@@ -2442,7 +2464,7 @@ var milestonesDataset = [
       },
       {
         "id": 30,
-        "lead": "Haven Olive"
+        "lead": "Haven OD"
       }
     ]
   },
@@ -2462,7 +2484,7 @@ var milestonesDataset = [
       },
       {
         "id": 30,
-        "lead": "Haven Olive"
+        "lead": "Haven OD"
       }
     ]
   },
@@ -2662,7 +2684,7 @@ var milestonesDataset = [
       },
       {
         "id": 30,
-        "lead": "Haven Olive"
+        "lead": "Haven OD"
       }
     ]
   },
@@ -2907,7 +2929,7 @@ var milestonesDataset = [
       },
       {
         "id": 30,
-        "lead": "Haven Olive"
+        "lead": "Haven OD"
       }
     ]
   },
@@ -2991,7 +3013,7 @@ var milestonesDataset = [
       },
       {
         "id": 30,
-        "lead": "Haven Olive"
+        "lead": "Haven OD"
       }
     ]
   },
@@ -3297,7 +3319,7 @@ var milestonesDataset = [
     "features": [
       {
         "id": 30,
-        "lead": "Haven Olive"
+        "lead": "Haven OD"
       }
     ]
   },
@@ -3406,7 +3428,7 @@ var milestonesDataset = [
     "features": [
       {
         "id": 30,
-        "lead": "Haven Olive"
+        "lead": "Haven OD"
       }
     ]
   },
