@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Off-network filtering — Haven</title>
+<meta name="description" content="Set this device's Private DNS so Haven keeps filtering it on cellular and other Wi-Fi.">
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" href="/assets/images/haven-navy-gnome.png">
+<style>
+  :root { --navy:#1f2d50; --ink:#16203a; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;
+         background:#f4f6fa; color:var(--ink); line-height:1.5; }
+  header { background:var(--navy); color:#fff; padding:18px 20px; display:flex; align-items:center; gap:12px; }
+  header img { width:34px; height:34px; }
+  header b { font-size:1.15em; letter-spacing:.3px; }
+  main { max-width:560px; margin:0 auto; padding:24px 20px 60px; }
+  h1 { font-size:1.4em; margin:.2em 0 .1em; }
+  .lead { color:#48536e; margin:0 0 22px; }
+  .addr-card { background:#fff; border:1px solid #dce1ec; border-radius:14px; padding:18px; box-shadow:0 2px 8px rgba(0,0,0,.04); }
+  .addr-label { font-size:.8em; text-transform:uppercase; letter-spacing:.06em; color:#7681a0; margin:0 0 8px; }
+  .addr { font-family:ui-monospace,Menlo,Consolas,monospace; font-size:1.25em; font-weight:600;
+          word-break:break-all; background:#eef1f8; border-radius:10px; padding:12px 14px; text-align:center; }
+  .copy-btn { margin-top:12px; width:100%; padding:14px; font-size:1.05em; font-weight:600;
+              color:#fff; background:var(--navy); border:0; border-radius:10px; cursor:pointer; }
+  .copy-btn:active { opacity:.85; }
+  .copied { background:#1c7a40 !important; }
+  ol { padding-left:1.2em; margin:26px 0 0; }
+  ol li { margin-bottom:10px; }
+  .note { margin-top:24px; font-size:.9em; color:#5b667f; }
+  code.inline { background:#eef1f8; padding:1px 6px; border-radius:5px; font-size:.95em; }
+</style>
+</head>
+<body>
+<header>
+  <img src="/assets/images/haven-navy-gnome.png" alt="">
+  <b>Haven</b>
+</header>
+<main>
+  <h1>Keep this device filtered everywhere</h1>
+  <p class="lead">Add the address below as this phone's <b>Private DNS</b>. Haven then filters it wherever it goes — on cellular and on other Wi-Fi networks.</p>
+
+  <div class="addr-card">
+    <p class="addr-label">Private DNS hostname</p>
+    <div class="addr" id="addr">dns.lulhaven.com</div>
+    <button class="copy-btn" id="copyBtn" onclick="copyAddr()">Copy address</button>
+  </div>
+
+  <ol>
+    <li>Open <b>Settings → Network &amp; internet → Private DNS</b>.</li>
+    <li>Choose <b>Private DNS provider hostname</b>.</li>
+    <li>Paste the address above and tap <b>Save</b>.</li>
+  </ol>
+
+  <p class="note">This address is not a website — it tells your phone to send name lookups to Haven. You won't see a page when you visit it; that's expected.</p>
+</main>
+<script>
+  (function () {
+    var p = new URLSearchParams(location.search).get('h');
+    if (p && /^[a-z0-9.-]+$/i.test(p)) document.getElementById('addr').textContent = p;
+  })();
+  function copyAddr() {
+    var host = document.getElementById('addr').textContent;
+    var btn = document.getElementById('copyBtn');
+    var done = function () { btn.textContent = 'Copied ✓'; btn.classList.add('copied');
+      setTimeout(function(){ btn.textContent = 'Copy address'; btn.classList.remove('copied'); }, 1800); };
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(host).then(done, fallback);
+    } else { fallback(); }
+    function fallback() {
+      var ta = document.createElement('textarea'); ta.value = host;
+      ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta);
+      ta.focus(); ta.select(); try { document.execCommand('copy'); done(); } catch(e){}
+      document.body.removeChild(ta);
+    }
+  }
+</script>
+</body>
+</html>

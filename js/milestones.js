@@ -1,5 +1,38 @@
 var milestonesDataset = [
   {
+    "id": 483,
+    "date": "2026-05-30",
+    "theme": "Off-network filtering",
+    "impact": 4,
+    "summary": "Locked the no-app off-network design — a phone keeps Haven's filtering on cellular with only a DNS setting (no app to install), routed back to its own home router; and stood up the live relay server it runs on.",
+    "detail": null,
+    "benefit": "Filtering follows household members wherever they go without installing anything on the phone — a one-time setting, not yet another monitoring app.",
+    "ref": "",
+    "features": []
+  },
+  {
+    "id": 482,
+    "date": "2026-05-30",
+    "theme": "Filtering",
+    "impact": 4,
+    "summary": "Fixed the always-allow list so a site you mark as allowed reliably overrides any category block — even when that exact site is on a blocklist.",
+    "detail": null,
+    "benefit": "The always-allow / poison-control promise now holds: a domain you trust is never blocked, no matter what category it falls under.",
+    "ref": "",
+    "features": []
+  },
+  {
+    "id": 481,
+    "date": "2026-05-30",
+    "theme": "Testing & quality",
+    "impact": 4,
+    "summary": "Built a feature-coverage gate: every feature Haven advertises must map to an automated test or a recorded exemption, or the test suite fails.",
+    "detail": null,
+    "benefit": "Customers can trust that anything claimed on the site is actually verified — no advertised feature ships untested.",
+    "ref": "f36cf86",
+    "features": []
+  },
+  {
     "id": 472,
     "date": "2026-05-29",
     "theme": "Marketing & website",

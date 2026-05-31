@@ -244,7 +244,7 @@ var cfDataset = [
   },
   {
     "id": 14,
-    "section": "coming_soon",
+    "section": "main",
     "lead": "Filtering follows household members wherever they go",
     "body": "phone, tablet, laptop, even on cellular (quick mobile setup required)",
     "family_rank": 4,
@@ -252,7 +252,7 @@ var cfDataset = [
     "family_lead": null,
     "privacy_lead": null,
     "link": null,
-    "details": "<p>Haven follows your devices off your home Wi-Fi in two ways, and you pick the one that fits each device:</p><p><strong>Lightweight (recommended).</strong> Your phone or tablet gets a small DNS setting that points at your home router. Cloudflare carries the request anonymously between the device and your home router &mdash; but your router does the filtering, exactly the way it does on your home Wi-Fi. When the device asks for a blocked site, even on cellular, the question reaches your router, gets filtered, and the device sees the same block page it would at home. No VPN icon, no battery hit, no app traffic re-routed.</p><p><strong>Full protection (Pro tier).</strong> Your phone connects to your home router as a private VPN. Every app and every connection runs through Haven&rsquo;s filter. The trade-off: a VPN icon shows in your status bar, slightly more battery use, and a few apps that don&rsquo;t like VPNs may complain.</p><p>Both work where regular home VPNs cannot &mdash; including most mobile carriers and any ISP that uses carrier-grade NAT to share one public address across many homes. Mobile setup is a one-time install of a small configuration profile, with a one-page walkthrough for each phone type.</p>",
+    "details": "<p>Haven keeps filtering a device after it leaves your home Wi-Fi, in two ways &mdash; you pick the one that fits each device:</p><p><strong>Lightweight (recommended).</strong> The device gets a small <em>Private DNS</em> setting that points at Haven. Its name lookups travel over an encrypted WireGuard tunnel to <em>your own home router</em>, which does the filtering exactly as it does on your home Wi-Fi &mdash; ask for a blocked site on cellular and the block still lands. No VPN icon, no battery drain, no app traffic re-routed. Setup is a one-time Private DNS entry; scan the QR on the router&rsquo;s Helm screen and you&rsquo;re done.</p><p><strong>Full protection (Pro tier).</strong> The phone connects to your home router as a private VPN, so every app and connection runs through Haven&rsquo;s filter. The trade-off: a VPN icon in the status bar, slightly more battery, and a few VPN-shy apps may complain.</p><p>Both work where ordinary home VPNs cannot &mdash; including mobile carriers and ISPs that share one public address across many homes (carrier-grade NAT). Haven runs the relay itself; it never sees your traffic in the clear.</p>",
     "image": null,
     "milestone_ids": "38,40,71,81,82,123,133,367",
     "benefits": [
