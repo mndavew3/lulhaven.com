@@ -1,5 +1,38 @@
 var milestonesDataset = [
   {
+    "id": 490,
+    "date": "2026-06-01",
+    "theme": "Testing & quality",
+    "impact": 4,
+    "summary": "Added mutation testing: we deliberately break the router's filtering on a sandbox unit and confirm the test suite catches it — proving a passing test actually means something",
+    "detail": null,
+    "benefit": "Earned, rock-solid confidence that green tests reflect a working router; it immediately exposed one hollow test, which we fixed",
+    "ref": "",
+    "features": []
+  },
+  {
+    "id": 489,
+    "date": "2026-06-01",
+    "theme": "Testing & quality",
+    "impact": 4,
+    "summary": "Rebuilt Haven's verification as a three-layer model: every claim decomposed into atomic testable attributes, each proven by independent mechanisms, with append-only per-router result records",
+    "detail": null,
+    "benefit": "We can show, attribute by attribute, that a given router does what we claim — and a failure pinpoints exactly which property and how it was checked",
+    "ref": "ba1ace1",
+    "features": []
+  },
+  {
+    "id": 488,
+    "date": "2026-06-01",
+    "theme": "Testing & quality",
+    "impact": 4,
+    "summary": "Audited the entire automated test suite and brought it to an honest baseline: rewrote tests that passed while proving nothing into real assertions, added subnet self-heal coverage, built tests for every previously-untested product claim, and wired the feature-coverage gate into every run so a claimed feature with no test fails the build.",
+    "detail": "73 active tests, 0 coverage gaps; turned silent PASS-on-skip stubs into honest skips and made the runner fail-closed (exit 2 on any failure or coverage gap).",
+    "benefit": "A passing test run now means the product actually works — the dangerous case of a broken feature shipping under a green badge is designed out, and no new marketing claim can ship untested.",
+    "ref": "c42ca3a18",
+    "features": []
+  },
+  {
     "id": 485,
     "date": "2026-05-31",
     "theme": "Off-network filtering",
@@ -8,6 +41,28 @@ var milestonesDataset = [
     "detail": "Helm enroll action mints an opaque per-device handle and registers it with the relay over the tunnel; relay routes the handle to that device's filter; proven end-to-end on the bench.",
     "benefit": "Each device now carries its own protection off the home network, set up in one scan, with the device's name never leaving your router.",
     "ref": "",
+    "features": []
+  },
+  {
+    "id": 487,
+    "date": "2026-05-31",
+    "theme": "Feature coverage gate — every claimed feature must be tested",
+    "impact": 2,
+    "summary": "Ran the full test regimen and brought it to a clean pass; confirmed the reported issues were test/setup artifacts, not broken filtering.",
+    "detail": null,
+    "benefit": "Confidence that Haven's features work as claimed, and a test suite that won't throw false alarms.",
+    "ref": "5b25f4f",
+    "features": []
+  },
+  {
+    "id": 486,
+    "date": "2026-05-31",
+    "theme": "Haven brand, product lineup & packaging",
+    "impact": 2,
+    "summary": "Refreshed the router lineup on the website: new mascot artwork for both models and renamed Haven Olive to Haven OD.",
+    "detail": null,
+    "benefit": "A sharper, more consistent product presentation for the two Haven routers on the homepage.",
+    "ref": "1d3ef58",
     "features": []
   },
   {
