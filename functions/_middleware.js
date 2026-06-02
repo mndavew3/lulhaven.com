@@ -68,7 +68,6 @@ export async function onRequest(context) {
     const PUBLIC_API_PATHS = [
         "/api/feed.db",
         "/api/feed-delta.db",
-        "/api/feed.json",     // legacy JSON artifact; keep public
         "/api/update.json",   // version-check ping
     ];
     if (PUBLIC_API_PATHS.includes(url.pathname)) {

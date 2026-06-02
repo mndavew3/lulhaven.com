@@ -1,0 +1,20 @@
+# Cloudflare Pages cache rules (T2-E).
+# JS is cache-busted via ?v=YYYYMMDD-HHMM (see tier5 #53), so versioned files
+# are safe to cache forever — a content change ships under a new URL.
+/js/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Static assets (images/fonts) change rarely — cache a day, then revalidate.
+/assets/*
+  Cache-Control: public, max-age=86400
+
+# Filter data pulled by routers/app — short TTL; ETag revalidation (and the
+# router-side conditional HEAD) handle freshness.
+/api/feed.db
+  Cache-Control: public, max-age=300, must-revalidate
+
+/api/feed-delta.db
+  Cache-Control: public, max-age=300, must-revalidate
+
+/api/yt-catalog.json
+  Cache-Control: public, max-age=300, must-revalidate
