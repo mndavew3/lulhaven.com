@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Get U-Haven — Haven</title>
+<meta name="description" content="U-Haven carries the channel choices you set in Haven onto YouTube on your own devices — Android, Linux, and more.">
+<link rel="icon" type="image/png" href="/assets/images/haven-navy-gnome.png">
+<style>
+  :root { --navy:#1f2d50; --ink:#16203a; --accent:#2b7a69; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;
+         background:#f4f6fa; color:var(--ink); line-height:1.5; }
+  header { background:var(--navy); color:#fff; padding:18px 20px; display:flex; align-items:center; gap:12px; }
+  header img { width:34px; height:34px; }
+  header b { font-size:1.15em; letter-spacing:.3px; }
+  main { max-width:620px; margin:0 auto; padding:28px 20px 60px; }
+  h1 { font-size:1.5em; margin:.2em 0 .15em; }
+  .lead { color:#48536e; margin:0 0 26px; font-size:1.05em; }
+  .card { background:#fff; border:1px solid #dce1ec; border-radius:14px; padding:18px 20px;
+          box-shadow:0 2px 8px rgba(0,0,0,.04); margin-bottom:14px;
+          display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
+  .card .meta { flex:1 1 240px; }
+  .card h2 { font-size:1.1em; margin:0 0 3px; }
+  .card p { margin:0; font-size:.9em; color:#5b667f; }
+  .dl { display:inline-block; min-width:150px; text-align:center; padding:13px 24px; font-size:1em;
+        font-weight:700; color:#fff; background:var(--accent); border:0; border-radius:40px;
+        text-decoration:none; cursor:pointer; }
+  .dl:active { opacity:.85; }
+  .card.soon { opacity:.6; }
+  .card.soon .dl { background:#b6bdca; cursor:default; pointer-events:none; }
+  .req { margin-top:26px; padding:16px 18px; background:#eef1f8; border-radius:12px;
+         font-size:.9em; color:#3c465f; }
+  .req b { color:var(--ink); }
+  a.back { display:inline-block; margin-top:26px; color:var(--navy); font-size:.95em; }
+</style>
+</head>
+<body>
+<header>
+  <img src="/assets/images/haven-navy-gnome.png" alt="">
+  <b>Haven</b>
+</header>
+<main>
+  <h1>Get U-Haven for your devices</h1>
+  <p class="lead">U-Haven carries the channel choices you set in your Haven onto YouTube — on your phone, your desktop, your TV. The same values you decided on at home, enforced wherever you watch. Pick your platform:</p>
+
+  <div class="card">
+    <div class="meta">
+      <h2>Android &amp; Fire TV</h2>
+      <p>The U-Haven app — phones, tablets, Fire TV. Install the APK, then sign in to YouTube as usual.</p>
+    </div>
+    <a class="dl" href="https://github.com/mndavew3/lulhaven.com/releases/download/u-haven-v1.0.0/U-Haven-android.apk" data-platform="android">&#8595; Android</a>
+  </div>
+
+  <div class="card">
+    <div class="meta">
+      <h2>Linux desktop</h2>
+      <p>A self-contained AppImage. Download, make it executable, double-click to run.</p>
+    </div>
+    <a class="dl" href="https://github.com/mndavew3/lulhaven.com/releases/download/u-haven-v1.0.0/U-Haven-1.0.0.AppImage" data-platform="linux">&#8595; Linux</a>
+  </div>
+
+  <div class="card soon">
+    <div class="meta">
+      <h2>Windows &amp; Mac</h2>
+      <p>Same U-Haven, packaged for desktop. On the way.</p>
+    </div>
+    <span class="dl">Coming soon</span>
+  </div>
+
+  <p class="req"><b>One thing to know:</b> U-Haven works alongside a Haven router on your network — that's where your channel choices live. Without a Haven on the network it has nothing to enforce. Don't have one yet? <a href="/#founders">Reserve a Haven</a>.</p>
+
+  <a class="back" href="/">&larr; Back to lulhaven.com</a>
+</main>
+<script src="js/kyc.js?v=20260602-1"></script>
+<script>
+  // Log which platform a visitor downloads, for the same KYC dashboard.
+  document.querySelectorAll('a.dl[data-platform]').forEach(function (a) {
+    a.addEventListener('click', function () {
+      if (window.havenKyc && window.havenKyc.event) {
+        window.havenKyc.event('uhaven_download', a.getAttribute('data-platform'));
+      }
+    });
+  });
+</script>
+</body>
+</html>
