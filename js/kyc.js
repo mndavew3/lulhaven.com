@@ -114,6 +114,12 @@
         var u = new URL(href, window.location.href);
         if (u.host === window.location.host) return; // same site, ignore
       } catch (e) { return; }
+      // Buy/checkout clicks get their own event kind so they're not buried
+      // among ordinary outbound clicks. Match the Stripe host or the button id.
+      if (/(^|\.)stripe\.com$/i.test(u.host) || (a.id === 'founders-buy')) {
+        logEvent('buy_click', href);
+        return;
+      }
       logEvent('outbound_click', href);
     }, true);
   }

@@ -113,16 +113,47 @@
     for (var j = 0; j < btns.length; j++) btns[j].classList.remove('cb-active');
   }
 
+  // --- sort-engagement tracking ---
+  // sortCount: how many sort buttons the visitor has clicked (1 => first click).
+  // cur*: the currently-active chosen sort, its order index, and when it became
+  // active — so we can report how long they dwelled on each sort order.
+  var sortCount = 0;
+  var curAud = null, curStart = 0, curOrd = 0;
+
+  function emitSortDwell() {
+    if (curAud == null || curStart === 0) return;
+    var ms = Date.now() - curStart;
+    curStart = 0; // mark paused so duplicate flushes are no-ops
+    if (window.havenKyc && window.havenKyc.event) {
+      window.havenKyc.event('benefits_sort_dwell', curAud + ':ord' + curOrd + ':ms' + ms);
+    }
+  }
+
   function wireButtons() {
     function handler(audience) {
       return function (ev) {
         ev.preventDefault();
+        emitSortDwell();          // close out the previous sort order's timer
+        sortCount += 1;
+        curAud = audience; curOrd = sortCount; curStart = Date.now();
         renderFor(audience);
         window.scrollTo({ top: 0, behavior: 'smooth' });
+        // Record the chosen lens + its click order (ord1 = first sort clicked).
+        if (window.havenKyc && window.havenKyc.event) {
+          window.havenKyc.event('benefits_sort', audience + ':ord' + sortCount);
+        }
       };
     }
     document.getElementById('cb-sort-family').addEventListener('click',  handler('family'));
     document.getElementById('cb-sort-privacy').addEventListener('click', handler('privacy'));
+
+    // Flush the active sort's dwell when the visitor leaves or backgrounds the
+    // page; resume the timer if they come back without re-sorting.
+    window.addEventListener('pagehide', emitSortDwell);
+    document.addEventListener('visibilitychange', function () {
+      if (document.visibilityState === 'hidden') emitSortDwell();
+      else if (curAud != null && curStart === 0) curStart = Date.now();
+    });
 
     document.getElementById('cb-content').addEventListener('click', function (ev) {
       var btn = ev.target.closest && ev.target.closest('.cb-details-btn');
