@@ -120,6 +120,14 @@
         logEvent('buy_click', href);
         return;
       }
+      // A labeled outbound link (data-ev="manga_click" data-ev-label="ch1")
+      // logs under its own kind with a friendly label, so e.g. the opaque
+      // heyzine chapter hashes don't have to be decoded at query time.
+      var evKind = a.getAttribute('data-ev');
+      if (evKind) {
+        logEvent(evKind.slice(0, 64), a.getAttribute('data-ev-label') || href);
+        return;
+      }
       logEvent('outbound_click', href);
     }, true);
   }
