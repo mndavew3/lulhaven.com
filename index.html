@@ -138,7 +138,7 @@
 			<div class="col-md-12 col-lg-9">
 				<h1 class="mbr-section-title mbr-fonts-style mb-4 display-1">You pay for the network.<br>You bought the phone.</h1>
 				<h2 class="mbr-section-subtitle mbr-fonts-style mb-4 display-2" style="font-weight:400;">It shouldn't <span id="hero-rotate">spew garbage</span>.</h2>
-				<p class="mbr-text mbr-fonts-style mb-4 display-7" style="max-width:760px;margin-left:auto;margin-right:auto;">Haven is a whole-home content-filtering router — it filters every device in the house, can't be bypassed by VPNs or encrypted DNS, and keeps your settings and activity on your own router, never the cloud.</p>
+				<p class="mbr-text mbr-fonts-style mb-4 display-7" style="max-width:780px;margin-left:auto;margin-right:auto;">The filter they can't slip past. VPNs, encrypted DNS, and Private Relay — the tricks that defeat ordinary parental controls — don't get around Haven. It follows every device, even off your Wi-Fi, and your settings and activity stay on your router, never a company's cloud.</p>
 				<div class="mbr-section-btn mb-4">
 					<div class="row justify-content-center">
 						<div class="col-md align-center px-2 mb-2"><a class="btn btn-primary display-7 w-100" href="benefits.html">Benefits</a></div>
@@ -174,6 +174,78 @@
 			</div>
 		</div>
 	</div>
+</section>
+
+<section id="bypass-demo" style="padding:72px 0;background:#0f1c2e;color:#fff;">
+  <style>
+    #bypass-demo .bp-wrap { max-width: 940px; margin: 0 auto; padding: 0 20px; text-align: center; }
+    #bypass-demo h2 { font-weight: 800; margin-bottom: 10px; }
+    #bypass-demo .bp-sub { opacity: 0.8; max-width: 640px; margin: 0 auto 28px; line-height: 1.5; }
+    #bypass-demo .bp-chips { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 28px; }
+    #bypass-demo .bp-chip { padding: 9px 16px; border-radius: 22px; border: 1px solid rgba(255,255,255,0.35);
+      background: transparent; color: #fff; cursor: pointer; font-size: 0.95em; transition: all .2s; }
+    #bypass-demo .bp-chip:hover { border-color: #fff; }
+    #bypass-demo .bp-chip.bp-active { background: #f0c040; border-color: #f0c040; color: #0f1c2e; font-weight: 700; }
+    #bypass-demo .bp-cols { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+    #bypass-demo .bp-panel { flex: 1 1 320px; max-width: 420px; border-radius: 12px; padding: 24px 22px;
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); }
+    #bypass-demo .bp-ptitle { font-size: 0.8em; text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.65; margin-bottom: 14px; }
+    #bypass-demo .bp-site { font-family: monospace; font-size: 1.05em; background: rgba(0,0,0,0.25);
+      border-radius: 6px; padding: 8px 12px; margin-bottom: 16px; }
+    #bypass-demo .bp-verdict { font-size: 1.25em; font-weight: 800; transition: opacity .35s; }
+    #bypass-demo .bp-ordinary .bp-verdict { color: #ff6b6b; }
+    #bypass-demo .bp-haven .bp-verdict { color: #34d17f; }
+    #bypass-demo .bp-vlabel { font-size: 0.78em; font-weight: 400; opacity: 0.7; display: block; margin-top: 4px; }
+    #bypass-demo .bp-how { max-width: 700px; margin: 26px auto 0; line-height: 1.55; min-height: 3.2em; transition: opacity .35s; }
+    #bypass-demo .bp-disc { font-size: 0.8em; opacity: 0.5; max-width: 640px; margin: 18px auto 0; line-height: 1.45; }
+  </style>
+  <div class="bp-wrap">
+    <h2 class="mbr-section-title mbr-fonts-style display-2">Try to bypass it.</h2>
+    <p class="bp-sub mbr-fonts-style display-7">These are the tricks that walk right past ordinary parental controls. Pick one and watch what happens to a blocked site — on a normal filter, and on Haven.</p>
+    <div class="bp-chips">
+      <button type="button" class="bp-chip bp-active" data-m="vpn">VPN app</button>
+      <button type="button" class="bp-chip" data-m="doh">Encrypted DNS (DoH)</button>
+      <button type="button" class="bp-chip" data-m="relay">Apple Private Relay</button>
+      <button type="button" class="bp-chip" data-m="dns">Change the DNS</button>
+    </div>
+    <div class="bp-cols">
+      <div class="bp-panel bp-ordinary">
+        <div class="bp-ptitle">Ordinary parental controls</div>
+        <div class="bp-site">blocked-site.com</div>
+        <div class="bp-verdict" id="bp-left">✗ Bypassed<span class="bp-vlabel">the blocked site loads</span></div>
+      </div>
+      <div class="bp-panel bp-haven">
+        <div class="bp-ptitle">Haven</div>
+        <div class="bp-site">blocked-site.com</div>
+        <div class="bp-verdict" id="bp-right">✓ Still blocked<span class="bp-vlabel">the workaround doesn't work</span></div>
+      </div>
+    </div>
+    <p class="bp-how mbr-fonts-style display-7" id="bp-how"></p>
+    <p class="bp-disc">Illustration of how each workaround behaves. Haven enforces filtering at the network layer, so these tricks get routed back through the filter instead of around it.</p>
+  </div>
+  <script>
+    (function () {
+      var HOW = {
+        vpn:  "A VPN app hides a device's traffic in an encrypted tunnel to an outside server — an ordinary filter can't see past it. Haven detects and blocks consumer VPN tunnels from leaving the network.",
+        doh:  "Browsers can send their DNS lookups encrypted (DNS-over-HTTPS) to Google or Cloudflare, skipping the router's filter entirely. Haven intercepts DoH and routes it back through the filter.",
+        relay:"Apple Private Relay hides browsing from the network on iPhones and Macs. Haven sinkholes Private Relay so it can't connect, and filtering keeps working.",
+        dns:  "Typing a public DNS like 8.8.8.8 into a device's settings dodges most home filters. Haven redirects all DNS back to itself, so changing it does nothing."
+      };
+      var chips = document.querySelectorAll('#bypass-demo .bp-chip');
+      var how = document.getElementById('bp-how');
+      var left = document.getElementById('bp-left'), right = document.getElementById('bp-right');
+      function pick(m, el) {
+        chips.forEach(function (c) { c.classList.toggle('bp-active', c === el); });
+        how.style.opacity = '0'; left.style.opacity = '0'; right.style.opacity = '0';
+        setTimeout(function () {
+          how.textContent = HOW[m];
+          how.style.opacity = '1'; left.style.opacity = '1'; right.style.opacity = '1';
+        }, 200);
+      }
+      chips.forEach(function (c) { c.addEventListener('click', function () { pick(c.getAttribute('data-m'), c); }); });
+      how.textContent = HOW.vpn;
+    })();
+  </script>
 </section>
 
 <section id="founders" style="background:#f4f7f6;padding:64px 0;">
