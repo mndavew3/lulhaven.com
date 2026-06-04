@@ -97,7 +97,7 @@
         html += '<div class="cb-lead">' + leadHtml + '</div>';
         if (r.body) html += '<div class="cb-body">' + escapeHtml(r.body) + '</div>';
         if (r.details) {
-          html += '<button type="button" class="cb-details-btn" data-cb-target="' + panelId + '">Details</button>';
+          html += '<button type="button" class="cb-details-btn" data-cb-target="' + panelId + '" data-cb-bid="' + r.id + '">Details</button>';
           html += '<div class="cb-details-panel" id="' + panelId + '">' + r.details + '</div>';
         }
         if (r.related_feature_ids) {
@@ -183,6 +183,11 @@
       if (panel && !wasOpen) {
         panel.classList.add('cb-open');
         btn.classList.add('cb-active');
+        // Which specific benefit a visitor opened — a stronger intent signal
+        // than the lens choice. Tag it with the lens active at expand time.
+        if (window.havenKyc && window.havenKyc.event) {
+          window.havenKyc.event('benefit_detail', btn.getAttribute('data-cb-bid') + ':' + (curAud || 'neither'));
+        }
       }
     });
 

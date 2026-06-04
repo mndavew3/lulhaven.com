@@ -36,6 +36,13 @@ async function sha256hex16(input) {
   return arr.map(b => b.toString(16).padStart(2, "0")).join("").slice(0, 16);
 }
 
+// Wall-clock in the visitor's IANA timezone as "YYYY-MM-DD HH:MM:SS", or null.
+function localTime(tz) {
+  if (!tz) return null;
+  try { return new Date().toLocaleString("sv-SE", { timeZone: tz }); }
+  catch { return null; }
+}
+
 export async function onRequestOptions() {
   return new Response(null, { status: 204, headers: CORS });
 }
@@ -58,14 +65,16 @@ export async function onRequestPost(context) {
 
   const today = new Date().toISOString().slice(0, 10);
   const visitorHash = await sha256hex16(ip + "|" + ua + "|" + today);
+  const visitedLocal = localTime(cf.timezone);
 
   await env.haven_builds.prepare(
     `INSERT INTO kyc_pageview
-       (visit_date, path, referrer, country, region, city, timezone,
+       (visit_date, visited_local, path, referrer, country, region, city, timezone,
         asn, as_org, ua_class, visitor_hash, session_id, visitor_id, is_owner)
-     VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)`
+     VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`
   ).bind(
     today,
+    visitedLocal,
     (body.path || "/").slice(0, 256),
     (body.referrer || null) && String(body.referrer).slice(0, 512),
     cf.country || null,

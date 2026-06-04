@@ -18,6 +18,13 @@ function json(body, status = 200) {
   });
 }
 
+// Wall-clock in the visitor's IANA timezone as "YYYY-MM-DD HH:MM:SS", or null.
+function localTime(tz) {
+  if (!tz) return null;
+  try { return new Date().toLocaleString("sv-SE", { timeZone: tz }); }
+  catch { return null; }
+}
+
 export async function onRequestOptions() {
   return new Response(null, { status: 204, headers: CORS });
 }
@@ -37,15 +44,23 @@ export async function onRequestPost(context) {
 
   // Owner = explicit client flag OR Dave's own ASN ("BIF IV"); keep it out of
   // organic stats. Mirrors the rule in visit.js.
-  const ownerOrg = (request.cf || {}).asOrganization === "BIF IV";
+  const cf = request.cf || {};
+  const ownerOrg = cf.asOrganization === "BIF IV";
   const isOwner = body.is_owner || ownerOrg ? 1 : 0;
+
+  // Visitor-local wall-clock at insert, from their IANA timezone (DST-correct,
+  // unlike a city offset). Null when the timezone is unknown. 'sv-SE' yields
+  // "YYYY-MM-DD HH:MM:SS". Backfill of old rows isn't possible — SQLite can't
+  // resolve arbitrary IANA zones — so this is populated going forward only.
+  const occurredLocal = localTime(cf.timezone);
 
   await env.haven_builds.prepare(
     `INSERT INTO kyc_event
-       (occurred_date, session_id, visitor_id, event_kind, event_value, path, is_owner)
-     VALUES (?,?,?,?,?,?,?)`
+       (occurred_date, occurred_local, session_id, visitor_id, event_kind, event_value, path, is_owner)
+     VALUES (?,?,?,?,?,?,?,?)`
   ).bind(
     today,
+    occurredLocal,
     body.session    ? String(body.session).slice(0, 64)    : null,
     body.visitor_id ? String(body.visitor_id).slice(0, 64) : null,
     kind.slice(0, 64),
