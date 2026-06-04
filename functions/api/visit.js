@@ -29,6 +29,11 @@ function classifyUA(ua) {
   return "desktop";
 }
 
+// Cloud/hosting/scanner ASNs never carry real household visitors — a hit from
+// one is a crawler, uptime monitor, or security scanner regardless of its UA.
+// Classify those as "bot" so "organic human" = is_owner=0 AND ua_class!='bot'.
+const DC_ORG_RE = /\b(amazon|aws|microsoft|azure|google|ahrefs|semrush|palo ?alto|fortinet|egihosting|digitalocean|linode|hetzner|ovh|vultr|leaseweb|choopa|oracle cloud|tencent|alibaba)\b/i;
+
 async function sha256hex16(input) {
   const buf = new TextEncoder().encode(input);
   const hash = await crypto.subtle.digest("SHA-256", buf);
@@ -83,7 +88,7 @@ export async function onRequestPost(context) {
     cf.timezone || null,
     cf.asn ? Number(cf.asn) : null,
     cf.asOrganization || null,
-    classifyUA(ua),
+    DC_ORG_RE.test(cf.asOrganization || "") ? "bot" : classifyUA(ua),
     visitorHash,
     body.session    ? String(body.session).slice(0, 64)    : null,
     body.visitor_id ? String(body.visitor_id).slice(0, 64) : null,
