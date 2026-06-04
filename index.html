@@ -803,6 +803,11 @@
       var phrases = ['spew garbage', 'spew rage bait', 'track you', 'harvest your data',
                      'feed the algorithm', 'hijack your attention', 'autoplay all night',
                      'sell your attention', 'doomscroll your evening', 'target your children', 'feed you lies', 'hijack your browser', 'program you'];
+      // Shuffle so each visit cycles the phrases in a fresh order.
+      for (var j = phrases.length - 1; j > 0; j--) {
+        var k = Math.floor(Math.random() * (j + 1));
+        var t = phrases[j]; phrases[j] = phrases[k]; phrases[k] = t;
+      }
       var i = 0;
       setInterval(function () {
         el.style.opacity = '0';
