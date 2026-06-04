@@ -27,7 +27,20 @@
 
   var SECTION_ORDER  = ['top', 'main'];
   var SECTION_TITLES = { top: null, main: 'More' };
-  var DEFAULT_AUDIENCE = 'family';
+  // 'neither' is the neutral default: no lens chosen. Rows are ordered by the
+  // average of the two audience ranks and shown with their base lead/body, so
+  // the landing view favors neither audience. Any click off 'neither' is a
+  // volitional signal.
+  var DEFAULT_AUDIENCE = 'neither';
+
+  // Neutral sort key: average of whatever ranks a row has.
+  function neutralRank(r) {
+    var fr = r.family_rank, pr = r.privacy_rank;
+    if (fr != null && pr != null) return (fr + pr) / 2;
+    if (fr != null) return fr;
+    if (pr != null) return pr;
+    return 999;
+  }
 
   function escapeHtml(s) {
     if (s == null) return '';
@@ -40,21 +53,23 @@
   }
 
   function renderFor(audience) {
+    var neutral = audience === 'neither';
     var rankKey = audience + '_rank';
     var leadKey = audience + '_lead';
+    var rankOf  = neutral ? neutralRank : function (r) { return r[rankKey]; };
     var rows;
     if (featureFilter) {
       var allow = {};
       featureFilter.ids.forEach(function (id) { allow[id] = true; });
       rows = cbDataset.filter(function (r) { return allow[r.id]; });
       rows.sort(function (a, b) {
-        var ar = a[rankKey] != null ? a[rankKey] : (a.family_rank != null ? a.family_rank : 999);
-        var br = b[rankKey] != null ? b[rankKey] : (b.family_rank != null ? b.family_rank : 999);
+        var ar = rankOf(a); if (ar == null) ar = neutralRank(a);
+        var br = rankOf(b); if (br == null) br = neutralRank(b);
         return ar - br;
       });
     } else {
-      rows = cbDataset.filter(function (r) { return r[rankKey] != null; });
-      rows.sort(function (a, b) { return a[rankKey] - b[rankKey]; });
+      rows = cbDataset.filter(function (r) { return rankOf(r) != null; });
+      rows.sort(function (a, b) { return rankOf(a) - rankOf(b); });
     }
 
     var bySection = {};
@@ -102,6 +117,7 @@
 
     document.getElementById('cb-content').innerHTML = html;
 
+    document.getElementById('cb-sort-neither').classList.toggle('cb-inactive', audience !== 'neither');
     document.getElementById('cb-sort-family').classList.toggle('cb-inactive',  audience !== 'family');
     document.getElementById('cb-sort-privacy').classList.toggle('cb-inactive', audience !== 'privacy');
   }
@@ -144,6 +160,7 @@
         }
       };
     }
+    document.getElementById('cb-sort-neither').addEventListener('click', handler('neither'));
     document.getElementById('cb-sort-family').addEventListener('click',  handler('family'));
     document.getElementById('cb-sort-privacy').addEventListener('click', handler('privacy'));
 
@@ -191,5 +208,12 @@
     }
     renderFor(DEFAULT_AUDIENCE);
     wireButtons();
+    // Log the neutral landing as the denominator (ord0) and start its dwell
+    // timer, so a visitor who never clicks still counts as "saw it, chose
+    // neither" and we can measure how long the neutral view held them.
+    curAud = 'neither'; curOrd = 0; curStart = Date.now();
+    if (window.havenKyc && window.havenKyc.event) {
+      window.havenKyc.event('benefits_sort', 'neither:ord0');
+    }
   });
 })();

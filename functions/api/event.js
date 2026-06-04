@@ -35,6 +35,11 @@ export async function onRequestPost(context) {
 
   const today = new Date().toISOString().slice(0, 10);
 
+  // Owner = explicit client flag OR Dave's own ASN ("BIF IV"); keep it out of
+  // organic stats. Mirrors the rule in visit.js.
+  const ownerOrg = (request.cf || {}).asOrganization === "BIF IV";
+  const isOwner = body.is_owner || ownerOrg ? 1 : 0;
+
   await env.haven_builds.prepare(
     `INSERT INTO kyc_event
        (occurred_date, session_id, visitor_id, event_kind, event_value, path, is_owner)
@@ -46,7 +51,7 @@ export async function onRequestPost(context) {
     kind.slice(0, 64),
     body.value ? String(body.value).slice(0, 512) : null,
     body.path  ? String(body.path).slice(0, 256)  : null,
-    body.is_owner ? 1 : 0
+    isOwner
   ).run();
 
   return noContent();

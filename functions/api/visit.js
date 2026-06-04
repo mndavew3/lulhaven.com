@@ -50,6 +50,12 @@ export async function onRequestPost(context) {
   const ua = request.headers.get("User-Agent") || "";
   const ip = request.headers.get("CF-Connecting-IP") || "";
 
+  // Owner = explicit client flag OR a known owner network. "BIF IV" is Dave's
+  // own ASN; it dominated "real" traffic, so tag it owner so it never counts
+  // as an organic visitor.
+  const ownerOrg = cf.asOrganization === "BIF IV";
+  const isOwner = body.is_owner || ownerOrg ? 1 : 0;
+
   const today = new Date().toISOString().slice(0, 10);
   const visitorHash = await sha256hex16(ip + "|" + ua + "|" + today);
 
@@ -72,7 +78,7 @@ export async function onRequestPost(context) {
     visitorHash,
     body.session    ? String(body.session).slice(0, 64)    : null,
     body.visitor_id ? String(body.visitor_id).slice(0, 64) : null,
-    body.is_owner ? 1 : 0
+    isOwner
   ).run();
 
   return noContent();
