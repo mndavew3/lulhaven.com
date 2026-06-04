@@ -79,6 +79,9 @@
     }
     .strat47-panel.strat47-open { display: block; }
     .strat47-panel p:last-child { margin-bottom: 0; }
+    /* Hero subtitle: rotating phrase after "It shouldn't ___" */
+    #hero-rotate { display: inline-block; transition: opacity 0.4s ease; }
+    @media (prefers-reduced-motion: reduce) { #hero-rotate { transition: none; } }
   </style>
 
 
@@ -134,7 +137,7 @@
 		<div class="row justify-content-center">
 			<div class="col-md-12 col-lg-9">
 				<h1 class="mbr-section-title mbr-fonts-style mb-4 display-1">You pay for the network.<br>You bought the phone.</h1>
-				<h2 class="mbr-section-subtitle mbr-fonts-style mb-4 display-2" style="font-weight:400;">It shouldn't spew garbage.</h2>
+				<h2 class="mbr-section-subtitle mbr-fonts-style mb-4 display-2" style="font-weight:400;">It shouldn't <span id="hero-rotate">spew garbage</span>.</h2>
 				<p class="mbr-text mbr-fonts-style mb-4 display-7" style="max-width:760px;margin-left:auto;margin-right:auto;">Haven is a whole-home content-filtering router — it filters every device in the house, can't be bypassed by VPNs or encrypted DNS, and keeps your settings and activity on your own router, never the cloud.</p>
 				<div class="mbr-section-btn mb-4">
 					<div class="row justify-content-center">
@@ -786,6 +789,29 @@
         var open = panel.classList.toggle('strat47-open');
         btn.textContent = open ? 'Show less' : 'Learn more';
       });
+    })();
+  </script>
+  <script>
+    /* Rotate the hero subtitle's variable phrase through the things the open
+       internet does that Haven throttles. Real text ships in the span, so
+       no-JS and crawlers still read "spew garbage"; reduced-motion users get
+       the static phrase too. */
+    (function () {
+      var el = document.getElementById('hero-rotate');
+      if (!el) return;
+      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      var phrases = ['spew garbage', 'spew rage bait', 'track you', 'harvest your data',
+                     'feed the algorithm', 'hijack your attention', 'autoplay all night',
+                     'sell your attention', 'doomscroll your evening'];
+      var i = 0;
+      setInterval(function () {
+        el.style.opacity = '0';
+        setTimeout(function () {
+          i = (i + 1) % phrases.length;
+          el.textContent = phrases[i];
+          el.style.opacity = '1';
+        }, 400);
+      }, 2200);
     })();
   </script>
   <script src="js/kyc.js?v=20260603-manga"></script>
