@@ -36,8 +36,25 @@
     </div>
 
     <div class="row justify-content-center">
-      <div class="mbr-figure col-12 col-md-12"><iframe class="mbr-embedded-video" src="https://www.youtube.com/embed/T4Upf_B9RLQ?rel=0&amp;amp;mute=1&amp;showinfo=0&amp;autoplay=1&amp;loop=1&amp;playlist=T4Upf_B9RLQ" width="1280" height="720" frameborder="0" allowfullscreen></iframe></div>
+      <div class="mbr-figure col-12 col-md-12">
+        <div id="ncc-video-wrap" style="position:relative;max-width:1280px;margin:0 auto;cursor:pointer;" onclick="nccPlay()">
+          <img id="ncc-thumb" src="https://img.youtube.com/vi/T4Upf_B9RLQ/maxresdefault.jpg" alt="NCC video thumbnail" style="width:100%;display:block;border-radius:4px;">
+          <div id="ncc-play-btn" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:80px;height:80px;background:rgba(0,0,0,0.7);border-radius:50%;display:flex;align-items:center;justify-content:center;pointer-events:none;">
+            <svg width="36" height="36" viewBox="0 0 36 36"><polygon points="12,8 30,18 12,28" fill="#fff"/></svg>
+          </div>
+        </div>
+        <iframe id="ncc-iframe" class="mbr-embedded-video" src="" width="1280" height="720" frameborder="0" allowfullscreen style="display:none;max-width:100%;"></iframe>
+      </div>
     </div>
+    <script>
+    function nccPlay() {
+      document.getElementById('ncc-video-wrap').style.display='none';
+      var iframe = document.getElementById('ncc-iframe');
+      iframe.src = 'https://www.youtube.com/embed/T4Upf_B9RLQ?rel=0&autoplay=1&showinfo=0';
+      iframe.style.display = 'block';
+      if (window.havenKyc) window.havenKyc.event('ncc_play', 'clicked');
+    }
+    </script>
     <div class="row justify-content-center">
       <div class="col-md-12 align-center mt-3">
         <p class="mbr-text mbr-fonts-style display-7" style="font-style: italic; opacity: 0.8;">The Norwegian Consumer Council does not endorse this product — yet. But, we think they do great work.</p>
