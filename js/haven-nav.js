@@ -9,7 +9,8 @@
     { label: "Benefits", href: "benefits.html", tip: "What you get" },
     { label: "Features", href: "features.html", tip: "What Haven does" },
     { label: "Demo",     href: "demo.html",     tip: "The Full Monte" },
-    { label: "FAQ",      href: "faq.html",      tip: "You might be wondering" }
+    { label: "FAQ",      href: "faq.html",      tip: "You might be wondering" },
+    { label: "Enjoy!",   href: "fun.html",      tip: "For the curious" }
   ];
   var CTA = { label: "Start now", href: "index.html#notify" };
   // =================================================================
@@ -25,7 +26,7 @@
     ".hvn-nav .hvn-links{display:flex;gap:20px;flex-wrap:wrap;align-items:center;margin-left:auto;}" +
     ".hvn-nav .hvn-links a{text-decoration:none;color:#222;font-weight:600;font-size:1rem;}" +
     ".hvn-nav .hvn-links a:hover{color:" + TEAL + ";}" +
-    ".hvn-nav .hvn-cta{background:" + TEAL + ";color:#fff;padding:9px 22px;border-radius:30px;" +
+    ".hvn-nav .hvn-cta{background:" + TEAL + " !important;color:#fff !important;padding:9px 22px;border-radius:30px;" +
       "text-decoration:none;font-weight:700;}" +
     ".hvn-nav .hvn-cta:hover{background:#23624f;}";
 
