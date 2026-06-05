@@ -43,15 +43,16 @@
             <svg width="36" height="36" viewBox="0 0 36 36"><polygon points="12,8 30,18 12,28" fill="#fff"/></svg>
           </div>
         </div>
-        <iframe id="ncc-iframe" class="mbr-embedded-video" src="" width="1280" height="720" frameborder="0" allowfullscreen style="display:none;max-width:100%;"></iframe>
+        <div id="ncc-iframe-wrap" style="display:none;position:relative;max-width:1280px;margin:0 auto;padding-bottom:56.25%;height:0;">
+          <iframe id="ncc-iframe" class="mbr-embedded-video" src="" frameborder="0" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+        </div>
       </div>
     </div>
     <script>
     function nccPlay() {
       document.getElementById('ncc-video-wrap').style.display='none';
-      var iframe = document.getElementById('ncc-iframe');
-      iframe.src = 'https://www.youtube.com/embed/T4Upf_B9RLQ?rel=0&autoplay=1&showinfo=0';
-      iframe.style.display = 'block';
+      document.getElementById('ncc-iframe').src='https://www.youtube.com/embed/T4Upf_B9RLQ?rel=0&autoplay=1&showinfo=0';
+      document.getElementById('ncc-iframe-wrap').style.display='block';
       if (window.havenKyc) window.havenKyc.event('ncc_play', 'clicked');
     }
     </script>
