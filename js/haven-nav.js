@@ -6,10 +6,10 @@
   var LOGO  = "assets/images/lulhaven20dock20line20art202-64x42.png";
   var LINKS = [
     { label: "Home",     href: "index.html" },
-    { label: "Benefits", href: "benefits.html" },
-    { label: "Features", href: "features.html" },
-    { label: "Demo",     href: "demo.html" },
-    { label: "FAQ",      href: "faq.html" }
+    { label: "Benefits", href: "benefits.html", tip: "What you get" },
+    { label: "Features", href: "features.html", tip: "What Haven does" },
+    { label: "Demo",     href: "demo.html",     tip: "The Full Monte" },
+    { label: "FAQ",      href: "faq.html",      tip: "You might be asking" }
   ];
   var CTA = { label: "Start now", href: "index.html#notify" };
   // =================================================================
@@ -32,7 +32,7 @@
   function build() {
     var st = document.createElement("style"); st.textContent = css; document.head.appendChild(st);
     var nav = document.createElement("nav"); nav.className = "hvn-nav";
-    var links = LINKS.map(function (l) { return '<a href="' + l.href + '">' + l.label + "</a>"; }).join("");
+    var links = LINKS.map(function (l) { return '<a href="' + l.href + '"' + (l.tip ? ' title="' + l.tip + '"' : "") + ">" + l.label + "</a>"; }).join("");
     nav.innerHTML =
       '<a class="hvn-brand" href="index.html">' + (LOGO ? '<img src="' + LOGO + '" alt="">' : "") +
         "<span>" + BRAND + "</span></a>" +
