@@ -1,5 +1,126 @@
 var milestonesDataset = [
   {
+    "id": 500,
+    "date": "2026-06-04",
+    "theme": "Bypass resistance",
+    "impact": 4,
+    "summary": "Closed a newly-discovered DNS-over-HTTPS loophole (DoH over HTTP/3 / QUIC) and made the device auto-discovery service more reliable — both surfaced and fixed during an end-to-end test that exercised every Haven feature.",
+    "detail": null,
+    "benefit": "Haven stays ahead of the latest tricks for sneaking around the filter, and recognizes the devices on your network more dependably.",
+    "ref": "e42ba18ee8",
+    "features": []
+  },
+  {
+    "id": 502,
+    "date": "2026-06-04",
+    "theme": "Website",
+    "impact": 3,
+    "summary": "Sharpened the homepage around one clear idea: Haven is the software, not the box. Renamed the router lineup to 'Meet Haven,' added a 'these two identical routers — one has Haven' visual, and reframed the page title and description from 'router' to 'router software.'",
+    "detail": null,
+    "benefit": "Visitors grasp in a line that they're buying the intelligence, not the hardware — and that it runs on our router or one they already own.",
+    "ref": "275348d",
+    "features": []
+  },
+  {
+    "id": 501,
+    "date": "2026-06-04",
+    "theme": "Website",
+    "impact": 3,
+    "summary": "Reworked the homepage to show the real depth of control — 600+ individual sources across 50 groups you can flip one at a time or by the whole group — plus set-once-for-the-household (or per-device if you want), and an honest take on what happens to competitors' filtering when you stop paying.",
+    "detail": null,
+    "benefit": "Visitors immediately see how much finer-grained and easier Haven's control is than the on/off boxes other products ship.",
+    "ref": "f2f6963",
+    "features": []
+  },
+  {
+    "id": 499,
+    "date": "2026-06-04",
+    "theme": "Website",
+    "impact": 3,
+    "summary": "Homepage now proves Haven's edge and unifies its audiences: an interactive demo shows VPNs and encrypted DNS defeating ordinary parental controls but failing against Haven, a new 'Why not all three?' section ties parental controls + privacy + less-algorithm into one promise for the whole household, and an FAQ with structured data was added for search.",
+    "detail": null,
+    "benefit": "Visitors can finally see the bypass-resistance that sets Haven apart, instead of taking it on faith — and the messaging stops competing on features rivals also have.",
+    "ref": "16bb1b6",
+    "features": []
+  },
+  {
+    "id": 495,
+    "date": "2026-06-02",
+    "theme": "Architecture & data model",
+    "impact": 4,
+    "summary": "Tuned Haven to scale: a full performance pass made the router, app, and update service do far less repeated work for identical protection",
+    "detail": "Per-update router work dropped sharply (fewer database queries, no needless service restarts, one firewall apply instead of many); large blocklists are only re-fetched when they actually change; the app opens without re-downloading everything each time. Verified behavior-identical at every step.",
+    "benefit": "Filter changes apply without a hiccup in the home's internet, routers sip data instead of re-downloading lists they already have, and the monthly update service stays cheap whether there are ten routers or thousands — growth no longer multiplies cost",
+    "ref": "#178",
+    "features": []
+  },
+  {
+    "id": 497,
+    "date": "2026-06-02",
+    "theme": "YouHaven anti-algorithm app",
+    "impact": 3,
+    "summary": "U-Haven, the YouTube content-filter companion app, is now downloadable for both Android and Linux — the Linux build is a self-contained desktop app, and a new chooser page lets people pick their platform.",
+    "detail": "Linux desktop is an Electron AppImage; Android is the existing APK; both hosted on GitHub Releases; lulhaven.com/get-uhaven is the platform chooser.",
+    "benefit": "Households can extend Haven's filtering to YouTube on the devices they actually watch on, not just at the router.",
+    "ref": "75ca060abc",
+    "features": []
+  },
+  {
+    "id": 496,
+    "date": "2026-06-02",
+    "theme": "Testing & quality",
+    "impact": 3,
+    "summary": "Deploy-and-verify discipline caught a per-device YouTube filtering endpoint that had been silently shipping broken",
+    "detail": null,
+    "benefit": "A feature Haven advertises actually works on shipped routers — the household's per-device YouTube filtering returns real results instead of failing quietly",
+    "ref": "34b1ac7",
+    "features": []
+  },
+  {
+    "id": 498,
+    "date": "2026-06-02",
+    "theme": "Haven brand",
+    "impact": 2,
+    "summary": "Introduced Haven Gold — a build-it-yourself edition for makers — to the router lineup on the homepage.",
+    "detail": null,
+    "benefit": "Gives the maker / DIY crowd a way to run Haven on hardware they flash themselves, with a mascot and identity of its own.",
+    "ref": "c35b620abc",
+    "features": []
+  },
+  {
+    "id": 491,
+    "date": "2026-06-01",
+    "theme": "Filtering",
+    "impact": 5,
+    "summary": "Restored comprehensive YouTube content filtering in the YouHaven app — blocked channels now disappear from search, home, and recommendations, not just their channel page — and built a desktop tool to see and verify the filtering directly",
+    "detail": null,
+    "benefit": "The product's core promise works again and is now visibly verifiable: over 90% of a blocked source's content is suppressed across the app",
+    "ref": "4d06de6",
+    "features": []
+  },
+  {
+    "id": 494,
+    "date": "2026-06-01",
+    "theme": "YouHaven anti-algorithm app",
+    "impact": 4,
+    "summary": "U-Haven now runs on the desktop, not just the phone — a real launchable app that filters YouTube the same way, plus a cleaner data design behind it",
+    "detail": "Channel-ID catalog split onto its own release train (build_yt_catalog.py -> yt-catalog.json) fetched whole by the device and intersected locally with per-device blocked items; channels no longer stored on the router; U-Haven desktop app (Linux, launchable) with router IP override box; app rebranded U-Haven",
+    "benefit": "Households get the same content control on a computer as on the TV, and the channel lists update on their own without touching the router",
+    "ref": "7ad5ff1",
+    "features": []
+  },
+  {
+    "id": 492,
+    "date": "2026-06-01",
+    "theme": "Filtering",
+    "impact": 4,
+    "summary": "Always-on blocking of commercial VPN and Tor exit-node IPs, delivered through Haven's curated feed pipeline (thousands of ranges), to harden against off-network bypass",
+    "detail": null,
+    "benefit": "Closes a major evasion path automatically, refreshed on the normal low-traffic update schedule",
+    "ref": "0ff0297",
+    "features": []
+  },
+  {
     "id": 490,
     "date": "2026-06-01",
     "theme": "Testing & quality",
@@ -30,6 +151,17 @@ var milestonesDataset = [
     "detail": "73 active tests, 0 coverage gaps; turned silent PASS-on-skip stubs into honest skips and made the runner fail-closed (exit 2 on any failure or coverage gap).",
     "benefit": "A passing test run now means the product actually works — the dangerous case of a broken feature shipping under a green badge is designed out, and no new marketing claim can ship untested.",
     "ref": "c42ca3a18",
+    "features": []
+  },
+  {
+    "id": 493,
+    "date": "2026-06-01",
+    "theme": "Per-device filtering",
+    "impact": 3,
+    "summary": "Devices with no name (smart TVs, streaming sticks, many IoT) now appear in the device list automatically as 'Detected #N', identified by hardware address, ready to rename and filter",
+    "detail": null,
+    "benefit": "No household device is invisible to filtering just because it doesn't announce a name",
+    "ref": "976eb3ac",
     "features": []
   },
   {
