@@ -11,7 +11,8 @@
     { label: "Demo",       href: "demo.html",        tip: "The Full Monte", gold: true },
     { label: "Milestones", href: "milestones.html",  tip: "How and when we did it" },
     { label: "FAQ",        href: "faq.html",         tip: "You might be wondering" },
-    { label: "Enjoy!",     href: "fun.html",         tip: "For the curious" }
+    { label: "Enjoy!",    href: "fun.html",      tip: "For the curious" },
+    { label: "About us",  href: "about.html",    tip: "Who we are" }
   ];
   var CTA = { label: "Start now", href: "index.html#notify" };
   // =================================================================
