@@ -5,12 +5,13 @@
   var BRAND = "Haven";
   var LOGO  = "assets/images/lulhaven20dock20line20art202-64x42.png";
   var LINKS = [
-    { label: "Home",     href: "index.html" },
-    { label: "Benefits", href: "benefits.html", tip: "What you get" },
-    { label: "Features", href: "features.html", tip: "What Haven does" },
-    { label: "Demo",     href: "demo.html",     tip: "The Full Monte" },
-    { label: "FAQ",      href: "faq.html",      tip: "You might be wondering" },
-    { label: "Enjoy!",   href: "fun.html",      tip: "For the curious" }
+    { label: "Home",       href: "index.html" },
+    { label: "Benefits",   href: "benefits.html",   tip: "What you get" },
+    { label: "Features",   href: "features.html",   tip: "What Haven does" },
+    { label: "Demo",       href: "demo.html",        tip: "The Full Monte", gold: true },
+    { label: "Milestones", href: "milestones.html",  tip: "How and when we did it" },
+    { label: "FAQ",        href: "faq.html",         tip: "You might be wondering" },
+    { label: "Enjoy!",     href: "fun.html",         tip: "For the curious" }
   ];
   var CTA = { label: "Start now", href: "index.html#notify" };
   // =================================================================
@@ -26,6 +27,9 @@
     ".hvn-nav .hvn-links{display:flex;gap:20px;flex-wrap:wrap;align-items:center;margin-left:auto;}" +
     ".hvn-nav .hvn-links a{text-decoration:none;color:#222;font-weight:600;font-size:1rem;}" +
     ".hvn-nav .hvn-links a:hover{color:" + TEAL + ";}" +
+    ".hvn-nav .hvn-gold{color:#d4a017;animation:hvn-pulse 1.2s ease-in-out infinite;}" +
+    ".hvn-nav .hvn-gold:hover{animation:none;color:#ffd700 !important;}" +
+    "@keyframes hvn-pulse{0%,100%{color:#d4a017}50%{color:#ffd700}}" +
     ".hvn-nav .hvn-cta{background:" + TEAL + " !important;color:#fff !important;padding:9px 22px;border-radius:30px;" +
       "text-decoration:none;font-weight:700;}" +
     ".hvn-nav .hvn-cta:hover{background:#23624f;}";
@@ -33,7 +37,7 @@
   function build() {
     var st = document.createElement("style"); st.textContent = css; document.head.appendChild(st);
     var nav = document.createElement("nav"); nav.className = "hvn-nav";
-    var links = LINKS.map(function (l) { return '<a href="' + l.href + '"' + (l.tip ? ' title="' + l.tip + '"' : "") + ">" + l.label + "</a>"; }).join("");
+    var links = LINKS.map(function (l) { return '<a href="' + l.href + '"' + (l.tip ? ' title="' + l.tip + '"' : "") + (l.gold ? ' class="hvn-gold"' : "") + ">" + l.label + "</a>"; }).join("");
     nav.innerHTML =
       '<a class="hvn-brand" href="index.html">' + (LOGO ? '<img src="' + LOGO + '" alt="">' : "") +
         "<span>" + BRAND + "</span></a>" +
