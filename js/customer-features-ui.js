@@ -26,7 +26,7 @@
     coming_soon:  'Coming soon'
   };
   var LS_VOTED_KEY = 'cfFirstClick';   // localStorage flag: any non-empty value = already voted
-  var DEFAULT_AUDIENCE = 'privacy';    // adjusted manually once vote data accumulates
+  var DEFAULT_AUDIENCE = 'neither';
 
   function escapeHtml(s) {
     if (s == null) return '';
@@ -110,8 +110,10 @@
 
     document.getElementById('cf-content').innerHTML = html;
 
+    document.getElementById('cf-sort-neither').classList.toggle('cf-inactive', audience !== 'neither');
     document.getElementById('cf-sort-family').classList.toggle('cf-inactive',  audience !== 'family');
     document.getElementById('cf-sort-privacy').classList.toggle('cf-inactive', audience !== 'privacy');
+    if (window.havenKyc) window.havenKyc.event('features_sort', audience);
   }
 
   function recordFirstClick(audience) {
@@ -134,6 +136,7 @@
         recordFirstClick(audience);
       };
     }
+    document.getElementById('cf-sort-neither').addEventListener('click', handler('neither'));
     document.getElementById('cf-sort-family').addEventListener('click',  handler('family'));
     document.getElementById('cf-sort-privacy').addEventListener('click', handler('privacy'));
 
