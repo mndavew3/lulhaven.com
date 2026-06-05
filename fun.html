@@ -57,7 +57,7 @@
       var iframe = document.getElementById('ncc-iframe');
       if (h > 0) { iframe.style.minHeight = Math.round(h) + 'px'; }
       // Set src synchronously inside click handler so browser counts it as user-gesture autoplay
-      iframe.src = 'https://www.youtube.com/embed/T4Upf_B9RLQ?rel=0&autoplay=1&showinfo=0&enablejsapi=1';
+      iframe.src = 'https://www.youtube.com/embed/T4Upf_B9RLQ?rel=0&autoplay=1&mute=1&showinfo=0&enablejsapi=1';
       iframeWrap.style.display = 'block';
       if (window.havenKyc) window.havenKyc.event('ncc_play', 'clicked');
     }
