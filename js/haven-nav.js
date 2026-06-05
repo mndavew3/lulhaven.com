@@ -9,7 +9,7 @@
     { label: "Benefits", href: "benefits.html", tip: "What you get" },
     { label: "Features", href: "features.html", tip: "What Haven does" },
     { label: "Demo",     href: "demo.html",     tip: "The Full Monte" },
-    { label: "FAQ",      href: "faq.html",      tip: "You might be asking" }
+    { label: "FAQ",      href: "faq.html",      tip: "You might be wondering" }
   ];
   var CTA = { label: "Start now", href: "index.html#notify" };
   // =================================================================
