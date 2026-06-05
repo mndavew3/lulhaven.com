@@ -64,6 +64,13 @@
   #features04-w .mbr-section-head * { color:#fff !important; }
   #features04-w .mbr-section-head h4 { margin:0 !important; padding:0 !important; line-height:1.1 !important; }
   #features04-w .mbr-section-head h5 { margin:6px 0 0 0 !important; padding:0 !important; }
+  /* strat47 popup */
+  .strat47-panel { display:none; }
+  .strat47-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.55); z-index:2000; align-items:center; justify-content:center; }
+  .strat47-overlay.open { display:flex; }
+  .strat47-box { background:#fff; color:#111; max-width:640px; width:90%; border-radius:12px; padding:32px 28px; box-shadow:0 8px 40px rgba(0,0,0,0.35); position:relative; font-family:'Inter Tight',system-ui,Arial,sans-serif; font-size:1rem; line-height:1.65; }
+  .strat47-close { position:absolute; top:12px; right:16px; font-size:1.4rem; cursor:pointer; background:none; border:none; color:#555; }
+  .strat47-close:hover { color:#111; }
 
 </style>
 </head>
@@ -178,6 +185,28 @@
 <script src="js/customer-features-ui.js?v=20260528-1543"></script>
 
 <script src="js/kyc.js?v=20260603-manga"></script>
+
+<div class="strat47-overlay" id="strat47-overlay">
+  <div class="strat47-box">
+    <button class="strat47-close" id="strat47-close" aria-label="Close">&#x2715;</button>
+    <div id="strat47-content"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var btn = document.querySelector('.strat47-toggle');
+  var panel = document.getElementById('strat47-panel');
+  var overlay = document.getElementById('strat47-overlay');
+  var content = document.getElementById('strat47-content');
+  var close = document.getElementById('strat47-close');
+  if (!btn || !panel) return;
+  content.innerHTML = panel.innerHTML;
+  btn.addEventListener('click', function(){ overlay.classList.add('open'); });
+  close.addEventListener('click', function(){ overlay.classList.remove('open'); });
+  overlay.addEventListener('click', function(e){ if(e.target===overlay) overlay.classList.remove('open'); });
+})();
+</script>
 
 </body>
 </html>
