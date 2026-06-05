@@ -51,6 +51,8 @@
         var br = b[rankKey] != null ? b[rankKey] : (b.family_rank != null ? b.family_rank : 999);
         return ar - br;
       });
+    } else if (audience === 'neither') {
+      rows = cfDataset.slice(); // all rows, natural order
     } else {
       rows = cfDataset.filter(function (r) { return r[rankKey] != null; });
       rows.sort(function (a, b) { return a[rankKey] - b[rankKey]; });
