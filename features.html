@@ -209,5 +209,36 @@
 })();
 </script>
 
+<script>
+(function(){
+  var wrap = document.getElementById('demo-wrap');
+  var hint = document.getElementById('demo-hint');
+  var iframe = wrap ? wrap.querySelector('iframe') : null;
+  if (!iframe || !hint) return;
+
+  function positionHint() {
+    try {
+      var doc = iframe.contentDocument || iframe.contentWindow.document;
+      var cb = doc.querySelector('#sub-body input[type="checkbox"]');
+      if (!cb) return false;
+      var rect = cb.getBoundingClientRect();
+      if (!rect.width) return false;
+      var hintH = hint.offsetHeight || 34;
+      hint.style.top  = (rect.top  + rect.height / 2 - hintH / 2) + 'px';
+      hint.style.right = (iframe.offsetWidth - rect.left + 8) + 'px';
+      hint.style.left  = '';
+      return true;
+    } catch(e) { return false; }
+  }
+
+  iframe.addEventListener('load', function() {
+    var tries = 0;
+    var t = setInterval(function() {
+      if (positionHint() || ++tries > 30) clearInterval(t);
+    }, 150);
+  });
+})();
+</script>
+
 </body>
 </html>
