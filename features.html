@@ -219,7 +219,7 @@
   function positionHint() {
     try {
       var doc = iframe.contentDocument || iframe.contentWindow.document;
-      var cb = doc.querySelector('#sub-body input[type="checkbox"]');
+      var cb = doc.querySelector('input[id^="blk_"]');
       if (!cb) return false;
       var rect = cb.getBoundingClientRect();
       if (!rect.width) return false;
