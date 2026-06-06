@@ -125,6 +125,36 @@
     font-size: 0.85em; text-transform: uppercase; letter-spacing: 0.04em;
   }
   #hd-sub-table th.c { text-align: center; }
+  #hd-filter-th { position: relative; }
+  #hd-filter-hint {
+    display: none;
+    position: absolute;
+    right: calc(100% + 10px);
+    top: 50%;
+    transform: translateY(-50%);
+    white-space: nowrap;
+    background: #cc2222;
+    color: #fff;
+    font-size: 0.82em;
+    font-weight: 600;
+    padding: 5px 12px 5px 10px;
+    border-radius: 5px;
+    pointer-events: none;
+    animation: hd-hint-pulse 2.2s ease-in-out infinite;
+  }
+  #hd-filter-hint::after {
+    content: '';
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 6px solid transparent;
+    border-left: 8px solid #cc2222;
+  }
+  @keyframes hd-hint-pulse {
+    0%,100% { transform: translateY(-50%) scale(1); }
+    50% { transform: translateY(-50%) scale(1.05); box-shadow: 0 3px 16px rgba(180,20,20,0.55); }
+  }
   #hd-sub-table td {
     padding: 8px; border-bottom: 1px solid rgba(0,0,0,0.07);
     font-size: 0.9em; color: rgba(0,0,0,0.8);
@@ -267,7 +297,7 @@
           <thead>
             <tr>
               <th>Contents</th>
-              <th class="c">Filter<br><a class="hd-adv-only" href="#" onclick="hdSelectAll('block');return false;">All</a></th>
+              <th class="c" id="hd-filter-th"><span id="hd-filter-hint">Click any toggle →</span>Filter<br><a class="hd-adv-only" href="#" onclick="hdSelectAll('block');return false;">All</a></th>
               <th class="c hd-delayed-col">Delayed Filter<br><a class="hd-adv-only" href="#" onclick="hdSelectAll('delayed');return false;">All</a></th>
             </tr>
           </thead>

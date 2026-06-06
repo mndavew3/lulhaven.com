@@ -85,10 +85,6 @@
   .strat47-box { background:#fff; color:#111; max-width:640px; width:90%; border-radius:12px; padding:32px 28px; box-shadow:0 8px 40px rgba(0,0,0,0.35); position:relative; font-family:'Inter Tight',system-ui,Arial,sans-serif; font-size:1rem; line-height:1.65; }
   .strat47-close { position:absolute; top:12px; right:16px; font-size:1.4rem; cursor:pointer; background:none; border:none; color:#555; }
   .strat47-close:hover { color:#111; }
-  @keyframes hint-pulse {
-    0%, 100% { transform:scale(1); box-shadow:0 3px 14px rgba(0,0,0,0.45); }
-    50% { transform:scale(1.05); box-shadow:0 4px 22px rgba(180,20,20,0.65); }
-  }
 
 </style>
 </head>
@@ -98,11 +94,7 @@
 <section id="demo-hero" style="background:#1a4a3c;padding:48px 24px 0;text-align:center;">
   <h2 class="mbr-fonts-style" style="color:#fff;font-size:2.3rem;font-weight:800;margin:0 0 10px;line-height:1.2;">Watch it work. In your browser. Right now.</h2>
   <p class="mbr-fonts-style display-7" style="color:rgba(255,255,255,0.82);margin:0 0 28px;">This is a live Haven router. Toggle anything.</p>
-  <div style="position:relative;width:100%;max-width:1200px;margin:0 auto;" id="demo-wrap" onclick="document.getElementById('demo-hint').style.display='none';" data-ev="demo_interact" data-ev-label="hero">
-    <div id="demo-hint" style="position:absolute;top:250px;right:130px;z-index:10;background:#cc2222;color:#fff;padding:7px 14px 7px 12px;border-radius:6px;font-weight:700;font-size:0.9rem;box-shadow:0 3px 14px rgba(0,0,0,0.45);pointer-events:none;animation:hint-pulse 2.2s ease-in-out infinite;white-space:nowrap;">
-      Click any toggle →
-      <span style="position:absolute;right:-9px;top:50%;transform:translateY(-50%);width:0;height:0;border-top:7px solid transparent;border-bottom:7px solid transparent;border-left:9px solid #cc2222;"></span>
-    </div>
+  <div style="width:100%;max-width:1200px;margin:0 auto;" id="demo-wrap" data-ev="demo_interact" data-ev-label="hero">
     <iframe src="demo.html" title="Haven interactive demo" loading="eager" style="width:100%;height:700px;border:0;display:block;border-radius:10px 10px 0 0;"></iframe>
   </div>
   <div style="padding:22px 24px 44px;">
@@ -209,42 +201,6 @@
 })();
 </script>
 
-<script>
-(function(){
-  var wrap = document.getElementById('demo-wrap');
-  var hint = document.getElementById('demo-hint');
-  var iframe = wrap ? wrap.querySelector('iframe') : null;
-  if (!iframe || !hint) return;
-
-  function positionHint() {
-    try {
-      var doc = iframe.contentDocument || iframe.contentWindow.document;
-      var cb = doc.querySelector('input[id^="blk_"]');
-      if (!cb) return false;
-      var rect = cb.getBoundingClientRect();
-      if (!rect.width) return false;
-      var hintH = hint.offsetHeight || 34;
-      var iframeLeft = iframe.getBoundingClientRect().left;
-      hint.style.top  = (rect.top  + rect.height / 2 - hintH / 2) + 'px';
-      hint.style.right = (iframe.offsetWidth - (rect.left - iframeLeft) + 8) + 'px';
-      hint.style.left  = '';
-      return true;
-    } catch(e) { return false; }
-  }
-
-  iframe.addEventListener('load', function() {
-    var tries = 0;
-    var t = setInterval(function() {
-      if (positionHint() || ++tries > 30) clearInterval(t);
-    }, 150);
-  });
-  var resizeTimer;
-  window.addEventListener('resize', function() {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(positionHint, 100);
-  });
-})();
-</script>
 
 </body>
 </html>

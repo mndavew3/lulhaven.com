@@ -391,6 +391,7 @@ function hdSelect(index) {
     var subName = cat[1][j][0];
     tbody.innerHTML += hdMakeRow(hdMakeKey(cat[0], subName), subName, cat[0], false);
   }
+  hdShowFilterHint();
 }
 
 function hdSearch(term) {
@@ -446,7 +447,20 @@ function hdClear() {
   hdSelect(hdCurrentCat);
 }
 
+var hdHintDismissed = false;
+function hdShowFilterHint() {
+  if (hdHintDismissed) return;
+  var h = document.getElementById('hd-filter-hint');
+  if (h) h.style.display = 'block';
+}
+function hdHideFilterHint() {
+  hdHintDismissed = true;
+  var h = document.getElementById('hd-filter-hint');
+  if (h) h.style.display = 'none';
+}
+
 function hdToggle(key, value, otherId) {
+  hdHideFilterHint();
   var safeId = key.replace(/\//g, '__');
   var cb = document.getElementById((value === 'block' ? 'blk_' : 'del_') + safeId);
   var newVal = (cb && cb.checked) ? value : '';
