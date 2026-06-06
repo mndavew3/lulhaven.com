@@ -243,6 +243,17 @@
   #hd-preset-modal-btns { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
   #hd-preset-modal-btns button { appearance:none; -webkit-appearance:none; background:rgba(255,255,255,0.55); backdrop-filter:blur(10px); border:1px solid rgba(0,0,0,0.2); border-radius:8px; cursor:pointer; font-family:inherit; padding:8px 18px; font-size:0.9em; color:#111; }
   #hd-preset-modal-btns button:hover { background:rgba(255,255,255,0.8); border-color:rgba(0,0,0,0.35); }
+
+  @media (max-width: 540px) {
+    #hd-layout { flex-direction: column; }
+    #hd-cats { flex: none; overflow-x: auto; overflow-y: hidden; }
+    #hd-cats ul { display: flex; flex-direction: row; white-space: nowrap; padding-bottom: 4px; }
+    #hd-cats li { display: inline-block; border-bottom: none; border-right: 1px solid rgba(0,0,0,0.07); padding: 8px 10px; }
+    #hd-cats li.hd-super-cat { display: none; }
+    #hd-search-bar { flex-wrap: wrap; }
+    #haven-demo-inner { padding: 10px; }
+    #hd-sub-table th, #hd-sub-table td { padding: 6px 4px; }
+  }
 </style>
 
 <div id="haven-demo">
