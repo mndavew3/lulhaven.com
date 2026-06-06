@@ -1,5 +1,71 @@
 var milestonesDataset = [
   {
+    "id": 503,
+    "date": "2026-06-05",
+    "theme": "Website / Marketing",
+    "impact": 4,
+    "summary": "Rebuilt lulhaven.com information architecture: homepage shrunk from ~18,000px to ~7,874px, content distributed to existing pages (features, benefits, faq) and new pages (fun, about), shared edit-once JS nav deployed to all pages.",
+    "detail": null,
+    "benefit": "Homepage is now a tight conversion funnel; every section has a proper home; edit-once nav means link changes propagate site-wide.",
+    "ref": "db97629",
+    "features": []
+  },
+  {
+    "id": 508,
+    "date": "2026-06-05",
+    "theme": "Website / Marketing",
+    "impact": 3,
+    "summary": "Social icons moved to about.html teal band (white, horizontal, 40px). Contact form upgraded with subject dropdown (beta-tester/reviewer/general) and beta-focused placeholder. First social posts drafted for Facebook, X, YouTube — beta tester and reviewer recruitment framing.",
+    "detail": null,
+    "benefit": "Haven now has a clear call-to-action for beta testers and reviewers across all social channels, with a sortable intake form.",
+    "ref": "d09542634b",
+    "features": []
+  },
+  {
+    "id": 506,
+    "date": "2026-06-05",
+    "theme": "Website / Marketing",
+    "impact": 3,
+    "summary": "Established Haven social media presence: Facebook (facebook.com/lulhaven), X (@lulhaven), YouTube (@lulhaven). Profile photo, banners, bios set. Social click telemetry live in footer. Instagram/TikTok deferred.",
+    "detail": null,
+    "benefit": "Haven now has a social footprint for the Founders campaign launch.",
+    "ref": "996e2d6b34",
+    "features": []
+  },
+  {
+    "id": 505,
+    "date": "2026-06-05",
+    "theme": "Process / Quality",
+    "impact": 3,
+    "summary": "Established CARDINAL rule: exercise UI interactively in headed Chrome on correct display before declaring any UI change done. Added to CLAUDE.md global settings.",
+    "detail": null,
+    "benefit": "Eliminates blindfold-debugging pattern that was causing repeated rework cycles.",
+    "ref": "session-2026-06-05",
+    "features": []
+  },
+  {
+    "id": 504,
+    "date": "2026-06-05",
+    "theme": "Website / Marketing",
+    "impact": 3,
+    "summary": "Features page redesigned: full-width teal How-It-Works band, side-by-side demo cards, responsive layout, 47 Strategies popup modal, Unsorted default sort with telemetry.",
+    "detail": null,
+    "benefit": "Features page has brand identity and works at any viewport width; sort telemetry captures visitor intent.",
+    "ref": "3017b6e6e4",
+    "features": []
+  },
+  {
+    "id": 507,
+    "date": "2026-06-05",
+    "theme": "Website / Marketing",
+    "impact": 2,
+    "summary": "fun.html: NCC video plays from thumbnail on click (paused at frame 1), autoplay+muted, fires ncc_play KYC event. Footer replaced dead template links with real Haven page nav.",
+    "detail": null,
+    "benefit": "Visitors can watch the NCC video without it autoplaying on load; play intent is tracked.",
+    "ref": "326f58c6b2",
+    "features": []
+  },
+  {
     "id": 500,
     "date": "2026-06-04",
     "theme": "Bypass resistance",
@@ -396,7 +462,7 @@ var milestonesDataset = [
     "features": [
       {
         "id": 2,
-        "lead": "Pre-flashed router"
+        "lead": "Plug in and it works"
       },
       {
         "id": 26,
@@ -454,7 +520,7 @@ var milestonesDataset = [
     "features": [
       {
         "id": 1,
-        "lead": "Whole-home filtering"
+        "lead": "Every connected device"
       },
       {
         "id": 33,
@@ -676,11 +742,11 @@ var milestonesDataset = [
     "features": [
       {
         "id": 13,
-        "lead": "Bypass-resistant"
+        "lead": "Nothing gets around it"
       },
       {
         "id": 14,
-        "lead": "Filtering follows household members wherever they go"
+        "lead": "Filter works on the go too"
       }
     ]
   },
@@ -805,7 +871,7 @@ var milestonesDataset = [
     "features": [
       {
         "id": 10,
-        "lead": "Survives a factory reset"
+        "lead": "Your settings survive a restart"
       }
     ]
   },
@@ -1261,7 +1327,7 @@ var milestonesDataset = [
     "features": [
       {
         "id": 8,
-        "lead": "Quiet the feed"
+        "lead": "Better YouTube for you"
       }
     ]
   },
@@ -1299,7 +1365,7 @@ var milestonesDataset = [
     "features": [
       {
         "id": 14,
-        "lead": "Filtering follows household members wherever they go"
+        "lead": "Filter works on the go too"
       },
       {
         "id": 29,
@@ -1330,7 +1396,7 @@ var milestonesDataset = [
     "features": [
       {
         "id": 8,
-        "lead": "Quiet the feed"
+        "lead": "Better YouTube for you"
       }
     ]
   },
@@ -1368,7 +1434,7 @@ var milestonesDataset = [
     "features": [
       {
         "id": 13,
-        "lead": "Bypass-resistant"
+        "lead": "Nothing gets around it"
       }
     ]
   },
@@ -1472,7 +1538,7 @@ var milestonesDataset = [
     "features": [
       {
         "id": 8,
-        "lead": "Quiet the feed"
+        "lead": "Better YouTube for you"
       }
     ]
   },
@@ -1598,7 +1664,7 @@ var milestonesDataset = [
     "features": [
       {
         "id": 14,
-        "lead": "Filtering follows household members wherever they go"
+        "lead": "Filter works on the go too"
       }
     ]
   },
@@ -1834,7 +1900,7 @@ var milestonesDataset = [
     "features": [
       {
         "id": 2,
-        "lead": "Pre-flashed router"
+        "lead": "Plug in and it works"
       }
     ]
   },
@@ -1850,7 +1916,7 @@ var milestonesDataset = [
     "features": [
       {
         "id": 2,
-        "lead": "Pre-flashed router"
+        "lead": "Plug in and it works"
       },
       {
         "id": 26,
@@ -1914,7 +1980,7 @@ var milestonesDataset = [
     "features": [
       {
         "id": 2,
-        "lead": "Pre-flashed router"
+        "lead": "Plug in and it works"
       },
       {
         "id": 26,
@@ -2165,7 +2231,7 @@ var milestonesDataset = [
     "features": [
       {
         "id": 2,
-        "lead": "Pre-flashed router"
+        "lead": "Plug in and it works"
       }
     ]
   },
@@ -2236,7 +2302,7 @@ var milestonesDataset = [
     "features": [
       {
         "id": 2,
-        "lead": "Pre-flashed router"
+        "lead": "Plug in and it works"
       }
     ]
   },
@@ -2252,15 +2318,15 @@ var milestonesDataset = [
     "features": [
       {
         "id": 4,
-        "lead": "Haven Inc. cannot read your data"
+        "lead": "We're built so we can't see what you're doing"
       },
       {
         "id": 5,
-        "lead": "Your data stays on your router"
+        "lead": "Everything stays local"
       },
       {
         "id": 6,
-        "lead": "Haven cannot read your traffic"
+        "lead": "We can't see what you're browsing"
       },
       {
         "id": 7,
@@ -2268,7 +2334,7 @@ var milestonesDataset = [
       },
       {
         "id": 10,
-        "lead": "Survives a factory reset"
+        "lead": "Your settings survive a restart"
       }
     ]
   },
@@ -3009,7 +3075,7 @@ var milestonesDataset = [
     "features": [
       {
         "id": 14,
-        "lead": "Filtering follows household members wherever they go"
+        "lead": "Filter works on the go too"
       }
     ]
   },
@@ -3165,7 +3231,7 @@ var milestonesDataset = [
     "features": [
       {
         "id": 2,
-        "lead": "Pre-flashed router"
+        "lead": "Plug in and it works"
       },
       {
         "id": 26,
@@ -3326,7 +3392,7 @@ var milestonesDataset = [
     "features": [
       {
         "id": 14,
-        "lead": "Filtering follows household members wherever they go"
+        "lead": "Filter works on the go too"
       }
     ]
   },
@@ -3342,7 +3408,7 @@ var milestonesDataset = [
     "features": [
       {
         "id": 14,
-        "lead": "Filtering follows household members wherever they go"
+        "lead": "Filter works on the go too"
       }
     ]
   },
@@ -3631,7 +3697,7 @@ var milestonesDataset = [
     "features": [
       {
         "id": 2,
-        "lead": "Pre-flashed router"
+        "lead": "Plug in and it works"
       },
       {
         "id": 26,
@@ -3662,7 +3728,7 @@ var milestonesDataset = [
     "features": [
       {
         "id": 13,
-        "lead": "Bypass-resistant"
+        "lead": "Nothing gets around it"
       }
     ]
   },
@@ -4079,7 +4145,7 @@ var milestonesDataset = [
     "features": [
       {
         "id": 1,
-        "lead": "Whole-home filtering"
+        "lead": "Every connected device"
       },
       {
         "id": 12,
@@ -4087,7 +4153,7 @@ var milestonesDataset = [
       },
       {
         "id": 13,
-        "lead": "Bypass-resistant"
+        "lead": "Nothing gets around it"
       },
       {
         "id": 32,
@@ -4107,7 +4173,7 @@ var milestonesDataset = [
     "features": [
       {
         "id": 13,
-        "lead": "Bypass-resistant"
+        "lead": "Nothing gets around it"
       }
     ]
   },
@@ -4145,7 +4211,7 @@ var milestonesDataset = [
     "features": [
       {
         "id": 2,
-        "lead": "Pre-flashed router"
+        "lead": "Plug in and it works"
       },
       {
         "id": 26,
@@ -4198,11 +4264,11 @@ var milestonesDataset = [
     "features": [
       {
         "id": 6,
-        "lead": "Haven cannot read your traffic"
+        "lead": "We can't see what you're browsing"
       },
       {
         "id": 14,
-        "lead": "Filtering follows household members wherever they go"
+        "lead": "Filter works on the go too"
       }
     ]
   },
@@ -4238,7 +4304,7 @@ var milestonesDataset = [
     "features": [
       {
         "id": 14,
-        "lead": "Filtering follows household members wherever they go"
+        "lead": "Filter works on the go too"
       }
     ]
   },
@@ -4518,11 +4584,11 @@ var milestonesDataset = [
     "features": [
       {
         "id": 1,
-        "lead": "Whole-home filtering"
+        "lead": "Every connected device"
       },
       {
         "id": 13,
-        "lead": "Bypass-resistant"
+        "lead": "Nothing gets around it"
       },
       {
         "id": 32,
