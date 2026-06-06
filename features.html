@@ -238,6 +238,11 @@
       if (positionHint() || ++tries > 30) clearInterval(t);
     }, 150);
   });
+  var resizeTimer;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(positionHint, 100);
+  });
 })();
 </script>
 
