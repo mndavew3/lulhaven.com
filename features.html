@@ -224,7 +224,7 @@
       var rect = cb.getBoundingClientRect();
       if (!rect.width) return false;
       var hintH = hint.offsetHeight || 34;
-      hint.style.top  = (rect.top  + rect.height / 2 - hintH / 2 + 100) + 'px';
+      hint.style.top  = (rect.top  + rect.height / 2 - hintH / 2) + 'px';
       hint.style.right = (iframe.offsetWidth - rect.left + 8 - 50) + 'px';
       hint.style.left  = '';
       return true;
