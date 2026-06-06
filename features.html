@@ -85,17 +85,29 @@
   .strat47-box { background:#fff; color:#111; max-width:640px; width:90%; border-radius:12px; padding:32px 28px; box-shadow:0 8px 40px rgba(0,0,0,0.35); position:relative; font-family:'Inter Tight',system-ui,Arial,sans-serif; font-size:1rem; line-height:1.65; }
   .strat47-close { position:absolute; top:12px; right:16px; font-size:1.4rem; cursor:pointer; background:none; border:none; color:#555; }
   .strat47-close:hover { color:#111; }
+  @keyframes hint-pulse {
+    0%, 100% { transform:scale(1); box-shadow:0 3px 14px rgba(0,0,0,0.45); }
+    50% { transform:scale(1.05); box-shadow:0 4px 22px rgba(180,20,20,0.65); }
+  }
 
 </style>
 </head>
 
 <body>
 
-<section class="cf-page-title">
-  <h1 class="mbr-section-title mbr-fonts-style display-1"><strong>Features</strong></h1>
-  <p class="mbr-text mbr-fonts-style display-7" style="max-width:640px;margin:18px auto 0;">
-    What Haven does. Same list, two ways to read it — sort by what matters most to you.
-  </p>
+<section id="demo-hero" style="background:#1a4a3c;padding:48px 24px 0;text-align:center;">
+  <h2 class="mbr-fonts-style" style="color:#fff;font-size:2.3rem;font-weight:800;margin:0 0 10px;line-height:1.2;">Watch it work. In your browser. Right now.</h2>
+  <p class="mbr-fonts-style display-7" style="color:rgba(255,255,255,0.82);margin:0 0 28px;">This is a live Haven router. Toggle anything.</p>
+  <div style="position:relative;width:100%;max-width:1200px;margin:0 auto;" id="demo-wrap" onclick="document.getElementById('demo-hint').style.display='none';" data-ev="demo_interact" data-ev-label="hero">
+    <div id="demo-hint" style="position:absolute;top:116px;left:24px;z-index:10;background:#cc2222;color:#fff;padding:7px 14px 7px 12px;border-radius:6px;font-weight:700;font-size:0.9rem;box-shadow:0 3px 14px rgba(0,0,0,0.45);pointer-events:none;animation:hint-pulse 2.2s ease-in-out infinite;white-space:nowrap;">
+      Click any toggle →
+      <span style="position:absolute;right:-9px;top:50%;transform:translateY(-50%);width:0;height:0;border-top:7px solid transparent;border-bottom:7px solid transparent;border-left:9px solid #cc2222;"></span>
+    </div>
+    <iframe src="demo.html" title="Haven interactive demo" loading="eager" style="width:100%;height:700px;border:0;display:block;border-radius:10px 10px 0 0;"></iframe>
+  </div>
+  <div style="padding:22px 24px 44px;">
+    <a href="demo.html" class="btn display-7" style="background:#fff;color:#1a4a3c;border:none;font-weight:700;font-size:1.05rem;padding:13px 40px;border-radius:8px;text-decoration:none;box-shadow:0 2px 12px rgba(0,0,0,0.25);">Open full demo →</a>
+  </div>
 </section>
 <section data-bs-version="5.1" class="features4 cid-tMlEXTHLbS" id="features04-w">
 	
@@ -107,32 +119,6 @@
 					<h4 class="mbr-section-title mbr-fonts-style align-center mb-0 display-2"><strong>How It Works</strong></h4>
 					<h5 class="mbr-section-subtitle mbr-fonts-style align-center mb-0 mt-4 display-7">Haven is an extension of the OpenWRT router software. Many routers come directly from the manufacturer with OpenWRT as their software. OpenWRT can replace the original software in millions of other routers. OpenWRT is the leading open-source router software available.<br><br>If you choose to filter nothing with Haven, then you’re just running unaltered OpenWRT, and that’s fine. Haven adds its own interface on top of OpenWRT, but all original OpenWRT screens and settings remain fully accessible.<br><br>Many content providers use a large number of IP addresses to provide their content. And that’s just one of about a dozen attributes that are used to filter content. And each attribute can be used in multiple strategies. With a single mouse click, you activate all those strategies.</h5>
 					
-				</div>
-			</div>
-		</div>
-		<div class="row" style="margin-top:28px;margin-bottom:10px;">
-			<div class="col-12" style="text-align:center;">
-				<img src="assets/images/live-demo-note.png" alt="Live demo!" style="height:148px;width:auto;transform:translateX(92px);filter:drop-shadow(3px 7px 6px rgba(0,0,0,0.32));">
-			</div>
-		</div>
-		<div class="row mb-4">
-			<div class="item features-image col-12">
-				<div class="item-wrapper">
-					<div class="item-img" style="height:auto;">
-						<div class="haven-demo-preview" style="position:relative; height:520px; overflow:auto; border-radius:10px; box-shadow:0 6px 28px rgba(0,0,0,0.18); width:100%;">
-							<iframe src="demo.html" title="Haven interactive demo" loading="lazy" style="width:100%; height:1100px; border:0; display:block;"></iframe>
-							<div aria-hidden="true" style="position:absolute; left:0; right:0; bottom:0; height:90px; pointer-events:none; background:linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0.96) 100%);"></div>
-							<a href="demo.html" class="haven-demo-expand" title="Open the full interactive demo" aria-label="Open the full interactive demo" style="position:absolute; top:12px; right:12px; z-index:2; display:inline-flex; align-items:center; justify-content:center; width:42px; height:42px; background:rgba(20,40,60,0.85); color:#fff; font-size:22px; line-height:1; text-decoration:none; border-radius:8px; box-shadow:0 2px 10px rgba(0,0,0,0.35);">⛶</a>
-						</div>
-					</div>
-					<div class="item-content">
-						<h5 class="item-title mbr-fonts-style display-5"><strong>Click, Save</strong></h5>
-
-						<p class="mbr-text mbr-fonts-style display-7">
-							Select a category. Pick a content provider. Click Save. Everyone you know could do this.<br><br><strong>613 providers across 49 categories in 9 groups — control them one by one, by category, or by group.</strong></p>
-						<div class="mbr-section-btn item-footer"><a href="demo.html" class="btn item-btn btn-primary display-7">Learn more</a></div>
-					</div>
-
 				</div>
 			</div>
 		</div>
@@ -149,7 +135,7 @@
 						</h5>
 
 						<p class="mbr-text mbr-fonts-style display-7">
-							When you select a content provider, Haven uses as many as 47 unique strategies to block that content from your network — with a single click.</p>
+							When you select a content provider, Haven uses as many as 42 unique strategies to block that content from your network — with a single click.</p>
 						<div class="mbr-section-btn item-footer"><button type="button" class="btn item-btn btn-primary display-7 strat47-toggle">Learn more</button></div>
 						<div class="strat47-panel mbr-text mbr-fonts-style display-7" id="strat47-panel">
 							<p>When you select a provider to block, Haven uses up to 42 different methods to stop that content — IP addresses, domain names, behavioral patterns. Across all 613 providers, that's ~6.36 million total blocking strategies working for you.</p>
