@@ -120,13 +120,13 @@ var cbDataset = [
     "id": 10,
     "section": "main",
     "lead": "Adult choices, not algorithmic ones",
-    "body": "YouHaven hides channels you have decided not to see. Adult content is opt-in. Trackers blocked.",
+    "body": "U-Haven hides channels you have decided not to see. Adult content is opt-in. Trackers blocked.",
     "family_rank": 10,
     "privacy_rank": 5,
     "family_lead": null,
     "privacy_lead": null,
     "related_feature_ids": "8,19",
-    "details": "<p>The standard YouTube and social-media apps decide what to recommend to you. YouHaven (companion Android app) puts that decision back in your hands — hide channels and providers you have decided you do not want in your feed. On the router itself: adult content is blocked by default and only an admin can opt in. Trackers are blocked. Mobile game ads are blocked. The defaults respect that you are an adult making your own choices, not a target for algorithmic shaping.</p>",
+    "details": "<p>The standard YouTube and social-media apps decide what to recommend to you. U-Haven (companion Android app) puts that decision back in your hands — hide channels and providers you have decided you do not want in your feed. On the router itself: adult content is blocked by default and only an admin can opt in. Trackers are blocked. Mobile game ads are blocked. The defaults respect that you are an adult making your own choices, not a target for algorithmic shaping.</p>",
     "link": null
   }
 ];
