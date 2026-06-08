@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Haven Wiki</title>
+  <link rel="shortcut icon" href="/assets/images/lulhaven20dock20line20art202-64x42.png" type="image/x-icon">
+  <link rel="preload" href="https://fonts.googleapis.com/css?family=Inter+Tight:300,400,500,600,700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter+Tight:300,400,500,600,700&display=swap"></noscript>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --green:      #2b7a69;
+      --green-dark: #1f6b5a;
+      --green-pale: #e8f4f1;
+      --text:       #1a1a1a;
+      --muted:      #666;
+      --border:     #dde3e0;
+      --bg:         #f8faf9;
+      --sidebar-w:  220px;
+    }
+    body { font-family: 'Inter Tight', sans-serif; color: var(--text); background: var(--bg); min-height: 100vh; }
+
+    /* ── top bar ── */
+    #topbar {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--green); color: #fff;
+      display: flex; align-items: center; gap: 12px;
+      padding: 0 24px; height: 52px;
+      box-shadow: 0 2px 6px rgba(0,0,0,.18);
+    }
+    #topbar a.logo { color: #fff; font-weight: 700; font-size: 1.1rem; text-decoration: none; white-space: nowrap; }
+    #topbar a.logo span { font-weight: 300; opacity: .8; }
+    #search-wrap { flex: 1; max-width: 500px; position: relative; }
+    #search-input {
+      width: 100%; padding: 6px 36px 6px 12px; border-radius: 6px;
+      border: none; font-size: 0.9rem; font-family: inherit;
+      background: rgba(255,255,255,.18); color: #fff;
+    }
+    #search-input::placeholder { color: rgba(255,255,255,.6); }
+    #search-input:focus { outline: none; background: rgba(255,255,255,.28); }
+    #search-results {
+      display: none; position: absolute; top: calc(100% + 4px); left: 0; right: 0;
+      background: #fff; border-radius: 6px; box-shadow: 0 4px 20px rgba(0,0,0,.18);
+      max-height: 340px; overflow-y: auto; z-index: 200;
+    }
+    #search-results.show { display: block; }
+    .sr-item { padding: 10px 14px; cursor: pointer; border-bottom: 1px solid var(--border); }
+    .sr-item:last-child { border-bottom: none; }
+    .sr-item:hover { background: var(--green-pale); }
+    .sr-item .sr-title { font-weight: 600; font-size: 0.9rem; }
+    .sr-item .sr-ns { font-size: 0.75rem; color: var(--muted); margin-bottom: 2px; }
+    .sr-item .sr-snip { font-size: 0.82rem; color: #444; }
+    .sr-item .sr-snip mark { background: #ffe082; padding: 0 1px; }
+    #topbar-right { display: flex; align-items: center; gap: 10px; margin-left: auto; white-space: nowrap; }
+    #topbar-right a, #topbar-right button {
+      color: #fff; font-size: 0.85rem; text-decoration: none; background: none; border: none;
+      cursor: pointer; font-family: inherit; padding: 4px 10px; border-radius: 4px;
+      border: 1px solid rgba(255,255,255,.35);
+    }
+    #topbar-right a:hover, #topbar-right button:hover { background: rgba(255,255,255,.15); }
+    #user-label { font-size: 0.85rem; opacity: .85; }
+
+    /* ── layout ── */
+    #shell { display: flex; min-height: calc(100vh - 52px); }
+    #sidebar {
+      width: var(--sidebar-w); flex-shrink: 0;
+      background: #fff; border-right: 1px solid var(--border);
+      padding: 20px 0; position: sticky; top: 52px; height: calc(100vh - 52px); overflow-y: auto;
+    }
+    #sidebar h3 { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em;
+      color: var(--muted); padding: 0 16px; margin: 16px 0 6px; }
+    #sidebar h3:first-child { margin-top: 0; }
+    #sidebar a, #sidebar button.sb-link {
+      display: block; padding: 6px 16px; font-size: 0.87rem; color: var(--text);
+      text-decoration: none; background: none; border: none; font-family: inherit;
+      cursor: pointer; text-align: left; width: 100%;
+    }
+    #sidebar a:hover, #sidebar button.sb-link:hover { background: var(--green-pale); color: var(--green); }
+    #sidebar a.active { background: var(--green-pale); color: var(--green); font-weight: 600; }
+    #sb-recent { list-style: none; }
+    #sb-recent li a { font-size: 0.84rem; padding: 4px 16px; color: var(--muted); }
+
+    /* ── main ── */
+    #main { flex: 1; padding: 32px 40px; max-width: 880px; }
+
+    /* ── article ── */
+    .wiki-article h1 { font-size: 1.8rem; font-weight: 700; margin-bottom: 6px; }
+    .wiki-article .page-meta { font-size: 0.8rem; color: var(--muted); margin-bottom: 24px; display: flex; gap: 12px; flex-wrap: wrap; }
+    .wiki-article .page-meta a { color: var(--green); text-decoration: none; }
+    .wiki-article .body-html h1 { font-size: 1.5rem; margin: 28px 0 10px; }
+    .wiki-article .body-html h2 { font-size: 1.2rem; margin: 24px 0 8px; }
+    .wiki-article .body-html h3 { font-size: 1.05rem; margin: 20px 0 6px; }
+    .wiki-article .body-html p  { line-height: 1.7; margin-bottom: 14px; }
+    .wiki-article .body-html ul, .wiki-article .body-html ol { margin: 0 0 14px 24px; }
+    .wiki-article .body-html li { margin-bottom: 4px; line-height: 1.6; }
+    .wiki-article .body-html code { background: #eef2f0; padding: 1px 5px; border-radius: 3px; font-size: 0.88em; }
+    .wiki-article .body-html pre { background: #1e2d28; color: #d4f0e8; padding: 16px; border-radius: 6px; overflow-x: auto; margin-bottom: 16px; }
+    .wiki-article .body-html pre code { background: none; color: inherit; font-size: 0.87em; }
+    .wiki-article .body-html blockquote { border-left: 3px solid var(--green); padding: 8px 16px; background: var(--green-pale); border-radius: 0 4px 4px 0; margin-bottom: 14px; }
+    .wiki-article .body-html a { color: var(--green); }
+    .wiki-article .body-html hr { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
+    .wiki-article .body-html mark { background: #ffe082; }
+
+    /* ── buttons ── */
+    .btn { display: inline-block; padding: 8px 20px; border-radius: 6px; font-size: 0.9rem;
+      font-family: inherit; cursor: pointer; border: none; font-weight: 500; text-decoration: none; }
+    .btn-primary { background: var(--green); color: #fff; }
+    .btn-primary:hover { background: var(--green-dark); }
+    .btn-outline { background: none; border: 1px solid var(--border); color: var(--text); }
+    .btn-outline:hover { border-color: var(--green); color: var(--green); }
+    .btn-sm { padding: 5px 12px; font-size: 0.82rem; }
+    .btn-row { display: flex; gap: 8px; margin-top: 24px; flex-wrap: wrap; }
+    .lock-badge { display: inline-block; font-size: 0.72rem; background: #fce8b2; color: #7a5200;
+      border-radius: 4px; padding: 1px 7px; font-weight: 600; margin-left: 8px; vertical-align: middle; }
+
+    /* ── editor ── */
+    #editor-wrap h1 { font-size: 1.4rem; font-weight: 700; margin-bottom: 20px; }
+    #ed-slug-row { margin-bottom: 12px; }
+    #ed-slug-row label, #ed-title-row label, #ed-summary-row label { font-size: 0.82rem; font-weight: 600; color: var(--muted); display: block; margin-bottom: 4px; }
+    #ed-slug, #ed-title, #ed-summary { width: 100%; padding: 8px 12px; border: 1px solid var(--border); border-radius: 6px; font-size: 0.9rem; font-family: inherit; }
+    #ed-slug:focus, #ed-title:focus, #ed-summary:focus, #ed-body:focus { outline: none; border-color: var(--green); }
+    #ed-title-row { margin-bottom: 12px; }
+    #ed-body {
+      width: 100%; min-height: 420px; padding: 12px; border: 1px solid var(--border); border-radius: 6px;
+      font-size: 0.9rem; font-family: 'Inter Tight', monospace; resize: vertical; line-height: 1.6;
+    }
+    #ed-body:focus { border-color: var(--green); outline: none; }
+    #ed-summary-row { margin-top: 12px; }
+    #ed-preview { margin-top: 24px; padding: 20px; background: #fff; border: 1px solid var(--border); border-radius: 8px; }
+    #ed-preview h2 { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin-bottom: 14px; }
+    .ed-tabs { display: flex; gap: 0; margin-bottom: 0; border-bottom: 1px solid var(--border); }
+    .ed-tab { padding: 8px 18px; font-size: 0.88rem; cursor: pointer; border: none; background: none; font-family: inherit; color: var(--muted); border-bottom: 2px solid transparent; margin-bottom: -1px; }
+    .ed-tab.active { color: var(--green); border-bottom-color: var(--green); font-weight: 600; }
+
+    /* ── auth forms ── */
+    .auth-form { max-width: 400px; }
+    .auth-form h1 { font-size: 1.4rem; font-weight: 700; margin-bottom: 6px; }
+    .auth-form p { color: var(--muted); font-size: 0.9rem; margin-bottom: 24px; }
+    .field { margin-bottom: 14px; }
+    .field label { display: block; font-size: 0.82rem; font-weight: 600; color: var(--muted); margin-bottom: 4px; }
+    .field input { width: 100%; padding: 9px 12px; border: 1px solid var(--border); border-radius: 6px; font-size: 0.9rem; font-family: inherit; }
+    .field input:focus { outline: none; border-color: var(--green); }
+    .form-err { color: #c0392b; font-size: 0.85rem; margin-top: 10px; }
+    .form-ok  { color: var(--green); font-size: 0.85rem; margin-top: 10px; }
+
+    /* ── home ── */
+    .wiki-home h1 { font-size: 1.8rem; font-weight: 700; margin-bottom: 8px; }
+    .wiki-home .subtitle { color: var(--muted); font-size: 1rem; margin-bottom: 32px; }
+    .ns-section h2 { font-size: 1rem; font-weight: 700; color: var(--green); margin-bottom: 12px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+    .page-list { list-style: none; margin-bottom: 28px; }
+    .page-list li { padding: 8px 0; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: baseline; }
+    .page-list li:last-child { border-bottom: none; }
+    .page-list a { color: var(--green); text-decoration: none; font-weight: 500; }
+    .page-list a:hover { text-decoration: underline; }
+    .page-list .pl-meta { font-size: 0.78rem; color: var(--muted); }
+    .empty-ns { color: var(--muted); font-size: 0.9rem; font-style: italic; margin-bottom: 28px; }
+
+    /* ── history ── */
+    .rev-list { list-style: none; }
+    .rev-list li { padding: 10px 0; border-bottom: 1px solid var(--border); display: flex; gap: 12px; align-items: baseline; }
+    .rev-list .rev-num { font-weight: 700; color: var(--green); min-width: 32px; }
+    .rev-list .rev-info { flex: 1; }
+    .rev-list .rev-summary { font-size: 0.88rem; }
+    .rev-list .rev-meta { font-size: 0.78rem; color: var(--muted); }
+    .rev-list a { color: var(--green); text-decoration: none; font-size: 0.82rem; }
+
+    /* ── misc ── */
+    .spinner { display: inline-block; width: 18px; height: 18px; border: 2px solid var(--border); border-top-color: var(--green); border-radius: 50%; animation: spin .7s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .notice { padding: 12px 16px; border-radius: 6px; font-size: 0.9rem; margin-bottom: 16px; }
+    .notice-info { background: var(--green-pale); color: var(--green-dark); }
+    .notice-err  { background: #fdecea; color: #c0392b; }
+    @media (max-width: 700px) {
+      #sidebar { display: none; }
+      #main { padding: 20px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div id="topbar">
+  <a class="logo" href="/wiki/">Haven <span>Wiki</span></a>
+  <div id="search-wrap">
+    <input id="search-input" type="search" placeholder="Search the wiki…" autocomplete="off">
+    <div id="search-results"></div>
+  </div>
+  <div id="topbar-right">
+    <span id="user-label"></span>
+    <a href="/wiki/?view=new" id="btn-new-page" style="display:none">+ New page</a>
+    <button id="btn-logout" style="display:none" onclick="doLogout()">Log out</button>
+    <a href="/wiki/?view=login"  id="btn-login"    >Log in</a>
+    <a href="/wiki/?view=register" id="btn-register">Register</a>
+  </div>
+</div>
+
+<!-- SHELL -->
+<div id="shell">
+  <nav id="sidebar">
+    <h3>Navigate</h3>
+    <a href="/wiki/" class="sb-home">Home</a>
+    <button class="sb-link" onclick="nav('new')">+ New page</button>
+    <h3>Haven Help</h3>
+    <div id="sb-haven-links"></div>
+    <h3>Recent pages</h3>
+    <ul id="sb-recent"></ul>
+  </nav>
+  <main id="main">
+    <div id="view-loading" style="display:none"><span class="spinner"></span></div>
+    <div id="view-home"     style="display:none"></div>
+    <div id="view-page"     style="display:none"></div>
+    <div id="view-edit"     style="display:none"></div>
+    <div id="view-history"  style="display:none"></div>
+    <div id="view-login"    style="display:none"></div>
+    <div id="view-register" style="display:none"></div>
+    <div id="view-error"    style="display:none"></div>
+  </main>
+</div>
+
+<script>
+// ── state ──────────────────────────────────────────────────────────────────
+var currentUser = null; // { display_name, role }
+
+// ── routing ───────────────────────────────────────────────────────────────
+function qp() { return new URLSearchParams(location.search); }
+
+function nav(view, extra) {
+  var p = new URLSearchParams();
+  if (view && view !== 'home') p.set('view', view);
+  if (extra) Object.keys(extra).forEach(function(k){ p.set(k, extra[k]); });
+  history.pushState({}, '', '/wiki/?' + p.toString());
+  route();
+}
+
+function navPage(slug) { nav('page', { p: slug }); }
+
+window.addEventListener('popstate', route);
+
+function route() {
+  var p = qp();
+  var view = p.get('view') || 'home';
+  hideAll();
+  if      (view === 'home')     renderHome();
+  else if (view === 'page')     renderPage(p.get('p'));
+  else if (view === 'edit')     renderEdit(p.get('p'));
+  else if (view === 'new')      renderEdit(null);
+  else if (view === 'history')  renderHistory(p.get('p'));
+  else if (view === 'login')    renderLogin();
+  else if (view === 'register') renderRegister();
+  else                          renderError('Unknown view');
+}
+
+function hideAll() {
+  ['home','page','edit','history','login','register','error','loading'].forEach(function(v){
+    document.getElementById('view-'+v).style.display = 'none';
+  });
+}
+function show(v) { document.getElementById('view-'+v).style.display = ''; }
+function loading(yes) { document.getElementById('view-loading').style.display = yes ? '' : 'none'; }
+
+// ── API helpers ────────────────────────────────────────────────────────────
+async function api(method, path, body) {
+  var opts = { method: method, headers: {} };
+  if (body) { opts.body = JSON.stringify(body); opts.headers['Content-Type'] = 'application/json'; }
+  var r = await fetch(path, opts);
+  return r.json();
+}
+
+// ── auth state ─────────────────────────────────────────────────────────────
+async function checkSession() {
+  // Try to fetch a known lightweight endpoint to see if cookie is valid.
+  // We store session state in a tiny sentinel page that returns current user.
+  var r = await api('GET', '/wiki/auth/me').catch(function(){ return null; });
+  if (r && r.ok) {
+    currentUser = { display_name: r.display_name, role: r.role };
+  } else {
+    currentUser = null;
+  }
+  updateAuthUI();
+}
+
+function updateAuthUI() {
+  var loggedIn = !!currentUser;
+  document.getElementById('user-label').textContent   = loggedIn ? currentUser.display_name : '';
+  document.getElementById('btn-logout').style.display  = loggedIn ? '' : 'none';
+  document.getElementById('btn-login').style.display   = loggedIn ? 'none' : '';
+  document.getElementById('btn-register').style.display= loggedIn ? 'none' : '';
+  document.getElementById('btn-new-page').style.display= loggedIn ? '' : 'none';
+  // sidebar new page
+  document.querySelector('.sb-link') && (document.querySelector('.sb-link').style.display = loggedIn ? '' : 'none');
+}
+
+async function doLogout() {
+  await api('POST', '/wiki/auth/logout');
+  currentUser = null;
+  updateAuthUI();
+  nav('home');
+}
+
+// ── search ─────────────────────────────────────────────────────────────────
+var searchTimer;
+document.getElementById('search-input').addEventListener('input', function() {
+  clearTimeout(searchTimer);
+  var q = this.value.trim();
+  var box = document.getElementById('search-results');
+  if (!q) { box.classList.remove('show'); return; }
+  searchTimer = setTimeout(async function() {
+    var r = await api('GET', '/wiki/search?q=' + encodeURIComponent(q));
+    if (!r.ok) { box.classList.remove('show'); return; }
+    if (!r.results.length) {
+      box.innerHTML = '<div class="sr-item" style="color:#999;font-size:0.88rem;">No results for "'+esc(q)+'"</div>';
+    } else {
+      box.innerHTML = r.results.map(function(x) {
+        return '<div class="sr-item" onclick="navPage(\''+esc(x.slug)+'\')">'+
+          '<div class="sr-ns">'+esc(x.namespace)+'</div>'+
+          '<div class="sr-title">'+esc(x.title)+'</div>'+
+          '<div class="sr-snip">'+x.snippet+'</div></div>';
+      }).join('');
+    }
+    box.classList.add('show');
+  }, 280);
+});
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('#search-wrap')) document.getElementById('search-results').classList.remove('show');
+});
+
+// ── HOME ───────────────────────────────────────────────────────────────────
+async function renderHome() {
+  show('home');
+  var el = document.getElementById('view-home');
+  el.innerHTML = '<div class="wiki-home"><h1>Haven Wiki</h1><p class="subtitle">Help pages and community knowledge base for Haven routers.</p><span class="spinner"></span></div>';
+
+  var r = await api('GET', '/wiki/pages');
+  var haven = r.ok ? r.pages.filter(function(p){ return p.namespace === 'haven'; }) : [];
+  var community = r.ok ? r.pages.filter(function(p){ return p.namespace === 'community'; }) : [];
+
+  el.innerHTML = '<div class="wiki-home">'+
+    '<h1>Haven Wiki</h1>'+
+    '<p class="subtitle">Help pages and community knowledge base for Haven routers.</p>'+
+    '<div class="ns-section"><h2>Haven Help</h2>'+
+      (haven.length ? '<ul class="page-list">'+haven.map(pageListItem).join('')+'</ul>' : '<p class="empty-ns">No pages yet.</p>')+
+    '</div>'+
+    '<div class="ns-section"><h2>Community</h2>'+
+      (community.length ? '<ul class="page-list">'+community.map(pageListItem).join('')+'</ul>' : '<p class="empty-ns">No community pages yet. <a href="/wiki/?view=new">Start one?</a></p>')+
+    '</div></div>';
+}
+
+function pageListItem(p) {
+  var d = p.modified_datetime ? p.modified_datetime.slice(0,10) : '';
+  return '<li><a href="/wiki/?view=page&p='+esc(p.slug)+'">'+esc(p.title)+'</a>'+
+    '<span class="pl-meta">'+d+'</span></li>';
+}
+
+// ── PAGE VIEW ──────────────────────────────────────────────────────────────
+async function renderPage(slug) {
+  if (!slug) { renderError('No page specified.'); return; }
+  show('page');
+  var el = document.getElementById('view-page');
+  el.innerHTML = '<span class="spinner"></span>';
+
+  var r = await api('GET', '/wiki/page/' + encodeSlug(slug));
+  if (!r.ok) {
+    if (currentUser) {
+      el.innerHTML = '<div class="wiki-article"><h1>'+esc(slug)+'</h1>'+
+        '<p style="color:var(--muted);margin-bottom:16px;">This page doesn\'t exist yet.</p>'+
+        '<a class="btn btn-primary btn-sm" href="/wiki/?view=edit&p='+esc(slug)+'">Create it</a></div>';
+    } else {
+      el.innerHTML = '<div class="notice notice-err">Page not found: '+esc(slug)+'</div>';
+    }
+    return;
+  }
+
+  var ns = r.namespace;
+  var canEdit = currentUser && (ns !== 'haven' || currentUser.role === 'admin');
+  el.innerHTML = '<div class="wiki-article">'+
+    '<h1>'+esc(r.title)+(ns==='haven'?'<span class="lock-badge">Haven</span>':'')+'</h1>'+
+    '<div class="page-meta">'+
+      '<span>v'+r.revision+'</span>'+
+      '<span>'+r.modified_datetime.slice(0,10)+'</span>'+
+      (canEdit ? '<a href="/wiki/?view=edit&p='+esc(slug)+'">Edit</a>' : '')+
+      '<a href="/wiki/?view=history&p='+esc(slug)+'">History</a>'+
+    '</div>'+
+    '<div class="body-html">'+r.html+'</div>'+
+    '</div>';
+}
+
+// ── EDITOR ─────────────────────────────────────────────────────────────────
+async function renderEdit(slug) {
+  if (!currentUser) { nav('login'); return; }
+  show('edit');
+  var el = document.getElementById('view-edit');
+  var isNew = !slug;
+  var title = '', body = '';
+
+  if (!isNew) {
+    el.innerHTML = '<span class="spinner"></span>';
+    var r = await api('GET', '/wiki/page/' + encodeSlug(slug));
+    if (r.ok) { title = r.title; body = r.body; }
+  }
+
+  el.innerHTML =
+    '<div id="editor-wrap">'+
+    '<h1>'+(isNew ? 'New page' : 'Edit: '+esc(title))+'</h1>'+
+    (isNew ? '<div id="ed-slug-row"><label>Slug (e.g. community/my-topic)</label>'+
+      '<input id="ed-slug" value="community/" placeholder="community/topic-name"></div>' : '')+
+    '<div id="ed-title-row"><label>Title</label><input id="ed-title" value="'+esc(title)+'" placeholder="Page title"></div>'+
+    '<div class="ed-tabs">'+
+      '<button class="ed-tab active" onclick="edTab(this,\'write\')">Write</button>'+
+      '<button class="ed-tab" onclick="edTab(this,\'preview\')">Preview</button>'+
+    '</div>'+
+    '<textarea id="ed-body" placeholder="Write Markdown here…">'+esc(body)+'</textarea>'+
+    '<div id="ed-preview" style="display:none"><h2>Preview</h2><div id="ed-preview-body" class="body-html wiki-article"></div></div>'+
+    '<div id="ed-summary-row"><label>Edit summary</label><input id="ed-summary" placeholder="What changed?"></div>'+
+    '<div class="btn-row">'+
+      '<button class="btn btn-primary" onclick="doSave('+(isNew?'null':'"'+esc(slug)+'"')+')">Save</button>'+
+      '<button class="btn btn-outline" onclick="history.back()">Cancel</button>'+
+    '</div>'+
+    '<div id="ed-msg"></div>'+
+    '</div>';
+}
+
+function edTab(btn, mode) {
+  document.querySelectorAll('.ed-tab').forEach(function(t){ t.classList.remove('active'); });
+  btn.classList.add('active');
+  var ta = document.getElementById('ed-body');
+  var pv = document.getElementById('ed-preview');
+  if (mode === 'preview') {
+    ta.style.display = 'none'; pv.style.display = '';
+    renderPreview();
+  } else {
+    ta.style.display = ''; pv.style.display = 'none';
+  }
+}
+
+async function renderPreview() {
+  var body = document.getElementById('ed-body').value;
+  var r = await api('POST', '/wiki/preview', { body: body });
+  document.getElementById('ed-preview-body').innerHTML = r.ok ? r.html : '<em>Preview unavailable</em>';
+}
+
+async function doSave(slug) {
+  var finalSlug = slug || (document.getElementById('ed-slug')||{}).value || '';
+  if (!finalSlug) { setEdMsg('Slug is required.', true); return; }
+  var title   = document.getElementById('ed-title').value.trim();
+  var body    = document.getElementById('ed-body').value;
+  var summary = document.getElementById('ed-summary').value.trim();
+  if (!title) { setEdMsg('Title is required.', true); return; }
+
+  var r = await api('POST', '/wiki/page/' + encodeSlug(finalSlug), { title, body, summary });
+  if (r.ok) {
+    navPage(finalSlug);
+  } else {
+    setEdMsg(r.error || 'Save failed.', true);
+  }
+}
+
+function setEdMsg(msg, isErr) {
+  var el = document.getElementById('ed-msg');
+  if (el) { el.textContent = msg; el.className = 'notice ' + (isErr ? 'notice-err' : 'form-ok'); el.style.marginTop = '12px'; }
+}
+
+// ── HISTORY ────────────────────────────────────────────────────────────────
+async function renderHistory(slug) {
+  if (!slug) { renderError('No page specified.'); return; }
+  show('history');
+  var el = document.getElementById('view-history');
+  el.innerHTML = '<span class="spinner"></span>';
+
+  var r = await api('GET', '/wiki/history/' + encodeSlug(slug));
+  if (!r.ok) { el.innerHTML = '<div class="notice notice-err">'+esc(r.error)+'</div>'; return; }
+
+  el.innerHTML = '<h1 style="font-size:1.4rem;font-weight:700;margin-bottom:20px;">History: <a href="/wiki/?view=page&p='+esc(slug)+'" style="color:var(--green);text-decoration:none;">'+esc(slug)+'</a></h1>'+
+    '<ul class="rev-list">'+r.revisions.map(function(rev){
+      return '<li>'+
+        '<span class="rev-num">#'+rev.revision+'</span>'+
+        '<div class="rev-info">'+
+          '<div class="rev-summary">'+(rev.summary ? esc(rev.summary) : '<em style="color:#999">no summary</em>')+'</div>'+
+          '<div class="rev-meta">'+esc(rev.display_name||'unknown')+' · '+rev.created_datetime.slice(0,16).replace('T',' ')+'</div>'+
+        '</div>'+
+        '<a href="/wiki/?view=page&p='+esc(slug)+'&rev='+rev.revision+'">View</a>'+
+      '</li>';
+    }).join('')+'</ul>';
+}
+
+// ── LOGIN ──────────────────────────────────────────────────────────────────
+function renderLogin() {
+  show('login');
+  document.getElementById('view-login').innerHTML =
+    '<div class="auth-form">'+
+    '<h1>Log in</h1><p>Sign in to edit and contribute to the Haven Wiki.</p>'+
+    '<div class="field"><label>Email</label><input id="li-email" type="email" autocomplete="email"></div>'+
+    '<div class="field"><label>Password</label><input id="li-pass" type="password" autocomplete="current-password"></div>'+
+    '<button class="btn btn-primary" onclick="doLogin()">Log in</button>'+
+    '<div id="li-msg"></div>'+
+    '<p style="margin-top:16px;font-size:0.88rem;color:var(--muted);">No account? <a href="/wiki/?view=register" style="color:var(--green)">Register</a></p>'+
+    '</div>';
+  setTimeout(function(){ var e = document.getElementById('li-email'); if(e) e.focus(); }, 50);
+}
+
+async function doLogin() {
+  var email = document.getElementById('li-email').value.trim();
+  var pass  = document.getElementById('li-pass').value;
+  var r = await api('POST', '/wiki/auth/login', { email, password: pass });
+  if (r.ok) {
+    currentUser = { display_name: r.display_name, role: r.role };
+    updateAuthUI();
+    nav('home');
+  } else {
+    document.getElementById('li-msg').innerHTML = '<div class="form-err">'+esc(r.error)+'</div>';
+  }
+}
+
+// ── REGISTER ───────────────────────────────────────────────────────────────
+function renderRegister() {
+  show('register');
+  document.getElementById('view-register').innerHTML =
+    '<div class="auth-form">'+
+    '<h1>Create account</h1><p>Join the Haven Wiki to contribute help pages and community knowledge.</p>'+
+    '<div class="field"><label>Display name</label><input id="rg-name" type="text" autocomplete="name"></div>'+
+    '<div class="field"><label>Email</label><input id="rg-email" type="email" autocomplete="email"></div>'+
+    '<div class="field"><label>Password (8+ characters)</label><input id="rg-pass" type="password" autocomplete="new-password"></div>'+
+    '<button class="btn btn-primary" onclick="doRegister()">Create account</button>'+
+    '<div id="rg-msg"></div>'+
+    '<p style="margin-top:16px;font-size:0.88rem;color:var(--muted);">Already have an account? <a href="/wiki/?view=login" style="color:var(--green)">Log in</a></p>'+
+    '</div>';
+  setTimeout(function(){ var e = document.getElementById('rg-name'); if(e) e.focus(); }, 50);
+}
+
+async function doRegister() {
+  var name  = document.getElementById('rg-name').value.trim();
+  var email = document.getElementById('rg-email').value.trim();
+  var pass  = document.getElementById('rg-pass').value;
+  var r = await api('POST', '/wiki/auth/register', { display_name: name, email, password: pass });
+  if (r.ok) {
+    currentUser = { display_name: r.display_name, role: 'editor' };
+    updateAuthUI();
+    nav('home');
+  } else {
+    document.getElementById('rg-msg').innerHTML = '<div class="form-err">'+esc(r.error)+'</div>';
+  }
+}
+
+// ── ERROR ──────────────────────────────────────────────────────────────────
+function renderError(msg) {
+  show('error');
+  document.getElementById('view-error').innerHTML = '<div class="notice notice-err">'+esc(msg)+'</div>';
+}
+
+// ── SIDEBAR ────────────────────────────────────────────────────────────────
+async function loadSidebar() {
+  var r = await api('GET', '/wiki/pages?ns=haven&limit=8');
+  if (!r.ok) return;
+  var links = document.getElementById('sb-haven-links');
+  links.innerHTML = r.pages.slice(0,8).map(function(p){
+    return '<a href="/wiki/?view=page&p='+esc(p.slug)+'">'+esc(p.title)+'</a>';
+  }).join('');
+  var recent = document.getElementById('sb-recent');
+  var all = r.all || [];
+  recent.innerHTML = all.slice(0,6).map(function(p){
+    return '<li><a href="/wiki/?view=page&p='+esc(p.slug)+'">'+esc(p.title)+'</a></li>';
+  }).join('');
+}
+
+// ── MISC ENDPOINTS ──────────────────────────────────────────────────────────
+// /wiki/auth/me and /wiki/pages are needed — add them to the Worker scaffold.
+// For now fall back gracefully.
+
+// ── helpers ────────────────────────────────────────────────────────────────
+function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function encodeSlug(s) { return s.split('/').map(encodeURIComponent).join('/'); }
+
+// ── boot ───────────────────────────────────────────────────────────────────
+checkSession().then(function() {
+  route();
+  loadSidebar();
+});
+</script>
+</body>
+</html>
