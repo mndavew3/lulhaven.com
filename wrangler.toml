@@ -12,3 +12,8 @@ pages_build_output_dir = "."
 binding       = "haven_builds"
 database_name = "haven-builds"
 database_id   = "81825dcc-f0c7-4af6-82ae-76db72a2448a"
+
+[[d1_databases]]
+binding       = "haven_wiki"
+database_name = "haven-wiki"
+database_id   = "caa95dda-bf1c-4ab8-a1bd-ed7071386395"
