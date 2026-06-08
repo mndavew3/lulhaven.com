@@ -27,7 +27,7 @@ No app installation is required on any device. The filter is in the network, not
 
 ## How it works
 
-Haven runs **dnsmasq** (DNS resolver) on the router. When any device requests a domain name, the request passes through dnsmasq first. If the domain is on Haven's blocklist for a category you have enabled, dnsmasq returns a sinkhole address (the router's own IP) instead of the real address. The device's connection attempt fails silently or shows a connection error.
+Haven filters at the DNS layer on the router. When any device looks up a domain name, Haven checks it against the blocklist for the categories you have enabled. If the domain is blocked, the lookup does not resolve to the real site and the connection fails. If it is allowed, it resolves normally.
 
 This approach works regardless of:
 - The device's operating system
@@ -46,7 +46,7 @@ A live interactive simulation is available at **lulhaven.com/demo** — no route
 
 ## Limitations
 
-- Filtering applies to DNS lookups. A device using a hardcoded IP address (rare in practice) can bypass DNS filtering. Haven's bypass-resistance features address the most common bypass vectors.
+- Filtering applies to DNS lookups. Haven's bypass-resistance features close the techniques commonly used to get around DNS-based filters. See [Bypass-resistant](/wiki/?view=page&p=haven/bypass-resistant).
 - Devices on separate VLANs or connected directly via Ethernet to a downstream switch (not through Haven) are not filtered.
 - See [Bypass-resistant](/wiki/?view=page&p=haven/bypass-resistant) for the full picture.
 """)
@@ -62,10 +62,10 @@ Every Haven router ships with Haven firmware already installed. You do not need 
 Haven runs on **OpenWrt 24.10.4**, an open-source Linux-based router operating system, with Haven's LuCI application baked directly into the firmware image. The image includes:
 
 - The Haven Helm (web UI) at `haven.lan`
-- dnsmasq configured to consult Haven's filter database
-- nftables firewall rules (DNS-over-HTTPS blocking, port 53 redirect, Private Relay sinkhole)
+- Haven's content filtering engine, pre-configured
+- Bypass-resistance protections, active out of the box
 - The current Haven category database
-- WireGuard for optional off-network filtering
+- Optional off-network filtering
 - All required packages — nothing to install
 
 ## How to demonstrate
@@ -95,14 +95,14 @@ Your filter preferences, device list, and activity log are stored exclusively on
 
 ## Where data lives
 
-Haven uses two SQLite databases stored in **haven-vault**, a dedicated MTD flash partition on the router:
+Haven stores two kinds of data on the router itself:
 
-| Database | Contents |
+| Data | Contents |
 |---|---|
-| `state.db` | Device list, filter category settings, templates, schedules, always-allow list, activity log |
-| `feed.db` | Category blocklist data (downloaded from Haven's feed servers) |
+| Your settings | Device list, filter category settings, templates, schedules, always-allow list, activity log |
+| The blocklist | Category data that Haven downloads during updates |
 
-Neither database is transmitted off the router. The feed server only receives: your router's serial number and the timestamp of your last update — the minimum needed to send you a delta update.
+Neither is transmitted off the router. When Haven checks for updates, it sends only your router's serial number and the timestamp of your last update — the minimum needed to send you the changes since then.
 
 ## How to demonstrate
 
@@ -113,7 +113,7 @@ Neither database is transmitted off the router. The feed server only receives: y
 
 ## Technical detail
 
-The `haven-vault` partition survives a factory reset. See [Survives a factory reset](/wiki/?view=page&p=haven/survives-factory-reset) for more. Haven's servers store only: serial, subscription token, and the last-sync timestamp. No browsing data, no device names, no logs are ever transmitted.
+Your settings survive a factory reset. See [Survives a factory reset](/wiki/?view=page&p=haven/survives-factory-reset) for more. Haven's servers store only: serial, subscription token, and the last-sync timestamp. No browsing data, no device names, no logs are ever transmitted.
 """)
 
 # ── Privacy — Haven cannot read traffic ────────────────────────────────────
@@ -162,13 +162,7 @@ Haven's feed servers are write-only from your perspective: they send data to you
 
 ## Verification
 
-A technically inclined user can confirm this by running a packet capture (e.g. Wireshark or `tcpdump`) on the WAN interface and inspecting the update request:
-
-```
-tcpdump -i eth0 host lulhaven2.com -w /tmp/cap.pcap
-```
-
-The outbound request will contain only the serial, token, and timestamp fields.
+A technically inclined user can confirm this by running a packet capture (e.g. Wireshark or `tcpdump`) on the router's internet-facing interface and inspecting Haven's outbound traffic. The only outbound conversation is the periodic update check, and it carries only the serial, subscription token, and last-sync timestamp — no browsing data, device names, or settings.
 
 ## Why "by structure, not by promise"
 
@@ -210,7 +204,7 @@ YouHaven is an intentional choice to take back control of your own attention. Th
 
 ## How it works technically
 
-YouHaven is a WebView-based app that loads YouTube inside a filtering layer. A JavaScript proxy (HavenXHR) intercepts YouTube's internal API responses and removes entries that match your filter rules before they are rendered. The filter rules are fetched from your Haven router's blocklist configuration. See the [YouHaven technical notes](/wiki/?view=page&p=haven/youhaven-technical) for implementation details.
+YouHaven loads YouTube inside a filtering layer that removes channels, content types, and recommendations matching the rules you set in the Helm — before they reach your screen. Your filter choices are managed from the Haven Helm under **YouHaven**.
 """)
 
 # ── Cancel anytime ──────────────────────────────────────────────────────────
@@ -226,7 +220,7 @@ If you cancel your Haven subscription, your router keeps filtering. The filter d
 
 ## What you keep
 
-- All current filter rules (the feed.db on your router as of last update)
+- All current filter rules (the blocklist on your router as of last update)
 - The Haven Helm and all its features
 - Your device list, settings, templates, and schedules
 - Off-network filtering (WireGuard tunnel continues to function)
@@ -249,9 +243,7 @@ Pressing the factory reset button on a Haven router restores the firmware to def
 
 ## How this works
 
-Haven stores its data in **haven-vault**, a dedicated MTD (Memory Technology Device) flash partition that is separate from the OpenWrt overlay filesystem. A factory reset wipes the overlay (restoring firmware defaults) but does not touch haven-vault.
-
-After reset, the Haven init script reads haven-vault and restores your configuration.
+Haven keeps your settings in a protected area of the router's storage that a factory reset does not erase. A reset restores the firmware to defaults, then Haven restores your configuration from that protected area automatically.
 
 ## What a factory reset does affect
 
@@ -289,32 +281,27 @@ Haven closes the bypass vectors that most DNS-based content filters leave open. 
 ### DNS-over-HTTPS (DoH)
 Standard DNS filters can be bypassed by using a DoH resolver (e.g. Cloudflare 1.1.1.1, Google 8.8.8.8) that encrypts DNS queries and routes them over HTTPS port 443, bypassing the router's DNS interception.
 
-**Haven's response:** Haven blocks outbound connections to known DoH provider IP addresses using nftables. Port 853 (DNS-over-TLS) is also blocked. All port-53 DNS traffic is redirected to Haven's local resolver via DNAT, regardless of what DNS server the device is configured to use.
+**Haven's response:** Haven prevents devices from using third-party encrypted DNS to slip past the filter, and ensures DNS resolution goes through Haven regardless of what a device is configured to use.
 
 ### VPNs
-A device running a VPN tunnels all traffic through an encrypted channel, bypassing Haven's DNS entirely.
+A device running a VPN tunnels all traffic through an encrypted channel, bypassing the router's DNS entirely.
 
-**Haven's response:** Haven cannot block all VPN providers (this is an arms race). However, Haven's WireGuard-based off-network filtering means that a household member's device can be enrolled to use Haven's filtering even while on cellular — making VPN bypass less relevant for mobile devices.
+**Haven's response:** For mobile devices, Haven's off-network filtering enrolls the device so that Haven's filtering follows it even on cellular — which removes the incentive to use a VPN to escape the home filter. See [Filtering follows household members off-network](/wiki/?view=page&p=haven/off-network-filtering).
 
 ### Apple Private Relay
 Apple Private Relay routes Safari traffic through Apple's relay network, obscuring the destination from the local network.
 
-**Haven's response:** Haven sinkholes the Apple Private Relay IP ranges (/8 blocks) and the `mask.icloud.com` and `mask-h2.icloud.com` domains. This causes Private Relay to fall back to direct connections, which are then subject to Haven's normal DNS filtering.
-
-### DNS-over-HTTPS via HTTPS/SVCB records
-Some browsers (Chrome, Firefox) detect DoH support via SVCB/HTTPS DNS records and switch to DoH automatically.
-
-**Haven's response:** Partially addressed. SVCB filtering in dnsmasq is on the roadmap.
+**Haven's response:** Haven neutralizes Private Relay so that traffic falls back to normal connections, which are then subject to Haven's filtering.
 
 ## How to demonstrate
 
-The **bypass demo** at [lulhaven.com/#bypass-demo](https://lulhaven.com/#bypass-demo) shows how common filter products (family routers, phone-based DNS apps) fail against these vectors and how Haven responds.
+The **bypass demo** at [lulhaven.com/#bypass-demo](https://lulhaven.com/#bypass-demo) shows how common filter products (family routers, phone-based DNS apps) fail against these vectors and how Haven holds.
 
 To test on a live router:
 1. Enable a category in the Helm (e.g. Social Media).
-2. On an iPhone, enable Safari's iCloud Private Relay in Settings → Apple ID → iCloud.
-3. Try visiting a social media site in Safari — it should be blocked (Private Relay is sinkhol'd).
-4. Without Haven, Private Relay would bypass the filter entirely.
+2. On a device, turn on a common bypass (a public DNS app, or Private Relay on Safari).
+3. Try visiting a site in that category — it stays blocked.
+4. Without Haven, the same bypass would defeat the filter.
 """)
 
 # ── Off-network / Filtering follows members ────────────────────────────────
@@ -327,11 +314,11 @@ Haven can filter a phone or tablet's internet traffic even when it is away from 
 
 Haven uses two complementary approaches:
 
-### WireGuard tunnel (full-tunnel, Pro tier)
-The device runs a WireGuard VPN profile that routes all traffic through the home Haven router. DNS queries are resolved by Haven's dnsmasq, applying the same filter rules as at home.
+### Encrypted tunnel
+The device runs an encrypted tunnel profile that routes its traffic back through the home Haven router, where the same filter rules as at home are applied.
 
-### Cloudflare Tunnel + DoH (mass-market, CGNAT-immune)
-For devices behind carrier-grade NAT (where incoming WireGuard connections may not be possible), Haven establishes an outbound Cloudflare Tunnel from the router to Cloudflare's edge. The enrolled device is configured to use Haven's DNS-over-HTTPS endpoint. DNS queries travel through the CF tunnel to the home router's dnsmasq — no open port required on the home network.
+### No-app option
+For devices or networks where a tunnel app is not practical, Haven offers an enrollment that points the device's DNS back to your Haven router securely — no open port on the home network required, and it works even on carrier networks that use shared addressing.
 
 ## How to set up off-network filtering
 
@@ -370,7 +357,7 @@ In a household, both parents can manage the filter settings independently. All c
 
 - Administrators log in at `http://haven.lan` from any device on the network.
 - There is no role hierarchy — all admins can add or remove other admins.
-- Administrator accounts are stored in haven-vault on the router (not in the cloud).
+- Administrator accounts are stored on the router (not in the cloud).
 """)
 
 # ── Templates ───────────────────────────────────────────────────────────────
@@ -441,17 +428,15 @@ Haven's category database is updated weekly. New domains are added, domains that
 
 ## How updates work
 
-1. Once per week (or on demand), your router connects to `lulhaven2.com` (Haven's private feed server).
-2. The router sends its serial number, subscription token, and the timestamp of its last update.
-3. The server responds with a **delta** — only the rows that changed since your last sync.
-4. The router applies the delta to `feed.db` in haven-vault.
-5. dnsmasq reloads its configuration. New rules are active within seconds.
+1. Once per week (or on demand), your router checks in with Haven's update service.
+2. The router sends only its serial number, subscription token, and the timestamp of its last update.
+3. Haven responds with just the changes since your last sync — not the whole list.
+4. The router applies those changes to its local blocklist.
+5. The new rules take effect within seconds.
 
 ## Source of the blocklist data
 
-Haven's blocklist draws on multiple curated sources. "Toulouse blacklists" is the internal name for the primary source — a well-maintained open-source domain categorization project. Haven's team supplements this with additional sources and manual curation.
-
-Customer-facing copy uses "Haven's curated blocklist" — the source names are implementation detail.
+Haven's blocklist is a curated list drawing on multiple sources, maintained and supplemented by Haven's team.
 
 ## Viewing last update time
 
@@ -480,7 +465,7 @@ Haven is not an "adult content blocker with other stuff." It is a general-purpos
 2. Find **Adult content** (or search for it).
 3. Toggle it on.
 
-When adult content filtering is active, Haven uses its adult-specific Toulouse blocklist and optionally routes DNS through Cloudflare for Families (which has its own adult content filtering layer).
+When adult content filtering is active, Haven applies its curated adult-content blocklist, with an optional additional upstream filtering layer for extra coverage.
 
 ## To disable
 
@@ -558,7 +543,7 @@ page("haven/simple-advanced-modes", "Simple mode and Advanced mode", """
 The Haven Helm offers two views:
 
 - **Simple mode** — a clean interface focused on the most common actions: enabling categories, viewing the device list, checking the activity log
-- **Advanced mode** — full access to per-provider toggles, DNS configuration, nftables rule inspection, and system internals
+- **Advanced mode** — full access to per-provider toggles, finer DNS controls, and detailed system status
 
 ## Switching modes
 
@@ -567,8 +552,7 @@ Click the **Simple / Advanced** toggle in the Helm's top navigation bar. The set
 ## What Advanced mode adds
 
 - Per-provider toggles within each category (enable/disable individual sites rather than entire categories)
-- Raw dnsmasq configuration viewer
-- nftables rule inspector
+- Finer DNS controls
 - Detailed subscription and sync status
 - Network diagnostics
 
@@ -605,7 +589,7 @@ Open the Haven Helm → **Activity log**.
 
 ## Privacy note
 
-The activity log is stored in haven-vault on your router and is never transmitted to Haven's servers. Only administrators logged into the Helm can view it.
+The activity log is stored on your router and is never transmitted to Haven's servers. Only administrators logged into the Helm can view it.
 
 ## Log retention
 
@@ -718,8 +702,8 @@ Haven is a full router replacement — not a device you add to your network alon
 - **NAT / routing** — shares your ISP connection among all devices
 - **DHCP** — assigns IP addresses to devices automatically
 - **Wi-Fi** — dual-band 2.4GHz + 5GHz (Wi-Fi 6 on Navy and OD)
-- **Firewall** — nftables-based stateful firewall
-- **DNS** — local DNS resolver (dnsmasq), with filtering integrated
+- **Firewall** — stateful firewall
+- **DNS** — local DNS resolver, with filtering integrated
 - **Guest Wi-Fi** — optional isolated guest network
 - **Port forwarding** — expose internal services to the internet
 - **WireGuard VPN server** — built in (used for off-network filtering; also usable for general VPN access)
@@ -793,7 +777,7 @@ Haven Navy is Haven's primary recommended router, based on the **GL-MT6000** har
 ## Why it is the primary recommendation
 
 - Filogic 880 handles gigabit+ throughput without saturating the CPU
-- 1GB RAM gives dnsmasq and Haven's SQLite databases comfortable headroom
+- 1GB RAM gives Haven's filtering engine and databases comfortable headroom
 - 2.5GbE WAN is future-proof as multi-gigabit ISP service becomes common
 - Wi-Fi 6 (AX) handles dense device environments (many phones, tablets, smart home devices)
 
