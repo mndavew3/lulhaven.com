@@ -46,7 +46,7 @@ A live interactive simulation is available at **lulhaven.com/demo** — no route
 
 ## Limitations
 
-- Filtering applies to DNS lookups. Haven's bypass-resistance features close the techniques commonly used to get around DNS-based filters. See [Bypass-resistant](/wiki/?view=page&p=haven/bypass-resistant).
+- Haven filters by domain **and** blocks known bypass infrastructure by IP address. Reaching a blocked site by its raw IP alone almost never works on the modern web — sites share rotating addresses that route by name, not by IP — and **SNI-based filtering** (coming) closes even that edge by matching the destination name carried inside the connection itself.
 - Devices on separate VLANs or connected directly via Ethernet to a downstream switch (not through Haven) are not filtered.
 - See [Bypass-resistant](/wiki/?view=page&p=haven/bypass-resistant) for the full picture.
 """)
@@ -292,6 +292,11 @@ A device running a VPN tunnels all traffic through an encrypted channel, bypassi
 Apple Private Relay routes Safari traffic through Apple's relay network, obscuring the destination from the local network.
 
 **Haven's response:** Haven neutralizes Private Relay so that traffic falls back to normal connections, which are then subject to Haven's filtering.
+
+### Direct-to-IP connections
+DNS filtering acts on domain lookups. A device that already knows a destination's raw IP address could in principle connect without a lookup. In practice this rarely succeeds — most of the web sits behind shared, rotating addresses that route by name, so a raw IP usually reaches the wrong place or nothing at all.
+
+**Haven's response:** Haven already blocks known bypass infrastructure by IP address — IP filtering is part of how Haven works, not absent from it. **SNI-based filtering** is coming: the destination name travels in plaintext inside the connection setup, so Haven can match it against your blocklist and stop a blocked site even when it is reached directly by IP.
 
 ## How to demonstrate
 
