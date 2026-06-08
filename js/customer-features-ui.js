@@ -101,6 +101,12 @@
                        '&label=' + encodeURIComponent(lead);
           html += ' <a class="cf-benefit-link" href="' + bUrl + '">Why this matters →</a>';
         }
+        if (r.wiki_slug) {
+          var wUrl = '/wiki/?view=page&p=' + encodeURIComponent(r.wiki_slug);
+          html += ' <a class="cf-wiki-link" href="' + wUrl + '" target="_blank" rel="noopener"' +
+                  ' title="Open the help page for &quot;' + escapeHtml(lead) + '&quot; in the Haven Wiki">' +
+                  '? Help</a>';
+        }
         html += '</div>';  // /.cf-bullet-text
         html += '</div>';
         if (r.details) {

@@ -1,5 +1,115 @@
 var milestonesDataset = [
   {
+    "id": 518,
+    "date": "2026-06-08",
+    "theme": "Haven Helm",
+    "impact": 4,
+    "summary": "Per-device access scheduler: 7-bar drag UI in Helm, nft enforcement, cron apply",
+    "detail": "Scheduler binds to hostname (MAC-randomization-safe). Green=allowed, red=blocked. Right-click to add/remove segments. Edge handles auto-hidden. nftables haven_schedule table updated every minute via cron. CGI GET/POST. Verified on <router serial> running 0.1.19.",
+    "benefit": "Parents can block a device entirely during scheduled hours (bedtime, school) — no bypass",
+    "ref": "ef8d88f",
+    "features": []
+  },
+  {
+    "id": 516,
+    "date": "2026-06-07",
+    "theme": "Helm UI",
+    "impact": 4,
+    "summary": "Baked visual identity into squashfs firmware — gnome logo and dock watermark survive factory reset; panels made semi-transparent so watermark bleeds through content",
+    "detail": null,
+    "benefit": "Haven visual identity is present from first boot on every router without extra steps",
+    "ref": "c630a33",
+    "features": []
+  },
+  {
+    "id": 514,
+    "date": "2026-06-07",
+    "theme": "Burn Automation",
+    "impact": 4,
+    "summary": "Scripted GL.iNet 4.6.2 flash path via JSON-RPC challenge-response auth, eliminating manual web UI step",
+    "detail": null,
+    "benefit": "Burn chain no longer requires operator browser interaction for OEM→initramfs stage",
+    "ref": "c078ab3",
+    "features": []
+  },
+  {
+    "id": 517,
+    "date": "2026-06-07",
+    "theme": "Burn Automation",
+    "impact": 3,
+    "summary": "Fixed port-53 <bypass mitigation> rules being wiped by fw4 reload on WAN ifup — hotplug script at priority 30 restores Haven nft rules immediately after firewall reloads",
+    "detail": null,
+    "benefit": "DNS bypass protection is active from first WAN connect without waiting for hourly watchdog",
+    "ref": "f82b8f5",
+    "features": []
+  },
+  {
+    "id": 515,
+    "date": "2026-06-07",
+    "theme": "Burn Automation",
+    "impact": 3,
+    "summary": "Added U-Boot recovery automation — flash-from-uboot-recovery.sh scripted the failsafe web UI upload, removing need for manual browser rescue",
+    "detail": null,
+    "benefit": "When router lands in U-Boot failsafe, operator runs one script instead of using a browser",
+    "ref": "c078ab3",
+    "features": []
+  },
+  {
+    "id": 511,
+    "date": "2026-06-06",
+    "theme": "Hardware / Burn",
+    "impact": 4,
+    "summary": "Fixed init.d/haven execute bit (664→755) — Haven daemon was silently not starting on every fresh flash",
+    "detail": null,
+    "benefit": "Haven nftables rules, DNS intercept, and DoH blocks now activate automatically on first boot; no manual intervention required after flash",
+    "ref": "54a0b313f5",
+    "features": []
+  },
+  {
+    "id": 510,
+    "date": "2026-06-06",
+    "theme": "Hardware / Burn",
+    "impact": 4,
+    "summary": "Rebuilt Haven 0.1.13 from current source and flashed <router serial> — first fully-current image after 7-week overlay drift; 2-part Helm/Administrators menu now confirmed working",
+    "detail": null,
+    "benefit": "Shane's router (<router serial>) now runs current Haven with all shipped features; every future GL-MT6000 starts from a proven, non-stale baseline",
+    "ref": "54a0b313f5",
+    "features": []
+  },
+  {
+    "id": 509,
+    "date": "2026-06-06",
+    "theme": "Hardware / Burn",
+    "impact": 4,
+    "summary": "Discovered and documented authoritative GL-MT6000 OEM→Haven flash path; recovered <router serial> from boot loop via U-Boot web recovery; flashed GL.iNet 4.6.2 as intermediate step",
+    "detail": "5 wrinkles documented: factory.bin/sysupgrade.bin distinction, GL.iNet 4.8.4 security hardening, U-Boot signature check, TFTP not available, failsafe unreachable from boot loop. Correct path: U-Boot web recovery → GL.iNet 4.6.2 → sysupgrade Haven.bin",
+    "benefit": "<router serial> (Shane's router) is ready for Haven sysupgrade flash; burn procedure for all future MT6000 units is validated and documented in wiki",
+    "ref": "-204",
+    "features": []
+  },
+  {
+    "id": 512,
+    "date": "2026-06-06",
+    "theme": "Testing / QA",
+    "impact": 3,
+    "summary": "Fixed state_db.lua fresh-boot schema failure — migrate_prefs_for_device_id() crashed on empty DB, silently leaving <database> with no tables",
+    "detail": null,
+    "benefit": "Schema now initializes correctly on first boot; no more silent failures that would require manual SSH investigation after customer flash",
+    "ref": "54a0b313f5",
+    "features": []
+  },
+  {
+    "id": 513,
+    "date": "2026-06-06",
+    "theme": "Testing / QA",
+    "impact": 2,
+    "summary": "Ran 32-test battery against <router serial> — identified all 28 SSH failures as pre-provisioning auth (station key not yet installed), zero genuine P0 firmware bugs",
+    "detail": null,
+    "benefit": "Test suite baseline established for <router serial>; re-run after make-ship-ready.sh expected to clear 28 failures, leaving only intentional mutating-test guards",
+    "ref": "f4fb4c1",
+    "features": []
+  },
+  {
     "id": 503,
     "date": "2026-06-05",
     "theme": "Website / Marketing",
