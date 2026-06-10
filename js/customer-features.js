@@ -32,7 +32,7 @@ var cfDataset = [
     "link": null,
     "details": "<p>Plug in the power, connect to your modem the same way your old router did, set a Wi-Fi password — you are filtering. The router seeks the same subnet that was in use. No flashing firmware, no following a YouTube tutorial, no command-line, no DNS settings to change on every device in the house.</p><p>The filtering runs at the router itself, ahead of any device. So filtering is in effect from the very first connection, before a single phone touches the network.</p>",
     "image": null,
-    "milestone_ids": "69,114,117,340,378,379,383,417,467",
+    "milestone_ids": "69,114,117,340,378,379,383,417,467,522",
     "wiki_slug": "haven/pre-flashed-router",
     "benefits": [
       {
@@ -506,7 +506,7 @@ var cfDataset = [
     "link": null,
     "details": "<p>You do not have to choose between \"replace my ISP router\" and \"set up a complicated double-NAT.\" Plug Haven in, give it a Wi-Fi password, and it figures out what kind of network it sees on the other side. If the cable goes to a real modem, Haven runs as your main router. If it goes to an ISP router that is already handing out addresses, Haven runs in transparent mode and filters everything coming through it without fighting the upstream.</p><p>The most common silent killer of consumer routers — IP-address conflicts — does not happen here. Haven detects them and adjusts before there is a problem.</p>",
     "image": null,
-    "milestone_ids": "69,117,340,379,417,467",
+    "milestone_ids": "69,117,340,379,417,467,522",
     "wiki_slug": "haven/plug-in-and-filter",
     "benefits": [
       {

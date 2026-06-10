@@ -1,5 +1,58 @@
 var milestonesDataset = [
   {
+    "id": 521,
+    "date": "2026-06-09",
+    "theme": "Burn Automation",
+    "impact": 5,
+    "summary": "Completed the first fully-automated, end-to-end router burn — from factory-stock to a ready-to-ship, personalized Haven router — with no manual reflashing, recorded step-by-step by the burn black box.",
+    "detail": "Factory restore, automated setup, OpenWrt, the Haven image, per-unit personalization, and a customer-experience QC pass — every step scripted and journaled, run start to finish autonomously.",
+    "benefit": "Proves Haven routers can be produced reliably and repeatably ahead of the first shipment: the build pipeline works end to end.",
+    "ref": "209",
+    "features": []
+  },
+  {
+    "id": 522,
+    "date": "2026-06-09",
+    "theme": "Live-fire findings",
+    "impact": 4,
+    "summary": "Plug-and-play setup proven in a real home — Haven resolved a network address conflict on its own",
+    "detail": "Field-tested at a real home that sits behind an existing router on the common 192.168.1.x range. Haven detected the address-range collision and automatically relocated its own network to a free range, keeping every connected device filtered — no manual setup, no IP settings to change. The live result matched the bench prediction exactly.",
+    "benefit": "You can plug Haven in anywhere: it adapts to your existing network and sidesteps IP-range conflicts automatically, with nothing to configure.",
+    "ref": "#146",
+    "features": [
+      {
+        "id": 2,
+        "lead": "Plug in and it works"
+      },
+      {
+        "id": 26,
+        "lead": "Plug in, set a password, you are filtering"
+      }
+    ]
+  },
+  {
+    "id": 520,
+    "date": "2026-06-08",
+    "theme": "Haven Helm",
+    "impact": 4,
+    "summary": "Built SNI-based filtering: Haven reads the destination site name from the secure web handshake and blocks a filtered site even when a device connects straight to its IP address, closing a loophole that name-only filters miss.",
+    "detail": null,
+    "benefit": "A blocked site stays blocked even when reached directly by address, not just by name.",
+    "ref": "3adb299",
+    "features": []
+  },
+  {
+    "id": 519,
+    "date": "2026-06-08",
+    "theme": "Haven Helm",
+    "impact": 4,
+    "summary": "Launched the Haven Wiki on lulhaven.com — a help and community knowledge base where each Haven feature is explained and customers can add pages and help each other, with a help link from every feature on the features page.",
+    "detail": null,
+    "benefit": "Customers get in-depth, searchable help and can contribute their own knowledge; every feature now has a discoverable explainer.",
+    "ref": "deb79d9",
+    "features": []
+  },
+  {
     "id": 518,
     "date": "2026-06-08",
     "theme": "Haven Helm",
