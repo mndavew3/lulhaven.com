@@ -117,6 +117,15 @@ function hdUpdateBadges() {
   }
 }
 
+// Category list-item markup: icon (categories only) + name on the left, badge on the right.
+// Icon keyed by hdCatKey[name] -> assets/icons/categories/<key>.svg. Group headers stay bare —
+// the absence of an icon is the cue that distinguishes a group from a clickable category.
+function hdCatItemHtml(catName) {
+  var key = (typeof hdCatKey !== 'undefined') ? hdCatKey[catName] : null;
+  var ic = key ? '<img class="hd-cat-ic" src="assets/icons/categories/' + key + '.svg" alt="">' : '';
+  return '<span class="hd-cat-name">' + ic + catName + '</span><span class="hd-badge"></span>';
+}
+
 function hdRenderCatList() {
   var ul = document.getElementById('hd-cat-ul');
   ul.innerHTML = '';
@@ -126,7 +135,7 @@ function hdRenderCatList() {
       var li = document.createElement('li');
       li.className = 'hd-cat-item';
       li.setAttribute('data-cat-index', ci);
-      li.innerHTML = hdDataset[ci][0] + '<span class="hd-badge"></span>';
+      li.innerHTML = hdCatItemHtml(hdDataset[ci][0]);
       li.onclick = (function(idx) { return function() { hdSelect(idx); }; })(ci);
       ul.appendChild(li);
     }
@@ -154,7 +163,7 @@ function hdRenderCatList() {
         li2.className = 'hd-cat-item' + (open ? '' : ' hd-hidden');
         li2.setAttribute('data-cat-index', catIdx);
         li2.setAttribute('data-super-idx', si);
-        li2.innerHTML = catName + '<span class="hd-badge"></span>';
+        li2.innerHTML = hdCatItemHtml(catName);
         li2.onclick = (function(idx) { return function() { hdSelect(idx); }; })(catIdx);
         ul.appendChild(li2);
       }
@@ -178,7 +187,7 @@ function hdRenderCatList() {
         li3.className = 'hd-cat-item' + (open2 ? '' : ' hd-hidden');
         li3.setAttribute('data-cat-index', catIdx2);
         li3.setAttribute('data-super-idx', hdSuperCats.length);
-        li3.innerHTML = hdDataset[catIdx2][0] + '<span class="hd-badge"></span>';
+        li3.innerHTML = hdCatItemHtml(hdDataset[catIdx2][0]);
         li3.onclick = (function(idx) { return function() { hdSelect(idx); }; })(catIdx2);
         ul.appendChild(li3);
       }
