@@ -199,7 +199,10 @@
 
   /* Category icon — categories only; group headers stay bare (the absence is the cue) */
   #hd-cats li.hd-cat-item .hd-cat-name { display: flex; align-items: center; gap: 9px; min-width: 0; }
-  #hd-cats img.hd-cat-ic { width: 18px; height: 18px; flex: 0 0 18px; opacity: 0.82; }
+  #hd-cats .hd-ic-wrap { position: relative; display: inline-flex; flex: 0 0 18px; width: 18px; height: 18px; }
+  #hd-cats img.hd-cat-ic { width: 18px; height: 18px; }
+  #hd-cats img.hd-cat-slash { position: absolute; inset: 0; width: 18px; height: 18px; display: none; }
+  #hd-cats li.hd-blocked img.hd-cat-slash { display: block; }
 
   /* Filter count badges */
   .hd-badge { font-size: 0.75em; color: rgba(0,120,130,0.6); font-weight: bold; white-space: nowrap; margin-left: 4px; flex-shrink: 0; }
@@ -428,5 +431,5 @@
 
 <script src="js/haven-data.js?v=20260611-icons"></script>
 <script src="js/haven-tooltips.js?v=20260524-admin"></script>
-<script src="js/haven-ui.js?v=20260611-icons"></script>
+<script src="js/haven-ui.js?v=20260615-blocked"></script>
 <script src="js/kyc.js?v=20260603-manga"></script>

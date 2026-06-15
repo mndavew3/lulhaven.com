@@ -114,6 +114,8 @@ function hdUpdateBadges() {
       badge.textContent = active > 0 ? '(' + active + '/' + total + ')' : '';
       badge.className = 'hd-badge' + (active > 0 ? ' hd-badge-active' : '');
     }
+    // Blocked state: reveal the red slash overlay (icon interiors are teal-filled at all times).
+    items[i].classList.toggle('hd-blocked', active > 0);
   }
 }
 
@@ -122,7 +124,8 @@ function hdUpdateBadges() {
 // the absence of an icon is the cue that distinguishes a group from a clickable category.
 function hdCatItemHtml(catName) {
   var key = (typeof hdCatKey !== 'undefined') ? hdCatKey[catName] : null;
-  var ic = key ? '<img class="hd-cat-ic" src="assets/icons/categories/' + key + '.svg" alt="">' : '';
+  var ic = key ? '<span class="hd-ic-wrap"><img class="hd-cat-ic" data-key="' + key + '" src="assets/icons/categories/' + key + '.svg" alt="">'
+    + '<img class="hd-cat-slash" src="assets/icons/slash.svg" alt=""></span>' : '';
   return '<span class="hd-cat-name">' + ic + catName + '</span><span class="hd-badge"></span>';
 }
 
