@@ -4,9 +4,9 @@ var milestonesDataset = [
     "date": "2026-06-15",
     "theme": "Ad blocking",
     "impact": 3,
-    "summary": "Haven now does what people set up a Pi-hole for — network-wide ad, pop-up, and pop-under blocking for every device on the home network — but built right in, with no separate box or software to run. A new one-tap “Miscellaneous Browser Ads” control adds a comprehensive, continuously-updated blocklist that catches the pop-under networks basic blockers miss. Off by default; one switch in the Helm turns it on for the whole household at once.",
+    "summary": "Haven does what people set up a Pi-hole for — network-wide ad, pop-up, and pop-under blocking for every device — and goes a step further: it filters PER DEVICE, so a child’s tablet and the adults’ phones can carry different rules, all from one screen. No separate box, no software to run, nothing to install on each device. A one-tap “Miscellaneous Browser Ads” control adds a comprehensive, always-updated blocklist that catches the pop-under networks basic blockers miss.",
     "detail": "Built by integrating the open HaGeZi ad/pop-up blocklists into Haven's existing DNS filtering, so the comprehensive list ships as a single Helm toggle rather than something the customer has to assemble.",
-    "benefit": "The same household ad-blocking people install a Pi-hole for — without the Pi-hole. No extra device, no setup, no per-device apps: flip one switch and ads and pop-ups disappear across phones, TVs, and computers alike.",
+    "benefit": "Everything a Pi-hole gives you — without the Pi-hole — plus straightforward per-device control. One switch blocks ads and pop-ups across the whole house, and you can still tighten or loosen filtering for any single device.",
     "ref": "9b42161228",
     "features": []
   },
@@ -15,9 +15,9 @@ var milestonesDataset = [
     "date": "2026-06-15",
     "theme": "Off-network filtering",
     "impact": 3,
-    "summary": "Haven’s filtering now follows your devices off the home network — the capability people normally bolt Tailscale onto a home setup to get, but built in. Proven end-to-end this session: a device away from home still receives Haven’s filtered answers through the home router’s own private tunnel — allowed sites work, blocked ones stay blocked — with no app to install and no separate VPN service to wire up. (Also added a probe that gauges whether an even-faster direct path to the home router is possible on a given network, and fixed a startup race that could leave the away-from-home filters idle.)",
+    "summary": "Haven’s filtering follows your devices off the home network — what people normally bolt Tailscale onto a home setup to get — built in, with no app to install and no separate VPN account. Proven end-to-end this session: a device away from home still receives Haven’s filtered answers through the home router’s own private tunnel, with allowed sites working and blocked ones stopped. And it’s built for dependability: an always-reachable cloud relay backstops the connection, so filtering keeps working even on carrier networks that block direct connections — coverage doesn’t drop.",
     "detail": null,
-    "benefit": "Protection that travels with the device, not just the house — what people use Tailscale for, without running Tailscale or any third-party VPN account. The home’s filtering rules follow each device wherever it goes.",
+    "benefit": "Protection that travels with the device — what people use Tailscale for, without running Tailscale — and more dependable: a redundant path home means filtering keeps working even where a direct connection can’t be made.",
     "ref": "f52390bd0f",
     "features": []
   },
