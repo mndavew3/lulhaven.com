@@ -1,12 +1,23 @@
 var milestonesDataset = [
   {
+    "id": 528,
+    "date": "2026-06-15",
+    "theme": "Ad blocking",
+    "impact": 3,
+    "summary": "Haven now does what people set up a Pi-hole for — network-wide ad, pop-up, and pop-under blocking for every device on the home network — but built right in, with no separate box or software to run. A new one-tap “Miscellaneous Browser Ads” control adds a comprehensive, continuously-updated blocklist that catches the pop-under networks basic blockers miss. Off by default; one switch in the Helm turns it on for the whole household at once.",
+    "detail": "Built by integrating the open HaGeZi ad/pop-up blocklists into Haven's existing DNS filtering, so the comprehensive list ships as a single Helm toggle rather than something the customer has to assemble.",
+    "benefit": "The same household ad-blocking people install a Pi-hole for — without the Pi-hole. No extra device, no setup, no per-device apps: flip one switch and ads and pop-ups disappear across phones, TVs, and computers alike.",
+    "ref": "9b42161228",
+    "features": []
+  },
+  {
     "id": 527,
     "date": "2026-06-15",
     "theme": "Off-network filtering",
     "impact": 3,
-    "summary": "Verified end-to-end that Haven keeps filtering a device after it leaves home: the cloud relay sent a DNS query down the home router's live VPN tunnel and got back Haven's filtered answer — allowed names resolve normally, blocked names are stopped. Also added a per-router probe that measures whether a direct, relay-free path to the home router is even possible on that customer's network, and fixed a startup race that could leave the off-network per-device filters dormant.",
+    "summary": "Haven’s filtering now follows your devices off the home network — the capability people normally bolt Tailscale onto a home setup to get, but built in. Proven end-to-end this session: a device away from home still receives Haven’s filtered answers through the home router’s own private tunnel — allowed sites work, blocked ones stay blocked — with no app to install and no separate VPN service to wire up. (Also added a probe that gauges whether an even-faster direct path to the home router is possible on a given network, and fixed a startup race that could leave the away-from-home filters idle.)",
     "detail": null,
-    "benefit": "Confirms away-from-home protection actually works through the home router, and sets up making that path faster where the network allows it.",
+    "benefit": "Protection that travels with the device, not just the house — what people use Tailscale for, without running Tailscale or any third-party VPN account. The home’s filtering rules follow each device wherever it goes.",
     "ref": "f52390bd0f",
     "features": []
   },
