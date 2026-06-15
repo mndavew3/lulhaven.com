@@ -6,6 +6,7 @@ var itemTooltips = {
   "advertising/linkedin_ads":"Microsoft · B2B professional targeting",
   "advertising/meta_ads":"Facebook · Instagram · 3 billion user reach",
   "advertising/microsoft_advertising":"Bing Ads · LinkedIn integration",
+  "advertising/misc_browser_ads":"Comprehensive ad, pop-up & pop-under, and tracker blocking via the community HaGeZi list (~95,000 domains). Catches networks not listed individually above — pop-under networks like PropellerAds, Adsterra, and admedia. Applies network-wide.",
   "advertising/outbrain":"'Around the web' native ads · Clickbait adjacent",
   "advertising/pinterest_ads":"Shopping-focused · Visual product ads",
   "advertising/snapchat_ads":"Snap · AR lenses · Gen Z targeting",
