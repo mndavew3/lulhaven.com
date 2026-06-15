@@ -1,5 +1,60 @@
 var milestonesDataset = [
   {
+    "id": 527,
+    "date": "2026-06-15",
+    "theme": "Off-network filtering",
+    "impact": 3,
+    "summary": "Verified end-to-end that Haven keeps filtering a device after it leaves home: the cloud relay sent a DNS query down the home router's live VPN tunnel and got back Haven's filtered answer — allowed names resolve normally, blocked names are stopped. Also added a per-router probe that measures whether a direct, relay-free path to the home router is even possible on that customer's network, and fixed a startup race that could leave the off-network per-device filters dormant.",
+    "detail": null,
+    "benefit": "Confirms away-from-home protection actually works through the home router, and sets up making that path faster where the network allows it.",
+    "ref": "f52390bd0f",
+    "features": []
+  },
+  {
+    "id": 526,
+    "date": "2026-06-15",
+    "theme": "Website",
+    "impact": 3,
+    "summary": "The Helm's category icons gained color and a blocked indicator: interiors tinted a soft brand teal, and any category you're filtering now shows a red 'no entry' slash — plus hand-traced custom marks for the sensitive categories.",
+    "detail": "Teal fill on enclosed interior areas only; a single shared slash overlay shown only on blocked categories (no duplicate icon set); traced custom art for weapons, cult, and dating from reference images.",
+    "benefit": "You can see at a glance which categories are being filtered, and the icons read as designed rather than plain — more polished and legible for the owner.",
+    "ref": "d1c41ab",
+    "features": []
+  },
+  {
+    "id": 524,
+    "date": "2026-06-11",
+    "theme": "Burn Automation",
+    "impact": 4,
+    "summary": "Ran a full factory-to-Haven-to-quality-check round-trip on the second router and it passed every stage; the unit is built and ready to ship.",
+    "detail": "Round-tripped a unit stock->Haven->ship gate, all stages pass; the first-boot customer-experience suite passed 18 of 18; two build scripts hardened along the way (a post-flash exit-code bug and a DNS check that didn't follow a CNAME).",
+    "benefit": "Proves the build pipeline reliably takes a router from stock all the way to a quality-checked, ship-ready Haven — and that a customer's very first boot passes every landing, filtering, Wi-Fi, and login-security check.",
+    "ref": "60ef780",
+    "features": []
+  },
+  {
+    "id": 525,
+    "date": "2026-06-11",
+    "theme": "Website",
+    "impact": 3,
+    "summary": "Gave every content category in the Helm its own icon (and on the live demo), with group headers left bare so the icon itself signals a clickable category.",
+    "detail": "One line-icon per category from a consistent set, plus four deliberately-chosen custom marks for sensitive categories; shipped live to lulhaven.com and into the router UI source.",
+    "benefit": "The Helm reads like a designed app instead of a plain text settings list — clearer at a glance and more inviting for the non-technical owner.",
+    "ref": "1b87c9b",
+    "features": []
+  },
+  {
+    "id": 523,
+    "date": "2026-06-11",
+    "theme": "Haven Helm",
+    "impact": 3,
+    "summary": "Secure first login: every Haven router now requires its owner to set a personal admin password before the dashboard opens — no unit is usable with a shared setup password.",
+    "detail": "Built into the shipping firmware and proven end-to-end on the first unit: signing in with the shared setup password forces the owner to choose their own before anything else loads.",
+    "benefit": "Out-of-the-box security: a Haven is controllable only by the household that set it up, with no shared default password left active for someone else to guess.",
+    "ref": "",
+    "features": []
+  },
+  {
     "id": 521,
     "date": "2026-06-09",
     "theme": "Burn Automation",
