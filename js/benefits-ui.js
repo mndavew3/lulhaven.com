@@ -211,6 +211,8 @@
         banner.classList.add('cb-banner-on');
       }
     }
+    var cbTitle = document.getElementById('cb-title');
+    if (cbTitle) cbTitle.innerHTML = '<strong>' + cbDataset.length + ' Benefits</strong>';
     renderFor(DEFAULT_AUDIENCE);
     wireButtons();
     // Log the neutral landing as the denominator (ord0) and start its dwell
