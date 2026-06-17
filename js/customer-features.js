@@ -163,7 +163,7 @@ var cfDataset = [
     "benefits": [
       {
         "id": 10,
-        "lead": "Adult choices, not algorithmic ones"
+        "lead": "Your choices, not algorithmic ones"
       }
     ]
   },
@@ -380,7 +380,7 @@ var cfDataset = [
     "benefits": [
       {
         "id": 10,
-        "lead": "Adult choices, not algorithmic ones"
+        "lead": "Your choices, not algorithmic ones"
       }
     ]
   },
