@@ -1002,7 +1002,7 @@ var milestonesDataset = [
     "features": [
       {
         "id": 17,
-        "lead": "New-device email alerts"
+        "lead": "New devices appear automatically"
       }
     ]
   },
@@ -1073,7 +1073,7 @@ var milestonesDataset = [
     "features": [
       {
         "id": 17,
-        "lead": "New-device email alerts"
+        "lead": "New devices appear automatically"
       }
     ]
   },
@@ -1127,7 +1127,7 @@ var milestonesDataset = [
     "features": [
       {
         "id": 17,
-        "lead": "New-device email alerts"
+        "lead": "New devices appear automatically"
       }
     ]
   },
@@ -1143,7 +1143,7 @@ var milestonesDataset = [
     "features": [
       {
         "id": 17,
-        "lead": "New-device email alerts"
+        "lead": "New devices appear automatically"
       }
     ]
   },
