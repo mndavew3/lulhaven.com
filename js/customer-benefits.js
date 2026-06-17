@@ -3,7 +3,7 @@ var cbDataset = [
     "id": 1,
     "section": "top",
     "lead": "Stop being the internet police",
-    "body": "The router enforces the household rules, not you.",
+    "body": "Haven enforces the household rules, not you.",
     "family_rank": 1,
     "privacy_rank": 8,
     "family_lead": null,
@@ -16,13 +16,13 @@ var cbDataset = [
     "id": 2,
     "section": "top",
     "lead": "Real privacy, not promised privacy",
-    "body": "Filter prefs, device list, and activity log live on your router — and only on your router.",
+    "body": "Filter prefs, device list, and activity log live on your Haven — and only on your Haven.",
     "family_rank": 4,
     "privacy_rank": 1,
     "family_lead": null,
     "privacy_lead": null,
     "related_feature_ids": "4,5,6,7",
-    "details": "<p>Haven is built so the company that made the router cannot read what flows through it. Your settings, your device list, the timestamped log of what got blocked — all of it lives on your router and never leaves. The only outbound conversation is a once-a-day check for fresh category lists, and that check carries nothing identifying. If you opt in to encrypted cloud backup, the encryption happens on your router with a key your router holds. We can store the blob; we cannot read it.</p>",
+    "details": "<p>Haven is built so the company that made Haven cannot read what flows through it. Your settings, your device list, the timestamped log of what got blocked — all of it lives on your Haven and never leaves. The only outbound conversation is a once-a-day check for fresh category lists, and that check carries nothing identifying. If you opt in to encrypted cloud backup, the encryption happens on your Haven with a key your Haven holds. We can store the blob; we cannot read it.</p>",
     "link": null
   },
   {
@@ -55,7 +55,7 @@ var cbDataset = [
     "id": 5,
     "section": "main",
     "lead": "No vendor lock-in",
-    "body": "Cancel the subscription anytime. Your router and its filter keep working.",
+    "body": "Cancel the subscription anytime. Your Haven and its filter keep working.",
     "family_rank": 8,
     "privacy_rank": 3,
     "family_lead": null,
@@ -87,7 +87,7 @@ var cbDataset = [
     "family_lead": null,
     "privacy_lead": null,
     "related_feature_ids": "2,26",
-    "details": "<p>No firmware flashing, no command line, no YouTube tutorial, no changing DNS settings on every device. Plug Haven into your modem the same way your old router connected, set a Wi-Fi password, and filtering is in effect. The router auto-detects whether it should be the main router or sit behind an existing ISP router, and avoids the IP-address conflicts that silently break consumer setups.</p>",
+    "details": "<p>No firmware flashing, no command line, no YouTube tutorial, no changing DNS settings on every device. Plug Haven into your modem the same way your old router connected, set a Wi-Fi password, and filtering is in effect. Haven auto-detects whether it should be the main router or sit behind an existing ISP router, and avoids the IP-address conflicts that silently break consumer setups.</p>",
     "link": null
   },
   {
@@ -100,7 +100,7 @@ var cbDataset = [
     "family_lead": null,
     "privacy_lead": null,
     "related_feature_ids": "10,13",
-    "details": "<p>Reset buttons are reachable. We do not want the difference between \"filtered house\" and \"unfiltered house\" to be ten seconds with a paperclip. Your settings live in a partition of the router that the normal factory reset does not touch — press and hold reset, watch the lights blink, the router comes back up with the same admin accounts, the same filter prefs, the same device list. The bypass-resistance closes off the remote tricks too.</p>",
+    "details": "<p>Reset buttons are reachable. We do not want the difference between \"filtered house\" and \"unfiltered house\" to be ten seconds with a paperclip. Your settings live in a partition of Haven that the normal factory reset does not touch — press and hold reset, watch the lights blink, Haven comes back up with the same admin accounts, the same filter prefs, the same device list. The bypass-resistance closes off the remote tricks too.</p>",
     "link": null
   },
   {
@@ -126,7 +126,7 @@ var cbDataset = [
     "family_lead": null,
     "privacy_lead": null,
     "related_feature_ids": "8,19",
-    "details": "<p>The standard YouTube and social-media apps decide what to recommend to you. U-Haven (companion Android app) puts that decision back in your hands — hide channels and providers you have decided you do not want in your feed. On the router itself: adult content is blocked by default and only an admin can opt in. Trackers are blocked. Mobile game ads are blocked. The defaults respect that you are an adult making your own choices, not a target for algorithmic shaping.</p>",
+    "details": "<p>The standard YouTube and social-media apps decide what to recommend to you. U-Haven (companion Android app) puts that decision back in your hands — hide channels and providers you have decided you do not want in your feed. On Haven itself: adult content is blocked by default and only an admin can opt in. Trackers are blocked. Mobile game ads are blocked. The defaults respect that you are an adult making your own choices, not a target for algorithmic shaping.</p>",
     "link": null
   },
   {
@@ -237,13 +237,13 @@ var cbDataset = [
     "id": 19,
     "section": "main",
     "lead": "Ads and trackers, gone too",
-    "body": "The same router that filters content also strips ads and trackers across every device.",
+    "body": "The same Haven that filters content also strips ads and trackers across every device.",
     "family_rank": 19,
     "privacy_rank": 11,
     "family_lead": null,
     "privacy_lead": null,
     "related_feature_ids": null,
-    "details": "<p>Haven's filtering doubles as network-wide ad and tracker blocking. Known ad servers and trackers are refused at the router, so pages load lighter and cleaner on every device in the house — no browser extension to install, no per-device setup. It's the same one-box approach: turn it on once, it applies everywhere.</p>",
+    "details": "<p>Haven's filtering doubles as network-wide ad and tracker blocking. Known ad servers and trackers are refused by Haven, so pages load lighter and cleaner on every device in the house — no browser extension to install, no per-device setup. It's the same one-box approach: turn it on once, it applies everywhere.</p>",
     "link": null
   }
 ];
