@@ -292,7 +292,7 @@ var cfDataset = [
     "benefits": [
       {
         "id": 1,
-        "lead": "Stop being the household cop"
+        "lead": "Stop being the internet police"
       },
       {
         "id": 9,
@@ -317,7 +317,7 @@ var cfDataset = [
     "benefits": [
       {
         "id": 1,
-        "lead": "Stop being the household cop"
+        "lead": "Stop being the internet police"
       }
     ]
   },
@@ -449,7 +449,7 @@ var cfDataset = [
     "benefits": [
       {
         "id": 1,
-        "lead": "Stop being the household cop"
+        "lead": "Stop being the internet police"
       },
       {
         "id": 9,
@@ -474,7 +474,7 @@ var cfDataset = [
     "benefits": [
       {
         "id": 1,
-        "lead": "Stop being the household cop"
+        "lead": "Stop being the internet police"
       }
     ]
   },
@@ -647,7 +647,7 @@ var cfDataset = [
     "family_lead": null,
     "privacy_lead": null,
     "link": null,
-    "details": "<p>Block pages will carry an \"Unblock for 15 minutes\" button. Tapping it opens a brief justification field and unblocks the specific destination for a quarter hour. An administrator gets an immediate email about the temporary unblock, so the household can have a calm conversation about it later.</p><p>Independent of the unblock button, certain destinations are always allowed and cannot be blocked by anything: poison control, suicide and crisis hotlines, 911-adjacent services, the IRS, Social Security. The filter never gets in the way of someone reaching help.</p>",
+    "details": "<p>Block pages will carry an \"Unblock for 15 minutes\" button. Tapping it opens a brief justification field and unblocks the specific destination for a quarter hour. The temporary unblock is shown in the Helm for every administrator to see, so the household can have a calm conversation about it later.</p><p>Independent of the unblock button, certain destinations are always allowed and cannot be blocked by anything: poison control, suicide and crisis hotlines, 911-adjacent services, the IRS, Social Security. The filter never gets in the way of someone reaching help.</p>",
     "image": null,
     "milestone_ids": "134,285",
     "wiki_slug": null,
@@ -663,7 +663,7 @@ var cfDataset = [
     "family_lead": null,
     "privacy_lead": null,
     "link": null,
-    "details": "<p>The Helm runs on the router and is reachable from inside the home. The Family Dashboard at <strong>family.lulhaven.com</strong> is the outside-the-house companion. Multiple routers tied to one family account, alerts and weekly summary emails consolidated, a \"what got blocked\" view that you can check from work or from a parent helping with a grandparent's house.</p><p>It does not replace the Helm. It does not change router settings remotely. It is a read-and-summarize view designed so the household conversation can happen with the data in front of everyone, not just the person standing in the closet next to the router.</p>",
+    "details": "<p>The Helm runs on the router and is reachable from inside the home. The Family Dashboard at <strong>family.lulhaven.com</strong> is the outside-the-house companion. Multiple routers tied to one family account, alerts and a weekly summary consolidated, a \"what got blocked\" view that you can check from work or from a parent helping with a grandparent's house.</p><p>It does not replace the Helm. It does not change router settings remotely. It is a read-and-summarize view designed so the household conversation can happen with the data in front of everyone, not just the person standing in the closet next to the router.</p>",
     "image": null,
     "milestone_ids": null,
     "wiki_slug": null,

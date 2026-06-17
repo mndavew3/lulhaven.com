@@ -2,7 +2,7 @@ var cbDataset = [
   {
     "id": 1,
     "section": "top",
-    "lead": "Stop being the household cop",
+    "lead": "Stop being the internet police",
     "body": "The router enforces the household rules, not you.",
     "family_rank": 1,
     "privacy_rank": 8,
@@ -113,7 +113,7 @@ var cbDataset = [
     "family_lead": null,
     "privacy_lead": null,
     "related_feature_ids": "15,17,23",
-    "details": "<p>The Haven Helm supports any number of admin accounts, each named. No primary/secondary hierarchy — Mom, Dad, a grandparent, an older sibling brought in: all admins see the same screens and can make the same changes. Every change is timestamped against the admin who made it, so \"who turned X back on last Tuesday\" has an answer. New-device email alerts go to every admin. The coming Family Dashboard extends this view across multiple homes.</p>",
+    "details": "<p>The Haven Helm supports any number of admin accounts, each named. No primary/secondary hierarchy — Mom, Dad, a grandparent, an older sibling brought in: all admins see the same screens and can make the same changes. Every change is timestamped against the admin who made it, so \"who turned X back on last Tuesday\" has an answer. New devices show up in the Helm for every admin to see. The coming Family Dashboard extends this view across multiple homes.</p>",
     "link": null
   },
   {
@@ -139,7 +139,7 @@ var cbDataset = [
     "family_lead": null,
     "privacy_lead": null,
     "related_feature_ids": null,
-    "details": "<p>Filtering at the router only helps while a device is home. Haven extends the home filter to a phone on cellular or someone else's Wi-Fi through a private tunnel and a DNS setting — no app on the device to uninstall, no profile to quietly remove. If a managed phone goes dark, you're told. The rules you set at home keep applying wherever the device goes.</p>",
+    "details": "<p>Filtering at the router only helps while a device is home. Haven extends the home filter to a phone on cellular or someone else's Wi-Fi through a private tunnel and a DNS setting — no app on the device to uninstall, no profile to quietly remove. The rules you set at home keep applying wherever the device goes.</p>",
     "link": null
   },
   {
