@@ -1,5 +1,16 @@
 var milestonesDataset = [
   {
+    "id": 529,
+    "date": "2026-06-17",
+    "theme": "Hardware / Burn",
+    "impact": 3,
+    "summary": "Hardened the automated router clean-rebuild and validated it end-to-end: the full factory-to-Haven burn ran as sanctioned, proven steps; a latent flash-script exit-code bug was caught and fixed; and a WAN-cable safety prompt was added to the procedure. The rebuilt unit then passed the 87-test shakedown with zero genuine defects (every transient failure traced to expected fresh-from-factory state, confirmed by an independent adversarial triage).",
+    "detail": "Burn chain hardened: a flash-script exit-code bug fixed and a cable-safety prompt added; the rebuilt unit then passed an 87-point automated test suite with no real defects (transient failures all traced to expected unconfigured/no-internet state).",
+    "benefit": "Every router we ship runs through a repeatable, self-checking rebuild-and-test cycle, so reliability problems are caught in our lab rather than in your home.",
+    "ref": "34618c3",
+    "features": []
+  },
+  {
     "id": 528,
     "date": "2026-06-15",
     "theme": "Ad blocking",
@@ -266,7 +277,7 @@ var milestonesDataset = [
     "date": "2026-06-05",
     "theme": "Process / Quality",
     "impact": 3,
-    "summary": "Established CARDINAL rule: exercise UI interactively in headed Chrome on correct display before declaring any UI change done. Added to CLAUDE.md global settings.",
+    "summary": "Established CARDINAL rule: exercise UI interactively in headed Chrome on correct display before declaring any UI change finished. Added to CLAUDE.md global settings.",
     "detail": null,
     "benefit": "Eliminates blindfold-debugging pattern that was causing repeated rework cycles.",
     "ref": "session-2026-06-05",
@@ -1672,7 +1683,7 @@ var milestonesDataset = [
     "date": "2026-05-23",
     "theme": "Firmware & overlay",
     "impact": 4,
-    "summary": "Account-enforcement Step D plumbing done; firing stubbed",
+    "summary": "Account-enforcement Step D plumbing finished; firing stubbed",
     "detail": "Step D split into two sub-steps. D.1 (this session): plumbing. MainActivity.kt fetchActions() mirrors fetchBlocklist(), pushes window.havenYtActions={v,actions} at onPageFinished; haven_filter.js passive sweep walks every InnerTube response for menuServiceItemRenderer with NOT_IN…",
     "benefit": "Reliable, persistent router behavior with no manual setup the customer has to do.",
     "ref": "",

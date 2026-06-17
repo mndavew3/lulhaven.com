@@ -37,7 +37,7 @@ var cfDataset = [
     "benefits": [
       {
         "id": 7,
-        "lead": "Plug in, set a password, done"
+        "lead": "Plug in, set a password, finished"
       }
     ]
   },
@@ -264,7 +264,7 @@ var cfDataset = [
     "family_lead": null,
     "privacy_lead": null,
     "link": null,
-    "details": "<p>Haven keeps filtering a device after it leaves your home Wi-Fi, in two ways &mdash; you pick the one that fits each device:</p><p><strong>Lightweight (recommended).</strong> The device gets a small <em>Private DNS</em> setting that points at Haven. Its name lookups travel over an encrypted WireGuard tunnel to <em>your own home router</em>, which does the filtering exactly as it does on your home Wi-Fi &mdash; ask for a blocked site on cellular and the block still lands. No VPN icon, no battery drain, no app traffic re-routed. Setup is a one-time Private DNS entry; scan the QR on the router&rsquo;s Helm screen and you&rsquo;re done.</p><p><strong>Full protection (Pro tier).</strong> The phone connects to your home router as a private VPN, so every app and connection runs through Haven&rsquo;s filter. The trade-off: a VPN icon in the status bar, slightly more battery, and a few VPN-shy apps may complain.</p><p>Both work where ordinary home VPNs cannot &mdash; including mobile carriers and ISPs that share one public address across many homes (carrier-grade NAT). Haven runs the relay itself; it never sees your traffic in the clear.</p>",
+    "details": "<p>Haven keeps filtering a device after it leaves your home Wi-Fi, in two ways &mdash; you pick the one that fits each device:</p><p><strong>Lightweight (recommended).</strong> The device gets a small <em>Private DNS</em> setting that points at Haven. Its name lookups travel over an encrypted WireGuard tunnel to <em>your own home router</em>, which does the filtering exactly as it does on your home Wi-Fi &mdash; ask for a blocked site on cellular and the block still lands. No VPN icon, no battery drain, no app traffic re-routed. Setup is a one-time Private DNS entry; scan the QR on the router&rsquo;s Helm screen and you&rsquo;re finished.</p><p><strong>Full protection (Pro tier).</strong> The phone connects to your home router as a private VPN, so every app and connection runs through Haven&rsquo;s filter. The trade-off: a VPN icon in the status bar, slightly more battery, and a few VPN-shy apps may complain.</p><p>Both work where ordinary home VPNs cannot &mdash; including mobile carriers and ISPs that share one public address across many homes (carrier-grade NAT). Haven runs the relay itself; it never sees your traffic in the clear.</p>",
     "image": null,
     "milestone_ids": "38,40,71,81,82,123,133,367",
     "wiki_slug": "haven/off-network-filtering",
@@ -511,7 +511,7 @@ var cfDataset = [
     "benefits": [
       {
         "id": 7,
-        "lead": "Plug in, set a password, done"
+        "lead": "Plug in, set a password, finished"
       }
     ]
   },

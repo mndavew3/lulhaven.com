@@ -80,7 +80,7 @@ var cbDataset = [
   {
     "id": 7,
     "section": "main",
-    "lead": "Plug in, set a password, done",
+    "lead": "Plug in, set a password, finished",
     "body": "No firmware to flash, no DNS settings to change, no app to install per device.",
     "family_rank": 6,
     "privacy_rank": 7,
