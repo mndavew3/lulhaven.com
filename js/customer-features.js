@@ -296,7 +296,7 @@ var cfDataset = [
       },
       {
         "id": 9,
-        "lead": "Built for households, not solo operators"
+        "lead": "Shared control, no master account"
       }
     ]
   },
@@ -338,7 +338,7 @@ var cfDataset = [
     "benefits": [
       {
         "id": 9,
-        "lead": "Built for households, not solo operators"
+        "lead": "Shared control, no master account"
       }
     ]
   },
@@ -453,7 +453,7 @@ var cfDataset = [
       },
       {
         "id": 9,
-        "lead": "Built for households, not solo operators"
+        "lead": "Shared control, no master account"
       }
     ]
   },

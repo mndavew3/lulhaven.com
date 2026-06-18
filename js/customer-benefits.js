@@ -106,14 +106,14 @@ var cbDataset = [
   {
     "id": 9,
     "section": "main",
-    "lead": "Built for households, not solo operators",
+    "lead": "Shared control, no master account",
     "body": "Multiple admins, no master/secondary hierarchy, a transparent change history.",
     "family_rank": 7,
     "privacy_rank": 10,
     "family_lead": null,
     "privacy_lead": null,
     "related_feature_ids": "15,17,23",
-    "details": "<p>The Haven Helm supports any number of admin accounts, each named. No primary/secondary hierarchy — Mom, Dad, a grandparent, an older sibling brought in: all admins see the same screens and can make the same changes. Every change is timestamped against the admin who made it, so \"who turned X back on last Tuesday\" has an answer. New devices show up in the Helm for every admin to see. The coming Family Dashboard extends this view across multiple homes.</p>",
+    "details": "<p>The Haven Helm supports any number of admin accounts, each named. No primary/secondary hierarchy — Mom, Dad, a grandparent, an older sibling, or several staff who share responsibility: all admins see the same screens and can make the same changes. Every change is timestamped against the admin who made it, so \"who turned X back on last Tuesday\" has an answer. New devices show up in the Helm for every admin to see. The coming Family Dashboard extends this view across multiple homes.</p>",
     "link": null
   },
   {
@@ -145,14 +145,14 @@ var cbDataset = [
   {
     "id": 12,
     "section": "main",
-    "lead": "Block exactly what you choose",
-    "body": "Around fifty categories you switch on or off — not a blunt on/off, but the precise mix your household wants.",
+    "lead": "Block a whole category — or just TikTok",
+    "body": "Start with a ready-made template — or stack two — then refine to taste: switch a whole Category on or off, narrow to a Group inside it, or pick individual Providers (TikTok, Reddit, Facebook). As broad or as precise as you want.",
     "family_rank": 12,
     "privacy_rank": 14,
     "family_lead": null,
     "privacy_lead": null,
     "related_feature_ids": null,
-    "details": "<p>Most filters give you a few coarse buckets. Haven gives you about fifty categories — from adult content to gambling to social media to specific providers — each one a switch. Turn on only what you want gone, leave the rest alone, and add individual sites to an always-allow list when a category catches something you want. You decide the exact shape of your household's internet, not a vendor's preset.</p>",
+    "details": "<p>Haven lets you work from the top down. Begin with a <strong>template</strong> — a ready-made starting point you can apply on its own or stack with a second one. From there, dial in: switch off an entire <strong>Category</strong> like Social &amp; Communication, narrow to a <strong>Group</strong> inside it such as Social Media, or reach all the way down to a single <strong>Provider</strong> — TikTok, Reddit, Facebook — and choose exactly which ones you want gone. Pick a template, pick two, open a group, decide provider by provider: as broad or as precise as you like, instead of a vendor's coarse buckets.</p>",
     "link": null
   },
   {
@@ -244,6 +244,19 @@ var cbDataset = [
     "privacy_lead": null,
     "related_feature_ids": null,
     "details": "<p>Haven's filtering doubles as network-wide ad and tracker blocking. Known ad servers and trackers are refused by Haven, so pages load lighter and cleaner on every device in the house — no browser extension to install, no per-device setup. It's the same one-box approach: turn it on once, it applies everywhere.</p>",
+    "link": null
+  },
+  {
+    "id": 20,
+    "section": "main",
+    "lead": "Give yourself thirty minutes — then it re-blocks itself",
+    "body": "That channel is normally blocked. You heard they said something about your candidate, so you grant yourself thirty minutes to go look — and when the timer runs out, the filter comes back on by itself. You never have to remember to turn it off again.",
+    "family_rank": 20,
+    "privacy_rank": 20,
+    "family_lead": null,
+    "privacy_lead": null,
+    "related_feature_ids": null,
+    "details": "<p>Alongside the plain block switch, every provider has a <strong>Delayed Filter</strong>. Turn it on and that category stays reachable for a set window — thirty minutes from the moment you click, by default — then filtering resumes automatically. It is a budget, not a battle: hand a kid a measured daily allowance of TikTok, or give yourself a short, self-closing window to check something you normally keep blocked. Either way nobody has to remember to switch it back off.</p>",
     "link": null
   }
 ];

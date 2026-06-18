@@ -1,5 +1,16 @@
 var milestonesDataset = [
   {
+    "id": 530,
+    "date": "2026-06-17",
+    "theme": "Marketing & website",
+    "impact": 3,
+    "summary": "Expanded the /benefits page from 10 to 19 customer benefits with a live auto-count in the title, mined from a 95-competitor benefit survey, and ran a truthfulness pass removing inaccurate claims.",
+    "detail": "Benefits are sourced from <database>; added off-network filtering, ~50-category granularity, per-person rules, activity-log visibility, app-level blocking, ad/tracker blocking and more. Removed false 'email alert' copy (Haven sends no email; new devices appear in the Helm device list) and an unbuilt off-network claim. Brand-voice pass: 'router' reads as 'Haven' where it means the unit.",
+    "benefit": "Visitors see the full breadth of what Haven does — and every benefit shown is one Haven genuinely delivers.",
+    "ref": "a84467e",
+    "features": []
+  },
+  {
     "id": 529,
     "date": "2026-06-17",
     "theme": "Hardware / Burn",
