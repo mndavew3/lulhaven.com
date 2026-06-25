@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Activate your Haven subscription — Lulhaven</title>
+<style>
+  :root { --teal:#1f6b5a; --teal-d:#17534698; --ink:#13201c; --muted:#5a6b66; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+         color:var(--ink); background:#eef3f1; }
+  .wrap { max-width:680px; margin:0 auto; padding:32px 18px 64px; }
+  .brand { text-align:center; margin-bottom:18px; }
+  .brand b { color:var(--teal); font-size:1.6rem; font-weight:800; letter-spacing:-0.5px; }
+  h1 { font-size:1.6rem; margin:4px 0 6px; text-align:center; }
+  .sub { color:var(--muted); text-align:center; line-height:1.5; margin:0 auto 24px; max-width:540px; }
+  .card { background:#fff; border:1px solid rgba(0,0,0,.10); border-radius:14px;
+          box-shadow:0 2px 10px rgba(0,0,0,.05); padding:22px 24px; margin-bottom:18px; }
+  .tier { display:flex; justify-content:space-between; align-items:baseline; gap:12px;
+          padding:12px 0; border-bottom:1px solid #eee; flex-wrap:wrap; }
+  .tier:last-child { border-bottom:0; }
+  .tier .p b { font-size:1.2rem; } .tier .note { color:var(--muted); font-size:.9rem; }
+  .tier.founder { background:#f1f8f5; border-radius:10px; margin:0 -10px; padding:14px 10px; border-bottom:0; }
+  .badge { display:inline-block; background:var(--teal); color:#fff; font-size:.7rem; font-weight:700;
+           letter-spacing:.04em; text-transform:uppercase; padding:3px 8px; border-radius:6px; margin-bottom:5px; }
+  .off { background:#e6f4ea; color:#1c7a3b; font-weight:700; font-size:.78rem; padding:2px 8px; border-radius:6px; margin-left:6px; }
+  .anchor { color:#9aa6a2; font-size:.8rem; margin:10px 0 0; }
+  h2 { font-size:1.15rem; margin:0 0 14px; }
+  .seg { display:flex; gap:8px; margin-bottom:18px; }
+  .seg button { flex:1; padding:11px; font-size:1rem; font-weight:600; border:1px solid #cfd8d4;
+                background:#fff; color:var(--ink); border-radius:9px; cursor:pointer; }
+  .seg button.on { background:var(--teal); color:#fff; border-color:var(--teal); }
+  .qty { display:flex; align-items:center; justify-content:space-between; gap:14px; margin-bottom:8px; }
+  .qty label { font-weight:600; }
+  .stepper { display:flex; align-items:center; gap:0; }
+  .stepper button { width:40px; height:40px; font-size:1.3rem; border:1px solid #cfd8d4; background:#fff;
+                    cursor:pointer; color:var(--teal); }
+  .stepper button:first-child { border-radius:9px 0 0 9px; } .stepper button:last-child { border-radius:0 9px 9px 0; }
+  .stepper input { width:64px; height:40px; text-align:center; font-size:1.05rem; border:1px solid #cfd8d4;
+                   border-left:0; border-right:0; -moz-appearance:textfield; }
+  .stepper input::-webkit-outer-spin-button,.stepper input::-webkit-inner-spin-button{ -webkit-appearance:none; }
+  .unit { color:var(--muted); }
+  .total { display:flex; justify-content:space-between; align-items:baseline; margin:18px 0 4px;
+           padding-top:16px; border-top:1px solid #eee; }
+  .total .amt { font-size:1.7rem; font-weight:800; color:var(--teal); }
+  .total .cad { color:var(--muted); font-size:.9rem; }
+  .cta { display:block; width:100%; text-align:center; margin-top:18px; padding:15px; font-size:1.05rem;
+         font-weight:700; color:#fff; background:var(--teal); border:0; border-radius:10px; cursor:pointer; text-decoration:none; }
+  .cta:hover { background:#185748; }
+  .serial { text-align:center; color:var(--muted); font-size:.9rem; margin-top:14px; }
+  .serial code { background:#eef3f1; padding:2px 7px; border-radius:5px; color:var(--ink); }
+  .privacy { color:var(--muted); font-size:.85rem; line-height:1.5; margin:16px 0 0; }
+  .note-stub { text-align:center; color:#b06a00; background:#fff7e6; border:1px solid #ffe2a8;
+               border-radius:9px; padding:9px; font-size:.85rem; margin-top:14px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand"><b>Lulhaven</b></div>
+  <h1>Activate your Haven subscription</h1>
+  <p class="sub">Your Haven is already protecting your household. A subscription keeps your block-lists
+     <strong>current</strong> — new sites and threats are added continuously.</p>
+
+  <!-- Tier display (final tier confirmed from your serial at checkout) -->
+  <div class="card">
+    <div class="tier founder">
+      <div><span class="badge">Founders · first 100</span>
+        <div class="p"><b>$1</b>/mo first year<span class="off">90% off</span></div></div>
+      <div class="note">then $4/mo for life — your best price, always</div>
+    </div>
+    <div class="tier">
+      <div class="p"><b>$36</b> first year, billed yearly<span class="off">70% off</span></div>
+      <div class="note">renews at $72/yr ($6/mo)</div>
+    </div>
+    <div class="tier">
+      <div class="p"><b>$10</b>/mo monthly</div>
+      <div class="note">no commitment</div>
+    </div>
+    <p class="anchor">All discounts are off our $10/mo standard rate.</p>
+  </div>
+
+  <!-- Purchase: plan + multi-period -->
+  <div class="card">
+    <h2>Choose your plan</h2>
+    <div class="seg" id="seg">
+      <button data-plan="annual" class="on">Yearly · best value</button>
+      <button data-plan="monthly">Monthly</button>
+    </div>
+    <div class="qty">
+      <label id="qtyLabel">How many years?</label>
+      <div class="stepper">
+        <button type="button" id="dec">−</button>
+        <input id="qty" type="number" min="1" max="10" value="1" />
+        <button type="button" id="inc">+</button>
+      </div>
+    </div>
+    <p class="unit" id="unitLine">Prepay multiple years up front — your protection just keeps running.</p>
+    <div class="total">
+      <span>Total today</span>
+      <span><span class="amt" id="amt">$72</span> <span class="cad" id="cad">/ 1 year</span></span>
+    </div>
+    <button class="cta" id="checkout">Continue to secure checkout →</button>
+    <div class="note-stub" id="stub">Secure Stripe checkout is being wired up — this button is a preview for now.</div>
+    <div class="serial">Haven serial: <code id="serial">—</code></div>
+    <p class="privacy">Only your serial, email, and payment go to Haven — to bill you and keep your lists
+       current. Your filtering choices, activity logs, and device list <strong>never leave your router</strong>.</p>
+  </div>
+</div>
+<script>
+  // Read the hand-off params from the Helm link: /register?serial=...&token=...
+  var params = new URLSearchParams(location.search);
+  var serial = params.get('serial') || '';
+  var token  = params.get('token')  || '';
+  document.getElementById('serial').textContent = serial || '(open this from your Haven Helm)';
+
+  // Rates (standard, off the $10/mo anchor). Founder/first-year discounts are
+  // applied at checkout once the serial's tier is confirmed server-side.
+  var RATE = { annual: 72, monthly: 10 };   // $/period
+  var plan = 'annual', qty = 1;
+
+  function periodWord(p, n){ return (p==='annual' ? 'year' : 'month') + (n>1 ? 's' : ''); }
+  function render(){
+    var rate = RATE[plan];
+    var total = rate * qty;
+    document.getElementById('amt').textContent = '$' + total;
+    document.getElementById('cad').textContent = '/ ' + qty + ' ' + periodWord(plan, qty);
+    document.getElementById('qtyLabel').textContent = 'How many ' + (plan==='annual'?'years':'months') + '?';
+    document.getElementById('unitLine').textContent = plan==='annual'
+      ? 'Prepay multiple years up front — your protection just keeps running.'
+      : 'Prepay multiple months up front, or just one at a time.';
+    var q = document.getElementById('qty');
+    q.max = (plan==='annual') ? 10 : 24;
+  }
+  document.querySelectorAll('#seg button').forEach(function(b){
+    b.addEventListener('click', function(){
+      document.querySelectorAll('#seg button').forEach(function(x){x.classList.remove('on');});
+      b.classList.add('on'); plan = b.dataset.plan;
+      qty = 1; document.getElementById('qty').value = 1; render();
+    });
+  });
+  function clamp(){ var q=document.getElementById('qty'); var v=parseInt(q.value||'1',10);
+    if(isNaN(v)||v<1)v=1; var m=parseInt(q.max,10); if(v>m)v=m; q.value=v; qty=v; render(); }
+  document.getElementById('inc').onclick=function(){ var q=document.getElementById('qty'); q.value=parseInt(q.value||'1',10)+1; clamp(); };
+  document.getElementById('dec').onclick=function(){ var q=document.getElementById('qty'); q.value=parseInt(q.value||'1',10)-1; clamp(); };
+  document.getElementById('qty').addEventListener('input', clamp);
+  document.getElementById('checkout').addEventListener('click', function(){
+    alert('Checkout (Stripe) is the next build step.\\nPlan: '+plan+' ×'+qty+'\\nSerial: '+(serial||'(none)'));
+  });
+  render();
+</script>
+</body>
+</html>
