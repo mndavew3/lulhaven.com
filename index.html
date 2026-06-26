@@ -483,8 +483,12 @@
        "Get notified at launch" button. Unadvertised, noindex page. */
     (function(){
       document.querySelectorAll('a[href="#notify"]').forEach(function(btn){
+        // Shift+click on an <a> is the browser's native "open in new window"
+        // gesture — suppress it so the two shift-clicks don't fire the #notify
+        // jump (or a new window) before our shift+double-click handler runs.
+        btn.addEventListener("click", function(e){ if (e.shiftKey) e.preventDefault(); });
         btn.addEventListener("dblclick", function(e){
-          if (e.shiftKey) { e.preventDefault(); window.location.href = "/challenge.html"; }
+          if (e.shiftKey) { e.preventDefault(); window.location.href = "/challenge"; }
         });
       });
     })();
