@@ -449,7 +449,9 @@
     (function () {
       var el = document.getElementById('hero-rotate');
       if (!el) return;
-      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      // Reduced-motion: still ROTATE the phrases (the information), just skip the
+      // opacity fade (the motion). Freezing the text entirely was over-broad.
+      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       var phrases = ['spew garbage', 'spew rage bait', 'track you', 'harvest your data',
                      'feed the algorithm', 'hijack your attention', 'autoplay all night',
                      'sell your attention', 'doomscroll your evening', 'target your children', 'feed you lies', 'hijack your browser', 'program you'];
@@ -460,6 +462,11 @@
       }
       var i = 0;
       setInterval(function () {
+        if (reduce) {
+          i = (i + 1) % phrases.length;
+          el.textContent = phrases[i];
+          return;
+        }
         el.style.opacity = '0';
         setTimeout(function () {
           i = (i + 1) % phrases.length;
