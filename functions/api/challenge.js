@@ -53,26 +53,30 @@ export async function onRequestPost(context) {
         return json({ ok: false, error: "Please tell us your name." }, 400);
     }
 
-    const handle        = clean(body.handle, 120);
-    const platform      = clean(body.platform, 64);
-    const audience      = clean(body.audience, 64);
-    const target_router = clean(body.target_router, 64);
-    const ip            = request.headers.get("CF-Connecting-IP") || null;
+    const handle              = clean(body.handle, 120);
+    const platform            = clean(body.platform, 64);
+    const audience            = clean(body.audience, 64);
+    const target_router       = clean(body.target_router, 64);
+    const target_router_other = clean(body.target_router_other, 120);
+    const stage               = body.stage === "prereg" ? "prereg" : "applied";
+    const ip                  = request.headers.get("CF-Connecting-IP") || null;
 
     try {
         await env.haven_builds
             .prepare(
                 `INSERT INTO challenge_applications
-                    (name, email, handle, platform, audience, target_router, source_ip, created_datetime)
-                 VALUES (?, ?, ?, ?, ?, ?, ?, datetime('now'))
+                    (name, email, handle, platform, audience, target_router, target_router_other, stage, source_ip, created_datetime)
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
                  ON CONFLICT(email) DO UPDATE SET
-                     name          = excluded.name,
-                     handle        = COALESCE(excluded.handle, handle),
-                     platform      = COALESCE(excluded.platform, platform),
-                     audience      = COALESCE(excluded.audience, audience),
-                     target_router = COALESCE(excluded.target_router, target_router)`
+                     name                = excluded.name,
+                     handle              = COALESCE(excluded.handle, handle),
+                     platform            = COALESCE(excluded.platform, platform),
+                     audience            = COALESCE(excluded.audience, audience),
+                     target_router       = COALESCE(excluded.target_router, target_router),
+                     target_router_other = COALESCE(excluded.target_router_other, target_router_other),
+                     stage               = excluded.stage`
             )
-            .bind(name, email, handle, platform, audience, target_router, ip)
+            .bind(name, email, handle, platform, audience, target_router, target_router_other, stage, ip)
             .run();
     } catch (err) {
         console.error("challenge_applications insert error:", err);

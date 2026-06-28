@@ -9,6 +9,11 @@ CREATE TABLE IF NOT EXISTS challenge_applications (
     platform         TEXT,
     audience         TEXT,
     target_router    TEXT,
+    target_router_other TEXT,
+    stage            TEXT NOT NULL DEFAULT 'applied',  -- 'prereg' | 'applied'
     source_ip        TEXT,
     created_datetime TEXT NOT NULL DEFAULT (datetime('now'))
 );
+-- Additive migration for a table created before these columns existed:
+-- ALTER TABLE challenge_applications ADD COLUMN target_router_other TEXT;
+-- ALTER TABLE challenge_applications ADD COLUMN stage TEXT NOT NULL DEFAULT 'applied';
