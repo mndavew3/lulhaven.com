@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<link rel="shortcut icon" href="assets/images/lulhaven20dock20line20art202-64x42.png" type="image/x-icon">
+<title>The Haven Challenge — Early Look</title>
+<style>
+  :root{ --navy:#1a237e; --navy-2:#11164d; --ink:#15171c; --paper:#f6f7fb; --line:#e3e6f0; --accent:#c8a24b; --term:#0d1117; }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+       color:var(--ink);background:var(--paper);line-height:1.55;}
+  .wrap{max-width:880px;margin:0 auto;padding:0 22px;}
+  .soon{background:var(--accent);color:#1a1305;text-align:center;font-weight:800;letter-spacing:.18em;
+        text-transform:uppercase;padding:10px 0;font-size:.85rem;}
+  header.hero{background:var(--navy);color:#fff;padding:44px 0 52px;text-align:center;}
+  header.hero .kicker{color:var(--accent);font-weight:800;letter-spacing:.13em;text-transform:uppercase;
+        font-size:clamp(.82rem,2.4vw,1.05rem);margin:0 0 22px;line-height:1.5;}
+  header.hero h1{font-size:clamp(2.2rem,7vw,3.8rem);font-weight:900;letter-spacing:.03em;margin:0 0 12px;line-height:1.02;}
+  header.hero p{font-size:1.14rem;opacity:.94;max-width:660px;margin:10px auto 0;}
+  header.hero .breakit{display:inline-block;margin-top:22px;background:var(--accent);color:#1a1305;font-weight:800;
+        letter-spacing:.04em;padding:11px 22px;border-radius:8px;font-size:1.05rem;}
+  section{padding:44px 0;border-bottom:1px solid var(--line);}
+  h2{color:var(--navy);font-size:1.55rem;margin:0 0 14px;}
+  .lede{font-size:1.16rem;font-style:italic;color:#33384a;border-left:4px solid var(--accent);padding:6px 0 6px 18px;margin:18px 0;}
+  code{background:#eef0f7;border:1px solid var(--line);border-radius:4px;padding:1px 6px;font-size:.92em;color:var(--navy-2);}
+  .note{font-size:.94rem;color:#5a6072;}
+  form{background:#fff;border:1px solid var(--line);border-radius:12px;padding:22px;display:grid;gap:15px;margin-top:18px;}
+  label{font-weight:600;font-size:.92rem;display:block;margin-bottom:5px;}
+  input,select,textarea{width:100%;padding:11px 12px;border:1px solid #c7ccdd;border-radius:8px;font-size:1rem;font-family:inherit;}
+  textarea{resize:vertical;min-height:74px;}
+  .hint{font-size:.84rem;color:#8a90a3;margin-top:4px;}
+  .check{display:flex;align-items:flex-start;gap:10px;background:#f6f7fb;border:1px solid var(--line);border-radius:8px;padding:13px 15px;}
+  .check input{width:auto;margin-top:3px;flex:0 0 auto;}
+  .check label{margin:0;font-weight:700;color:var(--navy);}
+  #judge-extra{display:none;border-left:3px solid var(--accent);padding-left:15px;margin-top:2px;}
+  #judge-extra.show{display:grid;gap:14px;}
+  .encourage{font-size:.95rem;color:#5a4708;background:#fff7e6;border:1px solid #f0d99a;border-radius:8px;padding:12px 14px;margin:0;}
+  button.submit{background:var(--navy);color:#fff;border:0;border-radius:8px;padding:13px 18px;font-size:1.05rem;
+                font-weight:700;cursor:pointer;}
+  button.submit:disabled{opacity:.6;cursor:default;}
+  #msg{min-height:1.3em;font-weight:600;color:#b3261e;margin-top:2px;}
+  footer{padding:34px 0;text-align:center;color:#7b8095;font-size:.85rem;}
+</style>
+</head>
+<body>
+<div class="soon">The 2026 Haven Challenge — Early Look</div>
+
+<header class="hero">
+  <div class="wrap">
+    <h1>Come break it.</h1>
+    <p>Haven is our OpenWRT&#8209;based content filter. Can you get past it? We will even let you choose your weapon.</p>
+    <span class="breakit">Coming Fall 2026</span>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <h2>Are you the king of chaos?</h2>
+    <p class="lede">Break it. Really break it. Claim your crown.</p>
+    <p>Full rules, scope, timeline, and prizes come later. Right now we have <strong>one question for the OpenWRT community.</strong></p>
+  </div>
+</section>
+
+<section id="list">
+  <div class="wrap">
+    <h2>What hardware should our next build target?</h2>
+    <p style="margin-bottom:6px;">We already build Haven firmware for several OpenWRT <strong>24.10.4</strong> targets &mdash; and we&rsquo;re adding more. Tell us which OpenWRT supported device you would run Haven on, and make the case for why it should jump the queue.</p>
+    <form id="survey-form">
+      <div>
+        <label for="s-router">Router &mdash; brand, model, and version</label>
+        <input id="s-router" name="router" placeholder="e.g. GL.iNet GL-MT3000 (Beryl AX)" required>
+        <div class="hint">Not sure it runs OpenWRT? Check the <a href="https://openwrt.org/toh/start" target="_blank" rel="noopener">OpenWRT Table of Hardware</a>.</div>
+      </div>
+      <div>
+        <label for="s-why">Why should we prioritize this image?</label>
+        <textarea id="s-why" name="priority_note" placeholder="Popularity, your use case, performance, quirks &mdash; or &ldquo;it makes good content.&rdquo; Whatever makes the case."></textarea>
+        <div class="hint">Open field &mdash; this is how we rank what to build first.</div>
+      </div>
+      <div class="check">
+        <input id="j-toggle" name="judge_interest" type="checkbox" value="yes">
+        <label for="j-toggle">Add me to the Challenge judge pool.</label>
+      </div>
+      <div id="judge-extra">
+        <p class="encourage"><strong>Don&rsquo;t count yourself out.</strong> We&rsquo;re after a range of perspectives, not just seasoned experts &mdash; so make your case and we may pick you even if you wouldn&rsquo;t pick yourself.</p>
+        <div>
+          <label for="j-cred">Why you&rsquo;d make a good judge</label>
+          <textarea id="j-cred" name="judge_background" placeholder="Your background, what you&rsquo;d bring, or just who you are. Netsec, OpenWRT tinkering, a sharp eye, the average home router admin &mdash; tell us."></textarea>
+        </div>
+      </div>
+      <div>
+        <label for="s-email">Email</label>
+        <input id="s-email" name="email" type="email" placeholder="you@example.com">
+        <div class="hint">It&rsquo;s only used to notify you when an image is ready. Leave blank to stay anonymous. (However it is required to enter the judge pool.)</div>
+      </div>
+      <button class="submit" type="button" id="submit-btn">Submit suggestion</button>
+      <div id="msg"></div>
+    </form>
+    <p class="note" style="margin-top:18px;">Full Challenge details &mdash; rules, timeline, prizes &mdash; published this fall.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">lulhaven.com &middot; Haven runs on your network &mdash; a suite of internet tools, hosted on your LAN.</div>
+</footer>
+<script>
+  var jt  = document.getElementById('j-toggle');
+  var em  = document.getElementById('s-email');
+  var rt  = document.getElementById('s-router');
+  var btn = document.getElementById('submit-btn');
+  var msg = document.getElementById('msg');
+
+  jt.addEventListener('change', function () {
+    document.getElementById('judge-extra').classList.toggle('show', jt.checked);
+    em.required = jt.checked;
+  });
+
+  btn.addEventListener('click', async function () {
+    msg.style.color = '#b3261e';
+    if (!rt.value.trim()) {
+      msg.textContent = 'Please name a router.';
+      rt.focus();
+      return;
+    }
+    if (jt.checked && (!em.value.trim() || !em.checkValidity())) {
+      msg.textContent = 'Challenge judge pool candidates must provide an email address.';
+      em.focus();
+      return;
+    }
+    if (em.value.trim() && !em.checkValidity()) {
+      msg.textContent = 'Please enter a valid email address.';
+      em.focus();
+      return;
+    }
+
+    btn.disabled = true;
+    msg.style.color = '#5a6072';
+    msg.textContent = 'Sending…';
+    try {
+      const res = await fetch('/api/challenge-survey', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          router:           rt.value,
+          priority_note:    document.getElementById('s-why').value,
+          email:            em.value,
+          judge_interest:   jt.checked,
+          judge_background: document.getElementById('j-cred').value,
+        }),
+      });
+      const data = await res.json();
+      if (res.ok && data.ok) {
+        document.getElementById('survey-form').reset();
+        document.getElementById('judge-extra').classList.remove('show');
+        em.required = false;
+        msg.style.color = '#1a7a3c';
+        msg.textContent = data.message || 'Thanks — your suggestion is in.';
+      } else {
+        msg.style.color = '#b3261e';
+        msg.textContent = data.error || 'Something went wrong. Please try again.';
+      }
+    } catch {
+      msg.style.color = '#b3261e';
+      msg.textContent = 'Network error. Please try again.';
+    } finally {
+      btn.disabled = false;
+    }
+  });
+</script>
+</body>
+</html>
