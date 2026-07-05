@@ -1,0 +1,27 @@
+{
+  "name": "adq-votes",
+  "main": "src/index.js",
+  "compatibility_date": "2026-05-03",
+  // Binds DB_VOTES ONLY. NO DB_IDENT / haven_builds. Auth is delegated to
+  // adq-ident: a service binding in prod, IDENT_URL over http in local dev.
+  "d1_databases": [
+    {
+      "binding": "DB_VOTES",
+      "database_name": "haven-adq-votes",
+      "database_id": "00000000-0000-0000-0000-00000000votes"
+    }
+  ],
+  // adq-ident is reached via this service binding in prod (env.IDENT). Local `wrangler dev`
+  // connects it through the dev registry when adq-ident is also running; if absent, the code
+  // falls back to IDENT_URL. This is what makes the prod verify+credit path actually run
+  // (verify #2). Binding to the WORKER (not its DB) does not breach the DB separation.
+  "services": [
+    { "binding": "IDENT", "service": "adq-ident" }
+  ],
+  "vars": {
+    "IDENT_URL": "http://127.0.0.1:8791"
+    // DEPLOY: set secrets on BOTH workers — `wrangler secret put ADQ_CREDIT_KEY` (belt on
+    // /credit) and `wrangler secret put VOTES_REDEEM_SALT` (votes-only; ident must NOT have it,
+    // so the redeem_key idempotency token stays opaque to ident).
+  }
+}

@@ -1,5 +1,313 @@
 var milestonesDataset = [
   {
+    "id": 544,
+    "date": "2026-07-01",
+    "theme": "Haven Helm",
+    "impact": 4,
+    "summary": "One-tap review in the Helm: connections Haven flagged as likely ads or trackers appear for a single-tap Block or Allow.",
+    "detail": null,
+    "benefit": "See what Haven flagged and decide in one tap, right from your Helm.",
+    "ref": "d6a3d51",
+    "features": []
+  },
+  {
+    "id": 543,
+    "date": "2026-07-01",
+    "theme": "Ad blocking",
+    "impact": 4,
+    "summary": "Tutored Modeling: Haven learns which connections behave like ads or trackers and blocks them, sharpening every time you confirm one — no blocklist to keep current.",
+    "detail": null,
+    "benefit": "Point Haven at what you don't want on your screen and it gets better at catching it — ads, trackers, and more.",
+    "ref": "d6a3d51",
+    "features": []
+  },
+  {
+    "id": 555,
+    "date": "2026-06-30",
+    "theme": "Filtering & enforcement",
+    "impact": 5,
+    "summary": "Built and hardware-verified Haven's on-router detection loop that spots likely ads and trackers, plus a secure phone-to-router link.",
+    "detail": null,
+    "benefit": "Haven can flag unwanted connections right on your network and let you act from your phone.",
+    "ref": "2b2cf5d",
+    "features": []
+  },
+  {
+    "id": 554,
+    "date": "2026-06-30",
+    "theme": "Testing & quality",
+    "impact": 5,
+    "summary": "Ran an Extended Autonomous Research pass that generated 928 specification-refinement proposals — surfacing 7 conflicts — for human review.",
+    "detail": null,
+    "benefit": "Haven's standards get stress-tested at a scale hand-review can't match, then confirmed by a person.",
+    "ref": "d7d38de",
+    "features": []
+  },
+  {
+    "id": 559,
+    "date": "2026-06-30",
+    "theme": "Off-network filtering",
+    "impact": 4,
+    "summary": "Specified Haven's off-network connection model — cache-first and key-authenticated — for filtering that follows a device off your home network.",
+    "detail": null,
+    "benefit": "Groundwork for keeping a device filtered even when it leaves your home Wi-Fi.",
+    "ref": "4cd5285",
+    "features": []
+  },
+  {
+    "id": 558,
+    "date": "2026-06-30",
+    "theme": "Process / Quality",
+    "impact": 4,
+    "summary": "Applied 13 verified corrections to Haven's behavior specification.",
+    "detail": null,
+    "benefit": "The standard Haven is built to keeps getting more accurate.",
+    "ref": "fc8e92b",
+    "features": []
+  },
+  {
+    "id": 557,
+    "date": "2026-06-30",
+    "theme": "Customer features (website)",
+    "impact": 4,
+    "summary": "Added human product support — help from a real person — as a subscription benefit.",
+    "detail": null,
+    "benefit": "Your subscription includes help from a real person, not just documentation.",
+    "ref": "a14167e",
+    "features": []
+  },
+  {
+    "id": 556,
+    "date": "2026-06-30",
+    "theme": "Planning & roadmap",
+    "impact": 4,
+    "summary": "Defined the Haven companion app (Android first) with 32 specified behaviors.",
+    "detail": null,
+    "benefit": "A phone app is on the roadmap to extend Haven's control beyond the browser.",
+    "ref": "07d40c1",
+    "features": []
+  },
+  {
+    "id": 542,
+    "date": "2026-06-30",
+    "theme": "Architecture & data model",
+    "impact": 4,
+    "summary": "Privacy hardening: Haven routers no longer retain your public IP address; visitor identifiers are keyed with a server-side secret.",
+    "detail": null,
+    "benefit": "Your home's public IP is never stored — Haven keeps less about you, by design.",
+    "ref": "e976601",
+    "features": []
+  },
+  {
+    "id": 553,
+    "date": "2026-06-28",
+    "theme": "Process & discipline",
+    "impact": 4,
+    "summary": "Hardened the internal build process with mandatory command vetting and timeouts across all tooling.",
+    "detail": null,
+    "benefit": "Fewer mistakes reach the product — a safety net around how Haven is built.",
+    "ref": "a2e7012",
+    "features": []
+  },
+  {
+    "id": 552,
+    "date": "2026-06-28",
+    "theme": "Marketing & website",
+    "impact": 4,
+    "summary": "Added a pre-announcement page and short survey for owners of OpenWRT-compatible routers.",
+    "detail": null,
+    "benefit": "Owners of compatible routers can register interest and tell us what they run.",
+    "ref": "b1a757d",
+    "features": []
+  },
+  {
+    "id": 549,
+    "date": "2026-06-27",
+    "theme": "Firmware & overlay",
+    "impact": 5,
+    "summary": "Serial provisioning: each Haven router mints its own unique serial number the first time it reaches the internet, recorded durably on the device.",
+    "detail": null,
+    "benefit": "Every Haven is individually identifiable from day one — the backbone of support and warranty.",
+    "ref": "609b4c4",
+    "features": []
+  },
+  {
+    "id": 551,
+    "date": "2026-06-27",
+    "theme": "Marketing & website",
+    "impact": 4,
+    "summary": "Reworked site copy to speak to any household or small network, not only families.",
+    "detail": null,
+    "benefit": "Haven is for anyone who wants control of their network — households, seniors, small offices.",
+    "ref": "a3a8d51",
+    "features": []
+  },
+  {
+    "id": 550,
+    "date": "2026-06-27",
+    "theme": "Marketing & website",
+    "impact": 4,
+    "summary": "Opened public pre-registration for the Haven Challenge.",
+    "detail": null,
+    "benefit": "Early sign-up for the Challenge.",
+    "ref": "8753041",
+    "features": []
+  },
+  {
+    "id": 545,
+    "date": "2026-06-26",
+    "theme": "Testing & quality",
+    "impact": 5,
+    "summary": "Established Haven's behavioral specification — 10 domains and roughly 173 defined behaviors — as the single source of truth for how every feature must act and be tested.",
+    "detail": null,
+    "benefit": "Every Haven feature is measured against a written standard, so behavior stays consistent and verifiable.",
+    "ref": "224a065",
+    "features": []
+  },
+  {
+    "id": 548,
+    "date": "2026-06-26",
+    "theme": "Website",
+    "impact": 4,
+    "summary": "The homepage now honors reduced-motion accessibility preferences — keeping content rotation without the motion for sensitive users.",
+    "detail": null,
+    "benefit": "The site respects your device's accessibility settings.",
+    "ref": "ab5dcc6",
+    "features": []
+  },
+  {
+    "id": 547,
+    "date": "2026-06-26",
+    "theme": "Marketing & website",
+    "impact": 4,
+    "summary": "Introduced the Haven Challenge program page with application intake.",
+    "detail": null,
+    "benefit": "A way for interested router owners to raise their hand for the Haven Challenge.",
+    "ref": "bbf313b",
+    "features": []
+  },
+  {
+    "id": 546,
+    "date": "2026-06-26",
+    "theme": "Multi-administrator UI",
+    "impact": 4,
+    "summary": "Defined Haven's account-security model: a unique password per unit printed on the box, a forced change at first login, and a concealed recovery path.",
+    "detail": null,
+    "benefit": "Your router isn't guarded by a factory-default password everyone knows — each unit is unique and yours to control.",
+    "ref": "224a065",
+    "features": []
+  },
+  {
+    "id": 541,
+    "date": "2026-06-25",
+    "theme": "Hardware / Burn",
+    "impact": 3,
+    "summary": "Verified the current Haven build boots and runs end-to-end on Raspberry Pi 5 hardware — booting from a USB-attached M.2 SSD, with dual-2.5-gigabit networking via an add-on board, and confirmed it survives a clean reboot unattended.",
+    "detail": "Flashed a freshly built Pi factory image via the easyas-fuego skill; full stack came up (filtering Helm, WAN auto-detect, internet, NTP) and a clean reboot returned in ~35s self-configured.",
+    "benefit": "Haven isn't locked to one router model — it runs on widely available Raspberry Pi hardware, broadening where it can be deployed.",
+    "ref": "ead56e8aa4",
+    "features": []
+  },
+  {
+    "id": 540,
+    "date": "2026-06-24",
+    "theme": "Product definition",
+    "impact": 3,
+    "summary": "Determined Haven's subscription discounts — yearly pricing, deeper first-year pricing, and a perpetual discount for early adopters.",
+    "detail": "Set the structure of the list-update subscription: an annual plan as the best value, an introductory first-year rate for new customers, and a standing discount the first adopters keep for life.",
+    "benefit": "Early supporters get Haven's best price for as long as they stay; everyone gets a break for subscribing yearly and an extra discount in their first year.",
+    "ref": "727e158dfa",
+    "features": []
+  },
+  {
+    "id": 538,
+    "date": "2026-06-23",
+    "theme": "Burn Automation",
+    "impact": 4,
+    "summary": "Unified every Haven router's ship-time setup onto a single, verified personalization path, so each unit leaves with a per-unit Wi-Fi password and an owner login that must be changed on first use.",
+    "detail": "Consolidated the production burn onto one personalizer that creates the owner's admin account, arms the first-login password reset, derives per-unit Wi-Fi credentials, and lays down the filter and network config. Verified end-to-end in the test VM; final hardware-burn validation pending.",
+    "benefit": "A safe, consistent first-contact experience on every shipped router: no shared passwords, and the owner sets their own login the first time they connect.",
+    "ref": "744f1549f4",
+    "features": []
+  },
+  {
+    "id": 539,
+    "date": "2026-06-23",
+    "theme": "Haven Helm",
+    "impact": 3,
+    "summary": "The Helm login now greets the owner with a castle gateway: enter the correct password and a portcullis raises to open the gate and let you in.",
+    "detail": "Login backdrop shows a closed portcullis at rest; a correct password plays a short raise animation and enters the dashboard, while a wrong password leaves the gate shut. Built and VM-verified end-to-end; ships when the firmware image is rebuilt.",
+    "benefit": "A warm, on-brand first moment that makes Haven feel like it guards the household and opens its gates for the person in charge.",
+    "ref": "33fa7ff87b",
+    "features": []
+  },
+  {
+    "id": 537,
+    "date": "2026-06-23",
+    "theme": "Haven brand",
+    "impact": 2,
+    "summary": "The Haven Helm's login screen and browser-tab icon now wear the Haven Gold Seabee mascot.",
+    "detail": "Login logo (sysauth.htm) + the full favicon set (16/32/96/192 + apple sizes + favicon.ico) swapped to the gold Seabee and downscaled from the 2.9MB source to a 168K logo + 4-96K favicons; baked via haven-overlay.",
+    "benefit": "A distinctly-Haven first screen — the product looks like itself the moment you open it, not a generic router page.",
+    "ref": "7ca1ecb167",
+    "features": []
+  },
+  {
+    "id": 536,
+    "date": "2026-06-22",
+    "theme": "Haven Helm",
+    "impact": 4,
+    "summary": "Built and verified Haven's first-contact login: every unit greets the customer with one simple username ('haven', any capitalization), the admin account stays safely locked until they set their own password, and filtering is live the moment it is plugged in.",
+    "detail": "Phase 1a of the locked credential model: the login defaults to 'haven' (case-insensitive), the stock OpenWrt password page is disabled and points to the Haven Administrator screen, root is invisible to the Helm on shipped units, and an automated check blocks any shipping image from carrying developer-only credentials. Verified end-to-end in an x86/64 test VM (shipping and developer images).",
+    "benefit": "A new owner can never get stuck at the login screen — the very first thing they touch just works, and that first moment is what decides whether they trust the product.",
+    "ref": "e99ff79e4b",
+    "features": []
+  },
+  {
+    "id": 535,
+    "date": "2026-06-22",
+    "theme": "Tooling & infrastructure",
+    "impact": 3,
+    "summary": "Built an x86/64 VM test rig — a real Haven image now boots in a VM (real kernel, firewall, DNS, the Helm) so we can test login and filtering in minutes instead of a hardware flash.",
+    "detail": "build-haven-image.sh --target vm; havensni cross-compiled for x86; qemu/KVM with a host tap; the Helm is reachable on the LAN.",
+    "benefit": "Faster, faithful testing means first-contact problems like a login that won't accept the customer get caught and fixed before any unit ships.",
+    "ref": "b67128d37e",
+    "features": []
+  },
+  {
+    "id": 533,
+    "date": "2026-06-20",
+    "theme": "Hardware / Burn",
+    "impact": 4,
+    "summary": "Brought Haven up on the Raspberry Pi 5 — built a Haven Pi image and flashed it; the Helm runs natively, same filtering, on inexpensive hardware.",
+    "detail": "build-haven-image.sh --target pi (bcm2712) with first-boot WAN auto-detect; flashed via the easyas-fuego SD path; Helm renders the argon theme. A persistence partition is still pending.",
+    "benefit": "Haven isn't tied to one router brand — it can run on inexpensive, easy-to-find hardware, widening who can protect their household.",
+    "ref": "32cfd58ec7",
+    "features": []
+  },
+  {
+    "id": 534,
+    "date": "2026-06-19",
+    "theme": "Testing & quality",
+    "impact": 3,
+    "summary": "Expanded the automated test regimen from 92 to 104 checks from a functional-coverage review, and fixed two product gaps it surfaced.",
+    "detail": "Landed Do-Now 5 from specs/2026-06-18-test-protocol-functional-review.md; product fixes: IPv6 port-53 handling and a daemon self-test exclusion.",
+    "benefit": "More of what Haven promises is now verified automatically on every build, so problems get caught before a router ever ships.",
+    "ref": "8bdfee0e79",
+    "features": []
+  },
+  {
+    "id": 532,
+    "date": "2026-06-18",
+    "theme": "Filtering & enforcement",
+    "impact": 4,
+    "summary": "Flagged-attempt report + email notifications: Haven now keeps a persistent, device-attributed log of blocked attempts, renders it as a printable per-device report (save as PDF), and can send a content-free email notification when activity is flagged — duty-of-care evidence without surveillance.",
+    "detail": null,
+    "benefit": "A parent or staff meeting can rest on a specific device's record of what it tried to reach, and the right person gets a heads-up — while Haven still never reads what anyone says or sends a thing to our servers.",
+    "ref": "b4f797a",
+    "features": []
+  },
+  {
     "id": 530,
     "date": "2026-06-17",
     "theme": "Marketing & website",
@@ -22,6 +330,17 @@ var milestonesDataset = [
     "features": []
   },
   {
+    "id": 531,
+    "date": "2026-06-17",
+    "theme": "Marketing & website",
+    "impact": 2,
+    "summary": "Expanded /benefits 19→20 with Delayed Filtering, sharpened the granularity benefit to the Template→Category→Group→Provider drill-down, added an umbrella 'your home gets more sane' line, and made the page setting-agnostic ('Built for you') so non-family buyers aren't excluded.",
+    "detail": null,
+    "benefit": "Clearer, broader benefits page that speaks to households and institutions alike.",
+    "ref": "b00f4d89",
+    "features": []
+  },
+  {
     "id": 528,
     "date": "2026-06-15",
     "theme": "Ad blocking",
@@ -37,7 +356,7 @@ var milestonesDataset = [
     "date": "2026-06-15",
     "theme": "Off-network filtering",
     "impact": 4,
-    "summary": "Haven’s filtering follows your devices off the home network — what people normally bolt Tailscale onto a home setup to get — built in, with no app to install and no separate VPN account. Proven end-to-end this session: a device away from home still receives Haven’s filtered answers through the home router’s own private tunnel, with allowed sites working and blocked ones stopped. And it’s built for dependability: an always-reachable cloud relay backstops the connection, so filtering keeps working even on carrier networks that block direct connections — coverage doesn’t drop.",
+    "summary": "Haven’s filtering accompanies your devices off the home network — what people normally bolt Tailscale onto a home setup to get — built in, with no app to install and no separate VPN account. Proven end-to-end this session: a device away from home still receives Haven’s filtered answers through the home router’s own private tunnel, with allowed sites working and blocked ones stopped. And it’s built for dependability: an always-reachable cloud relay backstops the connection, so filtering keeps working even on carrier networks that block direct connections — coverage doesn’t drop.",
     "detail": null,
     "benefit": "Protection that travels with the device — what people use Tailscale for, without running Tailscale — and more dependable: a redundant path home means filtering keeps working even where a direct connection can’t be made.",
     "ref": "f52390bd0f",
@@ -532,7 +851,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "Locked the no-app off-network design — a phone keeps Haven's filtering on cellular with only a DNS setting (no app to install), routed back to its own home router; and stood up the live relay server it runs on.",
     "detail": null,
-    "benefit": "Filtering follows household members wherever they go without installing anything on the phone — a one-time setting, not yet another monitoring app.",
+    "benefit": "Filtering accompanies household members wherever they go without installing anything on the phone — a one-time setting, not yet another monitoring app.",
     "ref": "",
     "features": []
   },
@@ -988,7 +1307,7 @@ var milestonesDataset = [
     "impact": 5,
     "summary": "overlay+scripts: bake-in Cloudflare Tunnel + DoH stack (Phase 0 off-network)",
     "detail": null,
-    "benefit": "Filtering follows household members off home Wi-Fi — closes the cellular bypass that defeats most competitors.",
+    "benefit": "Filtering accompanies household members off home Wi-Fi — closes the cellular bypass that defeats most competitors.",
     "ref": "c55539ac80",
     "features": [
       {
@@ -1948,7 +2267,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "Cloud-proxy and secure-tunnel features coexist on the Navy router — no auxiliary hardware needed.",
     "detail": "Both off-network capabilities run on the standard Navy hardware without conflict; customers don't need a separate Raspberry Pi or NAS to enable them.",
-    "benefit": "Filtering follows household members off home Wi-Fi — closes the cellular bypass that defeats most competitors. No extra device required.",
+    "benefit": "Filtering accompanies household members off home Wi-Fi — closes the cellular bypass that defeats most competitors. No extra device required.",
     "ref": "",
     "features": []
   },
@@ -3627,7 +3946,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "Session archive 2026-05-12 — user1 burn finish + brand polish + VPN architecture pivot + marketing rewrite",
     "detail": "Comprehensive index of the 2026-05-12 working session. Covers user1 <router serial> ship preparation, brand/UI polish, market research, website rewrite, VPN architecture re-think.",
-    "benefit": "Filtering follows household members off home Wi-Fi — closes the cellular bypass that defeats most competitors.",
+    "benefit": "Filtering accompanies household members off home Wi-Fi — closes the cellular bypass that defeats most competitors.",
     "ref": "",
     "features": []
   },
@@ -3638,7 +3957,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "Haven distributed-VPN strategy pivot: wholesale-partner exit + smart routing replaces peer-mesh exit",
     "detail": "Discussion 2026-05-12 (continuation of exit-node analysis). Dave probed three angles in sequence: (1) hybrid VPN to commercial provider, (2) corporate/wholesale pricing, (3) preservation of the original 'no bandwidth penalty' dream.",
-    "benefit": "Filtering follows household members off home Wi-Fi — closes the cellular bypass that defeats most competitors.",
+    "benefit": "Filtering accompanies household members off home Wi-Fi — closes the cellular bypass that defeats most competitors.",
     "ref": "",
     "features": [
       {
@@ -3654,7 +3973,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "Distributed VPN exit-node analysis — A's traffic via B's Haven, with two complications that force a re-think",
     "detail": "Discussion 2026-05-12. Dave's framing: 'If A is sending packets to a website served by B (B's Haven hosts a VPN endpoint), packets go encrypted A->B, decrypted at B, leave B's LAN unencrypted, and something triggers at the NSA, talk me through it.'",
-    "benefit": "Filtering follows household members off home Wi-Fi — closes the cellular bypass that defeats most competitors.",
+    "benefit": "Filtering accompanies household members off home Wi-Fi — closes the cellular bypass that defeats most competitors.",
     "ref": "",
     "features": [
       {
@@ -4530,7 +4849,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "DDNS piggybacks on the existing daily subscription check-in",
     "detail": "Dave decision 2026-05-10 21:45 CDT: DDNS for the VPN endpoint will piggyback on the existing daily subscription check-in. No external DDNS provider (DuckDNS, Dynu, etc.), no separate update daemon — the router already calls home once a day for the subscription delta; we just add …",
-    "benefit": "Filtering follows household members off home Wi-Fi — closes the cellular bypass that defeats most competitors.",
+    "benefit": "Filtering accompanies household members off home Wi-Fi — closes the cellular bypass that defeats most competitors.",
     "ref": "",
     "features": [
       {
@@ -4550,7 +4869,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "Haven ships with a built-in secure-tunnel endpoint — one toggle activates off-network filtering.",
     "detail": "No third-party VPN service to sign up for; no separate router to configure. Built in.",
-    "benefit": "Filtering follows household members off home Wi-Fi — closes the cellular bypass that defeats most competitors.",
+    "benefit": "Filtering accompanies household members off home Wi-Fi — closes the cellular bypass that defeats most competitors.",
     "ref": "",
     "features": [
       {
@@ -4566,7 +4885,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "Future product spec: Pi5 Haven router as YouTube1 Geerling's full-stack endorsement target",
     "detail": "Strategic vision Dave articulated 2026-05-10: 'In time we will send YouTube1 a Pi5 router with everything he has videoed... native VPN, security, FCC compliant, etc.'",
-    "benefit": "Filtering follows household members off home Wi-Fi — closes the cellular bypass that defeats most competitors.",
+    "benefit": "Filtering accompanies household members off home Wi-Fi — closes the cellular bypass that defeats most competitors.",
     "ref": "",
     "features": []
   },

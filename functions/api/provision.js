@@ -55,7 +55,9 @@ export async function onRequestPost(context) {
     let channel    = String(body.channel || "G").toUpperCase().slice(0, 1);
     if (!CHANNELS.has(channel)) channel = "G";
     const region   = ((request.cf && request.cf.country) || "XX").toUpperCase().replace(/[^A-Z]/g, "X").padEnd(2, "X").slice(0, 2);
-    const ip       = request.headers.get("CF-Connecting-IP") || null;
+    // Privacy root-fix (adq design #9): do NOT persist the router's WAN IP. The
+    // region char is derived from it above, but source_ip itself is never stored —
+    // it was the root of a token->serial->WAN-IP linkage.
 
     const db = env.haven_builds;
 
@@ -67,9 +69,9 @@ export async function onRequestPost(context) {
     let seq;
     try {
         const res = await db.prepare(
-            "INSERT INTO provisioned_units (unit_nonce, channel, hardware, build, region, source_ip, minted_datetime) " +
-            "VALUES (?, ?, ?, ?, ?, ?, datetime('now'))"
-        ).bind(nonce, channel, hardware, build, region, ip).run();
+            "INSERT INTO provisioned_units (unit_nonce, channel, hardware, build, region, minted_datetime) " +
+            "VALUES (?, ?, ?, ?, ?, datetime('now'))"
+        ).bind(nonce, channel, hardware, build, region).run();
         seq = res.meta.last_row_id;
     } catch (e) {
         // Lost a race on UNIQUE(unit_nonce) — the other request won; return its serial.

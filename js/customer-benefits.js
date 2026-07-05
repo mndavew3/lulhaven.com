@@ -3,7 +3,7 @@ var cbDataset = [
     "id": 1,
     "section": "top",
     "lead": "Stop being the internet police",
-    "body": "Haven enforces the household rules, not you.",
+    "body": "Haven enforces the rules, not you.",
     "family_rank": 1,
     "privacy_rank": 8,
     "family_lead": null,
@@ -132,14 +132,14 @@ var cbDataset = [
   {
     "id": 11,
     "section": "main",
-    "lead": "Protection that follows you out the door",
+    "lead": "Protection that accompanies you out the door",
     "body": "The same filtering applies on a phone that has left your Wi-Fi — app free protection.",
     "family_rank": 11,
     "privacy_rank": 16,
     "family_lead": null,
     "privacy_lead": null,
     "related_feature_ids": null,
-    "details": "<p>Filtering at the router only helps while a device is home. Haven extends the home filter to a phone on cellular or someone else's Wi-Fi through a private tunnel and a DNS setting — no app on the device to uninstall, no profile to quietly remove. The rules you set at home keep applying wherever the device goes.</p>",
+    "details": "<p>Filtering at the router only helps while a device is home. Haven extends the home filter to a phone on cellular or someone else's Wi-Fi through a private tunnel and a DNS setting — no app on the device to uninstall, no profile to quietly remove. The rules you set keep applying wherever the device goes.</p>",
     "link": null
   },
   {
@@ -191,7 +191,7 @@ var cbDataset = [
     "family_lead": null,
     "privacy_lead": null,
     "related_feature_ids": null,
-    "details": "<p>Haven isn't a walled garden that locks everything down by default and makes you beg for exceptions. It ships filtering nothing; you switch on the categories your household wants gone and everything else stays exactly as open as it always was. Age-appropriate freedom, not a lockdown — the internet your family chooses, minus the parts you didn't.</p>",
+    "details": "<p>Haven isn't a walled garden that locks everything down by default and makes you beg for exceptions. It ships filtering nothing; you switch on the categories your household wants gone and everything else stays exactly as open as it always was. Age-appropriate freedom, not a lockdown — the internet you choose, minus the parts you didn't.</p>",
     "link": null
   },
   {
@@ -204,20 +204,20 @@ var cbDataset = [
     "family_lead": null,
     "privacy_lead": null,
     "related_feature_ids": null,
-    "details": "<p>Different households draw different lines, for different reasons — faith, age, temperament, conviction. Haven's roughly fifty categories let you build a filter around your family's actual values instead of accepting a vendor's one-size definition of acceptable. Turn on what matters to you, leave the rest, and change your mind anytime.</p>",
+    "details": "<p>Different households draw different lines, for different reasons — faith, age, temperament, conviction. Haven's roughly fifty categories let you build a filter around your actual values instead of accepting a vendor's one-size definition of acceptable. Turn on what matters to you, leave the rest, and change your mind anytime.</p>",
     "link": null
   },
   {
     "id": 17,
     "section": "main",
     "lead": "See what actually happened",
-    "body": "A plain, timestamped log of what got blocked — no guessing, no scanning your kids' messages.",
+    "body": "A plain, timestamped log of what got blocked — no guessing, no scanning anyone's messages.",
     "family_rank": 17,
     "privacy_rank": 12,
     "family_lead": null,
     "privacy_lead": null,
     "related_feature_ids": null,
-    "details": "<p>Haven keeps a timestamped activity log of what was blocked and when, so you can see whether the rules are doing what you intended. It records what the filter did — not the contents of anyone's conversations. Visibility without surveillance: you learn what the household ran into, not what your kids said.</p>",
+    "details": "<p>Haven keeps a timestamped activity log of what was blocked and when, so you can see whether the rules are doing what you intended. It records what the filter did — not the contents of anyone's conversations. Visibility without surveillance: you learn what the household ran into, not what anyone said.</p>",
     "link": null
   },
   {
@@ -257,6 +257,19 @@ var cbDataset = [
     "privacy_lead": null,
     "related_feature_ids": null,
     "details": "<p>Alongside the plain block switch, every provider has a <strong>Delayed Filter</strong>. Turn it on and that category stays reachable for a set window — thirty minutes from the moment you click, by default — then filtering resumes automatically. It is a budget, not a battle: hand a kid a measured daily allowance of TikTok, or give yourself a short, self-closing window to check something you normally keep blocked. Either way nobody has to remember to switch it back off.</p>",
+    "link": null
+  },
+  {
+    "id": 21,
+    "section": "main",
+    "lead": "Help from a real person",
+    "body": "If it's broken or unsafe we'll always help — ongoing hands-on setup and tuning come with your subscription.",
+    "family_rank": 21,
+    "privacy_rank": 21,
+    "family_lead": null,
+    "privacy_lead": null,
+    "related_feature_ids": null,
+    "details": "<p>Filtering is only as good as the help behind it. If your Haven is ever broken, bricked, or doing something unsafe, we will always help you make it right — that is never gated behind a subscription. Your subscription adds the ongoing relationship: hands-on help setting up templates, tuning what is blocked for each household member, getting YouHaven dialed in, and priority answers when you want them. Every Haven arrives with a support honeymoon alongside your first month of list updates; keep your subscription and that help keeps going.</p>",
     "link": null
   }
 ];

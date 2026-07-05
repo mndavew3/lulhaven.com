@@ -1,0 +1,18 @@
+{
+  "name": "adq-ident",
+  "main": "src/index.js",
+  "compatibility_date": "2026-05-03",
+  // NO public ingress: adq-ident is reached ONLY via adq-votes' service binding, so a
+  // household WAN IP + submitter_token never co-locate with cidrs at ident's edge, and the
+  // unauthenticated-internal /credit endpoint is unreachable from the internet (verify #4).
+  "workers_dev": false,
+  // Binds DB_IDENT ONLY. Intentionally NO DB_VOTES / haven_builds binding here —
+  // this Worker is the only one that can see serial<->token.
+  "d1_databases": [
+    {
+      "binding": "DB_IDENT",
+      "database_name": "haven-adq-ident",
+      "database_id": "00000000-0000-0000-0000-00000000ident"
+    }
+  ]
+}

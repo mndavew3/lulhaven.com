@@ -1,0 +1,7 @@
+{
+  "name": "haven-adq",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "description": "Haven community/quorum ad-IP tier — separate Workers (adq-ident binds DB_IDENT; adq-votes binds DB_VOTES) + shared adqMac primitive."
+}

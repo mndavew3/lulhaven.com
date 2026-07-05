@@ -143,6 +143,7 @@ var itemTooltips = {
   "entertainment/apple_tv":"Apple · Ted Lasso · Severance · Original content",
   "entertainment/crunchyroll":"Sony Pictures · Anime streaming · 10 million subscribers",
   "entertainment/disney":"Disney+ · Marvel · Star Wars · Pixar · National Geographic",
+  "entertainment/fox_com":"Fox Broadcasting / fox.com",
   "entertainment/fox_news":"Rupert Murdoch · Sean Hannity · Laura Ingraham · Fox & Friends · Tucker Carlson",
   "entertainment/hulu":"Disney · Live TV · Handmaid's Tale · The Bear",
   "entertainment/max_hbo":"Warner Bros. Discovery · HBO · DC · Game of Thrones · CNN",

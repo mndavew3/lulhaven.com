@@ -69,7 +69,10 @@ export async function onRequestPost(context) {
   const isOwner = body.is_owner || ownerOrg ? 1 : 0;
 
   const today = new Date().toISOString().slice(0, 10);
-  const visitorHash = await sha256hex16(ip + "|" + ua + "|" + today);
+  // Privacy root-fix (adq design #9): key the visitor hash with a Worker secret so
+  // an IP is not recomputable into a visitor_hash. Set once via `wrangler secret
+  // put KYC_SALT`; until then it degrades to the prior (unsalted) behavior, no regression.
+  const visitorHash = await sha256hex16((env.KYC_SALT || "") + "|" + ip + "|" + ua + "|" + today);
   const visitedLocal = localTime(cf.timezone);
 
   await env.haven_builds.prepare(
