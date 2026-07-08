@@ -76,7 +76,7 @@ export async function onRequest(context) {
 
     // Build-maint endpoints (everything under /api/builds/) requires auth cookie.
     if (url.pathname.startsWith("/api/builds/") || url.pathname === "/api/builds"
-        || url.pathname === "/api/signups") {
+        || url.pathname === "/api/signups" || url.pathname === "/api/submissions") {
         const secret = env.BUILD_MAINT_PASSWORD || "";
         if (!secret) {
             return new Response(

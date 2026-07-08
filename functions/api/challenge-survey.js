@@ -3,6 +3,11 @@
 //   → inserts into router_survey; returns JSON.
 // Email is OPTIONAL — required only when judge_interest is set (mirrors the page).
 // Same D1 binding as /api/challenge (haven_builds).
+//
+// On each submission, fires an operator email (non-blocking) via the shared
+// Resend helper — dormant no-op until RESEND_API_KEY is set on the project.
+
+import { sendEmail } from "../_lib/email.js";
 
 const CORS_HEADERS = {
     "Access-Control-Allow-Origin":  "*",
@@ -77,6 +82,25 @@ export async function onRequestPost(context) {
         console.error("router_survey insert error:", err);
         return json({ ok: false, error: "Something went wrong. Please try again." }, 500);
     }
+
+    // Operator notification — non-blocking; no-op until RESEND_API_KEY is set.
+    const esc = s => String(s == null ? "" : s).replace(/[<>&]/g, c => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;" }[c]));
+    const opTo = env.OPERATOR_EMAIL || "mndavew@gmail.com";
+    context.waitUntil(sendEmail({
+        env,
+        to: opTo,
+        subject: `New Challenge survey: ${router}`.slice(0, 120),
+        text: `Router: ${router}\nJudge interest: ${judge_interest ? "yes" : "no"}\nEmail: ${email || "(none)"}\n`
+            + `Priority note: ${priority_note || "(none)"}\nJudge background: ${judge_background || "(none)"}\n`
+            + `IP: ${ip || "(none)"}\n\nView all: https://lulhaven.com/submissions`,
+        html: `<h3>New Challenge survey submission</h3><ul>`
+            + `<li><b>Router:</b> ${esc(router)}</li>`
+            + `<li><b>Judge interest:</b> ${judge_interest ? "yes" : "no"}</li>`
+            + `<li><b>Email:</b> ${esc(email || "(none)")}</li>`
+            + `<li><b>Priority note:</b> ${esc(priority_note || "(none)")}</li>`
+            + `<li><b>Judge background:</b> ${esc(judge_background || "(none)")}</li></ul>`
+            + `<p><a href="https://lulhaven.com/submissions">View all submissions</a></p>`,
+    }).catch(() => {}));
 
     return json({
         ok: true,

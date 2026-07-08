@@ -15,6 +15,7 @@
     { label: "About us",  href: "about.html",    tip: "Who we are" }
   ];
   var CTA = { label: "Start now", href: "index.html#notify" };
+  var CHALLENGE = { label: "⚡ The Challenge", href: "challenge-preview.html" };
   // =================================================================
 
   var TEAL = "#2b7a69";
@@ -33,7 +34,13 @@
     "@keyframes hvn-pulse{0%,100%{color:#d4a017}50%{color:#ffd700}}" +
     ".hvn-nav .hvn-cta{background:" + TEAL + " !important;color:#fff !important;padding:9px 22px;border-radius:30px;" +
       "text-decoration:none;font-weight:700;}" +
-    ".hvn-nav .hvn-cta:hover{background:#23624f;}";
+    ".hvn-nav .hvn-cta:hover{background:#23624f;}" +
+    ".hvn-nav .hvn-challenge{display:inline-flex;align-items:center;gap:7px;background:#c40000 !important;color:#fff !important;" +
+      "padding:9px 18px;border-radius:30px;text-decoration:none;font-weight:800;}" +
+    ".hvn-nav .hvn-challenge:hover{background:#a30000 !important;color:#fff !important;}" +
+    ".hvn-nav .hvn-new{background:#fff;color:#c40000;font-weight:900;border-radius:4px;padding:1px 6px;" +
+      "font-size:.68rem;letter-spacing:.05em;animation:hvn-blink 1.1s steps(1,end) infinite;}" +
+    "@keyframes hvn-blink{50%{opacity:0}}";
 
   function build() {
     var st = document.createElement("style"); st.textContent = css; document.head.appendChild(st);
@@ -43,6 +50,7 @@
       '<a class="hvn-brand" href="index.html">' + (LOGO ? '<img src="' + LOGO + '" alt="">' : "") +
         "<span>" + BRAND + "</span></a>" +
       '<span class="hvn-links">' + links +
+        '<a class="hvn-challenge" href="' + CHALLENGE.href + '"><span class="hvn-new">NEW</span> ' + CHALLENGE.label + "</a>" +
         '<a class="hvn-cta" href="' + CTA.href + '">' + CTA.label + "</a></span>";
     document.body.insertBefore(nav, document.body.firstChild);
   }

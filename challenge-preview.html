@@ -42,9 +42,31 @@
   button.submit:disabled{opacity:.6;cursor:default;}
   #msg{min-height:1.3em;font-weight:600;color:#b3261e;margin-top:2px;}
   footer{padding:34px 0;text-align:center;color:#7b8095;font-size:.85rem;}
+  .site-nav{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:100;}
+  .site-nav .wrap{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px 18px;padding-top:11px;padding-bottom:11px;}
+  .site-nav .brand{display:flex;align-items:center;gap:9px;font-weight:800;font-size:1.18rem;color:var(--navy);text-decoration:none;}
+  .site-nav .brand img{height:30px;width:auto;display:block;}
+  .site-nav .links{display:flex;flex-wrap:wrap;gap:8px 18px;}
+  .site-nav .links a{color:var(--ink);text-decoration:none;font-weight:600;font-size:.95rem;padding:3px 0;border-bottom:2px solid transparent;}
+  .site-nav .links a:hover{color:var(--navy);border-bottom-color:var(--accent);}
 </style>
 </head>
 <body>
+<nav class="site-nav">
+  <div class="wrap">
+    <a class="brand" href="/"><img src="assets/images/lulhaven20dock20line20art202-64x42.png" alt="">Haven</a>
+    <div class="links">
+      <a href="/">Home</a>
+      <a href="/benefits">Benefits</a>
+      <a href="/features">Features</a>
+      <a href="/demo">Demo</a>
+      <a href="/milestones">Milestones</a>
+      <a href="/faq">FAQ</a>
+      <a href="/about">About</a>
+      <a href="/fun">Enjoy!</a>
+    </div>
+  </div>
+</nav>
 <div class="soon">The 2026 Haven Challenge — Early Look</div>
 
 <header class="hero">
