@@ -9,7 +9,7 @@ var cbDataset = [
     "family_lead": null,
     "privacy_lead": null,
     "related_feature_ids": "15,16,23,24",
-    "details": "<p>You're the parent. You set the rules. You are not the daily enforcer. Haven runs the rules continuously, on every device, every site, every time — without you having to be in the room. Templates give you starting points for common household goals; the activity log tells you what happened; multiple admins share the work so it is not one parent's job alone.</p>",
+    "details": "<p>You're the parent. You set the rules. You are not the daily enforcer. Haven runs the rules continuously, on every device, every site, every time — without you having to be in the room. Templates give you starting points for common filtering goals; the activity log tells you what happened; multiple admins share the work so it is not one parent's job alone.</p>",
     "link": null
   },
   {
@@ -35,20 +35,20 @@ var cbDataset = [
     "family_lead": null,
     "privacy_lead": null,
     "related_feature_ids": "13,18",
-    "details": "<p>Old content filters break when their bypasses become well known — and over time, every bypass becomes well known. The workarounds that circulate online — encrypted DNS, VPN apps, Private Relay, browser-built-in DoH, manual DNS changes — do not work against Haven.</p><p>What gets closed off:</p><ul><li><strong>Encrypted DNS (DoH).</strong> Apps and browsers that try to look up sites through Cloudflare, Google, Quad9, etc. are routed back through Haven.</li><li><strong>Apple Private Relay.</strong> The iCloud+ feature that hides browsing from the network is shut down — Haven sees and filters anyway.</li><li><strong>VPN apps.</strong> Consumer VPN apps that pretend to be other traffic are detected and blocked from establishing tunnels.</li><li><strong>Manual DNS changes.</strong> Setting \"Cloudflare DNS\" or \"Google DNS\" in a device's network settings does nothing — Haven catches those too.</li><li><strong>Browser-built-in encrypted lookups.</strong> DNS-over-HTTPS shipped inside Chrome, Firefox, and Edge — built in to dodge home filters automatically — is intercepted before it leaves the home. Same for any app that ships its own encrypted-lookup library.</li></ul><p>This is the difference between \"we have a blocklist\" and \"the blocklist actually holds.\"</p>",
+    "details": "<p>Old content filters break when their bypasses become well known — and over time, every bypass becomes well known. The workarounds that circulate online — encrypted DNS, VPN apps, Private Relay, browser-built-in DoH, manual DNS changes — do not work against Haven.</p><p>What gets closed off:</p><ul><li><strong>Encrypted DNS (DoH).</strong> Apps and browsers that try to look up sites through Cloudflare, Google, Quad9, etc. are routed back through Haven.</li><li><strong>Apple Private Relay.</strong> The iCloud+ feature that hides browsing from the network is shut down — Haven sees and filters anyway.</li><li><strong>VPN apps.</strong> Consumer VPN apps that pretend to be other traffic are detected and blocked from establishing tunnels.</li><li><strong>Manual DNS changes.</strong> Setting \"Cloudflare DNS\" or \"Google DNS\" in a device's network settings does nothing — Haven catches those too.</li><li><strong>Browser-built-in encrypted lookups.</strong> DNS-over-HTTPS shipped inside Chrome, Firefox, and Edge — built in to dodge local filters automatically — is intercepted before it leaves your network. Same for any app that ships its own encrypted-lookup library.</li></ul><p>This is the difference between \"we have a blocklist\" and \"the blocklist actually holds.\"</p>",
     "link": null
   },
   {
     "id": 4,
     "section": "top",
-    "lead": "Covers every device in the house",
+    "lead": "Covers every device you've got",
     "body": "Computers, phones, tablets, TVs, consoles — wired or wireless, all filtered.",
     "family_rank": 3,
     "privacy_rank": 4,
     "family_lead": null,
     "privacy_lead": null,
     "related_feature_ids": "1,14",
-    "details": "<p>Filtering at the router covers everything you let onto your network — anything plugged in by Ethernet, anything joining over Wi-Fi. Desktops, laptops, phones, tablets, smart TVs, game consoles, e-readers, smart speakers. There is no per-device app to install and nothing for a household member to disable on their own phone. When a new device joins, it is filtered the same way as everything else from the moment it connects.</p>",
+    "details": "<p>Filtering at the router covers everything you let onto your network — anything plugged in by Ethernet, anything joining over Wi-Fi. Desktops, laptops, phones, tablets, smart TVs, game consoles, e-readers, smart speakers. There is no per-device app to install and nothing for anyone to disable on their own phone. When a new device joins, it is filtered the same way as everything else from the moment it connects.</p>",
     "link": null
   },
   {
@@ -93,14 +93,14 @@ var cbDataset = [
   {
     "id": 8,
     "section": "main",
-    "lead": "Survives the household stress test",
+    "lead": "Survives the real-world stress test",
     "body": "Settings come back after a factory reset. Tampering does not open the gates.",
     "family_rank": 9,
     "privacy_rank": 9,
     "family_lead": null,
     "privacy_lead": null,
     "related_feature_ids": "10,13",
-    "details": "<p>Reset buttons are reachable. We do not want the difference between \"filtered house\" and \"unfiltered house\" to be ten seconds with a paperclip. Your settings live in a partition of Haven that the normal factory reset does not touch — press and hold reset, watch the lights blink, Haven comes back up with the same admin accounts, the same filter prefs, the same device list. The bypass-resistance closes off the remote tricks too.</p>",
+    "details": "<p>Reset buttons are reachable. We do not want the difference between filtered and unfiltered to be ten seconds with a paperclip. Your settings live in a partition of Haven that the normal factory reset does not touch — press and hold reset, watch the lights blink, Haven comes back up with the same admin accounts, the same filter prefs, the same device list. The bypass-resistance closes off the remote tricks too.</p>",
     "link": null
   },
   {
@@ -113,7 +113,7 @@ var cbDataset = [
     "family_lead": null,
     "privacy_lead": null,
     "related_feature_ids": "15,17,23",
-    "details": "<p>The Haven Helm supports any number of admin accounts, each named. No primary/secondary hierarchy — Mom, Dad, a grandparent, an older sibling, or several staff who share responsibility: all admins see the same screens and can make the same changes. Every change is timestamped against the admin who made it, so \"who turned X back on last Tuesday\" has an answer. New devices show up in the Helm for every admin to see. The coming Family Dashboard extends this view across multiple homes.</p>",
+    "details": "<p>The Haven Helm supports any number of admin accounts, each named. No primary/secondary hierarchy — Mom, Dad, a grandparent, an older sibling, or several staff who share responsibility: all admins see the same screens and can make the same changes. Every change is timestamped against the admin who made it, so \"who turned X back on last Tuesday\" has an answer. New devices show up in the Helm for every admin to see. The coming Family Dashboard extends this view across multiple Havens.</p>",
     "link": null
   },
   {
@@ -139,7 +139,7 @@ var cbDataset = [
     "family_lead": null,
     "privacy_lead": null,
     "related_feature_ids": null,
-    "details": "<p>Filtering at the router only helps while a device is home. Haven extends the home filter to a phone on cellular or someone else's Wi-Fi through a private tunnel and a DNS setting — no app on the device to uninstall, no profile to quietly remove. The rules you set keep applying wherever the device goes.</p>",
+    "details": "<p>Filtering at the router only helps while a device is on your network. Haven extends that filter to a phone on cellular or someone else's Wi-Fi through a private tunnel and a DNS setting — no app on the device to uninstall, no profile to quietly remove. The rules you set keep applying wherever the device goes.</p>",
     "link": null
   },
   {
@@ -165,7 +165,7 @@ var cbDataset = [
     "family_lead": null,
     "privacy_lead": null,
     "related_feature_ids": null,
-    "details": "<p>One household, many people, different needs. Haven recognizes the devices on your network and lets you apply different category sets to different people — tighter for the youngest, looser for the adults — instead of one blanket policy for everyone. Devices are identified and labeled in the Helm so you always know whose rules you're editing.</p>",
+    "details": "<p>One network, many people, different needs. Haven recognizes the devices on your network and lets you apply different category sets to different people — tighter for the youngest, looser for the adults — instead of one blanket policy for everyone. Devices are identified and labeled in the Helm so you always know whose rules you're editing.</p>",
     "link": null
   },
   {
@@ -178,7 +178,7 @@ var cbDataset = [
     "family_lead": null,
     "privacy_lead": null,
     "related_feature_ids": null,
-    "details": "<p>Some of what you want gone isn't a website you can simply not visit — it's a game, a streaming app, a social platform baked into a phone. Because Haven filters at the network, it can block those services for the whole house at once, on devices where there's no setting to turn them off. The app can be installed and still have nothing to talk to.</p>",
+    "details": "<p>Some of what you want gone isn't a website you can simply not visit — it's a game, a streaming app, a social platform baked into a phone. Because Haven filters at the network, it can block those services for the whole local environment at once, on devices where there's no setting to turn them off. The app can be installed and still have nothing to talk to.</p>",
     "link": null
   },
   {
@@ -191,7 +191,7 @@ var cbDataset = [
     "family_lead": null,
     "privacy_lead": null,
     "related_feature_ids": null,
-    "details": "<p>Haven isn't a walled garden that locks everything down by default and makes you beg for exceptions. It ships filtering nothing; you switch on the categories your household wants gone and everything else stays exactly as open as it always was. Age-appropriate freedom, not a lockdown — the internet you choose, minus the parts you didn't.</p>",
+    "details": "<p>Haven isn't a walled garden that locks everything down by default and makes you beg for exceptions. It ships filtering nothing; you switch on the categories you want gone and everything else stays exactly as open as it always was. Age-appropriate freedom, not a lockdown — the internet you choose, minus the parts you didn't.</p>",
     "link": null
   },
   {
@@ -204,7 +204,7 @@ var cbDataset = [
     "family_lead": null,
     "privacy_lead": null,
     "related_feature_ids": null,
-    "details": "<p>Different households draw different lines, for different reasons — faith, age, temperament, conviction. Haven's roughly fifty categories let you build a filter around your actual values instead of accepting a vendor's one-size definition of acceptable. Turn on what matters to you, leave the rest, and change your mind anytime.</p>",
+    "details": "<p>Different people draw different lines, for different reasons — faith, age, temperament, conviction. Haven's roughly fifty categories let you build a filter around your actual values instead of accepting a vendor's one-size definition of acceptable. Turn on what matters to you, leave the rest, and change your mind anytime.</p>",
     "link": null
   },
   {
@@ -217,7 +217,7 @@ var cbDataset = [
     "family_lead": null,
     "privacy_lead": null,
     "related_feature_ids": null,
-    "details": "<p>Haven keeps a timestamped activity log of what was blocked and when, so you can see whether the rules are doing what you intended. It records what the filter did — not the contents of anyone's conversations. Visibility without surveillance: you learn what the household ran into, not what anyone said.</p>",
+    "details": "<p>Haven keeps a timestamped activity log of what was blocked and when, so you can see whether the rules are doing what you intended. It records what the filter did — not the contents of anyone's conversations. Visibility without surveillance: you learn what your people ran into, not what anyone said.</p>",
     "link": null
   },
   {
@@ -230,7 +230,7 @@ var cbDataset = [
     "family_lead": null,
     "privacy_lead": null,
     "related_feature_ids": null,
-    "details": "<p>New phone, new console, a guest's laptop, a kid's hidden second device — when something unfamiliar joins your network, Haven adds it to the device list on the Helm, named the way it named itself, with the time it joined. You see it and decide what rules it gets. Nothing slips onto the household network without showing up.</p>",
+    "details": "<p>New phone, new console, a guest's laptop, a kid's hidden second device — when something unfamiliar joins your network, Haven adds it to the device list on the Helm, named the way it named itself, with the time it joined. You see it and decide what rules it gets. Nothing slips onto your network without showing up.</p>",
     "link": null
   },
   {
@@ -243,7 +243,7 @@ var cbDataset = [
     "family_lead": null,
     "privacy_lead": null,
     "related_feature_ids": null,
-    "details": "<p>Haven's filtering doubles as network-wide ad and tracker blocking. Known ad servers and trackers are refused by Haven, so pages load lighter and cleaner on every device in the house — no browser extension to install, no per-device setup. It's the same one-box approach: turn it on once, it applies everywhere.</p>",
+    "details": "<p>Haven's filtering doubles as network-wide ad and tracker blocking. Known ad servers and trackers are refused by Haven, so pages load lighter and cleaner on every device in the place — no browser extension to install, no per-device setup. It's the same one-box approach: turn it on once, it applies everywhere.</p>",
     "link": null
   },
   {
@@ -269,7 +269,7 @@ var cbDataset = [
     "family_lead": null,
     "privacy_lead": null,
     "related_feature_ids": null,
-    "details": "<p>Filtering is only as good as the help behind it. If your Haven is ever broken, bricked, or doing something unsafe, we will always help you make it right — that is never gated behind a subscription. Your subscription adds the ongoing relationship: hands-on help setting up templates, tuning what is blocked for each household member, getting YouHaven dialed in, and priority answers when you want them. Every Haven arrives with a support honeymoon alongside your first month of list updates; keep your subscription and that help keeps going.</p>",
+    "details": "<p>Filtering is only as good as the help behind it. If your Haven is ever broken, bricked, or doing something unsafe, we will always help you make it right — that is never gated behind a subscription. Your subscription adds the ongoing relationship: hands-on help setting up templates, tuning what is blocked for each person, getting YouHaven dialed in, and priority answers when you want them. Every Haven arrives with a support honeymoon alongside your first month of list updates; keep your subscription and that help keeps going.</p>",
     "link": null
   }
 ];

@@ -204,7 +204,7 @@
         vpn:  "A VPN app hides a device's traffic in an encrypted tunnel to an outside server — an ordinary filter can't see past it. Haven detects and blocks consumer VPN tunnels from leaving the network.",
         doh:  "Browsers can send their DNS lookups encrypted (DNS-over-HTTPS) to Google or Cloudflare, skipping the router's filter entirely. Haven intercepts DoH and routes it back through the filter.",
         relay:"Apple Private Relay hides browsing from the network on iPhones and Macs. Haven sinkholes Private Relay so it can't connect, and filtering keeps working.",
-        dns:  "Typing a public DNS like 8.8.8.8 into a device's settings dodges most home filters. Haven redirects all DNS back to itself, so changing it does nothing."
+        dns:  "Typing a public DNS like 8.8.8.8 into a device's settings dodges most router filters. Haven redirects all DNS back to itself, so changing it does nothing."
       };
       var chips = document.querySelectorAll('#bypass-demo .bp-chip');
       var how = document.getElementById('bp-how');
