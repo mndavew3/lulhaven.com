@@ -1,3 +1,4 @@
 adq/**
 *.BAK*
 **/*.BAK*
+migrations/**
