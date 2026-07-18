@@ -61,9 +61,30 @@ export async function onRequestPost(context) {
 
     const db = env.haven_builds;
 
-    // Idempotency: already minted for this nonce? return it.
-    const existing = await db.prepare("SELECT serial FROM provisioned_units WHERE unit_nonce = ?").bind(nonce).first();
+    // Resume a half-minted row (whetstone #65): the reserve INSERT landed but the
+    // serial UPDATE failed/crashed, leaving serial NULL. Before the fix that row
+    // both failed the idempotency read AND blocked re-insert (UNIQUE unit_nonce)
+    // — the unit could never get its serial without DB surgery. Resume finishes
+    // the mint from the STORED reservation (the authoritative birth record).
+    async function resumeMint(row) {
+        const serial = buildSerial(row.id, row.channel, row.hardware, row.build, row.region);
+        await db.prepare("UPDATE provisioned_units SET serial = ? WHERE id = ? AND serial IS NULL")
+                .bind(serial, row.id).run();
+        // Re-read rather than trust our UPDATE: a racing resume may have won.
+        const done = await db.prepare("SELECT serial FROM provisioned_units WHERE id = ?").bind(row.id).first();
+        return done && done.serial;
+    }
+
+    // Idempotency: already minted for this nonce? return it. NULL serial = resume.
+    const existing = await db.prepare(
+        "SELECT id, serial, channel, hardware, build, region FROM provisioned_units WHERE unit_nonce = ?"
+    ).bind(nonce).first();
     if (existing && existing.serial) return json({ ok: true, serial: existing.serial, reused: true });
+    if (existing) {
+        const s = await resumeMint(existing);
+        if (s) return json({ ok: true, serial: s, reused: true, resumed: true });
+        return json({ ok: false, error: "mint failed" }, 500);
+    }
 
     // Reserve a row (sequence = its rowid). UNIQUE(unit_nonce) makes a racing dup fail.
     let seq;
@@ -74,9 +95,16 @@ export async function onRequestPost(context) {
         ).bind(nonce, channel, hardware, build, region).run();
         seq = res.meta.last_row_id;
     } catch (e) {
-        // Lost a race on UNIQUE(unit_nonce) — the other request won; return its serial.
-        const row = await db.prepare("SELECT serial FROM provisioned_units WHERE unit_nonce = ?").bind(nonce).first();
+        // Lost a race on UNIQUE(unit_nonce) — the other request won; return its
+        // serial, or finish its half-minted row (same resume as above).
+        const row = await db.prepare(
+            "SELECT id, serial, channel, hardware, build, region FROM provisioned_units WHERE unit_nonce = ?"
+        ).bind(nonce).first();
         if (row && row.serial) return json({ ok: true, serial: row.serial, reused: true });
+        if (row) {
+            const s = await resumeMint(row);
+            if (s) return json({ ok: true, serial: s, reused: true, resumed: true });
+        }
         return json({ ok: false, error: "mint failed" }, 500);
     }
 
