@@ -1,5 +1,148 @@
 var milestonesDataset = [
   {
+    "id": 599,
+    "date": "2026-07-19",
+    "theme": "Process / Quality",
+    "impact": 3,
+    "summary": "Expanded our automated quality control with two new tools. One inspects the entire Haven codebase for defects in a single fast pass, now covering areas that had no automated checks before, including the router's on-device interface code and customer-facing text. The other stress-tests the router's control screens with random input to find what breaks. Together they let machines catch problems before a unit ever ships.",
+    "detail": null,
+    "benefit": "Fewer defects reach the routers we ship, because our own software is inspected and stress-tested by machines before a unit ever goes out the door.",
+    "ref": "791b9d34",
+    "features": []
+  },
+  {
+    "id": 596,
+    "date": "2026-07-17",
+    "theme": "Filtering",
+    "impact": 4,
+    "summary": "Privacy protection expanded: Smart TV viewing-recognition, device telemetry, and data-broker endpoints join the filter catalog (44 research-verified additions), and security blocking joins the one-tap Privacy template",
+    "detail": null,
+    "benefit": "One tap now also stops TVs reporting what you watch, gadgets quietly reporting usage, and data brokers collecting your identity",
+    "ref": "37ab20f",
+    "features": []
+  },
+  {
+    "id": 595,
+    "date": "2026-07-17",
+    "theme": "Off-network filtering",
+    "impact": 4,
+    "summary": "Per-device off-network filtering fixed end-to-end and hardened: each device's private address now works, survives router rebuilds, and is verified by an automated test",
+    "detail": null,
+    "benefit": "A family phone keeps its own filtering rules anywhere it goes — and the address on the phone keeps working for good",
+    "ref": "4e3585aa08",
+    "features": []
+  },
+  {
+    "id": 597,
+    "date": "2026-07-17",
+    "theme": "Process / Quality",
+    "impact": 3,
+    "summary": "Three ship-safety hardenings landed: a router can no longer ship with a stale filter list, a self-flashed unit can no longer get permanently stuck obtaining its serial, and every unit's support credentials now have an encrypted, restore-tested off-machine backup",
+    "detail": null,
+    "benefit": "Fewer ways for a shipped router to disappoint: fresher protection out of the box and support access that cannot be lost",
+    "ref": "747e5b7",
+    "features": []
+  },
+  {
+    "id": 598,
+    "date": "2026-07-17",
+    "theme": "Process / Quality",
+    "impact": 2,
+    "summary": "The website's milestones, features, and benefits lists are now verified live on every session close — a new entry that fails to reach the site blocks the close until it does",
+    "detail": null,
+    "benefit": "What we say we shipped and what the site shows can no longer drift apart",
+    "ref": "eef527a",
+    "features": []
+  },
+  {
+    "id": 593,
+    "date": "2026-07-15",
+    "theme": "Process & discipline",
+    "impact": 3,
+    "summary": "Completed a thorough, extensive research pass across our entire build-and-ship process and identified 25 concrete opportunities to improve how Haven gets made — then reviewed every one the same day and put the first five improvements into service immediately",
+    "detail": null,
+    "benefit": "A product is only as trustworthy as the process behind it. Continuously researching and upgrading our own methods — and acting on the findings the same day — is how Haven stays worthy of being the device a family trusts",
+    "ref": "791b9d34-3",
+    "features": []
+  },
+  {
+    "id": 594,
+    "date": "2026-07-15",
+    "theme": "Tooling & infrastructure",
+    "impact": 2,
+    "summary": "Completed our resource-budget instrumentation: the development environment now measures its own capacity in real time, tracks what each kind of task costs, and paces heavy work automatically so long jobs finish instead of stalling",
+    "detail": null,
+    "benefit": "Development that manages its own fuel gauge ships steadily — big improvements land without lost days, which keeps Haven's updates flowing on schedule",
+    "ref": "791b9d34-3",
+    "features": []
+  },
+  {
+    "id": 591,
+    "date": "2026-07-14",
+    "theme": "Process & discipline",
+    "impact": 3,
+    "summary": "Completed a four-pass multi-agent self-audit of our build-and-ship process (Whetstone): 95 improvement candidates banked for triage",
+    "detail": "Campaign survived a hard resource-limit wall, an 18-hour machine suspend, and a process kill with zero work lost — every pass checkpoints its findings to SQLite as it completes",
+    "benefit": "The process that builds Haven now audits itself — flaws are found and queued for fixing before they can reach a shipped router",
+    "ref": "4ce5016f-2",
+    "features": []
+  },
+  {
+    "id": 592,
+    "date": "2026-07-14",
+    "theme": "Tooling & infrastructure",
+    "impact": 2,
+    "summary": "Stood up a resource-budget governor for our development process: live five-hour and weekly usage meters in a machine-readable file, plus a check-the-budget-before-scaling-up rule",
+    "detail": "Off-the-shelf collector vetted against sources; a proposed 500-line custom extension rejected in favor of a one-line hook injection; task estimates anchored to measured sweep costs",
+    "benefit": "Large automated work sessions plan within their fuel budget instead of dying mid-task — steadier progress toward shipping",
+    "ref": "791b9d34-3",
+    "features": []
+  },
+  {
+    "id": 590,
+    "date": "2026-07-10",
+    "theme": "Burn procedure & build station",
+    "impact": 4,
+    "summary": "Two burn-pipeline flaws found by QC and fixed the same day: the customer landing page and per-unit credential recording",
+    "detail": "<router serial> 0.1.51 reburn T6 QC caught (1) a sync that mirrored a stale static index.html over the redirect page and (2) that nothing recorded unit creds. Both fixed; T6 re-run PASS 17/17.",
+    "benefit": "Every burned router now shows the redirect-to-Helm landing page AND has its passwords recorded — no more lost credentials, no dead first-boot page",
+    "ref": "fdecf93",
+    "features": []
+  },
+  {
+    "id": 585,
+    "date": "2026-07-10",
+    "theme": "Bypass resistance",
+    "impact": 3,
+    "summary": "Closed another way around the filter: an app that hard-codes its own public DNS service is now pulled back through Haven's filtering when away from the local network, instead of slipping past it.",
+    "detail": "Well-known public resolver addresses are captured into the on-phone filter; their lookups are redirected to Haven while ordinary traffic is left untouched, so it stays light on the battery.",
+    "benefit": "Protection holds even against apps that try to route their own name lookups around it — on cellular, not just on the local network.",
+    "ref": "4ce5016f",
+    "features": []
+  },
+  {
+    "id": 584,
+    "date": "2026-07-10",
+    "theme": "Tooling & infrastructure",
+    "impact": 2,
+    "summary": "Built companion-app tooling that lets a test phone report its own connection details with a single tap, so wireless testing no longer depends on fiddly manual reconnection steps.",
+    "detail": "The phone discovers its own debug endpoint on-device and sends it to its Haven unit; a helper reads it back and connects automatically, even after the phone reboots onto a new port.",
+    "benefit": "Faster, more reliable device testing means fixes and features reach shipped units sooner.",
+    "ref": "4ce5016f",
+    "features": []
+  },
+  {
+    "id": 583,
+    "date": "2026-07-09",
+    "theme": "Off-network filtering",
+    "impact": 5,
+    "summary": "Confirmed on a real phone that Haven keeps filtering after the phone leaves the local network — on a cellular connection a blocked site stayed blocked while an ordinary site loaded normally.",
+    "detail": "The phone resolves names over an encrypted channel back to its own Haven unit when off-network, so the same category rules apply on the road as at the local network.",
+    "benefit": "The protection travels with the person, not the building — a filtered phone stays filtered on cellular data, away from any local network.",
+    "ref": "4ce5016f",
+    "features": []
+  },
+  {
     "id": 578,
     "date": "2026-07-09",
     "theme": "Off-network filtering",
@@ -8,6 +151,28 @@ var milestonesDataset = [
     "detail": "End-to-end control plane shipped and confirmed on a real phone: a per-category Remote Filter selector in the dashboard (Full / Fast / None, with Fast as the sensible everyday default and Full kept rare); the phone app reports its installed apps; Haven classifies them (games, social, streaming, storefronts) and shows every app with the connection it would use; the administrator can pin any single app; and the phone pulls the finished policy back with one tap. On the first real phone: 185 apps — 6 on Full (the games and browsers that need deep protection), 179 on Fast, none unprotected.",
     "benefit": "You set intent once per category (Full protection, Fast checks, or None); every app on the phone automatically gets the right treatment, and the rare heavy-duty path is reserved for the apps that actually need it.",
     "ref": "38ade0cbd2",
+    "features": []
+  },
+  {
+    "id": 582,
+    "date": "2026-07-09",
+    "theme": "Off-network filtering",
+    "impact": 4,
+    "summary": "Proved a phone can carry Haven's per-app filtering on the device itself.",
+    "detail": "The companion app now runs an on-device filter that reads the per-app policy, leaves opted-out apps untouched, and routes every other app's DNS to Haven. Proven end-to-end on a real phone against a live Haven router: blocked domains fail, allowed ones resolve, all through the on-device path. Engineering milestone, not yet a shipped customer feature; the away-from-network path is built but not yet field-tested.",
+    "benefit": "Groundwork for filtering that rides along per app — the right treatment for each app, set once and carried out the door.",
+    "ref": "4ce5016f",
+    "features": []
+  },
+  {
+    "id": 581,
+    "date": "2026-07-09",
+    "theme": "Bypass resistance",
+    "impact": 4,
+    "summary": "Two more ways to slip past filtering — public web proxies and the Tor network — can each be shut with one switch.",
+    "detail": "Added a Web Proxies category (43 proxy/unblocker sites) and expanded the Tor block with its directory-authority and default-bridge addresses plus circumvention-tool sites (Psiphon, Lantern, Shadowsocks, V2Ray, Snowflake). Blocking the Tor directory authorities stops the Tor client from even starting, which a plain exit-node list never did. Both ship as opt-in toggles over the normal update feed.",
+    "benefit": "Flip on the new Web Proxies and Tor blocks and the common evasion sites stop working on your devices, no tinkering required.",
+    "ref": "fb2e1c5",
     "features": []
   },
   {
@@ -1224,7 +1389,7 @@ var milestonesDataset = [
     "theme": "Process & discipline",
     "impact": 3,
     "summary": "Slimmed the assistant standing instructions by about half and moved the end-of-session routine into an on-demand skill, cutting ongoing overhead with no loss of behavior.",
-    "detail": "Audited the instruction files, moved the Hasta ritual to an on-demand skill, removed duplicated blocks, and documented the harness token-cost model.",
+    "detail": "Audited the instruction files, moved the Hasta ritual to an on-demand skill, removed duplicated blocks, and documented the harness resource-cost model.",
     "benefit": "Lower per-session overhead and cleaner, more reliable instruction-following.",
     "ref": "b9baea50-8637-449a-8fc6-34d755d70326",
     "features": []
@@ -1543,7 +1708,7 @@ var milestonesDataset = [
     "features": [
       {
         "id": 13,
-        "lead": "Nothing gets around it"
+        "lead": "Zero tolerance for bypass"
       },
       {
         "id": 14,
@@ -2235,7 +2400,7 @@ var milestonesDataset = [
     "features": [
       {
         "id": 13,
-        "lead": "Nothing gets around it"
+        "lead": "Zero tolerance for bypass"
       }
     ]
   },
@@ -4529,7 +4694,7 @@ var milestonesDataset = [
     "features": [
       {
         "id": 13,
-        "lead": "Nothing gets around it"
+        "lead": "Zero tolerance for bypass"
       }
     ]
   },
@@ -4954,7 +5119,7 @@ var milestonesDataset = [
       },
       {
         "id": 13,
-        "lead": "Nothing gets around it"
+        "lead": "Zero tolerance for bypass"
       },
       {
         "id": 32,
@@ -4974,7 +5139,7 @@ var milestonesDataset = [
     "features": [
       {
         "id": 13,
-        "lead": "Nothing gets around it"
+        "lead": "Zero tolerance for bypass"
       }
     ]
   },
@@ -5389,7 +5554,7 @@ var milestonesDataset = [
       },
       {
         "id": 13,
-        "lead": "Nothing gets around it"
+        "lead": "Zero tolerance for bypass"
       },
       {
         "id": 32,
@@ -6732,6 +6897,17 @@ var milestonesDataset = [
     ]
   },
   {
+    "id": 589,
+    "date": "2026-04-25",
+    "theme": "Product definition",
+    "impact": 4,
+    "summary": "Coding began — lulhaven.com initial commit; Haven firmware app followed the next day",
+    "detail": "website 8209de7 (2026-04-25 initial commit) + router c07f094192 (2026-04-26 luci-app-haven, Argon theme, E8450 build config).",
+    "benefit": "Start of the build: from conception (Feb 18) to first code in nine weeks, firmware app on day two",
+    "ref": "8209de7",
+    "features": []
+  },
+  {
     "id": 269,
     "date": "2026-04-25",
     "theme": "Demo page",
@@ -6784,5 +6960,38 @@ var milestonesDataset = [
         "lead": "Block what you choose"
       }
     ]
+  },
+  {
+    "id": 588,
+    "date": "2026-03-25",
+    "theme": "Manga / lore",
+    "impact": 3,
+    "summary": "Haven manga origin story drafted — Al, Frances Drake, and Haven's first field test (Haven4.txt)",
+    "detail": "Full opening arc: the twelfth name on the list, the black boxes, IP 42, accelerator-into-accelerator. Thumb Drive/Lulhaven/Haven4.txt, 2026-03-25.",
+    "benefit": "Haven existed as a story before it existed as code: the lore was conceived a month before development began",
+    "ref": "4ce5016f-2",
+    "features": []
+  },
+  {
+    "id": 587,
+    "date": "2026-03-08",
+    "theme": "Product definition",
+    "impact": 3,
+    "summary": "Conceptual design phase — UI concept workbook, Haven product PDF, and full Mobirise mock site",
+    "detail": "UI1.xlsx (Mar 4), Haven.pdf (Mar 8), Mobirise mock site (Mar 14) — Thumb Drive/Lulhaven, pre-coding design arc.",
+    "benefit": "The product was designed on paper before a line of code: UI, positioning, and site all mocked first",
+    "ref": "4ce5016f-2",
+    "features": []
+  },
+  {
+    "id": 586,
+    "date": "2026-02-18",
+    "theme": "Product definition",
+    "impact": 4,
+    "summary": "Haven conceived — first brand artifacts created (Haven logo and lulhaven dock concept art)",
+    "detail": "Oldest Haven artifacts on record: logo.png + lulhaven dock concept, Thumb Drive/Lulhaven, 2026-02-18 13:39. Recovered by filesystem archaeology 2026-07-10.",
+    "benefit": "Marks the true product inception: the vision existed as brand and imagery months before any code",
+    "ref": "4ce5016f-2",
+    "features": []
   }
 ];
