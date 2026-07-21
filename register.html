@@ -66,18 +66,18 @@
   <div class="card">
     <div class="tier founder">
       <div><span class="badge">Founders · first 100</span>
-        <div class="p"><b>$1</b>/mo first year<span class="off">90% off</span></div></div>
-      <div class="note">then $4/mo for life — your best price, always</div>
+        <div class="p"><b>Your best price</b><span class="off">for life</span></div></div>
+      <div class="note">the lowest subscription we offer, locked in for life</div>
     </div>
     <div class="tier">
-      <div class="p"><b>$36</b> first year, billed yearly<span class="off">70% off</span></div>
-      <div class="note">renews at $72/yr ($6/mo)</div>
+      <div class="p"><b>Yearly</b> · best value<span class="off">save more</span></div>
+      <div class="note">billed once a year</div>
     </div>
     <div class="tier">
-      <div class="p"><b>$10</b>/mo monthly</div>
+      <div class="p"><b>Monthly</b></div>
       <div class="note">no commitment</div>
     </div>
-    <p class="anchor">All discounts are off our $10/mo standard rate.</p>
+    <p class="anchor">Subscription pricing will be announced before launch.</p>
   </div>
 
   <!-- Purchase: plan + multi-period -->
@@ -98,10 +98,10 @@
     <p class="unit" id="unitLine">Prepay multiple years up front — your protection just keeps running.</p>
     <div class="total">
       <span>Total today</span>
-      <span><span class="amt" id="amt">$72</span> <span class="cad" id="cad">/ 1 year</span></span>
+      <span><span class="amt" id="amt">To be announced</span> <span class="cad" id="cad"></span></span>
     </div>
-    <button class="cta" id="checkout">Continue to secure checkout →</button>
-    <div class="note-stub" id="stub">Secure Stripe checkout is being wired up — this button is a preview for now.</div>
+    <button class="cta" id="checkout" disabled style="opacity:.55;cursor:default;">Subscriptions open soon</button>
+    <div class="note-stub" id="stub">Subscriptions aren't open yet — pricing and checkout will be announced before launch.</div>
     <div class="serial">Haven serial: <code id="serial">—</code></div>
     <p class="privacy">Only your serial, email, and payment go to Haven — to bill you and keep your lists
        current. Your filtering choices, activity logs, and device list <strong>never leave your router</strong>.</p>
@@ -123,8 +123,8 @@
   function render(){
     var rate = RATE[plan];
     var total = rate * qty;
-    document.getElementById('amt').textContent = '$' + total;
-    document.getElementById('cad').textContent = '/ ' + qty + ' ' + periodWord(plan, qty);
+    document.getElementById('amt').textContent = 'To be announced';
+    document.getElementById('cad').textContent = '';
     document.getElementById('qtyLabel').textContent = 'How many ' + (plan==='annual'?'years':'months') + '?';
     document.getElementById('unitLine').textContent = plan==='annual'
       ? 'Prepay multiple years up front — your protection just keeps running.'

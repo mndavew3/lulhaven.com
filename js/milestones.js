@@ -1,5 +1,27 @@
 var milestonesDataset = [
   {
+    "id": 601,
+    "date": "2026-07-20",
+    "theme": "Helm UI",
+    "impact": 4,
+    "summary": "The Helm — Haven's control screen — got clearer and easier to trust. It now shows the running version on every screen, a one-tap Check-for-updates, a tidy one-section-at-a-time category list that's simple to scan, and readable text on TV browsers. Most importantly, the activity log now shows exactly what Haven filtered — every blocked tracker and ad domain, with the time and the device — so you can see your protection actually working.",
+    "detail": "Session: parse-log.lua read logread but the DNS layer logs to a file -> Helm log blank though blocks recorded; fixed to read the logfacility file + dynamic LAN IP + tail + file-format timestamp. Plus version-on-every-screen, update_run check-button, collapsed one-open accordion, argon light-mode default, short-viewport login fit. Found live on a Fire TV Cube via adb/scrcpy.",
+    "benefit": "You can see Haven working and stay in control: what it blocked and when, which version you are on, and an update a tap away — all readable on any screen, even a television.",
+    "ref": "791b9d34",
+    "features": []
+  },
+  {
+    "id": 600,
+    "date": "2026-07-20",
+    "theme": "Reliability & Updates",
+    "impact": 4,
+    "summary": "Haven's over-the-air update system was proven end-to-end on a live Haven instance: it checked for a new version, downloaded it, verified it was authentic and undamaged, installed it itself, and came back online running the new release — no computer, no cables, one tap. This is the mechanism that keeps every Haven current with the latest protections over its lifetime.",
+    "detail": "First real version-change over-the-air update proven end-to-end on live Haven hardware (0.1.56 to 0.1.57): signed manifest verified against the baked release key, one-tap apply, download plus integrity check, self-install, reboot, confirmed running the new version. Retires the version-change-untested flag.",
+    "benefit": "Your Haven keeps itself up to date. New safeguards and fixes arrive over the internet and install with a single tap, so the Haven instance you own quietly keeps getting better and safer without you ever plugging into a computer.",
+    "ref": "791b9d34",
+    "features": []
+  },
+  {
     "id": 599,
     "date": "2026-07-19",
     "theme": "Process / Quality",
@@ -1278,9 +1300,9 @@ var milestonesDataset = [
     "date": "2026-05-29",
     "theme": "Marketing & website",
     "impact": 5,
-    "summary": "Launched the Haven Founders campaign on lulhaven.com — a Founders-edition Haven Navy router buyable now via secure Stripe checkout, limited to 100, ships Nov 25 2026.",
+    "summary": "Launched the Haven Founders campaign page on lulhaven.com — a Founders-edition Haven Navy router, limited to 100, ships Nov 25 2026.",
     "detail": null,
-    "benefit": "Haven can take real orders today and fund the first production run.",
+    "benefit": "Haven's first production run has a public home and a ships-by date.",
     "ref": "36fc519e18",
     "features": []
   },
@@ -1289,9 +1311,9 @@ var milestonesDataset = [
     "date": "2026-05-29",
     "theme": "Marketing & website",
     "impact": 5,
-    "summary": "Launched the Haven Founders campaign on lulhaven.com: a Founders edition router buyable now through secure checkout, limited to a run of 100.",
-    "detail": "Founders band below the hero with Stripe checkout for the 299 dollar Haven Navy, a manual of-100 counter, and a ships-by date; replaced outdated crowdfunding copy.",
-    "benefit": "Haven can start taking real orders today, funding the first production run.",
+    "summary": "Launched the Haven Founders campaign page on lulhaven.com: a Founders edition router, limited to a run of 100.",
+    "detail": "Founders band below the hero for the Haven Navy, a manual of-100 counter, and a ships-by date; replaced outdated crowdfunding copy.",
+    "benefit": "Haven's first production run has a public home and a ships-by date.",
     "ref": "36fc519e18",
     "features": []
   },
@@ -3947,14 +3969,14 @@ var milestonesDataset = [
     "date": "2026-05-12",
     "theme": "Product definition",
     "impact": 5,
-    "summary": "Haven subscription price set to $4/month 2026-05-12 (was placeholder ~$2/mo)",
-    "detail": "Dave 2026-05-12 in marketing copy: '$4/mo'.",
+    "summary": "Haven subscription pricing locked in 2026-05-12",
+    "detail": "Subscription pricing locked in marketing copy 2026-05-12.",
     "benefit": "Scope and language locked — every downstream decision is faster and more consistent.",
     "ref": "",
     "features": [
       {
         "id": 28,
-        "lead": "$4/month for category updates"
+        "lead": "A low monthly fee for category updates"
       }
     ]
   },
@@ -4241,7 +4263,7 @@ var milestonesDataset = [
     "date": "2026-05-12",
     "theme": "Burn procedure & build station",
     "impact": 4,
-    "summary": "data: ship user1 <router serial> day-2 wiki + golden snapshot + $4/mo pricing",
+    "summary": "data: ship user1 <router serial> day-2 wiki + golden snapshot + subscription pricing",
     "detail": null,
     "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
     "ref": "2a04729a2f",
@@ -4549,12 +4571,12 @@ var milestonesDataset = [
     "impact": 3,
     "summary": "Consumer content-filter market data 2026 — pricing, competitors, Haven positioning headroom",
     "detail": "Research run 2026-05-12 (Dave SERP for 'consumer content filters' + 'single-click consumer content filter market value'). See sources at the end.",
-    "benefit": "Market data behind the $4/month price point. Competitors charge $70–100/yr; Haven undercuts and keeps working if the customer cancels.",
+    "benefit": "Market data behind Haven's pricing. Competitors charge $70–100/yr; Haven undercuts and keeps working if the customer cancels.",
     "ref": "",
     "features": [
       {
         "id": 28,
-        "lead": "$4/month for category updates"
+        "lead": "A low monthly fee for category updates"
       }
     ]
   },
@@ -5254,7 +5276,7 @@ var milestonesDataset = [
       },
       {
         "id": 28,
-        "lead": "$4/month for category updates"
+        "lead": "A low monthly fee for category updates"
       }
     ]
   },

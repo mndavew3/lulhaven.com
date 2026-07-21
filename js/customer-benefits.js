@@ -61,20 +61,20 @@ var cbDataset = [
     "family_lead": null,
     "privacy_lead": null,
     "related_feature_ids": "3,9,10,27",
-    "details": "<p>The router is yours, the filter on it is yours, the settings stay on it. The $4/month subscription pays for ongoing list updates — the moment you cancel, those stop, but the filter keeps doing what it was doing with the most recent list. Survives a factory reset too: your settings come back. This matters specifically because trust in subscription services has been eroded by years of products that hold features hostage when payment stops.</p>",
+    "details": "<p>The router is yours, the filter on it is yours, the settings stay on it. The monthly subscription pays for ongoing list updates — the moment you cancel, those stop, but the filter keeps doing what it was doing with the most recent list. Survives a factory reset too: your settings come back. This matters specifically because trust in subscription services has been eroded by years of products that hold features hostage when payment stops.</p>",
     "link": null
   },
   {
     "id": 6,
     "section": "main",
     "lead": "Genuinely affordable",
-    "body": "$4 per month covers ongoing updates. Competitors charge $70–100 per year for the same baseline.",
+    "body": "A low monthly fee covers ongoing updates. Competitors charge $70–100 per year for the same baseline.",
     "family_rank": 5,
     "privacy_rank": 6,
     "family_lead": null,
     "privacy_lead": null,
     "related_feature_ids": "28",
-    "details": "<p>$4 per month covers weekly category and provider list updates, the research that adds new sites and bypass tactics, and one lightweight off-network mobile device. Competitors in the consumer content-filter category typically charge $70–$100 per year for comparable baseline coverage, frequently with paywalls in front of basic features. Haven keeps the basics in the base price and names the few optional add-ons clearly.</p>",
+    "details": "<p>The subscription covers weekly category and provider list updates, the research that adds new sites and bypass tactics, and one lightweight off-network mobile device. Competitors in the consumer content-filter category typically charge $70–$100 per year for comparable baseline coverage, frequently with paywalls in front of basic features. Haven keeps the basics in the base price and names the few optional add-ons clearly.</p>",
     "link": null
   },
   {
