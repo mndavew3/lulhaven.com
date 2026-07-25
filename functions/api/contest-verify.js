@@ -17,8 +17,8 @@ export async function onRequestPost({ request, env }) {
   ).bind(username.toLowerCase()).first(); } catch { return json({ error: "server error" }, 500); }
   if (!row) return json({ error: "No such account." }, 404);
   if (row.verified) return json({ ok: true, message: "Already verified — please log in." });
-  if (row.code_tries >= MAX_TRIES) return json({ error: "Too many attempts. Register again to get a new code." }, 429);
-  if (Math.floor(Date.now() / 1000) > row.code_expiry) return json({ error: "That code has expired. Register again to get a new one." }, 410);
+  if (row.code_tries >= MAX_TRIES) return json({ error: "Too many attempts. Use “Resend code” to get a fresh one." }, 429);
+  if (Math.floor(Date.now() / 1000) > row.code_expiry) return json({ error: "That code has expired. Use “Resend code” to get a fresh one." }, 410);
 
   if (code !== row.code) {
     try { await env.haven_builds.prepare(

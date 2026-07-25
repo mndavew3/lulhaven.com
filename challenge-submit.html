@@ -62,6 +62,7 @@
       <p class="sub">We emailed a 6-digit code to <strong id="vf-email"></strong>. Enter it to activate your account.</p>
       <label for="vf-code">Verification code</label><input type="text" id="vf-code" inputmode="numeric" maxlength="6" placeholder="000000">
       <button id="vf-btn">Verify</button>
+      <div class="row"><span>Didn't get it?</span><button class="link" id="vf-resend">Resend code</button></div>
     </div>
     <div id="auth-msg" class="msg"></div>
   </div>
@@ -87,7 +88,7 @@
   function show(id){ ["view-login","view-register","view-verify"].forEach(function(v){ $(v).classList.toggle("hidden", v!==id); }); setMsg("auth-msg","",""); }
   function setMsg(id,cls,txt){ var m=$(id); m.className="msg"+(cls?(" "+cls):""); m.textContent=txt; }
   function post(url,body,method){ return fetch(url,{method:method||"POST",headers:{"Content-Type":"application/json"},body:body?JSON.stringify(body):undefined})
-      .then(function(r){ return r.json().then(function(d){ return {ok:r.ok,d:d}; }); }); }
+      .then(function(r){ return r.json().then(function(d){ return {ok:r.ok,status:r.status,d:d}; }); }); }
 
   // panel switching links
   Array.prototype.forEach.call(document.querySelectorAll("[data-go]"), function(b){ b.addEventListener("click", function(){ show("view-"+b.getAttribute("data-go")); }); });
@@ -116,13 +117,26 @@
     }).catch(function(e){ $("vf-btn").disabled=false; setMsg("auth-msg","err","Network error: "+e); });
   });
 
+  // ---- resend code ----
+  $("vf-resend").addEventListener("click", function(){
+    var u=$("li-user").value.trim();
+    if(!u){ setMsg("auth-msg","err","Enter your username, then resend."); return; }
+    $("vf-resend").disabled=true;
+    post("/api/contest-resend",{username:u}).then(function(res){
+      $("vf-resend").disabled=false;
+      if(res.ok&&res.d.ok){ setMsg("auth-msg","ok",res.d.message||"A new code is on its way."); }
+      else setMsg("auth-msg","err",res.d.error||"Could not resend the code.");
+    }).catch(function(e){ $("vf-resend").disabled=false; setMsg("auth-msg","err","Network error: "+e); });
+  });
+
   // ---- login ----
   $("li-btn").addEventListener("click", function(){
     $("li-btn").disabled=true;
     post("/api/contest-login",{username:$("li-user").value.trim(), password:$("li-pass").value}).then(function(res){
       $("li-btn").disabled=false;
-      if(res.ok&&res.d.ok){ toUpload(res.d.username); }
-      else setMsg("auth-msg","err",res.d.error||"Could not log in.");
+      if(res.ok&&res.d.ok){ toUpload(res.d.username); return; }
+      if(res.status===403){ $("vf-email").textContent="your email address"; show("view-verify"); setMsg("auth-msg","err",res.d.error||"Please verify your email — use “Resend code” for a fresh one."); return; }
+      setMsg("auth-msg","err",res.d.error||"Could not log in.");
     }).catch(function(e){ $("li-btn").disabled=false; setMsg("auth-msg","err","Network error: "+e); });
   });
 
