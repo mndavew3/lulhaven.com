@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Submit a Haven Challenge Claim</title>
+<style>
+  :root { --ink:#1a2b3c; --teal:#0f7b6c; --line:rgba(0,0,0,0.12); }
+  * { box-sizing: border-box; }
+  body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; color: var(--ink);
+         max-width: 640px; margin: 0 auto; padding: 32px 20px; line-height: 1.5; }
+  h1 { font-size: 1.5rem; }
+  p.sub { color: #555; }
+  label { display:block; font-weight:600; margin: 16px 0 4px; }
+  input[type=text], input[type=email], textarea {
+    width:100%; padding:10px; border:1px solid var(--line); border-radius:8px; font:inherit; }
+  textarea { min-height: 120px; resize: vertical; }
+  #drop { border: 2px dashed var(--line); border-radius: 12px; padding: 28px; text-align:center;
+          color:#666; cursor:pointer; margin-top:4px; }
+  #drop.hot { border-color: var(--teal); background: rgba(15,123,108,0.06); }
+  #fileinfo { font-size:0.9rem; color: var(--teal); margin-top:6px; }
+  button { margin-top:20px; background: var(--teal); color:#fff; border:0; border-radius:8px;
+           padding:12px 22px; font-size:1rem; font-weight:600; cursor:pointer; }
+  button[disabled] { opacity:0.5; cursor:default; }
+  #msg { margin-top:16px; padding:12px; border-radius:8px; display:none; }
+  #msg.ok { background:#e6f4ea; color:#0b7a40; display:block; }
+  #msg.err { background:#fdecea; color:#b3261e; display:block; }
+</style>
+</head>
+<body>
+  <h1>Submit a Challenge Claim</h1>
+  <p class="sub">Export your settings from the Haven Helm <em>while your router is online</em>, then drop that
+     file here with a short description of what you found. Your export is timestamped and verified on submission.</p>
+
+  <label for="email">Your email</label>
+  <input type="email" id="email" autocomplete="email" required>
+
+  <label for="title">Short title of the finding</label>
+  <input type="text" id="title" maxlength="200" placeholder="e.g. SNI filter bypass via …" required>
+
+  <label for="details">What you found &amp; how to reproduce it</label>
+  <textarea id="details" maxlength="20000" placeholder="Steps, what you expected, what happened."></textarea>
+
+  <label>Your exported Haven file</label>
+  <div id="drop">Drop your <strong>haven-config-….json</strong> here, or click to choose</div>
+  <input type="file" id="file" accept=".json,application/json" hidden>
+  <div id="fileinfo"></div>
+
+  <button id="send" disabled>Submit claim</button>
+  <div id="msg"></div>
+
+<script>
+(function(){
+  var fileText = null;
+  var drop = document.getElementById('drop'), fileInput = document.getElementById('file'),
+      info = document.getElementById('fileinfo'), send = document.getElementById('send'),
+      msg = document.getElementById('msg');
+
+  function refresh(){ send.disabled = !(fileText && document.getElementById('email').value && document.getElementById('title').value); }
+  document.getElementById('email').addEventListener('input', refresh);
+  document.getElementById('title').addEventListener('input', refresh);
+
+  function readFile(f){
+    if (!f) return;
+    if (f.size > 512*1024){ info.textContent = 'That file is too large (max 512 KB).'; fileText=null; refresh(); return; }
+    var r = new FileReader();
+    r.onload = function(){ fileText = r.result; info.textContent = '✓ ' + f.name + ' (' + f.size + ' bytes)'; refresh(); };
+    r.readAsText(f);
+  }
+  drop.addEventListener('click', function(){ fileInput.click(); });
+  fileInput.addEventListener('change', function(){ readFile(fileInput.files[0]); });
+  ['dragenter','dragover'].forEach(function(e){ drop.addEventListener(e, function(ev){ ev.preventDefault(); drop.classList.add('hot'); }); });
+  ['dragleave','drop'].forEach(function(e){ drop.addEventListener(e, function(ev){ ev.preventDefault(); drop.classList.remove('hot'); }); });
+  drop.addEventListener('drop', function(ev){ readFile(ev.dataTransfer.files[0]); });
+
+  send.addEventListener('click', function(){
+    send.disabled = true; msg.className = ''; msg.style.display='none';
+    fetch('/api/claim-intake', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        email: document.getElementById('email').value,
+        claim_title: document.getElementById('title').value,
+        claim_details: document.getElementById('details').value,
+        file_text: fileText
+      })
+    }).then(function(r){ return r.json().then(function(d){ return {ok:r.ok, d:d}; }); })
+      .then(function(res){
+        if (res.ok && res.d.ok){ msg.className='ok'; msg.textContent = res.d.message || 'Claim received.'; }
+        else { msg.className='err'; msg.textContent = 'Could not submit: ' + (res.d.error || 'unknown error'); refresh(); }
+      })
+      .catch(function(e){ msg.className='err'; msg.textContent = 'Network error: ' + e; refresh(); });
+  });
+})();
+</script>
+</body>
+</html>
