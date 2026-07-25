@@ -24,7 +24,7 @@
   .row { display:flex; justify-content:space-between; align-items:center; margin-top:12px; font-size:.92rem; color:#555; }
   #drop { border:2px dashed var(--line); border-radius:12px; padding:26px; text-align:center; color:#666; cursor:pointer; margin-top:4px; }
   #drop.hot { border-color:var(--teal); background:rgba(15,123,108,.06); }
-  #fileinfo { font-size:.9rem; color:var(--teal); margin-top:6px; }
+  #fileinfo, #attachinfo { font-size:.9rem; color:var(--teal); margin-top:6px; }
   .msg { margin-top:14px; padding:11px; border-radius:8px; display:none; }
   .msg.ok { background:#e6f4ea; color:var(--ok); display:block; }
   .msg.err{ background:#fdecea; color:var(--err); display:block; }
@@ -45,6 +45,7 @@
       <label for="li-pass">Password</label><input type="password" id="li-pass" autocomplete="current-password">
       <button id="li-btn">Log in</button>
       <div class="row"><span>New here?</span><button class="link" data-go="register">Create an account</button></div>
+      <div class="row"><span>Forgot your password?</span><button class="link" data-go="forgot">Reset it</button></div>
     </div>
     <!-- register -->
     <div id="view-register" class="hidden">
@@ -64,6 +65,23 @@
       <button id="vf-btn">Verify</button>
       <div class="row"><span>Didn't get it?</span><button class="link" id="vf-resend">Resend code</button></div>
     </div>
+    <!-- forgot: request a reset code -->
+    <div id="view-forgot" class="hidden">
+      <h2 style="font-size:1.15rem;margin:0;">Reset your password</h2>
+      <p class="sub">Enter your username. If it matches an account, we'll email a 6-digit reset code.</p>
+      <label for="fg-user">Username</label><input type="text" id="fg-user" autocomplete="username">
+      <button id="fg-btn">Email me a code</button>
+      <div class="row"><span>Remembered it?</span><button class="link" data-go="login">Back to log in</button></div>
+    </div>
+    <!-- reset: enter code + new password -->
+    <div id="view-reset" class="hidden">
+      <h2 style="font-size:1.15rem;margin:0;">Enter your reset code</h2>
+      <p class="sub">Enter the 6-digit code we emailed, then choose a new password.</p>
+      <label for="rs-code">Reset code</label><input type="text" id="rs-code" inputmode="numeric" maxlength="6" placeholder="000000">
+      <label for="rs-p1">New password</label><input type="password" id="rs-p1" autocomplete="new-password" placeholder="at least 8 characters">
+      <label for="rs-p2">Confirm new password</label><input type="password" id="rs-p2" autocomplete="new-password">
+      <button id="rs-btn">Change password</button>
+    </div>
     <div id="auth-msg" class="msg"></div>
   </div>
 
@@ -78,6 +96,9 @@
     <div id="drop">Drop your <strong>haven-config-….json</strong> here, or click to choose</div>
     <input type="file" id="up-file" accept=".json,application/json" hidden>
     <div id="fileinfo"></div>
+    <label for="up-attach">Screenshot or other file <span style="font-weight:400;color:#888;">(optional, max 8 MB)</span></label>
+    <input type="file" id="up-attach">
+    <div id="attachinfo"></div>
     <button id="up-btn" disabled>Submit claim</button>
     <div id="up-msg" class="msg"></div>
   </div>
@@ -85,7 +106,7 @@
 <script>
 (function(){
   var $ = function(id){ return document.getElementById(id); };
-  function show(id){ ["view-login","view-register","view-verify"].forEach(function(v){ $(v).classList.toggle("hidden", v!==id); }); setMsg("auth-msg","",""); }
+  function show(id){ ["view-login","view-register","view-verify","view-forgot","view-reset"].forEach(function(v){ $(v).classList.toggle("hidden", v!==id); }); setMsg("auth-msg","",""); }
   function setMsg(id,cls,txt){ var m=$(id); m.className="msg"+(cls?(" "+cls):""); m.textContent=txt; }
   function post(url,body,method){ return fetch(url,{method:method||"POST",headers:{"Content-Type":"application/json"},body:body?JSON.stringify(body):undefined})
       .then(function(r){ return r.json().then(function(d){ return {ok:r.ok,status:r.status,d:d}; }); }); }
@@ -129,6 +150,30 @@
     }).catch(function(e){ $("vf-resend").disabled=false; setMsg("auth-msg","err","Network error: "+e); });
   });
 
+  // ---- forgot password: request a code ----
+  $("fg-btn").addEventListener("click", function(){
+    var u=$("fg-user").value.trim();
+    if(!u){ setMsg("auth-msg","err","Enter your username."); return; }
+    $("fg-btn").disabled=true;
+    post("/api/contest-forgot",{username:u}).then(function(res){
+      $("fg-btn").disabled=false;
+      if(res.ok&&res.d.ok){ show("view-reset"); setMsg("auth-msg","ok",res.d.message||"If that account exists, a code is on its way."); }
+      else setMsg("auth-msg","err",res.d.error||"Could not start a reset.");
+    }).catch(function(e){ $("fg-btn").disabled=false; setMsg("auth-msg","err","Network error: "+e); });
+  });
+
+  // ---- reset password: submit code + new password ----
+  $("rs-btn").addEventListener("click", function(){
+    var u=$("fg-user").value.trim();
+    if($("rs-p1").value!==$("rs-p2").value){ setMsg("auth-msg","err","The two passwords don't match."); return; }
+    $("rs-btn").disabled=true;
+    post("/api/contest-reset",{username:u, code:$("rs-code").value.trim(), password:$("rs-p1").value, password2:$("rs-p2").value}).then(function(res){
+      $("rs-btn").disabled=false;
+      if(res.ok&&res.d.ok){ $("li-user").value=u; show("view-login"); setMsg("auth-msg","ok",res.d.message||"Password changed — please log in."); }
+      else setMsg("auth-msg","err",res.d.error||"Could not reset your password.");
+    }).catch(function(e){ $("rs-btn").disabled=false; setMsg("auth-msg","err","Network error: "+e); });
+  });
+
   // ---- login ----
   $("li-btn").addEventListener("click", function(){
     $("li-btn").disabled=true;
@@ -156,12 +201,27 @@
   ["dragenter","dragover"].forEach(function(e){ $("drop").addEventListener(e,function(ev){ ev.preventDefault(); $("drop").classList.add("hot"); }); });
   ["dragleave","drop"].forEach(function(e){ $("drop").addEventListener(e,function(ev){ ev.preventDefault(); $("drop").classList.remove("hot"); }); });
   $("drop").addEventListener("drop",function(ev){ readFile(ev.dataTransfer.files[0]); });
+  // optional screenshot / other file
+  $("up-attach").addEventListener("change",function(){
+    var f=$("up-attach").files[0];
+    if(!f){ $("attachinfo").textContent=""; return; }
+    if(f.size>8*1024*1024){ $("attachinfo").textContent="That file is too large (max 8 MB)."; $("up-attach").value=""; return; }
+    $("attachinfo").textContent="✓ "+f.name+" ("+f.size+" bytes)";
+  });
   $("up-btn").addEventListener("click",function(){
     $("up-btn").disabled=true; setMsg("up-msg","","");
-    post("/api/claim-intake",{claim_title:$("up-title").value, claim_details:$("up-details").value, file_text:fileText}).then(function(res){
-      if(res.ok&&res.d.ok){ setMsg("up-msg","ok",res.d.message||"Claim received."); }
-      else { setMsg("up-msg","err","Could not submit: "+(res.d.error||"unknown error")); refresh(); }
-    }).catch(function(e){ setMsg("up-msg","err","Network error: "+e); refresh(); });
+    var fd=new FormData();
+    fd.append("claim_title",$("up-title").value);
+    fd.append("claim_details",$("up-details").value);
+    fd.append("file_text",fileText);
+    var af=$("up-attach").files[0];
+    if(af) fd.append("attachment",af,af.name);
+    fetch("/api/claim-intake",{method:"POST",body:fd})           // multipart — let the browser set the boundary
+      .then(function(r){ return r.json().then(function(d){ return {ok:r.ok,d:d}; }); })
+      .then(function(res){
+        if(res.ok&&res.d.ok){ setMsg("up-msg","ok",res.d.message||"Claim received."); }
+        else { setMsg("up-msg","err","Could not submit: "+(res.d.error||"unknown error")); refresh(); }
+      }).catch(function(e){ setMsg("up-msg","err","Network error: "+e); refresh(); });
   });
 
   // On load: already signed in?

@@ -25,7 +25,13 @@ CREATE TABLE IF NOT EXISTS contest_claims (
   disqualified_from_priority INTEGER NOT NULL DEFAULT 0,        -- structural: priority query excludes !=attested
   evidence_sufficient        INTEGER NOT NULL DEFAULT 0,        -- judge gate for duplicate-bug priority
   package_description         TEXT,                     -- plain text volunteers read
-  evidence_b64               TEXT,                      -- the uploaded export file (<=512KB)
+  evidence_b64               TEXT,                      -- the settings export text (also archived to R2)
+  package_prefix             TEXT,                      -- R2 prefix holding the whole claim package: claims/<uuid>/
+  settings_r2_key            TEXT,                      -- R2 key of settings.json
+  attachment_r2_key          TEXT,                      -- R2 key of the optional screenshot / other file
+  attachment_name            TEXT,                      -- original filename of the attachment
+  attachment_type            TEXT,                      -- declared content-type of the attachment
+  attachment_bytes           INTEGER,                   -- attachment size in bytes
   source_ip                  TEXT,
   status                     TEXT NOT NULL DEFAULT 'submitted',
   created_datetime           TEXT NOT NULL

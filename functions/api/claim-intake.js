@@ -1,9 +1,14 @@
 // POST /api/claim-intake — a contestant uploads their exported Haven file plus a
-// write-up. This is the ONLY place the attestation token is decrypted.
-// See docs/CONTEST_EXPORT_IMPORT_DESIGN.md §3c/§3d.
+// write-up and (optionally) a screenshot or other supporting file. This is the ONLY
+// place the attestation token is decrypted. See docs/CONTEST_EXPORT_IMPORT_DESIGN.md §3c/§3d/§15.
 //
-// Body (JSON): { email, claim_title, claim_details, file_text }
-//   file_text = the exact contents of the exported haven-config-*.json.
+// Body (multipart/form-data):
+//   claim_title, claim_details — text
+//   file_text                  — the exact contents of the exported haven-config-*.json
+//   attachment                 — OPTIONAL file (screenshot or anything), <= 8 MB
+// The settings export (file_text) is required and validated/attested; the attachment
+// is optional and freeform. Both are packaged to R2 under one per-claim prefix so no
+// component is lost; the D1 row is the index.
 //
 // Ranking authority = this row's AUTOINCREMENT id (SQLite allocates it atomically
 // at INSERT — the single source of truth). A contestant cannot make it earlier;
@@ -20,7 +25,7 @@ const CORS = {
   "Access-Control-Allow-Methods": "POST, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type",
 };
-const MAX_FILE_BYTES = 512 * 1024;
+const MAX_FILE_BYTES = 512 * 1024, MAX_ATTACH_BYTES = 8 * 1024 * 1024;
 const RATE_WINDOW = 3600, RATE_MAX_IP = 40;
 
 const enc = new TextEncoder(), dec = new TextDecoder();
@@ -29,6 +34,12 @@ function json(b, s = 200) {
 }
 const isEmail = (e) => typeof e === "string" && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e.trim()) && e.length <= 254;
 const clean = (s, n) => (typeof s === "string" ? (s.trim().slice(0, n) || null) : null);
+// A safe, short file extension for the R2 object key (cosmetic; real name/type are stored).
+function attExt(name, type) {
+  const dot = typeof name === "string" ? name.lastIndexOf(".") : -1;
+  if (dot > 0) { const e = name.slice(dot).toLowerCase().replace(/[^.a-z0-9]/g, ""); if (e.length >= 2 && e.length <= 8) return e; }
+  return { "image/png": ".png", "image/jpeg": ".jpg", "image/webp": ".webp", "image/gif": ".gif", "application/pdf": ".pdf" }[type] || ".bin";
+}
 
 function b64urlToBytes(s) {
   s = s.replace(/-/g, "+").replace(/_/g, "/");
@@ -87,10 +98,15 @@ export async function onRequestPost(context) {
   try { username = await readSession(env, request.headers.get("Cookie")); } catch { username = null; }
   if (!username) return json({ error: "Please log in to submit a claim." }, 401);
 
-  let body;
-  try { body = await request.json(); } catch { return json({ error: "invalid JSON body" }, 400); }
-  const title = clean(body.claim_title, 200), details = clean(body.claim_details, 20000);
-  const fileText = body.file_text;
+  let form;
+  try { form = await request.formData(); } catch { return json({ error: "expected a multipart form upload" }, 400); }
+  const title = clean(form.get("claim_title"), 200), details = clean(form.get("claim_details"), 20000);
+  const fileText = form.get("file_text");
+  // Optional second upload: a screenshot or any other file to illustrate the claim.
+  const attFile = form.get("attachment");
+  const hasAtt = attFile && typeof attFile !== "string" && attFile.size > 0 && !!attFile.name;
+  if (hasAtt && attFile.size > MAX_ATTACH_BYTES) return json({ error: "attachment too large (max 8 MB)" }, 413);
+  if (hasAtt && !env.contest_files) return json({ error: "file attachments are not available yet" }, 503);
   // Contact email comes from the account, not the request.
   let email = null;
   try {
@@ -163,22 +179,44 @@ export async function onRequestPost(context) {
     lane = "no_contest";
   }
 
-  // ---- Accept: INSERT allocates the atomic id = ranking seq. ----
+  // ---- Package to R2 BEFORE the DB insert, so a recorded claim can never point at
+  // missing files (an orphaned upload with no row is harmless and GC-able). ----
   const tz = env.CONTEST_TZ || "America/Chicago";
   const receivedMs = Date.now();
   const disq = lane !== "attested" ? 1 : 0;
+  let prefix = null, settingsKey = null, attKey = null, attName = null, attType = null, attBytes = null;
+  if (env.contest_files) {
+    prefix = `claims/${crypto.randomUUID()}/`;
+    settingsKey = prefix + "settings.json";
+    try {
+      await env.contest_files.put(settingsKey, fileText, { httpMetadata: { contentType: "application/json" } });
+      if (hasAtt) {
+        attName = String(attFile.name).slice(0, 255);
+        attType = attFile.type || "application/octet-stream";
+        attBytes = attFile.size;
+        attKey = prefix + "attachment" + attExt(attName, attType);
+        await env.contest_files.put(attKey, await attFile.arrayBuffer(), { httpMetadata: { contentType: attType }, customMetadata: { original_name: attName } });
+      }
+    } catch { return json({ error: "could not store your files, please try again" }, 502); }
+  }
+
+  // ---- Accept: INSERT allocates the atomic id = ranking seq. ----
   let ins;
   try {
     ins = await env.haven_builds.prepare(
       `INSERT INTO contest_claims
         (attestation, username, email, claim_title, claim_details, t_receipt_ms, t_export_ms, serial,
          feed_build_id, model, haven_version, tamper_flags, lane, disqualified_from_priority,
-         evidence_sufficient, package_description, evidence_b64, source_ip, status, created_datetime)
-       VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,0,?,?,?, 'submitted', datetime('now'))`
+         evidence_sufficient, package_description, evidence_b64,
+         package_prefix, settings_r2_key, attachment_r2_key, attachment_name, attachment_type, attachment_bytes,
+         source_ip, status, created_datetime)
+       VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,0,?,?,?,?,?,?,?,?,?,'submitted',datetime('now'))`
     ).bind(
       attestation, username, email, title, details, receivedMs, tExport, serial,
       feedBuild, model, hv, flags.join(","), lane, disq,
-      "", fileText, ip
+      "", fileText,
+      prefix, settingsKey, attKey, attName, attType, attBytes,
+      ip
     ).run();
   } catch (e) {
     // UNIQUE(attestation) at the DB layer is the last-resort dedup guard.
@@ -197,5 +235,17 @@ export async function onRequestPost(context) {
     + ` · lane=${lane}` + (flags.length ? ` · flags: ${flags.join(", ")}` : " · device verified");
   try { await env.haven_builds.prepare("UPDATE contest_claims SET package_description=? WHERE id=?").bind(desc, id).run(); } catch {}
 
-  return json({ ok: true, id, message: `Claim #${id} received.` });
+  // Self-describing manifest so the R2 prefix is a complete, standalone package.
+  if (env.contest_files && prefix) {
+    const manifest = {
+      claim_id: id, username, received_utc: new Date(receivedMs).toISOString(), title, lane,
+      serial, feed_build_id: feedBuild, model, haven_version: hv, tamper_flags: flags,
+      settings_key: settingsKey,
+      attachment: hasAtt ? { key: attKey, name: attName, type: attType, bytes: attBytes } : null,
+    };
+    try { await env.contest_files.put(prefix + "manifest.json", JSON.stringify(manifest, null, 2), { httpMetadata: { contentType: "application/json" } }); } catch {}
+  }
+
+  const attNote = hasAtt ? " with your attachment" : "";
+  return json({ ok: true, id, message: `Claim #${id} received${attNote}.` });
 }

@@ -14,6 +14,9 @@ CREATE TABLE IF NOT EXISTS contest_accounts (
   code             TEXT,                        -- 6-digit verification code (cleared on verify)
   code_expiry      INTEGER,                     -- unix seconds
   code_tries       INTEGER NOT NULL DEFAULT 0,
+  reset_code       TEXT,                        -- 6-digit password-reset code (cleared on reset)
+  reset_code_expiry INTEGER,                    -- unix seconds
+  reset_tries      INTEGER NOT NULL DEFAULT 0,
   created_datetime TEXT NOT NULL
 );
 CREATE INDEX IF NOT EXISTS idx_contest_accounts_email ON contest_accounts(email);

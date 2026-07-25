@@ -17,3 +17,11 @@ database_id   = "81825dcc-f0c7-4af6-82ae-76db72a2448a"
 binding       = "haven_wiki"
 database_name = "haven-wiki"
 database_id   = "caa95dda-bf1c-4ab8-a1bd-ed7071386395"
+
+# R2 bucket holding Challenge claim packages (settings export + attachment +
+# manifest, one prefix per claim). Files are too large / wrong-shaped for D1.
+# LAUNCH PREREQUISITE — create the bucket before a contest opens:
+#   wrangler r2 bucket create haven-contest-files
+[[r2_buckets]]
+binding     = "contest_files"
+bucket_name = "haven-contest-files"
