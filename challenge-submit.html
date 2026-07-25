@@ -4,93 +4,154 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Submit a Haven Challenge Claim</title>
+<title>Haven Challenge — Submit a Claim</title>
 <style>
-  :root { --ink:#1a2b3c; --teal:#0f7b6c; --line:rgba(0,0,0,0.12); }
+  :root { --ink:#1a2b3c; --teal:#0f7b6c; --line:rgba(0,0,0,0.12); --err:#b3261e; --ok:#0b7a40; }
   * { box-sizing: border-box; }
   body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; color: var(--ink);
-         max-width: 640px; margin: 0 auto; padding: 32px 20px; line-height: 1.5; }
-  h1 { font-size: 1.5rem; }
-  p.sub { color: #555; }
-  label { display:block; font-weight:600; margin: 16px 0 4px; }
-  input[type=text], input[type=email], textarea {
+         max-width: 560px; margin: 0 auto; padding: 32px 20px; line-height: 1.5; }
+  h1 { font-size: 1.5rem; margin-bottom: 4px; }
+  p.sub { color:#555; margin-top:0; }
+  .card { border:1px solid var(--line); border-radius:12px; padding:20px; margin-top:18px; }
+  label { display:block; font-weight:600; margin:14px 0 4px; }
+  input[type=text],input[type=email],input[type=password],textarea {
     width:100%; padding:10px; border:1px solid var(--line); border-radius:8px; font:inherit; }
-  textarea { min-height: 120px; resize: vertical; }
-  #drop { border: 2px dashed var(--line); border-radius: 12px; padding: 28px; text-align:center;
-          color:#666; cursor:pointer; margin-top:4px; }
-  #drop.hot { border-color: var(--teal); background: rgba(15,123,108,0.06); }
-  #fileinfo { font-size:0.9rem; color: var(--teal); margin-top:6px; }
-  button { margin-top:20px; background: var(--teal); color:#fff; border:0; border-radius:8px;
-           padding:12px 22px; font-size:1rem; font-weight:600; cursor:pointer; }
-  button[disabled] { opacity:0.5; cursor:default; }
-  #msg { margin-top:16px; padding:12px; border-radius:8px; display:none; }
-  #msg.ok { background:#e6f4ea; color:#0b7a40; display:block; }
-  #msg.err { background:#fdecea; color:#b3261e; display:block; }
+  textarea { min-height:110px; resize:vertical; }
+  button { margin-top:18px; background:var(--teal); color:#fff; border:0; border-radius:8px;
+           padding:11px 20px; font-size:1rem; font-weight:600; cursor:pointer; }
+  button[disabled]{ opacity:.5; cursor:default; }
+  .link { background:none; border:0; color:var(--teal); cursor:pointer; font:inherit; padding:0; text-decoration:underline; }
+  .row { display:flex; justify-content:space-between; align-items:center; margin-top:12px; font-size:.92rem; color:#555; }
+  #drop { border:2px dashed var(--line); border-radius:12px; padding:26px; text-align:center; color:#666; cursor:pointer; margin-top:4px; }
+  #drop.hot { border-color:var(--teal); background:rgba(15,123,108,.06); }
+  #fileinfo { font-size:.9rem; color:var(--teal); margin-top:6px; }
+  .msg { margin-top:14px; padding:11px; border-radius:8px; display:none; }
+  .msg.ok { background:#e6f4ea; color:var(--ok); display:block; }
+  .msg.err{ background:#fdecea; color:var(--err); display:block; }
+  .hidden { display:none; }
+  .who { text-align:right; font-size:.9rem; color:#555; }
 </style>
 </head>
 <body>
   <h1>Submit a Challenge Claim</h1>
-  <p class="sub">Export your settings from the Haven Helm <em>while your router is online</em>, then drop that
-     file here with a short description of what you found. Your export is timestamped and verified on submission.</p>
+  <p class="sub">Sign in (or create a free account), then upload your exported Haven file with a short description.</p>
 
-  <label for="email">Your email</label>
-  <input type="email" id="email" autocomplete="email" required>
+  <!-- ============ AUTH ============ -->
+  <div id="panel-auth" class="card">
+    <!-- login -->
+    <div id="view-login">
+      <h2 style="font-size:1.15rem;margin:0;">Log in</h2>
+      <label for="li-user">Username</label><input type="text" id="li-user" autocomplete="username">
+      <label for="li-pass">Password</label><input type="password" id="li-pass" autocomplete="current-password">
+      <button id="li-btn">Log in</button>
+      <div class="row"><span>New here?</span><button class="link" data-go="register">Create an account</button></div>
+    </div>
+    <!-- register -->
+    <div id="view-register" class="hidden">
+      <h2 style="font-size:1.15rem;margin:0;">Create an account</h2>
+      <label for="rg-user">Username</label><input type="text" id="rg-user" autocomplete="username" placeholder="3–32 letters, numbers, underscore">
+      <label for="rg-email">Email</label><input type="email" id="rg-email" autocomplete="email">
+      <label for="rg-p1">Password</label><input type="password" id="rg-p1" autocomplete="new-password" placeholder="at least 8 characters">
+      <label for="rg-p2">Confirm password</label><input type="password" id="rg-p2" autocomplete="new-password">
+      <button id="rg-btn">Create account</button>
+      <div class="row"><span>Already have one?</span><button class="link" data-go="login">Log in</button></div>
+    </div>
+    <!-- verify -->
+    <div id="view-verify" class="hidden">
+      <h2 style="font-size:1.15rem;margin:0;">Verify your email</h2>
+      <p class="sub">We emailed a 6-digit code to <strong id="vf-email"></strong>. Enter it to activate your account.</p>
+      <label for="vf-code">Verification code</label><input type="text" id="vf-code" inputmode="numeric" maxlength="6" placeholder="000000">
+      <button id="vf-btn">Verify</button>
+    </div>
+    <div id="auth-msg" class="msg"></div>
+  </div>
 
-  <label for="title">Short title of the finding</label>
-  <input type="text" id="title" maxlength="200" placeholder="e.g. SNI filter bypass via …" required>
-
-  <label for="details">What you found &amp; how to reproduce it</label>
-  <textarea id="details" maxlength="20000" placeholder="Steps, what you expected, what happened."></textarea>
-
-  <label>Your exported Haven file</label>
-  <div id="drop">Drop your <strong>haven-config-….json</strong> here, or click to choose</div>
-  <input type="file" id="file" accept=".json,application/json" hidden>
-  <div id="fileinfo"></div>
-
-  <button id="send" disabled>Submit claim</button>
-  <div id="msg"></div>
+  <!-- ============ UPLOAD ============ -->
+  <div id="panel-upload" class="card hidden">
+    <div class="who">Signed in as <strong id="who-name"></strong> · <button class="link" id="logout">log out</button></div>
+    <label for="up-title">Short title of the finding</label>
+    <input type="text" id="up-title" maxlength="200" placeholder="e.g. SNI filter bypass via …">
+    <label for="up-details">What you found &amp; how to reproduce it</label>
+    <textarea id="up-details" maxlength="20000" placeholder="Steps, what you expected, what happened."></textarea>
+    <label>Your exported Haven file</label>
+    <div id="drop">Drop your <strong>haven-config-….json</strong> here, or click to choose</div>
+    <input type="file" id="up-file" accept=".json,application/json" hidden>
+    <div id="fileinfo"></div>
+    <button id="up-btn" disabled>Submit claim</button>
+    <div id="up-msg" class="msg"></div>
+  </div>
 
 <script>
 (function(){
-  var fileText = null;
-  var drop = document.getElementById('drop'), fileInput = document.getElementById('file'),
-      info = document.getElementById('fileinfo'), send = document.getElementById('send'),
-      msg = document.getElementById('msg');
+  var $ = function(id){ return document.getElementById(id); };
+  function show(id){ ["view-login","view-register","view-verify"].forEach(function(v){ $(v).classList.toggle("hidden", v!==id); }); setMsg("auth-msg","",""); }
+  function setMsg(id,cls,txt){ var m=$(id); m.className="msg"+(cls?(" "+cls):""); m.textContent=txt; }
+  function post(url,body,method){ return fetch(url,{method:method||"POST",headers:{"Content-Type":"application/json"},body:body?JSON.stringify(body):undefined})
+      .then(function(r){ return r.json().then(function(d){ return {ok:r.ok,d:d}; }); }); }
 
-  function refresh(){ send.disabled = !(fileText && document.getElementById('email').value && document.getElementById('title').value); }
-  document.getElementById('email').addEventListener('input', refresh);
-  document.getElementById('title').addEventListener('input', refresh);
+  // panel switching links
+  Array.prototype.forEach.call(document.querySelectorAll("[data-go]"), function(b){ b.addEventListener("click", function(){ show("view-"+b.getAttribute("data-go")); }); });
 
-  function readFile(f){
-    if (!f) return;
-    if (f.size > 512*1024){ info.textContent = 'That file is too large (max 512 KB).'; fileText=null; refresh(); return; }
-    var r = new FileReader();
-    r.onload = function(){ fileText = r.result; info.textContent = '✓ ' + f.name + ' (' + f.size + ' bytes)'; refresh(); };
-    r.readAsText(f);
-  }
-  drop.addEventListener('click', function(){ fileInput.click(); });
-  fileInput.addEventListener('change', function(){ readFile(fileInput.files[0]); });
-  ['dragenter','dragover'].forEach(function(e){ drop.addEventListener(e, function(ev){ ev.preventDefault(); drop.classList.add('hot'); }); });
-  ['dragleave','drop'].forEach(function(e){ drop.addEventListener(e, function(ev){ ev.preventDefault(); drop.classList.remove('hot'); }); });
-  drop.addEventListener('drop', function(ev){ readFile(ev.dataTransfer.files[0]); });
+  function toUpload(name){ $("panel-auth").classList.add("hidden"); $("panel-upload").classList.remove("hidden"); $("who-name").textContent=name; }
 
-  send.addEventListener('click', function(){
-    send.disabled = true; msg.className = ''; msg.style.display='none';
-    fetch('/api/claim-intake', {
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({
-        email: document.getElementById('email').value,
-        claim_title: document.getElementById('title').value,
-        claim_details: document.getElementById('details').value,
-        file_text: fileText
-      })
-    }).then(function(r){ return r.json().then(function(d){ return {ok:r.ok, d:d}; }); })
-      .then(function(res){
-        if (res.ok && res.d.ok){ msg.className='ok'; msg.textContent = res.d.message || 'Claim received.'; }
-        else { msg.className='err'; msg.textContent = 'Could not submit: ' + (res.d.error || 'unknown error'); refresh(); }
-      })
-      .catch(function(e){ msg.className='err'; msg.textContent = 'Network error: ' + e; refresh(); });
+  // ---- register ----
+  $("rg-btn").addEventListener("click", function(){
+    var body={username:$("rg-user").value.trim(), email:$("rg-email").value.trim(), password:$("rg-p1").value, password2:$("rg-p2").value};
+    if(body.password!==body.password2){ setMsg("auth-msg","err","The two passwords don't match."); return; }
+    $("rg-btn").disabled=true;
+    post("/api/contest-register",body).then(function(res){
+      $("rg-btn").disabled=false;
+      if(res.ok&&res.d.ok){ $("vf-email").textContent=body.email; $("li-user").value=body.username; show("view-verify"); }
+      else setMsg("auth-msg","err",res.d.error||"Could not create account.");
+    }).catch(function(e){ $("rg-btn").disabled=false; setMsg("auth-msg","err","Network error: "+e); });
   });
+
+  // ---- verify ----
+  $("vf-btn").addEventListener("click", function(){
+    $("vf-btn").disabled=true;
+    post("/api/contest-verify",{username:$("li-user").value.trim(), code:$("vf-code").value.trim()}).then(function(res){
+      $("vf-btn").disabled=false;
+      if(res.ok&&res.d.ok){ show("view-login"); setMsg("auth-msg","ok","Email verified — please log in."); }
+      else setMsg("auth-msg","err",res.d.error||"Could not verify.");
+    }).catch(function(e){ $("vf-btn").disabled=false; setMsg("auth-msg","err","Network error: "+e); });
+  });
+
+  // ---- login ----
+  $("li-btn").addEventListener("click", function(){
+    $("li-btn").disabled=true;
+    post("/api/contest-login",{username:$("li-user").value.trim(), password:$("li-pass").value}).then(function(res){
+      $("li-btn").disabled=false;
+      if(res.ok&&res.d.ok){ toUpload(res.d.username); }
+      else setMsg("auth-msg","err",res.d.error||"Could not log in.");
+    }).catch(function(e){ $("li-btn").disabled=false; setMsg("auth-msg","err","Network error: "+e); });
+  });
+
+  // ---- logout ----
+  $("logout").addEventListener("click", function(){
+    post("/api/contest-login",null,"DELETE").then(function(){ $("panel-upload").classList.add("hidden"); $("panel-auth").classList.remove("hidden"); show("view-login"); });
+  });
+
+  // ---- upload ----
+  var fileText=null;
+  function refresh(){ $("up-btn").disabled=!(fileText&&$("up-title").value.trim()); }
+  $("up-title").addEventListener("input",refresh);
+  function readFile(f){ if(!f)return; if(f.size>512*1024){ $("fileinfo").textContent="That file is too large (max 512 KB)."; fileText=null; refresh(); return; }
+    var r=new FileReader(); r.onload=function(){ fileText=r.result; $("fileinfo").textContent="✓ "+f.name+" ("+f.size+" bytes)"; refresh(); }; r.readAsText(f); }
+  $("drop").addEventListener("click",function(){ $("up-file").click(); });
+  $("up-file").addEventListener("change",function(){ readFile($("up-file").files[0]); });
+  ["dragenter","dragover"].forEach(function(e){ $("drop").addEventListener(e,function(ev){ ev.preventDefault(); $("drop").classList.add("hot"); }); });
+  ["dragleave","drop"].forEach(function(e){ $("drop").addEventListener(e,function(ev){ ev.preventDefault(); $("drop").classList.remove("hot"); }); });
+  $("drop").addEventListener("drop",function(ev){ readFile(ev.dataTransfer.files[0]); });
+  $("up-btn").addEventListener("click",function(){
+    $("up-btn").disabled=true; setMsg("up-msg","","");
+    post("/api/claim-intake",{claim_title:$("up-title").value, claim_details:$("up-details").value, file_text:fileText}).then(function(res){
+      if(res.ok&&res.d.ok){ setMsg("up-msg","ok",res.d.message||"Claim received."); }
+      else { setMsg("up-msg","err","Could not submit: "+(res.d.error||"unknown error")); refresh(); }
+    }).catch(function(e){ setMsg("up-msg","err","Network error: "+e); refresh(); });
+  });
+
+  // On load: already signed in?
+  fetch("/api/contest-me").then(function(r){ return r.json(); }).then(function(d){ if(d&&d.username) toUpload(d.username); }).catch(function(){});
 })();
 </script>
 </body>

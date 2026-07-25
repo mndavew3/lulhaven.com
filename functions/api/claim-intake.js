@@ -9,6 +9,11 @@
 // at INSERT — the single source of truth). A contestant cannot make it earlier;
 // they can only submit later. Reject checks run BEFORE the insert, so rejected
 // junk never consumes an id. The encrypted token's time is provenance only.
+//
+// AUTH: the submitter must be a logged-in Challenge participant (session cookie).
+// The claim is attributed to their account username; email is taken from the
+// account, not a free-text field.
+import { readSession } from "../_lib/account.js";
 
 const CORS = {
   "Access-Control-Allow-Origin": "*",
@@ -77,11 +82,22 @@ export async function onRequestPost(context) {
   const ip = request.headers.get("CF-Connecting-IP") || "";
   if (!(await allowIp(env, ip))) return json({ error: "rate limited" }, 429);
 
+  // Must be a logged-in participant.
+  let username = null;
+  try { username = await readSession(env, request.headers.get("Cookie")); } catch { username = null; }
+  if (!username) return json({ error: "Please log in to submit a claim." }, 401);
+
   let body;
   try { body = await request.json(); } catch { return json({ error: "invalid JSON body" }, 400); }
-  const email = body.email, title = clean(body.claim_title, 200), details = clean(body.claim_details, 20000);
+  const title = clean(body.claim_title, 200), details = clean(body.claim_details, 20000);
   const fileText = body.file_text;
-  if (!isEmail(email)) return json({ error: "a valid email is required" }, 400);
+  // Contact email comes from the account, not the request.
+  let email = null;
+  try {
+    const acct = await env.haven_builds.prepare("SELECT email FROM contest_accounts WHERE username_lc=?")
+      .bind(username.toLowerCase()).first();
+    email = acct ? acct.email : null;
+  } catch { email = null; }
   if (!title) return json({ error: "a claim title is required" }, 400);
   if (typeof fileText !== "string" || fileText.length === 0) return json({ error: "attach your exported Haven file" }, 400);
   if (fileText.length > MAX_FILE_BYTES) return json({ error: "file too large" }, 413);
@@ -155,12 +171,12 @@ export async function onRequestPost(context) {
   try {
     ins = await env.haven_builds.prepare(
       `INSERT INTO contest_claims
-        (attestation, email, claim_title, claim_details, t_receipt_ms, t_export_ms, serial,
+        (attestation, username, email, claim_title, claim_details, t_receipt_ms, t_export_ms, serial,
          feed_build_id, model, haven_version, tamper_flags, lane, disqualified_from_priority,
          evidence_sufficient, package_description, evidence_b64, source_ip, status, created_datetime)
-       VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,0,?,?,?, 'submitted', datetime('now'))`
+       VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,0,?,?,?, 'submitted', datetime('now'))`
     ).bind(
-      attestation, email.trim(), title, details, receivedMs, tExport, serial,
+      attestation, username, email, title, details, receivedMs, tExport, serial,
       feedBuild, model, hv, flags.join(","), lane, disq,
       "", fileText, ip
     ).run();
@@ -173,7 +189,7 @@ export async function onRequestPost(context) {
 
   // Package description volunteers read (plain text; no crypto for them).
   const desc =
-    `Claim #${id} · received ${fmt(receivedMs, "UTC")} UTC (${fmt(receivedMs, tz)} ${tz})`
+    `Claim #${id} · by ${username} · received ${fmt(receivedMs, "UTC")} UTC (${fmt(receivedMs, tz)} ${tz})`
     + (tExport ? ` · exported ${fmt(tExport, "UTC")} UTC` : "")
     + (serial ? ` · serial ${serial}` : "")
     + (feedBuild ? ` · feed ${feedBuild}` : "")

@@ -9,7 +9,8 @@
 CREATE TABLE IF NOT EXISTS contest_claims (
   id                         INTEGER PRIMARY KEY AUTOINCREMENT,
   attestation                TEXT UNIQUE,               -- stops a stolen file being re-credited
-  email                      TEXT NOT NULL,
+  username                   TEXT,                      -- the logged-in participant (attribution)
+  email                      TEXT,                      -- copied from their account for contact
   claim_title                TEXT NOT NULL,
   claim_details              TEXT,
   t_receipt_ms               INTEGER NOT NULL,          -- display/diagnostic only
