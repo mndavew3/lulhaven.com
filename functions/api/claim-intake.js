@@ -106,7 +106,7 @@ export async function onRequestPost(context) {
   const attFile = form.get("attachment");
   const hasAtt = attFile && typeof attFile !== "string" && attFile.size > 0 && !!attFile.name;
   if (hasAtt && attFile.size > MAX_ATTACH_BYTES) return json({ error: "attachment too large (max 8 MB)" }, 413);
-  if (hasAtt && !env.contest_files) return json({ error: "file attachments are not available yet" }, 503);
+  if (hasAtt && !env.haven_contest_files) return json({ error: "file attachments are not available yet" }, 503);
   // Contact email comes from the account, not the request.
   let email = null;
   try {
@@ -185,17 +185,17 @@ export async function onRequestPost(context) {
   const receivedMs = Date.now();
   const disq = lane !== "attested" ? 1 : 0;
   let prefix = null, settingsKey = null, attKey = null, attName = null, attType = null, attBytes = null;
-  if (env.contest_files) {
+  if (env.haven_contest_files) {
     prefix = `claims/${crypto.randomUUID()}/`;
     settingsKey = prefix + "settings.json";
     try {
-      await env.contest_files.put(settingsKey, fileText, { httpMetadata: { contentType: "application/json" } });
+      await env.haven_contest_files.put(settingsKey, fileText, { httpMetadata: { contentType: "application/json" } });
       if (hasAtt) {
         attName = String(attFile.name).slice(0, 255);
         attType = attFile.type || "application/octet-stream";
         attBytes = attFile.size;
         attKey = prefix + "attachment" + attExt(attName, attType);
-        await env.contest_files.put(attKey, await attFile.arrayBuffer(), { httpMetadata: { contentType: attType }, customMetadata: { original_name: attName } });
+        await env.haven_contest_files.put(attKey, await attFile.arrayBuffer(), { httpMetadata: { contentType: attType }, customMetadata: { original_name: attName } });
       }
     } catch { return json({ error: "could not store your files, please try again" }, 502); }
   }
@@ -236,14 +236,14 @@ export async function onRequestPost(context) {
   try { await env.haven_builds.prepare("UPDATE contest_claims SET package_description=? WHERE id=?").bind(desc, id).run(); } catch {}
 
   // Self-describing manifest so the R2 prefix is a complete, standalone package.
-  if (env.contest_files && prefix) {
+  if (env.haven_contest_files && prefix) {
     const manifest = {
       claim_id: id, username, received_utc: new Date(receivedMs).toISOString(), title, lane,
       serial, feed_build_id: feedBuild, model, haven_version: hv, tamper_flags: flags,
       settings_key: settingsKey,
       attachment: hasAtt ? { key: attKey, name: attName, type: attType, bytes: attBytes } : null,
     };
-    try { await env.contest_files.put(prefix + "manifest.json", JSON.stringify(manifest, null, 2), { httpMetadata: { contentType: "application/json" } }); } catch {}
+    try { await env.haven_contest_files.put(prefix + "manifest.json", JSON.stringify(manifest, null, 2), { httpMetadata: { contentType: "application/json" } }); } catch {}
   }
 
   const attNote = hasAtt ? " with your attachment" : "";
