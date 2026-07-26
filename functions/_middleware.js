@@ -74,6 +74,27 @@ export async function onRequest(context) {
         return next();
     }
 
+    // Contest gate — the entire Haven Challenge surface is dormant until the
+    // operator flips CONTEST_ACTIVE=1 (and before any CONTEST_END). Checked here
+    // so every contest route is gated in ONE place (single source of truth: flip
+    // one flag to open the next annual contest). attest/claim-intake also self-
+    // check; this closes the account endpoints (register/verify/login/…) too.
+    // Closed => 403, nothing runs. /api/challenge (coming-soon interest) is NOT
+    // gated — it stays open before the contest so people can register interest.
+    const p = url.pathname;
+    if (p.startsWith("/api/contest-") || p === "/api/claim-intake"
+        || p === "/api/finding" || p === "/api/attest") {
+        const now = Math.floor(Date.now() / 1000);
+        const contestActive = env.CONTEST_ACTIVE === "1"
+            && (!env.CONTEST_END || now <= Number(env.CONTEST_END));
+        if (!contestActive) {
+            return new Response(
+                JSON.stringify({ error: "The Haven Challenge is not currently open." }),
+                { status: 403, headers: { "Content-Type": "application/json" } }
+            );
+        }
+    }
+
     // Build-maint endpoints (everything under /api/builds/) requires auth cookie.
     if (url.pathname.startsWith("/api/builds/") || url.pathname === "/api/builds"
         || url.pathname === "/api/signups" || url.pathname === "/api/submissions") {
@@ -97,5 +118,5 @@ export async function onRequest(context) {
     return next();
 }
 
-// Helpers re-used by other functions
+// Helpers reused by other functions
 export { COOKIE_NAME, COOKIE_LIFE_MS, hmacHex };

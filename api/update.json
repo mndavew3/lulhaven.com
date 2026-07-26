@@ -2,9 +2,9 @@
   "firmware": {
     "enabled": true,
     "navy": {
-      "version": "0.1.63",
-      "url": "https://pub-37d0a3fa28b1485cbe594b4b7123c524.r2.dev/openwrt-24.10.4-haven-0.1.63-mediatek-filogic-glinet_gl-mt6000-squashfs-sysupgrade.bin",
-      "sha256": "f1f598ba9d4c2ebf0dc763498a88bc38b2ff3a06ce13b5d3585b7fe86cfa0304",
+      "version": "0.1.64",
+      "url": "https://pub-37d0a3fa28b1485cbe594b4b7123c524.r2.dev/openwrt-24.10.4-haven-0.1.64-mediatek-filogic-glinet_gl-mt6000-squashfs-sysupgrade.bin",
+      "sha256": "9e2b8211c75d2f0cc531cc151a5582072ee5e13c7363ca14da9ecfbe952d79b2",
       "size": 36475732
     }
   }
