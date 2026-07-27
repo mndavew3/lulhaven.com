@@ -360,34 +360,34 @@
       <table style="width:100%; border-collapse:collapse; margin-bottom:14px;">
         <thead>
           <tr style="text-align:left; border-bottom:1px solid rgba(0,0,0,0.1);">
-            <th style="padding:8px 6px; font-weight:600;">Name</th>
-            <th style="padding:8px 6px; font-weight:600;">Status</th>
-            <th style="padding:8px 6px; font-weight:600; text-align:right;">Actions</th>
+            <th style="padding:8px 6px; font-weight:600;" title="The name this administrator signs in with — it also appears in the change history.">Name</th>
+            <th style="padding:8px 6px; font-weight:600;" title="active = can sign in now · locked = sign-in disabled until another administrator unlocks it">Status</th>
+            <th style="padding:8px 6px; font-weight:600; text-align:right;" title="Lock, unlock, or remove an administrator's sign-in. None of these touch your filter settings.">Actions</th>
           </tr>
         </thead>
         <tbody>
           <tr style="border-bottom:1px solid rgba(0,0,0,0.06);">
             <td style="padding:10px 6px; font-weight:600;">Mom</td>
-            <td style="padding:10px 6px; color:#0a7a3b;">active</td>
+            <td style="padding:10px 6px; color:#0a7a3b;" title="Can sign in now.">active</td>
             <td style="padding:10px 6px; text-align:right;">
-              <button onclick="hdAdminDemo('lock','Mom')" style="padding:5px 10px; border:1px solid rgba(0,0,0,0.2); border-radius:6px; background:rgba(255,255,255,0.8); cursor:pointer;">Lock</button>
-              <button onclick="hdAdminDemo('remove','Mom')" style="padding:5px 10px; border:1px solid #e89; border-radius:6px; background:rgba(255,255,255,0.8); color:#c43; cursor:pointer;">Remove</button>
+              <button onclick="hdAdminDemo('lock','Mom')" title="Locks this administrator's sign-in. They can't log in until another administrator unlocks them — their name, history, and settings stay, and filtering keeps running unchanged." style="padding:5px 10px; border:1px solid rgba(0,0,0,0.2); border-radius:6px; background:rgba(255,255,255,0.8); cursor:pointer;">Lock</button>
+              <button onclick="hdAdminDemo('remove','Mom')" title="Permanently removes this administrator's sign-in. Filter settings are not affected, and Haven won't remove the last administrator." style="padding:5px 10px; border:1px solid #e89; border-radius:6px; background:rgba(255,255,255,0.8); color:#c43; cursor:pointer;">Remove</button>
             </td>
           </tr>
           <tr style="border-bottom:1px solid rgba(0,0,0,0.06);">
-            <td style="padding:10px 6px; font-weight:600;">Dad</td>
-            <td style="padding:10px 6px; color:#0a7a3b;">active</td>
+            <td style="padding:10px 6px; font-weight:600;">Pat (office)</td>
+            <td style="padding:10px 6px; color:#0a7a3b;" title="Can sign in now.">active</td>
             <td style="padding:10px 6px; text-align:right;">
-              <button onclick="hdAdminDemo('lock','Dad')" style="padding:5px 10px; border:1px solid rgba(0,0,0,0.2); border-radius:6px; background:rgba(255,255,255,0.8); cursor:pointer;">Lock</button>
-              <button onclick="hdAdminDemo('remove','Dad')" style="padding:5px 10px; border:1px solid #e89; border-radius:6px; background:rgba(255,255,255,0.8); color:#c43; cursor:pointer;">Remove</button>
+              <button onclick="hdAdminDemo('lock','Pat (office)')" title="Locks this administrator's sign-in. They can't log in until another administrator unlocks them — their name, history, and settings stay, and filtering keeps running unchanged." style="padding:5px 10px; border:1px solid rgba(0,0,0,0.2); border-radius:6px; background:rgba(255,255,255,0.8); cursor:pointer;">Lock</button>
+              <button onclick="hdAdminDemo('remove','Pat (office)')" title="Permanently removes this administrator's sign-in. Filter settings are not affected, and Haven won't remove the last administrator." style="padding:5px 10px; border:1px solid #e89; border-radius:6px; background:rgba(255,255,255,0.8); color:#c43; cursor:pointer;">Remove</button>
             </td>
           </tr>
           <tr>
-            <td style="padding:10px 6px; font-weight:600;">Grandma</td>
-            <td style="padding:10px 6px; color:#a86d00;">locked</td>
+            <td style="padding:10px 6px; font-weight:600;">Ms. Alvarez</td>
+            <td style="padding:10px 6px; color:#a86d00;" title="Sign-in disabled until another administrator unlocks it.">locked</td>
             <td style="padding:10px 6px; text-align:right;">
-              <button onclick="hdAdminDemo('unlock','Grandma')" style="padding:5px 10px; border:1px solid rgba(0,0,0,0.2); border-radius:6px; background:rgba(255,255,255,0.8); cursor:pointer;">Unlock</button>
-              <button onclick="hdAdminDemo('remove','Grandma')" style="padding:5px 10px; border:1px solid #e89; border-radius:6px; background:rgba(255,255,255,0.8); color:#c43; cursor:pointer;">Remove</button>
+              <button onclick="hdAdminDemo('unlock','Ms. Alvarez')" title="Lets this administrator sign in again." style="padding:5px 10px; border:1px solid rgba(0,0,0,0.2); border-radius:6px; background:rgba(255,255,255,0.8); cursor:pointer;">Unlock</button>
+              <button onclick="hdAdminDemo('remove','Ms. Alvarez')" title="Permanently removes this administrator's sign-in. Filter settings are not affected, and Haven won't remove the last administrator." style="padding:5px 10px; border:1px solid #e89; border-radius:6px; background:rgba(255,255,255,0.8); color:#c43; cursor:pointer;">Remove</button>
             </td>
           </tr>
         </tbody>
@@ -396,15 +396,15 @@
       <div style="background:rgba(255,255,255,0.6); border:1px solid rgba(0,0,0,0.12); border-radius:10px; padding:14px; margin-bottom:14px;">
         <h4 style="margin:0 0 10px; font-size:1.05em;">Add an administrator</h4>
         <form onsubmit="hdAdminAddDemo(event); return false;" style="display:grid; gap:8px;">
-          <input type="text" placeholder="username (e.g. uncle_pat)" style="padding:8px 12px; border:1px solid rgba(0,0,0,0.2); border-radius:6px; font-size:1em;">
-          <input type="text" placeholder="Display name (e.g. Uncle Pat)" style="padding:8px 12px; border:1px solid rgba(0,0,0,0.2); border-radius:6px; font-size:1em;">
-          <input type="password" placeholder="Password (6+ characters)" style="padding:8px 12px; border:1px solid rgba(0,0,0,0.2); border-radius:6px; font-size:1em;">
-          <button type="submit" style="padding:9px 18px; border:none; border-radius:6px; background:#007a8a; color:#fff; font-size:1em; font-weight:600; cursor:pointer;">Add Administrator</button>
+          <input type="text" placeholder="username (e.g. uncle_pat)" title="Letters, numbers, _ or - — starting with a letter. Not case-sensitive." autocomplete="off" style="padding:8px 12px; border:1px solid rgba(0,0,0,0.2); border-radius:6px; font-size:1em;">
+          <input type="text" placeholder="Display name (e.g. Uncle Pat)" title="The name shown in this list and in the change history." autocomplete="off" style="padding:8px 12px; border:1px solid rgba(0,0,0,0.2); border-radius:6px; font-size:1em;">
+          <input type="password" placeholder="Password (6+ characters)" title="Six or more characters" autocomplete="new-password" style="padding:8px 12px; border:1px solid rgba(0,0,0,0.2); border-radius:6px; font-size:1em;">
+          <button type="submit" title="Creates the administrator — they can sign in right away." style="padding:9px 18px; border:none; border-radius:6px; background:#007a8a; color:#fff; font-size:1em; font-weight:600; cursor:pointer;">Add Administrator</button>
         </form>
       </div>
 
       <details>
-        <summary style="cursor:pointer; color:#555; font-size:0.9em; padding:6px 0;">About the factory reset</summary>
+        <summary style="cursor:pointer; color:#555; font-size:0.9em; padding:6px 0;" title="What the reset button on the router itself does.">About the factory reset</summary>
         <div style="margin-top:10px; padding:12px; background:rgba(255,245,245,0.85); border-left:4px solid #d44; border-radius:6px; font-size:0.9em;">
           <p style="margin:0 0 8px; color:#555;">Haven is designed such that a factory reset does not disable your filter settings. A factory reset is designed to reset your Haven user password to its original value, and puts the router's OpenWrt settings back the way they came out of the box.</p>
           <p style="margin:0; color:#555;">A separate &quot;Erase &amp; hand off&quot; button does what the factory reset used to do.</p>
