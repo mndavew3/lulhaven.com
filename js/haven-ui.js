@@ -784,10 +784,11 @@ var HD_SAMPLE_LOG = [
 function hdRenderSampleLog() {
   var tbody = document.getElementById('hd-log-body');
   if (!tbody) return;
-  tbody.innerHTML = HD_SAMPLE_LOG.map(function(e) {
+  tbody.innerHTML = HD_SAMPLE_LOG.map(function(e, i) {
     var domEsc = e.domain.replace(/'/g, "\\'");
+    var src = (i % 4 === 2) ? 'SNI' : 'DNS';
     return '<tr><td style="padding:6px;">' + e.time + '</td><td style="padding:6px;">' + e.device +
-      '</td><td style="padding:6px;">' + e.domain + '</td><td style="padding:6px;">' + e.cat +
+      '</td><td style="padding:6px;">' + src + '</td><td style="padding:6px;">' + e.domain + '</td><td style="padding:6px;">' + e.cat +
       '</td><td style="padding:6px;">' + e.item + '</td><td style="padding:6px;">' +
       '<button title="Allow this domain — add it to the whitelist so it stops being filtered." onclick="hdAllowDomain(\'' + domEsc + '\')" style="font-size:0.8em;padding:2px 8px;">Allow</button>' +
       '</td></tr>';
