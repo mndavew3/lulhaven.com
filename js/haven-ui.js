@@ -840,7 +840,10 @@ function hdAdminDemo(action, name) {
 
 function hdAdminAddDemo(ev) {
   if (ev && ev.preventDefault) ev.preventDefault();
-  alert('On your real Haven router, this would create a new administrator account with the name and password you typed.\n\nOnce you create your first administrator, the underlying root account is locked automatically.');
+  var el = document.getElementById('hd-admin-username');
+  var typed = (el && el.value ? el.value : 'Roberta in Shipping').replace(/^\s+|\s+$/g, '').replace(/\s+/g, ' ');
+  var loginId = typed.toLowerCase().replace(/ /g, '_');
+  alert('On your real Haven router, this would create the administrator "' + typed + '" with the password you typed.\n\nThey sign in as "' + loginId + '" — capitals and spaces don\'t matter.');
   return false;
 }
 

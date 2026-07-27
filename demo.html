@@ -396,8 +396,7 @@
       <div style="background:rgba(255,255,255,0.6); border:1px solid rgba(0,0,0,0.12); border-radius:10px; padding:14px; margin-bottom:14px;">
         <h4 style="margin:0 0 10px; font-size:1.05em;">Add an administrator</h4>
         <form onsubmit="hdAdminAddDemo(event); return false;" style="display:grid; gap:8px;">
-          <input type="text" placeholder="username (e.g. uncle_pat)" title="Letters, numbers, _ or - — starting with a letter. Not case-sensitive." autocomplete="off" style="padding:8px 12px; border:1px solid rgba(0,0,0,0.2); border-radius:6px; font-size:1em;">
-          <input type="text" placeholder="Display name (e.g. Uncle Pat)" title="The name shown in this list and in the change history." autocomplete="off" style="padding:8px 12px; border:1px solid rgba(0,0,0,0.2); border-radius:6px; font-size:1em;">
+          <input type="text" id="hd-admin-username" placeholder="username (e.g. Roberta in Shipping)" title="Letters, numbers, spaces, _ or - — starting with a letter. Capitals and spaces don't matter when signing in." autocomplete="off" style="padding:8px 12px; border:1px solid rgba(0,0,0,0.2); border-radius:6px; font-size:1em;">
           <input type="password" placeholder="Password (6+ characters)" title="Six or more characters" autocomplete="new-password" style="padding:8px 12px; border:1px solid rgba(0,0,0,0.2); border-radius:6px; font-size:1em;">
           <button type="submit" title="Creates the administrator — they can sign in right away." style="padding:9px 18px; border:none; border-radius:6px; background:#007a8a; color:#fff; font-size:1em; font-weight:600; cursor:pointer;">Add Administrator</button>
         </form>
@@ -484,5 +483,5 @@
 
 <script src="js/haven-data.js?v=5629dd61"></script>
 <script src="js/haven-tooltips.js?v=b5d72d95"></script>
-<script src="js/haven-ui.js?v=20260727-yt1"></script>
+<script src="js/haven-ui.js?v=20260727-adm1"></script>
 <script src="js/kyc.js?v=20260603-manga"></script>
