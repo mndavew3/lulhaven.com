@@ -59,6 +59,71 @@ var hdSuperCats = [
   ]}
 ];
 
+// Tooltip copy for the left-rail GROUP headers and CATEGORIES. Lives HERE (static, beside
+// hdSuperCats) — NOT in haven-tooltips.js, which the deploy regenerates from haven.db and
+// would wipe. Keys match the display names in hdSuperCats / hdDataset.
+var hdGroupTips = {
+  "Adult & Sensitive":"Categories many households filter for younger or more sensitive members.",
+  "Business & Finance":"Shopping, banking, crypto, jobs, and travel.",
+  "Entertainment":"Video, gaming, music, and sports.",
+  "Health & Wellness":"Health information — and the fraud that imitates it.",
+  "Kids & Education":"Learning, kids' content, and academic-integrity risks.",
+  "News & Media":"News, politics, and misinformation.",
+  "Social & Communication":"Social networks, messaging, and forums.",
+  "Technology":"Ads, AI, cloud, search, and the tools that bypass filtering.",
+  "Other":"Categories that don't fit a group above."
+};
+
+var hdCatTips = {
+  "Adult Content":"Pornography and sexually explicit sites.",
+  "Alcohol & Tobacco":"Beer, wine, spirits, vaping, and tobacco brands and retailers.",
+  "Anonymous & Random Chat":"Sites that pair you with strangers over webcam or text.",
+  "Cult & Coercive Groups":"High-control groups and coercive recruitment networks.",
+  "Dating & Relationships":"Dating and hookup apps and sites.",
+  "Drugs & Substances":"Recreational-drug sites, dispensaries, and harm-reduction forums.",
+  "Extremism & Radicalization":"Sites known for extremist content and radicalization.",
+  "Firearms & Weapons":"Gun sellers, marketplaces, and weapon retailers.",
+  "Gambling":"Casinos, sportsbooks, and online betting.",
+  "Hate & Discriminatory Content":"Sites built around hateful or discriminatory content.",
+  "Occult & Alternative Beliefs":"Astrology, tarot, psychics, and occult communities.",
+  "Scams & Predatory Services":"Known scams, fraud, and predatory lending.",
+  "Self-Harm & Crisis Content":"Forums that promote self-harm or eating disorders.",
+  "Tracking & Stalkerware":"Data brokers, people-search, and phone-monitoring tools.",
+  "Violence & Graphic Content":"Graphic violence, gore, and shock sites.",
+  "Big Business":"Corporate sites of the largest companies.",
+  "Cryptocurrency":"Crypto exchanges, wallets, and trading sites.",
+  "E-Commerce":"Online stores and shopping marketplaces.",
+  "Finance & Banking":"Banks, cards, brokerages, and payment apps.",
+  "Job Search & Recruitment":"Job boards and recruiting sites.",
+  "Shopping Aggregators":"Deal, coupon, and price-comparison sites.",
+  "Travel & Transportation":"Airlines, hotels, rideshare, and booking sites.",
+  "Entertainment":"Streaming video and TV services.",
+  "Gaming":"Game platforms, stores, and online services.",
+  "Sports & Betting":"Sports leagues, news, and betting-adjacent sites.",
+  "Streaming Music":"Music-streaming services.",
+  "Health & Wellness":"Health information, fitness, and wellness apps.",
+  "Pseudo-Medicine & Health Fraud":"Sites promoting unproven or fraudulent health claims.",
+  "Cheating & Academic Fraud":"Homework-answer farms and essay-for-hire services.",
+  "Education":"Learning platforms and online courses.",
+  "Kids & Family":"Children's content and family-oriented sites.",
+  "Misinformation & Conspiracy":"Sites widely flagged for false or conspiratorial claims.",
+  "News & Media":"News outlets across the spectrum.",
+  "Politics & Government":"Party, campaign, advocacy, and government sites across the spectrum.",
+  "Forums & Community":"Discussion forums and community sites.",
+  "Messaging & Chat":"Messaging and chat apps.",
+  "Social Media":"Social networks and feeds.",
+  "Advertising":"Ad networks and ad-serving domains.",
+  "AI & Automation":"AI chatbots and image or video generators.",
+  "Cloud Services":"Cloud hosting and developer platforms.",
+  "File Sharing":"File-hosting and cloud-storage services.",
+  "Peer-to-Peer & Torrenting":"Torrent sites and file-sharing networks.",
+  "Search Engines":"Web search engines.",
+  "Technology & Hardware":"Tech manufacturers and hardware retailers.",
+  "VPN & Privacy Tools":"VPNs and privacy tools that can be used to bypass filtering.",
+  "Security":"Malware, phishing, and command-and-control sources — worth filtering for everyone.",
+  "Mobile Game Ads":"Ad networks embedded in mobile games."
+};
+
 var hdPresets = {
   School: [
     'Adult Content','Alcohol & Tobacco','Anonymous & Random Chat',
@@ -126,7 +191,8 @@ function hdCatItemHtml(catName) {
   var key = (typeof hdCatKey !== 'undefined') ? hdCatKey[catName] : null;
   var ic = key ? '<span class="hd-ic-wrap"><img class="hd-cat-ic" data-key="' + key + '" src="assets/icons/categories/' + key + '.svg" alt="">'
     + '<img class="hd-cat-slash" src="assets/icons/slash.svg" alt=""></span>' : '';
-  return '<span class="hd-cat-name">' + ic + catName + '</span><span class="hd-badge"></span>';
+  var ctip = (typeof hdCatTips !== 'undefined' && hdCatTips[catName]) ? ' title="' + hdCatTips[catName].replace(/"/g, '&quot;') + '"' : '';
+  return '<span class="hd-cat-name"' + ctip + '>' + ic + catName + '</span><span class="hd-badge"></span>';
 }
 
 function hdRenderCatList() {
@@ -154,6 +220,7 @@ function hdRenderCatList() {
       hdr.className = 'hd-super-hdr' + (open ? ' open' : '');
       hdr.setAttribute('data-super-idx', si);
       hdr.innerHTML = '<span class="hd-super-label">' + sc.name + '</span><span class="hd-chevron">&#9658;</span>';
+      if (typeof hdGroupTips !== 'undefined' && hdGroupTips[sc.name]) hdr.title = hdGroupTips[sc.name];
       hdr.onclick = (function(idx) { return function(e) { hdToggleSuperCat(idx, !!(e && (e.ctrlKey || e.metaKey))); }; })(si);
       ul.appendChild(hdr);
 
@@ -182,6 +249,7 @@ function hdRenderCatList() {
       hdr2.className = 'hd-super-hdr' + (open2 ? ' open' : '');
       hdr2.setAttribute('data-super-idx', hdSuperCats.length);
       hdr2.innerHTML = '<span class="hd-super-label">Other</span><span class="hd-chevron">&#9658;</span>';
+      if (typeof hdGroupTips !== 'undefined' && hdGroupTips['Other']) hdr2.title = hdGroupTips['Other'];
       hdr2.onclick = (function(idx) { return function(e) { hdToggleSuperCat(idx, !!(e && (e.ctrlKey || e.metaKey))); }; })(hdSuperCats.length);
       ul.appendChild(hdr2);
       for (var i = 0; i < extra.length; i++) {
@@ -383,8 +451,8 @@ function hdMakeRow(key, subName, catName, showCat) {
     : (tip ? '<span' + tip + '>' + subName + '</span>' : subName);
   return '<tr data-key="' + key + '">' +
     '<td>' + nameHtml + catHtml + '</td>' +
-    '<td class="c"><input type="checkbox" id="' + blkId + '"' + (cur==='block'?' checked':'') + ' onchange="hdToggle(\'' + ek + '\',\'block\',\'' + delId + '\')"></td>' +
-    '<td class="c hd-delayed-col"><input type="checkbox" id="' + delId + '"' + (cur==='delayed'?' checked':'') + ' onchange="hdToggle(\'' + ek + '\',\'delayed\',\'' + blkId + '\')"></td>' +
+    '<td class="c"><input type="checkbox" title="Filter this provider — it won&#39;t load on your network." id="' + blkId + '"' + (cur==='block'?' checked':'') + ' onchange="hdToggle(\'' + ek + '\',\'block\',\'' + delId + '\')"></td>' +
+    '<td class="c hd-delayed-col"><input type="checkbox" title="Allow this provider only for the daily minutes set above, then filter it." id="' + delId + '"' + (cur==='delayed'?' checked':'') + ' onchange="hdToggle(\'' + ek + '\',\'delayed\',\'' + blkId + '\')"></td>' +
     '</tr>';
 }
 
@@ -641,34 +709,76 @@ function hdAllowDomain(domain) {
   hdShowMsg('Added to whitelist: ' + domain + ' — click Save to apply');
 }
 
+// Illustrative parity features (demo facade, mirrors the live Helm) -----------
+function hdCheckUpdate() {
+  var s = document.getElementById('hd-update-status');
+  if (!s) return;
+  s.textContent = 'Checking…';
+  setTimeout(function () { s.textContent = "You're running the latest version."; }, 700);
+}
+function hdToggleYTMaster() {
+  hdMarkDirty();
+}
+
+// Device picker + per-device controls (illustrative — mirrors live "Filtering for").
+var HD_DEMO_DEVICES = ['Mom\'s phone','East Lounge TV','Sales department phones','Classroom Chromebooks','Lobby kiosk','Applicant kiosk','Guest Wi-Fi'];
+function hdInitDevicePicker() {
+  var sel = document.getElementById('hd-device-picker');
+  if (!sel) return;
+  HD_DEMO_DEVICES.forEach(function (d) { var o = document.createElement('option'); o.value = d; o.textContent = d; sel.appendChild(o); });
+}
+function hdOnDeviceSwitch() {
+  var sel = document.getElementById('hd-device-picker');
+  var ctrls = document.getElementById('hd-device-state-controls');
+  if (!sel || !ctrls) return;
+  ctrls.style.display = sel.value ? 'inline' : 'none';
+}
+function hdDeviceEnabledToggle() {
+  var cb = document.getElementById('hd-device-enabled-cb');
+  var lbl = document.getElementById('hd-device-enabled-label');
+  if (lbl) lbl.textContent = (cb && cb.checked) ? 'On' : 'Off';
+  hdMarkDirty();
+}
+function hdRenameDevice() {
+  var sel = document.getElementById('hd-device-picker');
+  if (!sel || !sel.value) return;
+  var name = window.prompt('Rename this device:', sel.value);
+  if (name) { var o = sel.options[sel.selectedIndex]; o.textContent = name; o.value = name; hdMarkDirty(); }
+}
+function hdDeviceSchedule() { hdShowMsg('Schedule access hours — available on a live Haven router.'); }
+function hdDeviceOffnetQR() { hdShowMsg('Off-network QR — pair this device to filter it away from home.'); }
+function hdOpenPairModal() { var m = document.getElementById('hd-pair-modal'); if (m) m.style.display = 'flex'; }
+function hdClosePairModal() { var m = document.getElementById('hd-pair-modal'); if (m) m.style.display = 'none'; }
+function hdOpenAppsModal() { var m = document.getElementById('hd-apps-modal'); if (m) m.style.display = 'flex'; }
+function hdCloseAppsModal() { var m = document.getElementById('hd-apps-modal'); if (m) m.style.display = 'none'; }
+
 // Sample log entries shown in the demo (real log on the router uses live data).
 // Domains are fictional cartoon-villain placeholders so customers see the
 // experience without us having to display real adult or harmful URLs.
 var HD_SAMPLE_LOG = [
-  { time: '15:42:08', device: 'iPad-Kids',     domain: 'wile-e-coyote.com',    cat: 'E-Commerce',             item: 'ACME Corp' },
-  { time: '15:39:51', device: 'Laptop-Den',    domain: 'dr-doofenshmirtz.com', cat: 'Tracking & Stalkerware', item: 'Doofenshmirtz Evil Inc.' },
-  { time: '15:35:22', device: 'iPad-Kids',     domain: 'snidely-whiplash.com', cat: 'Politics & Government',  item: 'Whiplash Lobbying' },
-  { time: '15:28:14', device: 'Phone-Mom',     domain: 'boris-n-natasha.com',  cat: 'Misinformation & Conspiracy', item: 'Pottsylvania Daily' },
-  { time: '15:21:03', device: 'Phone-Dad',     domain: 'yosemite-sam.com',     cat: 'Firearms & Weapons',     item: 'Sam\'s Six-Shooters' },
-  { time: '14:58:47', device: 'iPad-Kids',     domain: 'gargamel.com',         cat: 'Forums & Community',     item: 'Smurf Hunters Guild' },
-  { time: '14:51:22', device: 'Laptop-Den',    domain: 'mojo-jojo.com',        cat: 'AI & Automation',        item: 'Townsville Takeover' },
-  { time: '14:43:09', device: 'TV-Family',     domain: 'sideshow-bob.com',     cat: 'Politics & Government',  item: 'Springfield Mayoral Fraud' },
-  { time: '14:33:55', device: 'Phone-Mom',     domain: 'cobra-commander.com',  cat: 'Extremism & Radicalization', item: 'Cobra Recruitment' },
-  { time: '14:28:11', device: 'iPad-Kids',     domain: 'shredder.net',         cat: 'Anonymous & Random Chat',item: 'Foot Clan Chat' },
-  { time: '14:20:43', device: 'Phone-Dad',     domain: 'dick-dastardly.com',   cat: 'Sports & Betting',       item: 'Wacky Race Bookies' },
-  { time: '14:11:08', device: 'Laptop-Den',    domain: 'skeletor.com',         cat: 'Gaming',                 item: 'Eternia Online' },
-  { time: '14:02:31', device: 'iPad-Kids',     domain: 'captain-hook.com',     cat: 'Peer-to-Peer & Torrenting', item: 'Neverland Bay' },
-  { time: '13:55:18', device: 'Phone-Mom',     domain: 'cruella-deville.com',  cat: 'Big Business',           item: 'DeVille Fur Holdings' },
-  { time: '13:47:44', device: 'TV-Family',     domain: 'jafar.com',            cat: 'Politics & Government',  item: 'Agrabah Royal Council' },
-  { time: '13:38:02', device: 'Tablet-Sis',    domain: 'ursula.com',           cat: 'Dating & Relationships', item: 'Sea Witch Singles' },
-  { time: '13:31:27', device: 'iPad-Kids',     domain: 'maleficent.com',       cat: 'Misinformation & Conspiracy', item: 'Curse News Network' },
-  { time: '13:24:55', device: 'Laptop-Den',    domain: 'plankton.com',         cat: 'E-Commerce',             item: 'Chum Bucket Express' },
-  { time: '13:14:39', device: 'iPad-Kids',     domain: 'pinky-n-brain.com',    cat: 'AI & Automation',        item: 'World Domination Labs' },
-  { time: '13:06:21', device: 'Phone-Dad',     domain: 'lex-luthor.com',       cat: 'Big Business',           item: 'LexCorp' },
-  { time: '12:58:53', device: 'Tablet-Sis',    domain: 'mr-burns.com',         cat: 'Big Business',           item: 'Springfield Nuclear' },
-  { time: '12:49:14', device: 'iPad-Kids',     domain: 'bowser.com',           cat: 'Gaming',                 item: 'Koopa Castle MMO' },
-  { time: '12:41:08', device: 'Phone-Mom',     domain: 'negaduck.com',         cat: 'Social Media',           item: 'Negaverse Network' },
-  { time: '12:32:47', device: 'Laptop-Den',    domain: 'dr-claw.com',          cat: 'Tracking & Stalkerware', item: 'M.A.D. Surveillance' }
+  { time: '15:42:08', device: 'Classroom Chromebooks',     domain: 'wile-e-coyote.com',    cat: 'E-Commerce',             item: 'ACME Corp' },
+  { time: '15:35:22', device: 'Classroom Chromebooks',     domain: 'snidely-whiplash.com', cat: 'Politics & Government',  item: 'Whiplash Lobbying' },
+  { time: '15:28:14', device: 'Mom\'s phone',     domain: 'boris-n-natasha.com',  cat: 'Misinformation & Conspiracy', item: 'Pottsylvania Daily' },
+  { time: '15:21:03', device: 'Sales department phones',     domain: 'yosemite-sam.com',     cat: 'Firearms & Weapons',     item: 'Sam\'s Six-Shooters' },
+  { time: '14:58:47', device: 'Classroom Chromebooks',     domain: 'gargamel.com',         cat: 'Forums & Community',     item: 'Smurf Hunters Guild' },
+  { time: '14:51:22', device: 'Lobby kiosk',    domain: 'mojo-jojo.com',        cat: 'AI & Automation',        item: 'Townsville Takeover' },
+  { time: '14:43:09', device: 'East Lounge TV',     domain: 'sideshow-bob.com',     cat: 'Politics & Government',  item: 'Springfield Mayoral Fraud' },
+  { time: '14:33:55', device: 'Mom\'s phone',     domain: 'cobra-commander.com',  cat: 'Extremism & Radicalization', item: 'Cobra Recruitment' },
+  { time: '14:28:11', device: 'Classroom Chromebooks',     domain: 'shredder.net',         cat: 'Anonymous & Random Chat',item: 'Foot Clan Chat' },
+  { time: '14:20:43', device: 'Sales department phones',     domain: 'dick-dastardly.com',   cat: 'Sports & Betting',       item: 'Wacky Race Bookies' },
+  { time: '14:11:08', device: 'Lobby kiosk',    domain: 'skeletor.com',         cat: 'Gaming',                 item: 'Eternia Online' },
+  { time: '14:02:31', device: 'Classroom Chromebooks',     domain: 'captain-hook.com',     cat: 'Peer-to-Peer & Torrenting', item: 'Neverland Bay' },
+  { time: '13:55:18', device: 'Mom\'s phone',     domain: 'cruella-deville.com',  cat: 'Big Business',           item: 'DeVille Fur Holdings' },
+  { time: '13:47:44', device: 'East Lounge TV',     domain: 'jafar.com',            cat: 'Politics & Government',  item: 'Agrabah Royal Council' },
+  { time: '13:38:02', device: 'Applicant kiosk',    domain: 'ursula.com',           cat: 'Dating & Relationships', item: 'Sea Witch Singles' },
+  { time: '13:31:27', device: 'Classroom Chromebooks',     domain: 'maleficent.com',       cat: 'Misinformation & Conspiracy', item: 'Curse News Network' },
+  { time: '13:24:55', device: 'Lobby kiosk',    domain: 'plankton.com',         cat: 'E-Commerce',             item: 'Chum Bucket Express' },
+  { time: '13:14:39', device: 'Classroom Chromebooks',     domain: 'pinky-n-brain.com',    cat: 'AI & Automation',        item: 'World Domination Labs' },
+  { time: '13:06:21', device: 'Sales department phones',     domain: 'lex-luthor.com',       cat: 'Big Business',           item: 'LexCorp' },
+  { time: '12:58:53', device: 'Applicant kiosk',    domain: 'mr-burns.com',         cat: 'Big Business',           item: 'Springfield Nuclear' },
+  { time: '12:49:14', device: 'Classroom Chromebooks',     domain: 'bowser.com',           cat: 'Gaming',                 item: 'Koopa Castle MMO' },
+  { time: '12:41:08', device: 'Mom\'s phone',     domain: 'negaduck.com',         cat: 'Social Media',           item: 'Negaverse Network' },
+  { time: '12:32:47', device: 'Lobby kiosk',    domain: 'dr-claw.com',          cat: 'Tracking & Stalkerware', item: 'M.A.D. Surveillance' }
 ];
 
 function hdRenderSampleLog() {
@@ -679,7 +789,7 @@ function hdRenderSampleLog() {
     return '<tr><td style="padding:6px;">' + e.time + '</td><td style="padding:6px;">' + e.device +
       '</td><td style="padding:6px;">' + e.domain + '</td><td style="padding:6px;">' + e.cat +
       '</td><td style="padding:6px;">' + e.item + '</td><td style="padding:6px;">' +
-      '<button onclick="hdAllowDomain(\'' + domEsc + '\')" style="font-size:0.8em;padding:2px 8px;">Allow</button>' +
+      '<button title="Allow this domain — add it to the whitelist so it stops being filtered." onclick="hdAllowDomain(\'' + domEsc + '\')" style="font-size:0.8em;padding:2px 8px;">Allow</button>' +
       '</td></tr>';
   }).join('');
 }
@@ -743,6 +853,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 hdRenderCatList();
 hdLoad();
+hdInitDevicePicker();
 // Landing state: open Social & Communication, select Social Media.
 hdSuperOpen['Social & Communication'] = true;
 hdRenderCatList();

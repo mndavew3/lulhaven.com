@@ -75,7 +75,7 @@
     color: #007a8a;
     font-weight: bold;
   }
-  #hd-search-bar button, #hd-save-btn, #hd-export-btn, #hd-import-btn, #hd-filter-view-btn, #hd-mode-btn, #hd-log-btn, #hd-admin-btn {
+  #hd-search-bar button, #hd-az-btn, #hd-save-btn, #hd-export-btn, #hd-import-btn, #hd-filter-view-btn, #hd-mode-btn, #hd-log-btn, #hd-admin-btn, #hd-apps-btn {
     appearance: none; -webkit-appearance: none;
     background: rgba(255,255,255,0.55);
     backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
@@ -85,9 +85,9 @@
     font-family: inherit;
     transition: all 0.2s ease;
   }
-  #hd-search-bar button { padding: 8px 14px; font-size: 0.9em; }
-  #hd-save-btn, #hd-export-btn, #hd-import-btn, #hd-filter-view-btn, #hd-mode-btn, #hd-log-btn, #hd-admin-btn { padding: 8px 18px; font-size: 1em; }
-  #hd-search-bar button:hover, #hd-save-btn:hover, #hd-export-btn:hover, #hd-import-btn:hover, #hd-filter-view-btn:hover, #hd-mode-btn:hover, #hd-log-btn:hover, #hd-admin-btn:hover {
+  #hd-search-bar button, #hd-az-btn { padding: 8px 14px; font-size: 0.9em; }
+  #hd-save-btn, #hd-export-btn, #hd-import-btn, #hd-filter-view-btn, #hd-mode-btn, #hd-log-btn, #hd-admin-btn, #hd-apps-btn { padding: 8px 18px; font-size: 1em; }
+  #hd-search-bar button:hover, #hd-az-btn:hover, #hd-save-btn:hover, #hd-export-btn:hover, #hd-import-btn:hover, #hd-filter-view-btn:hover, #hd-mode-btn:hover, #hd-log-btn:hover, #hd-admin-btn:hover, #hd-apps-btn:hover {
     background: rgba(255,255,255,0.8);
     border-color: rgba(0,0,0,0.35);
     transform: translateY(-1px);
@@ -98,7 +98,7 @@
   #hd-layout { display: flex; gap: 16px; }
 
   /* Category list */
-  #hd-cats { flex: 0 0 220px; overflow: hidden; }
+  #hd-cats { overflow: hidden; }
   #hd-cats ul { list-style: none; margin: 0; padding: 0; }
   #hd-cats li {
     padding: 8px 12px; cursor: pointer;
@@ -266,57 +266,84 @@
 <div id="haven-demo">
   <div id="haven-demo-inner">
 
-    <a id="hd-back" href="index.html" style="display:none; margin-bottom:14px; font-weight:bold; font-size:16px; text-decoration:none; color:#16465f;">&larr; Back</a>
+    <a id="hd-back" title="Return to the previous page." href="index.html" style="display:none; margin-bottom:14px; font-weight:bold; font-size:16px; text-decoration:none; color:#16465f;">&larr; Back</a>
     <script>(function(){if(window.top===window.self){var b=document.getElementById('hd-back');if(b){b.style.display='inline-block';b.addEventListener('click',function(e){if(window.history.length>1){e.preventDefault();history.back();}});}}})();</script>
+
+    <div id="hd-update-check" style="margin:0 0 12px 0;font-size:0.9em;color:#555;">
+      <span id="hd-running-version" title="The Haven firmware version this router is running.">Running Haven 0.1.65</span>
+      <button type="button" id="hd-check-update-btn" title="Check now for a newer Haven release." onclick="hdCheckUpdate()" style="margin-left:8px;padding:3px 10px;">Check for updates</button>
+      <span id="hd-update-status" style="margin-left:8px;color:#007a40;font-weight:bold;"></span>
+    </div>
 
     <div id="hd-header" class="hd-glass">
       <h2 class="haven-title">
         <span class="ht-brand">Haven</span>
         <span class="ht-tag">by Lulhaven &middot; Unit 001 of 100</span>
       </h2>
-      <button id="hd-mode-btn" onclick="hdToggleMode()">Basic</button>
-      <label class="hd-delay-label">Delayed Filter (min): <input type="number" id="hd-temp-min" value="30" min="1" max="1440"></label>
-      <button id="hd-filter-view-btn" onclick="hdToggleFilteredView()">Show Filtered</button>
-      <button id="hd-export-btn" onclick="hdExport()">Export</button>
-      <button id="hd-import-btn" onclick="hdImport()">Import</button>
+      <button id="hd-pair-phone-btn" onclick="hdOpenPairModal()" type="button" title="Pair a phone to flag ads you see, right from your device." style="border:none;border-radius:7px;padding:6px 12px;cursor:pointer;background:#0a5c4a;color:#fff;font-weight:bold;">&#128241; Pair a phone</button>
+      <label id="hd-device-picker-wrap" title="Choose which device's filter settings to view and change." style="font-weight:bold;color:rgba(0,0,0,0.8);">
+        Filtering for:
+        <select id="hd-device-picker" onchange="hdOnDeviceSwitch()" style="margin-left:4px;padding:3px;"><option value="">Default</option></select>
+      </label>
+      <span id="hd-device-state-controls" style="display:none">
+        <label class="hd-device-toggle" title="Turn filtering on or off for the selected device."><input type="checkbox" id="hd-device-enabled-cb" onchange="hdDeviceEnabledToggle()"> <span id="hd-device-enabled-label">Off</span></label>
+        <button id="hd-device-rename-btn" onclick="hdRenameDevice()" type="button" title="Give this device a friendly name.">Rename</button>
+        <button id="hd-device-schedule-btn" onclick="hdDeviceSchedule()" type="button" title="Set access hours for this device.">Schedule</button>
+        <button id="hd-device-offnet-btn" onclick="hdDeviceOffnetQR()" type="button" title="Show this device's QR code to deploy off-network filtering.">Off-network QR</button>
+      </span>
+      <button id="hd-mode-btn" title="Switch between the simple view and the advanced view (delayed filtering, bulk actions, import/export)." onclick="hdToggleMode()">Basic</button>
+      <label class="hd-delay-label">Delayed Filter (min): <input type="number" id="hd-temp-min" title="How many minutes per day a Delayed item stays reachable before it's filtered." value="30" min="1" max="1440"></label>
+      <button id="hd-filter-view-btn" title="Show only the providers you've chosen to filter." onclick="hdToggleFilteredView()">Show Filtered</button>
+      <button id="hd-export-btn" title="Save your current filter choices to a file.&#10;You can import them into a live Haven later.&#10;Great if you've got internet at the cabin or another location and want the same filtering in more than one place." onclick="hdExport()">Export</button>
+      <button id="hd-import-btn" title="Load filter choices from a file you exported earlier." onclick="hdImport()">Import</button>
       <input type="file" id="hd-import-file" style="display:none" accept=".conf" onchange="hdHandleImport(this)">
-      <button id="hd-save-btn" onclick="hdSave()">Save</button>
+      <button id="hd-save-btn" title="Save your filter choices." onclick="hdSave()">Save</button>
       <span id="hd-dirty-indicator" style="display:none;color:#a86d00;margin-left:8px;font-weight:bold;">● Unsaved changes</span>
       <span id="hd-save-msg">Settings saved.</span>
-      <button id="hd-log-btn" onclick="hdHandleLogClick(event)">Log</button>
-      <button id="hd-admin-btn" onclick="hdToggleAdminPanel()">Administrators</button>
+      <button id="hd-log-btn" title="See what's been filtered and when — and the whitelist." onclick="hdHandleLogClick(event)">Log</button>
+      <button id="hd-admin-btn" title="Manage who's allowed to change these settings." onclick="hdToggleAdminPanel()">Admins</button>
+      <button id="hd-apps-btn" title="Apps reported by paired phones, and the remote connection each would use." onclick="hdOpenAppsModal()">Apps</button>
       <p class="subtitle">Click a category, click a content provider, and click Save. This, right here, right now, is exactly how Haven works.</p>
     </div>
 
     <div id="hd-preset-bar">
-      <span>Templates:</span>
-      <button class="hd-preset-btn" onclick="hdApplyPreset('Parenting')">Parenting</button>
-      <button class="hd-preset-btn" onclick="hdApplyPreset('Privacy')">Privacy</button>
-      <button class="hd-preset-btn" onclick="hdApplyPreset('Senior')">Senior</button>
-      <button class="hd-preset-btn" onclick="hdApplyPreset('School')">School</button>
-      <button class="hd-preset-btn" onclick="hdApplyPreset('Workplace')">Workplace</button>
-      <button class="hd-preset-btn" onclick="hdApplyPreset('Recovery')">Recovery</button>
-      <button class="hd-preset-btn" onclick="hdClearAll()">Clear All</button>
+      <span title="Haven-curated starting points — apply one, then adjust to taste.">Templates:</span>
+      <button class="hd-preset-btn" title="A starting point for households with children." onclick="hdApplyPreset('Parenting')">Parenting</button>
+      <button class="hd-preset-btn" title="A starting point focused on ads, trackers, and data brokers." onclick="hdApplyPreset('Privacy')">Privacy</button>
+      <button class="hd-preset-btn" title="A starting point focused on scams, fraud, and misinformation." onclick="hdApplyPreset('Senior')">Senior</button>
+      <button class="hd-preset-btn" title="A starting point for classroom and student devices." onclick="hdApplyPreset('School')">School</button>
+      <button class="hd-preset-btn" title="A starting point for workplace networks." onclick="hdApplyPreset('Workplace')">Workplace</button>
+      <button class="hd-preset-btn" title="A starting point supporting recovery and sobriety." onclick="hdApplyPreset('Recovery')">Recovery</button>
+      <button class="hd-preset-btn" title="Clear every filter choice and start fresh." onclick="hdClearAll()">Clear All</button>
+    </div>
+
+    <div id="hd-yt-master-bar" style="margin:0 0 12px;padding:8px 12px;background:rgba(0,0,0,0.04);border-radius:8px;font-size:0.9em;">
+      <input type="checkbox" id="hd-yt-master-cb" title="U-Haven blocks channels associated with your picks." onchange="hdToggleYTMaster()">
+      <label for="hd-yt-master-cb" title="U-Haven blocks channels associated with your picks." style="font-weight:bold;">Device-specific U-Haven enforcement</label>
     </div>
 
     <div id="hd-search-bar">
-      <input type="text" id="hd-search-input" placeholder="Search contents... (e.g. Fox, Apple, CNN)" oninput="hdSearch(this.value)">
-      <button id="hd-az-btn" onclick="hdToggleAZView()">A&#8211;Z</button>
-      <button onclick="hdClear()">Clear</button>
+      <input type="text" id="hd-search-input" title="Search every category and provider by name." placeholder="Search contents... (e.g. Fox, Apple, CNN)" oninput="hdSearch(this.value)">
+      <button onclick="hdClear()" title="Clear the search box.">Clear</button>
     </div>
 
     <div id="hd-layout">
-      <div id="hd-cats" class="hd-glass">
-        <ul id="hd-cat-ul"></ul>
+      <div id="hd-left-col" style="flex:0 0 220px;display:flex;flex-direction:column;gap:10px;min-width:0;">
+        <div style="text-align:right;">
+          <button id="hd-az-btn" title="List every group alphabetically, ignoring categories." onclick="hdToggleAZView()">A&#8211;Z</button>
+        </div>
+        <div id="hd-cats" class="hd-glass">
+          <ul id="hd-cat-ul"></ul>
+        </div>
       </div>
       <div id="hd-subs" class="hd-glass">
         <h3 id="hd-sub-title">Select a category</h3>
         <table id="hd-sub-table">
           <thead>
             <tr>
-              <th>Contents</th>
-              <th class="c" id="hd-filter-th"><span id="hd-filter-hint">Click any toggle →</span>Filter<br><a class="hd-adv-only" href="#" onclick="hdSelectAll('block');return false;">All</a></th>
-              <th class="c hd-delayed-col">Delayed Filter<br><a class="hd-adv-only" href="#" onclick="hdSelectAll('delayed');return false;">All</a></th>
+              <th>Contents/Providers</th>
+              <th class="c" id="hd-filter-th"><span id="hd-filter-hint">Click any toggle →</span>Filter<br><a class="hd-adv-only" title="Filter every provider in this category." href="#" onclick="hdSelectAll('block');return false;">All</a></th>
+              <th class="c hd-delayed-col">Delayed Filter<br><a class="hd-adv-only" title="Delay every provider in this category." href="#" onclick="hdSelectAll('delayed');return false;">All</a></th>
             </tr>
           </thead>
           <tbody id="hd-sub-body"></tbody>
@@ -394,12 +421,12 @@
       <table id="hd-log-table" style="width:100%;border-collapse:collapse;margin-top:10px;">
         <thead>
           <tr style="text-align:left;border-bottom:1px solid rgba(0,0,0,0.1);">
-            <th style="padding:6px;">Time</th>
-            <th style="padding:6px;">Device</th>
-            <th style="padding:6px;">Domain</th>
-            <th style="padding:6px;">Category</th>
-            <th style="padding:6px;">Item</th>
-            <th style="padding:6px;">Action</th>
+            <th style="padding:6px;" title="When the request happened.">Time</th>
+            <th style="padding:6px;" title="Which device on your network made the request.">Device</th>
+            <th style="padding:6px;" title="The site or service that was requested.">Domain</th>
+            <th style="padding:6px;" title="The category this request fell under.">Category</th>
+            <th style="padding:6px;" title="The specific provider within that category.">Item</th>
+            <th style="padding:6px;" title="Allow a logged domain — the button adds it to your whitelist.">Action</th>
           </tr>
         </thead>
         <tbody id="hd-log-body"></tbody>
@@ -407,7 +434,7 @@
       <div style="margin-top:18px;">
         <label for="hd-whitelist-area" style="font-weight:bold;display:block;margin-bottom:4px;">Allowed domains (one per line)</label>
         <p style="font-size:0.85em;color:#555;margin:0 0 6px;">Domains listed here are passed through even when their category is filtered. Add via the "Allow" buttons above or type directly. Click the main <strong>Save</strong> button to persist.</p>
-        <textarea id="hd-whitelist-area" rows="6" style="width:100%;font-family:monospace;font-size:0.9em;box-sizing:border-box;padding:6px;"></textarea>
+        <textarea id="hd-whitelist-area" title="Domains typed here are always allowed, even when their category is filtered." rows="6" style="width:100%;font-family:monospace;font-size:0.9em;box-sizing:border-box;padding:6px;">dr-doofenshmirtz.com</textarea>
       </div>
     </div>
 
@@ -415,7 +442,7 @@
 </div>
 
 <div style="padding:16px 20px;border-top:1px solid rgba(0,0,0,0.08);margin-top:16px;text-align:center;">
-  <a href="get-uhaven.html" style="display:inline-block;padding:8px 18px;background:rgba(0,100,160,0.12);border:1px solid rgba(0,100,160,0.35);border-radius:6px;color:#005a9e;font-weight:bold;text-decoration:none;font-size:0.95em;">Get U-Haven</a>
+  <a href="get-uhaven.html" title="Download U-Haven — a filtered way to watch YouTube (requires Haven to filter)." style="display:inline-block;padding:8px 18px;background:rgba(0,100,160,0.12);border:1px solid rgba(0,100,160,0.35);border-radius:6px;color:#005a9e;font-weight:bold;text-decoration:none;font-size:0.95em;">Download U-Haven</a>
 </div>
 
 <div id="hd-preset-modal">
@@ -429,7 +456,32 @@
   </div>
 </div>
 
+<div id="hd-pair-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:1000;align-items:center;justify-content:center;">
+  <div style="padding:24px 28px;max-width:420px;width:90%;text-align:center;background:#fff;border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,0.3);">
+    <h3 style="margin:0 0 10px;color:#111;">Pair a phone</h3>
+    <div style="width:180px;height:180px;margin:0 auto 14px;border:2px dashed #0a5c4a;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#0a5c4a;font-size:0.85em;">[ QR code ]</div>
+    <p style="font-size:13px;color:#456;margin:0 0 14px;">Scan with the Haven companion app to pair this phone. Once paired, you can flag ads you see in apps and games, and Haven learns to filter them.</p>
+    <button onclick="hdClosePairModal()" style="padding:6px 16px;">Close</button>
+  </div>
+</div>
+
+<div id="hd-apps-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:1000;align-items:center;justify-content:center;">
+  <div style="padding:20px 24px;max-width:560px;width:92%;background:#fff;border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,0.3);text-align:left;">
+    <h3 style="margin:0 0 4px;color:#111;">Apps on paired phones</h3>
+    <p style="font-size:0.85em;color:#456;margin:0 0 10px;">Apps reported by paired phones, and the remote connection each would use away from home.</p>
+    <table style="width:100%;border-collapse:collapse;font-size:0.88em;">
+      <thead><tr style="text-align:left;border-bottom:1px solid rgba(0,0,0,0.25);"><th style="padding:6px 8px;">App</th><th style="padding:6px 8px;">Device</th><th style="padding:6px 8px;">Remote connection</th></tr></thead>
+      <tbody>
+        <tr><td style="padding:5px 8px;">YouTube</td><td style="padding:5px 8px;">Mom's phone</td><td style="padding:5px 8px;">Full</td></tr>
+        <tr><td style="padding:5px 8px;">Safari</td><td style="padding:5px 8px;">Mom's phone</td><td style="padding:5px 8px;">Fast</td></tr>
+        <tr><td style="padding:5px 8px;">Roblox</td><td style="padding:5px 8px;">Classroom Chromebooks</td><td style="padding:5px 8px;">Fast</td></tr>
+      </tbody>
+    </table>
+    <div style="text-align:right;margin-top:12px;"><button onclick="hdCloseAppsModal()" style="padding:6px 16px;">Close</button></div>
+  </div>
+</div>
+
 <script src="js/haven-data.js?v=5629dd61"></script>
-<script src="js/haven-tooltips.js?v=9abbf941"></script>
-<script src="js/haven-ui.js?v=20260615-blocked"></script>
+<script src="js/haven-tooltips.js?v=b5d72d95"></script>
+<script src="js/haven-ui.js?v=20260726-tips8"></script>
 <script src="js/kyc.js?v=20260603-manga"></script>
