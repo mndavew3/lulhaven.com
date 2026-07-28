@@ -1,0 +1,4 @@
+Contact: mailto:security@lulhaven.com
+Expires: 2027-07-31T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://lulhaven.com/.well-known/security.txt
