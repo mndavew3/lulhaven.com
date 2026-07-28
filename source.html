@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Source Code — Haven</title>
+<meta name="description" content="The open-source software inside Haven: what it is, the exact revisions we build from, how to get the complete corresponding source, and the written offer.">
+<link rel="canonical" href="https://lulhaven.com/source">
+<link rel="icon" type="image/png" href="assets/images/haven-icon-32x32.png">
+<link rel="stylesheet" href="assets/web/assets/mobirise-icons2/mobirise2.css">
+<link rel="stylesheet" href="assets/mobirise/css/mbr-additional.css%3Fv=2WGiz1.css" type="text/css">
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Inter+Tight:100,200,300,400,500,600,700,800,900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter+Tight:100,200,300,400,500,600,700,800,900&display=swap"></noscript>
+<style>
+  .align-center { text-align: center !important; }
+  body { background:#fff; }
+  body { background-image: linear-gradient(rgba(255,255,255,0.94),rgba(255,255,255,0.94)), url("assets/images/lulhaven20dock20line20art-1024x1536.png"); background-size:cover; background-position:center top; background-attachment:fixed; background-repeat:no-repeat; }
+  #source h2.mbr-section-title { background:#2b7a69; color:#fff; padding:14px 24px !important; margin:0 auto 36px !important; border-radius:6px; }
+  #source h3 { font-weight:700; margin:34px 0 10px; }
+  #source p, #source li { line-height:1.6; }
+  #source table { width:100%; border-collapse:collapse; margin:12px 0 4px; font-size:0.95em; }
+  #source th, #source td { text-align:left; padding:7px 10px; border-bottom:1px solid #e8e8e8; vertical-align:top; }
+  #source code { font-size:0.85em; word-break:break-all; background:#f4f4f4; padding:1px 5px; border-radius:3px; }
+  #source .offer { border:1px solid #2b7a69; border-radius:6px; padding:18px 22px; background:#f6faf9; margin:14px 0; }
+  #source .tablewrap { overflow-x:auto; }
+  .faq-back { display:block; text-align:center; padding:8px 0 60px; }
+</style>
+</head>
+<body>
+
+<section id="source" style="padding:72px 0;background:#fff;">
+  <div class="container" style="max-width:880px;">
+    <h2 class="mbr-section-title mbr-fonts-style display-2 align-center">The source code inside Haven</h2>
+
+    <div class="mbr-fonts-style display-7">
+
+    <p>Haven ships OpenWrt, which is licensed under the GNU General Public License, version 2. Anyone who buys a Haven router is entitled to the complete corresponding source for the GPL-licensed parts — the Linux kernel, BusyBox, dnsmasq, nftables, and the build system that produced the firmware image. This page is where we honour that.</p>
+
+    <p>Our build tree is a clean, unmodified checkout of OpenWrt plus the standard feeds, pinned to the exact revisions below. We have patched no GPL component. What we add on top is our own application — the Haven Helm (Lua, HTML, and shell) and the curated filtering lists. That application drives the system the way any program does: it runs <code>uci</code>, <code>ubus</code>, and the standard tools as separate processes. We read that as a separate work, and we keep it proprietary. If you think we've drawn that line wrong, tell us — we'd rather hear it now.</p>
+
+    <h3 class="mbr-fonts-style display-5">Exact revisions</h3>
+    <p>These are the precise commits our firmware is built from. This is what makes the source <em>corresponding</em> rather than merely related.</p>
+    <div class="tablewrap"><table class="mbr-fonts-style">
+      <tr><th>Tree</th><th>Repository</th><th>Commit</th></tr>
+      <tr><td>OpenWrt (base)</td><td>git.openwrt.org/openwrt/openwrt.git (main)</td><td><code>8aa836eba379549480c603abff1591465a31438b</code></td></tr>
+      <tr><td>packages feed</td><td>git.openwrt.org/feed/packages.git</td><td><code>8ac0b1e1f3fb7d51880dcfe85aeecca755ed2750</code></td></tr>
+      <tr><td>luci feed</td><td>git.openwrt.org/project/luci.git</td><td><code>4a2623038a04e8ead9b825de332b498d54e4aa78</code></td></tr>
+      <tr><td>routing feed</td><td>git.openwrt.org/feed/routing.git</td><td><code>57d286627119ad6f154777cd3d3d47e24e75ec6c</code></td></tr>
+      <tr><td>telephony feed</td><td>git.openwrt.org/feed/telephony.git</td><td><code>e2c5adab62e25eddeff3e52d4678163f6c9a6c3a</code></td></tr>
+      <tr><td>video feed</td><td>github.com/openwrt/video.git</td><td><code>d25cad605d8ce9ff536d85bdda2ad7eb2b83f883</code></td></tr>
+      <tr><td>luci-theme-argon</td><td>github.com/jerrykuku/luci-theme-argon.git</td><td><code>f075cb18cb83d0108a18f79b17888420e3d2d986</code></td></tr>
+    </table></div>
+
+    <h3 class="mbr-fonts-style display-5">Downloads</h3>
+    <ul>
+      <li><a href="source/haven-navy.config">Build configuration (<code>.config</code>)</a> — Haven Navy (GL.iNet GL-MT6000, mediatek/filogic)</li>
+      <li><a href="source/feeds.conf.default">Feed definitions (<code>feeds.conf.default</code>)</a></li>
+    </ul>
+    <p>The complete corresponding source archive — the OpenWrt tree and feeds at the revisions above, with the build configuration — is available today by request to <a href="mailto:source@lulhaven.com">source@lulhaven.com</a>; we'll send you a download link. A direct download link will be published on this page before the first router ships. Every component is also fetchable from the public upstream repositories at the exact commits listed above.</p>
+
+    <h3 class="mbr-fonts-style display-5">The written offer</h3>
+    <p>Every Haven router ships with this offer printed in the box. It's reproduced here for reference — the page is the convenient path, the offer is the binding one.</p>
+    <div class="offer">
+      <p>The firmware in this product contains software licensed under the GNU General Public License, version 2, and other free-software licences, including the Linux kernel, BusyBox, dnsmasq, and nftables, as part of the OpenWrt distribution.</p>
+      <p>Lulhaven will provide you, and anyone in receipt of this information, with the complete corresponding source code for the GPL-licensed components of this product, on request, for a period of three years from our last shipment of this product. We will charge no more than our cost of physically performing this distribution.</p>
+      <p>To request source, email <a href="mailto:source@lulhaven.com">source@lulhaven.com</a>, or download it directly at <strong>lulhaven.com/source</strong>. The GNU GPL v2 licence text ships on the router at <code>/usr/share/haven/licenses</code> and accompanies the source archive.</p>
+      <p style="margin-bottom:0;">This offer is valid to anyone in receipt of this information.</p>
+    </div>
+
+    <h3 class="mbr-fonts-style display-5">Attribution and notices</h3>
+    <ul>
+      <li><strong>OpenWrt</strong> — GPL-2.0 and other licences; <a href="https://openwrt.org" rel="noopener">openwrt.org</a>. OpenWrt is a registered trademark of Software Freedom Conservancy. Haven is built on OpenWrt and is not affiliated with or endorsed by the OpenWrt project.</li>
+      <li><strong>Wireshark <code>manuf</code> database</strong> — the hardware-vendor lookup table on the router is derived from Wireshark's <code>manuf</code> file, GPL-2.0-or-later; <a href="https://www.wireshark.org" rel="noopener">wireshark.org</a>.</li>
+      <li><strong>Public Suffix List</strong> — MPL-2.0; <a href="https://publicsuffix.org" rel="noopener">publicsuffix.org</a>.</li>
+      <li><strong>luci-theme-argon</strong> — Apache-2.0; <a href="https://github.com/jerrykuku/luci-theme-argon" rel="noopener">github.com/jerrykuku/luci-theme-argon</a>.</li>
+      <li><strong>UT1 blacklists (Université Toulouse Capitole)</strong> — CC BY-SA 4.0; <a href="https://dsi.ut-capitole.fr/blacklists/" rel="noopener">dsi.ut-capitole.fr/blacklists</a>. The router fetches these directly from upstream.</li>
+      <li><strong>OISD</strong> — <a href="https://oisd.nl" rel="noopener">oisd.nl</a>. Fetched directly from upstream.</li>
+    </ul>
+    <p>A copy of these notices ships on every router at <code>/usr/share/haven/THIRD-PARTY-NOTICES.md</code>.</p>
+
+    <h3 class="mbr-fonts-style display-5">Contact</h3>
+    <p>Source requests and licensing questions: <a href="mailto:source@lulhaven.com">source@lulhaven.com</a>. If you believe anything on this page falls short of what a licence requires, that address reaches a person, and we will fix it.</p>
+
+    </div>
+  </div>
+</section>
+
+<div class="faq-back"><a class="mbr-text mbr-fonts-style display-7" href="index.html">← Back to home</a></div>
+<script src="js/haven-nav.js?v=7"></script>
+<script src="js/kyc.js?v=20260603-manga"></script>
+</body>
+</html>
