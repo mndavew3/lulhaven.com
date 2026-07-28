@@ -1,5 +1,16 @@
-// generated 2026-07-28T03:50:58Z from haven_wiki.db accomplishments
+// generated 2026-07-28T03:59:46Z from haven_wiki.db accomplishments
 var milestonesDataset = [
+  {
+    "id": 613,
+    "date": "2026-07-27",
+    "theme": "Trust & transparency",
+    "impact": 4,
+    "summary": "Published lulhaven.com/source: the complete open-source position — exact pinned revisions, build config downloads, the written source offer, and attribution for every third-party dataset",
+    "detail": null,
+    "benefit": "Anyone can verify exactly what open software is inside their router and get its source — the transparency a trust product owes",
+    "ref": "be2d149",
+    "features": []
+  },
   {
     "id": 611,
     "date": "2026-07-27",
@@ -9,6 +20,28 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "You decide which side, both sides, or neither gets filtered on your network — Haven does not take a position for you",
     "ref": "session",
+    "features": []
+  },
+  {
+    "id": 615,
+    "date": "2026-07-27",
+    "theme": "Trust & transparency",
+    "impact": 3,
+    "summary": "Added a standard security-disclosure channel (security.txt) so researchers can reach us privately",
+    "detail": null,
+    "benefit": "A published, monitored path for reporting vulnerabilities — problems reach us before they reach anyone else",
+    "ref": "2ff5e2b",
+    "features": []
+  },
+  {
+    "id": 614,
+    "date": "2026-07-27",
+    "theme": "Demo page",
+    "impact": 3,
+    "summary": "Demo exports now use the real router's configuration file format — settings built in the demo import straight into a Haven router",
+    "detail": null,
+    "benefit": "Try filters in the browser, keep the file, and load the same choices onto your router when it arrives",
+    "ref": "8b91aa4",
     "features": []
   },
   {
