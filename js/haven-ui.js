@@ -605,23 +605,43 @@ function hdValidKeys() {
 }
 
 function hdExport() {
+  // Real router file format (v1 flat doc from lib/config_transfer.lua M.export):
+  // a demo export loads straight into a live Haven's Import. Demo keys are
+  // "cat/item" exactly as prefs_writer.lua splits them; values block|delayed
+  // match the importer's enum. The demo has no devices/whitelist/YT state, so
+  // those travel empty. delay_minutes rides in settings, same as the router.
   var delayVal = document.getElementById('hd-temp-min').value;
-  var now = Math.floor(Date.now() / 1000);
-  var delaySeconds = parseInt(delayVal) * 60;
   var valid = hdValidKeys();
-  var lines = ["config haven 'settings'", "\toption delay_minutes '" + delayVal + "'"];
-  for (var key in hdSettings) {
-    if (hdSettings[key] && valid[key]) {
-      lines.push("\toption " + key + " '" + hdSettings[key] + "'");
-      if (hdSettings[key] === 'delayed') {
-        lines.push("\toption " + key + "::at '" + (now + delaySeconds) + "'");
-      }
-    }
+  var prefs = [];
+  var keys = [];
+  for (var key in hdSettings) { if (hdSettings[key] && valid[key]) keys.push(key); }
+  keys.sort();
+  for (var i = 0; i < keys.length; i++) {
+    var slash = keys[i].indexOf('/');
+    prefs.push({ category_key: keys[i].slice(0, slash),
+                 item_key: keys[i].slice(slash + 1),
+                 value: hdSettings[keys[i]] });
   }
-  var blob = new Blob([lines.join('\n') + '\n'], {type: 'text/plain'});
+  var doc = {
+    haven_config: 1,
+    exported_datetime: Math.floor(Date.now() / 1000),
+    provenance: { haven_version: 'demo', model: 'Haven Demo (lulhaven.com)' },
+    household_prefs: prefs,
+    devices: [],
+    whitelist: [],
+    yt_item_actions: [],
+    app_overrides: [],
+    app_exclusions: [],
+    settings: { delay_minutes: String(parseInt(delayVal) || 0) }
+  };
+  var d = new Date();
+  function p2(n) { return (n < 10 ? '0' : '') + n; }
+  var stamp = '' + d.getFullYear() + p2(d.getMonth() + 1) + p2(d.getDate()) +
+              '-' + p2(d.getHours()) + p2(d.getMinutes()) + p2(d.getSeconds());
+  var blob = new Blob([JSON.stringify(doc, null, 2) + '\n'], {type: 'application/json'});
   var a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = 'haven.conf';
+  a.download = 'haven-config-' + stamp + '.json';
   a.click();
   URL.revokeObjectURL(a.href);
 }
@@ -635,20 +655,56 @@ function hdHandleImport(input) {
   if (!file) return;
   var reader = new FileReader();
   reader.onload = function(e) {
-    var lines = e.target.result.split('\n');
-    var imported = {};
-    for (var i = 0; i < lines.length; i++) {
-      var m = lines[i].match(/^\toption (\S+) '(.*)'$/);
-      if (m) imported[m[1]] = m[2];
+    var text = e.target.result;
+    var newSettings = null;
+    var delayMin = null;
+    // Router JSON (v1 flat; v2 wraps the same fields in a `payload` string —
+    // mirror the router's tolerant reader in config_transfer.lua M.unwrap).
+    var doc = null;
+    try { doc = JSON.parse(text); } catch (err) { doc = null; }
+    if (doc && typeof doc.payload === 'string') {
+      try { doc = JSON.parse(doc.payload); } catch (err) { doc = null; }
     }
-    if (imported.delay_minutes) {
-      document.getElementById('hd-temp-min').value = imported.delay_minutes;
-      delete imported.delay_minutes;
+    if (doc && doc.haven_config !== undefined) {
+      newSettings = {};
+      var prefs = doc.household_prefs || [];
+      for (var i = 0; i < prefs.length; i++) {
+        var p = prefs[i];
+        if (p && typeof p.category_key === 'string' && typeof p.item_key === 'string' &&
+            (p.value === 'block' || p.value === 'delayed')) {
+          newSettings[p.category_key + '/' + p.item_key] = p.value;
+        }
+      }
+      if (doc.settings && doc.settings.delay_minutes !== undefined) {
+        delayMin = parseInt(doc.settings.delay_minutes);
+      }
+    } else if (!doc) {
+      // Legacy demo .conf (UCI-style text) — grace for files saved before the
+      // format matched the router.
+      var lines = text.split('\n');
+      var imported = {};
+      for (var j = 0; j < lines.length; j++) {
+        var m = lines[j].match(/^\toption (\S+) '(.*)'$/);
+        if (m) imported[m[1]] = m[2];
+      }
+      if (imported.delay_minutes !== undefined) {
+        delayMin = parseInt(imported.delay_minutes);
+        delete imported.delay_minutes;
+      }
+      newSettings = {};
+      for (var k in imported) {
+        if (k.indexOf('::at') === -1) newSettings[k] = imported[k];
+      }
     }
-    hdSettings = {};
-    for (var k in imported) {
-      if (k.indexOf('::at') === -1) hdSettings[k] = imported[k];
+    if (!newSettings) {
+      hdShowMsg('Not a Haven config file.', '#a03000');
+      input.value = '';
+      return;
     }
+    if (delayMin !== null && !isNaN(delayMin)) {
+      document.getElementById('hd-temp-min').value = delayMin;
+    }
+    hdSettings = newSettings;
     hdUpdateBadges();
     hdSelect(hdCurrentCat);
     hdShowMsg('Imported. Click Save to apply.', '#0060a0');
