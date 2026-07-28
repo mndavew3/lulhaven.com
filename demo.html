@@ -218,7 +218,7 @@
   }
   #hd-cats li.hd-cat-item.hd-hidden { display: none !important; }
 
-  /* Category icon — categories only; group headers stay bare (the absence is the cue) */
+  /* Category icon — categories only; section headers stay bare (the absence is the cue) */
   #hd-cats li.hd-cat-item .hd-cat-name { display: flex; align-items: center; gap: 9px; min-width: 0; }
   #hd-cats .hd-ic-wrap { position: relative; display: inline-flex; flex: 0 0 18px; width: 18px; height: 18px; }
   #hd-cats img.hd-cat-ic { width: 18px; height: 18px; }
@@ -261,6 +261,7 @@
   #haven-demo.hd-basic .hd-adv-only { display: none !important; }
   #hd-mode-btn.hd-basic-active { background: rgba(0,120,130,0.15); border-color: rgba(0,120,130,0.5); color: #007a8a; font-weight: bold; }
   #hd-log-btn.active { background: rgba(0,120,130,0.15); border-color: rgba(0,120,130,0.5); color: #007a8a; font-weight: bold; }
+  #hd-admin-btn.active { background: rgba(0,120,130,0.15); border-color: rgba(0,120,130,0.5); color: #007a8a; font-weight: bold; }
   #hd-log-panel { display: none; margin-top: 16px; padding: 16px; }
   #hd-log-panel.hd-log-visible { display: block; }
   #hd-log-notice { font-size: 0.9em; color: rgba(0,0,0,0.55); font-style: italic; }
@@ -344,14 +345,14 @@
     </div>
 
     <div id="hd-search-bar">
-      <input type="text" id="hd-search-input" title="Search every category and provider by name." placeholder="Search contents... (e.g. Fox, Apple, CNN)" oninput="hdSearch(this.value)">
+      <input type="text" id="hd-search-input" title="Search every category and content provider by name." placeholder="Search contents... (e.g. Fox, Apple, CNN)" oninput="hdSearch(this.value)">
       <button onclick="hdClear()" title="Clear the search box.">Clear</button>
     </div>
 
     <div id="hd-layout">
       <div id="hd-left-col" style="flex:0 0 220px;display:flex;flex-direction:column;gap:10px;min-width:0;">
         <div style="text-align:right;">
-          <button id="hd-az-btn" title="List every group alphabetically, ignoring categories." onclick="hdToggleAZView()">A&#8211;Z</button>
+          <button id="hd-az-btn" title="List every category alphabetically, ignoring sections." onclick="hdToggleAZView()">A&#8211;Z</button>
         </div>
         <div id="hd-cats" class="hd-glass">
           <ul id="hd-cat-ul"></ul>
@@ -363,8 +364,8 @@
           <thead>
             <tr>
               <th>Contents/Providers</th>
-              <th class="c" id="hd-filter-th"><span id="hd-filter-hint">Click any toggle →</span>Filter<br><a class="hd-adv-only" title="Filter every provider in this category." href="#" onclick="hdSelectAll('block');return false;">All</a></th>
-              <th class="c hd-delayed-col">Delayed Filter<br><a class="hd-adv-only" title="Delay every provider in this category." href="#" onclick="hdSelectAll('delayed');return false;">All</a></th>
+              <th class="c" id="hd-filter-th"><span id="hd-filter-hint">Click any toggle →</span>Filter<br><a class="hd-adv-only" title="Filter every content provider in this category." href="#" onclick="hdSelectAll('block');return false;">All</a></th>
+              <th class="c hd-delayed-col">Delayed Filter<br><a class="hd-adv-only" title="Delay every content provider in this category." href="#" onclick="hdSelectAll('delayed');return false;">All</a></th>
             </tr>
           </thead>
           <tbody id="hd-sub-body"></tbody>
@@ -446,7 +447,7 @@
             <th style="padding:6px;" title="How Haven detected this request.">Source</th>
             <th style="padding:6px;" title="The site or service that was requested.">Domain</th>
             <th style="padding:6px;" title="The category this request fell under.">Category</th>
-            <th style="padding:6px;" title="The specific provider within that category.">Item</th>
+            <th style="padding:6px;" title="The specific content provider within that category.">Provider</th>
             <th style="padding:6px;" title="Allow a logged domain — the button adds it to your whitelist.">Action</th>
           </tr>
         </thead>
@@ -502,9 +503,9 @@
   </div>
 </div>
 
-<script src="js/haven-data.js?v=5629dd61"></script>
-<script src="js/haven-tooltips.js?v=b5d72d95"></script>
-<script src="js/haven-ui.js?v=20260727-adm2"></script>
+<script src="js/haven-data.js?v=e5896e0f"></script>
+<script src="js/haven-tooltips.js?v=64b6e0cd"></script>
+<script src="js/haven-ui.js?v=20260727-tax1"></script>
 <script src="js/kyc.js?v=20260603-manga"></script>
 
 </body>

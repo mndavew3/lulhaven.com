@@ -146,13 +146,13 @@ var cbDataset = [
     "id": 12,
     "section": "main",
     "lead": "Block a whole category — or just TikTok",
-    "body": "Start with a ready-made template — or stack two — then refine to taste: switch a whole Category on or off, narrow to a Group inside it, or pick individual Providers (TikTok, Reddit, Facebook). As broad or as precise as you want.",
+    "body": "Start with a ready-made template — or stack two — then refine to taste: switch a whole Section on or off, narrow to a Category inside it, or pick individual Providers (TikTok, Reddit, Facebook). As broad or as precise as you want.",
     "family_rank": 12,
     "privacy_rank": 14,
     "family_lead": null,
     "privacy_lead": null,
     "related_feature_ids": null,
-    "details": "<p>Haven lets you work from the top down. Begin with a <strong>template</strong> — a ready-made starting point you can apply on its own or stack with a second one. From there, dial in: switch off an entire <strong>Category</strong> like Social &amp; Communication, narrow to a <strong>Group</strong> inside it such as Social Media, or reach all the way down to a single <strong>Provider</strong> — TikTok, Reddit, Facebook — and choose exactly which ones you want gone. Pick a template, pick two, open a group, decide provider by provider: as broad or as precise as you like, instead of a vendor's coarse buckets.</p>",
+    "details": "<p>Haven lets you work from the top down. Begin with a <strong>template</strong> — a ready-made starting point you can apply on its own or stack with a second one. From there, dial in: switch off an entire <strong>Section</strong> like Social &amp; Communication, narrow to a <strong>Category</strong> inside it such as Social Media, or reach all the way down to a single <strong>Content Provider</strong> — TikTok, Reddit, Facebook — and choose exactly which ones you want gone. Pick a template, pick two, open a category, decide content provider by content provider: as broad or as precise as you like, instead of a vendor's coarse buckets.</p>",
     "link": null
   },
   {

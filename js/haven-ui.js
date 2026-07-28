@@ -51,7 +51,7 @@ var hdSuperCats = [
   { name: 'Entertainment', cats: ['Entertainment','Gaming','Sports & Betting','Streaming Music']},
   { name: 'Health & Wellness', cats: ['Health & Wellness','Pseudo-Medicine & Health Fraud']},
   { name: 'Kids & Education', cats: ['Cheating & Academic Fraud','Education','Kids & Family']},
-  { name: 'News & Media', cats: ['Misinformation & Conspiracy','News & Media','Politics & Government']},
+  { name: 'News & Media', cats: ['Conspiracy & Fabricated Claims','Hyperpartisan Commentary — Left','Hyperpartisan Commentary — Right','News & Media','Politics & Government']},
   { name: 'Social & Communication', cats: ['Forums & Community','Messaging & Chat','Social Media']},
   { name: 'Technology', cats: [
     'Advertising','AI & Automation','Cloud Services','File Sharing',
@@ -59,7 +59,7 @@ var hdSuperCats = [
   ]}
 ];
 
-// Tooltip copy for the left-rail GROUP headers and CATEGORIES. Lives HERE (static, beside
+// Tooltip copy for the left-rail SECTION headers and CATEGORIES. Lives HERE (static, beside
 // hdSuperCats) — NOT in haven-tooltips.js, which the deploy regenerates from haven.db and
 // would wipe. Keys match the display names in hdSuperCats / hdDataset.
 var hdGroupTips = {
@@ -71,7 +71,7 @@ var hdGroupTips = {
   "News & Media":"News, politics, and misinformation.",
   "Social & Communication":"Social networks, messaging, and forums.",
   "Technology":"Ads, AI, cloud, search, and the tools that bypass filtering.",
-  "Other":"Categories that don't fit a group above."
+  "Other":"Categories that don't fit a section above."
 };
 
 var hdCatTips = {
@@ -106,7 +106,9 @@ var hdCatTips = {
   "Cheating & Academic Fraud":"Homework-answer farms and essay-for-hire services.",
   "Education":"Learning platforms and online courses.",
   "Kids & Family":"Children's content and family-oriented sites.",
-  "Misinformation & Conspiracy":"Sites widely flagged for false or conspiratorial claims.",
+  "Hyperpartisan Commentary — Right":"Right-leaning opinion and aggregation sites.",
+  "Hyperpartisan Commentary — Left":"Left-leaning opinion and aggregation sites.",
+  "Conspiracy & Fabricated Claims":"Fabricated claims and conspiracy material — flat earth, QAnon and the like.",
   "News & Media":"News outlets across the spectrum.",
   "Politics & Government":"Party, campaign, advocacy, and government sites across the spectrum.",
   "Forums & Community":"Discussion forums and community sites.",
@@ -129,7 +131,7 @@ var hdPresets = {
     'Adult Content','Alcohol & Tobacco','Anonymous & Random Chat',
     'Cheating & Academic Fraud','Cult & Coercive Groups','Dating & Relationships',
     'Drugs & Substances','Extremism & Radicalization','Firearms & Weapons','Gambling',
-    'Hate & Discriminatory Content','Misinformation & Conspiracy','Occult & Alternative Beliefs',
+    'Hate & Discriminatory Content','Conspiracy & Fabricated Claims','Occult & Alternative Beliefs',
     'Scams & Predatory Services','Self-Harm & Crisis Content','Tracking & Stalkerware',
     'Violence & Graphic Content'
   ],
@@ -148,7 +150,7 @@ var hdPresets = {
     'Adult Content','AI & Automation','Alcohol & Tobacco','Anonymous & Random Chat',
     'Cheating & Academic Fraud','Cult & Coercive Groups','Dating & Relationships',
     'Drugs & Substances','Extremism & Radicalization','Firearms & Weapons','Gambling',
-    'Hate & Discriminatory Content','Misinformation & Conspiracy','Mobile Game Ads',
+    'Hate & Discriminatory Content','Conspiracy & Fabricated Claims','Mobile Game Ads',
     'Pseudo-Medicine & Health Fraud','Scams & Predatory Services','Self-Harm & Crisis Content',
     'Social Media','Sports & Betting','Tracking & Stalkerware','Violence & Graphic Content'
   ],
@@ -157,7 +159,7 @@ var hdPresets = {
     'Search Engines','Social Media','Tracking & Stalkerware'
   ],
   Senior: [
-    'Cryptocurrency','Gambling','Misinformation & Conspiracy',
+    'Cryptocurrency','Gambling','Conspiracy & Fabricated Claims',
     'Pseudo-Medicine & Health Fraud','Scams & Predatory Services',
     'Security','Sports & Betting'
   ]
@@ -185,8 +187,8 @@ function hdUpdateBadges() {
 }
 
 // Category list-item markup: icon (categories only) + name on the left, badge on the right.
-// Icon keyed by hdCatKey[name] -> assets/icons/categories/<key>.svg. Group headers stay bare —
-// the absence of an icon is the cue that distinguishes a group from a clickable category.
+// Icon keyed by hdCatKey[name] -> assets/icons/categories/<key>.svg. Section headers stay bare —
+// the absence of an icon is the cue that distinguishes a section from a clickable category.
 function hdCatItemHtml(catName) {
   var key = (typeof hdCatKey !== 'undefined') ? hdCatKey[catName] : null;
   var ic = key ? '<span class="hd-ic-wrap"><img class="hd-cat-ic" data-key="' + key + '" src="assets/icons/categories/' + key + '.svg" alt="">'
@@ -758,7 +760,7 @@ function hdCloseAppsModal() { var m = document.getElementById('hd-apps-modal'); 
 var HD_SAMPLE_LOG = [
   { time: '15:42:08', device: 'Classroom Chromebooks',     domain: 'wile-e-coyote.com',    cat: 'E-Commerce',             item: 'ACME Corp' },
   { time: '15:35:22', device: 'Classroom Chromebooks',     domain: 'snidely-whiplash.com', cat: 'Politics & Government',  item: 'Whiplash Lobbying' },
-  { time: '15:28:14', device: 'Mom\'s phone',     domain: 'boris-n-natasha.com',  cat: 'Misinformation & Conspiracy', item: 'Pottsylvania Daily' },
+  { time: '15:28:14', device: 'Mom\'s phone',     domain: 'boris-n-natasha.com',  cat: 'Conspiracy & Fabricated Claims', item: 'Pottsylvania Daily' },
   { time: '15:21:03', device: 'Sales department phones',     domain: 'yosemite-sam.com',     cat: 'Firearms & Weapons',     item: 'Sam\'s Six-Shooters' },
   { time: '14:58:47', device: 'Classroom Chromebooks',     domain: 'gargamel.com',         cat: 'Forums & Community',     item: 'Smurf Hunters Guild' },
   { time: '14:51:22', device: 'Lobby kiosk',    domain: 'mojo-jojo.com',        cat: 'AI & Automation',        item: 'Townsville Takeover' },
@@ -771,7 +773,7 @@ var HD_SAMPLE_LOG = [
   { time: '13:55:18', device: 'Mom\'s phone',     domain: 'cruella-deville.com',  cat: 'Big Business',           item: 'DeVille Fur Holdings' },
   { time: '13:47:44', device: 'East Lounge TV',     domain: 'jafar.com',            cat: 'Politics & Government',  item: 'Agrabah Royal Council' },
   { time: '13:38:02', device: 'Applicant kiosk',    domain: 'ursula.com',           cat: 'Dating & Relationships', item: 'Sea Witch Singles' },
-  { time: '13:31:27', device: 'Classroom Chromebooks',     domain: 'maleficent.com',       cat: 'Misinformation & Conspiracy', item: 'Curse News Network' },
+  { time: '13:31:27', device: 'Classroom Chromebooks',     domain: 'maleficent.com',       cat: 'Conspiracy & Fabricated Claims', item: 'Curse News Network' },
   { time: '13:24:55', device: 'Lobby kiosk',    domain: 'plankton.com',         cat: 'E-Commerce',             item: 'Chum Bucket Express' },
   { time: '13:14:39', device: 'Classroom Chromebooks',     domain: 'pinky-n-brain.com',    cat: 'AI & Automation',        item: 'World Domination Labs' },
   { time: '13:06:21', device: 'Sales department phones',     domain: 'lex-luthor.com',       cat: 'Big Business',           item: 'LexCorp' },
@@ -821,7 +823,10 @@ function hdHandleLogClick(e) {
 function hdToggleAdminPanel() {
   var panel = document.getElementById('hd-admin-panel');
   if (!panel) return;
-  panel.style.display = (panel.style.display === 'none' || !panel.style.display) ? 'block' : 'none';
+  var visible = (panel.style.display === 'none' || !panel.style.display);
+  panel.style.display = visible ? 'block' : 'none';
+  var btn = document.getElementById('hd-admin-btn');
+  if (btn) btn.classList.toggle('active', visible);
 }
 
 // No-op handlers for the demo admin actions — show a friendly confirmation
