@@ -34,9 +34,9 @@ var hdCurrentCat = 0;
 for (var _hdi = 0; _hdi < hdDataset.length; _hdi++) { if (hdDataset[_hdi][0] === 'Social Media') { hdCurrentCat = _hdi; break; } }
 var hdIsFilteredView = false;
 var hdIsAZView = false;
-var hdSuperOpen = {};
+var hdSectionOpen = {};
 
-var hdSuperCats = [
+var hdSections = [
   { name: 'Adult & Sensitive', cats: [
     'Adult Content','Alcohol & Tobacco','Anonymous & Random Chat',
     'Cult & Coercive Groups','Dating & Relationships','Drugs & Substances',
@@ -60,9 +60,9 @@ var hdSuperCats = [
 ];
 
 // Tooltip copy for the left-rail SECTION headers and CATEGORIES. Lives HERE (static, beside
-// hdSuperCats) — NOT in haven-tooltips.js, which the deploy regenerates from haven.db and
-// would wipe. Keys match the display names in hdSuperCats / hdDataset.
-var hdGroupTips = {
+// hdSections) — NOT in haven-tooltips.js, which the deploy regenerates from haven.db and
+// would wipe. Keys match the display names in hdSections / hdDataset.
+var hdSectionTips = {
   "Adult & Sensitive":"Categories many households filter for younger or more sensitive members.",
   "Business & Finance":"Shopping, banking, crypto, jobs, and travel.",
   "Entertainment":"Video, gaming, music, and sports.",
@@ -215,15 +215,15 @@ function hdRenderCatList() {
     for (var ci = 0; ci < hdDataset.length; ci++) catIndexMap[hdDataset[ci][0]] = ci;
     var covered = {};
 
-    for (var si = 0; si < hdSuperCats.length; si++) {
-      var sc = hdSuperCats[si];
-      var open = hdSuperOpen[sc.name] === true;
+    for (var si = 0; si < hdSections.length; si++) {
+      var sc = hdSections[si];
+      var open = hdSectionOpen[sc.name] === true;
       var hdr = document.createElement('li');
-      hdr.className = 'hd-super-hdr' + (open ? ' open' : '');
-      hdr.setAttribute('data-super-idx', si);
-      hdr.innerHTML = '<span class="hd-super-label">' + sc.name + '</span><span class="hd-chevron">&#9658;</span>';
-      if (typeof hdGroupTips !== 'undefined' && hdGroupTips[sc.name]) hdr.title = hdGroupTips[sc.name];
-      hdr.onclick = (function(idx) { return function(e) { hdToggleSuperCat(idx, !!(e && (e.ctrlKey || e.metaKey))); }; })(si);
+      hdr.className = 'hd-section-hdr' + (open ? ' open' : '');
+      hdr.setAttribute('data-section-idx', si);
+      hdr.innerHTML = '<span class="hd-section-label">' + sc.name + '</span><span class="hd-chevron">&#9658;</span>';
+      if (typeof hdSectionTips !== 'undefined' && hdSectionTips[sc.name]) hdr.title = hdSectionTips[sc.name];
+      hdr.onclick = (function(idx) { return function(e) { hdToggleSection(idx, !!(e && (e.ctrlKey || e.metaKey))); }; })(si);
       ul.appendChild(hdr);
 
       for (var ci2 = 0; ci2 < sc.cats.length; ci2++) {
@@ -234,7 +234,7 @@ function hdRenderCatList() {
         var li2 = document.createElement('li');
         li2.className = 'hd-cat-item' + (open ? '' : ' hd-hidden');
         li2.setAttribute('data-cat-index', catIdx);
-        li2.setAttribute('data-super-idx', si);
+        li2.setAttribute('data-section-idx', si);
         li2.innerHTML = hdCatItemHtml(catName);
         li2.onclick = (function(idx) { return function() { hdSelect(idx); }; })(catIdx);
         ul.appendChild(li2);
@@ -246,20 +246,20 @@ function hdRenderCatList() {
       if (!covered[hdDataset[ci][0]]) extra.push(ci);
     }
     if (extra.length) {
-      var open2 = hdSuperOpen['__other__'] === true;
+      var open2 = hdSectionOpen['__other__'] === true;
       var hdr2 = document.createElement('li');
-      hdr2.className = 'hd-super-hdr' + (open2 ? ' open' : '');
-      hdr2.setAttribute('data-super-idx', hdSuperCats.length);
-      hdr2.innerHTML = '<span class="hd-super-label">Other</span><span class="hd-chevron">&#9658;</span>';
-      if (typeof hdGroupTips !== 'undefined' && hdGroupTips['Other']) hdr2.title = hdGroupTips['Other'];
-      hdr2.onclick = (function(idx) { return function(e) { hdToggleSuperCat(idx, !!(e && (e.ctrlKey || e.metaKey))); }; })(hdSuperCats.length);
+      hdr2.className = 'hd-section-hdr' + (open2 ? ' open' : '');
+      hdr2.setAttribute('data-section-idx', hdSections.length);
+      hdr2.innerHTML = '<span class="hd-section-label">Other</span><span class="hd-chevron">&#9658;</span>';
+      if (typeof hdSectionTips !== 'undefined' && hdSectionTips['Other']) hdr2.title = hdSectionTips['Other'];
+      hdr2.onclick = (function(idx) { return function(e) { hdToggleSection(idx, !!(e && (e.ctrlKey || e.metaKey))); }; })(hdSections.length);
       ul.appendChild(hdr2);
       for (var i = 0; i < extra.length; i++) {
         var catIdx2 = extra[i];
         var li3 = document.createElement('li');
         li3.className = 'hd-cat-item' + (open2 ? '' : ' hd-hidden');
         li3.setAttribute('data-cat-index', catIdx2);
-        li3.setAttribute('data-super-idx', hdSuperCats.length);
+        li3.setAttribute('data-section-idx', hdSections.length);
         li3.innerHTML = hdCatItemHtml(hdDataset[catIdx2][0]);
         li3.onclick = (function(idx) { return function() { hdSelect(idx); }; })(catIdx2);
         ul.appendChild(li3);
@@ -269,27 +269,27 @@ function hdRenderCatList() {
   hdUpdateBadges();
 }
 
-function hdToggleSuperCat(superIdx, additive) {
-  var key = superIdx < hdSuperCats.length ? hdSuperCats[superIdx].name : '__other__';
-  var willOpen = hdSuperOpen[key] !== true;  // currently closed (or undef) -> open it
+function hdToggleSection(sectionIdx, additive) {
+  var key = sectionIdx < hdSections.length ? hdSections[sectionIdx].name : '__other__';
+  var willOpen = hdSectionOpen[key] !== true;  // currently closed (or undef) -> open it
   if (willOpen && !additive) {
     // Accordion: opening one collapses all others. Ctrl/Cmd-click suppresses this.
-    for (var k in hdSuperOpen) { hdSuperOpen[k] = false; }
-    hdSuperOpen[key] = true;
-    var allHdrs = document.querySelectorAll('#hd-cat-ul li.hd-super-hdr');
+    for (var k in hdSectionOpen) { hdSectionOpen[k] = false; }
+    hdSectionOpen[key] = true;
+    var allHdrs = document.querySelectorAll('#hd-cat-ul li.hd-section-hdr');
     for (var h = 0; h < allHdrs.length; h++) {
-      var hi = allHdrs[h].getAttribute('data-super-idx');
-      var isThis = (hi === String(superIdx));
+      var hi = allHdrs[h].getAttribute('data-section-idx');
+      var isThis = (hi === String(sectionIdx));
       allHdrs[h].classList.toggle('open', isThis);
-      var items = document.querySelectorAll('#hd-cat-ul li.hd-cat-item[data-super-idx="' + hi + '"]');
+      var items = document.querySelectorAll('#hd-cat-ul li.hd-cat-item[data-section-idx="' + hi + '"]');
       for (var i = 0; i < items.length; i++) items[i].classList.toggle('hd-hidden', !isThis);
     }
   } else {
     // Additive toggle: just flip this one, leave others alone.
-    hdSuperOpen[key] = willOpen;
-    var hdr = document.querySelector('#hd-cat-ul li.hd-super-hdr[data-super-idx="' + superIdx + '"]');
+    hdSectionOpen[key] = willOpen;
+    var hdr = document.querySelector('#hd-cat-ul li.hd-section-hdr[data-section-idx="' + sectionIdx + '"]');
     if (hdr) hdr.classList.toggle('open', willOpen);
-    var items2 = document.querySelectorAll('#hd-cat-ul li.hd-cat-item[data-super-idx="' + superIdx + '"]');
+    var items2 = document.querySelectorAll('#hd-cat-ul li.hd-cat-item[data-section-idx="' + sectionIdx + '"]');
     for (var j = 0; j < items2.length; j++) items2[j].classList.toggle('hd-hidden', !willOpen);
   }
 }
@@ -499,12 +499,12 @@ function hdSearch(term) {
       var item = document.querySelector('#hd-cat-ul li.hd-cat-item[data-cat-index="' + ci + '"]');
       if (item) {
         item.classList.add('hd-highlighted');
-        // auto-expand the containing super-cat if it's collapsed
-        var superIdx = item.getAttribute('data-super-idx');
-        if (superIdx !== null) {
-          var superKey = parseInt(superIdx) < hdSuperCats.length ? hdSuperCats[parseInt(superIdx)].name : '__other__';
-          if (hdSuperOpen[superKey] === false) {
-            var hdr = document.querySelector('#hd-cat-ul li.hd-super-hdr[data-super-idx="' + superIdx + '"]');
+        // auto-expand the containing section if it's collapsed
+        var sectionIdx = item.getAttribute('data-section-idx');
+        if (sectionIdx !== null) {
+          var sectionKey = parseInt(sectionIdx) < hdSections.length ? hdSections[parseInt(sectionIdx)].name : '__other__';
+          if (hdSectionOpen[sectionKey] === false) {
+            var hdr = document.querySelector('#hd-cat-ul li.hd-section-hdr[data-section-idx="' + sectionIdx + '"]');
             if (hdr) hdr.classList.add('open');
             item.classList.remove('hd-hidden');
           }
@@ -920,7 +920,7 @@ hdRenderCatList();
 hdLoad();
 hdInitDevicePicker();
 // Landing state: open Social & Communication, select Social Media.
-hdSuperOpen['Social & Communication'] = true;
+hdSectionOpen['Social & Communication'] = true;
 hdRenderCatList();
 var _initialIdx = 0;
 for (var _i = 0; _i < hdDataset.length; _i++) {

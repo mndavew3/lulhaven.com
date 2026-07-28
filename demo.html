@@ -192,8 +192,8 @@
   .no-strategy-name { cursor:help; }
   td.hd-cat-label { color: rgba(0,120,130,0.7); font-size: 0.8em; font-style: italic; }
 
-  /* Super-category headers */
-  #hd-cats li.hd-super-hdr {
+  /* Section headers */
+  #hd-cats li.hd-section-hdr {
     padding: 5px 12px 4px;
     font-size: 0.72em; font-weight: bold;
     text-transform: uppercase; letter-spacing: 0.07em;
@@ -204,12 +204,12 @@
     user-select: none;
     border-bottom: 1px solid rgba(0,0,0,0.07);
   }
-  #hd-cats li.hd-super-hdr:hover { background: rgba(0,0,0,0.09); }
-  #hd-cats li.hd-super-hdr .hd-chevron {
+  #hd-cats li.hd-section-hdr:hover { background: rgba(0,0,0,0.09); }
+  #hd-cats li.hd-section-hdr .hd-chevron {
     font-size: 0.85em; display: inline-block;
     transition: transform 0.2s ease; transform: rotate(0deg);
   }
-  #hd-cats li.hd-super-hdr.open .hd-chevron { transform: rotate(90deg); }
+  #hd-cats li.hd-section-hdr.open .hd-chevron { transform: rotate(90deg); }
 
   /* Category items */
   #hd-cats li.hd-cat-item {
@@ -278,7 +278,7 @@
     #hd-cats { flex: none; overflow-x: auto; overflow-y: hidden; }
     #hd-cats ul { display: flex; flex-direction: row; white-space: nowrap; padding-bottom: 4px; }
     #hd-cats li { display: inline-block; border-bottom: none; border-right: 1px solid rgba(0,0,0,0.07); padding: 8px 10px; }
-    #hd-cats li.hd-super-cat { display: none; }
+    #hd-cats li.hd-section { display: none; }
     #hd-search-bar { flex-wrap: wrap; }
     #haven-demo-inner { padding: 10px; }
     #hd-sub-table th, #hd-sub-table td { padding: 6px 4px; }
@@ -505,7 +505,7 @@
 
 <script src="js/haven-data.js?v=e5896e0f"></script>
 <script src="js/haven-tooltips.js?v=64b6e0cd"></script>
-<script src="js/haven-ui.js?v=20260727-exp1"></script>
+<script src="js/haven-ui.js?v=20260727-sec1"></script>
 <script src="js/kyc.js?v=20260603-manga"></script>
 
 </body>
