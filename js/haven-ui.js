@@ -191,7 +191,7 @@ function hdUpdateBadges() {
 // the absence of an icon is the cue that distinguishes a section from a clickable category.
 function hdCatItemHtml(catName) {
   var key = (typeof hdCatKey !== 'undefined') ? hdCatKey[catName] : null;
-  var ic = key ? '<span class="hd-ic-wrap"><img class="hd-cat-ic" data-key="' + key + '" src="assets/icons/categories/' + key + '.svg" alt="">'
+  var ic = key ? '<span class="hd-ic-wrap"><img class="hd-cat-ic" data-key="' + key + '" src="assets/icons/categories/' + key + '.svg?v=2" alt="">'
     + '<img class="hd-cat-slash" src="assets/icons/slash.svg" alt=""></span>' : '';
   var ctip = (typeof hdCatTips !== 'undefined' && hdCatTips[catName]) ? ' title="' + hdCatTips[catName].replace(/"/g, '&quot;') + '"' : '';
   return '<span class="hd-cat-name"' + ctip + '>' + ic + catName + '</span><span class="hd-badge"></span>';
