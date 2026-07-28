@@ -217,7 +217,7 @@ var cfDataset = [
     "id": 12,
     "section": "main",
     "lead": "Block what you choose",
-    "body": "Pick from 9 groups — or go more specific with 49 categories. That's 613 providers total you can control one by one, by category, or by group. One click per provider.",
+    "body": "Pick from 9 groups — or go more specific with 47 categories. That's 613 providers total you can control one by one, by category, or by group. One click per provider.",
     "family_rank": 2,
     "privacy_rank": 31,
     "family_lead": null,
