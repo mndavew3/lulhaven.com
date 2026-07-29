@@ -39,6 +39,7 @@
   .note{font-size:.92rem;color:#5a6072;}
   form{background:#fff;border:1px solid var(--line);border-radius:12px;padding:22px;display:grid;gap:14px;}
   label{font-weight:600;font-size:.92rem;display:block;margin-bottom:4px;}
+  label .opt{font-weight:400;color:#7a8194;}
   input,select{width:100%;padding:11px 12px;border:1px solid #c7ccdd;border-radius:8px;font-size:1rem;font-family:inherit;}
   .row{display:grid;gap:14px;grid-template-columns:1fr;}
   @media(min-width:560px){.row{grid-template-columns:1fr 1fr;}}
@@ -132,11 +133,11 @@
   <div class="wrap">
     <h2>How it works</h2>
     <ol class="how">
-      <li><strong>Apply.</strong> We review every applicant personally &mdash; we want to know who&rsquo;s testing.</li>
-      <li><strong>We set you up.</strong> We provide an image for the router of your choice and stage a blocklist subscription for you.<br><span class="note">(Router must be OpenWrt-compatible. Some images are available now; others we can build &mdash; but if your router isn&rsquo;t on the list below, <strong>apply early</strong>: we need lead time to create its image.)</span></li>
+      <li><strong>Sign up.</strong> Registration is instant &mdash; no approval queue, nothing to wait on. We&rsquo;d still like to know who&rsquo;s testing, so tell us who you are.</li>
+      <li><strong>Get Haven.</strong> Take the virtual machine and run it on the computer you already have, or grab the image for your router.<br><span class="note">(Router must be OpenWrt-compatible. If yours isn&rsquo;t one we already build for, <strong>ask early</strong> &mdash; see below. Creating an image for new hardware takes real lead time.)</span></li>
       <li><strong>Get set up early.</strong> Install Haven on your hardware whenever you like. Setup time never counts against you.</li>
-      <li><strong>The gates open together.</strong> The challenge goes live for everyone at the same moment &mdash; no copy works before then.</li>
-      <li><strong>Seven days.</strong> One frozen build, a published scope, an open window. Find what we missed.</li>
+      <li><strong>The gates open together.</strong> The window opens for everyone on the same day &mdash; and anything you find beforehand still counts, credited when you file it.</li>
+      <li><strong>An open month.</strong> A published scope, and no frozen build &mdash; we patch as we go, and every finding is credited to the Haven version you found it on. Nothing you find gets patched out from under you.</li>
       <li><strong>Tell us.</strong> Report privately first. We confirm it, fix it, and credit you. Every finding matters &mdash; the people who find them are the most important people in this whole effort.</li>
     </ol>
     <p class="note">Findings show on the live leaderboard as <strong>Confirmed</strong> the moment we reproduce them. Anything we can&rsquo;t reproduce yet stays <strong>Unconfirmed</strong> &mdash; usually that just means we need a little more detail, and we&rsquo;ll ask. Nobody&rsquo;s report is ever dismissed.</p>
@@ -148,27 +149,32 @@
     <h2>The rewards</h2>
     <p>More than any prize, it&rsquo;s about being the first, or the best. But there are prizes &mdash; and there&rsquo;s a wall worth hanging them on.</p>
     <div class="prizes">
-      <div class="prize"><div class="n">Prize #1</div><p>A Haven router of your choice, a first-prize plaque, and the top of the leaderboard.</p></div>
-      <div class="prize"><div class="n">Prize #2</div><p>A Haven router, a plaque for the shelf, and your name near the top.</p></div>
-      <div class="prize"><div class="n">Prize #3</div><p>A Haven router, a plaque, and a permanent place on the board.</p></div>
+      <div class="prize"><div class="n">Prize #1</div><p>A Haven-provisioned router plus <strong>$300</strong>, a first-prize plaque, and the top of the leaderboard.</p></div>
+      <div class="prize"><div class="n">Prize #2</div><p>A Haven-provisioned router plus <strong>$200</strong>, a plaque for the shelf, and your name near the top.</p></div>
+      <div class="prize"><div class="n">Prize #3</div><p>A Haven-provisioned router plus <strong>$100</strong>, a plaque, and a permanent place on the board.</p></div>
     </div>
-    <p class="note" style="margin-top:16px;">Every participant who finds a real, confirmed anomaly earns a <strong>Haven Challenge</strong> plaque &mdash; made to sit right next to the other awards on your wall. Full prize details announced at launch.</p>
+    <p class="note" style="margin-top:16px;">And ten <strong>&ldquo;Significant Contributor&rdquo;</strong> plaques &mdash; made to sit right next to the other awards on your wall. Also listed in the records. Every participant who finds a real, confirmed anomaly earns a <strong>Haven Challenge</strong> certificate. Full prize details announced at launch.</p>
   </div>
 </section>
 
 <section>
   <div class="wrap">
-    <h2>Apply</h2>
-    <p class="note">The Challenge isn&rsquo;t live yet &mdash; but applications are open. Tell us who you are and we&rsquo;ll be in touch.</p>
-    <p class="note">Current router firmware available: Raspberry Pi, GL.iNet GL-MT6000, Linksys E8450.</p>
+    <h2>Getting Haven to run on</h2>
+    <p>There is nothing to apply for. When the doors open you download Haven and go &mdash; no queue, no approval, nobody deciding whether you&rsquo;re in.</p>
+    <p><strong>Two ways to be ready:</strong></p>
+    <ul>
+      <li><strong>A virtual machine.</strong> A ready-to-run image that turns the computer you already have into a Haven test bench. No router required, and it&rsquo;s the whole contest for most people.</li>
+      <li><strong>Your own router.</strong> Firmware is ready today for <strong>Raspberry&nbsp;Pi</strong>, <strong>GL.iNet GL-MT6000</strong>, and <strong>Linksys E8450</strong>.</li>
+    </ul>
+    <p class="note" style="margin-top:18px;"><strong>Only fill this in if your router isn&rsquo;t one of those three</strong> and you&rsquo;d rather not use the virtual machine. Tell us what you&rsquo;ve got and we&rsquo;ll try to build an image for it &mdash; that takes real lead time, so the sooner the better. Your router has to be OpenWrt-compatible, and we can&rsquo;t promise every model.</p>
     <form id="challenge-form">
       <div class="row">
         <div><label for="c-name">Name</label><input id="c-name" name="name" autocomplete="name" required></div>
         <div><label for="c-email">Email</label><input id="c-email" name="email" type="email" autocomplete="email" required></div>
       </div>
       <div class="row">
-        <div><label for="c-handle">Handle / channel</label><input id="c-handle" name="handle" placeholder="@yourhandle"></div>
-        <div><label for="c-platform">Where you publish</label>
+        <div><label for="c-handle">Handle / channel <span class="opt">(if you have one)</span></label><input id="c-handle" name="handle" placeholder="@yourhandle"></div>
+        <div><label for="c-platform">Where you publish <span class="opt">(if applicable)</span></label>
           <select id="c-platform" name="platform">
             <option value="">Choose&hellip;</option>
             <option>YouTube</option><option>Twitch</option><option>X / Twitter</option>
@@ -177,22 +183,17 @@
           </select></div>
       </div>
       <div class="row">
-        <div><label for="c-audience">Audience size</label>
+        <div><label for="c-router">Your router &mdash; make and model</label>
+          <input id="c-router" name="target_router" required
+                 placeholder="e.g. Belkin RT3200, Netgear WAX206" autocomplete="off"></div>
+        <div><label for="c-audience">Audience size <span class="opt">(if applicable)</span></label>
           <select id="c-audience" name="audience">
             <option value="">Choose&hellip;</option>
             <option>Under 1K</option><option>1K&ndash;10K</option><option>10K&ndash;100K</option>
             <option>100K&ndash;1M</option><option>Over 1M</option>
           </select></div>
-        <div><label for="c-router">Router you&rsquo;ll run it on</label>
-          <select id="c-router" name="target_router">
-            <option value="">Choose&hellip;</option>
-            <option>Raspberry Pi</option>
-            <option>GL.iNet GL-MT6000 (Navy)</option>
-            <option>Linksys E8450 (Olive)</option>
-            <option>Something else</option>
-          </select></div>
       </div>
-      <button class="submit" type="submit">Send my application</button>
+      <button class="submit" type="submit">Request an image for my router</button>
       <div id="msg"></div>
     </form>
   </div>
