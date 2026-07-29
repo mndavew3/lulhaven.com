@@ -65,7 +65,7 @@
 </header>
 
 <div class="attn">
-  <div class="wrap"><strong>Attention:</strong> We have images ready for only a limited number of routers. If you want in and your router isn&rsquo;t on the list, <a href="#list">tell us quickly</a> &mdash; we need lead time to prepare an image for your OpenWrt 24.10.4&ndash;compatible hardware.</div>
+  <div class="wrap"><strong>Attention:</strong> You don&rsquo;t need a router to take part &mdash; a virtual machine image runs the Challenge on the computer you already have. But if you want to run it on your own hardware and your router isn&rsquo;t one we build for yet, <a href="#list">tell us quickly</a> &mdash; we need lead time to prepare an image for your OpenWrt 24.10.4&ndash;compatible hardware.</div>
 </div>
 
 <section>
@@ -102,17 +102,18 @@
 <section id="list">
   <div class="wrap">
     <h2>Get on the list</h2>
-    <p class="note">The Challenge isn&rsquo;t live yet &mdash; but the list is open. Tell us who you are and which router you&rsquo;d run it on, and we&rsquo;ll be in touch the moment it opens.</p>
-    <p class="note">Firmware ready today: Raspberry Pi, GL.iNet GL-MT6000, Linksys E8450. <strong>On something else?</strong> Tell us &mdash; it helps us decide what to build next.</p>
+    <p class="note">The Challenge isn&rsquo;t live yet &mdash; but the list is open. Tell us who you are and what you&rsquo;d run Haven on, and we&rsquo;ll be in touch the moment it opens.</p>
+    <p class="note"><strong>No router needed.</strong> A ready-to-run virtual machine image turns the computer you already have into a Haven test bench &mdash; that&rsquo;s the whole Challenge for most people. Prefer your own hardware? Firmware is ready today for Raspberry Pi, GL.iNet GL-MT6000, and Linksys E8450. <strong>On something else?</strong> Tell us &mdash; it helps us decide what to build next.</p>
     <form id="prereg-form">
       <div class="row">
         <div><label for="p-name">Name</label><input id="p-name" name="name" autocomplete="name" required></div>
         <div><label for="p-email">Email</label><input id="p-email" name="email" type="email" autocomplete="email" required></div>
       </div>
       <div class="row">
-        <div><label for="p-router">Router you&rsquo;d run it on</label>
+        <div><label for="p-router">What you&rsquo;d run it on</label>
           <select id="p-router" name="target_router">
             <option value="">Choose&hellip;</option>
+            <option>Virtual machine &mdash; no router needed</option>
             <option>Raspberry Pi</option>
             <option>GL.iNet GL-MT6000 (Navy)</option>
             <option>Linksys E8450 (Olive)</option>
@@ -170,6 +171,6 @@
 })();
 </script>
 <script src="js/kyc.js?v=2ed04668"></script>
-<script src="js/countdown.js?v=20260729-cd1"></script>
+<script src="js/countdown.js?v=4f547e3f"></script>
 </body>
 </html>
