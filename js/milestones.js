@@ -1,5 +1,49 @@
-// generated 2026-07-28T03:59:46Z from haven_wiki.db accomplishments
+// generated 2026-07-30T00:45:00Z from haven_wiki.db accomplishments
 var milestonesDataset = [
+  {
+    "id": 619,
+    "date": "2026-07-29",
+    "theme": "Marketing & website",
+    "impact": 4,
+    "summary": "Challenge pages were corrected where they still described an earlier plan — a seven-day event against a frozen build — and now describe what will actually happen: a month-long window, patched continuously, with every finding credited against the version it was found on",
+    "detail": null,
+    "benefit": "Nothing you find during the Challenge can be quietly patched away before it counts, and the published rules match the contest you actually enter",
+    "ref": "6d81a02",
+    "features": []
+  },
+  {
+    "id": 618,
+    "date": "2026-07-29",
+    "theme": "Product definition",
+    "impact": 4,
+    "summary": "Taking part in the Challenge no longer requires owning a supported router — a ready-to-run virtual machine does it on the computer you already have, and that path is now named first everywhere the question is asked",
+    "detail": null,
+    "benefit": "You can put Haven to the test today without buying hardware or reflashing anything you depend on",
+    "ref": "8532fbf",
+    "features": []
+  },
+  {
+    "id": 617,
+    "date": "2026-07-29",
+    "theme": "Product definition",
+    "impact": 4,
+    "summary": "The Haven Challenge was pinned to a real calendar: applications through August, Haven available to everyone from September 1, the contest running the whole of October and closing on Halloween, winners announced November 13",
+    "detail": null,
+    "benefit": "Anyone who wants to test Haven knows exactly when to sign up, when they can get it, and how long they have",
+    "ref": "91906e3",
+    "features": []
+  },
+  {
+    "id": 616,
+    "date": "2026-07-29",
+    "theme": "Marketing & website",
+    "impact": 4,
+    "summary": "The site now counts down to launch and to the opening of the Haven Challenge, with the launch date shown alongside the shipping date so neither can be mistaken for the other",
+    "detail": null,
+    "benefit": "You can see exactly how long until Haven is available and until the Challenge opens, without hunting for dates",
+    "ref": "6d81a02",
+    "features": []
+  },
   {
     "id": 613,
     "date": "2026-07-27",

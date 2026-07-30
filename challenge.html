@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <link rel="shortcut icon" href="assets/images/lulhaven20dock20line20art202-64x42.png" type="image/x-icon">
-<title>The Haven Challenge &mdash; Coming Soon</title>
+<title>The Haven Halloween Challenge &mdash; Coming Soon</title>
 <style>
   :root{ --navy:#1a237e; --navy-2:#11164d; --ink:#15171c; --paper:#f6f7fb; --line:#e3e6f0; --accent:#c8a24b; }
   *{box-sizing:border-box;}
@@ -20,6 +20,8 @@
   header.hero .kicker .big{display:block;font-size:clamp(1.05rem,3.4vw,1.5rem);letter-spacing:.16em;margin-bottom:4px;}
   header.hero .hero-gnome{display:block;margin:0 auto 18px;width:min(210px,52vw);height:auto;
         border-radius:14px;box-shadow:0 8px 28px rgba(0,0,0,.35);}
+  header.hero .hero-twins{display:block;margin:0 auto 20px;width:min(640px,94vw);height:auto;
+        border-radius:16px;box-shadow:0 10px 34px rgba(0,0,0,.45);}
   header.hero h1{font-size:clamp(2.2rem,7vw,3.8rem);font-weight:900;letter-spacing:.03em;margin:0 0 10px;line-height:1.02;}
   header.hero p{font-size:1.12rem;opacity:.92;max-width:640px;margin:10px auto 0;}
   section{padding:46px 0;border-bottom:1px solid var(--line);}
@@ -46,20 +48,27 @@
                 font-weight:700;cursor:pointer;}
   button.submit:hover{background:var(--navy-2);}
   #msg{min-height:1.3em;font-weight:600;margin-top:6px;}
+  .dates{list-style:none;margin:18px 0 0;padding:0;display:grid;gap:10px;}
+  .dates li{background:#fff;border:1px solid var(--line);border-left:5px solid var(--accent);
+            border-radius:10px;padding:14px 16px;display:grid;gap:4px;grid-template-columns:1fr;}
+  @media(min-width:620px){.dates li{grid-template-columns:170px 1fr;gap:16px;align-items:baseline;}}
+  .dates .d{font-weight:800;color:var(--navy);}
+  .dates .w{color:#3a4055;}
   footer{padding:34px 0;text-align:center;color:#7b8095;font-size:.85rem;}
 </style>
 </head>
 <body>
-<div class="soon">The Inaugural Haven Challenge &mdash; Coming Soon</div>
+<div class="soon">The Inaugural Haven Halloween Challenge &mdash; Coming Soon</div>
 
 <header class="hero">
   <div class="wrap">
     <div class="kicker"><span class="big">Who will claim first blood?</span>Will it be you?</div>
-    <img class="hero-gnome" src="assets/images/haven-router-gold.png" alt="Haven Gold">
-    <h1>The Haven Challenge</h1>
+    <img class="hero-twins" src="assets/images/haven-halloween-twins.jpg" alt="Two young Haven gnomes in Viking helmets out trick-or-treating on a leaf-covered walk, carrying burlap bags marked TRICK and TREAT">
+    <h1>The Haven Halloween Challenge</h1>
     <p>We built Haven to be the most rock-solid, dependable content filter we could make. We think we&rsquo;ve done it. Soon, we&rsquo;ll ask you to prove us wrong.</p>
     <p style="margin-top:16px;font-weight:800;letter-spacing:.04em;">
       Gates open in <span data-countdown="challenge" data-countdown-live="Open now!"></span>
+      <span style="display:block;font-weight:400;font-size:.92rem;opacity:.88;margin-top:5px;">Opens October&nbsp;1 &middot; closes Halloween night &middot; winners November&nbsp;13</span>
     </p>
   </div>
 </header>
@@ -75,6 +84,17 @@
     <p class="lede">A published scope. An open window. No frozen build &mdash; we patch as we go, and every finding is credited to the version you found it on. Find what we missed &mdash; and get credit for it.</p>
     <p><strong>Leaderboards, plural.</strong> An overall board, and one for each class of adversary &mdash; so there&rsquo;s more than one way to claim first blood, and more than one board to top. Every confirmed finding is credited to the name that found it.</p>
     <p>It&rsquo;s not live yet. But the list is open. Get on it, and we&rsquo;ll tell you the moment the gates open.</p>
+  </div>
+</section>
+
+<section id="dates">
+  <div class="wrap">
+    <h2>Key dates</h2>
+    <ul class="dates">
+      <li><span class="d">October&nbsp;1</span><span class="w">The gates open. Anything you found earlier still counts &mdash; every finding is credited to the version you found it on.</span></li>
+      <li><span class="d">October&nbsp;31</span><span class="w">The Challenge closes on <span class="hw-trigger">Halloween</span> night.</span></li>
+      <li><span class="d">November&nbsp;13</span><span class="w">Winners announced.</span></li>
+    </ul>
   </div>
 </section>
 
@@ -172,5 +192,6 @@
 </script>
 <script src="js/kyc.js?v=2ed04668"></script>
 <script src="js/countdown.js?v=4f547e3f"></script>
+<script src="js/halloween.js?v=614b4577"></script>
 </body>
 </html>
