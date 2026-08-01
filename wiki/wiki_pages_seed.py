@@ -82,9 +82,9 @@ Haven runs on **OpenWrt 24.10.4**, an open-source Linux-based router operating s
 | Model | Chip | Wi-Fi | Ports |
 |---|---|---|---|
 | Haven Navy (GL-MT6000) | MediaTek Filogic 880 | Wi-Fi 6 (802.11ax) | 2× 2.5GbE |
-| Haven OD (Linksys E8450) | MediaTek MT7622 | Wi-Fi 6 (802.11ax) | 4× 1GbE |
+| Haven Olive Green (Linksys E8450) | MediaTek MT7622 | Wi-Fi 6 (802.11ax) | 4× 1GbE |
 
-See [Haven Navy](/wiki/?view=page&p=haven/haven-navy) and [Haven OD](/wiki/?view=page&p=haven/haven-od) for full specs.
+See [Haven Navy](/wiki/?view=page&p=haven/haven-navy) and [Haven Olive Green](/wiki/?view=page&p=haven/haven-olive-green) for full specs.
 """)
 
 # ── Privacy — data on router ────────────────────────────────────────────────
@@ -706,7 +706,7 @@ Haven is a full router replacement — not a device you add to your network alon
 
 - **NAT / routing** — shares your ISP connection among all devices
 - **DHCP** — assigns IP addresses to devices automatically
-- **Wi-Fi** — dual-band 2.4GHz + 5GHz (Wi-Fi 6 on Navy and OD)
+- **Wi-Fi** — dual-band 2.4GHz + 5GHz (Wi-Fi 6 on Navy and Olive Green)
 - **Firewall** — stateful firewall
 - **DNS** — local DNS resolver, with filtering integrated
 - **Guest Wi-Fi** — optional isolated guest network
@@ -735,7 +735,7 @@ page("haven/pricing", "$4/month for category updates", """
 |---|---|
 | Haven Navy router | $299 one-time |
 | Category updates subscription | $4/month |
-| Haven OD router | Details at lulhaven.com |
+| Haven Olive Green router | Details at lulhaven.com |
 
 ## What the subscription covers
 
@@ -795,11 +795,11 @@ Haven Navy serial numbers follow the format `YYMMDDNAV####` (e.g. `260510NAV0001
 Available at [lulhaven.com](https://lulhaven.com). See the Founders campaign for early-supporter pricing.
 """)
 
-# ── Haven OD ────────────────────────────────────────────────────────────────
-page("haven/haven-od", "Haven OD", """
+# ── Haven Olive Green ────────────────────────────────────────────────────────────────
+page("haven/haven-olive-green", "Haven Olive Green", """
 ## What it is
 
-Haven OD is Haven's secondary router model, based on the **Linksys E8450 (UBI)** hardware platform.
+Haven Olive Green is Haven's secondary router model, based on the **Linksys E8450 (UBI)** hardware platform.
 
 ## Specifications
 
@@ -816,13 +816,13 @@ Haven OD is Haven's secondary router model, based on the **Linksys E8450 (UBI)**
 
 ## Notes
 
-Haven OD uses a UBI (Unsorted Block Images) flash layout, which requires a specific sysupgrade procedure during firmware flashing. The Haven pre-flash process handles this correctly.
+Haven Olive Green uses a UBI (Unsorted Block Images) flash layout, which requires a specific sysupgrade procedure during firmware flashing. The Haven pre-flash process handles this correctly.
 
-Haven OD has 512MB RAM vs. the Navy's 1GB. For households with very large device lists or high DNS query volumes, the Navy is recommended.
+Haven Olive Green has 512MB RAM vs. the Navy's 1GB. For households with very large device lists or high DNS query volumes, the Navy is recommended.
 
 ## Serial format
 
-Haven OD serial numbers follow the format `YYMMDDOLV####`.
+Haven Olive Green serial numbers follow the format `YYMMDDOLV####`.
 
 ## Availability
 

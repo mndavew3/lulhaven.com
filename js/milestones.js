@@ -1,5 +1,27 @@
-// generated 2026-07-30T00:45:00Z from haven_wiki.db accomplishments
+// generated 2026-07-31T21:41:27Z from haven_wiki.db accomplishments
 var milestonesDataset = [
+  {
+    "id": 621,
+    "date": "2026-07-30",
+    "theme": "Filter strategies",
+    "impact": 5,
+    "summary": "Haven now does nothing at all until you ask it to. With no filters turned on, a Haven router behaves exactly like the same router without Haven — your devices reach the internet, and the DNS settings you chose, untouched.",
+    "detail": "Every enforcement layer — DNS redirection, encrypted-DNS blocking, VPN and Tor blocking, connection inspection — now switches off completely when nothing is being filtered, and switches back on the moment you filter anything. Verified on real hardware from a device behind the router: with filters off it reached the resolver it asked for and encrypted DNS worked; with one filter on, everything clamped again.",
+    "benefit": "You decide what gets filtered. Until you do, Haven stays out of the way — no blocking, no redirecting, nothing you can notice.",
+    "ref": "c832a345c0",
+    "features": []
+  },
+  {
+    "id": 622,
+    "date": "2026-07-30",
+    "theme": "Firmware & overlay",
+    "impact": 4,
+    "summary": "The update arrived the way a customer's would: a signed release published, the router noticed it on its own, and one button press installed it.",
+    "detail": "Both Haven models were built to the same release on the same day, so the entry model no longer trails behind.",
+    "benefit": "Improvements reach your Haven without a computer, a cable, or a file to find — your router checks, tells you, and updates itself when you say go.",
+    "ref": "c217605",
+    "features": []
+  },
   {
     "id": 619,
     "date": "2026-07-29",
@@ -42,6 +64,17 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "You can see exactly how long until Haven is available and until the Challenge opens, without hunting for dates",
     "ref": "6d81a02",
+    "features": []
+  },
+  {
+    "id": 620,
+    "date": "2026-07-29",
+    "theme": "Marketing & website",
+    "impact": 3,
+    "summary": "The Challenge now has a name and a published schedule: the Haven Halloween Challenge opens October 1, closes on Halloween night, and names winners on November 13 — with seasonal artwork and a lightning flash when the closing date scrolls into view.",
+    "detail": "The page previously showed a countdown but never stated the contest dates anywhere, and still described a superseded seven-day format.",
+    "benefit": "Anyone considering the Challenge can finally see when it starts and when it ends, instead of only a countdown with no dates attached.",
+    "ref": "0b4d435097",
     "features": []
   },
   {
@@ -1831,7 +1864,7 @@ var milestonesDataset = [
     "features": [
       {
         "id": 30,
-        "lead": "Haven OD"
+        "lead": "Haven Olive Green"
       }
     ]
   },
@@ -3904,7 +3937,7 @@ var milestonesDataset = [
       },
       {
         "id": 30,
-        "lead": "Haven OD"
+        "lead": "Haven Olive Green"
       }
     ]
   },
@@ -3924,7 +3957,7 @@ var milestonesDataset = [
       },
       {
         "id": 30,
-        "lead": "Haven OD"
+        "lead": "Haven Olive Green"
       }
     ]
   },
@@ -4124,7 +4157,7 @@ var milestonesDataset = [
       },
       {
         "id": 30,
-        "lead": "Haven OD"
+        "lead": "Haven Olive Green"
       }
     ]
   },
@@ -4369,7 +4402,7 @@ var milestonesDataset = [
       },
       {
         "id": 30,
-        "lead": "Haven OD"
+        "lead": "Haven Olive Green"
       }
     ]
   },
@@ -4453,7 +4486,7 @@ var milestonesDataset = [
       },
       {
         "id": 30,
-        "lead": "Haven OD"
+        "lead": "Haven Olive Green"
       }
     ]
   },
@@ -4759,7 +4792,7 @@ var milestonesDataset = [
     "features": [
       {
         "id": 30,
-        "lead": "Haven OD"
+        "lead": "Haven Olive Green"
       }
     ]
   },
@@ -4868,7 +4901,7 @@ var milestonesDataset = [
     "features": [
       {
         "id": 30,
-        "lead": "Haven OD"
+        "lead": "Haven Olive Green"
       }
     ]
   },
