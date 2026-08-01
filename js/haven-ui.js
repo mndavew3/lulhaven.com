@@ -428,6 +428,23 @@ function hdMakeKey(catName, subName) {
   return norm(catName) + '/' + norm(subName);
 }
 
+// Provider hit counters (Blocked | Reached), demo edition. Live reveals these
+// only on mechanism categories (ad / tracker networks) fed by real counts; the
+// demo mirrors that with stable sample numbers so the storefront can show the
+// single most persuasive pixel on the page (Dave 2026-08-01, delta review #6).
+var hdCountableCats = { "Advertising": 1, "Tracking & Stalkerware": 1 };
+
+function hdStatCells(key) {
+  // Deterministic per-provider sample counts: hash the key so numbers are
+  // stable across visits. Blocked is substantial; Reached is usually zero.
+  var h = 0;
+  for (var i = 0; i < key.length; i++) h = (h * 31 + key.charCodeAt(i)) >>> 0;
+  var blocked = 40 + (h % 440);
+  var reached = (h % 7 === 0) ? 1 + (h % 5) : 0;
+  return '<td class="c hd-stat-col">' + blocked + '</td>' +
+         '<td class="c hd-stat-col">' + reached + '</td>';
+}
+
 function hdMakeRow(key, subName, catName, showCat) {
   var hasStrategy = key in itemUrls;
   var url = hasStrategy ? (itemUrls[key] || '') : '';
@@ -439,6 +456,7 @@ function hdMakeRow(key, subName, catName, showCat) {
       '<td>' + nameHtml + catHtml + '</td>' +
       '<td class="c"><input type="checkbox" disabled></td>' +
       '<td class="c hd-delayed-col"><input type="checkbox" disabled></td>' +
+      '<td class="c hd-stat-col">&mdash;</td><td class="c hd-stat-col">&mdash;</td>' +
       '</tr>';
   }
 
@@ -455,6 +473,7 @@ function hdMakeRow(key, subName, catName, showCat) {
     '<td>' + nameHtml + catHtml + '</td>' +
     '<td class="c"><input type="checkbox" title="Filter this provider — it won&#39;t load on your network." id="' + blkId + '"' + (cur==='block'?' checked':'') + ' onchange="hdToggle(\'' + ek + '\',\'block\',\'' + delId + '\')"></td>' +
     '<td class="c hd-delayed-col"><input type="checkbox" title="Allow this provider only for the daily minutes set above, then filter it." id="' + delId + '"' + (cur==='delayed'?' checked':'') + ' onchange="hdToggle(\'' + ek + '\',\'delayed\',\'' + blkId + '\')"></td>' +
+    hdStatCells(key) +
     '</tr>';
 }
 
@@ -473,6 +492,8 @@ function hdSelect(index) {
     var subName = cat[1][j][0];
     tbody.innerHTML += hdMakeRow(hdMakeKey(cat[0], subName), subName, cat[0], false);
   }
+  // Reveal the Blocked|Reached columns only on mechanism categories, like live.
+  document.getElementById('hd-sub-table').classList.toggle('hd-stats-on', !!hdCountableCats[cat[0]]);
   hdShowFilterHint();
 }
 
@@ -481,6 +502,8 @@ function hdSearch(term) {
   var catItems = document.querySelectorAll('#hd-cat-ul li.hd-cat-item');
   if (term === '') { hdClear(); return; }
   var tbody = document.getElementById('hd-sub-body');
+  // Search mixes categories, so the per-category stat columns stay hidden.
+  document.getElementById('hd-sub-table').classList.remove('hd-stats-on');
   tbody.innerHTML = '';
   var count = 0;
   for (var i = 0; i < catItems.length; i++) catItems[i].classList.remove('hd-highlighted', 'hd-selected');
