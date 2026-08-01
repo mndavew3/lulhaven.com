@@ -1,4 +1,41 @@
-adq/**
+# Paths that must NEVER be uploaded to lulhaven.com. Patterns are rsync patterns.
+#
+# HOW THIS FILE IS USED (root cause found 2026-07-31, challenge.db #102):
+# `.assetsignore` is a Cloudflare WORKERS Static Assets feature. `wrangler pages
+# deploy` does NOT read it — Pages only auto-excludes node_modules, .DS_Store
+# and .git, and offers no user-supplied ignore file at all. So for months every
+# pattern here was decorative and every listed path was publicly fetchable.
+# deploy-lulhaven.sh now honours this file ITSELF: it stages a filtered copy of
+# the site and uploads that. Do not assume Cloudflare reads this file.
+#
+# The underlying problem it guards: the site directory is a WORKING directory
+# (source trees, schemas, editor backups and tool config all live in it) and the
+# publish step uploads whatever happens to be sitting there.
+
+# --- editor / reversibility backups (Dave's .BAK convention keeps these in place)
 *.BAK*
 **/*.BAK*
+
+# --- source trees that are not website content
+adq
+adq/**
+migrations
 migrations/**
+
+# --- database schemas: never content, and they map our storage for anyone
+*.sql
+**/*.sql
+
+# --- tool + repo configuration. wrangler.toml names the D1/R2 bindings and the
+#     BUILD_MAINT_PASSWORD secret; publishing it hands out the attack map.
+wrangler.toml
+.assetsignore
+.gitignore
+.git
+.wrangler
+node_modules
+.DS_Store
+
+# --- agent instructions / notes
+CLAUDE.md
+.claude
