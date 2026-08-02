@@ -1,5 +1,27 @@
-// generated 2026-08-01T03:11:25Z from haven_wiki.db accomplishments
+// generated 2026-08-01T21:29:31Z from haven_wiki.db accomplishments
 var milestonesDataset = [
+  {
+    "id": 624,
+    "date": "2026-08-01",
+    "theme": "Demo page",
+    "impact": 3,
+    "summary": "The demo now shows Haven's blocked-connection counts and explains U-Haven on tap",
+    "detail": null,
+    "benefit": "On ad and tracker categories you can see per-provider Blocked counts — the concrete work Haven does — and a Details button explains device-specific U-Haven enforcement without needing hover tooltips.",
+    "ref": "05fb72b",
+    "features": []
+  },
+  {
+    "id": 623,
+    "date": "2026-08-01",
+    "theme": "Customer features (website)",
+    "impact": 3,
+    "summary": "The Helm now tells you the truth when an update check fails",
+    "detail": null,
+    "benefit": "If you're signed out, it takes you to the sign-in page; if your internet is down, it says so instead of claiming you're up to date. No more dead-end 'try again in a moment.'",
+    "ref": "82c75d2",
+    "features": []
+  },
   {
     "id": 621,
     "date": "2026-07-30",
