@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 420" width="100%"
+     role="img" aria-label="How much a content filter still blocks as its blocklist goes stale">
+  <rect width="760" height="420" fill="#fff"/>
+  <line x1="62" y1="358.0" x2="734" y2="358.0" stroke="#e3e6f0" stroke-width="1"/><text x="53" y="362.0" text-anchor="end" font-size="11" fill="#7b8095">0%</text><line x1="62" y1="276.0" x2="734" y2="276.0" stroke="#e3e6f0" stroke-width="1"/><text x="53" y="280.0" text-anchor="end" font-size="11" fill="#7b8095">25%</text><line x1="62" y1="194.0" x2="734" y2="194.0" stroke="#e3e6f0" stroke-width="1"/><text x="53" y="198.0" text-anchor="end" font-size="11" fill="#7b8095">50%</text><line x1="62" y1="112.0" x2="734" y2="112.0" stroke="#e3e6f0" stroke-width="1"/><text x="53" y="116.0" text-anchor="end" font-size="11" fill="#7b8095">75%</text><line x1="62" y1="30.0" x2="734" y2="30.0" stroke="#e3e6f0" stroke-width="1"/><text x="53" y="34.0" text-anchor="end" font-size="11" fill="#7b8095">100%</text><line x1="196.4" y1="358" x2="196.4" y2="363" stroke="#c7ccdd"/><text x="196.4" y="378" text-anchor="middle" font-size="11" fill="#5a6072">30 days</text><line x1="330.8" y1="358" x2="330.8" y2="363" stroke="#c7ccdd"/><text x="330.8" y="378" text-anchor="middle" font-size="11" fill="#5a6072">60 days</text><line x1="465.2" y1="358" x2="465.2" y2="363" stroke="#c7ccdd"/><text x="465.2" y="378" text-anchor="middle" font-size="11" fill="#5a6072">90 days</text><line x1="599.6" y1="358" x2="599.6" y2="363" stroke="#c7ccdd"/><text x="599.6" y="378" text-anchor="middle" font-size="11" fill="#5a6072">180 days</text><line x1="734.0" y1="358" x2="734.0" y2="363" stroke="#c7ccdd"/><text x="734.0" y="378" text-anchor="middle" font-size="11" fill="#5a6072">1 year</text>
+  <polygon points="62.0,30.0 196.4,71.0 330.8,112.0 465.2,148.1 599.6,207.1 734.0,271.1 734.0,30.0" fill="#b3261e" fill-opacity="0.13"/>
+  <polygon points="62.0,30.0 196.4,46.4 330.8,69.4 465.2,95.6 599.6,144.8 734.0,194.0 734.0,325.2 599.6,276.0 465.2,210.4 330.8,144.8 196.4,89.0 62.0,30.0" fill="#1a237e" fill-opacity="0.10"/>
+  <line x1="62.0" y1="30.0" x2="734.0" y2="30.0"
+        stroke="#1a237e" stroke-width="3"/>
+  <polyline points="62.0,30.0 196.4,71.0 330.8,112.0 465.2,148.1 599.6,207.1 734.0,271.1" fill="none" stroke="#b3261e" stroke-width="3"/>
+  <circle cx="196.4" cy="71.0" r="4" fill="#b3261e"/><text x="196.4" y="60.0" text-anchor="middle" font-size="12" font-weight="700" fill="#b3261e">88%</text><circle cx="330.8" cy="112.0" r="4" fill="#b3261e"/><text x="330.8" y="101.0" text-anchor="middle" font-size="12" font-weight="700" fill="#b3261e">75%</text><circle cx="465.2" cy="148.1" r="4" fill="#b3261e"/><text x="465.2" y="137.1" text-anchor="middle" font-size="12" font-weight="700" fill="#b3261e">64%</text><circle cx="599.6" cy="207.1" r="4" fill="#b3261e"/><text x="599.6" y="196.1" text-anchor="middle" font-size="12" font-weight="700" fill="#b3261e">46%</text><circle cx="734.0" cy="271.1" r="4" fill="#b3261e"/><text x="734.0" y="260.1" text-anchor="middle" font-size="12" font-weight="700" fill="#b3261e">26%</text>
+  <text x="62" y="20" font-size="13" font-weight="700" fill="#1a237e">
+    Share of unwanted content still blocked</text>
+  <text x="465.2" y="21.0" font-size="13" font-weight="700" fill="#1a237e">
+    With a subscription — the list keeps up</text>
+  <text x="734.0" y="312.1" text-anchor="end" font-size="13"
+        font-weight="700" fill="#b3261e">Without — the list stops moving</text>
+  <text x="465.2" y="102.2" text-anchor="middle" font-size="13"
+        font-weight="700" fill="#8a3a34">everything in here</text>
+  <text x="465.2" y="118.2" text-anchor="middle" font-size="13"
+        font-weight="700" fill="#8a3a34">gets through</text>
+  <text x="62" y="406" font-size="11" fill="#7b8095">
+    Shaded band = the range across 6 independent AI systems asked the same question.
+    Each called this an informed estimate, not a measurement.</text>
+</svg>
