@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="shortcut icon" href="assets/images/lulhaven20dock20line20art202-64x42.png" type="image/x-icon">
-<title>The Haven Halloween Challenge — Rules &amp; Scope</title>
+<title>Haven Halloween Challenge — Rules &amp; Scope</title>
 <style>
   :root{ --navy:#1a237e; --navy-2:#11164d; --ink:#15171c; --paper:#f6f7fb; --line:#e3e6f0; --accent:#c8a24b; }
   *{box-sizing:border-box;}
@@ -63,12 +63,12 @@
 </nav>
 <header class="hero">
   <div class="wrap">
-    <p class="kicker">The Haven Halloween Challenge</p><h1>Rules &amp; Scope</h1>
-    <p>Proposed. Tell us what we got wrong by 1 September.</p>
+    <p class="kicker">Haven Halloween Challenge</p><h1>Rules &amp; Scope</h1>
+    <p>What counts, how it is judged, and what you get for finding it.</p>
   </div>
 </header>
 <main><div class="wrap">
-<blockquote><p><strong>STATUS: PROPOSED.</strong> This is the version sent with the judge invitations on 2026-08-03. It is deliberately labelled <em>proposed</em> rather than final: we would rather a judge shape the rules before they agree to them than discover mid-Challenge that they never signed up for something. <strong>Feedback is genuinely wanted — send it by 2026-09-01.</strong> We read everything; we will not necessarily adopt all of it, and in the absence of feedback this is what we go with.</p><p>Drafted 2026-07-21; <strong>rulings A–L all decided the same day.</strong> §4, §9, §10 and §11 were extended 2026-08-03 to carry the judging and scoring model (wiki #297) — those additions are new and are the parts most worth arguing with.</p><p>Tracker: <code>~/haven/data/sql/challenge.db</code> item #30. Decisions this doc inherits: #40 (marketing-primary), #43 (fixed slots, never per-finding), #44 (judge-ranked), #45 (ordinal leaderboard), #46 (open window), #47 (instant self-service), #42 (one-year subscription).</p></blockquote>
+<blockquote><p><strong>STATUS: PROPOSED.</strong> This is the version sent with the judge invitations on 2026-08-03. It is deliberately labelled <em>proposed</em> rather than final: we would rather a judge shape the rules before they agree to them than discover mid-Challenge that they never signed up for something. <strong>Feedback is genuinely wanted — send it by 2026-09-01.</strong> We read everything; we will not necessarily adopt all of it, and in the absence of feedback this is what we go with.</p></blockquote>
 <hr>
 <h2>1. Why we&#x27;re doing this</h2>
 <p>Our goal with Haven is simple: the most rock-solid, dependable, effective content filtering we can build — and we believe we&#x27;ve built it.</p>
@@ -158,11 +158,7 @@
 <p>The physical award is chosen nearer the close.</p>
 <p>The free year goes to all three podium tiers, applied as a credit/pause so an underlying Founders rate resumes afterward.</p>
 <hr>
-<h2>12. Open rulings — summary</h2>
-<p><strong>Status 2026-08-03:</strong> A–L are all <strong>DECIDED</strong>. One new ruling, <strong>M</strong>, opened with the two-crown structure and needs Dave.</p>
-<table><thead><tr><th>#</th><th>Question</th><th>Status</th></tr></thead><tbody><tr><td><strong>A</strong></td><td>VPN scope</td><td><strong>DECIDED</strong> — split: an arbitrary/unknown VPN is out; a <em>blocked</em> VPN that still works is in</td></tr><tr><td><strong>B</strong></td><td>Cellular / leaving the LAN</td><td>DECIDED — out (§6)</td></tr><tr><td><strong>C</strong></td><td>Rooting the router / console</td><td><strong>DECIDED</strong> — out this year; admin-plane is a separate later track</td></tr><tr><td><strong>D</strong></td><td>DoS / bricking</td><td>DECIDED — out (§6)</td></tr><tr><td><strong>E</strong></td><td>Cloud / site / payment infra</td><td>DECIDED — out of the contest; still report it, just unscored</td></tr><tr><td><strong>F</strong></td><td>Reset / tamper as bypass</td><td>DECIDED — in (§5)</td></tr><tr><td><strong>G</strong></td><td>Age / jurisdiction</td><td><strong>DECIDED</strong> — 18+ to receive prizes; anyone may enter and be credited</td></tr><tr><td><strong>H</strong></td><td>Aggregate submitted/confirmed counts</td><td><strong>DECIDED</strong> — shown; not per-person, and it sets honest expectations about vetting lag</td></tr><tr><td><strong>J</strong></td><td>Free year: who, and stacking</td><td><strong>DECIDED</strong> — all three podium tiers; applied as credit/pause so an underlying Founders rate resumes</td></tr><tr><td><strong>I</strong></td><td>Award amounts and plaque cost</td><td><strong>DECIDED</strong> — podium <strong>$300 / $200 / $100</strong>, each with a Haven-provisioned router; ten &quot;Significant Contributor&quot; plaques below the podium. Settled 2026-07-29; the accounting behind it lives in <code>challenge.db</code> #35/#55, not here. <strong>Plaque unit cost still unpriced</strong> — don&#x27;t promise it publicly until quoted.</td></tr><tr><td><strong>K</strong></td><td>Published security contact address</td><td><strong>DECIDED</strong> — <code>security@lulhaven.com</code>, live via Cloudflare Email Routing → <code>mndavew@gmail.com</code> (rule <code>ae49346…</code>, created 2026-07-21). Delivery proven end-to-end. Wired into §13.</td></tr><tr><td><strong>L</strong></td><td>Physical award: which object, what cost</td><td><strong>DECIDED</strong> — say an award is provided, name nothing. Keeps the promise real without committing to a per-finder cost that scales with the number of finders. Item chosen nearer the close.</td></tr><tr><td><strong>M</strong></td><td>How the podium splits across the two crowns (§11)</td><td><strong>OPEN</strong> — the Severity and Polish crowns are settled as boards; how the $300/$200/$100 podium and the routers divide between them is not. Raised 2026-08-03.</td></tr></tbody></table>
-<hr>
-<h2>13. Contact</h2>
+<h2>12. Contact</h2>
 <ul><li><strong>Findings:</strong> the submission form (see §8).</li><li><p><strong>Security issues outside the Challenge scope</strong> — the website, payment flow, the update/feed service, or anything else not covered by §5: <strong>security@lulhaven.com</strong>.</p><p>Anything you send there is welcome even though it isn&#x27;t scored. We read it, we answer it, and we&#x27;d rather hear it from you than read about it later.</p></li></ul></div></main>
 <footer>
   <div class="wrap">lulhaven.com &middot; Haven runs on your network &mdash; a suite of internet tools, hosted on your LAN.</div>
