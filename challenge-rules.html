@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="shortcut icon" href="assets/images/lulhaven20dock20line20art202-64x42.png" type="image/x-icon">
+<title>The Haven Halloween Challenge — Rules &amp; Scope</title>
+<style>
+  :root{ --navy:#1a237e; --navy-2:#11164d; --ink:#15171c; --paper:#f6f7fb; --line:#e3e6f0; --accent:#c8a24b; }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+       color:var(--ink);background:var(--paper);line-height:1.6;}
+  .wrap{max-width:880px;margin:0 auto;padding:0 22px;}
+  header.hero{background:var(--navy);color:#fff;padding:44px 0 52px;text-align:center;}
+  header.hero .kicker{color:var(--accent);font-weight:800;letter-spacing:.13em;text-transform:uppercase;
+        font-size:clamp(.82rem,2.4vw,1.05rem);margin:0 0 22px;line-height:1.5;}
+  header.hero h1{font-size:clamp(2rem,6vw,3.2rem);font-weight:900;letter-spacing:.02em;margin:0 0 12px;line-height:1.05;}
+  header.hero p{font-size:1.12rem;opacity:.94;max-width:660px;margin:10px auto 0;}
+  main{padding:40px 0 20px;}
+  main h2{color:var(--navy);font-size:1.5rem;margin:38px 0 12px;padding-top:14px;border-top:1px solid var(--line);}
+  main h2:first-of-type{border-top:0;padding-top:0;margin-top:0;}
+  main h3{color:var(--navy-2);font-size:1.13rem;margin:26px 0 8px;}
+  main p{margin:12px 0;}
+  main ul,main ol{margin:12px 0;padding-left:26px;}
+  main li{margin:7px 0;}
+  main blockquote{background:#fff7e6;border:1px solid #f0d99a;border-left:4px solid var(--accent);
+        border-radius:8px;margin:20px 0;padding:14px 18px;color:#5a4708;}
+  main blockquote p{margin:8px 0;}
+  code{background:#eef0f7;border:1px solid var(--line);border-radius:4px;padding:1px 6px;font-size:.92em;color:var(--navy-2);}
+  table{border-collapse:collapse;width:100%;margin:18px 0;font-size:.95rem;display:block;overflow-x:auto;}
+  th,td{border:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top;}
+  th{background:#eef0f7;color:var(--navy-2);font-weight:700;}
+  hr{border:0;border-top:1px solid var(--line);margin:34px 0;}
+  a{color:var(--navy);}
+  footer{padding:34px 0;text-align:center;color:#7b8095;font-size:.85rem;border-top:1px solid var(--line);margin-top:30px;}
+  .site-nav{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:100;}
+  .site-nav .wrap{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px 18px;
+        padding-top:11px;padding-bottom:11px;}
+  .site-nav .brand{display:flex;align-items:center;gap:9px;font-weight:800;color:var(--navy);text-decoration:none;}
+  .site-nav .brand img{height:26px;width:auto;}
+  .site-nav .links{display:flex;flex-wrap:wrap;gap:6px 16px;}
+  .site-nav .links a{color:#3a4059;text-decoration:none;font-size:.93rem;font-weight:600;}
+  .site-nav .links a:hover{color:var(--navy);}
+</style>
+</head>
+<body>
+<nav class="site-nav">
+  <div class="wrap">
+    <a class="brand" href="/"><img src="assets/images/lulhaven20dock20line20art202-64x42.png" alt="">Haven</a>
+    <div class="links">
+      <a href="/">Home</a>
+      <a href="/benefits">Benefits</a>
+      <a href="/features">Features</a>
+      <a href="/demo">Demo</a>
+      <a href="/milestones">Milestones</a>
+      <a href="/faq">FAQ</a>
+      <a href="/about">About</a>
+      <a href="/fun">Enjoy!</a>
+    </div>
+  </div>
+</nav>
+<header class="hero">
+  <div class="wrap">
+    <p class="kicker">The Haven Halloween Challenge</p><h1>Rules &amp; Scope</h1>
+    <p>Proposed. Tell us what we got wrong by 1 September.</p>
+  </div>
+</header>
+<main><div class="wrap">
+<blockquote><p><strong>STATUS: PROPOSED.</strong> This is the version sent with the judge invitations on 2026-08-03. It is deliberately labelled <em>proposed</em> rather than final: we would rather a judge shape the rules before they agree to them than discover mid-Challenge that they never signed up for something. <strong>Feedback is genuinely wanted — send it by 2026-09-01.</strong> We read everything; we will not necessarily adopt all of it, and in the absence of feedback this is what we go with.</p><p>Drafted 2026-07-21; <strong>rulings A–L all decided the same day.</strong> §4, §9, §10 and §11 were extended 2026-08-03 to carry the judging and scoring model (wiki #297) — those additions are new and are the parts most worth arguing with.</p><p>Tracker: <code>~/haven/data/sql/challenge.db</code> item #30. Decisions this doc inherits: #40 (marketing-primary), #43 (fixed slots, never per-finding), #44 (judge-ranked), #45 (ordinal leaderboard), #46 (open window), #47 (instant self-service), #42 (one-year subscription).</p></blockquote>
+<hr>
+<h2>1. Why we&#x27;re doing this</h2>
+<p>Our goal with Haven is simple: the most rock-solid, dependable, effective content filtering we can build — and we believe we&#x27;ve built it.</p>
+<p>But our resources are finite. We can&#x27;t test Haven the way the whole world can. So we&#x27;re inviting the most capable people we can reach to try to get past it.</p>
+<p>At one level this is an unabashed plea for help. At another it&#x27;s a personal challenge. And maybe, more than anything, it&#x27;s about being the first, or the best.</p>
+<p>The people who find what we missed are the most valuable people in this whole effort. That&#x27;s not a courtesy — it&#x27;s the actual point.</p>
+<hr>
+<h2>2. What the Challenge is</h2>
+<p><strong>An open month, not a race.</strong> The gates open <strong>October 1, 2026</strong> and close on <strong>Halloween — October 31</strong>. A full month, not a weekend sprint. Work at your own pace inside it and report findings as you find them.</p>
+<p>The calendar:</p>
+<table><thead><tr><th>When</th><th>What</th></tr></thead><tbody><tr><td><strong>August</strong></td><td>Applications open. Tell us who you are, and name the router you want supported — we need the lead time to build and test its image.</td></tr><tr><td><strong>September</strong></td><td>Download Haven and set it up. Nothing is on the clock yet, and anything you find already counts.</td></tr><tr><td><strong>October 1</strong></td><td>The gates open.</td></tr><tr><td><strong>October 31</strong></td><td>The Challenge closes.</td></tr><tr><td><strong>November 13</strong></td><td>Winners announced.</td></tr></tbody></table>
+<p>Three things worth knowing about how the window works:</p>
+<ul><li><strong>Get set up early.</strong> The download opens a month before the gates do, on purpose. Installing and configuring is friction, not skill, and it has no business being on the clock. Arrive on October 1 ready to hunt, not ready to read setup instructions.</li><li><strong>Hoarding helps nobody.</strong> Findings are credited when you file them, so sitting on one buys you nothing. Tell us when you find it; we&#x27;ll fix it and you get the credit.</li><li><strong>We patch continuously.</strong> There is no frozen build. Findings get fixed while the window is open, and every finding is stamped with the Haven version you found it on — so nothing you find can be patched out from under you. The Haven you&#x27;re attacking in late October is harder than the one you met on the first, which is the entire point.</li></ul>
+<h3>Two tiers</h3>
+<table><thead><tr><th>Tier</th><th>What you attack</th><th>Who</th></tr></thead><tbody><tr><td><strong>VM tier</strong></td><td>A pre-built lab appliance — Haven plus a client desktop, pre-wired, WAN to the real internet. Import one file and go.</td><td><strong>Open to anyone.</strong></td></tr><tr><td><strong>Full tier</strong></td><td>Real flashed hardware, device diversity, off-network mobile.</td><td>Invited cohort (hardware has real cost).</td></tr></tbody></table>
+<p>The VM tier is the whole contest for most people, and a finding there is a <strong>real Haven finding</strong> — it&#x27;s the same code that ships on the routers.</p>
+<hr>
+<h2>3. Who can participate</h2>
+<p><strong>Anyone.</strong> No application review, no waiting list, no approval queue.</p>
+<p>Register, and you immediately get the download, the documentation, and the ability to submit findings. That&#x27;s it. You are &quot;in&quot; the moment you say you&#x27;re in.</p>
+<p>Registration exists for exactly two reasons: so we can attribute your findings to you, and so you&#x27;re eligible for judging and prizes. It is not a gate.</p>
+<p><strong>Eligibility:</strong> you must be 18+ to receive prizes. Anyone may participate and be credited regardless of age.</p>
+<hr>
+<h2>4. What counts as a finding</h2>
+<p><strong>A finding is: Haven failed to do something it says it does.</strong></p>
+<p>Concretely — you reached content that a Haven category <em>you had switched on</em> was supposed to block, or you defeated a protection Haven claims to provide.</p>
+<p>Three qualifiers, and they matter:</p>
+<ol><li><strong>Distinct.</strong> We count findings by <em>root cause</em> — by the fix. If one patch closes it, it&#x27;s one finding, no matter how many ways you can trigger it. Ten variants of the same underlying gap is one finding.</li></ol>
+<p><strong>If someone reported it before you, you still earn credit — less than the first person, but never nothing.</strong> You have no way of knowing who got there first, and we are not going to punish you for bad luck. Report it. Every submission is stamped with the exact moment it reached us, and that stamp comes back to you on your receipt, so &quot;who was first&quot; is something you can check rather than something you have to take our word for.</p>
+<ol><li><strong>In scope.</strong> See §5 and §6. Scope is published up front precisely so nobody wastes effort outside it.</li><li><strong>Disclosed to us first.</strong> See §9.</li></ol>
+<p><strong>Reproducible means: your declared Haven configuration, re-applied on a clean rig, produces the same result.</strong> That&#x27;s why the config export/import tooling exists — export your exact settings, attach the file, and we can stand up an identical rig. A finding we can reproduce is a finding we can fix and credit.</p>
+<hr>
+<h2>5. In scope</h2>
+<ul><li><strong>The on-network filtering engine.</strong> Anything that gets filtered traffic past Haven while it&#x27;s on the Haven network.</li><li><strong>DNS-layer evasion</strong> — alternate resolvers, hardcoded DNS, DNS over HTTPS, DNS over TLS, encrypted-DNS browser features, SVCB/HTTPS record tricks.</li><li><strong>Category coverage failures</strong> — a category is on and something it should block gets through.</li><li><strong>Configuration through the Helm.</strong> You get admin access to the Helm. Setting up filtering however you like, then defeating it, is the intended game.</li><li><strong>Tamper and reset.</strong> Attempts to drop filtering via factory reset, restore defaults, or similar. Haven claims the box can be reset but Haven comes back — test that claim.</li><li><strong>Blocked-category proxies.</strong> If the &quot;block VPNs / proxies / Tor&quot; category is switched <strong>on</strong> and a service that category is supposed to block still works, that&#x27;s a real finding.</li></ul>
+<hr>
+<h2>6. Out of scope</h2>
+<p>We&#x27;d rather tell you plainly than have you spend a weekend on something we won&#x27;t count.</p>
+<ul><li><strong>Arbitrary VPNs and private tunnels.</strong> Reaching blocked content through a commercial or self-hosted VPN that Haven has no signature for is <strong>out of scope</strong> — it&#x27;s an honest, published limit. Haven is household content control; it does not claim to defeat an arbitrary encrypted tunnel to an endpoint it has never seen. <strong>But</strong> if the block-VPNs/proxies category is <em>enabled</em> and a service it&#x27;s supposed to block still works, that <strong>is</strong> in scope (see §5). Short version: <em>beating a VPN we don&#x27;t block is expected; getting a VPN we <strong>do</strong> block to work is a finding.</em></li><li><strong>Leaving the network.</strong> Cellular data, a phone hotspot, someone else&#x27;s Wi-Fi. That isn&#x27;t bypassing Haven, it&#x27;s not using Haven.</li><li><strong>Rooting the router / console or shell access.</strong> Out of scope for this Challenge. The console is locked and the Helm is the intended door; the game is defeating the <strong>filtering engine</strong>, not the admin plane. Admin-plane security is a separate track we may run later.</li><li><strong>Denial of service, bricking, crashing the rig.</strong> Not a filtering bypass.</li><li><strong>Our cloud, website, payment, or update infrastructure.</strong> lulhaven.com, Stripe, the feed service — all out of scope here. If you find something there, please tell us anyway via the security contact; we&#x27;ll be grateful, it just isn&#x27;t scored.</li><li><strong>Anything involving a real person&#x27;s data, or any system that isn&#x27;t yours.</strong></li><li><strong>Physical attacks on hardware</strong> (Full tier).</li></ul>
+<hr>
+<h2>7. Rules of engagement</h2>
+<ul><li><strong>Attack only your own rig.</strong> The VM is yours; do what you like to it.</li><li><strong>Don&#x27;t attack Haven&#x27;s infrastructure</strong> or anyone else&#x27;s network.</li><li><strong>No illegal content, ever.</strong> If a test would require obtaining or distributing illegal material, it&#x27;s out — describe the mechanism instead and we&#x27;ll take your word for it.</li><li><strong>Automation is fine.</strong> Scripts, fuzzers, whatever. Just don&#x27;t point them at anything that isn&#x27;t your rig.</li><li><strong>Tell us what you did.</strong> A finding we can&#x27;t reproduce is a finding we can&#x27;t fix.</li><li><strong>You keep your work.</strong> Publish your review, your video, your writeup whenever you like — see §9 for the one narrow exception.</li></ul>
+<hr>
+<h2>8. How to submit</h2>
+<p><strong>[Detailed step-by-step lives in the participant docs — tracker #33/#23.]</strong> The submission form asks for:</p>
+<ol><li><strong>What you did</strong> — steps, in order, specific enough to repeat.</li><li><strong>What you expected</strong> vs <strong>what happened.</strong></li><li><strong>Your exported Haven config</strong> — the export file from the Helm. This is the single most useful thing you can attach.</li><li><strong>Evidence</strong> — a screenshot, a capture, a short clip. Whatever you have.</li><li><strong>Haven version</strong> shown in the Helm.</li></ol>
+<p>Optionally, you may tick <strong>&quot;this seems serious&quot;</strong> — that only affects the order we look at things. It has no effect on scoring and there is no penalty for being wrong about it.</p>
+<p><strong>You do not have to work out how serious anything is.</strong> Describe what you saw. We confirm it, and our judges decide what it&#x27;s worth. Deciding for yourself that something is &quot;probably not worth reporting&quot; is the single most common way a real finding dies.</p>
+<h3>Report it. All of it.</h3>
+<p>Every confirmed finding earns points. More serious problems earn more, smaller ones earn less, and nothing we confirm earns nothing.</p>
+<p>There is no finding too small to report, and <strong>no penalty for reporting one.</strong> We do not keep an accuracy score. Sending us something that turns out not to be a bug costs you nothing at all.</p>
+<p>Small findings add up. Someone who never finds anything dramatic, but who patiently reports every rough edge they trip over, can win this outright. That is not a consolation prize — a Haven with all those small flaws fixed is a genuinely better product, and the scoring is built to say so.</p>
+<p>Partial reports are welcome. If you&#x27;re not sure it&#x27;s a finding, send it — we&#x27;d rather see it.</p>
+<hr>
+<h2>9. How we handle what you send</h2>
+<p><strong>Two states, and neither of them is &quot;rejected.&quot;</strong></p>
+<ul><li><strong>Confirmed</strong> — we reproduced it. You found something real.</li><li><strong>Unconfirmed</strong> — we haven&#x27;t reproduced it <em>yet</em>.</li></ul>
+<p>&quot;Unconfirmed&quot; is not a verdict and not a rejection. In our experience a non-reproduction almost always means the report was under-documented, not that the finder was wrong. So an Unconfirmed finding gets an <strong>invitation</strong>, not a dismissal: we&#x27;ll ask for steps, a config export, or a clip, and we&#x27;ll try again. Nobody is told they were wrong, and nobody is ridiculed for a report.</p>
+<p>If someone else reported the same root cause first, we&#x27;ll tell you that plainly — you still found something real, it just isn&#x27;t the first flag on that hill.</p>
+<p>There is a lag between &quot;submitted&quot; and &quot;confirmed.&quot; That lag is us catching up, not us disbelieving you.</p>
+<p><strong>After the winners are announced we publish the whole pile</strong> — every confirmed finding, and every one we could not confirm together with the reason we could not. We are not going to grade ourselves in private. If your finding didn&#x27;t make it, you and everyone else will be able to see exactly why.</p>
+<h3>The disclosure compact</h3>
+<ul><li><strong>Report privately first.</strong> Give us a chance to fix it before a working bypass is public.</li><li><strong>We embargo the exploit, not your opinion.</strong> Please don&#x27;t publish step-by-step <em>working bypass instructions</em> until we&#x27;ve patched or 30 days have passed, whichever comes first. <strong>Your review, your video, your verdict — publish whenever you want. Say whatever you honestly find.</strong> We are not buying coverage, and a bad review does not cost you your standing.</li><li><strong>If we gave you something free, say so.</strong> Standard disclosure. It protects both of us.</li><li><strong>Publishing a working exploit before we can patch</strong> ends participation in the program.</li></ul>
+<hr>
+<h2>10. Judging and leaderboards</h2>
+<p><strong>Outside judges decide what matters.</strong> We do the technical work — confirming findings, reproducing them, merging duplicates. Judges never touch a router. After the window closes we hand them the confirmed findings, stripped of who submitted them, along with our own notes on each, and they place every finding in a severity tier:</p>
+<table><thead><tr><th>Tier</th><th>What it means</th></tr></thead><tbody><tr><td><strong>Critical</strong></td><td>Showstopper. The product doesn&#x27;t do the one thing it&#x27;s for — the filter is bypassed, the household is unprotected, or the router falls over.</td></tr><tr><td><strong>High</strong></td><td>A real hole, but you need to know where to push. Protection fails under specific conditions.</td></tr><tr><td><strong>Medium</strong></td><td>Wrong, and somebody will notice. It misbehaves or misleads, but the filtering still holds.</td></tr><tr><td><strong>Low</strong></td><td>Rookie mistake. Cosmetic, a typo, a sloppy edge case.</td></tr></tbody></table>
+<p>A judge may also mark something <strong>&quot;not really a finding&quot;</strong> — they are free to overrule our assessment of importance. It does not erase your credit: we confirmed the thing reproduces, and the judges are grading how much it matters, not whether it happened.</p>
+<p><strong>Every finding is seen by the same number of judges.</strong> Judges tell us up front how many they can take on and we deal the findings out accordingly, so nobody has to do equal work but every finding gets equal scrutiny. Where judges disagree, a reserve judge breaks the tie. If judging coverage falls short anyway, <strong>we will score the remainder ourselves and say publicly which findings those were.</strong> We would rather publish an honest asterisk than move the results date.</p>
+<p><strong>Judges may stay anonymous, permanently, and that choice never expires.</strong> A judge is named nowhere unless they choose to be, and they may make that choice the day they accept, after the results are out, next year, or never. We publish how many judges served either way.</p>
+<p><strong>The leaderboards show who&#x27;s on top — not by how much.</strong> You&#x27;ll see first, second, and third place on each board. You will not see point totals, and neither will anyone else. That&#x27;s deliberate: a visible score gap tells a newcomer the game is over before they start, and we&#x27;d rather you started.</p>
+<p>We do show an aggregate count (e.g. &quot;47 submitted / 12 confirmed&quot;). It isn&#x27;t per-person, and it sets honest expectations about how far behind we are.</p>
+<h3>Judging or competing — pick one</h3>
+<p>If you&#x27;d rather compete than judge, or judge rather than compete, either is fine and the choice is yours. It has to be <strong>one or the other</strong>, though: a judge would otherwise be scoring a pool containing their own findings. Switch as often as you like right up until submissions close; once judging begins it&#x27;s fixed.</p>
+<p>And if you&#x27;d rather do neither — <strong>reviews are welcome from anyone.</strong> Take Haven apart in public and say what you honestly find. See §9; a bad review costs you nothing with us.</p>
+<hr>
+<h2>11. Recognition and prizes</h2>
+<h3>Two crowns</h3>
+<p>There are two ways to win, and you don&#x27;t have to choose a strategy — hunt however you hunt, and you&#x27;re in the running for both.</p>
+<ul><li><strong>The Severity crown</strong> goes to whoever found the most serious problems.</li><li><strong>The Polish crown</strong> goes to whoever found the <em>most</em> problems — counting the findings where you got there first, at any severity.</li></ul>
+<p>Two crowns exist because one measure cannot honestly do both jobs. Fifty small findings make Haven meaningfully better, and that deserves to win something of its own rather than being a distant second to one lucky showstopper.</p>
+<p>Every valid contribution earns recognition. The ladder:</p>
+<ul><li><strong>Digital badge</strong> — any valid contribution.</li><li><strong>A physical award</strong> for your first confirmed finding — engraved with the year, not the bug. Something to keep, because that&#x27;s how we feel about the people who find what we missed.</li><li><strong>Podium</strong> — first <strong>$300</strong>, second <strong>$200</strong>, third <strong>$100</strong>, each with a Haven-provisioned router, a tier sticker, and a unique engraved serial.</li><li><strong>Ten &quot;Significant Contributor&quot; plaques</strong> — for the standout finders below the podium, as determined by the judges, with a place in the records.</li><li><strong>One year of Haven subscription, free</strong>, for winners — so you&#x27;re running it when we come back around next year.</li><li><strong>Patch-notes credit</strong> — &quot;found by @you, fixed in 0.1.x&quot; — and a permanent leaderboard place.</li></ul>
+<p>Every award above is fixed before the window opens and none of it scales with how many findings arrive, so what&#x27;s on offer is settled and knowable from the day the doors open.</p>
+<p>The physical award is chosen nearer the close.</p>
+<p>The free year goes to all three podium tiers, applied as a credit/pause so an underlying Founders rate resumes afterward.</p>
+<hr>
+<h2>12. Open rulings — summary</h2>
+<p><strong>Status 2026-08-03:</strong> A–L are all <strong>DECIDED</strong>. One new ruling, <strong>M</strong>, opened with the two-crown structure and needs Dave.</p>
+<table><thead><tr><th>#</th><th>Question</th><th>Status</th></tr></thead><tbody><tr><td><strong>A</strong></td><td>VPN scope</td><td><strong>DECIDED</strong> — split: an arbitrary/unknown VPN is out; a <em>blocked</em> VPN that still works is in</td></tr><tr><td><strong>B</strong></td><td>Cellular / leaving the LAN</td><td>DECIDED — out (§6)</td></tr><tr><td><strong>C</strong></td><td>Rooting the router / console</td><td><strong>DECIDED</strong> — out this year; admin-plane is a separate later track</td></tr><tr><td><strong>D</strong></td><td>DoS / bricking</td><td>DECIDED — out (§6)</td></tr><tr><td><strong>E</strong></td><td>Cloud / site / payment infra</td><td>DECIDED — out of the contest; still report it, just unscored</td></tr><tr><td><strong>F</strong></td><td>Reset / tamper as bypass</td><td>DECIDED — in (§5)</td></tr><tr><td><strong>G</strong></td><td>Age / jurisdiction</td><td><strong>DECIDED</strong> — 18+ to receive prizes; anyone may enter and be credited</td></tr><tr><td><strong>H</strong></td><td>Aggregate submitted/confirmed counts</td><td><strong>DECIDED</strong> — shown; not per-person, and it sets honest expectations about vetting lag</td></tr><tr><td><strong>J</strong></td><td>Free year: who, and stacking</td><td><strong>DECIDED</strong> — all three podium tiers; applied as credit/pause so an underlying Founders rate resumes</td></tr><tr><td><strong>I</strong></td><td>Award amounts and plaque cost</td><td><strong>DECIDED</strong> — podium <strong>$300 / $200 / $100</strong>, each with a Haven-provisioned router; ten &quot;Significant Contributor&quot; plaques below the podium. Settled 2026-07-29; the accounting behind it lives in <code>challenge.db</code> #35/#55, not here. <strong>Plaque unit cost still unpriced</strong> — don&#x27;t promise it publicly until quoted.</td></tr><tr><td><strong>K</strong></td><td>Published security contact address</td><td><strong>DECIDED</strong> — <code>security@lulhaven.com</code>, live via Cloudflare Email Routing → <code>mndavew@gmail.com</code> (rule <code>ae49346…</code>, created 2026-07-21). Delivery proven end-to-end. Wired into §13.</td></tr><tr><td><strong>L</strong></td><td>Physical award: which object, what cost</td><td><strong>DECIDED</strong> — say an award is provided, name nothing. Keeps the promise real without committing to a per-finder cost that scales with the number of finders. Item chosen nearer the close.</td></tr><tr><td><strong>M</strong></td><td>How the podium splits across the two crowns (§11)</td><td><strong>OPEN</strong> — the Severity and Polish crowns are settled as boards; how the $300/$200/$100 podium and the routers divide between them is not. Raised 2026-08-03.</td></tr></tbody></table>
+<hr>
+<h2>13. Contact</h2>
+<ul><li><strong>Findings:</strong> the submission form (see §8).</li><li><strong>Security issues outside the Challenge scope</strong> — the website, payment flow, the update/feed service, or anything else not covered by §5: <strong>security@lulhaven.com</strong>.</li></ul>
+<p>Anything you send there is welcome even though it isn&#x27;t scored. We read it, we answer it, and we&#x27;d rather hear it from you than read about it later.</p></div></main>
+<footer>
+  <div class="wrap">lulhaven.com &middot; Haven runs on your network &mdash; a suite of internet tools, hosted on your LAN.</div>
+</footer>
+</body>
+</html>
