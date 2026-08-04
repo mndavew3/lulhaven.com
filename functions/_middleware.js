@@ -51,9 +51,39 @@ async function verifyToken(token, secret) {
     return diff === 0;
 }
 
+// Paths that must never be served, whatever happens to be sitting in the
+// deployment. The site directory is a WORKING directory — source trees, database
+// schemas, editor backups and tool config live right next to the pages — so the
+// publish step is one bad filter away from putting any of it on the internet.
+// That is not hypothetical: `.assetsignore` turned out to be a Workers feature
+// that Pages never reads, so for months every "excluded" path was publicly
+// fetchable (challenge.db #102). The deploy filter is correct now; this is the
+// second lock, and it does not care what got uploaded.
+//
+// It matters more here than on a normal site because lulhaven.com has no 404 —
+// an unmatched path returns the homepage with a 200, so a leaked file and a
+// working page look identical to anything checking from outside.
+const DENY_PATHS = [
+    /\.sql$/i,             // database schemas — a map of our storage
+    /\.BAK/i,              // Dave's reversibility backups stay in place on disk
+    /^\/wrangler\.toml$/i, // names the D1/R2 bindings
+    /^\/\.assetsignore$/i,
+    /^\/\.git/i,
+    /^\/migrations\//i,
+    /^\/adq\//i,           // source tree, not website content
+    /^\/CLAUDE\.md$/i,
+];
+
 export async function onRequest(context) {
     const { request, env, next } = context;
     const url = new URL(request.url);
+
+    if (DENY_PATHS.some(re => re.test(url.pathname))) {
+        return new Response("Not found", {
+            status: 404,
+            headers: { "Content-Type": "text/plain", "Cache-Control": "no-store" },
+        });
+    }
 
     // /api/auth itself is public — POST password, get cookie.
     if (url.pathname === "/api/auth") {
