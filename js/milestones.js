@@ -1,5 +1,16 @@
-// generated 2026-08-03T18:03:53Z from haven_wiki.db accomplishments
+// generated 2026-08-03T22:42:21Z from haven_wiki.db accomplishments
 var milestonesDataset = [
+  {
+    "id": 625,
+    "date": "2026-08-03",
+    "theme": "Trust & transparency",
+    "impact": 4,
+    "summary": "The full rules for the Haven Halloween Challenge are now published and readable by anyone.",
+    "detail": null,
+    "benefit": "You can see exactly what counts as a finding, how entries are judged, and what the prizes are before you decide whether to take part.",
+    "ref": "eb859bb",
+    "features": []
+  },
   {
     "id": 624,
     "date": "2026-08-01",
