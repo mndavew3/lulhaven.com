@@ -1,4 +1,4 @@
-// generated 2026-08-03T22:42:21Z from haven_wiki.db accomplishments
+// generated 2026-08-04T22:26:23Z from haven_wiki.db accomplishments
 var milestonesDataset = [
   {
     "id": 625,
