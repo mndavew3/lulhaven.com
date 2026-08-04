@@ -1,5 +1,16 @@
-// generated 2026-08-04T22:26:23Z from haven_wiki.db accomplishments
+// generated 2026-08-04T23:47:47Z from haven_wiki.db accomplishments
 var milestonesDataset = [
+  {
+    "id": 626,
+    "date": "2026-08-04",
+    "theme": "Filtering",
+    "impact": 4,
+    "summary": "Haven now mirrors its filter lists onto its own server instead of pointing routers at third parties",
+    "detail": "Every list is checked against its own previous size before anything is published; a list that comes back short or empty is rejected on its own and the last good copy is kept. If too many fail at once, the whole update is thrown away rather than shipped.",
+    "benefit": "Filter updates come from Haven, so a bad day upstream cannot silently blank out a whole category on your router.",
+    "ref": "7e68cea3ca",
+    "features": []
+  },
   {
     "id": 625,
     "date": "2026-08-03",
