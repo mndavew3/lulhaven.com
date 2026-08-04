@@ -78,7 +78,16 @@ export async function onRequest(context) {
     const { request, env, next } = context;
     const url = new URL(request.url);
 
-    if (DENY_PATHS.some(re => re.test(url.pathname))) {
+    // Test the decoded path as well as the raw one. A static asset server
+    // resolves %2E to a dot when it looks the file up on disk; a regex that only
+    // ever sees the encoded form would wave /wrangler%2Etoml straight through to
+    // it. Checking both costs nothing and closes that gap without changing what
+    // happens to any ordinary path, whose decoded form is itself.
+    // decodeURIComponent throws on malformed input like %ZZ, and a throw here
+    // would 500 every request on the site, so it falls back to the raw path.
+    let decoded = url.pathname;
+    try { decoded = decodeURIComponent(url.pathname); } catch { /* keep raw */ }
+    if (DENY_PATHS.some(re => re.test(url.pathname) || re.test(decoded))) {
         return new Response("Not found", {
             status: 404,
             headers: { "Content-Type": "text/plain", "Cache-Control": "no-store" },
