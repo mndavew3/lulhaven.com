@@ -177,8 +177,15 @@
     if (dt <= 0 || dt > 0.25) dt = 0.016;          // ignore stalls / tab switches
 
     rA = r.alpha || 0; rB = r.beta || 0; rG = r.gamma || 0;
-    // unchanged this build: W3C mapping for an upright portrait phone
-    var gz = rG, gx = rB;
+    // MEASURED on Dave's Galaxy S10e over ADB, 2026-08-05 — not derived from the spec,
+    // because the spec was wrong here three times running. An 18-second recording while
+    // he turned and tilted on cue:
+    //   turning the body left  -> beta  ran 17..29 deg/s, alpha and gamma ~0
+    //   tilting the phone up   -> alpha ran 13..20 deg/s
+    //   gamma never exceeded 8 deg/s in either motion — it carries no usable signal,
+    //   and it was the axis this code had driving yaw.
+    // So yaw comes from beta and pitch from alpha on this device.
+    var gz = rB, gx = rA;
 
     // --- the movement factor, from BOTH sensors
     var rot = Math.abs(gz) + Math.abs(gx);          // deg/sec
