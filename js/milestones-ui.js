@@ -16,7 +16,15 @@
     }
   }
 
-  var state = { sort: 'newest', minImpact: featureFilter ? 1 : 4 };
+  // The default filter level is whichever <option> carries `selected` in
+  // milestones.html — read it here rather than hardcoding, so the dropdown and the
+  // list can never disagree. (2026-08-05: the level defaulted to 4 here, which hid
+  // the newest entry and made an actively-updated page look days out of date. The
+  // select sits earlier in the document than this script, so it always exists.)
+  var levelSelect = document.getElementById('ms-filter');
+  var state = { sort: 'newest',
+                minImpact: featureFilter ? 1
+                         : (levelSelect ? parseInt(levelSelect.value, 10) : 1) };
 
   function escapeHtml(s) {
     if (s == null) return '';
