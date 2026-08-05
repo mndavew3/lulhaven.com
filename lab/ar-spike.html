@@ -117,7 +117,19 @@
 
   var vw=0, vh=0, imgW=0, imgH=0, scale=1, travX=0, travY=0, arcY=30;
   var invX = 1, invY = -1;          // U/D inverted by default — Dave, first run on the S10e
-  var gateOn = true;
+  // Dave, 2026-08-05: "take the accelerometer out of it and ignore the accelerometer
+  // altogether for a moment" — isolating variables. Gate ships OFF; the button turns
+  // it back on. With it off NOTHING reads the accelerometer; this is pure gyroscope.
+  var gateOn = false;
+  // ONE CHANGE AT A TIME (Dave, 2026-08-05): "there's no faster path to madness than
+  // to change multiple factors and try to determine which factor has what effect."
+  // I had three changes stacked in the previous build and was queuing three more.
+  // So this build alters exactly ONE behaviour — the gate is off — and otherwise only
+  // ADDS AN INSTRUMENT: the three raw rotation rates, printed. A readout changes
+  // nothing, so it cannot confound the next measurement. Turning left and reading
+  // which of alpha/beta/gamma moves will NAME the yaw axis, and then the axis change
+  // is made once, knowing, instead of guessed a third time.
+  var rA = 0, rB = 0, rG = 0;       // last raw rates, for the readout
   var yaw = 0, pitch = 0;           // degrees from centre, integrated from the gyro
   var move = 0, gateVal = 0;
   var tgtX=0, tgtY=0, posX=0, posY=0;
@@ -152,9 +164,9 @@
     lastT = now;
     if (dt <= 0 || dt > 0.25) dt = 0.016;          // ignore stalls / tab switches
 
-    // Phone held upright in portrait: turning your body rotates about the phone's
-    // y axis (gamma); tilting to look up/down rotates about its x axis (beta).
-    var gz = r.gamma || 0, gx = r.beta || 0;
+    rA = r.alpha || 0; rB = r.beta || 0; rG = r.gamma || 0;
+    // unchanged this build: W3C mapping for an upright portrait phone
+    var gz = rG, gx = rB;
 
     // --- the movement factor, from BOTH sensors
     var rot = Math.abs(gz) + Math.abs(gx);          // deg/sec
@@ -187,15 +199,17 @@
       var pct = Math.round(gateVal * 100);
       mfill.style.width = pct + '%';
       mbar.classList.toggle('locked', gateVal === 0);
-      L1.innerHTML = 'yaw <b>' + yaw.toFixed(1) + '&deg;</b>  pitch <b>' + pitch.toFixed(1) +
-                     '&deg;</b> &middot; movement <b>' + pct + '%</b>' +
-                     (gateVal === 0 ? ' <span class="hold">HELD STILL</span>' : '');
-      L2.innerHTML = (haveRate === false
-                        ? '<span class="warn">no rotationRate — this phone is not exposing the gyroscope</span>'
-                        : 'gyroscope &middot; ' + lastRate + ' Hz') +
-                     ' &middot; ' + Math.round(imgW*scale) + '&times;' + Math.round(imgH*scale) +
-                     ' in ' + vw + '&times;' + vh + ' (' + (imgW*scale/vw).toFixed(1) + '&times;)' +
-                     ' &middot; arc ' + ARC_X + '&deg;/' + arcY.toFixed(0) + '&deg;';
+      // RAW rates first and biggest — this is the instrument. Turn left and watch
+      // which of the three moves: that names the yaw axis and ends the guessing.
+      L1.innerHTML = 'raw &alpha; <b>' + rA.toFixed(0) + '</b>&nbsp; &beta; <b>' +
+                     rB.toFixed(0) + '</b>&nbsp; &gamma; <b>' + rG.toFixed(0) + '</b> &deg;/s' +
+                     (haveRate === false
+                        ? ' <span class="warn">— no rotationRate at all</span>' : '');
+      L2.innerHTML = 'yaw <b>' + yaw.toFixed(1) +
+                     '&deg;</b> pitch <b>' + pitch.toFixed(1) + '&deg;</b> &middot; ' +
+                     (gateOn ? 'move ' + pct + '%' + (gateVal === 0 ?
+                        ' <span class="hold">STILL</span>' : '') : 'gate off') +
+                     ' &middot; ' + lastRate + ' Hz &middot; arc ' + ARC_X + '&deg;';
     }
     requestAnimationFrame(tick);
   }
