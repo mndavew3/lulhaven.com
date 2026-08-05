@@ -1,5 +1,16 @@
-// generated 2026-08-04T23:47:47Z from haven_wiki.db accomplishments
+// generated 2026-08-05T19:01:05Z from haven_wiki.db accomplishments
 var milestonesDataset = [
+  {
+    "id": 627,
+    "date": "2026-08-05",
+    "theme": "Marketing & website",
+    "impact": 3,
+    "summary": "When we publish an update to lulhaven.com, you now see it right away. A caching fault had quietly frozen one page on an older copy of itself — every publish reported success while the page kept serving a version two entries out of date, and it would not have corrected itself for a year. The publishing pipeline can now shake a stale copy loose on its own, and we can clear the cache directly instead of asking someone to do it by hand.",
+    "detail": null,
+    "benefit": "What you read on lulhaven.com is what we actually published, not a copy the network held onto.",
+    "ref": "a405cf1f9f",
+    "features": []
+  },
   {
     "id": 626,
     "date": "2026-08-04",
