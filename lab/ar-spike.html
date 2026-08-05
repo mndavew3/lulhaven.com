@@ -93,7 +93,8 @@
   var invX = 1, invY = 1;
   var zeroA = null, zeroB = null, curA = 0, curB = 0;
   var tgtX = 0, tgtY = 0, posX = 0, posY = 0;
-  var events = 0, lastRate = 0, rateAt = 0, evType = '—', started = false;
+  var events = 0, lastRate = 0, peakRate = 0, rateAt = 0, evType = '—', started = false;
+  var gyro = null, motionSeen = 0;   // null = still asking; 'yes' | 'no' | 'idle'
 
   function layout() {
     vw = window.innerWidth; vh = window.innerHeight;
@@ -116,6 +117,27 @@
 
   function shortest(a, b) { var d = ((a - b + 540) % 360) - 180; return d; }
 
+  // ---- gyroscope: ASK, do not infer (fixed 2026-08-05).
+  // The first version guessed from the deviceorientation event rate and told Dave
+  // "probably no gyroscope" intermittently. That is nonsense: whether a phone has
+  // the part is a hardware fact and cannot flicker. Browsers throttle orientation
+  // events when you move slowly, so slow panning looked identical to missing
+  // hardware. devicemotion answers it directly — rotationRate comes FROM the
+  // gyroscope, so if it reports real numbers the part is there. Latched once,
+  // because a hardware fact only needs answering once.
+  function onMotion(e) {
+    motionSeen++;
+    var r = e.rotationRate;
+    if (r && (r.alpha !== null || r.beta !== null || r.gamma !== null) &&
+        (r.alpha !== undefined || r.beta !== undefined || r.gamma !== undefined)) {
+      var mag = Math.abs(r.alpha || 0) + Math.abs(r.beta || 0) + Math.abs(r.gamma || 0);
+      if (mag > 0.05) gyro = 'yes';           // real angular velocity => real gyroscope
+      else if (gyro === null) gyro = 'idle';  // reporting, but the phone is dead still
+    } else if (gyro === null && motionSeen > 30) {
+      gyro = 'no';                            // plenty of motion events, no rotationRate
+    }
+  }
+
   function onOrient(e) {
     if (e.alpha === null && e.beta === null) return;
     evType = e.type + (e.absolute ? ' (absolute)' : '');
@@ -134,16 +156,22 @@
     posX += (tgtX - posX) * SMOOTH;
     posY += (tgtY - posY) * SMOOTH;
     draw();
-    if (t - rateAt > 1000) { lastRate = events; events = 0; rateAt = t; }
+    if (t - rateAt > 1000) {
+      lastRate = events; if (lastRate > peakRate) peakRate = lastRate;
+      events = 0; rateAt = t;
+    }
     if (started) {
+      var g = gyro === 'yes'  ? '<b>gyroscope: YES</b>'
+            : gyro === 'no'   ? '<span class="warn">gyroscope: NO (accel+compass only)</span>'
+            : gyro === 'idle' ? 'gyroscope: reporting, hold still — move to confirm'
+            :                   'gyroscope: asking…';
       L1.innerHTML = 'yaw <b>' + (zeroA === null ? '—' : shortest(curA, zeroA).toFixed(1)) +
                      '&deg;</b>  pitch <b>' + (zeroB === null ? '—' : (curB - zeroB).toFixed(1)) +
-                     '&deg;</b>  <b>' + lastRate + '</b> Hz';
-      L2.innerHTML = evType + ' &middot; image ' + Math.round(imgW * scale) + '&times;' +
-                     Math.round(imgH * scale) + ' in ' + vw + '&times;' + vh +
-                     ' (' + (imgW * scale / vw).toFixed(1) + '&times; wide) &middot; arc ' +
-                     ARC_X + '&deg;/' + arcY.toFixed(0) + '&deg;' +
-                     (lastRate && lastRate < 25 ? ' <span class="warn">— low rate, probably no gyroscope</span>' : '');
+                     '&deg;</b> &middot; ' + g;
+      L2.innerHTML = evType + ' &middot; ' + lastRate + ' Hz now, ' + peakRate + ' peak &middot; image ' +
+                     Math.round(imgW * scale) + '&times;' + Math.round(imgH * scale) + ' in ' +
+                     vw + '&times;' + vh + ' (' + (imgW * scale / vw).toFixed(1) +
+                     '&times; wide) &middot; arc ' + ARC_X + '&deg;/' + arcY.toFixed(0) + '&deg;';
     }
     requestAnimationFrame(tick);
   }
@@ -157,6 +185,7 @@
     // absolute is steadier where it exists; plain deviceorientation is the fallback
     window.addEventListener('deviceorientationabsolute', onOrient, true);
     window.addEventListener('deviceorientation', onOrient, true);
+    window.addEventListener('devicemotion', onMotion, true);   // answers the gyro question
     started = true;
     gate.classList.add('hide');
     setTimeout(function () {
@@ -169,16 +198,18 @@
   }
 
   document.getElementById('go').onclick = function () {
-    var DOE = window.DeviceOrientationEvent;
-    if (DOE && typeof DOE.requestPermission === 'function') {   // iOS 13+
-      DOE.requestPermission().then(function (r) {
-        if (r === 'granted') listen();
+    var DOE = window.DeviceOrientationEvent, DME = window.DeviceMotionEvent;
+    if (!DOE) { err.textContent = 'This browser has no DeviceOrientation support at all.'; return; }
+    if (typeof DOE.requestPermission === 'function') {          // iOS 13+
+      // devicemotion needs its own grant on iOS; ask for both on this one gesture
+      var asks = [DOE.requestPermission()];
+      if (DME && typeof DME.requestPermission === 'function') asks.push(DME.requestPermission());
+      Promise.all(asks).then(function (r) {
+        if (r[0] === 'granted') listen();
         else err.textContent = 'Motion access was denied. Safari → Settings → Motion & Orientation Access.';
       }).catch(function (e) { err.textContent = 'Motion request failed: ' + e; });
-    } else if (DOE) {
-      listen();
     } else {
-      err.textContent = 'This browser has no DeviceOrientation support at all.';
+      listen();
     }
   };
 
