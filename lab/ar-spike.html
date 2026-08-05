@@ -144,8 +144,20 @@
     travX = dw - vw; travY = dh - vh;
     arcY = travX > 0 ? ARC_X * (travY / travX) : 30;   // same px per degree both axes
     bg.style.width = dw + 'px'; bg.style.height = dh + 'px';
-    posX = tgtX = -travX / 2; posY = tgtY = -travY / 2;
+    // Do NOT reset the position here. layout() runs on every resize, and Android
+    // Chrome fires resize constantly as the URL bar shows and hides — so the old
+    // `posX = tgtX = -travX/2` yanked the backdrop back to centre several times a
+    // second while yaw and pitch kept their values. That is exactly what Dave saw:
+    // "the yaw and pitch look accurate, the background's just not doing what the
+    // yaw and pitch infer that the background should be doing" (2026-08-05).
+    // Position is now a PURE FUNCTION of yaw/pitch and is assigned nowhere else.
+    aim();
     draw();
+  }
+  // the single place yaw/pitch become a screen position
+  function aim() {
+    tgtX = -travX / 2 + invX * (yaw   / (ARC_X / 2)) * (travX / 2);
+    tgtY = -travY / 2 + invY * (pitch / (arcY  / 2)) * (travY / 2);
   }
   function draw() { bg.style.transform = 'translate3d(' + posX + 'px,' + posY + 'px,0)'; }
   function clamp(v, lo, hi) { return v < lo ? lo : v > hi ? hi : v; }
@@ -186,8 +198,7 @@
     yaw   = clamp(yaw   + gz * dt * gateVal, -ARC_X / 2, ARC_X / 2);
     pitch = clamp(pitch + gx * dt * gateVal, -arcY  / 2, arcY  / 2);
 
-    tgtX = -travX / 2 + invX * (yaw   / (ARC_X / 2)) * (travX / 2);
-    tgtY = -travY / 2 + invY * (pitch / (arcY  / 2)) * (travY / 2);
+    aim();
   }
 
   function tick(t) {
