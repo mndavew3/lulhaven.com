@@ -10,10 +10,9 @@
   html, body { height:100%; overflow:hidden; background:#000; overscroll-behavior:none;
                touch-action:none; -webkit-user-select:none; user-select:none; }
   #stage { position:fixed; inset:0; overflow:hidden; }
-  #bg { position:absolute; top:0; left:0; transform-origin:0 0; will-change:transform;
-        image-rendering:auto; }
+  #bg { position:absolute; top:0; left:0; transform-origin:0 0; will-change:transform; }
 
-  /* the crosshair never moves. it is the whole point. */
+  /* the crosshair never moves. that is the whole point. */
   #cross { position:fixed; left:50%; top:50%; width:96px; height:96px;
            transform:translate(-50%,-50%); pointer-events:none; }
   #cross .ring { position:absolute; inset:26px; border:2px solid rgba(255,60,60,.9);
@@ -22,18 +21,23 @@
                          box-shadow:0 0 6px rgba(255,0,0,.7); }
   #cross .h { left:0; right:0; top:50%; height:2px; margin-top:-1px; }
   #cross .v { top:0; bottom:0; left:50%; width:2px; margin-left:-1px; }
-  #cross .gap { position:absolute; inset:22px; background:transparent;
-                border:6px solid #000; border-radius:50%; opacity:0; }
   #dot { position:fixed; left:50%; top:50%; width:5px; height:5px; margin:-2.5px 0 0 -2.5px;
          background:#fff; border-radius:50%; pointer-events:none; box-shadow:0 0 4px #fff; }
+
+  /* movement factor, drawn as a bar so it can be watched rather than read */
+  #mbar { position:fixed; left:12px; right:12px; bottom:96px; height:5px;
+          background:rgba(255,255,255,.14); border-radius:3px; overflow:hidden; }
+  #mfill { height:100%; width:0%; background:#4fd6a8; transition:width .05s linear; }
+  #mbar.locked #mfill { background:#666; }
 
   #hud { position:fixed; left:0; right:0; bottom:0; padding:10px 12px calc(10px + env(safe-area-inset-bottom));
          font:12px/1.45 ui-monospace, Menlo, Consolas, monospace; color:#9fe8c8;
          background:linear-gradient(transparent, rgba(0,0,0,.82) 35%); }
   #hud b { color:#fff; font-weight:600; }
   #hud .warn { color:#ffb3b3; }
+  #hud .hold { color:#8fb; }
   .btns { display:flex; gap:8px; margin-top:8px; flex-wrap:wrap; }
-  .btns button { flex:1 1 auto; min-width:74px; padding:11px 8px; font:600 13px/1 system-ui, sans-serif;
+  .btns button { flex:1 1 auto; min-width:70px; padding:11px 6px; font:600 13px/1 system-ui, sans-serif;
                  color:#dff; background:#12312a; border:1px solid #2f6f5e; border-radius:8px; }
   .btns button.on { background:#2f6f5e; color:#fff; }
 
@@ -50,20 +54,20 @@
 </head>
 <body>
 
-<div id="stage">
-  <img id="bg" src="ar-backdrop.jpg" alt="">
-</div>
+<div id="stage"><img id="bg" src="ar-backdrop.jpg" alt=""></div>
 
 <div id="cross"><span class="ring"></span><span class="h"></span><span class="v"></span></div>
 <div id="dot"></div>
+<div id="mbar"><div id="mfill"></div></div>
 
 <div id="hud">
   <div id="line1">waiting for motion…</div>
   <div id="line2"></div>
   <div class="btns">
-    <button id="bInvX">invert L/R</button>
-    <button id="bInvY">invert U/D</button>
-    <button id="bWide">arc 45°</button>
+    <button id="bInvX">flip L/R</button>
+    <button id="bInvY">flip U/D</button>
+    <button id="bArc">arc 45°</button>
+    <button id="bGate">gate on</button>
     <button id="bZero">re-centre</button>
   </div>
 </div>
@@ -71,7 +75,7 @@
 <div id="gate">
   <h1>Haven — pan spike</h1>
   <p>Hold the phone up like you are looking through it. Tap start, then turn your body left and right and tilt up and down.</p>
-  <p>The crosshair never moves. The world moves behind it. Tell me whether that feels like looking around.</p>
+  <p>The crosshair never moves. The world moves behind it.</p>
   <button id="go">Start</button>
   <div id="err"></div>
 </div>
@@ -80,98 +84,118 @@
 (function () {
   var bg = document.getElementById('bg');
   var L1 = document.getElementById('line1'), L2 = document.getElementById('line2');
-  var gate = document.getElementById('gate'), err = document.getElementById('err');
+  var gateEl = document.getElementById('gate'), err = document.getElementById('err');
+  var mbar = document.getElementById('mbar'), mfill = document.getElementById('mfill');
 
-  // ---- design spec (Dave, 2026-08-05): the backdrop is a still image, not a camera
-  // feed. It must be at least 3x the viewport wide and 2x tall, and the whole pan is
-  // about 45 degrees. No stitching, no camera permission, no edge-of-frame problem.
-  var ARC_X = 45;                 // degrees across the full horizontal travel
-  var MIN_W = 3, MIN_H = 2;       // multiples of the viewport the image must cover
-  var SMOOTH = 0.18;              // lerp per frame; raw sensor is too jittery to use neat
+  // ================= design spec (Dave, 2026-08-05) =================
+  // A STILL IMAGE behind a fixed crosshair. No camera: no stitching, no permission,
+  // no power drain, no edge-of-frame problem. At least 3x the viewport wide and 2x
+  // tall, whole sweep about 45 degrees.
+  //
+  // ---- why the gyroscope directly, and not deviceorientation (rewritten 2026-08-05)
+  // v1 used deviceorientation and jumped around even held still. Two causes, both mine:
+  //   1. I registered BOTH 'deviceorientationabsolute' AND 'deviceorientation'. On
+  //      Chrome/Android both fire, with DIFFERENT zero references — so alpha alternated
+  //      between two frames of reference every event.
+  //   2. Orientation is sensor-FUSED and includes the magnetometer, which wanders
+  //      several degrees indoors near metal and mains wiring.
+  // Reading rotationRate integrates the raw gyroscope: one stream, no compass, no
+  // competing zeros. It drifts instead — which is what the movement gate below is for.
+  //
+  // ---- the movement gate (Dave's idea, 2026-08-05)
+  // "if the phone's sitting still, you should know that from the accelerometer... maybe
+  // you can tone back the motion from the gyroscope... create a factor of movement".
+  // Exactly right, and it cures BOTH failure modes at once: a still phone integrates
+  // nothing, so there is no jitter AND no accumulated drift. The factor is drawn as a
+  // bar above the readout so it can be watched instead of trusted.
+  var ARC_X   = 45;      // degrees across the full horizontal travel
+  var MIN_W   = 3, MIN_H = 2;
+  var ROT_FULL = 8.0;    // deg/sec that counts as unambiguously moving
+  var ACC_FULL = 0.45;   // m/s^2 of linear acceleration that counts as moving
+  var GATE_FLOOR = 0.07; // below this the phone is declared still and nothing integrates
+  var SMOOTH  = 0.25;    // render lerp; the gate does the noise work, this just softens
 
-  var vw = 0, vh = 0, imgW = 0, imgH = 0, scale = 1, travX = 0, travY = 0, arcY = 30;
-  var invX = 1, invY = 1;
-  var zeroA = null, zeroB = null, curA = 0, curB = 0;
-  var tgtX = 0, tgtY = 0, posX = 0, posY = 0;
-  var events = 0, lastRate = 0, peakRate = 0, rateAt = 0, evType = '—', started = false;
-  var gyro = null, motionSeen = 0;   // null = still asking; 'yes' | 'no' | 'idle'
+  var vw=0, vh=0, imgW=0, imgH=0, scale=1, travX=0, travY=0, arcY=30;
+  var invX = 1, invY = -1;          // U/D inverted by default — Dave, first run on the S10e
+  var gateOn = true;
+  var yaw = 0, pitch = 0;           // degrees from centre, integrated from the gyro
+  var move = 0, gateVal = 0;
+  var tgtX=0, tgtY=0, posX=0, posY=0;
+  var lastT = 0, events = 0, lastRate = 0, rateAt = 0, started = false;
+  var haveRate = null;              // null unknown, true/false once devicemotion speaks
 
   function layout() {
     vw = window.innerWidth; vh = window.innerHeight;
     if (!imgW) return;
-    // cover at least MIN_W viewports wide AND MIN_H tall -> take the larger scale
     scale = Math.max(MIN_W * vw / imgW, MIN_H * vh / imgH);
     var dw = imgW * scale, dh = imgH * scale;
-    travX = dw - vw;                       // total pannable pixels
-    travY = dh - vh;
-    // same pixels-per-degree on both axes, so tilting feels like turning
-    arcY = travX > 0 ? ARC_X * (travY / travX) : 30;
-    bg.style.width = dw + 'px';
-    bg.style.height = dh + 'px';
-    // start centred
+    travX = dw - vw; travY = dh - vh;
+    arcY = travX > 0 ? ARC_X * (travY / travX) : 30;   // same px per degree both axes
+    bg.style.width = dw + 'px'; bg.style.height = dh + 'px';
     posX = tgtX = -travX / 2; posY = tgtY = -travY / 2;
     draw();
   }
-
   function draw() { bg.style.transform = 'translate3d(' + posX + 'px,' + posY + 'px,0)'; }
+  function clamp(v, lo, hi) { return v < lo ? lo : v > hi ? hi : v; }
 
-  function shortest(a, b) { var d = ((a - b + 540) % 360) - 180; return d; }
-
-  // ---- gyroscope: ASK, do not infer (fixed 2026-08-05).
-  // The first version guessed from the deviceorientation event rate and told Dave
-  // "probably no gyroscope" intermittently. That is nonsense: whether a phone has
-  // the part is a hardware fact and cannot flicker. Browsers throttle orientation
-  // events when you move slowly, so slow panning looked identical to missing
-  // hardware. devicemotion answers it directly — rotationRate comes FROM the
-  // gyroscope, so if it reports real numbers the part is there. Latched once,
-  // because a hardware fact only needs answering once.
   function onMotion(e) {
-    motionSeen++;
     var r = e.rotationRate;
-    if (r && (r.alpha !== null || r.beta !== null || r.gamma !== null) &&
-        (r.alpha !== undefined || r.beta !== undefined || r.gamma !== undefined)) {
-      var mag = Math.abs(r.alpha || 0) + Math.abs(r.beta || 0) + Math.abs(r.gamma || 0);
-      if (mag > 0.05) gyro = 'yes';           // real angular velocity => real gyroscope
-      else if (gyro === null) gyro = 'idle';  // reporting, but the phone is dead still
-    } else if (gyro === null && motionSeen > 30) {
-      gyro = 'no';                            // plenty of motion events, no rotationRate
+    if (!r || (r.alpha == null && r.beta == null && r.gamma == null)) {
+      if (haveRate === null) haveRate = false;
+      return;
     }
-  }
-
-  function onOrient(e) {
-    if (e.alpha === null && e.beta === null) return;
-    evType = e.type + (e.absolute ? ' (absolute)' : '');
+    haveRate = true;
     events++;
-    curA = e.alpha || 0; curB = e.beta || 0;
-    if (zeroA === null) { zeroA = curA; zeroB = curB; }
-    var dA = shortest(curA, zeroA);          // + when turned left (W3C: alpha grows CCW)
-    var dB = curB - zeroB;                   // + when tilted back toward you
-    var fx = Math.max(-1, Math.min(1, dA / (ARC_X / 2)));
-    var fy = Math.max(-1, Math.min(1, -dB / (arcY / 2)));
-    tgtX = -travX / 2 + invX * fx * (travX / 2);
-    tgtY = -travY / 2 + invY * fy * (travY / 2);
+
+    var now = e.timeStamp || performance.now();
+    var dt = e.interval ? e.interval / 1000 : (lastT ? (now - lastT) / 1000 : 0.016);
+    lastT = now;
+    if (dt <= 0 || dt > 0.25) dt = 0.016;          // ignore stalls / tab switches
+
+    // Phone held upright in portrait: turning your body rotates about the phone's
+    // y axis (gamma); tilting to look up/down rotates about its x axis (beta).
+    var gz = r.gamma || 0, gx = r.beta || 0;
+
+    // --- the movement factor, from BOTH sensors
+    var rot = Math.abs(gz) + Math.abs(gx);          // deg/sec
+    var a = e.acceleration;                          // gravity already removed
+    var acc;
+    if (a && (a.x != null || a.y != null || a.z != null)) {
+      acc = Math.sqrt((a.x||0)*(a.x||0) + (a.y||0)*(a.y||0) + (a.z||0)*(a.z||0));
+    } else {
+      var g = e.accelerationIncludingGravity || {};
+      var m = Math.sqrt((g.x||0)*(g.x||0) + (g.y||0)*(g.y||0) + (g.z||0)*(g.z||0));
+      acc = Math.abs(m - 9.81);                      // deviation from resting gravity
+    }
+    var raw = clamp(Math.max(rot / ROT_FULL, acc / ACC_FULL), 0, 1);
+    move += (raw - move) * 0.3;
+    gateVal = (!gateOn) ? 1 : (move < GATE_FLOOR ? 0 : move);
+
+    yaw   = clamp(yaw   + gz * dt * gateVal, -ARC_X / 2, ARC_X / 2);
+    pitch = clamp(pitch + gx * dt * gateVal, -arcY  / 2, arcY  / 2);
+
+    tgtX = -travX / 2 + invX * (yaw   / (ARC_X / 2)) * (travX / 2);
+    tgtY = -travY / 2 + invY * (pitch / (arcY  / 2)) * (travY / 2);
   }
 
   function tick(t) {
     posX += (tgtX - posX) * SMOOTH;
     posY += (tgtY - posY) * SMOOTH;
     draw();
-    if (t - rateAt > 1000) {
-      lastRate = events; if (lastRate > peakRate) peakRate = lastRate;
-      events = 0; rateAt = t;
-    }
+    if (t - rateAt > 1000) { lastRate = events; events = 0; rateAt = t; }
     if (started) {
-      var g = gyro === 'yes'  ? '<b>gyroscope: YES</b>'
-            : gyro === 'no'   ? '<span class="warn">gyroscope: NO (accel+compass only)</span>'
-            : gyro === 'idle' ? 'gyroscope: reporting, hold still — move to confirm'
-            :                   'gyroscope: asking…';
-      L1.innerHTML = 'yaw <b>' + (zeroA === null ? '—' : shortest(curA, zeroA).toFixed(1)) +
-                     '&deg;</b>  pitch <b>' + (zeroB === null ? '—' : (curB - zeroB).toFixed(1)) +
-                     '&deg;</b> &middot; ' + g;
-      L2.innerHTML = evType + ' &middot; ' + lastRate + ' Hz now, ' + peakRate + ' peak &middot; image ' +
-                     Math.round(imgW * scale) + '&times;' + Math.round(imgH * scale) + ' in ' +
-                     vw + '&times;' + vh + ' (' + (imgW * scale / vw).toFixed(1) +
-                     '&times; wide) &middot; arc ' + ARC_X + '&deg;/' + arcY.toFixed(0) + '&deg;';
+      var pct = Math.round(gateVal * 100);
+      mfill.style.width = pct + '%';
+      mbar.classList.toggle('locked', gateVal === 0);
+      L1.innerHTML = 'yaw <b>' + yaw.toFixed(1) + '&deg;</b>  pitch <b>' + pitch.toFixed(1) +
+                     '&deg;</b> &middot; movement <b>' + pct + '%</b>' +
+                     (gateVal === 0 ? ' <span class="hold">HELD STILL</span>' : '');
+      L2.innerHTML = (haveRate === false
+                        ? '<span class="warn">no rotationRate — this phone is not exposing the gyroscope</span>'
+                        : 'gyroscope &middot; ' + lastRate + ' Hz') +
+                     ' &middot; ' + Math.round(imgW*scale) + '&times;' + Math.round(imgH*scale) +
+                     ' in ' + vw + '&times;' + vh + ' (' + (imgW*scale/vw).toFixed(1) + '&times;)' +
+                     ' &middot; arc ' + ARC_X + '&deg;/' + arcY.toFixed(0) + '&deg;';
     }
     requestAnimationFrame(tick);
   }
@@ -182,44 +206,48 @@
   window.addEventListener('orientationchange', function () { setTimeout(layout, 250); });
 
   function listen() {
-    // absolute is steadier where it exists; plain deviceorientation is the fallback
-    window.addEventListener('deviceorientationabsolute', onOrient, true);
-    window.addEventListener('deviceorientation', onOrient, true);
-    window.addEventListener('devicemotion', onMotion, true);   // answers the gyro question
+    window.addEventListener('devicemotion', onMotion, true);   // the ONLY motion source
     started = true;
-    gate.classList.add('hide');
+    gateEl.classList.add('hide');
+    if (navigator.wakeLock) navigator.wakeLock.request('screen').catch(function(){});
     setTimeout(function () {
       if (!lastRate && !events) {
-        L1.innerHTML = '<span class="warn">no motion events at all — this phone is not ' +
-                       'reporting orientation to the browser</span>';
+        L1.innerHTML = '<span class="warn">no motion events at all — the browser is not ' +
+                       'delivering devicemotion</span>';
       }
     }, 2500);
-    if (navigator.wakeLock) navigator.wakeLock.request('screen').catch(function(){});
   }
 
   document.getElementById('go').onclick = function () {
-    var DOE = window.DeviceOrientationEvent, DME = window.DeviceMotionEvent;
-    if (!DOE) { err.textContent = 'This browser has no DeviceOrientation support at all.'; return; }
-    if (typeof DOE.requestPermission === 'function') {          // iOS 13+
-      // devicemotion needs its own grant on iOS; ask for both on this one gesture
-      var asks = [DOE.requestPermission()];
-      if (DME && typeof DME.requestPermission === 'function') asks.push(DME.requestPermission());
-      Promise.all(asks).then(function (r) {
-        if (r[0] === 'granted') listen();
-        else err.textContent = 'Motion access was denied. Safari → Settings → Motion & Orientation Access.';
+    var DME = window.DeviceMotionEvent;
+    if (!DME) { err.textContent = 'This browser has no DeviceMotion support.'; return; }
+    if (typeof DME.requestPermission === 'function') {          // iOS 13+
+      DME.requestPermission().then(function (r) {
+        if (r === 'granted') listen();
+        else err.textContent = 'Motion access denied. Settings → Safari → Motion & Orientation Access.';
       }).catch(function (e) { err.textContent = 'Motion request failed: ' + e; });
-    } else {
-      listen();
-    }
+    } else { listen(); }
   };
 
-  function toggle(btn, set) { btn.onclick = function () { set(); btn.classList.toggle('on'); }; }
-  toggle(document.getElementById('bInvX'), function () { invX = -invX; });
-  toggle(document.getElementById('bInvY'), function () { invY = -invY; });
-  document.getElementById('bZero').onclick = function () { zeroA = null; zeroB = null; };
-  document.getElementById('bWide').onclick = function () {
+  function tog(id, fn, on) {
+    var b = document.getElementById(id);
+    if (on) b.classList.add('on');
+    b.onclick = function () { fn(); b.classList.toggle('on'); };
+  }
+  tog('bInvX', function () { invX = -invX; });
+  tog('bInvY', function () { invY = -invY; }, true);   // starts inverted
+  var gb = document.getElementById('bGate');
+  gb.classList.add('on');
+  gb.onclick = function () {
+    gateOn = !gateOn;
+    gb.classList.toggle('on', gateOn);
+    gb.textContent = gateOn ? 'gate on' : 'gate OFF';
+  };
+  document.getElementById('bZero').onclick = function () { yaw = 0; pitch = 0; };
+  document.getElementById('bArc').onclick = function () {
     ARC_X = ARC_X === 45 ? 90 : (ARC_X === 90 ? 20 : 45);
     this.textContent = 'arc ' + ARC_X + '°';
+    yaw = clamp(yaw, -ARC_X/2, ARC_X/2);
     layout();
   };
 
