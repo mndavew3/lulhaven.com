@@ -1,4 +1,4 @@
-// generated 2026-08-05T19:01:05Z from haven_wiki.db accomplishments
+// generated from haven_wiki.db accomplishments — 613 rows, newest id 627
 var milestonesDataset = [
   {
     "id": 627,
