@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Haven — pan spike</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { height:100%; overflow:hidden; background:#000; overscroll-behavior:none;
+               touch-action:none; -webkit-user-select:none; user-select:none; }
+  #stage { position:fixed; inset:0; overflow:hidden; }
+  #bg { position:absolute; top:0; left:0; transform-origin:0 0; will-change:transform;
+        image-rendering:auto; }
+
+  /* the crosshair never moves. it is the whole point. */
+  #cross { position:fixed; left:50%; top:50%; width:96px; height:96px;
+           transform:translate(-50%,-50%); pointer-events:none; }
+  #cross .ring { position:absolute; inset:26px; border:2px solid rgba(255,60,60,.9);
+                 border-radius:50%; box-shadow:0 0 8px rgba(255,0,0,.6), inset 0 0 6px rgba(255,0,0,.4); }
+  #cross .h, #cross .v { position:absolute; background:rgba(255,60,60,.9);
+                         box-shadow:0 0 6px rgba(255,0,0,.7); }
+  #cross .h { left:0; right:0; top:50%; height:2px; margin-top:-1px; }
+  #cross .v { top:0; bottom:0; left:50%; width:2px; margin-left:-1px; }
+  #cross .gap { position:absolute; inset:22px; background:transparent;
+                border:6px solid #000; border-radius:50%; opacity:0; }
+  #dot { position:fixed; left:50%; top:50%; width:5px; height:5px; margin:-2.5px 0 0 -2.5px;
+         background:#fff; border-radius:50%; pointer-events:none; box-shadow:0 0 4px #fff; }
+
+  #hud { position:fixed; left:0; right:0; bottom:0; padding:10px 12px calc(10px + env(safe-area-inset-bottom));
+         font:12px/1.45 ui-monospace, Menlo, Consolas, monospace; color:#9fe8c8;
+         background:linear-gradient(transparent, rgba(0,0,0,.82) 35%); }
+  #hud b { color:#fff; font-weight:600; }
+  #hud .warn { color:#ffb3b3; }
+  .btns { display:flex; gap:8px; margin-top:8px; flex-wrap:wrap; }
+  .btns button { flex:1 1 auto; min-width:74px; padding:11px 8px; font:600 13px/1 system-ui, sans-serif;
+                 color:#dff; background:#12312a; border:1px solid #2f6f5e; border-radius:8px; }
+  .btns button.on { background:#2f6f5e; color:#fff; }
+
+  #gate { position:fixed; inset:0; display:flex; flex-direction:column; align-items:center;
+          justify-content:center; gap:20px; padding:28px; text-align:center; background:#07100e;
+          font-family:system-ui, sans-serif; color:#cfe; }
+  #gate h1 { font-size:21px; font-weight:700; color:#fff; }
+  #gate p  { font-size:15px; line-height:1.6; max-width:24em; color:#9fc7b8; }
+  #gate button { padding:16px 34px; font:700 17px system-ui, sans-serif; color:#04140f;
+                 background:#4fd6a8; border:0; border-radius:11px; }
+  #gate.hide { display:none; }
+  #err { color:#ffb3b3; font-size:14px; max-width:26em; }
+</style>
+</head>
+<body>
+
+<div id="stage">
+  <img id="bg" src="ar-backdrop.jpg" alt="">
+</div>
+
+<div id="cross"><span class="ring"></span><span class="h"></span><span class="v"></span></div>
+<div id="dot"></div>
+
+<div id="hud">
+  <div id="line1">waiting for motion…</div>
+  <div id="line2"></div>
+  <div class="btns">
+    <button id="bInvX">invert L/R</button>
+    <button id="bInvY">invert U/D</button>
+    <button id="bWide">arc 45°</button>
+    <button id="bZero">re-centre</button>
+  </div>
+</div>
+
+<div id="gate">
+  <h1>Haven — pan spike</h1>
+  <p>Hold the phone up like you are looking through it. Tap start, then turn your body left and right and tilt up and down.</p>
+  <p>The crosshair never moves. The world moves behind it. Tell me whether that feels like looking around.</p>
+  <button id="go">Start</button>
+  <div id="err"></div>
+</div>
+
+<script>
+(function () {
+  var bg = document.getElementById('bg');
+  var L1 = document.getElementById('line1'), L2 = document.getElementById('line2');
+  var gate = document.getElementById('gate'), err = document.getElementById('err');
+
+  // ---- design spec (Dave, 2026-08-05): the backdrop is a still image, not a camera
+  // feed. It must be at least 3x the viewport wide and 2x tall, and the whole pan is
+  // about 45 degrees. No stitching, no camera permission, no edge-of-frame problem.
+  var ARC_X = 45;                 // degrees across the full horizontal travel
+  var MIN_W = 3, MIN_H = 2;       // multiples of the viewport the image must cover
+  var SMOOTH = 0.18;              // lerp per frame; raw sensor is too jittery to use neat
+
+  var vw = 0, vh = 0, imgW = 0, imgH = 0, scale = 1, travX = 0, travY = 0, arcY = 30;
+  var invX = 1, invY = 1;
+  var zeroA = null, zeroB = null, curA = 0, curB = 0;
+  var tgtX = 0, tgtY = 0, posX = 0, posY = 0;
+  var events = 0, lastRate = 0, rateAt = 0, evType = '—', started = false;
+
+  function layout() {
+    vw = window.innerWidth; vh = window.innerHeight;
+    if (!imgW) return;
+    // cover at least MIN_W viewports wide AND MIN_H tall -> take the larger scale
+    scale = Math.max(MIN_W * vw / imgW, MIN_H * vh / imgH);
+    var dw = imgW * scale, dh = imgH * scale;
+    travX = dw - vw;                       // total pannable pixels
+    travY = dh - vh;
+    // same pixels-per-degree on both axes, so tilting feels like turning
+    arcY = travX > 0 ? ARC_X * (travY / travX) : 30;
+    bg.style.width = dw + 'px';
+    bg.style.height = dh + 'px';
+    // start centred
+    posX = tgtX = -travX / 2; posY = tgtY = -travY / 2;
+    draw();
+  }
+
+  function draw() { bg.style.transform = 'translate3d(' + posX + 'px,' + posY + 'px,0)'; }
+
+  function shortest(a, b) { var d = ((a - b + 540) % 360) - 180; return d; }
+
+  function onOrient(e) {
+    if (e.alpha === null && e.beta === null) return;
+    evType = e.type + (e.absolute ? ' (absolute)' : '');
+    events++;
+    curA = e.alpha || 0; curB = e.beta || 0;
+    if (zeroA === null) { zeroA = curA; zeroB = curB; }
+    var dA = shortest(curA, zeroA);          // + when turned left (W3C: alpha grows CCW)
+    var dB = curB - zeroB;                   // + when tilted back toward you
+    var fx = Math.max(-1, Math.min(1, dA / (ARC_X / 2)));
+    var fy = Math.max(-1, Math.min(1, -dB / (arcY / 2)));
+    tgtX = -travX / 2 + invX * fx * (travX / 2);
+    tgtY = -travY / 2 + invY * fy * (travY / 2);
+  }
+
+  function tick(t) {
+    posX += (tgtX - posX) * SMOOTH;
+    posY += (tgtY - posY) * SMOOTH;
+    draw();
+    if (t - rateAt > 1000) { lastRate = events; events = 0; rateAt = t; }
+    if (started) {
+      L1.innerHTML = 'yaw <b>' + (zeroA === null ? '—' : shortest(curA, zeroA).toFixed(1)) +
+                     '&deg;</b>  pitch <b>' + (zeroB === null ? '—' : (curB - zeroB).toFixed(1)) +
+                     '&deg;</b>  <b>' + lastRate + '</b> Hz';
+      L2.innerHTML = evType + ' &middot; image ' + Math.round(imgW * scale) + '&times;' +
+                     Math.round(imgH * scale) + ' in ' + vw + '&times;' + vh +
+                     ' (' + (imgW * scale / vw).toFixed(1) + '&times; wide) &middot; arc ' +
+                     ARC_X + '&deg;/' + arcY.toFixed(0) + '&deg;' +
+                     (lastRate && lastRate < 25 ? ' <span class="warn">— low rate, probably no gyroscope</span>' : '');
+    }
+    requestAnimationFrame(tick);
+  }
+
+  bg.onload = function () { imgW = bg.naturalWidth; imgH = bg.naturalHeight; layout(); };
+  if (bg.complete && bg.naturalWidth) bg.onload();
+  window.addEventListener('resize', layout);
+  window.addEventListener('orientationchange', function () { setTimeout(layout, 250); });
+
+  function listen() {
+    // absolute is steadier where it exists; plain deviceorientation is the fallback
+    window.addEventListener('deviceorientationabsolute', onOrient, true);
+    window.addEventListener('deviceorientation', onOrient, true);
+    started = true;
+    gate.classList.add('hide');
+    setTimeout(function () {
+      if (!lastRate && !events) {
+        L1.innerHTML = '<span class="warn">no motion events at all — this phone is not ' +
+                       'reporting orientation to the browser</span>';
+      }
+    }, 2500);
+    if (navigator.wakeLock) navigator.wakeLock.request('screen').catch(function(){});
+  }
+
+  document.getElementById('go').onclick = function () {
+    var DOE = window.DeviceOrientationEvent;
+    if (DOE && typeof DOE.requestPermission === 'function') {   // iOS 13+
+      DOE.requestPermission().then(function (r) {
+        if (r === 'granted') listen();
+        else err.textContent = 'Motion access was denied. Safari → Settings → Motion & Orientation Access.';
+      }).catch(function (e) { err.textContent = 'Motion request failed: ' + e; });
+    } else if (DOE) {
+      listen();
+    } else {
+      err.textContent = 'This browser has no DeviceOrientation support at all.';
+    }
+  };
+
+  function toggle(btn, set) { btn.onclick = function () { set(); btn.classList.toggle('on'); }; }
+  toggle(document.getElementById('bInvX'), function () { invX = -invX; });
+  toggle(document.getElementById('bInvY'), function () { invY = -invY; });
+  document.getElementById('bZero').onclick = function () { zeroA = null; zeroB = null; };
+  document.getElementById('bWide').onclick = function () {
+    ARC_X = ARC_X === 45 ? 90 : (ARC_X === 90 ? 20 : 45);
+    this.textContent = 'arc ' + ARC_X + '°';
+    layout();
+  };
+
+  requestAnimationFrame(tick);
+})();
+</script>
+</body>
+</html>
