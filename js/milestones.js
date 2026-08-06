@@ -1,5 +1,38 @@
-// generated from haven_wiki.db accomplishments — 613 rows, newest id 627
+// generated from haven_wiki.db accomplishments — 616 rows, newest id 630
 var milestonesDataset = [
+  {
+    "id": 630,
+    "date": "2026-08-05",
+    "theme": "Trust & transparency",
+    "impact": 3,
+    "summary": "Thirty-six invitations went out to prospective Haven Challenge judges.",
+    "detail": null,
+    "benefit": "The Challenge needs independent judges who are not us. These are the first real invitations.",
+    "ref": "a8d7765",
+    "features": []
+  },
+  {
+    "id": 629,
+    "date": "2026-08-05",
+    "theme": "Manga / lore",
+    "impact": 3,
+    "summary": "The Haven game's augmented-reality view was proven on a real phone: move the phone, and the world moves behind a fixed crosshair.",
+    "detail": "The phone's motion axes were read directly off the running page over a network debug link rather than taken from the specification, which had been wrong three times. An eighteen-second recording confirmed the painted position matched the predicted position on every sample.",
+    "benefit": "Before committing to an AR game we built the smallest thing that could disprove it — a working pan on a real handset, measured rather than assumed.",
+    "ref": "2e59bde",
+    "features": []
+  },
+  {
+    "id": 628,
+    "date": "2026-08-05",
+    "theme": "Marketing & website",
+    "impact": 3,
+    "summary": "The Milestones page now shows every milestone by default, newest first.",
+    "detail": null,
+    "benefit": "The page was quietly defaulting to a filter that hid nearly half the list — including the newest entries — so an actively-updated page looked days out of date. Now you see everything unless you choose to narrow it.",
+    "ref": "825973f",
+    "features": []
+  },
   {
     "id": 627,
     "date": "2026-08-05",
