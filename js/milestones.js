@@ -1,5 +1,27 @@
-// generated from haven_wiki.db accomplishments — 617 rows, newest id 631
+// generated from haven_wiki.db accomplishments — 619 rows, newest id 633
 var milestonesDataset = [
+  {
+    "id": 632,
+    "date": "2026-08-06",
+    "theme": "Manga / lore",
+    "impact": 4,
+    "summary": "The game's enemy got a face. The thing you shoot at is now a living, shifting shape — a translucent body with a glowing core that never holds the same outline twice — seen the way a soldier sees through a night scope, in green.",
+    "detail": "Each target carries its own readout: how far away it is in metres and what compass bearing it sits on, printed right at its brackets so two targets on screen can never be confused for one another. LOCK appears only when the crosshair is actually inside the shape, not merely near it. Targets now arrive one at a time, a few seconds apart, and grow as they close the distance — how long they take to arrive is the difficulty dial. The game also plays on a computer now, with the arrow keys to look around and the mouse wheel to zoom.",
+    "benefit": "Haven's story is what makes people remember a filtering router, and a story needs something to fight. The virus now looks like something worth being afraid of, and the display around it reads like a real instrument instead of a cartoon.",
+    "ref": "be9cb071c7",
+    "features": []
+  },
+  {
+    "id": 633,
+    "date": "2026-08-06",
+    "theme": "Testing & quality",
+    "impact": 3,
+    "summary": "The game will not show you a compass bearing it did not actually measure. When the phone has no magnetometer, or the browser refuses it, the heading is labelled as simulated rather than quietly presented as real.",
+    "detail": "The honest-label check was originally written to fire only when a sensor looked absent — and a test browser that claims to have a compass it does not have defeated it completely, so a made-up bearing was printed as if measured. The label is now always printed, one way or the other. The same day turned up a second invisible fault: the code that gives the creature its texture was returning the same number every time, so two rounds of tuning were spent adjusting something that was not doing anything.",
+    "benefit": "Haven sells trust, and a display that quietly makes numbers up is the exact opposite of that. Where a reading is estimated rather than measured, it says so — every time, not only when something looks wrong.",
+    "ref": "",
+    "features": []
+  },
   {
     "id": 631,
     "date": "2026-08-05",
