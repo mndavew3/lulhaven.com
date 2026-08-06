@@ -1,5 +1,38 @@
-// generated from haven_wiki.db accomplishments — 619 rows, newest id 633
+// generated from haven_wiki.db accomplishments — 622 rows, newest id 636
 var milestonesDataset = [
+  {
+    "id": 634,
+    "date": "2026-08-06",
+    "theme": "Reliability & Updates",
+    "impact": 5,
+    "summary": "We found — before a single router shipped — that four of Haven's nightly jobs were never running at all.",
+    "detail": "Every Haven router spreads its nightly work across a random minute so the whole fleet does not hit our servers at once. That random minute was being computed from a number far too large for the router's small shell to handle, and it came out as minus one. Minus one is not a minute, so the router's scheduler threw the whole line away — silently. Four jobs died with it: the blocklist refresh, the adult-list refresh, the update check, and the watchdog that is supposed to notice when something has stopped. Measured on the bench unit, not reasoned about: the first explanation we had was wrong and was thrown out after the box was asked directly.",
+    "benefit": "A Haven router that never refreshes its blocklists and never checks for updates would look perfectly healthy while quietly going stale. Catching it on the bench means no customer ever meets it.",
+    "ref": "",
+    "features": []
+  },
+  {
+    "id": 636,
+    "date": "2026-08-06",
+    "theme": "Process & discipline",
+    "impact": 4,
+    "summary": "Nothing gets forgotten at a memory boundary any more — the assistant now saves its state before it is allowed to compact.",
+    "detail": "A long working session periodically compresses its own memory, and until now that could happen automatically, with nobody watching, throwing away anything not yet written to disk. There is now an interlock: before any compaction, manual or automatic, the state is pushed to safe storage, the fill level is reported as a real number rather than a guess, and any work that is sitting unsaved is named out loud so it survives the boundary. If unsaved work looks like it contains a credential, the compaction is refused outright.",
+    "benefit": "Findings about the routers stop evaporating. What was discovered in hour six is still on the record in hour nine.",
+    "ref": "",
+    "features": []
+  },
+  {
+    "id": 635,
+    "date": "2026-08-06",
+    "theme": "Manga / lore",
+    "impact": 4,
+    "summary": "The Haven game grew a tutorial, a villain you cannot lose track of, and something to lose.",
+    "detail": "The opening screen now explains the story instead of assuming what you are holding: Al notices IP42 is getting faster and builds an interface that gives it a face, so Haven can be told which one to deal with first. The creature blinks pure white for a single frame — and blinks faster the closer it gets — so it can be picked out against a bright city instead of hunted for on the radar. The radar itself waves for attention early and then stops once you have found it. And there is now an integrity bar: anything that reaches you takes a bite out of it, and at zero the screen reads OVERRUN.",
+    "benefit": "The demo now teaches itself. Anyone can be handed one link, on any device, and the game works out what they are holding rather than guessing.",
+    "ref": "631a0f6",
+    "features": []
+  },
   {
     "id": 632,
     "date": "2026-08-06",
