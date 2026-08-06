@@ -612,8 +612,23 @@ I will bake them in. 0% churn is a perfect circle; 100% is what you saw a minute
   // The displacement is ramped to nothing at the centre, so the core stays put and
   // stays aimable while the skin crawls.
 
-  var SRC = 256, srcData = null, scopeBuf = null, scopeSCtx = null, scopeImg = null;
-  var scopeRad = null, WARP = 0.26, GREEN = 0.40, GRAIN = 0.35, HUDON = true, SWAP = true;
+  var SRC = 256, srcData = null;
+  var WARP = 0.26, GREEN = 0.40, GRAIN = 0.35, HUDON = true, SWAP = true;
+
+  // Three contacts, each with its own distance, drift, deformation and real size.
+  // Different sizes matter: two things at the same range must not look identical,
+  // or the range readout is the only thing distinguishing them and the picture
+  // stops carrying information.
+  var CONTACTS = [
+    // ox/oy park each contact in its own part of the view. Without them all three
+    // orbited the same centre and bunched into one corner, which hid the very thing
+    // the per-contact tags exist to demonstrate.
+    { seed: 3.1,  phase: 0.00, ox: -0.26, oy: -0.10, ax: 1.10, ay: 0.70, fx: 0.37, fy: 0.53, far: 420, near: 34, sizeM: 18 },
+    { seed: 7.4,  phase: 0.41, ox:  0.30, oy: -0.18, ax: 0.85, ay: 0.90, fx: 0.29, fy: 0.41, far: 520, near: 60, sizeM: 12 },
+    { seed: 11.8, phase: 0.72, ox:  0.04, oy:  0.20, ax: 0.95, ay: -0.75, fx: 0.44, fy: 0.31, far: 360, near: 48, sizeM: 26 }
+  ];
+  var FOV = 45;                    // degrees across the view, for the bearing maths
+  var SIZE_STEPS = [48, 64, 96, 128, 192, 256];
 
   function ensureSrc() {
     if (srcData || !seedImg) return srcData;
@@ -625,33 +640,45 @@ I will bake them in. 0% churn is a perfect circle; 100% is what you saw a minute
     return srcData;
   }
 
-  function renderScope(t, tick) {
+  // Rendered at a resolution matched to how big the contact currently IS on screen.
+  // A target at 400 metres occupies a few dozen pixels; computing it at full size
+  // and throwing 95% away is what would make three contacts unaffordable. Buckets,
+  // not exact sizes, so a slowly growing contact does not reallocate every frame.
+  function renderScope(c, t, tick, N) {
     var s = ensureSrc(); if (!s) return false;
-    if (!scopeBuf) {
-      scopeBuf = document.createElement('canvas'); scopeBuf.width = scopeBuf.height = SRC;
-      scopeSCtx = scopeBuf.getContext('2d');
-      scopeImg = scopeSCtx.createImageData(SRC, SRC);
+    if (!c.buf || c.buf.width !== N) {
+      c.buf = document.createElement('canvas'); c.buf.width = c.buf.height = N;
+      c.bctx = c.buf.getContext('2d');
+      c.img = c.bctx.createImageData(N, N);
     }
-    var d = scopeImg.data, R = SRC / 2, LUT = 256, i;
-    if (!scopeRad) scopeRad = new Float32Array(LUT);
-    for (i = 0; i < LUT; i++) scopeRad[i] = wobbleAt(i / LUT * TAU, t, 3.1, CHURN);
+    var d = c.img.data, R = N / 2, LUT = 256, i;
+    // NOT c.rad — that is the contact's screen radius, a number. Calling this LUT
+    // `rad` too meant `if (!c.rad)` saw a truthy number, never allocated the array,
+    // and every lookup returned undefined; the arithmetic went to NaN and the whole
+    // buffer came out transparent. Only the background glow was still drawing, which
+    // made it look like a compositing problem rather than a name collision.
+    if (!c.wlut) c.wlut = new Float32Array(LUT);
+    for (i = 0; i < LUT; i++) c.wlut[i] = wobbleAt(i / LUT * TAU, t, c.seed, CHURN);
+    var SR = SRC / 2;                       // source half-size, independent of N
 
-    for (var py = 0; py < SRC; py++) {
+    for (var py = 0; py < N; py++) {
       var yy = py - R + 0.5;
-      for (var px = 0; px < SRC; px++) {
+      for (var px = 0; px < N; px++) {
         var xx = px - R + 0.5;
-        var o = (py * SRC + px) * 4;
+        var o = (py * N + px) * 4;
         var rr = Math.sqrt(xx * xx + yy * yy);
         if (rr >= R - 1) { d[o + 3] = 0; continue; }
 
         var ai = ((Math.atan2(yy, xx) / TAU + 1) * LUT) | 0;
-        var wv = scopeRad[ai & (LUT - 1)];
+        var wv = c.wlut[ai & (LUT - 1)];
         var rn = rr / R;
         // nothing at the core, everything at the skin
         var u = (rn - 0.12) / 0.83;
         var ramp = u <= 0 ? 0 : (u >= 1 ? 1 : u * u * (3 - 2 * u));
         var k = 1 - wv * WARP * ramp;
-        var sx = R + xx * k, sy = R + yy * k;
+        // Walk back in NORMALISED space, then into the source, so the warp is
+        // identical whether this contact is drawn at 48 pixels or 256.
+        var sx = SR + (xx / R) * k * SR, sy = SR + (yy / R) * k * SR;
         if (sx < 0 || sy < 0 || sx > SRC - 2 || sy > SRC - 2) { d[o + 3] = 0; continue; }
 
         // bilinear, or the crawling skin shimmers with sampling noise
@@ -698,7 +725,7 @@ I will bake them in. 0% churn is a perfect circle; 100% is what you saw a minute
         d[o + 3] = sa;
       }
     }
-    scopeSCtx.putImageData(scopeImg, 0, 0);
+    c.bctx.putImageData(c.img, 0, 0);
     return true;
   }
 
@@ -711,35 +738,61 @@ I will bake them in. 0% churn is a perfect circle; 100% is what you saw a minute
   // sets the size; azimuth is a real heading when the device has a compass; LOCK is
   // a state the geometry decides. A readout that is merely animated is set dressing
   // and the player learns within a minute to ignore it.
-  function drawHUD(ctx, W, H, cx, cy, rad, st) {
-    var G = 'rgba(120,255,150,';
+  // The HUD is TWO layers, and which layer a field belongs to is decided by one
+  // question: does it describe the view, or does it describe a thing in the view?
+  //
+  //   Fixed to the frame  — IP42 (what this instrument is looking for) and LOCK
+  //                         (whether the crosshair is on something). One view,
+  //                         one of each.
+  //   Attached to the tag — RANGE and BEARING. With three contacts on screen a
+  //                         single range number in the corner is worse than none:
+  //                         it is a fact with no owner, and the player has to
+  //                         guess which target it belongs to (Dave, 2026-08-06).
+  var G = 'rgba(120,255,150,';
+
+  function drawContactTag(ctx, W, H, c) {
     ctx.save();
-    ctx.font = (H * 0.038 | 0) + 'px ui-monospace, Menlo, Consolas, monospace';
+    // Type scales with the contact so a far-off target does not carry a label
+    // bigger than itself — but with a floor, because unreadable is not a style.
+    var fs = Math.max(H * 0.026, Math.min(H * 0.040, c.rad * 0.20));
+    ctx.font = (fs | 0) + 'px ui-monospace, Menlo, Consolas, monospace';
     ctx.textBaseline = 'top';
 
     // The bracket is the reward: soft and wide while it is only a contact, hard
-    // and tight the moment the crosshair is inside the membrane. You should feel
-    // the identification before you fire.
-    var b   = rad * (st.lock ? 1.02 : 1.16);
-    var arm = b * (st.lock ? 0.34 : 0.22);
-    ctx.lineWidth = Math.max(1, H * (st.lock ? 0.0065 : 0.0035));
-    ctx.strokeStyle = G + (st.lock ? '1)' : '0.55)');
+    // and tight the moment the crosshair is inside the membrane.
+    var b   = c.rad * (c.lock ? 1.02 : 1.16);
+    var arm = b * (c.lock ? 0.34 : 0.22);
+    ctx.lineWidth = Math.max(1, H * (c.lock ? 0.0060 : 0.0030));
+    ctx.strokeStyle = G + (c.lock ? '1)' : '0.5)');
     [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(function (q) {
-      var x = cx + q[0] * b, y = cy + q[1] * b;
+      var x = c.x + q[0] * b, y = c.y + q[1] * b;
       ctx.beginPath();
       ctx.moveTo(x - q[0] * arm, y); ctx.lineTo(x, y); ctx.lineTo(x, y - q[1] * arm);
       ctx.stroke();
     });
 
-    // Readouts pinned to the frame, not to the contact — they must not jump around
-    // as the thing closes. Four characters a field.
+    // Range above the brackets, bearing below. Split rather than stacked so
+    // neither line can be mistaken for belonging to a neighbouring contact.
+    ctx.textAlign = 'left';
+    ctx.fillStyle = G + (c.lock ? '0.95)' : '0.72)');
+    ctx.fillText('RNG ' + (c.range < 100 ? c.range.toFixed(1) : c.range.toFixed(0)) + 'm',
+                 c.x - b, c.y - b - fs * 1.25);
+    ctx.fillText('AZ ' + ('00' + Math.round(c.az)).slice(-3) + '°',
+                 c.x - b, c.y + b + fs * 0.35);
+    ctx.restore();
+  }
+
+  function drawFrameHUD(ctx, W, H, st) {
+    ctx.save();
+    ctx.font = (H * 0.040 | 0) + 'px ui-monospace, Menlo, Consolas, monospace';
+    ctx.textBaseline = 'top';
     var pad = H * 0.045, lh = H * 0.052;
+
     ctx.fillStyle = G + '0.92)';
     ctx.fillText('IP42', pad, pad);
-    ctx.fillStyle = G + '0.60)';
-    ctx.fillText('RNG ' + (st.range < 100 ? st.range.toFixed(1) : st.range.toFixed(0)) + 'm',
-                 pad, pad + lh);
-    ctx.fillText('AZ  ' + ('00' + Math.round(st.az)).slice(-3) + '°', pad, pad + lh * 2);
+    ctx.fillStyle = G + '0.5)';
+    ctx.fillText(st.count + ' CONTACT' + (st.count === 1 ? '' : 'S'), pad, pad + lh);
+
     // ALWAYS state where the bearing came from — never only when we believe it is
     // fake. The first version warned only on simulation, and was defeated instantly:
     // headless Chromium emits deviceorientationabsolute with absolute=true and a
@@ -747,20 +800,22 @@ I will bake them in. 0% churn is a perfect circle; 100% is what you saw a minute
     // compass was real and hid the warning. "absolute:true" is not evidence of a
     // sensor — emulators and phones with sensor emulation both assert it. What we
     // can honestly claim is the PROVENANCE of the number, so that is what is shown.
-    ctx.fillStyle = st.hasCompass ? G + '0.55)' : 'rgba(255,190,80,0.9)';
-    ctx.fillText(st.hasCompass ? 'MAG' : 'SIM', pad + H * 0.185, pad + lh * 2);
+    ctx.fillStyle = st.hasCompass ? G + '0.5)' : 'rgba(255,190,80,0.9)';
+    ctx.fillText(st.hasCompass ? 'MAG' : 'SIM', pad, pad + lh * 2);
 
-    // LOCK does not exist until the crosshair is inside the border (Dave, 2026-08-06).
+    // LOCK does not exist until the crosshair is inside a border (Dave, 2026-08-06).
     // Absent, not dimmed — a permanently visible LOCK teaches the player it means
     // nothing.
     if (st.lock) {
+      ctx.textAlign = 'right';
       ctx.fillStyle = G + '1)';
-      ctx.fillText('LOCK', W - pad - H * 0.14, pad);
+      ctx.fillText('LOCK', W - pad, pad);
+      ctx.textAlign = 'left';
     }
 
     // The reticle is welded to the middle of the view and never moves — the
-    // contact drifts past it. That is the game's actual control model, so the
-    // bench has to obey it too or the lock test would be testing the wrong thing.
+    // contacts drift past it. That is the game's actual control model, so the
+    // bench has to obey it or the lock test would be testing the wrong thing.
     ctx.lineWidth = Math.max(1, H * 0.0035);
     ctx.strokeStyle = G + (st.lock ? '0.95)' : '0.4)');
     var rx = st.rx, ry = st.ry, g1 = H * 0.018, g2 = H * 0.055;
@@ -770,6 +825,19 @@ I will bake them in. 0% churn is a perfect circle; 100% is what you saw a minute
     ctx.moveTo(rx, ry - g2); ctx.lineTo(rx, ry - g1);
     ctx.moveTo(rx, ry + g1); ctx.lineTo(rx, ry + g2);
     ctx.stroke();
+
+    // The red dot (Dave, 2026-08-06). Red is the one hue that cannot be mistaken
+    // for the phosphor, so the aim point stays findable no matter how bright the
+    // contact behind it gets — which is exactly why real sights use it. It carries
+    // a small bloom so it reads as a lit dot rather than a printed one.
+    var dot = Math.max(0.8, H * 0.0021);   // a quarter of the first attempt (Dave)
+    var dg = ctx.createRadialGradient(rx, ry, 0, rx, ry, dot * 3.2);
+    dg.addColorStop(0, 'rgba(255,60,50,0.85)');
+    dg.addColorStop(1, 'rgba(255,40,40,0)');
+    ctx.fillStyle = dg;
+    ctx.beginPath(); ctx.arc(rx, ry, dot * 3.2, 0, TAU); ctx.fill();
+    ctx.fillStyle = 'rgba(255,90,80,1)';
+    ctx.beginPath(); ctx.arc(rx, ry, dot, 0, TAU); ctx.fill();
 
     // scan lines, very faint — the tube, not a filter
     ctx.fillStyle = 'rgba(0,0,0,0.16)';
@@ -818,49 +886,72 @@ I will bake them in. 0% churn is a perfect circle; 100% is what you saw a minute
       ctx.textAlign = 'left';
       return;
     }
-    if (tick % 2 === 0) renderScope(t, tick);
-    if (!scopeBuf) return;
-
-    // ONE distance drives both the size and the readout. Apparent size is focal
-    // length over range, so the picture and the number cannot disagree — and the
-    // creep-then-rush comes out of the arithmetic rather than being animated in.
-    var RANGE_FAR = 420, RANGE_NEAR = 34;
-    var p = (t % APPSEC) / APPSEC;
-    var range = RANGE_FAR + (RANGE_NEAR - RANGE_FAR) * p;
-    var radMax = Math.min(W / 2, H) * 0.44;
-    var rad = (radMax * RANGE_NEAR) / range;
-
-    // The reticle is fixed at the middle of the view; the contact drifts past it,
-    // which is how the game works and what makes the lock mean something.
     var rx = W / 2, ry = H / 2;
+    var radMax = Math.min(W / 2, H) * 0.44;
+    var FOCAL = (radMax * 34) / 18;          // an 18m object at 34m fills the view
     var drift = Math.min(W, H) * 0.17;
-    var bx = rx + Math.cos(t * 0.37) * drift * 1.7;
-    var by = ry + Math.sin(t * 0.53) * drift * 0.9;
+    var heading = azReal !== null ? azReal : (t * 6) % 360;
+    var anyLock = false, i;
 
-    // LOCK is decided by geometry: is the crosshair inside the deformed membrane?
-    // The border is the same wobble field the warp uses, so the test agrees with
-    // the pixels rather than approximating them with a circle.
-    var dx = rx - bx, dy = ry - by;
-    var dist = Math.sqrt(dx * dx + dy * dy);
-    var wv = wobbleAt(Math.atan2(dy, dx), t, 3.1, CHURN);
-    var shrink = 1 - wv * WARP; if (shrink < 0.35) shrink = 0.35;
-    var border = rad * 0.95 / shrink;
-    var st = {
-      range: range,
-      az: azReal !== null ? azReal : (t * 6) % 360,
-      hasCompass: azReal !== null,
-      lock: dist < border,
-      rx: rx, ry: ry
-    };
+    // Solve every contact first, then draw. Two passes because the nearest one has
+    // to be painted last: a thing closer to you occludes a thing further away, and
+    // getting that backwards is instantly readable as wrong.
+    for (i = 0; i < CONTACTS.length; i++) {
+      var c = CONTACTS[i];
+      var p = ((t / APPSEC) + c.phase) % 1;
+      // ONE distance drives both the size and the readout. Apparent size is real
+      // size times focal length over range, so the picture and the number cannot
+      // disagree — and the creep-then-rush falls out of the arithmetic.
+      c.range = c.far + (c.near - c.far) * p;
+      c.rad = (c.sizeM * FOCAL) / c.range;
+      c.x = rx + W * c.ox + Math.cos(t * c.fx + c.seed) * drift * c.ax;
+      c.y = ry + H * c.oy + Math.sin(t * c.fy + c.seed) * drift * c.ay;
 
-    var gl = ctx.createRadialGradient(bx, by, rad * 0.5, bx, by, rad * 1.5);
-    gl.addColorStop(0, 'rgba(40,200,90,0.14)');
-    gl.addColorStop(1, 'rgba(40,200,90,0)');
-    ctx.fillStyle = gl;
-    ctx.beginPath(); ctx.arc(bx, by, rad * 1.5, 0, TAU); ctx.fill();
+      // Bearing is derived from WHERE THE CONTACT IS, not from the view alone —
+      // that is the whole point of per-contact azimuth. One left of centre reads
+      // lower than one on the right, by however much of the field of view
+      // separates them.
+      c.az = (heading + ((c.x - rx) / W) * FOV + 360) % 360;
+
+      // LOCK is decided by geometry: is the crosshair inside the deformed
+      // membrane? The border uses the same wobble field the warp does, so the
+      // test agrees with the pixels rather than approximating them with a circle.
+      var dx = rx - c.x, dy = ry - c.y;
+      var dist = Math.sqrt(dx * dx + dy * dy);
+      var wv = wobbleAt(Math.atan2(dy, dx), t, c.seed, CHURN);
+      var shrink = 1 - wv * WARP; if (shrink < 0.35) shrink = 0.35;
+      c.lock = dist < c.rad * 0.95 / shrink;
+      if (c.lock) anyLock = true;
+    }
+
+    // Re-render one contact per frame, round-robin, at a resolution that matches
+    // how big it currently is. Three full-resolution warps every frame is what
+    // would cook a phone; this costs about a third of one.
+    var due = CONTACTS[tick % CONTACTS.length];
+    var want = Math.ceil(due.rad * 2);
+    var N = SIZE_STEPS[SIZE_STEPS.length - 1];
+    for (i = 0; i < SIZE_STEPS.length; i++) { if (SIZE_STEPS[i] >= want) { N = SIZE_STEPS[i]; break; } }
+    renderScope(due, t, tick, N);
+
+    var order = CONTACTS.slice().sort(function (a, b) { return b.range - a.range; });
     ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'high';
-    ctx.drawImage(scopeBuf, bx - rad, by - rad, rad * 2, rad * 2);
-    if (HUDON) drawHUD(ctx, W, H, bx, by, rad, st);
+    for (i = 0; i < order.length; i++) {
+      var k = order[i];
+      if (!k.buf) continue;
+      var gl = ctx.createRadialGradient(k.x, k.y, k.rad * 0.5, k.x, k.y, k.rad * 1.5);
+      gl.addColorStop(0, 'rgba(40,200,90,0.14)');
+      gl.addColorStop(1, 'rgba(40,200,90,0)');
+      ctx.fillStyle = gl;
+      ctx.beginPath(); ctx.arc(k.x, k.y, k.rad * 1.5, 0, TAU); ctx.fill();
+      ctx.drawImage(k.buf, k.x - k.rad, k.y - k.rad, k.rad * 2, k.rad * 2);
+    }
+    if (HUDON) {
+      for (i = 0; i < order.length; i++) drawContactTag(ctx, W, H, order[i]);
+      drawFrameHUD(ctx, W, H, {
+        lock: anyLock, rx: rx, ry: ry,
+        hasCompass: azReal !== null, count: CONTACTS.length
+      });
+    }
   }
 
   // ---- loop --------------------------------------------------------------
