@@ -53,6 +53,12 @@
   .applabels span { flex:1; text-align:center; padding:8px 6px; color:#87878f; font-size:12px; }
   .applabels span:first-child { border-right:1px solid #1e1e24; }
   .hint { padding:0 16px 14px; color:#7d7d86; font-size:12px; max-width:78ch; }
+  section.scope { padding:0 16px 22px; }
+  section.scope h2 { font-size:14px; margin:6px 0 4px; color:#f0f0f4; }
+  section.scope .bar { border-bottom:none; padding:10px 0 12px; margin-bottom:0; }
+  #scopewrap { background:#050705; border:1px solid #1b2a1e; border-radius:10px; overflow:hidden; }
+  #scopestage { position:relative; width:100%; aspect-ratio:16/7; max-height:460px; }
+  #scopestage canvas { position:absolute; inset:0; width:100%; height:100%; }
   .bar b { color:#c9c9d1; font-weight:600; font-size:12px; min-width:38px; }
 </style>
 
@@ -75,6 +81,21 @@
 <div class="hint">Turn <b>shape churn</b> until it looks alive rather than wobbly, and drag
 <b>approach takes</b> until the closing speed feels right — then tell me the two numbers and
 I will bake them in. 0% churn is a perfect circle; 100% is what you saw a minute ago.</div>
+
+<section class="scope">
+  <h2>Through the scope</h2>
+  <div class="sub">The membrane itself is being deformed — the skin with the luminescent
+  edge — not the frame around it. Everything inside is dragged along with it, the way a
+  real skin drags what it contains. Then it goes through a light intensifier.</div>
+  <div class="bar">
+    <label><input id="swap" type="checkbox" checked> red &rarr; green</label>
+    <label>membrane <input id="warp" type="range" min="0" max="60" value="26"><b id="warpv">26%</b></label>
+    <label>intensifier <input id="green" type="range" min="0" max="100" value="40"><b id="greenv">40%</b></label>
+    <label>grain <input id="grain" type="range" min="0" max="100" value="35"><b id="grainv">35%</b></label>
+    <label><input id="hudon" type="checkbox" checked> HUD titling</label>
+  </div>
+  <div id="scopewrap"><div id="scopestage"><canvas id="scope"></canvas></div></div>
+</section>
 
 <div id="grid"></div>
 
@@ -577,6 +598,199 @@ I will bake them in. 0% churn is a perfect circle; 100% is what you saw a minute
       ? 'repeat(auto-fill,minmax(420px,1fr))' : 'repeat(auto-fill,minmax(260px,1fr))';
   });
 
+  // ================= THROUGH THE SCOPE ====================================
+  // Dave, 2026-08-06: "What we need to change is the shape of the object in the
+  // centre... The item with the light blue luminescent edge is the object we're
+  // trying to change." Scaling the whole picture was the wrong move — that moves
+  // the frame, not the creature.
+  //
+  // So this deforms the MEMBRANE. For every output pixel we walk back along its
+  // own radius to find where it came from before the skin pushed out, and read
+  // the source there. Because the lookup is radial, everything the membrane
+  // contains is dragged with it — which is what a real skin does to its contents,
+  // and is why this reads as a living thing rather than a rubber stamp being bent.
+  // The displacement is ramped to nothing at the centre, so the core stays put and
+  // stays aimable while the skin crawls.
+
+  var SRC = 256, srcData = null, scopeBuf = null, scopeSCtx = null, scopeImg = null;
+  var scopeRad = null, WARP = 0.26, GREEN = 0.40, GRAIN = 0.35, HUDON = true, SWAP = true;
+
+  function ensureSrc() {
+    if (srcData || !seedImg) return srcData;
+    var c = document.createElement('canvas'); c.width = c.height = SRC;
+    var x = c.getContext('2d');
+    x.clearRect(0, 0, SRC, SRC);
+    x.drawImage(seedImg, 0, 0, SRC, SRC);
+    srcData = x.getImageData(0, 0, SRC, SRC).data;
+    return srcData;
+  }
+
+  function renderScope(t, tick) {
+    var s = ensureSrc(); if (!s) return false;
+    if (!scopeBuf) {
+      scopeBuf = document.createElement('canvas'); scopeBuf.width = scopeBuf.height = SRC;
+      scopeSCtx = scopeBuf.getContext('2d');
+      scopeImg = scopeSCtx.createImageData(SRC, SRC);
+    }
+    var d = scopeImg.data, R = SRC / 2, LUT = 256, i;
+    if (!scopeRad) scopeRad = new Float32Array(LUT);
+    for (i = 0; i < LUT; i++) scopeRad[i] = wobbleAt(i / LUT * TAU, t, 3.1, CHURN);
+
+    for (var py = 0; py < SRC; py++) {
+      var yy = py - R + 0.5;
+      for (var px = 0; px < SRC; px++) {
+        var xx = px - R + 0.5;
+        var o = (py * SRC + px) * 4;
+        var rr = Math.sqrt(xx * xx + yy * yy);
+        if (rr >= R - 1) { d[o + 3] = 0; continue; }
+
+        var ai = ((Math.atan2(yy, xx) / TAU + 1) * LUT) | 0;
+        var wv = scopeRad[ai & (LUT - 1)];
+        var rn = rr / R;
+        // nothing at the core, everything at the skin
+        var u = (rn - 0.12) / 0.83;
+        var ramp = u <= 0 ? 0 : (u >= 1 ? 1 : u * u * (3 - 2 * u));
+        var k = 1 - wv * WARP * ramp;
+        var sx = R + xx * k, sy = R + yy * k;
+        if (sx < 0 || sy < 0 || sx > SRC - 2 || sy > SRC - 2) { d[o + 3] = 0; continue; }
+
+        // bilinear, or the crawling skin shimmers with sampling noise
+        var x0 = sx | 0, y0 = sy | 0, fx = sx - x0, fy = sy - y0;
+        var i00 = (y0 * SRC + x0) * 4, i10 = i00 + 4;
+        var i01 = i00 + SRC * 4, i11 = i01 + 4;
+        var w00 = (1 - fx) * (1 - fy), w10 = fx * (1 - fy);
+        var w01 = (1 - fx) * fy, w11 = fx * fy;
+        var sr = s[i00] * w00 + s[i10] * w10 + s[i01] * w01 + s[i11] * w11;
+        var sg = s[i00 + 1] * w00 + s[i10 + 1] * w10 + s[i01 + 1] * w01 + s[i11 + 1] * w11;
+        var sb = s[i00 + 2] * w00 + s[i10 + 2] * w10 + s[i01 + 2] * w01 + s[i11 + 2] * w11;
+        var sa = s[i00 + 3] * w00 + s[i10 + 3] * w10 + s[i01 + 3] * w01 + s[i11 + 3] * w11;
+
+        // ---- 1. shades of red become shades of green ----
+        // Dave: "Can we replace shades of red with shades of green?" Exchanging the
+        // red and green channels does exactly that and nothing else — every red
+        // tone maps to the same-valued green tone, so all the modelling and depth
+        // in the original survives untouched. Crucially it LEAVES THE MEMBRANE
+        // ALONE: the skin is blue, and blue is not being moved, so the creature
+        // reads as two materials still. A hue rotation would have dragged the
+        // skin round with everything else and flattened that distinction.
+        var br = SWAP ? sg : sr;
+        var bg = SWAP ? sr : sg;
+        var bb = sb;
+
+        // ---- 2. the light intensifier, layered on top ----
+        // A real intensifier does not tint a colour picture green; it throws away
+        // colour entirely, counts photons, and paints the count on a green
+        // phosphor. So: collapse to brightness, lift the shadows hard the way a
+        // gain stage does, then re-emit in phosphor green. Blend between the two
+        // so it can be a green creature, an instrument view, or anywhere between.
+        var v = (br * 0.30 + bg * 0.59 + bb * 0.11) / 255;
+        v = Math.pow(v, 0.62);                       // gain lifts the dark end
+        if (GRAIN > 0) {
+          // photon noise. It is the single most recognisable thing about the look
+          // — a clean green picture reads as a colour filter, not an instrument.
+          v += h3(px, py, tick >> 1) * 0.085 * GRAIN;
+        }
+        if (v < 0) v = 0; else if (v > 1) v = 1;
+        var pr = v * 46, pg = v * 255, pb = v * 92;
+        d[o]     = br + (pr - br) * GREEN;
+        d[o + 1] = bg + (pg - bg) * GREEN;
+        d[o + 2] = bb + (pb - bb) * GREEN;
+        d[o + 3] = sa;
+      }
+    }
+    scopeSCtx.putImageData(scopeImg, 0, 0);
+    return true;
+  }
+
+  // ---- HUD titling -------------------------------------------------------
+  // Fixed-width, few characters, and it repeats. Real instrument displays are
+  // dumb and repetitive; that is what makes them read as machine rather than
+  // decoration. The bracket is the reward — it snaps hard when the thing is
+  // identified, so you feel the lock before you fire.
+  function drawHUD(ctx, W, H, cx, cy, rad, t) {
+    var G = 'rgba(120,255,150,';
+    ctx.save();
+    ctx.lineWidth = Math.max(1, H * 0.004);
+    ctx.font = (H * 0.038 | 0) + 'px ui-monospace, Menlo, Consolas, monospace';
+    ctx.textBaseline = 'top';
+
+    // corner brackets around the contact
+    var b = rad * 1.06, arm = b * 0.28;
+    ctx.strokeStyle = G + '0.9)';
+    [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(function (q) {
+      var x = cx + q[0] * b, y = cy + q[1] * b;
+      ctx.beginPath();
+      ctx.moveTo(x - q[0] * arm, y); ctx.lineTo(x, y); ctx.lineTo(x, y - q[1] * arm);
+      ctx.stroke();
+    });
+
+    // the readout. Ten characters is the ceiling — anything longer stops being
+    // an instrument and starts being a caption.
+    ctx.fillStyle = G + '0.92)';
+    ctx.fillText('IP42', cx - b, cy - b - H * 0.055);
+    ctx.fillStyle = G + '0.62)';
+    var rng = (312 + Math.sin(t * 0.7) * 7).toFixed(0);
+    var sig = (0.84 + Math.sin(t * 1.3) * 0.05).toFixed(2);
+    ctx.fillText('RNG ' + rng, cx + b - H * 0.16, cy - b - H * 0.055);
+    ctx.fillText('SIG ' + sig, cx + b - H * 0.16, cy + b + H * 0.012);
+    ctx.fillText('LOCK', cx - b, cy + b + H * 0.012);
+
+    // a reticle that is not the star of the show
+    ctx.strokeStyle = G + '0.45)';
+    ctx.beginPath();
+    ctx.moveTo(cx - rad * 0.16, cy); ctx.lineTo(cx - rad * 0.05, cy);
+    ctx.moveTo(cx + rad * 0.05, cy); ctx.lineTo(cx + rad * 0.16, cy);
+    ctx.moveTo(cx, cy - rad * 0.16); ctx.lineTo(cx, cy - rad * 0.05);
+    ctx.moveTo(cx, cy + rad * 0.05); ctx.lineTo(cx, cy + rad * 0.16);
+    ctx.stroke();
+
+    // scan lines, very faint — the tube, not a filter
+    ctx.fillStyle = 'rgba(0,0,0,0.16)';
+    for (var y = 0; y < H; y += 3) ctx.fillRect(0, y, W, 1);
+    ctx.restore();
+  }
+
+  var scopeCv = document.getElementById('scope');
+  var warp = document.getElementById('warp'), warpv = document.getElementById('warpv');
+  var green = document.getElementById('green'), greenv = document.getElementById('greenv');
+  var grain = document.getElementById('grain'), grainv = document.getElementById('grainv');
+  var hudon = document.getElementById('hudon'), swapEl = document.getElementById('swap');
+  function readScopeDials() {
+    WARP = warp.value / 100;   warpv.textContent = warp.value + '%';
+    GREEN = green.value / 100; greenv.textContent = green.value + '%';
+    GRAIN = grain.value / 100; grainv.textContent = grain.value + '%';
+    HUDON = hudon.checked; SWAP = swapEl.checked;
+  }
+  [warp, green, grain].forEach(function (el) { el.addEventListener('input', readScopeDials); });
+  [hudon, swapEl].forEach(function (el) { el.addEventListener('change', readScopeDials); });
+  readScopeDials();
+
+  function drawScope(t, tick) {
+    if (!fit(scopeCv)) return;
+    var ctx = scopeCv.getContext('2d');
+    var W = scopeCv.width, H = scopeCv.height;
+    ctx.clearRect(0, 0, W, H);
+    if (!seedImg) {
+      ctx.fillStyle = 'rgba(120,255,150,0.35)';
+      ctx.font = (H * 0.05 | 0) + 'px ui-monospace, monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText('NO CONTACT — drop an image on the page', W / 2, H / 2);
+      ctx.textAlign = 'left';
+      return;
+    }
+    if (tick % 2 === 0) renderScope(t, tick);
+    if (!scopeBuf) return;
+    var rad = Math.min(W / 2, H) * 0.40, cx = W / 2, cy = H / 2;
+    var gl = ctx.createRadialGradient(cx, cy, rad * 0.5, cx, cy, rad * 1.5);
+    gl.addColorStop(0, 'rgba(40,200,90,0.14)');
+    gl.addColorStop(1, 'rgba(40,200,90,0)');
+    ctx.fillStyle = gl;
+    ctx.beginPath(); ctx.arc(cx, cy, rad * 1.5, 0, TAU); ctx.fill();
+    ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(scopeBuf, cx - rad, cy - rad, rad * 2, rad * 2);
+    if (HUDON) drawHUD(ctx, W, H, cx, cy, rad, t);
+  }
+
   // ---- loop --------------------------------------------------------------
   var t = 0, last = 0;
   function frame(ms) {
@@ -584,6 +798,7 @@ I will bake them in. 0% churn is a perfect circle; 100% is what you saw a minute
     last = ms;
     if (!hold.checked) t += dt * (speed.value / 100);
     gTick++;
+    drawScope(t, gTick);
 
     stages.forEach(function (s) {
       if (!fit(s.cv)) return;
