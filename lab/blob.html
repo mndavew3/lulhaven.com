@@ -1,0 +1,641 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Haven — blob bench</title>
+<style>
+  :root { color-scheme: dark; }
+  html,body { margin:0; background:#0a0a0c; color:#ddd;
+              font:14px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif; }
+  header { padding:18px 16px 6px; }
+  h1 { margin:0 0 4px; font-size:17px; font-weight:650; letter-spacing:.2px; }
+  .sub { color:#8b8b93; font-size:13px; max-width:62ch; }
+  .bar { display:flex; gap:18px; align-items:center; flex-wrap:wrap;
+         padding:12px 16px; border-bottom:1px solid #1e1e24; margin-bottom:14px; }
+  .bar label { color:#9a9aa2; font-size:12px; display:flex; gap:7px; align-items:center; }
+  input[type=range] { width:130px; }
+  #grid { display:grid; gap:14px; padding:0 16px 20px;
+          grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); }
+  .cell { background:#111116; border:1px solid #22222a; border-radius:10px;
+          overflow:hidden; }
+  .stage { position:relative; width:100%; aspect-ratio:1/1;
+           background:radial-gradient(circle at 50% 45%, #17171d, #0b0b0e 70%); }
+  .stage canvas { position:absolute; inset:0; width:100%; height:100%; }
+  .cap { padding:9px 11px 11px; border-top:1px solid #1e1e24; }
+  .cap b { display:block; font-size:13px; color:#f0f0f4; font-weight:600; }
+  .cap span { display:block; color:#87878f; font-size:12px; margin-top:2px; }
+  .tag { float:right; font-size:10px; letter-spacing:.6px; text-transform:uppercase;
+         color:#6a6a72; border:1px solid #2c2c34; border-radius:3px; padding:1px 5px; }
+  /* The control cell is the REAL thing the game draws today — copied verbatim from
+     ar-spike.html, not a canvas imitation of it, so the comparison is honest. */
+  .virus { position:absolute; left:50%; top:50%; width:46%; height:46%;
+           border-radius:50%; transform:translate(-50%,-50%);
+           background:radial-gradient(circle at 38% 34%, rgba(255,120,120,.95),
+                      rgba(200,30,40,.75) 55%, rgba(120,0,20,.45) 100%);
+           box-shadow:0 0 22px rgba(255,40,40,.5); }
+  .virus .core { position:absolute; left:50%; top:50%; width:23%; height:23%;
+                 border-radius:50%; transform:translate(-50%,-50%); background:#ffe9a8;
+                 box-shadow:0 0 10px rgba(255,220,120,.95), 0 0 22px rgba(255,180,60,.6); }
+  .seedmsg { position:absolute; inset:0; display:flex; align-items:center;
+             justify-content:center; text-align:center; padding:22px;
+             color:#6e6e77; font-size:12px; line-height:1.5;
+             border:1px dashed #2e2e38; margin:14px; border-radius:8px; }
+  section.approach { padding:0 16px 40px; }
+  section.approach h2 { font-size:14px; margin:6px 0 4px; color:#f0f0f4; }
+  section.approach .sub { margin-bottom:10px; }
+  #appwrap { background:#111116; border:1px solid #22222a; border-radius:10px;
+             overflow:hidden; }
+  #appstage { position:relative; width:100%; aspect-ratio:16/5; max-height:380px;
+              background:radial-gradient(circle at 50% 50%, #17171d, #0b0b0e 70%); }
+  #appstage canvas { position:absolute; inset:0; width:100%; height:100%; }
+  .applabels { display:flex; border-top:1px solid #1e1e24; }
+  .applabels span { flex:1; text-align:center; padding:8px 6px; color:#87878f; font-size:12px; }
+  .applabels span:first-child { border-right:1px solid #1e1e24; }
+  .hint { padding:0 16px 14px; color:#7d7d86; font-size:12px; max-width:78ch; }
+  .bar b { color:#c9c9d1; font-weight:600; font-size:12px; min-width:38px; }
+</style>
+
+<header>
+  <h1>Blob bench — the egg, and four globes</h1>
+  <div class="sub">The first two cells are flat shapes with a light on them. The four
+  marked <b>G</b> are actual spheres: the cloud pattern is a three-dimensional field
+  that the ball rotates inside, so the surface crowds together toward the edge and
+  turns away round the side instead of sliding off it. That, not the lighting, is
+  what tells your eye it is round.</div>
+</header>
+
+<div class="bar">
+  <label>shape churn <input id="churn" type="range" min="0" max="300" value="160"><b id="churnv">160%</b></label>
+  <label>approach takes <input id="appsec" type="range" min="3" max="30" value="11"><b id="appsecv">11s</b></label>
+  <label>speed <input id="speed" type="range" min="0" max="200" value="100"></label>
+  <label><input id="hold" type="checkbox"> hold still (inspect a frame)</label>
+  <label><input id="big" type="checkbox"> bigger</label>
+</div>
+<div class="hint">Turn <b>shape churn</b> until it looks alive rather than wobbly, and drag
+<b>approach takes</b> until the closing speed feels right — then tell me the two numbers and
+I will bake them in. 0% churn is a perfect circle; 100% is what you saw a minute ago.</div>
+
+<div id="grid"></div>
+
+<section class="approach">
+  <h2>Coming at you — why steady growth looks wrong</h2>
+  <div class="sub">Both blobs travel the same distance in the same time. The left one
+  grows at a constant rate. The right one grows the way something actually looks when
+  it closes on you: it creeps for most of the trip, then rushes at the end.</div>
+  <div id="appwrap">
+    <div id="appstage"><canvas id="app"></canvas></div>
+    <div class="applabels"><span>steady growth — inflating</span><span>true approach — creeps, then rushes</span></div>
+  </div>
+</section>
+
+<script>
+(function () {
+  var TAU = Math.PI * 2;
+  var CHURN = 1.6;    // how alive the shape is — driven by the dial
+  var APPSEC = 11;    // how long the approach takes, in seconds — driven by the dial
+
+  // ---- shape -------------------------------------------------------------
+  // A closed outline whose radius is nudged by several slow sine waves at once.
+  // Every wave is an INTEGER multiple of the angle, so the curve joins itself
+  // exactly at the seam — otherwise there is a visible kink at 3 o'clock. The
+  // waves have unrelated speeds, so the shape never visibly repeats.
+  // `churn` is Dave's dial for how alive it is. It raises the amplitude AND the
+  // speed together, because raising only one gives either a slow heave or a fast
+  // shiver — neither reads as a thing squirming. The last two terms are the ones
+  // that make it lurch rather than pulse: they are asymmetric and they move at
+  // rates unrelated to the rest, so no two lobes ever swell together twice.
+  function wobbleAt(a, t, seed, churn) {
+    var k = churn, s = 1 + (churn - 1) * 0.85;   // amplitude, speed
+    return (Math.sin(a * 3 + t * 0.70 * s + seed * 1.7) * 0.060
+          + Math.sin(a * 5 - t * 0.45 * s + seed * 3.1) * 0.038
+          + Math.sin(a * 2 + t * 0.31 * s + seed * 5.3) * 0.052
+          + Math.sin(a * 7 + t * 0.23 * s + seed * 2.2) * 0.022
+          + Math.sin(a * 4 - t * 0.97 * s + seed * 4.1) * 0.030 * k
+          + Math.sin(a * 6 + t * 1.31 * s + seed * 6.7) * 0.018 * k
+          + Math.sin(a * 1 + t * 0.53 * s + seed * 1.1) * 0.055 * k) * k;
+  }
+
+  // Catmull-Rom through the points, emitted as beziers. A polygon of 28 points
+  // reads as faceted at phone size; the spline is what makes it look poured.
+  function blobPath(ctx, cx, cy, r, t, seed, wob) {
+    // More churn means sharper features, so the outline needs more points or the
+    // spline rounds off exactly the detail the dial was turned up to get.
+    var N = CHURN > 1.4 ? 40 : 28, p = [], i, a, rr;
+    for (i = 0; i < N; i++) {
+      a = i / N * TAU;
+      rr = r * (1 + wobbleAt(a, t, seed, CHURN) * wob);
+      p.push([cx + Math.cos(a) * rr, cy + Math.sin(a) * rr]);
+    }
+    ctx.beginPath();
+    ctx.moveTo(p[0][0], p[0][1]);
+    for (i = 0; i < N; i++) {
+      var p0 = p[(i - 1 + N) % N], p1 = p[i], p2 = p[(i + 1) % N], p3 = p[(i + 2) % N];
+      ctx.bezierCurveTo(
+        p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6,
+        p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6,
+        p2[0], p2[1]);
+    }
+    ctx.closePath();
+  }
+
+  // ======================= THE GLOBE ======================================
+  // Dave, 2026-08-06: "it still kinda looks like an egg and a frying pan...
+  // imagine if this thing was... shaped basically like a gas planet."
+  //
+  // He is right, and the reason is structural: everything above paints a FLAT
+  // outline and lights it. What makes Jupiter look spherical is not its lighting,
+  // it is what happens to its SURFACE — bands crowd together as they near the
+  // edge, the rim darkens by itself, and features rotate away round the side
+  // instead of sliding off it. You cannot fake that with gradients, so this
+  // path computes the actual sphere: for every pixel we work out which point on
+  // a ball we are looking at, spin that point, and ask a 3-D cloud field what
+  // colour it is there. Foreshortening and limb darkening then happen for free,
+  // because they are consequences of the geometry rather than decorations.
+  //
+  // Cost is the reason this is not simply the default: it is per-pixel work in
+  // plain JavaScript. It is rendered small and scaled up (soft clouds hide it),
+  // and only a couple of cells are refreshed per frame, round-robin.
+
+  // Math.imul, not `*`. The usual form of this hash squares an integer, which is
+  // fine in C or a shader where it wraps at 32 bits, but a JavaScript number is a
+  // double: past 2^53 the low bits — the only ones the mask reads — are simply
+  // gone. Written with plain multiplication it returned FIVE distinct values
+  // across 512 lattice points, nearly all of them 1.0, so the cloud field was a
+  // constant and every globe was smooth. It looked like a tuning problem for two
+  // rounds. Math.imul keeps the whole thing in 32-bit integers where it belongs.
+  function h3(i, j, k) {
+    var n = Math.imul(i, 73856093) ^ Math.imul(j, 19349663) ^ Math.imul(k, 83492791);
+    n = Math.imul(n ^ (n >>> 15), 2246822519);
+    n = Math.imul(n ^ (n >>> 13), 3266489917);
+    n = n ^ (n >>> 16);
+    return (n >>> 0) / 2147483648 - 1;
+  }
+  function vnoise(x, y, z) {
+    var xi = Math.floor(x), yi = Math.floor(y), zi = Math.floor(z);
+    var xf = x - xi, yf = y - yi, zf = z - zi;
+    var u = xf * xf * (3 - 2 * xf), v = yf * yf * (3 - 2 * yf), w = zf * zf * (3 - 2 * zf);
+    var c000 = h3(xi, yi, zi),         c100 = h3(xi + 1, yi, zi);
+    var c010 = h3(xi, yi + 1, zi),     c110 = h3(xi + 1, yi + 1, zi);
+    var c001 = h3(xi, yi, zi + 1),     c101 = h3(xi + 1, yi, zi + 1);
+    var c011 = h3(xi, yi + 1, zi + 1), c111 = h3(xi + 1, yi + 1, zi + 1);
+    var x00 = c000 + (c100 - c000) * u, x10 = c010 + (c110 - c010) * u;
+    var x01 = c001 + (c101 - c001) * u, x11 = c011 + (c111 - c011) * u;
+    var y0 = x00 + (x10 - x00) * v, y1 = x01 + (x11 - x01) * v;
+    return y0 + (y1 - y0) * w;
+  }
+
+  var GRES = 112;                                 // globe is computed this small
+  function globeBuffer(g) {
+    if (!g.buf) {
+      g.buf = document.createElement('canvas');
+      g.buf.width = g.buf.height = GRES;
+      g.bctx = g.buf.getContext('2d');
+      g.img = g.bctx.createImageData(GRES, GRES);
+    }
+    return g;
+  }
+
+  var GC0 = [26, 1, 7], GC1 = [158, 18, 26], GC2 = [255, 96, 44];   // deep / body / hot
+  function renderGlobe(g, t, seed, o) {
+    globeBuffer(g);
+    var c0 = o.c0 || GC0, c1 = o.c1 || GC1, c2 = o.c2 || GC2;
+    var d = g.img.data, R = GRES / 2;
+    // The silhouette still wobbles, but now the wobble also TILTS the surface,
+    // so a bulge reads as a bulge in three dimensions rather than a dent in an
+    // outline. Radius per angle is precomputed; per-pixel atan2 is the one thing
+    // in here expensive enough to be worth avoiding.
+    var LUT = 256, rad = g.rad || (g.rad = new Float32Array(LUT)), i;
+    for (i = 0; i < LUT; i++) {
+      rad[i] = 1 + wobbleAt(i / LUT * TAU, t, seed, CHURN) * o.wobble * 0.55;
+    }
+    var spin = t * o.spin + seed;
+    var cs = Math.cos(spin), sn = Math.sin(spin);
+    var tilt = 0.35, ct = Math.cos(tilt), st = Math.sin(tilt);
+    var Lx = -0.45, Ly = -0.55, Lz = 0.70;
+    var Ll = Math.sqrt(Lx * Lx + Ly * Ly + Lz * Lz); Lx /= Ll; Ly /= Ll; Lz /= Ll;
+    // half-vector for the wet highlight, viewer straight on at (0,0,1)
+    var Hx = Lx, Hy = Ly, Hz = Lz + 1;
+    var Hl = Math.sqrt(Hx * Hx + Hy * Hy + Hz * Hz); Hx /= Hl; Hy /= Hl; Hz /= Hl;
+
+    var px, py, p = 0;
+    for (py = 0; py < GRES; py++) {
+      var yy = (py - R + 0.5) / R;
+      for (px = 0; px < GRES; px++, p += 4) {
+        var xx = (px - R + 0.5) / R;
+        var rr = Math.sqrt(xx * xx + yy * yy);
+        var lim = 1;
+        if (rr > 0.62) {                                  // only the edge needs the LUT
+          var ai = ((Math.atan2(yy, xx) / TAU + 1) * LUT) | 0;
+          lim = rad[ai & (LUT - 1)];
+        }
+        // Edge coverage rather than a hard in/out test. Writing only 0 or 255
+        // alpha made the silhouette stair-step badly once it was scaled up —
+        // the shape was right and the edge looked cheap, which is worse than a
+        // wrong shape because it reads as low quality rather than as a choice.
+        var edge = (lim - rr) * R;
+        if (edge <= 0) { d[p + 3] = 0; continue; }
+        var cov = edge < 1 ? edge : 1;
+
+        // point on the unit sphere we are looking at
+        var u = xx / lim, v = yy / lim;
+        var w2 = 1 - u * u - v * v; if (w2 < 0) w2 = 0;
+        var w = Math.sqrt(w2);
+
+        // spin about the vertical axis, then tip the pole toward us a little so
+        // the bands curve — a planet seen exactly equator-on looks like a barrel
+        var sx = u * cs - w * sn, sz = u * sn + w * cs, sy = v;
+        var ty = sy * ct - sz * st, tz = sy * st + sz * ct;
+
+        // The cloud field. Two octaves: one gives soap bubbles, three costs twice
+        // as much for detail the upscale throws away.
+        //
+        // `band` is what makes it a GAS PLANET rather than a marble. Squashing the
+        // sampling along longitude and stretching it along latitude smears the
+        // noise into belts that wrap the ball — which is exactly how Jupiter's
+        // bands are formed, by a fluid that can travel round freely but barely
+        // crosses between latitudes.
+        var F = o.freq, B = o.band || 0;
+        var fx = F * (1 - B * 0.72), fy = F * (1 + B * 1.5), fz = F * (1 - B * 0.72);
+        var n = vnoise(sx * fx, ty * fy, tz * fz + t * 0.10) * 0.62
+              + vnoise(sx * fx * 2.3 + 11, ty * fy * 2.1, tz * fz * 2.3 - t * 0.16) * 0.30;
+        n = n * o.contrast + 0.5;
+        if (n < 0) n = 0; else if (n > 1) n = 1;
+
+        // shading: lambert + limb darkening. The limb term is the one that turns
+        // a lit circle into a ball — it dims the surface as it turns away from
+        // us, which no amount of edge-drawing achieves.
+        var dif = u * Lx + v * Ly + w * Lz; if (dif < 0) dif = 0;
+        var limb = Math.pow(w, 0.42);
+        var lit = (0.13 + 0.87 * dif) * (0.35 + 0.65 * limb);
+
+        // Three colour stops, not two. With a straight dark-to-bright ramp the
+        // cloud structure washed out into a single blush and the thing read as a
+        // smooth ball; the extra hot stop at the top end is what makes the bands
+        // legible as bands.
+        // The hot stop starts at 0.62, not halfway. At halfway most of the ball
+        // clamped into it and the whole thing came out peach — a virus that looked
+        // like an apricot. The heat should be the rare part.
+        var kr, kg, kb;
+        if (n < 0.62) { var m = n / 0.62;
+          kr = c0[0] + (c1[0] - c0[0]) * m; kg = c0[1] + (c1[1] - c0[1]) * m; kb = c0[2] + (c1[2] - c0[2]) * m;
+        } else { var m2 = (n - 0.62) / 0.38; m2 *= m2;
+          kr = c1[0] + (c2[0] - c1[0]) * m2; kg = c1[1] + (c2[1] - c1[1]) * m2; kb = c1[2] + (c2[2] - c1[2]) * m2;
+        }
+        var rC = kr * lit, gC = kg * lit, bC = kb * lit;
+
+        // wet skin — was blowing out to a white disc in the corner, which put the
+        // frying pan straight back. Narrower and dimmer.
+        var sp = u * Hx + v * Hy + w * Hz;
+        if (sp > 0) {
+          var s = Math.pow(sp, 46) * o.gloss * 150;
+          rC += s; gC += s * 0.93; bC += s * 0.90;
+        }
+        // atmosphere: the air glows where we look through the most of it
+        var atm = Math.pow(1 - w, 3.0) * o.atmo;
+        rC += atm * 190; gC += atm * 34; bC += atm * 40;
+
+        // a core burning inside, seen through the body
+        if (o.coreGlow) {
+          var cd = rr / lim;
+          var cg = Math.exp(-cd * cd * 9) * o.coreGlow;
+          rC += cg * 255; gC += cg * 196; bC += cg * 96;
+        }
+
+        d[p]     = rC > 255 ? 255 : rC;
+        d[p + 1] = gC > 255 ? 255 : gC;
+        d[p + 2] = bC > 255 ? 255 : bC;
+        d[p + 3] = cov * 255;
+      }
+    }
+    g.bctx.putImageData(g.img, 0, 0);
+  }
+
+  function core(ctx, cx, cy, r, a) {
+    var g = ctx.createRadialGradient(cx, cy, 0, cx, cy, r * 2.6);
+    g.addColorStop(0, 'rgba(255,242,196,' + a + ')');
+    g.addColorStop(0.26, 'rgba(255,205,110,' + (a * 0.8) + ')');
+    g.addColorStop(1, 'rgba(255,150,40,0)');
+    ctx.fillStyle = g;
+    ctx.beginPath(); ctx.arc(cx, cy, r * 2.6, 0, TAU); ctx.fill();
+    ctx.fillStyle = 'rgba(255,250,226,' + a + ')';
+    ctx.beginPath(); ctx.arc(cx, cy, r, 0, TAU); ctx.fill();
+  }
+
+  // ---- the paint ---------------------------------------------------------
+  // Depth here is entirely a lighting trick, which is also true of the 1958
+  // photograph: a lump of silicone under studio lights, shot flat on flat film.
+  // Four cues do all the work — a light source up and to the left, darkness
+  // gathering where the surface turns away, wet highlights sitting ON the
+  // bulges, and murk drifting inside.
+  function paint(ctx, cx, cy, r, o) {
+    var t = o.t, seed = o.seed, i;
+
+    // 1. the halo it throws on the world behind it
+    var g0 = ctx.createRadialGradient(cx, cy, r * 0.75, cx, cy, r * 1.7);
+    g0.addColorStop(0, 'rgba(190,20,30,0.30)');
+    g0.addColorStop(1, 'rgba(190,20,30,0)');
+    ctx.fillStyle = g0;
+    ctx.beginPath(); ctx.arc(cx, cy, r * 1.7, 0, TAU); ctx.fill();
+
+    // 2. a translucent body needs its core painted FIRST, so the body sits over
+    //    it and the glow genuinely comes through rather than being pasted on top
+    if (o.coreMode === 'inside') core(ctx, cx, cy, r * 0.21, 1);
+
+    ctx.save();
+    blobPath(ctx, cx, cy, r, t, seed, o.wobble);
+    ctx.clip();
+
+    // 3. body — the gradient centre is OFFSET toward the light, which is the
+    //    single change that turns a flat disc into a sphere
+    ctx.globalAlpha = o.alpha;
+    var lx = cx - r * 0.30, ly = cy - r * 0.34;
+    var g = ctx.createRadialGradient(lx, ly, r * 0.04, cx, cy, r * 1.06);
+    g.addColorStop(0, o.hot);
+    g.addColorStop(0.45, o.mid);
+    g.addColorStop(1, o.edge);
+    ctx.fillStyle = g;
+    ctx.fillRect(cx - r * 1.7, cy - r * 1.7, r * 3.4, r * 3.4);
+
+    // 4. internal murk, drifting — this is what makes it read as a VOLUME of
+    //    something rather than a painted ball
+    ctx.globalAlpha = o.alpha * 0.6;
+    for (i = 0; i < 4; i++) {
+      var ang = t * 0.16 + i * 1.9 + seed;
+      var mx = cx + Math.cos(ang) * r * 0.40;
+      var my = cy + Math.sin(ang * 1.27) * r * 0.36;
+      var mr = r * (0.30 + 0.10 * Math.sin(t * 0.5 + i));
+      var gm = ctx.createRadialGradient(mx, my, 0, mx, my, mr);
+      gm.addColorStop(0, 'rgba(26,0,6,0.60)');
+      gm.addColorStop(1, 'rgba(26,0,6,0)');
+      ctx.fillStyle = gm;
+      ctx.beginPath(); ctx.arc(mx, my, mr, 0, TAU); ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+
+    // 4b. FIX: painting the core underneath and then covering it with a dark
+    //     translucent body just muddied it — it read as a grey lump, not a light
+    //     inside a thing. Light coming THROUGH material adds to what is in front
+    //     of it, so the glow gets a second pass in additive mode. This is the
+    //     difference between "the core is behind murk" and "the core is lit".
+    if (o.coreMode === 'inside') {
+      ctx.globalCompositeOperation = 'lighter';
+      var cg = ctx.createRadialGradient(cx, cy, 0, cx, cy, r * 0.72);
+      cg.addColorStop(0, 'rgba(255,214,132,0.85)');
+      cg.addColorStop(0.35, 'rgba(255,150,60,0.30)');
+      cg.addColorStop(1, 'rgba(255,120,30,0)');
+      ctx.fillStyle = cg;
+      ctx.fillRect(cx - r * 1.7, cy - r * 1.7, r * 3.4, r * 3.4);
+      ctx.globalCompositeOperation = 'source-over';
+    }
+
+    // 5. the wet highlights. One big soft one is a matte ball; adding a small
+    //    HARD one next to it is what reads as a wet skin.
+    for (i = 0; i < o.gloss.length; i++) {
+      var s = o.gloss[i];
+      ctx.save();
+      ctx.translate(cx + r * s.x, cy + r * s.y);
+      ctx.rotate(s.rot);
+      ctx.scale(1, s.sq);
+      var gs = ctx.createRadialGradient(0, 0, 0, 0, 0, r * s.r);
+      gs.addColorStop(0, 'rgba(255,238,238,' + s.a + ')');
+      gs.addColorStop(0.45, 'rgba(255,186,186,' + (s.a * 0.3) + ')');
+      gs.addColorStop(1, 'rgba(255,178,178,0)');
+      ctx.fillStyle = gs;
+      ctx.beginPath(); ctx.arc(0, 0, r * s.r, 0, TAU); ctx.fill();
+      ctx.restore();
+    }
+
+    // 6. bounce light on the far-bottom edge — light coming back off the ground.
+    //    Without it the underside dies into the background and the illusion of
+    //    roundness stops at the halfway line.
+    if (o.bounce) {
+      var bx = cx + r * 0.5, by = cy + r * 0.58;
+      var gb = ctx.createRadialGradient(bx, by, 0, bx, by, r * 0.85);
+      gb.addColorStop(0, 'rgba(255,96,84,0.26)');
+      gb.addColorStop(1, 'rgba(255,96,84,0)');
+      ctx.fillStyle = gb;
+      ctx.fillRect(cx - r * 1.7, cy - r * 1.7, r * 3.4, r * 3.4);
+    }
+    ctx.restore();
+
+    // 7. the dark turning edge, drawn on the same path so it can't drift
+    ctx.save();
+    blobPath(ctx, cx, cy, r, t, seed, o.wobble);
+    ctx.lineWidth = r * 0.09;
+    ctx.strokeStyle = 'rgba(18,0,4,0.55)';
+    ctx.stroke();
+    ctx.restore();
+
+    if (o.coreMode === 'ontop') core(ctx, cx, cy, r * 0.21, 1);
+  }
+
+  // ---- the treatments ----------------------------------------------------
+  var RED  = { hot: 'rgba(214,46,46,0.98)', mid: 'rgba(124,10,18,0.98)', edge: 'rgba(26,1,5,1)' };
+  var DEEP = { hot: 'rgba(178,22,30,0.98)', mid: 'rgba(96,4,14,0.99)',  edge: 'rgba(14,0,3,1)' };
+
+  var SOFT  = [{ x: -0.30, y: -0.36, r: 0.34, a: 0.34, rot: -0.5, sq: 0.72 }];
+  var WET   = [{ x: -0.32, y: -0.38, r: 0.30, a: 0.55, rot: -0.5, sq: 0.66 },
+               { x: -0.16, y: -0.50, r: 0.11, a: 0.85, rot: -0.3, sq: 0.55 },
+               { x:  0.30, y: -0.10, r: 0.16, a: 0.26, rot:  0.9, sq: 0.60 },
+               { x:  0.08, y:  0.34, r: 0.13, a: 0.20, rot:  0.2, sq: 0.70 }];
+
+  var CELLS = [
+    { kind: 'css', tag: 'control', name: 'Today',
+      note: 'What the game draws right now: a flat circle with a soft gradient. Nothing wrong with it — it just has no volume and never moves.' },
+
+    { tag: 'was', name: 'Painted disc — the egg',
+      note: 'The best of the previous batch, kept for comparison. A flat outline with a light on it. Once you see it beside a real sphere you cannot unsee the frying pan.',
+      o: { wobble: 1, alpha: 1, gloss: WET, bounce: true, coreMode: 'ontop', pal: DEEP } },
+
+    { kind: 'globe', tag: 'G1', name: 'Globe — calm',
+      note: 'An actual sphere. The clouds are a three-dimensional field the ball turns inside, so features crowd together near the edge and rotate away round the side instead of sliding off it.',
+      g: { spin: 0.22, freq: 5.0, band: 0.85, contrast: 1.5, gloss: 0.50, atmo: 0.30, coreGlow: 0, wobble: 0.45 } },
+
+    { kind: 'globe', tag: 'G2', name: 'Globe — churning',
+      note: 'Same sphere, with the surface boiling and the silhouette pushed out of round. The bulges tilt the surface too, so a lump reads as a lump rather than a dent in an outline.',
+      g: { spin: 0.32, freq: 6.0, band: 0.45, contrast: 1.9, gloss: 0.55, atmo: 0.40, coreGlow: 0, wobble: 1 } },
+
+    { kind: 'globe', tag: 'G3', name: 'Globe with a core',
+      note: 'Your semi-transparent version, done as a sphere: something burning at the centre, seen through the depth of the body. Brightest through the middle because that is where you are looking through the most of it.',
+      g: { spin: 0.28, freq: 5.5, band: 0.55, contrast: 1.8, gloss: 0.50, atmo: 0.42, coreGlow: 0.46, wobble: 1 } },
+
+    { kind: 'globe', tag: 'G4', name: 'Globe — angry',
+      note: 'Finer, higher-contrast structure, faster spin, a hotter atmosphere. This is the one that looks like it is about to do something to you.',
+      g: { spin: 0.46, freq: 8.5, band: 0.15, contrast: 2.4, gloss: 0.62, atmo: 0.62, coreGlow: 0.30, wobble: 1 } },
+
+    { kind: 'seed', tag: 'F', name: 'Your seed image',
+      note: 'Drop a file at lab/blob-seed.png and it appears here, lit and warped by the same maths, so you can compare a real photo against the painted ones.' }
+  ];
+
+  // ---- build the grid ----------------------------------------------------
+  var grid = document.getElementById('grid');
+  var stages = [], globeCount = 0;
+  var gTick = 0, GEVERY = 3;   // each globe recomputes every GEVERY frames, staggered
+  CELLS.forEach(function (c, idx) {
+    var cell = document.createElement('div'); cell.className = 'cell';
+    var stage = document.createElement('div'); stage.className = 'stage';
+    if (c.kind === 'css') {
+      stage.innerHTML = '<div class="virus"><span class="core"></span></div>';
+    } else {
+      var cv = document.createElement('canvas');
+      stage.appendChild(cv);
+      var st = { cv: cv, c: c, seed: idx * 2.7 };
+      if (c.kind === 'globe') { st.gIdx = globeCount++; }
+      stages.push(st);
+    }
+    var cap = document.createElement('div'); cap.className = 'cap';
+    cap.innerHTML = '<span class="tag">' + c.tag + '</span><b>' + c.name + '</b>' +
+                    '<span>' + c.note + '</span>';
+    cell.appendChild(stage); cell.appendChild(cap); grid.appendChild(cell);
+  });
+
+  // The seed image is optional and absent by default; a missing file must leave a
+  // readable note rather than a broken cell.
+  var seedImg = null, seedTried = false;
+  function trySeed() {
+    if (seedTried) return; seedTried = true;
+    var im = new Image();
+    im.onload = function () { seedImg = im; };
+    im.onerror = function () {
+      stages.forEach(function (s) {
+        if (s.c.kind === 'seed') {
+          var d = document.createElement('div'); d.className = 'seedmsg';
+          d.textContent = 'no seed image yet — save one as lab/blob-seed.png';
+          s.cv.parentNode.appendChild(d);
+        }
+      });
+    };
+    im.src = 'blob-seed.png';
+  }
+  trySeed();
+
+  // ---- sizing ------------------------------------------------------------
+  // Canvas needs its backing store sized in DEVICE pixels or the whole thing is
+  // soft on a phone, which would make the comparison a test of blur, not lighting.
+  function fit(cv) {
+    var dpr = Math.min(window.devicePixelRatio || 1, 2.5);
+    var w = cv.clientWidth, h = cv.clientHeight;
+    if (!w || !h) return false;
+    if (cv.width !== Math.round(w * dpr) || cv.height !== Math.round(h * dpr)) {
+      cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
+    }
+    return true;
+  }
+
+  var appcv = document.getElementById('app');
+  var speed = document.getElementById('speed');
+  var hold  = document.getElementById('hold');
+  var big   = document.getElementById('big');
+  var churn = document.getElementById('churn'), churnv = document.getElementById('churnv');
+  var appsec = document.getElementById('appsec'), appsecv = document.getElementById('appsecv');
+  function readDials() {
+    CHURN = churn.value / 100;  churnv.textContent = churn.value + '%';
+    APPSEC = +appsec.value;     appsecv.textContent = appsec.value + 's';
+  }
+  churn.addEventListener('input', readDials);
+  appsec.addEventListener('input', readDials);
+  readDials();
+  big.addEventListener('change', function () {
+    grid.style.gridTemplateColumns = big.checked
+      ? 'repeat(auto-fill,minmax(420px,1fr))' : 'repeat(auto-fill,minmax(260px,1fr))';
+  });
+
+  // ---- loop --------------------------------------------------------------
+  var t = 0, last = 0;
+  function frame(ms) {
+    var dt = last ? Math.min((ms - last) / 1000, 0.05) : 0;
+    last = ms;
+    if (!hold.checked) t += dt * (speed.value / 100);
+    gTick++;
+
+    stages.forEach(function (s) {
+      if (!fit(s.cv)) return;
+      var ctx = s.cv.getContext('2d');
+      var W = s.cv.width, H = s.cv.height;
+      ctx.clearRect(0, 0, W, H);
+      var cx = W / 2, cy = H / 2, r = Math.min(W, H) * 0.27;
+
+      if (s.c.kind === 'globe') {
+        // Per-pixel work in JavaScript, so only a couple of globes are recomputed
+        // per frame and the rest re-use their last buffer. Clouds drift slowly
+        // enough that nobody can see the difference; recomputing every globe on
+        // every frame is what would make a phone hot.
+        if ((gTick + s.gIdx) % GEVERY === 0) renderGlobe(s, t, s.seed, s.c.g);
+        if (!s.buf) return;
+        var gr = Math.min(W, H) * 0.34;
+        var gg = ctx.createRadialGradient(cx, cy, gr * 0.8, cx, cy, gr * 1.75);
+        gg.addColorStop(0, 'rgba(190,25,32,0.30)');
+        gg.addColorStop(1, 'rgba(190,25,32,0)');
+        ctx.fillStyle = gg;
+        ctx.beginPath(); ctx.arc(cx, cy, gr * 1.75, 0, TAU); ctx.fill();
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+        ctx.drawImage(s.buf, cx - gr, cy - gr, gr * 2, gr * 2);
+        return;
+      }
+
+      if (s.c.kind === 'seed') {
+        if (!seedImg) return;
+        // Warped by the same outline maths, so a photo and a painted blob are
+        // being judged on the same movement rather than on two different ones.
+        ctx.save();
+        blobPath(ctx, cx, cy, r, t, s.seed, 1);
+        ctx.clip();
+        var sc = (r * 2.3) / Math.max(seedImg.width, seedImg.height);
+        ctx.drawImage(seedImg, cx - seedImg.width * sc / 2, cy - seedImg.height * sc / 2,
+                      seedImg.width * sc, seedImg.height * sc);
+        ctx.restore();
+        ctx.save();
+        blobPath(ctx, cx, cy, r, t, s.seed, 1);
+        ctx.lineWidth = r * 0.07;
+        ctx.strokeStyle = 'rgba(18,0,4,0.5)';
+        ctx.stroke();
+        ctx.restore();
+        core(ctx, cx, cy, r * 0.21, 1);
+        return;
+      }
+
+      var o = s.c.o;
+      paint(ctx, cx, cy, r, {
+        t: t, seed: s.seed, wobble: o.wobble, alpha: o.alpha, gloss: o.gloss,
+        bounce: o.bounce, coreMode: o.coreMode,
+        hot: o.pal.hot, mid: o.pal.mid, edge: o.pal.edge
+      });
+    });
+
+    // ---- the approach comparison ----
+    if (fit(appcv)) {
+      var actx = appcv.getContext('2d');
+      var AW = appcv.width, AH = appcv.height;
+      actx.clearRect(0, 0, AW, AH);
+      var p = (t % APPSEC) / APPSEC;                     // 0 -> 1, then it resets
+      // Starting smaller lengthens the creep: the whole effect lives in the RATIO
+      // between the size it starts at and the size it ends at, not in the duration.
+      var rBase = Math.min(AW / 2, AH) * 0.045;
+      var rMax  = Math.min(AW / 2, AH) * 0.42;
+
+      // LINEAR: radius climbs at a constant rate. Reads as inflating in place.
+      var rL = rBase + (rMax - rBase) * p;
+      // TRUE: the object moves at a constant speed, and apparent size is
+      // inversely proportional to how far away it is. Same trip, same time —
+      // but it barely changes for most of it, then arrives all at once.
+      var D0 = 9, D1 = D0 * rBase / rMax;
+      var d = D0 + (D1 - D0) * p;
+      var rT = rBase * D0 / d;
+
+      paint(actx, AW * 0.27, AH * 0.5, rL, {
+        t: t, seed: 1.1, wobble: 1, alpha: 1, gloss: WET, bounce: true,
+        coreMode: 'ontop', hot: DEEP.hot, mid: DEEP.mid, edge: DEEP.edge });
+      paint(actx, AW * 0.73, AH * 0.5, rT, {
+        t: t, seed: 4.3, wobble: 1, alpha: 1, gloss: WET, bounce: true,
+        coreMode: 'ontop', hot: DEEP.hot, mid: DEEP.mid, edge: DEEP.edge });
+
+      // Labels live in HTML, not on the canvas. Drawing them here sized them in
+      // DEVICE pixels, which on a wide screen came out enormous — the text was
+      // bigger than the thing it labelled.
+    }
+
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
