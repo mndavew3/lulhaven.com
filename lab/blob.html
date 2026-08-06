@@ -707,16 +707,23 @@ I will bake them in. 0% churn is a perfect circle; 100% is what you saw a minute
   // dumb and repetitive; that is what makes them read as machine rather than
   // decoration. The bracket is the reward — it snaps hard when the thing is
   // identified, so you feel the lock before you fire.
-  function drawHUD(ctx, W, H, cx, cy, rad, t) {
+  // Every field here is DERIVED, never decorative. Range is the distance that also
+  // sets the size; azimuth is a real heading when the device has a compass; LOCK is
+  // a state the geometry decides. A readout that is merely animated is set dressing
+  // and the player learns within a minute to ignore it.
+  function drawHUD(ctx, W, H, cx, cy, rad, st) {
     var G = 'rgba(120,255,150,';
     ctx.save();
-    ctx.lineWidth = Math.max(1, H * 0.004);
     ctx.font = (H * 0.038 | 0) + 'px ui-monospace, Menlo, Consolas, monospace';
     ctx.textBaseline = 'top';
 
-    // corner brackets around the contact
-    var b = rad * 1.06, arm = b * 0.28;
-    ctx.strokeStyle = G + '0.9)';
+    // The bracket is the reward: soft and wide while it is only a contact, hard
+    // and tight the moment the crosshair is inside the membrane. You should feel
+    // the identification before you fire.
+    var b   = rad * (st.lock ? 1.02 : 1.16);
+    var arm = b * (st.lock ? 0.34 : 0.22);
+    ctx.lineWidth = Math.max(1, H * (st.lock ? 0.0065 : 0.0035));
+    ctx.strokeStyle = G + (st.lock ? '1)' : '0.55)');
     [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(function (q) {
       var x = cx + q[0] * b, y = cy + q[1] * b;
       ctx.beginPath();
@@ -724,24 +731,44 @@ I will bake them in. 0% churn is a perfect circle; 100% is what you saw a minute
       ctx.stroke();
     });
 
-    // the readout. Ten characters is the ceiling — anything longer stops being
-    // an instrument and starts being a caption.
+    // Readouts pinned to the frame, not to the contact — they must not jump around
+    // as the thing closes. Four characters a field.
+    var pad = H * 0.045, lh = H * 0.052;
     ctx.fillStyle = G + '0.92)';
-    ctx.fillText('IP42', cx - b, cy - b - H * 0.055);
-    ctx.fillStyle = G + '0.62)';
-    var rng = (312 + Math.sin(t * 0.7) * 7).toFixed(0);
-    var sig = (0.84 + Math.sin(t * 1.3) * 0.05).toFixed(2);
-    ctx.fillText('RNG ' + rng, cx + b - H * 0.16, cy - b - H * 0.055);
-    ctx.fillText('SIG ' + sig, cx + b - H * 0.16, cy + b + H * 0.012);
-    ctx.fillText('LOCK', cx - b, cy + b + H * 0.012);
+    ctx.fillText('IP42', pad, pad);
+    ctx.fillStyle = G + '0.60)';
+    ctx.fillText('RNG ' + (st.range < 100 ? st.range.toFixed(1) : st.range.toFixed(0)) + 'm',
+                 pad, pad + lh);
+    ctx.fillText('AZ  ' + ('00' + Math.round(st.az)).slice(-3) + '°', pad, pad + lh * 2);
+    // ALWAYS state where the bearing came from — never only when we believe it is
+    // fake. The first version warned only on simulation, and was defeated instantly:
+    // headless Chromium emits deviceorientationabsolute with absolute=true and a
+    // drifting alpha despite having no magnetometer, so the code concluded the
+    // compass was real and hid the warning. "absolute:true" is not evidence of a
+    // sensor — emulators and phones with sensor emulation both assert it. What we
+    // can honestly claim is the PROVENANCE of the number, so that is what is shown.
+    ctx.fillStyle = st.hasCompass ? G + '0.55)' : 'rgba(255,190,80,0.9)';
+    ctx.fillText(st.hasCompass ? 'MAG' : 'SIM', pad + H * 0.185, pad + lh * 2);
 
-    // a reticle that is not the star of the show
-    ctx.strokeStyle = G + '0.45)';
+    // LOCK does not exist until the crosshair is inside the border (Dave, 2026-08-06).
+    // Absent, not dimmed — a permanently visible LOCK teaches the player it means
+    // nothing.
+    if (st.lock) {
+      ctx.fillStyle = G + '1)';
+      ctx.fillText('LOCK', W - pad - H * 0.14, pad);
+    }
+
+    // The reticle is welded to the middle of the view and never moves — the
+    // contact drifts past it. That is the game's actual control model, so the
+    // bench has to obey it too or the lock test would be testing the wrong thing.
+    ctx.lineWidth = Math.max(1, H * 0.0035);
+    ctx.strokeStyle = G + (st.lock ? '0.95)' : '0.4)');
+    var rx = st.rx, ry = st.ry, g1 = H * 0.018, g2 = H * 0.055;
     ctx.beginPath();
-    ctx.moveTo(cx - rad * 0.16, cy); ctx.lineTo(cx - rad * 0.05, cy);
-    ctx.moveTo(cx + rad * 0.05, cy); ctx.lineTo(cx + rad * 0.16, cy);
-    ctx.moveTo(cx, cy - rad * 0.16); ctx.lineTo(cx, cy - rad * 0.05);
-    ctx.moveTo(cx, cy + rad * 0.05); ctx.lineTo(cx, cy + rad * 0.16);
+    ctx.moveTo(rx - g2, ry); ctx.lineTo(rx - g1, ry);
+    ctx.moveTo(rx + g1, ry); ctx.lineTo(rx + g2, ry);
+    ctx.moveTo(rx, ry - g2); ctx.lineTo(rx, ry - g1);
+    ctx.moveTo(rx, ry + g1); ctx.lineTo(rx, ry + g2);
     ctx.stroke();
 
     // scan lines, very faint — the tube, not a filter
@@ -749,6 +776,19 @@ I will bake them in. 0% churn is a perfect circle; 100% is what you saw a minute
     for (var y = 0; y < H; y += 3) ctx.fillRect(0, y, W, 1);
     ctx.restore();
   }
+
+  // Real heading when the hardware has one. The compass was measured on 2026-08-05
+  // as the only absolute yaw reference in the phone — steady to 0.1 degrees over
+  // 41 seconds — but it reports NOTHING when the device is flat, and a desktop has
+  // no magnetometer at all. So: use it when it is real, simulate when it is not,
+  // and SAY WHICH on screen rather than passing a guess off as a measurement.
+  var azReal = null;
+  window.addEventListener('deviceorientationabsolute', function (e) {
+    if (e.alpha !== null && e.alpha !== undefined) azReal = (360 - e.alpha) % 360;
+  }, true);
+  window.addEventListener('deviceorientation', function (e) {
+    if (azReal === null && e.absolute && e.alpha !== null) azReal = (360 - e.alpha) % 360;
+  }, true);
 
   var scopeCv = document.getElementById('scope');
   var warp = document.getElementById('warp'), warpv = document.getElementById('warpv');
@@ -780,15 +820,47 @@ I will bake them in. 0% churn is a perfect circle; 100% is what you saw a minute
     }
     if (tick % 2 === 0) renderScope(t, tick);
     if (!scopeBuf) return;
-    var rad = Math.min(W / 2, H) * 0.40, cx = W / 2, cy = H / 2;
-    var gl = ctx.createRadialGradient(cx, cy, rad * 0.5, cx, cy, rad * 1.5);
+
+    // ONE distance drives both the size and the readout. Apparent size is focal
+    // length over range, so the picture and the number cannot disagree — and the
+    // creep-then-rush comes out of the arithmetic rather than being animated in.
+    var RANGE_FAR = 420, RANGE_NEAR = 34;
+    var p = (t % APPSEC) / APPSEC;
+    var range = RANGE_FAR + (RANGE_NEAR - RANGE_FAR) * p;
+    var radMax = Math.min(W / 2, H) * 0.44;
+    var rad = (radMax * RANGE_NEAR) / range;
+
+    // The reticle is fixed at the middle of the view; the contact drifts past it,
+    // which is how the game works and what makes the lock mean something.
+    var rx = W / 2, ry = H / 2;
+    var drift = Math.min(W, H) * 0.17;
+    var bx = rx + Math.cos(t * 0.37) * drift * 1.7;
+    var by = ry + Math.sin(t * 0.53) * drift * 0.9;
+
+    // LOCK is decided by geometry: is the crosshair inside the deformed membrane?
+    // The border is the same wobble field the warp uses, so the test agrees with
+    // the pixels rather than approximating them with a circle.
+    var dx = rx - bx, dy = ry - by;
+    var dist = Math.sqrt(dx * dx + dy * dy);
+    var wv = wobbleAt(Math.atan2(dy, dx), t, 3.1, CHURN);
+    var shrink = 1 - wv * WARP; if (shrink < 0.35) shrink = 0.35;
+    var border = rad * 0.95 / shrink;
+    var st = {
+      range: range,
+      az: azReal !== null ? azReal : (t * 6) % 360,
+      hasCompass: azReal !== null,
+      lock: dist < border,
+      rx: rx, ry: ry
+    };
+
+    var gl = ctx.createRadialGradient(bx, by, rad * 0.5, bx, by, rad * 1.5);
     gl.addColorStop(0, 'rgba(40,200,90,0.14)');
     gl.addColorStop(1, 'rgba(40,200,90,0)');
     ctx.fillStyle = gl;
-    ctx.beginPath(); ctx.arc(cx, cy, rad * 1.5, 0, TAU); ctx.fill();
+    ctx.beginPath(); ctx.arc(bx, by, rad * 1.5, 0, TAU); ctx.fill();
     ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'high';
-    ctx.drawImage(scopeBuf, cx - rad, cy - rad, rad * 2, rad * 2);
-    if (HUDON) drawHUD(ctx, W, H, cx, cy, rad, t);
+    ctx.drawImage(scopeBuf, bx - rad, by - rad, rad * 2, rad * 2);
+    if (HUDON) drawHUD(ctx, W, H, bx, by, rad, st);
   }
 
   // ---- loop --------------------------------------------------------------
