@@ -21,9 +21,19 @@
      own range and bearing tags. Proven in lab/blob.html before it came here.
      The element is larger than the creature so the brackets and readouts have room;
      it stays centred on the target, so hit detection and the radar are untouched. */
+  /* Dave, 2026-08-06: "it's getting lost in the background. So finding it is only
+     possible by looking at the radar screen." A night city is bright, warm and busy, and
+     a mid-green shape sits right inside that. The separation that works on ANY
+     background is the one real HUD symbology uses: a dark halo under the symbol, so the
+     thing carries its own contrast instead of borrowing it from what happens to be
+     behind. Every look below gets the halo; they differ in how hot the creature runs. */
   .virus { position:absolute; transform:translate(-50%,-50%);
-           transition:opacity .25s ease; }
-  .virus.stalled { filter:grayscale(.75) brightness(.65); }
+           transition:opacity .25s ease;
+           filter:drop-shadow(0 0 4px rgba(0,0,0,.95)) drop-shadow(0 0 12px rgba(0,0,0,.8)); }
+  /* Repeats the halo because `filter` REPLACES rather than adds — a stalled contact that
+     silently lost its halo would be the one hardest to find. */
+  .virus.stalled { filter:drop-shadow(0 0 4px rgba(0,0,0,.95)) drop-shadow(0 0 12px rgba(0,0,0,.8))
+                          grayscale(.75) brightness(.65); }
   .virus.dead { opacity:0; }
   /* Fires a brief flash from the crosshair so a shot is unmistakable without sound. */
   /* The shot, drawn the way it looks through a scope (Dave, 2026-08-05): the emitter sits
@@ -76,6 +86,31 @@
             opacity:0; transition:opacity .06s linear; }
   #sLock.on { opacity:1; }
   body:not(.started) #scopechrome { display:none; }
+  /* Dave, 2026-08-06: "if that makes it all the way to you, it disappears and your health
+     goes down." This is the fail state, and it makes the approach matter — until now a
+     contact arriving cost nothing, so there was no reason to hurry.
+     Sits UNDER the IP42 line and clear of the banner at y=78, so nothing overlaps. */
+  body:not(.started) #health { display:none; }
+  #health { position:fixed; left:12px; top:calc(34px + env(safe-area-inset-top)); z-index:4;
+            display:flex; align-items:center; gap:7px; pointer-events:none;
+            font:600 9px/1 ui-monospace, Menlo, Consolas, monospace; letter-spacing:.14em;
+            color:rgba(180,255,215,.75); text-shadow:0 1px 3px rgba(0,0,0,.9); }
+  #hTrack { display:block; width:96px; height:6px; border-radius:3px;
+            background:rgba(0,0,0,.55); box-shadow:0 0 0 1px rgba(255,255,255,.28); overflow:hidden; }
+  #hFill  { display:block; height:100%; width:100%; background:#4fd6a8;
+            transition:width .35s ease, background-color .35s ease; }
+  /* Losing integrity should be felt, not just read — the whole frame takes a hit. */
+  body.hurt #hTrack { animation:hurtPulse .45s ease-out; }
+  @keyframes hurtPulse {
+    0%   { box-shadow:0 0 0 1px #fff, 0 0 22px rgba(255,90,80,.95); transform:scale(1.14); }
+    100% { box-shadow:0 0 0 1px rgba(255,255,255,.28); transform:scale(1); }
+  }
+  #over { position:fixed; inset:0; z-index:9; display:none; flex-direction:column;
+          align-items:center; justify-content:center; gap:10px; text-align:center;
+          background:rgba(30,0,0,.62); backdrop-filter:blur(2px); }
+  #over b { font:800 30px/1 system-ui, sans-serif; letter-spacing:.16em; color:#ff8d84; }
+  #over span { font:400 15px/1.5 system-ui, sans-serif; color:#ffd9d5; }
+  body.overrun #over { display:flex; }
   /* A faint marker left at true centre while trimming, so it stays obvious how far the
      crosshair has been pulled off and which way it will snap back. */
   /* Radar (Dave, 2026-08-05): once targets can sit outside the view, the player needs to
@@ -97,6 +132,17 @@
   #radar { position:fixed; top:calc(10px + env(safe-area-inset-top)); right:10px;
            width:104px; height:57px; border:1px solid rgba(255,255,255,.30);
            border-radius:5px; background:rgba(0,10,8,.45); pointer-events:none; }
+  /* Dave, 2026-08-06: the radar has to be FOUND before it can be used, and a quiet box
+     in a corner is not found. So it pulses white at the start — and then stops, because
+     "after a user knows it's there and knows what to look for, this feature will no
+     longer be of value." It retires on the first kill, or on a timer if that never
+     comes; an attention-getter that never goes away stops being one. */
+  #radar.attn { animation:radarAttn 1.15s ease-in-out infinite; }
+  @keyframes radarAttn {
+    0%, 100% { border-color:rgba(255,255,255,.30); box-shadow:none; }
+    50%      { border-color:#fff;
+               box-shadow:0 0 0 2px rgba(255,255,255,.5), 0 0 20px rgba(255,255,255,.55); }
+  }
   #home { position:fixed; left:50%; top:50%; width:10px; height:10px; margin:-5px 0 0 -5px;
           border:1px solid rgba(255,255,255,.35); border-radius:50%; pointer-events:none;
           opacity:0; transition:opacity .15s ease; }
@@ -154,8 +200,10 @@
   #gate { position:fixed; inset:0; display:flex; flex-direction:column; align-items:center;
           justify-content:center; gap:20px; padding:28px; text-align:center; background:#07100e;
           font-family:system-ui, sans-serif; color:#cfe; }
-  #gate h1 { font-size:21px; font-weight:700; color:#fff; }
+  #gate h1 { font-size:21px; font-weight:700; color:#fff; margin-bottom:-6px; }
   #gate p  { font-size:15px; line-height:1.6; max-width:24em; color:#9fc7b8; }
+  #gate p.lead { color:#4fd6a8; font-weight:600; letter-spacing:.06em;
+                 text-transform:uppercase; font-size:12px; }
   #gate button { padding:16px 34px; font:700 17px system-ui, sans-serif; color:#04140f;
                  background:#4fd6a8; border:0; border-radius:11px; }
   #gate.hide { display:none; }
@@ -175,6 +223,8 @@
 <div id="cross"><span class="ring"></span><span class="h"></span><span class="v"></span></div>
 <div id="dot"></div>
 <div id="scopechrome"><span id="sLabel">IP42</span><span id="sLock">LOCK</span></div>
+<div id="health"><span id="hLabel">INTEGRITY</span><span id="hTrack"><i id="hFill"></i></span></div>
+<div id="over"><b>OVERRUN</b><span>Every instance reached you.</span></div>
 <div id="toast"></div>
 <div id="hud" class="dim">
   <div id="mbar"><div id="mfill"></div></div>
@@ -191,10 +241,19 @@
 </div>
 
 <div id="gate">
-  <h1>Haven — pan spike</h1>
-  <p id="how"></p>
-  <p>The crosshair never moves. The world moves behind it.</p>
-  <p>Three of them are out there, and they are coming closer. Hold the crosshair on one until the brackets snap shut — it fires by itself.</p>
+  <h1>Haven</h1>
+  <p class="lead">Tutorial</p>
+  <!-- Dave, 2026-08-06: the synopsis says WHY you are looking at what you are looking
+       at, and it is device-agnostic on purpose. This screen cannot know whether it is
+       on a phone or a laptop, so it must not claim to. Control instructions moved into
+       the tutorial itself, where the answer is MEASURED instead of guessed. -->
+  <p>IP42 is getting faster. Al can see that much — but seeing it is not the same as
+     knowing which instance to shut down first, or in what order.</p>
+  <p>So he builds Haven an interface. It takes each running instance of IP42 and gives
+     it a body: something with a shape, a distance and a bearing, that a person can put
+     a crosshair on. What you are about to look at is not the infection itself. It is
+     the interface Al made so the infection could be triaged.</p>
+  <p class="lead">This part teaches you the controls.</p>
   <button id="go">Start</button>
   <div id="err"></div>
 </div>
@@ -210,17 +269,15 @@
   // and keeping them apart is the whole point (Dave, 2026-08-06: "can you tell whether
   // somebody has opened your web page with a phone or with a laptop?").
   //   The pointer query is a GUESS — it describes the INPUT DEVICE, not the operating
-  //   system, so a phone reads coarse and a laptop reads fine. Good enough to word a
-  //   greeting, and it gets a touchscreen laptop wrong, which is why it is never allowed
-  //   to decide anything.
+  //   system, so a phone reads coarse and a laptop reads fine. It gets a touchscreen
+  //   laptop wrong, so it only ever picks WORDING, never behaviour.
   //   Whether MOTION works is not guessed at all: we start, wait, and see whether any
-  //   arrives (below). A guess may write the greeting; only a measurement may decide
-  //   which game you are actually playing. Same rule as the MAG/SIM marker — never let
-  //   a capability claim stand in for the capability.
+  //   arrives (below). Same rule as the MAG/SIM marker — never let a capability claim
+  //   stand in for the capability.
+  // NOTHING device-specific goes on the start screen (Dave, 2026-08-06): "the first
+  // screen could be on your phone. It might be on your laptop. We don't know." So the
+  // coaching happens inside the tutorial, AFTER Start, where it is measured.
   var coarse = !!(window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
-  document.getElementById('how').textContent = coarse
-    ? 'Hold the phone up like you are looking through it. Tap start, then turn your body left and right and tilt up and down.'
-    : 'Arrow keys or WASD to look around, mouse wheel to zoom. Drag with the mouse to nudge the aim point — it springs back when you let go.';
 
   // One short line for the PLAYER. The readout above it is instrumentation for me, and
   // it now starts hidden, so anything a visitor needs has to be said out here.
@@ -230,6 +287,21 @@
     toastEl.classList.add('show');
     clearTimeout(toastTimer);
     toastTimer = setTimeout(function () { toastEl.classList.remove('show'); }, ms || 6000);
+  }
+
+  // The tutorial is two beats: how to LOOK, then how to SHOOT. Separated because a
+  // player who is still working out how to turn cannot act on a firing instruction, and
+  // one instruction at a time is the whole reason a tutorial exists.
+  var tutorialBeat = 0, radarAttnTimer = 0;
+  function retireRadarAttn() {
+    clearTimeout(radarAttnTimer);
+    var r = document.getElementById('radar');
+    if (r) r.classList.remove('attn');
+  }
+  function beatTwo() {
+    if (tutorialBeat >= 2) return;
+    tutorialBeat = 2;
+    toast('Hold the crosshair on a contact until the brackets snap shut. It fires by itself.', 8000);
   }
   var mbar = document.getElementById('mbar'), mfill = document.getElementById('mfill');
 
@@ -372,8 +444,30 @@
       t.range = t.rangeFar + (t.rangeNear - t.rangeFar) * p;
       t.r = t.sizeM * FOCAL_IMG / t.range;
       t.cr = t.r * 0.235;
+      // IT GOT THROUGH. Reaching you is the only thing that costs integrity, so the
+      // approach clock is now a real deadline instead of an animation.
+      if (p >= 1 && t.alive && !t.arrived) { t.arrived = true; breach(t); }
     });
     sizeTargets();
+  }
+
+  // Integrity, and what spends it. Three contacts at 34 each means letting every one
+  // through is exactly fatal — the tutorial can be failed, but only by ignoring it.
+  var integrity = 100, BREACH_COST = 34, overrun = false;
+  function breach(t) {
+    t.alive = false;
+    if (t.el) { t.el.classList.add('dead'); }
+    integrity = Math.max(0, integrity - BREACH_COST);
+    var f = document.getElementById('hFill');
+    if (f) {
+      f.style.width = integrity + '%';
+      f.style.backgroundColor = integrity > 66 ? '#4fd6a8'
+                              : integrity > 33 ? '#e5c04a' : '#ff5a50';
+    }
+    document.body.classList.add('hurt');
+    setTimeout(function () { document.body.classList.remove('hurt'); }, 460);
+    if (navigator.vibrate) { try { navigator.vibrate([28, 40, 28]); } catch (e) {} }
+    if (integrity <= 0 && !overrun) { overrun = true; document.body.classList.add('overrun'); }
   }
   var onTargetFor = 0, cooldownFor = 0, hits = 0, stalls = 0, aiming = null;
 
@@ -423,6 +517,39 @@
   SEED.onload = function () { seedReady = true; };
 
   var WARP = 0.26, GREEN = 0.40, GRAIN = 0.35, CHURN = 1.6;
+
+  // ---- how hot the creature runs. Three candidates, chosen by ?look=a|b|c, so the call
+  // gets made from renders over the real city rather than from a description of them.
+  //   a  as it was, plus the halo             — least change
+  //   b  white-hot core fading to green rim   — reads as something burning through
+  //   c  near-white throughout                — Dave's "blank white", maximum separation
+  // HOT is how far the phosphor colour is pulled toward white as brightness rises; LIFT
+  // is the gamma, lower being brighter. Once Dave picks, the losers get deleted — a
+  // switch nobody flips is just three ways to be wrong.
+  var LOOK = (location.search.match(/[?&]look=([abc])/) || [])[1] || 'b';
+  var HOT  = LOOK === 'a' ? 0    : LOOK === 'b' ? 0.85 : 1;
+  var LIFT = LOOK === 'a' ? 0.62 : LOOK === 'b' ? 0.50 : 0.42;
+  var GRN  = LOOK === 'a' ? GREEN : LOOK === 'b' ? 0.72 : 0.92;
+  // Where the whitening starts. In 'b' only the bright interior goes white, so the rim
+  // stays green and it still reads as two materials; in 'c' the whole body goes.
+  var HOTAT = LOOK === 'c' ? 0.18 : 0.45;
+  // How far the blink drives toward white at its peak. 0 = steady (look 'a', kept as the
+  // control so the blink can be judged against no blink at all).
+  // Full 1 wherever the blink is on: Dave's spec is EVERY pixel at 255,255,255, so a
+  // partial blend is simply not the thing. 'a' keeps it off as the control.
+  var PULSE = LOOK === 'a' ? 0 : 1;
+  // Dave, 2026-08-06: "increase frequency to twice every second, and maybe we increase it
+  // further than that, the closer it gets." So the blip rate IS the range readout, said
+  // without numbers — the same thing a proximity alarm does, and the reason one works:
+  // you hear something closing before you have read anything. Twice a second at the far
+  // end, roughly seven times a second when it is on top of you.
+  var BLINK_FAR = 0.50, BLINK_NEAR = 0.14;   // seconds between blips
+  function blinkInterval(t) {
+    if (!t.rangeFar || t.rangeFar === t.rangeNear) return BLINK_FAR;
+    var p = (t.rangeFar - t.range) / (t.rangeFar - t.rangeNear);
+    p = p < 0 ? 0 : p > 1 ? 1 : p;
+    return BLINK_FAR + (BLINK_NEAR - BLINK_FAR) * p;
+  }
   var SIZE_STEPS = [48, 64, 96, 128, 192, 256];
 
   function h3(i, j, k) {
@@ -456,7 +583,7 @@
   // Rendered at a resolution matched to how big it currently is on screen, and only
   // one target is recomputed per frame. Doing all three at full size every frame is
   // what would cook a phone.
-  function renderCreature(tt, time, N) {
+  function renderCreature(tt, time, N, flash) {
     var s = ensureSrc(); if (!s) return false;
     if (!tt.buf || tt.buf.width !== N) {
       tt.buf = document.createElement('canvas'); tt.buf.width = tt.buf.height = N;
@@ -464,6 +591,23 @@
       tt.bimg = tt.bctx.createImageData(N, N);
     }
     var d = tt.bimg.data, R = N / 2, LUT = 256, SR = SRC / 2, i;
+
+    // THE BLINK (Dave, 2026-08-06): "When IP42 pulses, every pixel should pulse to
+    // 255,255,255." A solid white silhouette, not a brightening — so it is a straight
+    // blend of the finished pixel toward white, applied last, over whatever the steady
+    // look produced. Alpha is untouched, so what flashes is the creature's SHAPE.
+    // Why a blink and not a recolour: measured first, and recolouring barely moved
+    // anything — whiteness at high luminance went 0.472 -> 0.509 across three
+    // treatments, because the creature is simply DARK (mean luminance 94-134 of 255).
+    // Hue was never the lever. A night city is full of bright static things and almost
+    // nothing that pulses, so motion to white is the one signal it cannot imitate.
+    // Offset by seed so three contacts do not blink in unison, which would read as the
+    // screen flickering rather than as three separate things.
+    // A BLIP, NOT A PULSE. It is either fully white this frame or not at all — there is
+    // no ramp, because a ramp is what makes it read as breathing rather than blinking.
+    // The caller decides when; see the scheduler in tick().
+    var kick = flash ? PULSE : 0;
+
     // NOT tt.r — that is the target's world radius, a number the game already owns.
     if (!tt.wlut) tt.wlut = new Float32Array(LUT);
     for (i = 0; i < LUT; i++) tt.wlut[i] = wobbleAt(i / LUT * TAU2, time, tt.seed);
@@ -497,13 +641,30 @@
 
         var br = sg, bg2 = sr, bb = sb;           // shades of red become shades of green
         var v = (br * 0.30 + bg2 * 0.59 + bb * 0.11) / 255;
-        v = Math.pow(v, 0.62);
+        v = Math.pow(v, LIFT);
         if (GRAIN > 0) v += h3(px, py, gTick >> 1) * 0.085 * GRAIN;
         if (v < 0) v = 0; else if (v > 1) v = 1;
         var pr = v * 46, pg = v * 255, pb = v * 92;
-        d[o]     = br + (pr - br) * GREEN;
-        d[o + 1] = bg2 + (pg - bg2) * GREEN;
-        d[o + 2] = bb + (pb - bb) * GREEN;
+        if (HOT > 0) {
+          // Squared so the steady look keeps its whitening in the bright interior — the
+          // rim is what carries the silhouette. The BLINK below is deliberately not
+          // subtle in this way; it takes everything.
+          var hw = (v - HOTAT) / (1 - HOTAT);
+          if (hw > 0) {
+            hw = hw > 1 ? 1 : hw; hw = hw * hw * HOT;
+            pr += (255 - pr) * hw; pg += (255 - pg) * hw; pb += (255 - pb) * hw;
+          }
+        }
+        var fr = br + (pr - br) * GRN;
+        var fg = bg2 + (pg - bg2) * GRN;
+        var fb = bb + (pb - bb) * GRN;
+        // EVERY pixel to 255,255,255 at the peak — Dave's words, and the last thing that
+        // happens, so nothing above can soften it. Alpha is left alone: the flash is the
+        // silhouette, which is the part a player has to find.
+        if (kick > 0) {
+          fr += (255 - fr) * kick; fg += (255 - fg) * kick; fb += (255 - fb) * kick;
+        }
+        d[o] = fr; d[o + 1] = fg; d[o + 2] = fb;
         d[o + 3] = sa * cov;
       }
     }
@@ -804,6 +965,7 @@
     f.classList.remove('fire'); void f.offsetWidth; f.classList.add('fire');
     if (onCore) {
       t.alive = false; t.el.classList.add('dead'); hits++;
+      retireRadarAttn();          // one kill proves they found it; stop shouting
       if (navigator.vibrate) navigator.vibrate([28, 40, 28]);
     } else {
       if (!t.stalled) { t.stalled = true; stalls++; t.el.classList.add('stalled'); }
@@ -994,12 +1156,35 @@
     gTick++;
     var live = TARGETS.filter(function (x) { return x.alive && x.el && !x.pending; });
     if (live.length && seedReady) {
-      var due = live[gTick % live.length];
+      // THE BLIP (Dave, 2026-08-06): "just blinking for, like, one one hundredth of a
+      // second and then staying its normal color... one quick blip every second."
+      // A 60 Hz display cannot show 1/100 s — one frame is 16.7 ms, and that is the
+      // floor. So the blip is exactly ONE rendered frame, and the creature is then
+      // repainted on the very next frame AHEAD of the round-robin. Without that forced
+      // clear the white would sit on the canvas until its next turn came round, roughly
+      // 50 ms with three contacts, which is a pulse again rather than a blip.
+      var nowS = t / 1000, due = null, flash = false, q2, L;
+      for (q2 = 0; q2 < live.length; q2++) {
+        if (live[q2].clearFlash) { due = live[q2]; due.clearFlash = false; break; }
+      }
+      if (!due) {
+        for (q2 = 0; q2 < live.length; q2++) {
+          L = live[q2];
+          // Staggered so three contacts never blip together — simultaneous flashes read
+          // as the screen glitching instead of as three separate things.
+          if (L.nextFlash == null) L.nextFlash = nowS + 0.33 * q2;
+          if (nowS >= L.nextFlash) {
+            due = L; flash = true; L.nextFlash = nowS + blinkInterval(L); L.clearFlash = true;
+            break;
+          }
+        }
+      }
+      if (!due) due = live[gTick % live.length];
       var want = Math.ceil(due.drawR * 2), N = SIZE_STEPS[SIZE_STEPS.length - 1];
       for (var q = 0; q < SIZE_STEPS.length; q++) {
         if (SIZE_STEPS[q] >= want) { N = SIZE_STEPS[q]; break; }
       }
-      renderCreature(due, t / 1000, N);
+      renderCreature(due, nowS, N, flash);
       for (var q2 = 0; q2 < live.length; q2++) { tagFor(live[q2]); drawCreature(live[q2]); }
     }
     lockEl.classList.toggle('on', !!aiming);
@@ -1082,8 +1267,20 @@
     document.body.classList.add('started');
     goFullscreen();
     gateEl.classList.add('hide');
+    var rEl = document.getElementById('radar');
+    if (rEl) rEl.classList.add('attn');
+    radarAttnTimer = setTimeout(retireRadarAttn, 20000);   // if no kill ever comes
     if (navigator.wakeLock) navigator.wakeLock.request('screen').catch(function(){});
     setTimeout(function () {
+      // BEAT 1 of the tutorial: how to look around. Which words depends on what this
+      // device turned out to be able to do, which is why it happens HERE and not on the
+      // start screen — by now it is measured.
+      if (peakRate >= MOTION_FLOOR) {
+        tutorialBeat = 1;
+        toast('Turn your body to look around. The crosshair never moves — the world moves behind it.', 7000);
+        setTimeout(beatTwo, 7600);
+        return;
+      }
       if (peakRate < MOTION_FLOOR) {
         // The MEASUREMENT overrules the pointer guess, and it is the only thing allowed
         // to. A laptop, a phone whose owner denied motion, and a touchscreen laptop that
@@ -1103,9 +1300,11 @@
         // has no keyboard, so the one instruction it gets is the one it cannot follow.
         // What a phone in that state CAN still do is drag to aim, and the fix for the
         // real cause is to allow motion and reload.
+        tutorialBeat = 1;
         toast(coarse
           ? 'No movement detected. If you declined motion access, reload and allow it — meanwhile, drag with your thumb to aim.'
           : 'Arrow keys or WASD to look around. Mouse wheel to zoom.', 9000);
+        setTimeout(beatTwo, 9600);
       }
     }, 2500);
   }
