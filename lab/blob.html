@@ -37,8 +37,10 @@
                  box-shadow:0 0 10px rgba(255,220,120,.95), 0 0 22px rgba(255,180,60,.6); }
   .seedmsg { position:absolute; inset:0; display:flex; align-items:center;
              justify-content:center; text-align:center; padding:22px;
-             color:#6e6e77; font-size:12px; line-height:1.5;
-             border:1px dashed #2e2e38; margin:14px; border-radius:8px; }
+             color:#8b8b93; font-size:12px; line-height:1.6; cursor:pointer;
+             border:1px dashed #3a3a46; margin:14px; border-radius:8px; }
+  .seedmsg:hover { border-color:#6a4040; color:#c9c9d1; background:rgba(255,80,80,.03); }
+  .seedmsg b { color:#e8e8ee; }
   section.approach { padding:0 16px 40px; }
   section.approach h2 { font-size:14px; margin:6px 0 4px; color:#f0f0f4; }
   section.approach .sub { margin-bottom:10px; }
@@ -488,25 +490,61 @@ I will bake them in. 0% churn is a perfect circle; 100% is what you saw a minute
     cell.appendChild(stage); cell.appendChild(cap); grid.appendChild(cell);
   });
 
-  // The seed image is optional and absent by default; a missing file must leave a
-  // readable note rather than a broken cell.
-  var seedImg = null, seedTried = false;
-  function trySeed() {
-    if (seedTried) return; seedTried = true;
+  // Getting a file into the right folder with the right extension turned out to be
+  // the hardest part of this whole exercise (Dave, 2026-08-06: "I couldn't get the
+  // file extension right"), so the page no longer insists on either. It tries the
+  // obvious filenames, and failing that you can just drop the image onto the page
+  // or click to pick it — which needs no file saved anywhere at all.
+  var seedImg = null, seedNote = null;
+  var CANDIDATES = ['blob-seed.png', 'blob-seed.jpg', 'blob-seed.jpeg',
+                    'blob-seed.webp', 'blob-seed.gif'];
+  function trySeed(i) {
+    if (i >= CANDIDATES.length) { showSeedPrompt(); return; }
     var im = new Image();
-    im.onload = function () { seedImg = im; };
-    im.onerror = function () {
-      stages.forEach(function (s) {
-        if (s.c.kind === 'seed') {
-          var d = document.createElement('div'); d.className = 'seedmsg';
-          d.textContent = 'no seed image yet — save one as lab/blob-seed.png';
-          s.cv.parentNode.appendChild(d);
-        }
-      });
-    };
-    im.src = 'blob-seed.png';
+    im.onload = function () { seedImg = im; if (seedNote) seedNote.remove(); };
+    im.onerror = function () { trySeed(i + 1); };
+    im.src = CANDIDATES[i];
   }
-  trySeed();
+  function showSeedPrompt() {
+    stages.forEach(function (s) {
+      if (s.c.kind !== 'seed' || seedNote) return;
+      var d = document.createElement('div'); d.className = 'seedmsg';
+      d.innerHTML = '<b>Drop an image here</b><br>or click to choose one.<br>' +
+                    '<span style="opacity:.7">Nothing gets saved — it is read straight ' +
+                    'off your disk. Any format your browser can open.</span>';
+      s.cv.parentNode.appendChild(d);
+      seedNote = d;
+    });
+  }
+  function loadSeedFile(file) {
+    if (!file || !/^image\//.test(file.type)) return;
+    var fr = new FileReader();
+    fr.onload = function () {
+      var im = new Image();
+      im.onload = function () { seedImg = im; if (seedNote) { seedNote.remove(); seedNote = null; } };
+      im.src = fr.result;
+    };
+    fr.readAsDataURL(file);
+  }
+  var picker = document.createElement('input');
+  picker.type = 'file'; picker.accept = 'image/*'; picker.style.display = 'none';
+  document.body.appendChild(picker);
+  picker.addEventListener('change', function () { loadSeedFile(picker.files[0]); });
+  document.addEventListener('click', function (e) {
+    if (e.target.closest && e.target.closest('.seedmsg')) picker.click();
+  });
+  // Drop anywhere on the page, not just on the cell — a small target is the same
+  // trap as a fussy filename.
+  ['dragenter', 'dragover'].forEach(function (ev) {
+    document.addEventListener(ev, function (e) { e.preventDefault(); document.body.style.outline = '2px solid #7a2a2a'; });
+  });
+  ['dragleave', 'drop'].forEach(function (ev) {
+    document.addEventListener(ev, function (e) { e.preventDefault(); document.body.style.outline = ''; });
+  });
+  document.addEventListener('drop', function (e) {
+    if (e.dataTransfer && e.dataTransfer.files.length) loadSeedFile(e.dataTransfer.files[0]);
+  });
+  trySeed(0);
 
   // ---- sizing ------------------------------------------------------------
   // Canvas needs its backing store sized in DEVICE pixels or the whole thing is
