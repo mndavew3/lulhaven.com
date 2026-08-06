@@ -465,7 +465,7 @@ I will bake them in. 0% churn is a perfect circle; 100% is what you saw a minute
       g: { spin: 0.46, freq: 8.5, band: 0.15, contrast: 2.4, gloss: 0.62, atmo: 0.62, coreGlow: 0.30, wobble: 1 } },
 
     { kind: 'seed', tag: 'F', name: 'Your seed image',
-      note: 'Drop a file at lab/blob-seed.png and it appears here, lit and warped by the same maths, so you can compare a real photo against the painted ones.' }
+      note: 'Cropped square, watermark removed, black turned to real transparency so it can sit over the city. It breathes and pulses, but is never cut to an outline — its own soft edge is the best thing about it.' }
   ];
 
   // ---- build the grid ----------------------------------------------------
@@ -613,22 +613,23 @@ I will bake them in. 0% churn is a perfect circle; 100% is what you saw a minute
 
       if (s.c.kind === 'seed') {
         if (!seedImg) return;
-        // Warped by the same outline maths, so a photo and a painted blob are
-        // being judged on the same movement rather than on two different ones.
-        ctx.save();
-        blobPath(ctx, cx, cy, r, t, s.seed, 1);
-        ctx.clip();
-        var sc = (r * 2.3) / Math.max(seedImg.width, seedImg.height);
-        ctx.drawImage(seedImg, cx - seedImg.width * sc / 2, cy - seedImg.height * sc / 2,
-                      seedImg.width * sc, seedImg.height * sc);
-        ctx.restore();
-        ctx.save();
-        blobPath(ctx, cx, cy, r, t, s.seed, 1);
-        ctx.lineWidth = r * 0.07;
-        ctx.strokeStyle = 'rgba(18,0,4,0.5)';
-        ctx.stroke();
-        ctx.restore();
-        core(ctx, cx, cy, r * 0.21, 1);
+        // Do NOT clip a photograph to the wobble outline. The image carries its own
+        // soft translucent edge, and cutting that with a hard path throws away the
+        // very quality that makes it better than the painted ones. Instead the whole
+        // thing is squashed and stretched a little, so it breathes without being cut.
+        var wx = 1 + wobbleAt(0.0, t, s.seed, CHURN) * 0.5;
+        var wy = 1 + wobbleAt(1.6, t, s.seed, CHURN) * 0.5;
+        var pulse = 1 + Math.sin(t * 0.6 + s.seed) * 0.015;
+        var base = Math.min(W, H) * 0.80 / seedImg.width;
+        var dw = seedImg.width * base * wx * pulse;
+        var dh = seedImg.height * base * wy * pulse;
+        // A soft glow underneath so it sits IN the scene rather than on top of it.
+        var sg = ctx.createRadialGradient(cx, cy, dw * 0.30, cx, cy, dw * 0.62);
+        sg.addColorStop(0, 'rgba(190,30,60,0.28)');
+        sg.addColorStop(1, 'rgba(190,30,60,0)');
+        ctx.fillStyle = sg;
+        ctx.beginPath(); ctx.arc(cx, cy, dw * 0.62, 0, TAU); ctx.fill();
+        ctx.drawImage(seedImg, cx - dw / 2, cy - dh / 2, dw, dh);
         return;
       }
 
