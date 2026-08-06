@@ -292,11 +292,45 @@
   // far as the backdrop overhangs it: roughly x 157-1890, y 349-768 in image pixels on
   // a portrait phone. Everything here sits inside that, and the radii are sized for the
   // wide photo — the old r:150 came out nearly as wide as a phone screen.
+  // They APPROACH (Dave, 2026-08-06). `r` is no longer a constant — it is computed
+  // every frame from the contact's range, so the thing you see and the number on its
+  // tag are the same fact. Everything downstream already reads `r`, so hit detection,
+  // the radar and the beam follow for free.
+  //
+  // They also arrive one at a time. Three appearing together is a wall; one, then
+  // another a few seconds later, is a situation developing.
+  var FOCAL_IMG = 189;      // an 18m object at 40m comes out ~85 image pixels across
   var TARGETS = [
-    { ix: 1100, iy: 470, r: 85, cr: 20 },   // near the middle — the easy one
-    { ix:  330, iy: 400, r: 78, cr: 18 },   // off to the left — turn to find it
-    { ix: 1740, iy: 700, r: 78, cr: 18 }    // low and right — turn the other way
+    { ix: 1100, iy: 470, sizeM: 18, rangeFar: 460, rangeNear: 40, spawnAt: 0,   approach: 22 },
+    { ix:  330, iy: 400, sizeM: 15, rangeFar: 520, rangeNear: 44, spawnAt: 4,   approach: 24 },
+    { ix: 1740, iy: 700, sizeM: 22, rangeFar: 400, rangeNear: 52, spawnAt: 8.5, approach: 20 }
   ];
+  // Start them at their far range so the first frame is not a pop-in.
+  TARGETS.forEach(function (t) {
+    t.range = t.rangeFar;
+    t.r = t.sizeM * FOCAL_IMG / t.range;
+    t.cr = t.r * 0.235;
+    t.pending = true;
+  });
+
+  // ONE distance sets both the size and the readout, so the picture and the number
+  // cannot drift apart. The creep-then-rush is not animated in — it falls out of
+  // apparent size being inversely proportional to range.
+  var runStart = 0;
+  function advance(nowMs) {
+    if (!runStart) return;
+    var secs = (nowMs - runStart) / 1000;
+    TARGETS.forEach(function (t) {
+      var age = secs - t.spawnAt;
+      if (age < 0) { t.pending = true; if (t.el) t.el.style.display = 'none'; return; }
+      if (t.pending) { t.pending = false; if (t.el) t.el.style.display = ''; }
+      var p = clamp(age / t.approach, 0, 1);
+      t.range = t.rangeFar + (t.rangeNear - t.rangeFar) * p;
+      t.r = t.sizeM * FOCAL_IMG / t.range;
+      t.cr = t.r * 0.235;
+    });
+    sizeTargets();
+  }
   var onTargetFor = 0, cooldownFor = 0, hits = 0, stalls = 0, aiming = null;
 
   var TAU2 = Math.PI * 2, gTick = 0;
@@ -438,9 +472,10 @@
   // Range is derived from the target's own radius so the number and the picture can
   // never disagree; bearing comes from where it sits in the scene, which the arc
   // maps to real degrees.
-  var RANGE_K = 42000;
   function tagFor(tt) {
-    tt.rangeM = RANGE_K / tt.r;
+    // The readout IS the distance that set the size. Deriving it separately is what
+    // would let the number and the picture drift apart.
+    tt.rangeM = tt.range;
     var base = azReal !== null ? azReal : 0;
     tt.azDeg = (base + ((tt.ix / (imgW || 1)) - 0.5) * ARC_X + 360) % 360;
   }
@@ -568,25 +603,39 @@
       TARGETS.forEach(function (t, i) {
         var el = document.createElement('canvas');
         el.className = 'virus';
+        // Hidden at birth. advance() reveals each one at its own spawn time; without
+        // this, all three were laid out on the frame before the clock started and
+        // flashed the whole set for an instant — measured, not theorised.
+        if (t.spawnAt > 0) el.style.display = 'none';
         w.appendChild(el);
         t.el = el; t.ctx = el.getContext('2d');
         t.seed = 3.1 + i * 4.3;
         t.alive = true; t.stalled = false;
       });
     }
+    sizeTargets();
+  }
+
+  // Runs on layout AND on every frame, because `r` now changes continuously as the
+  // contact closes. Resizing a canvas clears it, so the backing store is only touched
+  // when the rounded pixel size actually changes — otherwise a growing contact would
+  // blank itself every frame and flicker.
+  function sizeTargets() {
+    if (!scale) return;
     // PAD leaves room for the brackets and the two readouts. The element grows, the
     // creature inside it does not — and because it is centred on the target, hit
     // detection, the radar and the beam all keep working off the same numbers.
     var PAD = 1.75;
     var dpr = Math.min(window.devicePixelRatio || 1, 2);
     TARGETS.forEach(function (t) {
+      if (!t.el) return;
       var box = t.r * 2 * scale * PAD;
+      var bw = Math.max(16, Math.round(box * dpr));
       t.el.style.left = (t.ix * scale) + 'px';
       t.el.style.top  = (t.iy * scale) + 'px';
       t.el.style.width  = box + 'px';
       t.el.style.height = box + 'px';
-      t.el.width  = Math.round(box * dpr);
-      t.el.height = Math.round(box * dpr);
+      if (t.el.width !== bw) { t.el.width = bw; t.el.height = bw; }
       t.dpr = dpr;
       t.drawR = t.r * scale * dpr;
       tagFor(t);
@@ -621,10 +670,13 @@
                     (vw / dw) * RW, (vh / dh) * RH);
 
     TARGETS.forEach(function (t) {
+      // A contact that has not arrived is not on the radar either — otherwise the
+      // radar tells you to go and look at nothing.
+      if (t.pending) return;
       rctx.beginPath();
       rctx.arc((t.ix / imgW) * RW, (t.iy / imgH) * RH, t.alive ? 5 : 3, 0, 6.2832);
       rctx.fillStyle = !t.alive ? 'rgba(255,255,255,.16)'
-                     : t.stalled ? '#d8a92b' : '#ff4d4d';
+                     : t.stalled ? '#d8a92b' : '#4dff88';
       rctx.fill();
       if (t.alive) {
         rctx.strokeStyle = 'rgba(0,0,0,.55)'; rctx.lineWidth = 1; rctx.stroke();
@@ -849,6 +901,7 @@
       pitch = clamp(pitch + ky * PAN_RATE * kdt, -arcY / 2, arcY / 2);
       aim();
     }
+    advance(t);
     posX += (tgtX - posX) * SMOOTH;
     posY += (tgtY - posY) * SMOOTH;
     draw();
@@ -869,7 +922,7 @@
     var onCore = false;
     for (var i = 0; i < TARGETS.length; i++) {
       var tt = TARGETS[i];
-      if (!tt.alive) continue;
+      if (!tt.alive || tt.pending) continue;   // one that has not arrived cannot be hit
       var sx = posX + tt.ix * scale, sy = posY + tt.iy * scale;
       var d = Math.hypot(aimX - sx, aimY - sy);
       if (d <= tt.r * scale) { aiming = tt; onCore = d <= tt.cr * scale; break; }
@@ -880,7 +933,7 @@
     // big it is on screen. All three at full size every frame is what would make the
     // phone hot; this costs about a third of one.
     gTick++;
-    var live = TARGETS.filter(function (x) { return x.alive && x.el; });
+    var live = TARGETS.filter(function (x) { return x.alive && x.el && !x.pending; });
     if (live.length && seedReady) {
       var due = live[gTick % live.length];
       var want = Math.ceil(due.drawR * 2), N = SIZE_STEPS[SIZE_STEPS.length - 1];
@@ -955,6 +1008,7 @@
   function listen() {
     window.addEventListener('devicemotion', onMotion, true);   // the ONLY motion source
     started = true;
+    runStart = performance.now();   // the approach clock starts when the run does
     document.body.classList.add('started');
     goFullscreen();
     gateEl.classList.add('hide');
