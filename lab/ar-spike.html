@@ -11,10 +11,45 @@
                touch-action:none; -webkit-user-select:none; user-select:none; }
   #stage { position:fixed; inset:0; overflow:hidden; }
   #bg { position:absolute; top:0; left:0; transform-origin:0 0; will-change:transform; }
+  /* Targets live in a layer that gets the SAME transform as the backdrop, so they are
+     pinned to the picture rather than the screen — a virus stays where it was put in
+     the world while you pan across it. */
+  #world { position:absolute; top:0; left:0; transform-origin:0 0; will-change:transform;
+           pointer-events:none; }
+  .virus { position:absolute; border-radius:50%; transform:translate(-50%,-50%);
+           background:radial-gradient(circle at 38% 34%, rgba(255,120,120,.95),
+                      rgba(200,30,40,.75) 55%, rgba(120,0,20,.45) 100%);
+           box-shadow:0 0 22px rgba(255,40,40,.5); transition:opacity .25s ease; }
+  .virus .core { position:absolute; left:50%; top:50%; border-radius:50%;
+                 transform:translate(-50%,-50%); background:#ffe9a8;
+                 box-shadow:0 0 10px rgba(255,220,120,.95), 0 0 22px rgba(255,180,60,.6); }
+  .virus.stalled { filter:grayscale(.75) brightness(.65); }
+  .virus.dead { opacity:0; }
+  /* Fires a brief flash from the crosshair so a shot is unmistakable without sound. */
+  /* The shot, drawn the way it looks through a scope (Dave, 2026-08-05): the emitter sits
+     BELOW the line of sight, so the beam appears to rise from the bottom of the view and
+     converge on the crosshair. A solid projectile would arc and cross the sight line
+     twice; a laser goes straight and crosses once — simpler, and it still leaves exactly
+     one distance at which the crosshair tells the truth, which is where the depth
+     mechanic will come from once viruses have distance. */
+  /* width/height are MANDATORY here. An SVG with neither has an intrinsic size of
+     300x150, and `inset:0` does not stretch a replaced element — so the beam was being
+     drawn inside a small box in the top-left and clipped, which read as the shot
+     ignoring the crosshair (Dave, 2026-08-05). */
+  #beam { position:fixed; left:0; top:0; width:100%; height:100%;
+          pointer-events:none; opacity:0; }
+  #beam line { stroke-linecap:round; filter:drop-shadow(0 0 5px rgba(255,190,90,.9)); }
+  #flash { position:fixed; left:50%; top:50%; width:150px; height:150px; margin:-75px 0 0 -75px;
+           border-radius:50%; pointer-events:none; opacity:0;
+           background:radial-gradient(circle, rgba(255,255,200,.85), rgba(255,120,60,0) 70%); }
+  #flash.fire { animation:fl .22s ease-out; }
+  @keyframes fl { from { opacity:.95; transform:scale(.45); } to { opacity:0; transform:scale(1.25); } }
 
-  /* the crosshair never moves. that is the whole point. */
+  /* The crosshair sits at centre and RETURNS there — but a thumb can drag it off centre
+     to reach the corners of the image, which the phone alone can never put under a fixed
+     centre point once the background has hit its travel limit. Dave, 2026-08-05. */
   #cross { position:fixed; left:50%; top:50%; width:96px; height:96px;
-           transform:translate(-50%,-50%); pointer-events:none; }
+           transform:translate(-50%,-50%); pointer-events:none; will-change:transform; }
   #cross .ring { position:absolute; inset:26px; border:2px solid rgba(255,60,60,.9);
                  border-radius:50%; box-shadow:0 0 8px rgba(255,0,0,.6), inset 0 0 6px rgba(255,0,0,.4); }
   #cross .h, #cross .v { position:absolute; background:rgba(255,60,60,.9);
@@ -22,22 +57,64 @@
   #cross .h { left:0; right:0; top:50%; height:2px; margin-top:-1px; }
   #cross .v { top:0; bottom:0; left:50%; width:2px; margin-left:-1px; }
   #dot { position:fixed; left:50%; top:50%; width:5px; height:5px; margin:-2.5px 0 0 -2.5px;
-         background:#fff; border-radius:50%; pointer-events:none; box-shadow:0 0 4px #fff; }
+         background:#fff; border-radius:50%; pointer-events:none; box-shadow:0 0 4px #fff;
+         will-change:transform; }
+  /* A faint marker left at true centre while trimming, so it stays obvious how far the
+     crosshair has been pulled off and which way it will snap back. */
+  /* Radar (Dave, 2026-08-05): once targets can sit outside the view, the player needs to
+     be told WHICH WAY to turn or they end up sweeping the room hunting. The whole world
+     shrunk into a corner, with a box showing where you are looking inside it. Deliberately
+     NOT hidden by the tap-to-hide toggle — that toggle exists to clear away instrumentation,
+     and this is part of the game rather than something we bolted on to debug it. */
+  /* Lives OUTSIDE #hud on purpose — a control that hides a panel cannot live inside the
+     panel it hides, or there is no way back (Dave, 2026-08-05). Small and quiet, but
+     always present, and its label always states what the next press will do. */
+  /* Both of these are in-game furniture and have no business floating over the start
+     screen — caught on a phone screenshot, 2026-08-05. `started` on <body> is the single
+     switch. */
+  body:not(.started) #bHide, body:not(.started) #radar { display:none; }
+  #bHide { position:fixed; right:10px; bottom:calc(10px + env(safe-area-inset-bottom));
+           z-index:5; padding:9px 14px; font:600 12px/1 system-ui, sans-serif;
+           color:#dff; background:rgba(18,49,42,.82); border:1px solid #2f6f5e;
+           border-radius:8px; }
+  #radar { position:fixed; top:calc(10px + env(safe-area-inset-top)); right:10px;
+           width:104px; height:57px; border:1px solid rgba(255,255,255,.30);
+           border-radius:5px; background:rgba(0,10,8,.45); pointer-events:none; }
+  #home { position:fixed; left:50%; top:50%; width:10px; height:10px; margin:-5px 0 0 -5px;
+          border:1px solid rgba(255,255,255,.35); border-radius:50%; pointer-events:none;
+          opacity:0; transition:opacity .15s ease; }
+  #home.show { opacity:1; }
 
   /* movement factor, drawn as a bar so it can be watched rather than read */
-  #mbar { position:fixed; left:12px; right:12px; bottom:96px; height:5px;
+  /* Moved INSIDE the panel and into normal flow. Pinned at a fixed distance from the
+     bottom it drew straight through the readout as soon as the text grew a line
+     (screenshot, 2026-08-05) — a fixed offset can only ever be right for one layout. */
+  #mbar { height:3px; margin:0 0 5px; transition:opacity .18s ease;
           background:rgba(255,255,255,.14); border-radius:3px; overflow:hidden; }
   #mfill { height:100%; width:0%; background:#4fd6a8; transition:width .05s linear; }
   #mbar.locked #mfill { background:#666; }
 
-  #hud { position:fixed; left:0; right:0; bottom:0; padding:10px 12px calc(10px + env(safe-area-inset-bottom));
-         font:12px/1.45 ui-monospace, Menlo, Consolas, monospace; color:#9fe8c8;
-         background:linear-gradient(transparent, rgba(0,0,0,.82) 35%); }
+  /* The readout used to eat the bottom of the screen permanently. Dave, 2026-08-05:
+     "make this full screen so we can get rid of the navigation stuff at the top, and
+     give me a little more landscape." So it collapses to a single thin strip, and
+     TAPPING ANYWHERE on the picture hides it entirely — the instrument is there when
+     wanted and gone when the point is to look at the scene. */
+  /* The right padding RESERVES the hide button's corner. Without it the button row
+     stretches under a fixed-position control and lands on top of re-centre — which is
+     exactly what happened (Dave, 2026-08-05, screenshot off the phone). Reserving the
+     space is the fix; nudging the button would just move the collision. */
+  #hud { position:fixed; left:0; right:0; bottom:0;
+         padding:6px 92px calc(6px + env(safe-area-inset-bottom)) 10px;
+         font:10px/1.3 ui-monospace, Menlo, Consolas, monospace; color:#9fe8c8;
+         background:linear-gradient(transparent, rgba(0,0,0,.72) 30%);
+         transition:opacity .18s ease; }
+  #hud.dim { opacity:0; pointer-events:none; }
+  #hud.dim ~ #mbar { opacity:0; }
   #hud b { color:#fff; font-weight:600; }
   #hud .warn { color:#ffb3b3; }
   #hud .hold { color:#8fb; }
-  .btns { display:flex; gap:8px; margin-top:8px; flex-wrap:wrap; }
-  .btns button { flex:1 1 auto; min-width:70px; padding:11px 6px; font:600 13px/1 system-ui, sans-serif;
+  .btns { display:flex; gap:6px; margin-top:5px; flex-wrap:wrap; }
+  .btns button { flex:1 1 auto; min-width:56px; padding:8px 4px; font:600 11px/1 system-ui, sans-serif;
                  color:#dff; background:#12312a; border:1px solid #2f6f5e; border-radius:8px; }
   .btns button.on { background:#2f6f5e; color:#fff; }
 
@@ -54,20 +131,26 @@
 </head>
 <body>
 
-<div id="stage"><img id="bg" src="ar-backdrop.jpg" alt=""></div>
+<div id="stage"><img id="bg" src="ar-backdrop.jpg" alt=""><div id="world"></div></div>
 
+<button id="bHide">hide</button>
+<canvas id="radar" width="208" height="114"></canvas>
+<svg id="beam"><line id="beamline" stroke="#ffd98a" stroke-width="3"></line>
+                <line id="beamcore" stroke="#fffbe8" stroke-width="1.2"></line></svg>
+<div id="flash"></div>
+<div id="home"></div>
 <div id="cross"><span class="ring"></span><span class="h"></span><span class="v"></span></div>
 <div id="dot"></div>
-<div id="mbar"><div id="mfill"></div></div>
-
 <div id="hud">
+  <div id="mbar"><div id="mfill"></div></div>
   <div id="line1">waiting for motion…</div>
   <div id="line2"></div>
+  <div id="line3"></div>
   <div class="btns">
     <button id="bInvX">flip L/R</button>
     <button id="bInvY">flip U/D</button>
-    <button id="bArc">arc 45°</button>
-    <button id="bGate">gate on</button>
+    <button id="bFire">fire: AUTO</button>
+    <button id="bAccel">accel: ON</button>
     <button id="bZero">re-centre</button>
   </div>
 </div>
@@ -84,6 +167,7 @@
 (function () {
   var bg = document.getElementById('bg');
   var L1 = document.getElementById('line1'), L2 = document.getElementById('line2');
+  var L3 = document.getElementById('line3');
   var gateEl = document.getElementById('gate'), err = document.getElementById('err');
   var mbar = document.getElementById('mbar'), mfill = document.getElementById('mfill');
 
@@ -109,14 +193,97 @@
   // nothing, so there is no jitter AND no accumulated drift. The factor is drawn as a
   // bar above the readout so it can be watched instead of trusted.
   var ARC_X   = 45;      // degrees across the full horizontal travel
-  var MIN_W   = 3, MIN_H = 2;
+  // MIN_H dropped from 2 to 1.6 for the window backdrop (2026-08-05). The city shot is
+  // WIDE and SHORT while a phone held upright is tall and narrow, so demanding 2x the
+  // viewport height meant magnifying the picture 2.65x and throwing away its sharpness.
+  // 1.6 still leaves a real up-down range and the vertical arc auto-derives from it, so
+  // degrees-per-pixel stays equal on both axes whatever image is dropped in.
+  var MIN_W   = 3, MIN_H = 1.6;
   var ROT_FULL = 8.0;    // deg/sec that counts as unambiguously moving
   var ACC_FULL = 0.45;   // m/s^2 of linear acceleration that counts as moving
   var GATE_FLOOR = 0.07; // below this the phone is declared still and nothing integrates
   var SMOOTH  = 0.25;    // render lerp; the gate does the noise work, this just softens
+  // Gravity-as-reference. REF_TAU is how long an "average setting" is taken over before
+  // gravity is believed; DEADBAND is how far the picture may disagree with it before
+  // anything happens at all — this is the part that buys a genuinely motionless image,
+  // because inside it there is no correction signal to jitter. CORRECT_TAU is how
+  // lazily it walks back once it does engage; slow enough to be invisible, fast enough
+  // to beat the ~1.2 deg/sec of measured drift.
+  var REF_TAU     = 0.5;   // seconds of smoothing on gravity's opinion
+  var DEADBAND    = 3.0;   // degrees of disagreement tolerated with no correction
+  var CORRECT_TAU = 2.5;   // seconds to ease away the excess beyond the deadband
+  var STILL_RATE  = 10;    // deg/sec of total rotation below which the phone counts as held
+  var STILL_DWELL = 0.35;  // seconds it must stay that way before gravity gets a vote
+  var elevAvg = 0, stillFor = 0;
+
+  // ================= POINTER ACCELERATION (Dave, 2026-08-05) =================
+  // "most mouse settings have an acceleration value such that when you move the mouse
+  // very slowly, you in effect have higher resolution... if I'm moving quickly, it just
+  // goes ahead and moves quickly. But when I start moving slowly, it slows down a lot so
+  // I can fine tune where the crosshair is touching."
+  //
+  // The same transfer function every desktop pointer uses, applied to rotation rate.
+  // Two things fall out of one mechanism, which is why it may make the gravity work
+  // moot: slow motion gets fine control for aiming, AND sensor noise — which IS slow
+  // motion, by definition, since it is tiny wobble — gets multiplied by the small gain
+  // and largely vanishes. The drift shrinks by the same factor for the same reason.
+  //
+  // THE COST, stated so nobody rediscovers it as a bug: with acceleration the image is
+  // no longer a true 1:1 window on a fixed world. Sweep away fast and creep back slowly
+  // and you do not land where you started — exactly like a mouse. That also undermines
+  // the gravity correction, which only means something while screen position and real
+  // tilt are the same quantity. Both are on switches so all four combinations can be felt.
+  var accelOn   = true;
+  var GAIN_SLOW = 0.25;    // multiplier at a crawl — the fine-aim zone
+  var GAIN_FAST = 1.0;     // multiplier at speed — true 1:1
+  var SLOW_RATE = 8;       // deg/sec at or below which gain is fully GAIN_SLOW
+  var FAST_RATE = 60;      // deg/sec at or above which gain is fully GAIN_FAST
+  var gain = 1, rot = 0;   // rot lives out here so the readout can show it
+
+  // ================= TARGETS AND AUTO-FIRE (Dave, 2026-08-05) =================
+  // "if we get the crosshair on a core it just automatically shoots, it doesn't require
+  // us to have a finger on a button somewhere... Maybe we make it a selectable status".
+  //
+  // THE PARADOX HE SPOTTED, and its resolution. If the weapon fires when the crosshair
+  // is on the CORE, then hitting the body-but-not-the-core becomes impossible and that
+  // mechanic dies. So the weapon fires when the crosshair is on the VIRUS — anywhere on
+  // it — and where you were pointing decides the outcome: core kills, body stalls. Auto
+  // -fire removes the button press, not the skill, so the fine-aim gain still earns its
+  // keep. The haptic buzz stays: the satisfaction was in the feedback, not the finger.
+  //
+  // Mode A chosen by Dave: a short DWELL on target before firing, so sweeping the
+  // crosshair across a virus does not shoot and settling on one does. B (fire on touch)
+  // would make wild strafing the winning strategy, which is exactly what the
+  // acceleration curve exists to make unnecessary.
+  //
+  // ACCESSIBILITY, worth stating because it is the same idea twice: auto-fire IS the
+  // one-handed mode. Dave raised two-handed play and noted he has a paralysis issue in
+  // one arm, then proposed auto-fire — which removes the only thing the second hand was
+  // required for. Positions below are in NATURAL image pixels so targets are pinned to
+  // the world. T2 sits deliberately in the extreme corner of the picture, where the
+  // phone ALONE cannot bring it to centre — that is the honest test of the thumb trim.
+  var autoFire = true;
+  var DWELL = 0.20;         // seconds on target before the shot goes
+  var COOLDOWN = 0.45;      // seconds between shots
+  var TARGETS = [
+    { ix: 1180, iy: 1420, r: 150, cr: 34 },   // middle of the picture — easy
+    { ix:  190, iy:  240, r: 140, cr: 32 },   // extreme upper-left — needs the thumb
+    { ix: 2210, iy: 2790, r: 140, cr: 32 }    // extreme lower-right — needs the thumb
+  ];
+  var onTargetFor = 0, cooldownFor = 0, hits = 0, stalls = 0, aiming = null;
+
+  function gainFor(r) {
+    if (!accelOn) return 1;
+    var u = clamp((r - SLOW_RATE) / (FAST_RATE - SLOW_RATE), 0, 1);
+    return GAIN_SLOW + (GAIN_FAST - GAIN_SLOW) * (u * u * (3 - 2 * u));  // smoothstep
+  }
 
   var vw=0, vh=0, imgW=0, imgH=0, scale=1, travX=0, travY=0, arcY=30;
-  var invX = 1, invY = -1;          // U/D inverted by default — Dave, first run on the S10e
+  // invY was -1 for the GYRO pitch, whose sign was whatever the raw axis happened to
+  // integrate to. Gravity's elevation has a defined sign (+ looking up), so the mapping
+  // is derived rather than guessed: looking up must reveal the TOP of the image, which
+  // means moving the image DOWN the screen — that is invY = +1. Button still flips it.
+  var invX = 1, invY = 1;
   // Dave, 2026-08-05: "take the accelerometer out of it and ignore the accelerometer
   // altogether for a moment" — isolating variables. Gate ships OFF; the button turns
   // it back on. With it off NOTHING reads the accelerometer; this is pure gyroscope.
@@ -130,10 +297,36 @@
   // which of alpha/beta/gamma moves will NAME the yaw axis, and then the axis change
   // is made once, knowing, instead of guessed a third time.
   var rA = 0, rB = 0, rG = 0;       // last raw rates, for the readout
-  var yaw = 0, pitch = 0;           // degrees from centre, integrated from the gyro
+  // ---- PASS 2 (2026-08-05 evening): the accelerometer, as an INSTRUMENT ONLY.
+  // Same discipline as the gyro axes — measure before wiring. Nothing below feeds
+  // yaw, pitch or the gate; it is printed and nothing more, so it cannot confound
+  // the reading. WHY the accelerometer is the right next sensor: the gyro measures
+  // CHANGE only and has no idea where level is, which is why pitch read +19.6 deg
+  // before Dave moved at all. Gravity is an absolute reference that never drifts.
+  // Once we know which component tracks his tilt, gravity can correct the gyro's
+  // accumulated error — and may also let the axis mapping be DERIVED rather than
+  // hard-coded to this handset.
+  var aX = 0, aY = 0, aZ = 0, aMag = 0, gPitch = 0, gRoll = 0;
+  var haveAcc = null;               // null unknown, true/false once devicemotion speaks
+  // ---- PASS 2 RESULT (45-second recording, Dave tilting to floor and ceiling on cue)
+  // gz swung to +9.8 aiming the rear camera at the FLOOR and -9.4 at the CEILING —
+  // effectively the full physical range, unambiguous, with no drift. Meanwhile the
+  // gyro-integrated pitch failed twice over: it sat RAILED at -23.1 deg through the
+  // real tilts, and it marched 8.6 deg across seven seconds while gravity proved the
+  // phone was motionless (~1.2 deg/sec of pure drift). Total |g| held 9.4-10.6
+  // throughout, so at these speeds the movement itself does not pollute the reading
+  // and gravity needs no blending to be usable.
+  // So: PITCH COMES FROM GRAVITY, YAW STAYS ON THE GYRO. That split is forced rather
+  // than chosen — rotating about the vertical axis does not change which way is down,
+  // so gravity carries no yaw information at all and all of the pitch information.
+  var elev = 0;                     // screen-normal above horizon: +up, -down
+  var elevZero = null;              // set on first reading and by re-centre
+  var usePitchGravity = true;
+  var yaw = 0, pitch = 0;           // yaw integrated from the gyro; pitch from gravity
+  var pitchGyro = 0;                // the old integrated pitch, kept only as a witness
   var move = 0, gateVal = 0;
   var tgtX=0, tgtY=0, posX=0, posY=0;
-  var lastT = 0, events = 0, lastRate = 0, rateAt = 0, started = false;
+  var lastT = 0, events = 0, lastRate = 0, rateAt = 0, started = false, lastFrame = 0;
   var haveRate = null;              // null unknown, true/false once devicemotion speaks
 
   function layout() {
@@ -144,6 +337,7 @@
     travX = dw - vw; travY = dh - vh;
     arcY = travX > 0 ? ARC_X * (travY / travX) : 30;   // same px per degree both axes
     bg.style.width = dw + 'px'; bg.style.height = dh + 'px';
+    buildWorld(dw, dh);
     // Do NOT reset the position here. layout() runs on every resize, and Android
     // Chrome fires resize constantly as the URL bar shows and hides — so the old
     // `posX = tgtX = -travX/2` yanked the backdrop back to centre several times a
@@ -159,8 +353,138 @@
     tgtX = -travX / 2 + invX * (yaw   / (ARC_X / 2)) * (travX / 2);
     tgtY = -travY / 2 + invY * (pitch / (arcY  / 2)) * (travY / 2);
   }
-  function draw() { bg.style.transform = 'translate3d(' + posX + 'px,' + posY + 'px,0)'; }
+  // Targets are re-laid on every layout because scale changes with the viewport; the
+  // stored positions stay in natural image pixels so nothing accumulates rounding.
+  function buildWorld(dw, dh) {
+    var w = document.getElementById('world');
+    w.style.width = dw + 'px'; w.style.height = dh + 'px';
+    if (!w.childNodes.length) {
+      TARGETS.forEach(function (t) {
+        var el = document.createElement('div');
+        el.className = 'virus';
+        el.innerHTML = '<span class="core"></span>';
+        w.appendChild(el);
+        t.el = el; t.core = el.firstChild; t.alive = true; t.stalled = false;
+      });
+    }
+    TARGETS.forEach(function (t) {
+      t.el.style.left = (t.ix * scale) + 'px';
+      t.el.style.top  = (t.iy * scale) + 'px';
+      t.el.style.width  = (t.r * 2 * scale) + 'px';
+      t.el.style.height = (t.r * 2 * scale) + 'px';
+      t.core.style.width  = (t.cr * 2 * scale) + 'px';
+      t.core.style.height = (t.cr * 2 * scale) + 'px';
+    });
+  }
+
+  function draw() {
+    var tr = 'translate3d(' + posX + 'px,' + posY + 'px,0)';
+    bg.style.transform = tr;
+    var w = document.getElementById('world');
+    if (w) w.style.transform = tr;
+  }
   function clamp(v, lo, hi) { return v < lo ? lo : v > hi ? hi : v; }
+
+  // The whole world, shrunk. The white box is where you are currently looking; the dots
+  // are viruses in world coordinates. Red = alive, amber = stalled, faint = destroyed.
+  // Reading it should answer one question and only one: which way do I turn?
+  var rcv = null, rctx = null;
+  function drawRadar() {
+    if (!rcv) { rcv = document.getElementById('radar');
+                rctx = rcv && rcv.getContext ? rcv.getContext('2d') : null; }
+    if (!rctx || !imgW || !scale) return;
+    var RW = rcv.width, RH = rcv.height;
+    var dw = imgW * scale, dh = imgH * scale;
+    rctx.clearRect(0, 0, RW, RH);
+
+    // Where the view sits inside the world. posX is negative as you pan right, so the
+    // box slides the correct way without any extra sign juggling.
+    rctx.strokeStyle = 'rgba(255,255,255,.85)';
+    rctx.lineWidth = 2;
+    rctx.strokeRect((-posX / dw) * RW, (-posY / dh) * RH,
+                    (vw / dw) * RW, (vh / dh) * RH);
+
+    TARGETS.forEach(function (t) {
+      rctx.beginPath();
+      rctx.arc((t.ix / imgW) * RW, (t.iy / imgH) * RH, t.alive ? 5 : 3, 0, 6.2832);
+      rctx.fillStyle = !t.alive ? 'rgba(255,255,255,.16)'
+                     : t.stalled ? '#d8a92b' : '#ff4d4d';
+      rctx.fill();
+      if (t.alive) {
+        rctx.strokeStyle = 'rgba(0,0,0,.55)'; rctx.lineWidth = 1; rctx.stroke();
+      }
+    });
+  }
+
+  // Core kills, body only stalls — the distinction Dave wanted preserved, and the reason
+  // the weapon fires on the VIRUS rather than on the core. The buzz is the part of the
+  // button press worth keeping; a different pattern for a kill than for a stall, so the
+  // outcome is felt as well as seen.
+  // THE PULSE, then the hit (Dave, 2026-08-05): "a pulse of light that enters at the
+  // bottom center of the frame and travels up to the crosshairs immediately prior to
+  // making the shot fired event... as fast as we can possibly make it, because in
+  // essence, it is moving at the speed of light."
+  //
+  // The honest limit: the display refreshes about every 17 ms, so a genuinely
+  // instantaneous pulse would live and die inside one frame and never be seen to
+  // travel at all. Three frames is roughly the floor at which an eye still registers
+  // DIRECTION. Below that it is not faster, it is absent — the same reason spaceships
+  // get engine noise they could not physically have. Realism serves perception; where
+  // they fight, perception wins.
+  var PULSE_MS = 50;
+
+  function fire(t, onCore) {
+    // The beam rises from the emitter, which sits below the line of sight — bottom
+    // centre of the view. It ends AT the crosshair, so trimming with the thumb angles
+    // the shot automatically and correctly, with no extra code.
+    var bl = document.getElementById('beamline'), bc = document.getElementById('beamcore');
+    var bm = document.getElementById('beam');
+    var ox = vw / 2, oy = vh + 10, tx2 = vw / 2 + crossX, ty2 = vh / 2 + crossY;
+    var len = Math.hypot(tx2 - ox, ty2 - oy);
+
+    // Drawn by revealing the line from the emitter end — a dash the length of the whole
+    // beam, slid into view. That is what makes it TRAVEL rather than simply appear.
+    [bl, bc].forEach(function (l) {
+      l.setAttribute('x1', ox); l.setAttribute('y1', oy);
+      l.setAttribute('x2', tx2); l.setAttribute('y2', ty2);
+      l.style.transition = 'none';
+      l.style.strokeDasharray = len;
+      l.style.strokeDashoffset = len;
+    });
+    bm.style.transition = 'none';
+    bm.style.opacity = 1;
+    void bm.offsetWidth;                       // force the reset to land before animating
+    [bl, bc].forEach(function (l) {
+      l.style.transition = 'stroke-dashoffset ' + PULSE_MS + 'ms linear';
+      l.style.strokeDashoffset = 0;
+    });
+
+    // The hit lands when the light arrives, not when the trigger goes.
+    setTimeout(function () { impact(t, onCore); }, PULSE_MS);
+  }
+
+  function impact(t, onCore) {
+    var bm = document.getElementById('beam');
+    bm.style.transition = 'opacity 90ms ease-out';
+    bm.style.opacity = 0;
+
+    // The burst has to land where the crosshair is, not where the screen's middle is.
+    // It was pinned at 50%/50% in CSS and never told about the trim, so every shot
+    // detonated in the centre however far the thumb had dragged the aim away.
+    // Positioned via left/top rather than transform, because the flash animation owns
+    // transform and would overwrite a translate.
+    var f = document.getElementById('flash');
+    f.style.left = (vw / 2 + crossX) + 'px';
+    f.style.top  = (vh / 2 + crossY) + 'px';
+    f.classList.remove('fire'); void f.offsetWidth; f.classList.add('fire');
+    if (onCore) {
+      t.alive = false; t.el.classList.add('dead'); hits++;
+      if (navigator.vibrate) navigator.vibrate([28, 40, 28]);
+    } else {
+      if (!t.stalled) { t.stalled = true; stalls++; t.el.classList.add('stalled'); }
+      if (navigator.vibrate) navigator.vibrate(14);
+    }
+  }
 
   function onMotion(e) {
     var r = e.rotationRate;
@@ -188,7 +512,7 @@
     var gz = rB, gx = rA;
 
     // --- the movement factor, from BOTH sensors
-    var rot = Math.abs(gz) + Math.abs(gx);          // deg/sec
+    rot = Math.abs(gz) + Math.abs(gx);              // deg/sec
     var a = e.acceleration;                          // gravity already removed
     var acc;
     if (a && (a.x != null || a.y != null || a.z != null)) {
@@ -198,12 +522,99 @@
       var m = Math.sqrt((g.x||0)*(g.x||0) + (g.y||0)*(g.y||0) + (g.z||0)*(g.z||0));
       acc = Math.abs(m - 9.81);                      // deviation from resting gravity
     }
+    // --- INSTRUMENT ONLY: the gravity vector, and two angles derived from it.
+    // accelerationIncludingGravity is the one that still reads ~9.8 when the phone
+    // is sitting still, which is exactly the property we want — a resting reference.
+    // The two derived angles are stated so the recording is interpretable; which one
+    // actually tracks Dave's tilt is the question this pass answers, and the raw
+    // components are kept so any other convention can be derived without a re-run.
+    var G = e.accelerationIncludingGravity;
+    if (G && (G.x != null || G.y != null || G.z != null)) {
+      haveAcc = true;
+      aX = G.x || 0; aY = G.y || 0; aZ = G.z || 0;
+      aMag = Math.sqrt(aX*aX + aY*aY + aZ*aZ);
+      // atan2(-z, y) blew up near landscape in pass 2 (read -128 and +153 when y
+      // passed through zero). hypot(x,y) only vanishes with the phone perfectly flat,
+      // which is the one orientation where pitch genuinely IS undefined — so this
+      // form is stable everywhere it needs to be. MEASURED: +70 at the ceiling,
+      // -74 at the floor.
+      elev   = Math.atan2(-aZ, Math.hypot(aX, aY)) * 180 / Math.PI;
+      gPitch = elev;
+      gRoll  = Math.atan2(aX, aY) * 180 / Math.PI;    // rotate to landscape -> ~90
+      if (elevZero === null) { elevZero = elev; elevAvg = elev; }
+    } else if (haveAcc === null) { haveAcc = false; }
+
     var raw = clamp(Math.max(rot / ROT_FULL, acc / ACC_FULL), 0, 1);
     move += (raw - move) * 0.3;
     gateVal = (!gateOn) ? 1 : (move < GATE_FLOOR ? 0 : move);
 
-    yaw   = clamp(yaw   + gz * dt * gateVal, -ARC_X / 2, ARC_X / 2);
-    pitch = clamp(pitch + gx * dt * gateVal, -arcY  / 2, arcY  / 2);
+    // Gain from the COMBINED rate, not per-axis — a mouse accelerates on total speed,
+    // so a fast diagonal sweep should not have one axis crawling while the other flies.
+    gain = gainFor(rot);
+    yaw   = clamp(yaw   + gz * dt * gateVal * gain, -ARC_X / 2, ARC_X / 2);
+    // The uncorrected integration, kept as a witness so the raw drift stays visible.
+    pitchGyro = clamp(pitchGyro + gx * dt * gateVal, -arcY / 2, arcY / 2);
+
+    // ================= GRAVITY AS A REFERENCE, NOT AN INGREDIENT =================
+    // Dave's design, 2026-08-05, after two of mine failed: "use that as a reference,
+    // but not as a factor of what's happening on screen such that if you drift
+    // significantly from that, taking its average settings for, like, a tenth of a
+    // second, then we start drifting back toward what the gravitometer says".
+    //
+    // WHY MINE FAILED, both times. v1 fed gravity straight to the screen — but the
+    // accelerometer's idea of tilt wobbles about 4 degrees at rest, which is a large
+    // slice of a 23-degree half-range, so the picture jumped constantly. v2 was a
+    // complementary filter, which is smoother but has the same disease in miniature:
+    // it mixes a fresh sample of that noise into EVERY frame, so the image can never
+    // fully settle, only settle less. Dave felt it immediately: "rock solid stable"
+    // twenty minutes earlier, "jumpy as hell" after.
+    //
+    // I had also justified skipping the blend with a measurement that could not
+    // possibly have detected the problem: |g| held 9.4-10.6, which proves there is no
+    // big LINEAR acceleration, while a hand tremor rotates the gravity vector without
+    // changing its length at all.
+    //
+    // THE STRUCTURE THAT ACTUALLY WORKS. The gyro alone drives the screen, and a still
+    // phone reports essentially zero rotation — so still means STILL, exactly, with no
+    // noise source anywhere near the render path. Gravity is smoothed into a settled
+    // opinion and consulted only as a check. Inside the dead zone nothing happens at
+    // all. Outside it, the picture eases back at a gentle fixed rate. Drift accrues at
+    // roughly 1.2 deg/sec (measured), so it takes a couple of seconds to reach the dead
+    // zone edge and is then walked back invisibly.
+    // Sign check done BEFORE wiring, against the 45-second recording: coming down off
+    // the ceiling, elev fell 63->0.5 while the integrated pitch fell 13.2->-23.1, and
+    // coming up off the floor both rose together. They agree, so the pull is toward
+    // truth rather than away from it.
+    pitch = clamp(pitch + gx * dt * gateVal * gain, -arcY / 2, arcY / 2);
+    if (usePitchGravity && haveAcc) {
+      elevAvg += (elev - elevAvg) * Math.min(dt / REF_TAU, 1);   // the settled opinion
+
+      // CORRECT ONLY WHILE STILL (Dave, 2026-08-05: "the gravitometer does not assist
+      // with fluid motion. It kind of makes things counterintuitive... if I'm pointing
+      // way up at the top, and it thinks that I'm holding the phone steady... we just
+      // change our skew to reflect the reality that it's pointing up. And it doesn't
+      // have to be instantaneous.")
+      //
+      // The reason it fought him is structural: the reference is a half-second AVERAGE,
+      // so mid-turn it describes where the phone WAS, and correcting toward a stale
+      // target pulls the picture backwards against the motion. Averaging is what makes
+      // the reference quiet enough to trust, and it is the same property that makes it
+      // useless while moving — so the correction simply must not run then.
+      //
+      // Stillness is read off the gyro rather than the accelerometer: rotation rate is
+      // what "am I turning" literally means, and it does not care about hand tremor.
+      // The dwell requirement stops it flickering on during the slow part of a sweep.
+      stillFor = rot < STILL_RATE ? stillFor + dt : 0;
+
+      var errDeg = (elevAvg - elevZero) - pitch;
+      if (stillFor > STILL_DWELL && Math.abs(errDeg) > DEADBAND) {
+        // Past the dead zone: ease back at a fixed, gentle rate. Subtracting the
+        // deadband means correction starts from ZERO at the threshold instead of
+        // snapping on — no visible step at the moment it engages.
+        var over = errDeg > 0 ? errDeg - DEADBAND : errDeg + DEADBAND;
+        pitch = clamp(pitch + over * Math.min(dt / CORRECT_TAU, 1), -arcY / 2, arcY / 2);
+      }
+    }
 
     aim();
   }
@@ -212,6 +623,36 @@
     posX += (tgtX - posX) * SMOOTH;
     posY += (tgtY - posY) * SMOOTH;
     draw();
+    // While the thumb is down the crosshair tracks it exactly — any easing there would
+    // feel like lag against your own finger. On release the target becomes zero and this
+    // same lerp becomes the snap-back.
+    if (dragging) { crossX = crossTX; crossY = crossTY; }
+    else { crossX += (crossTX - crossX) * 0.3; crossY += (crossTY - crossY) * 0.3; }
+    var ct = 'translate(-50%,-50%) translate3d(' + crossX + 'px,' + crossY + 'px,0)';
+    crossEl.style.transform = ct;
+    dotEl.style.transform = 'translate3d(' + crossX + 'px,' + crossY + 'px,0)';
+
+    // --- what is under the crosshair, and does the weapon fire?
+    var frameDt = lastFrame ? Math.min((t - lastFrame) / 1000, 0.1) : 0.016;
+    lastFrame = t;
+    var aimX = vw / 2 + crossX, aimY = vh / 2 + crossY;
+    aiming = null;
+    var onCore = false;
+    for (var i = 0; i < TARGETS.length; i++) {
+      var tt = TARGETS[i];
+      if (!tt.alive) continue;
+      var sx = posX + tt.ix * scale, sy = posY + tt.iy * scale;
+      var d = Math.hypot(aimX - sx, aimY - sy);
+      if (d <= tt.r * scale) { aiming = tt; onCore = d <= tt.cr * scale; break; }
+    }
+    drawRadar();
+    cooldownFor = Math.max(0, cooldownFor - frameDt);
+    onTargetFor = aiming ? onTargetFor + frameDt : 0;
+    if (autoFire && aiming && onTargetFor >= DWELL && cooldownFor === 0) {
+      fire(aiming, onCore);
+      cooldownFor = COOLDOWN;
+      onTargetFor = 0;
+    }
     if (t - rateAt > 1000) { lastRate = events; events = 0; rateAt = t; }
     if (started) {
       var pct = Math.round(gateVal * 100);
@@ -225,9 +666,25 @@
                         ? ' <span class="warn">— no rotationRate at all</span>' : '');
       L2.innerHTML = 'yaw <b>' + yaw.toFixed(1) +
                      '&deg;</b> pitch <b>' + pitch.toFixed(1) + '&deg;</b> &middot; ' +
-                     (gateOn ? 'move ' + pct + '%' + (gateVal === 0 ?
-                        ' <span class="hold">STILL</span>' : '') : 'gate off') +
-                     ' &middot; ' + lastRate + ' Hz &middot; arc ' + ARC_X + '&deg;';
+                     lastRate + ' Hz &middot; arc ' + ARC_X + '&deg;';
+      // pitch source, then the gyro's version beside it — the drift stays visible.
+      // Says out loud whether gravity is doing anything RIGHT NOW, and by how much it
+      // disagrees — so "is it correcting?" is never a thing to wonder about.
+      var errNow = (elevAvg - elevZero) - pitch;
+      var correcting = usePitchGravity && haveAcc &&
+                       stillFor > STILL_DWELL && Math.abs(errNow) > DEADBAND;
+      // Gain first — it is the thing being judged now. The bar shows it at a glance:
+      // short bar = fine-aim territory, full bar = moving at speed.
+      mfill.style.width = Math.round(gain * 100) + '%';
+      var left = TARGETS.filter(function (x) { return x.alive; }).length;
+      // Kept short enough not to wrap now that the panel reserves the hide button's
+      // corner — a wrapped status line pushed the buttons around and read as a bug.
+      L3.innerHTML = 'gain <b>' + gain.toFixed(2) + '</b>&times;' +
+                     (aiming ? ' <span class="hold">ON TARGET</span>' : '') +
+                     ' &middot; <b>' + hits + '</b> killed &middot; <b>' + stalls +
+                     '</b> stalled &middot; <b>' + left + '</b> left' +
+                     (usePitchGravity ? ' &middot; grav off by <b>' + errNow.toFixed(1) + '&deg;</b>' : '') +
+                     (haveAcc === false ? ' <span class="warn">— no accelerometer</span>' : '');
     }
     requestAnimationFrame(tick);
   }
@@ -237,9 +694,23 @@
   window.addEventListener('resize', layout);
   window.addEventListener('orientationchange', function () { setTimeout(layout, 250); });
 
+  // Real fullscreen, requested from inside the Start tap because browsers only grant it
+  // during a user gesture. This is what removes Chrome's URL bar — and it also stops the
+  // bar showing and hiding as you move, which was firing a resize storm at layout().
+  function goFullscreen() {
+    var el = document.documentElement;
+    var fn = el.requestFullscreen || el.webkitRequestFullscreen;
+    if (fn) { try { fn.call(el, { navigationUI: 'hide' }); } catch (e) { try { fn.call(el); } catch (e2) {} } }
+    if (screen.orientation && screen.orientation.lock) {
+      screen.orientation.lock('portrait').catch(function () {});
+    }
+  }
+
   function listen() {
     window.addEventListener('devicemotion', onMotion, true);   // the ONLY motion source
     started = true;
+    document.body.classList.add('started');
+    goFullscreen();
     gateEl.classList.add('hide');
     if (navigator.wakeLock) navigator.wakeLock.request('screen').catch(function(){});
     setTimeout(function () {
@@ -267,21 +738,135 @@
     b.onclick = function () { fn(); b.classList.toggle('on'); };
   }
   tog('bInvX', function () { invX = -invX; });
-  tog('bInvY', function () { invY = -invY; }, true);   // starts inverted
-  var gb = document.getElementById('bGate');
-  gb.classList.add('on');
-  gb.onclick = function () {
-    gateOn = !gateOn;
-    gb.classList.toggle('on', gateOn);
-    gb.textContent = gateOn ? 'gate on' : 'gate OFF';
+  tog('bInvY', function () { invY = -invY; });
+  // Dave, 2026-08-05: "When it says grab on, I don't know if that means I have to hit
+  // the button to get grab on or grab is currently on." He is right, and it was the
+  // same ambiguity on both toggles. A label that could be read as either a REPORT or a
+  // COMMAND is unusable — so every toggle now reads "<thing>: STATE", which can only be
+  // a report, and the highlight agrees with it. Momentary actions ("flip U/D",
+  // "re-centre") stay as verbs, because those genuinely ARE commands.
+  // The movement gate lost its button to the accel toggle — screen space is scarce and
+  // acceleration suppresses still-phone noise far better than gating ever did. gateOn
+  // stays false, so gateVal stays 1 and the gate is simply inert.
+  var ab = document.getElementById('bAccel');
+  ab.classList.toggle('on', accelOn);
+  ab.onclick = function () {
+    accelOn = !accelOn;
+    ab.classList.toggle('on', accelOn);
+    ab.textContent = 'accel: ' + (accelOn ? 'ON' : 'OFF');
   };
-  document.getElementById('bZero').onclick = function () { yaw = 0; pitch = 0; };
-  document.getElementById('bArc').onclick = function () {
-    ARC_X = ARC_X === 45 ? 90 : (ARC_X === 90 ? 20 : 45);
-    this.textContent = 'arc ' + ARC_X + '°';
-    yaw = clamp(yaw, -ARC_X/2, ARC_X/2);
-    layout();
+  // Re-centre now means "call wherever the phone is pointing right now the middle".
+  // For yaw that still zeroes an accumulator; for pitch it moves the gravity reference.
+  document.getElementById('bZero').onclick = function () {
+    yaw = 0; pitchGyro = 0; elevZero = elev;
+    // Also revives the targets. Purity would keep aim and score separate, but in a spike
+    // being able to replay immediately is worth more than a second button.
+    hits = 0; stalls = 0; onTargetFor = 0; cooldownFor = 0;
+    TARGETS.forEach(function (t) {
+      t.alive = true; t.stalled = false;
+      t.el.classList.remove('dead', 'stalled');
+    });
   };
+  // Gravity correction is PARKED, not deleted (Dave, 2026-08-05: "I don't think we even
+  // need that gravity anymore. I'm not sure."). Its button gave up the slot to show/hide.
+  // It has been off since acceleration went in — acceleration suppresses the drift by the
+  // same factor it damps slow motion — so nothing is lost today, and if pitch drift ever
+  // returns this flag is the one line that brings the whole mechanism back.
+  usePitchGravity = false;
+  // The arc button gave up its slot: 45 degrees has been the settled spec all evening and
+  // nobody has reached for it, whereas auto-fire is the thing being judged now.
+  var fb = document.getElementById('bFire');
+  fb.classList.toggle('on', autoFire);
+  fb.onclick = function () {
+    autoFire = !autoFire;
+    fb.classList.toggle('on', autoFire);
+    fb.textContent = 'fire: ' + (autoFire ? 'AUTO' : 'OFF');
+  };
+
+  // ================= THUMB TRIM (Dave, 2026-08-05) =================
+  // "if I put my finger on the screen, I should be able to move my finger up, we'll move
+  // the cross hair up... such that I could put the cross hair in the extreme upper left
+  // hand corner. When I take my finger off the screen, the cross hair snaps back to the
+  // centre."
+  //
+  // THE PROBLEM IT SOLVES, which had no name before: once the background reaches its
+  // travel limit, panning stops. A crosshair welded to the centre therefore can NEVER be
+  // put on anything near the image's edges or corners — that content is unhittable
+  // however you hold the phone. Moving the CROSSHAIR rather than the background is the
+  // clean fix, because it adds reach without undoing the aim just made with the phone.
+  //
+  // Relative (finger delta), not absolute (jump to finger), so the crosshair never
+  // teleports out from under what you were looking at. Snap-back on release keeps the
+  // resting state predictable — there is exactly one place the crosshair lives at rest.
+  var stage = document.getElementById('stage');
+  var homeEl = document.getElementById('home'), crossEl = document.getElementById('cross');
+  var dotEl = document.getElementById('dot');
+  var crossX = 0, crossY = 0, crossTX = 0, crossTY = 0;
+  var dragging = false, dragTravel = 0, lastFX = 0, lastFY = 0;
+  var TRIM_GAIN = 1.0;      // 1:1 with the finger, as described. Raise if the reach is bad.
+  var TRIM_MARGIN = 30;     // keep the crosshair this far inside the screen edge
+
+  function trimStart(x, y) {
+    if (!started) return;
+    dragging = true; dragTravel = 0;
+    lastFX = x; lastFY = y;
+    homeEl.classList.add('show');
+  }
+  function trimMove(x, y) {
+    if (!dragging) return;
+    var dx = (x - lastFX) * TRIM_GAIN, dy = (y - lastFY) * TRIM_GAIN;
+    lastFX = x; lastFY = y;
+    dragTravel += Math.abs(dx) + Math.abs(dy);
+    crossTX = clamp(crossTX + dx, -(vw / 2 - TRIM_MARGIN), vw / 2 - TRIM_MARGIN);
+    crossTY = clamp(crossTY + dy, -(vh / 2 - TRIM_MARGIN), vh / 2 - TRIM_MARGIN);
+  }
+  function trimEnd() {
+    if (!dragging) return;
+    dragging = false;
+    crossTX = 0; crossTY = 0;          // snap home; the lerp in tick() eases it back
+    homeEl.classList.remove('show');
+  }
+
+  // Show/hide is a BUTTON, not a tap (Dave, 2026-08-05). Tap-versus-drag detection kept
+  // failing — a tap always slides a pixel, and Chrome synthesises a mouse click after
+  // every touch, so the toggle fired twice and landed back where it started. A button
+  // cannot be misread as a drag, which deletes the whole class of bug rather than
+  // patching it. Its label always names what the NEXT press does.
+  var hideBtn = document.getElementById('bHide');
+  hideBtn.onclick = function (e) {
+    e.stopPropagation();
+    var hud = document.getElementById('hud');
+    var nowHidden = hud.classList.toggle('dim');
+    mbar.style.opacity = nowHidden ? '0' : '';
+    hideBtn.textContent = nowHidden ? 'show' : 'hide';
+  };
+
+  // Chrome SYNTHESISES a mouse sequence after every touch, so the desktop fallback below
+  // was running trimEnd a second time — the toggle fired twice and landed exactly where
+  // it started, which is indistinguishable from nothing happening (Dave, 2026-08-05:
+  // "tap to hide is not working for me"). Once a real touch is seen, the mouse path is
+  // dead for the rest of the session.
+  var sawTouch = false;
+
+  stage.addEventListener('touchstart', function (e) {
+    sawTouch = true;
+    trimStart(e.touches[0].clientX, e.touches[0].clientY);
+  }, { passive: true });
+  stage.addEventListener('touchmove', function (e) {
+    e.preventDefault();
+    trimMove(e.touches[0].clientX, e.touches[0].clientY);
+  }, { passive: false });
+  stage.addEventListener('touchend', trimEnd);
+  stage.addEventListener('touchcancel', trimEnd);
+
+  // Mouse equivalents so the same code can be exercised from a desktop browser.
+  stage.addEventListener('mousedown', function (e) {
+    if (sawTouch) return; trimStart(e.clientX, e.clientY);
+  });
+  stage.addEventListener('mousemove', function (e) {
+    if (sawTouch) return; trimMove(e.clientX, e.clientY);
+  });
+  stage.addEventListener('mouseup', function () { if (sawTouch) return; trimEnd(); });
 
   requestAnimationFrame(tick);
 })();

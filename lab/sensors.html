@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Haven — sensor bench</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#07100e; color:#cfe; font:13px/1.45 ui-monospace, Menlo, Consolas, monospace;
+         padding:14px 12px calc(14px + env(safe-area-inset-bottom)); -webkit-user-select:none; user-select:none; }
+  h1 { font:700 16px system-ui, sans-serif; color:#fff; margin-bottom:2px; }
+  .sub { color:#7fae9c; font:12px system-ui, sans-serif; margin-bottom:12px; }
+  .card { border:1px solid #1e4a3f; border-radius:8px; padding:9px 11px; margin-bottom:9px;
+          background:#0b1a16; }
+  .card h2 { font:600 13px system-ui, sans-serif; color:#9fe8c8; margin-bottom:4px;
+             display:flex; justify-content:space-between; gap:8px; }
+  .tag { font:600 10px system-ui, sans-serif; padding:2px 7px; border-radius:9px; }
+  .ok   { background:#14402f; color:#7fe8b4; }
+  .no   { background:#43201f; color:#ffb3b3; }
+  .wait { background:#3a3520; color:#e8d69f; }
+  .v { color:#fff; }
+  .note { color:#7fae9c; font:11px/1.4 system-ui, sans-serif; margin-top:3px; }
+  button { width:100%; padding:14px; margin-bottom:12px; font:700 15px system-ui, sans-serif;
+           color:#04140f; background:#4fd6a8; border:0; border-radius:10px; }
+  .drift { color:#ffd28a; }
+</style>
+</head>
+<body>
+
+<h1>Sensor bench</h1>
+<p class="sub">Every sensor this browser will actually give us, with live numbers. Read the values, not the names.</p>
+
+<button id="go">Start sensors</button>
+
+<div id="cards"></div>
+
+<script>
+(function () {
+  var cards = document.getElementById('cards');
+
+  // One card per sensor. Built up front so an absent sensor is as visible as a
+  // present one — "not available" is a result, not a blank space.
+  function card(id, title, note) {
+    var d = document.createElement('div');
+    d.className = 'card';
+    d.innerHTML = '<h2><span>' + title + '</span><span class="tag wait" id="' + id + '-t">waiting</span></h2>' +
+                  '<div id="' + id + '-v" class="v">—</div>' +
+                  (note ? '<div class="note">' + note + '</div>' : '');
+    cards.appendChild(d);
+    return {
+      set: function (state, text) {
+        var t = document.getElementById(id + '-t');
+        t.className = 'tag ' + state;
+        t.textContent = state === 'ok' ? 'live' : (state === 'no' ? 'unavailable' : 'waiting');
+        document.getElementById(id + '-v').innerHTML = text;
+      }
+    };
+  }
+
+  var C = {
+    rel:   card('rel',   'RelativeOrientationSensor',
+                'OS fusion of gyro + accelerometer, NO compass. This is what we hand-built tonight — compare it.'),
+    abs:   card('abs',   'AbsoluteOrientationSensor',
+                'Same, but compass-referenced. Watch the heading while holding still: if it wanders indoors, that is the magnetometer.'),
+    grav:  card('grav',  'GravitySensor',
+                'Gravity already separated by the OS, instead of us deriving it.'),
+    lin:   card('lin',   'LinearAccelerationSensor', 'Motion with gravity removed.'),
+    gyro:  card('gyro',  'Gyroscope', 'Raw rotation rate, radians/sec at the OS rate.'),
+    acc:   card('acc',   'Accelerometer', 'Raw, including gravity.'),
+    dabs:  card('dabs',  'deviceorientationabsolute',
+                'The older compass-fused event. Its heading is the only compass we get.'),
+    mag:   card('mag',   'Magnetometer', 'Raw magnetic field. Expected absent — Chrome gates it behind a flag.'),
+    light: card('light', 'AmbientLightSensor', 'Screen-facing light level.'),
+    batt:  card('batt',  'Battery', 'Level and charging state.'),
+    geo:   card('geo',   'Geolocation', 'Includes heading and speed when moving — a second compass, GPS-derived.'),
+    touch: card('touch', 'Touch / pointer', 'Contact count and pressure, if the panel reports it.'),
+    misc:  card('misc',  'Other capabilities', 'Things that are not sensors but the game could use.')
+  };
+
+  function f(n, d) { return (n === null || n === undefined || isNaN(n)) ? '—' : n.toFixed(d === undefined ? 2 : d); }
+  function deg(r) { return r * 180 / Math.PI; }
+
+  // A quaternion is how the Generic Sensor API reports attitude. Converting to the
+  // three familiar angles here so the numbers can be compared directly against the
+  // pan spike's yaw and pitch rather than taken on faith.
+  function quatToEuler(q) {
+    var x = q[0], y = q[1], z = q[2], w = q[3];
+    var sinp = 2 * (w * x + y * z);
+    var cosp = 1 - 2 * (x * x + y * y);
+    var pitch = Math.atan2(sinp, cosp);
+    var sr = 2 * (w * y - z * x);
+    var roll = Math.abs(sr) >= 1 ? Math.sign(sr) * Math.PI / 2 : Math.asin(sr);
+    var yaw = Math.atan2(2 * (w * z + x * y), 1 - 2 * (y * y + z * z));
+    return [deg(yaw), deg(pitch), deg(roll)];
+  }
+
+  // Starts one Generic Sensor API sensor, reporting WHY it failed if it does —
+  // a refusal names the reason (permission, flag, missing hardware) and that is
+  // exactly the thing worth knowing.
+  function startSensor(name, ui, render, freq) {
+    if (typeof window[name] !== 'function') { ui.set('no', 'this browser has no ' + name); return; }
+    try {
+      var s = new window[name]({ frequency: freq || 30 });
+      s.addEventListener('reading', function () { ui.set('ok', render(s)); });
+      s.addEventListener('error', function (e) {
+        ui.set('no', 'refused: <b>' + (e.error && e.error.name) + '</b> — ' +
+                     (e.error && e.error.message ? e.error.message : 'no detail'));
+      });
+      s.start();
+    } catch (e) {
+      ui.set('no', 'construction threw <b>' + e.name + '</b>: ' + e.message);
+    }
+  }
+
+  // Compass drift watch: remember the first heading and report how far it has moved
+  // since. Holding the phone still, anything non-zero here is the magnetometer
+  // wandering — which is the whole reason the compass was left out of the pan spike.
+  var headRef = null, headMax = 0, headStart = 0;
+  function headingDrift(h) {
+    if (headRef === null) { headRef = h; headStart = Date.now(); return ''; }
+    var d = ((h - headRef + 540) % 360) - 180;
+    if (Math.abs(d) > Math.abs(headMax)) headMax = d;
+    var secs = ((Date.now() - headStart) / 1000).toFixed(0);
+    return ' <span class="drift">drift ' + f(d, 1) + '&deg; (worst ' + f(headMax, 1) +
+           '&deg; over ' + secs + 's)</span>';
+  }
+
+  function begin() {
+    document.getElementById('go').style.display = 'none';
+
+    startSensor('RelativeOrientationSensor', C.rel, function (s) {
+      var e = quatToEuler(s.quaternion);
+      return 'yaw <b>' + f(e[0], 1) + '&deg;</b>  pitch <b>' + f(e[1], 1) +
+             '&deg;</b>  roll <b>' + f(e[2], 1) + '&deg;</b>';
+    }, 60);
+
+    startSensor('AbsoluteOrientationSensor', C.abs, function (s) {
+      var e = quatToEuler(s.quaternion);
+      var heading = (e[0] + 360) % 360;
+      return 'yaw <b>' + f(e[0], 1) + '&deg;</b>  pitch <b>' + f(e[1], 1) +
+             '&deg;</b>  roll <b>' + f(e[2], 1) + '&deg;</b><br>heading <b>' +
+             f(heading, 1) + '&deg;</b>' + headingDrift(heading);
+    }, 60);
+
+    startSensor('GravitySensor', C.grav, function (s) {
+      return 'x <b>' + f(s.x) + '</b>  y <b>' + f(s.y) + '</b>  z <b>' + f(s.z) +
+             '</b>  |g| <b>' + f(Math.hypot(s.x, s.y, s.z)) + '</b>';
+    });
+    startSensor('LinearAccelerationSensor', C.lin, function (s) {
+      return 'x <b>' + f(s.x) + '</b>  y <b>' + f(s.y) + '</b>  z <b>' + f(s.z) + '</b>';
+    });
+    startSensor('Gyroscope', C.gyro, function (s) {
+      return 'x <b>' + f(deg(s.x), 1) + '</b>  y <b>' + f(deg(s.y), 1) +
+             '</b>  z <b>' + f(deg(s.z), 1) + '</b> &deg;/s';
+    }, 60);
+    startSensor('Accelerometer', C.acc, function (s) {
+      return 'x <b>' + f(s.x) + '</b>  y <b>' + f(s.y) + '</b>  z <b>' + f(s.z) + '</b>';
+    });
+    startSensor('Magnetometer', C.mag, function (s) {
+      return 'x <b>' + f(s.x) + '</b>  y <b>' + f(s.y) + '</b>  z <b>' + f(s.z) + '</b> &micro;T';
+    });
+    startSensor('AmbientLightSensor', C.light, function (s) {
+      return 'illuminance <b>' + f(s.illuminance, 0) + '</b> lux';
+    });
+
+    if ('ondeviceorientationabsolute' in window) {
+      window.addEventListener('deviceorientationabsolute', function (e) {
+        var h = e.alpha === null ? null : (360 - e.alpha) % 360;
+        C.dabs.set('ok', 'alpha <b>' + f(e.alpha, 1) + '</b> beta <b>' + f(e.beta, 1) +
+                   '</b> gamma <b>' + f(e.gamma, 1) + '</b>' +
+                   (e.absolute ? ' <b>[absolute]</b>' : ' [relative]'));
+      });
+    } else { C.dabs.set('no', 'not supported'); }
+
+    if (navigator.getBattery) {
+      navigator.getBattery().then(function (b) {
+        function upd() {
+          C.batt.set('ok', 'level <b>' + Math.round(b.level * 100) + '%</b>  ' +
+                     (b.charging ? '<b>charging</b>' : 'on battery'));
+        }
+        b.addEventListener('levelchange', upd);
+        b.addEventListener('chargingchange', upd);
+        upd();
+      }).catch(function (e) { C.batt.set('no', String(e)); });
+    } else { C.batt.set('no', 'no battery API'); }
+
+    // Geolocation is asked for LAST and only on the button, because it is the one
+    // sensor here that prompts — worth knowing it carries heading and speed, which
+    // is a compass that does not care about metal, but only while actually moving.
+    if (navigator.geolocation) {
+      navigator.geolocation.watchPosition(function (p) {
+        C.geo.set('ok', 'accuracy <b>' + f(p.coords.accuracy, 0) + 'm</b>  heading <b>' +
+                  f(p.coords.heading, 1) + '</b>  speed <b>' + f(p.coords.speed, 2) + '</b> m/s');
+      }, function (e) {
+        C.geo.set('no', 'denied or unavailable: ' + e.message);
+      }, { enableHighAccuracy: true });
+    } else { C.geo.set('no', 'no geolocation'); }
+
+    var pts = 0, press = 0;
+    function tp(e) {
+      pts = e.touches ? e.touches.length : 0;
+      if (e.touches && e.touches[0] && e.touches[0].force !== undefined) press = e.touches[0].force;
+      C.touch.set('ok', 'contacts <b>' + pts + '</b> of <b>' + navigator.maxTouchPoints +
+                  '</b>  pressure <b>' + f(press) + '</b>' +
+                  (press === 0 ? ' <span class="note">(0 means the panel does not report force)</span>' : ''));
+    }
+    ['touchstart', 'touchmove', 'touchend'].forEach(function (n) {
+      window.addEventListener(n, tp, { passive: true });
+    });
+    C.touch.set('ok', 'contacts <b>0</b> of <b>' + navigator.maxTouchPoints + '</b> — touch the screen');
+
+    var m = [];
+    m.push('vibration: <b>' + ('vibrate' in navigator ? 'yes' : 'no') + '</b>');
+    m.push('NFC read: <b>' + (typeof window.NDEFReader === 'function' ? 'yes' : 'no') + '</b>');
+    m.push('bluetooth: <b>' + ('bluetooth' in navigator ? 'yes' : 'no') + '</b>');
+    m.push('wake lock: <b>' + ('wakeLock' in navigator ? 'yes' : 'no') + '</b>');
+    m.push('fullscreen: <b>' + (typeof document.documentElement.requestFullscreen === 'function' ? 'yes' : 'no') + '</b>');
+    m.push('camera/mic: <b>' + (navigator.mediaDevices && navigator.mediaDevices.getUserMedia ? 'yes' : 'no') + '</b>');
+    m.push('cores: <b>' + (navigator.hardwareConcurrency || '?') + '</b>  memory: <b>' +
+           (navigator.deviceMemory || '?') + ' GB</b>');
+    C.misc.set('ok', m.join('<br>'));
+
+    if (navigator.wakeLock) navigator.wakeLock.request('screen').catch(function () {});
+  }
+
+  // iOS demands the permission request happen inside a user gesture; Android does not
+  // care. Asking on the button covers both without branching on the browser name.
+  document.getElementById('go').onclick = function () {
+    if (typeof DeviceMotionEvent !== 'undefined' &&
+        typeof DeviceMotionEvent.requestPermission === 'function') {
+      DeviceMotionEvent.requestPermission().then(begin).catch(begin);
+    } else { begin(); }
+  };
+})();
+</script>
+</body>
+</html>
