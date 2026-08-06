@@ -127,6 +127,22 @@
          transition:opacity .18s ease; }
   #hud.dim { opacity:0; pointer-events:none; }
   #hud.dim ~ #mbar { opacity:0; }
+
+  /* A short plain-English line for the player, distinct from the readout, which is
+     instrumentation for me.
+     It sits just BELOW the radar band, and that position was corrected after looking at
+     a screenshot: at the bottom it landed straight on top of the readout and its button
+     row whenever both were showing. Same trap the button row hit — a fixed offset from
+     the bottom can only ever be right for one layout, and the readout's height changes
+     with its content. Clearing the radar (top 10px + 57px tall) needs no width
+     reservation at all, so nothing here depends on how tall anything else gets. */
+  #toast { position:fixed; left:50%; top:calc(78px + env(safe-area-inset-top));
+           transform:translateX(-50%); z-index:6; max-width:86vw; padding:10px 14px;
+           border-radius:8px; text-align:center; color:#dff;
+           font:600 13px/1.4 system-ui, sans-serif;
+           background:rgba(18,49,42,.92); border:1px solid #2f6f5e;
+           opacity:0; pointer-events:none; transition:opacity .25s ease; }
+  #toast.show { opacity:1; }
   #hud b { color:#fff; font-weight:600; }
   #hud .warn { color:#ffb3b3; }
   #hud .hold { color:#8fb; }
@@ -150,7 +166,7 @@
 
 <div id="stage"><img id="bg" src="ar-backdrop.jpg" alt=""><div id="world"></div></div>
 
-<button id="bHide">hide</button>
+<button id="bHide">show</button>
 <canvas id="radar" width="208" height="114"></canvas>
 <svg id="beam"><line id="beamline" stroke="#ffd98a" stroke-width="3"></line>
                 <line id="beamcore" stroke="#fffbe8" stroke-width="1.2"></line></svg>
@@ -159,7 +175,8 @@
 <div id="cross"><span class="ring"></span><span class="h"></span><span class="v"></span></div>
 <div id="dot"></div>
 <div id="scopechrome"><span id="sLabel">IP42</span><span id="sLock">LOCK</span></div>
-<div id="hud">
+<div id="toast"></div>
+<div id="hud" class="dim">
   <div id="mbar"><div id="mfill"></div></div>
   <div id="line1">waiting for motion…</div>
   <div id="line2"></div>
@@ -175,8 +192,9 @@
 
 <div id="gate">
   <h1>Haven — pan spike</h1>
-  <p>Hold the phone up like you are looking through it. Tap start, then turn your body left and right and tilt up and down.</p>
+  <p id="how"></p>
   <p>The crosshair never moves. The world moves behind it.</p>
+  <p>Three of them are out there, and they are coming closer. Hold the crosshair on one until the brackets snap shut — it fires by itself.</p>
   <button id="go">Start</button>
   <div id="err"></div>
 </div>
@@ -187,6 +205,32 @@
   var L1 = document.getElementById('line1'), L2 = document.getElementById('line2');
   var L3 = document.getElementById('line3');
   var gateEl = document.getElementById('gate'), err = document.getElementById('err');
+
+  // Which controls does this device have? Two questions, answered two different ways,
+  // and keeping them apart is the whole point (Dave, 2026-08-06: "can you tell whether
+  // somebody has opened your web page with a phone or with a laptop?").
+  //   The pointer query is a GUESS — it describes the INPUT DEVICE, not the operating
+  //   system, so a phone reads coarse and a laptop reads fine. Good enough to word a
+  //   greeting, and it gets a touchscreen laptop wrong, which is why it is never allowed
+  //   to decide anything.
+  //   Whether MOTION works is not guessed at all: we start, wait, and see whether any
+  //   arrives (below). A guess may write the greeting; only a measurement may decide
+  //   which game you are actually playing. Same rule as the MAG/SIM marker — never let
+  //   a capability claim stand in for the capability.
+  var coarse = !!(window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
+  document.getElementById('how').textContent = coarse
+    ? 'Hold the phone up like you are looking through it. Tap start, then turn your body left and right and tilt up and down.'
+    : 'Arrow keys or WASD to look around, mouse wheel to zoom. Drag with the mouse to nudge the aim point — it springs back when you let go.';
+
+  // One short line for the PLAYER. The readout above it is instrumentation for me, and
+  // it now starts hidden, so anything a visitor needs has to be said out here.
+  var toastEl = document.getElementById('toast'), toastTimer = 0;
+  function toast(msg, ms) {
+    toastEl.textContent = msg;
+    toastEl.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toastEl.classList.remove('show'); }, ms || 6000);
+  }
   var mbar = document.getElementById('mbar'), mfill = document.getElementById('mfill');
 
   // ================= design spec (Dave, 2026-08-05) =================
@@ -570,6 +614,19 @@
   var lastT = 0, events = 0, lastRate = 0, rateAt = 0, started = false, lastFrame = 0;
   var haveRate = null;              // null unknown, true/false once devicemotion speaks
 
+  // The biggest turn rate seen since Start, and whether we have told the player the
+  // keyboard works. MEASURED 2026-08-06, and this is why counting events is useless:
+  // desktop Chrome with no sensors at all fires devicemotion at 60 Hz with rotation
+  // rates of 0.1 / -0.0 / -0.1 deg/s. It does not go quiet and it does not send nulls —
+  // it invents plausible near-zero numbers. So "are events arriving" answers yes on a
+  // laptop, and the only question with a true answer is "has this thing ever actually
+  // TURNED". Real motion on Dave's S10e ran 13-29 deg/s; the laptop's noise floor is
+  // 0.1. Two deg/s sits two orders above the noise and six below the weakest real
+  // signal, so nothing lands in between.
+  // Same failure as the MAG/SIM marker: the arrival of a reading is not the reading.
+  var peakRate = 0, noMotionTold = false;
+  var MOTION_FLOOR = 2;             // deg/s
+
   function layout() {
     vw = window.innerWidth; vh = window.innerHeight;
     if (!imgW) return;
@@ -769,6 +826,8 @@
     if (dt <= 0 || dt > 0.25) dt = 0.016;          // ignore stalls / tab switches
 
     rA = r.alpha || 0; rB = r.beta || 0; rG = r.gamma || 0;
+    var mag = Math.max(Math.abs(rA), Math.abs(rB), Math.abs(rG));
+    if (mag > peakRate) peakRate = mag;
     // MEASURED on Dave's Galaxy S10e over ADB, 2026-08-05 — not derived from the spec,
     // because the spec was wrong here three times running. An 18-second recording while
     // he turned and tilted on cue:
@@ -953,6 +1012,12 @@
       onTargetFor = 0;
     }
     if (t - rateAt > 1000) { lastRate = events; events = 0; rateAt = t; }
+    // Evidence arrived after we said there was none. Take it back rather than leave a
+    // phone player reading keyboard instructions for the rest of the run.
+    if (noMotionTold && peakRate >= MOTION_FLOOR) {
+      noMotionTold = false;
+      toastEl.classList.remove('show');
+    }
     if (started) {
       var pct = Math.round(gateVal * 100);
       mfill.style.width = pct + '%';
@@ -963,9 +1028,14 @@
                      rB.toFixed(0) + '</b>&nbsp; &gamma; <b>' + rG.toFixed(0) + '</b> &deg;/s' +
                      (haveRate === false
                         ? ' <span class="warn">— no rotationRate at all</span>' : '');
+      // 'Hz' counts events and 'peak' measures content — printing them side by side is
+      // deliberate, because a laptop shows 60 Hz and a peak of 0.1, and that pair is the
+      // whole story: the events are real, the motion in them is not.
       L2.innerHTML = 'yaw <b>' + yaw.toFixed(1) +
                      '&deg;</b> pitch <b>' + pitch.toFixed(1) + '&deg;</b> &middot; ' +
-                     lastRate + ' Hz &middot; arc ' + ARC_X + '&deg;';
+                     lastRate + ' Hz &middot; peak <b class="' +
+                     (peakRate < MOTION_FLOOR ? 'warn' : '') + '">' +
+                     peakRate.toFixed(1) + '</b> &deg;/s &middot; arc ' + ARC_X + '&deg;';
       // pitch source, then the gyro's version beside it — the drift stays visible.
       // Says out loud whether gravity is doing anything RIGHT NOW, and by how much it
       // disagrees — so "is it correcting?" is never a thing to wonder about.
@@ -1014,9 +1084,28 @@
     gateEl.classList.add('hide');
     if (navigator.wakeLock) navigator.wakeLock.request('screen').catch(function(){});
     setTimeout(function () {
-      if (!lastRate && !events) {
-        L1.innerHTML = '<span class="warn">no motion events at all — the browser is not ' +
-                       'delivering devicemotion</span>';
+      if (peakRate < MOTION_FLOOR) {
+        // The MEASUREMENT overrules the pointer guess, and it is the only thing allowed
+        // to. A laptop, a phone whose owner denied motion, and a touchscreen laptop that
+        // reported a coarse pointer all land here — and all three need to be told the
+        // keyboard works, not shown a diagnostic. The diagnostic still goes to the
+        // readout for me.
+        // NOT final: a phone lying flat on a desk also reads still, so tick() retracts
+        // this the instant a real turn arrives. A one-shot verdict at 2.5s would be a
+        // guess wearing a measurement's clothes.
+        noMotionTold = true;
+        // No diagnostic is written to the readout here: tick() rewrites those lines every
+        // frame, so anything set from a timer is gone inside 16ms. The peak rate — the
+        // number this decision actually turns on — goes into L2 instead, where it lives.
+        // The two halves are genuinely different advice, and getting this wrong was
+        // visible only in a screenshot: the first draft told a PHONE player to press
+        // arrow keys, which is worse than saying nothing — a phone that denied motion
+        // has no keyboard, so the one instruction it gets is the one it cannot follow.
+        // What a phone in that state CAN still do is drag to aim, and the fix for the
+        // real cause is to allow motion and reload.
+        toast(coarse
+          ? 'No movement detected. If you declined motion access, reload and allow it — meanwhile, drag with your thumb to aim.'
+          : 'Arrow keys or WASD to look around. Mouse wheel to zoom.', 9000);
       }
     }, 2500);
   }
