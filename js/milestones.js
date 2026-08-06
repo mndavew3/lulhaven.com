@@ -1,5 +1,16 @@
-// generated from haven_wiki.db accomplishments — 616 rows, newest id 630
+// generated from haven_wiki.db accomplishments — 617 rows, newest id 631
 var milestonesDataset = [
+  {
+    "id": 631,
+    "date": "2026-08-05",
+    "theme": "Manga / lore",
+    "impact": 4,
+    "summary": "The Haven game became playable on a real phone. You aim by moving the phone itself, nudge the aim point with your thumb, and it fires on its own once you hold steady on a target.",
+    "detail": "Aiming was smoothed so the view stops jittering when the phone is held still, and a small map in the corner shows where you are looking within the whole scene. Dave played it end to end and cleared every target.",
+    "benefit": "The game that carries Haven's story is no longer a demo of one motion — it is something a person can pick up and play, which is what makes the story spread.",
+    "ref": "3739b8f2b1",
+    "features": []
+  },
   {
     "id": 630,
     "date": "2026-08-05",
