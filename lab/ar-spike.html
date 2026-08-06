@@ -16,13 +16,13 @@
      the world while you pan across it. */
   #world { position:absolute; top:0; left:0; transform-origin:0 0; will-change:transform;
            pointer-events:none; }
-  .virus { position:absolute; border-radius:50%; transform:translate(-50%,-50%);
-           background:radial-gradient(circle at 38% 34%, rgba(255,120,120,.95),
-                      rgba(200,30,40,.75) 55%, rgba(120,0,20,.45) 100%);
-           box-shadow:0 0 22px rgba(255,40,40,.5); transition:opacity .25s ease; }
-  .virus .core { position:absolute; left:50%; top:50%; border-radius:50%;
-                 transform:translate(-50%,-50%); background:#ffe9a8;
-                 box-shadow:0 0 10px rgba(255,220,120,.95), 0 0 22px rgba(255,180,60,.6); }
+  /* The virus is no longer a coloured circle. It is a canvas carrying the real
+     creature — membrane deformed live, put through a light intensifier, with its
+     own range and bearing tags. Proven in lab/blob.html before it came here.
+     The element is larger than the creature so the brackets and readouts have room;
+     it stays centred on the target, so hit detection and the radar are untouched. */
+  .virus { position:absolute; transform:translate(-50%,-50%);
+           transition:opacity .25s ease; }
   .virus.stalled { filter:grayscale(.75) brightness(.65); }
   .virus.dead { opacity:0; }
   /* Fires a brief flash from the crosshair so a shot is unmistakable without sound. */
@@ -56,9 +56,26 @@
                          box-shadow:0 0 6px rgba(255,0,0,.7); }
   #cross .h { left:0; right:0; top:50%; height:2px; margin-top:-1px; }
   #cross .v { top:0; bottom:0; left:50%; width:2px; margin-left:-1px; }
-  #dot { position:fixed; left:50%; top:50%; width:5px; height:5px; margin:-2.5px 0 0 -2.5px;
-         background:#fff; border-radius:50%; pointer-events:none; box-shadow:0 0 4px #fff;
+  /* Red, and a quarter the size it was (Dave, 2026-08-06). Red is the one hue that
+     cannot be mistaken for the phosphor green of the contacts, so the aim point stays
+     findable however bright the thing behind it gets — which is why real sights use it. */
+  #dot { position:fixed; left:50%; top:50%; width:3px; height:3px; margin:-1.5px 0 0 -1.5px;
+         background:#ff5a50; border-radius:50%; pointer-events:none;
+         box-shadow:0 0 4px rgba(255,60,50,.95), 0 0 9px rgba(255,40,40,.5);
          will-change:transform; }
+  /* Chrome that describes the VIEW, not any one contact: what this instrument is
+     hunting, and whether the crosshair is on something. Range and bearing live on
+     the contacts themselves, because with three on screen a number in the corner is
+     a fact with no owner. */
+  #scopechrome { position:fixed; left:0; right:0; top:0; padding:10px 12px;
+                 display:flex; justify-content:space-between; pointer-events:none;
+                 font:600 13px/1 ui-monospace, Menlo, Consolas, monospace;
+                 letter-spacing:1px; }
+  #sLabel { color:rgba(120,255,150,.92); text-shadow:0 0 8px rgba(60,255,120,.5); }
+  #sLock  { color:rgba(120,255,150,1); text-shadow:0 0 10px rgba(60,255,120,.8);
+            opacity:0; transition:opacity .06s linear; }
+  #sLock.on { opacity:1; }
+  body:not(.started) #scopechrome { display:none; }
   /* A faint marker left at true centre while trimming, so it stays obvious how far the
      crosshair has been pulled off and which way it will snap back. */
   /* Radar (Dave, 2026-08-05): once targets can sit outside the view, the player needs to
@@ -141,6 +158,7 @@
 <div id="home"></div>
 <div id="cross"><span class="ring"></span><span class="h"></span><span class="v"></span></div>
 <div id="dot"></div>
+<div id="scopechrome"><span id="sLabel">IP42</span><span id="sLock">LOCK</span></div>
 <div id="hud">
   <div id="mbar"><div id="mfill"></div></div>
   <div id="line1">waiting for motion…</div>
@@ -265,12 +283,197 @@
   var autoFire = true;
   var DWELL = 0.20;         // seconds on target before the shot goes
   var COOLDOWN = 0.45;      // seconds between shots
+  // MEASURED 2026-08-06, not guessed. The old coordinates were authored for the tall
+  // manga page and never moved when the 2048x1118 city photo replaced it: target 1 sat
+  // 302px BELOW the image, target 3 was 1672px below it and past the right edge. They
+  // were in empty world space.
+  //
+  // The reachable band is narrower than the image, because the window only travels as
+  // far as the backdrop overhangs it: roughly x 157-1890, y 349-768 in image pixels on
+  // a portrait phone. Everything here sits inside that, and the radii are sized for the
+  // wide photo — the old r:150 came out nearly as wide as a phone screen.
   var TARGETS = [
-    { ix: 1180, iy: 1420, r: 150, cr: 34 },   // middle of the picture — easy
-    { ix:  190, iy:  240, r: 140, cr: 32 },   // extreme upper-left — needs the thumb
-    { ix: 2210, iy: 2790, r: 140, cr: 32 }    // extreme lower-right — needs the thumb
+    { ix: 1100, iy: 470, r: 85, cr: 20 },   // near the middle — the easy one
+    { ix:  330, iy: 400, r: 78, cr: 18 },   // off to the left — turn to find it
+    { ix: 1740, iy: 700, r: 78, cr: 18 }    // low and right — turn the other way
   ];
   var onTargetFor = 0, cooldownFor = 0, hits = 0, stalls = 0, aiming = null;
+
+  var TAU2 = Math.PI * 2, gTick = 0;
+  var lockEl = document.getElementById('sLock');
+
+  // ---- desktop controls -------------------------------------------------
+  // A phone turns; a desktop cannot. Arrows/WASD drive yaw and pitch directly, which
+  // is the same pair of numbers the gyroscope writes — so the desktop is a genuine
+  // rig for tuning, not a separate code path that can drift out of agreement.
+  // The wheel zooms. Mouse DRAG is deliberately left alone: it is already the
+  // crosshair trim, the exact analogue of the thumb, and stealing it for panning
+  // would break the control that works.
+  var ZOOM = 1, keys = {}, PAN_RATE = 34;   // degrees per second held
+  window.addEventListener('keydown', function (e) {
+    var k = e.key.toLowerCase();
+    if (['arrowleft','arrowright','arrowup','arrowdown','a','d','w','s'].indexOf(k) < 0) return;
+    keys[k] = true; e.preventDefault();
+  });
+  window.addEventListener('keyup', function (e) { keys[e.key.toLowerCase()] = false; });
+  window.addEventListener('wheel', function (e) {
+    ZOOM = clamp(ZOOM * (e.deltaY > 0 ? 0.92 : 1.087), 1, 4);
+    layout();
+    e.preventDefault();
+  }, { passive: false });
+  // Real heading when the hardware has one. ALWAYS state the provenance rather than
+  // warning only when we think it is fake — headless browsers and emulators both
+  // assert absolute:true with no magnetometer behind it, which defeated the
+  // conditional version instantly (lab/blob.html, 2026-08-06).
+  var azReal = null;
+  window.addEventListener('deviceorientationabsolute', function (e) {
+    if (e.alpha !== null && e.alpha !== undefined) azReal = (360 - e.alpha) % 360;
+  }, true);
+
+  // ================= THE CREATURE ==========================================
+  // Lifted from lab/blob.html after it was settled there. Two things happen per
+  // pixel: the membrane is deformed (walk back along the radius to find where this
+  // pixel came from before the skin pushed out, so the contents are dragged with
+  // the skin), and the colour is remapped — red and green channels exchanged, then
+  // blended toward phosphor green. The blue skin survives the swap, which is what
+  // keeps it reading as two materials.
+  var SEED = new Image(); SEED.src = 'blob-seed.png';
+  var seedReady = false, srcData = null, SRC = 256;
+  SEED.onload = function () { seedReady = true; };
+
+  var WARP = 0.26, GREEN = 0.40, GRAIN = 0.35, CHURN = 1.6;
+  var SIZE_STEPS = [48, 64, 96, 128, 192, 256];
+
+  function h3(i, j, k) {
+    var n = Math.imul(i, 73856093) ^ Math.imul(j, 19349663) ^ Math.imul(k, 83492791);
+    n = Math.imul(n ^ (n >>> 15), 2246822519);
+    n = Math.imul(n ^ (n >>> 13), 3266489917);
+    n = n ^ (n >>> 16);
+    return (n >>> 0) / 2147483648 - 1;
+  }
+  // Integer multiples of the angle only, so the outline closes on itself with no
+  // kink at the seam; unrelated speeds so it never visibly repeats.
+  function wobbleAt(a, tt, seed) {
+    var k = CHURN, s = 1 + (CHURN - 1) * 0.85;
+    return (Math.sin(a * 3 + tt * 0.70 * s + seed * 1.7) * 0.060
+          + Math.sin(a * 5 - tt * 0.45 * s + seed * 3.1) * 0.038
+          + Math.sin(a * 2 + tt * 0.31 * s + seed * 5.3) * 0.052
+          + Math.sin(a * 7 + tt * 0.23 * s + seed * 2.2) * 0.022
+          + Math.sin(a * 4 - tt * 0.97 * s + seed * 4.1) * 0.030 * k
+          + Math.sin(a * 6 + tt * 1.31 * s + seed * 6.7) * 0.018 * k
+          + Math.sin(a * 1 + tt * 0.53 * s + seed * 1.1) * 0.055 * k) * k;
+  }
+  function ensureSrc() {
+    if (srcData || !seedReady) return srcData;
+    var c = document.createElement('canvas'); c.width = c.height = SRC;
+    var x = c.getContext('2d');
+    x.clearRect(0, 0, SRC, SRC);
+    x.drawImage(SEED, 0, 0, SRC, SRC);
+    srcData = x.getImageData(0, 0, SRC, SRC).data;
+    return srcData;
+  }
+  // Rendered at a resolution matched to how big it currently is on screen, and only
+  // one target is recomputed per frame. Doing all three at full size every frame is
+  // what would cook a phone.
+  function renderCreature(tt, time, N) {
+    var s = ensureSrc(); if (!s) return false;
+    if (!tt.buf || tt.buf.width !== N) {
+      tt.buf = document.createElement('canvas'); tt.buf.width = tt.buf.height = N;
+      tt.bctx = tt.buf.getContext('2d');
+      tt.bimg = tt.bctx.createImageData(N, N);
+    }
+    var d = tt.bimg.data, R = N / 2, LUT = 256, SR = SRC / 2, i;
+    // NOT tt.r — that is the target's world radius, a number the game already owns.
+    if (!tt.wlut) tt.wlut = new Float32Array(LUT);
+    for (i = 0; i < LUT; i++) tt.wlut[i] = wobbleAt(i / LUT * TAU2, time, tt.seed);
+
+    for (var py = 0; py < N; py++) {
+      var yy = py - R + 0.5;
+      for (var px = 0; px < N; px++) {
+        var xx = px - R + 0.5, o = (py * N + px) * 4;
+        var rr = Math.sqrt(xx * xx + yy * yy);
+        var edge = (R - 1) - rr;
+        if (edge <= 0) { d[o + 3] = 0; continue; }
+        var cov = edge < 1 ? edge : 1;
+
+        var ai = ((Math.atan2(yy, xx) / TAU2 + 1) * LUT) | 0;
+        var wv = tt.wlut[ai & (LUT - 1)];
+        var rn = rr / R;
+        var u = (rn - 0.12) / 0.83;
+        var ramp = u <= 0 ? 0 : (u >= 1 ? 1 : u * u * (3 - 2 * u));
+        var kk = 1 - wv * WARP * ramp;
+        var sx = SR + (xx / R) * kk * SR, sy = SR + (yy / R) * kk * SR;
+        if (sx < 0 || sy < 0 || sx > SRC - 2 || sy > SRC - 2) { d[o + 3] = 0; continue; }
+
+        var x0 = sx | 0, y0 = sy | 0, fx = sx - x0, fy = sy - y0;
+        var i00 = (y0 * SRC + x0) * 4, i10 = i00 + 4, i01 = i00 + SRC * 4, i11 = i01 + 4;
+        var w00 = (1 - fx) * (1 - fy), w10 = fx * (1 - fy),
+            w01 = (1 - fx) * fy, w11 = fx * fy;
+        var sr = s[i00] * w00 + s[i10] * w10 + s[i01] * w01 + s[i11] * w11;
+        var sg = s[i00 + 1] * w00 + s[i10 + 1] * w10 + s[i01 + 1] * w01 + s[i11 + 1] * w11;
+        var sb = s[i00 + 2] * w00 + s[i10 + 2] * w10 + s[i01 + 2] * w01 + s[i11 + 2] * w11;
+        var sa = s[i00 + 3] * w00 + s[i10 + 3] * w10 + s[i01 + 3] * w01 + s[i11 + 3] * w11;
+
+        var br = sg, bg2 = sr, bb = sb;           // shades of red become shades of green
+        var v = (br * 0.30 + bg2 * 0.59 + bb * 0.11) / 255;
+        v = Math.pow(v, 0.62);
+        if (GRAIN > 0) v += h3(px, py, gTick >> 1) * 0.085 * GRAIN;
+        if (v < 0) v = 0; else if (v > 1) v = 1;
+        var pr = v * 46, pg = v * 255, pb = v * 92;
+        d[o]     = br + (pr - br) * GREEN;
+        d[o + 1] = bg2 + (pg - bg2) * GREEN;
+        d[o + 2] = bb + (pb - bb) * GREEN;
+        d[o + 3] = sa * cov;
+      }
+    }
+    tt.bctx.putImageData(tt.bimg, 0, 0);
+    return true;
+  }
+
+  // Range and bearing belong to the CONTACT, not the frame (Dave, 2026-08-06): with
+  // more than one on screen a single number in the corner is a fact with no owner.
+  // Range is derived from the target's own radius so the number and the picture can
+  // never disagree; bearing comes from where it sits in the scene, which the arc
+  // maps to real degrees.
+  var RANGE_K = 42000;
+  function tagFor(tt) {
+    tt.rangeM = RANGE_K / tt.r;
+    var base = azReal !== null ? azReal : 0;
+    tt.azDeg = (base + ((tt.ix / (imgW || 1)) - 0.5) * ARC_X + 360) % 360;
+  }
+
+  function drawCreature(tt) {
+    if (!tt.el || !tt.buf) return;
+    var ctx = tt.ctx, W = tt.el.width, H = tt.el.height;
+    ctx.clearRect(0, 0, W, H);
+    var cx = W / 2, cy = H / 2, rad = tt.drawR;
+    var G = 'rgba(120,255,150,';
+    var gl = ctx.createRadialGradient(cx, cy, rad * 0.5, cx, cy, rad * 1.5);
+    gl.addColorStop(0, 'rgba(40,200,90,0.16)');
+    gl.addColorStop(1, 'rgba(40,200,90,0)');
+    ctx.fillStyle = gl;
+    ctx.beginPath(); ctx.arc(cx, cy, rad * 1.5, 0, TAU2); ctx.fill();
+    ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(tt.buf, cx - rad, cy - rad, rad * 2, rad * 2);
+
+    var lock = (aiming === tt);
+    var fs = Math.max(11 * tt.dpr, Math.min(20 * tt.dpr, rad * 0.20));
+    ctx.font = (fs | 0) + 'px ui-monospace, Menlo, Consolas, monospace';
+    ctx.textBaseline = 'top';
+    var b = rad * (lock ? 1.02 : 1.16), arm = b * (lock ? 0.34 : 0.22);
+    ctx.lineWidth = Math.max(1, (lock ? 2.6 : 1.4) * tt.dpr);
+    ctx.strokeStyle = G + (lock ? '1)' : '0.5)');
+    [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(function (q) {
+      var x = cx + q[0] * b, y = cy + q[1] * b;
+      ctx.beginPath();
+      ctx.moveTo(x - q[0] * arm, y); ctx.lineTo(x, y); ctx.lineTo(x, y - q[1] * arm);
+      ctx.stroke();
+    });
+    ctx.fillStyle = G + (lock ? '0.95)' : '0.72)');
+    ctx.fillText('RNG ' + tt.rangeM.toFixed(0) + 'm', cx - b, cy - b - fs * 1.25);
+    ctx.fillText('AZ ' + ('00' + Math.round(tt.azDeg)).slice(-3) + '°',
+                 cx - b, cy + b + fs * 0.35);
+  }
 
   function gainFor(r) {
     if (!accelOn) return 1;
@@ -332,7 +535,7 @@
   function layout() {
     vw = window.innerWidth; vh = window.innerHeight;
     if (!imgW) return;
-    scale = Math.max(MIN_W * vw / imgW, MIN_H * vh / imgH);
+    scale = Math.max(MIN_W * vw / imgW, MIN_H * vh / imgH) * ZOOM;
     var dw = imgW * scale, dh = imgH * scale;
     travX = dw - vw; travY = dh - vh;
     arcY = travX > 0 ? ARC_X * (travY / travX) : 30;   // same px per degree both axes
@@ -359,21 +562,31 @@
     var w = document.getElementById('world');
     w.style.width = dw + 'px'; w.style.height = dh + 'px';
     if (!w.childNodes.length) {
-      TARGETS.forEach(function (t) {
-        var el = document.createElement('div');
+      TARGETS.forEach(function (t, i) {
+        var el = document.createElement('canvas');
         el.className = 'virus';
-        el.innerHTML = '<span class="core"></span>';
         w.appendChild(el);
-        t.el = el; t.core = el.firstChild; t.alive = true; t.stalled = false;
+        t.el = el; t.ctx = el.getContext('2d');
+        t.seed = 3.1 + i * 4.3;
+        t.alive = true; t.stalled = false;
       });
     }
+    // PAD leaves room for the brackets and the two readouts. The element grows, the
+    // creature inside it does not — and because it is centred on the target, hit
+    // detection, the radar and the beam all keep working off the same numbers.
+    var PAD = 1.75;
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
     TARGETS.forEach(function (t) {
+      var box = t.r * 2 * scale * PAD;
       t.el.style.left = (t.ix * scale) + 'px';
       t.el.style.top  = (t.iy * scale) + 'px';
-      t.el.style.width  = (t.r * 2 * scale) + 'px';
-      t.el.style.height = (t.r * 2 * scale) + 'px';
-      t.core.style.width  = (t.cr * 2 * scale) + 'px';
-      t.core.style.height = (t.cr * 2 * scale) + 'px';
+      t.el.style.width  = box + 'px';
+      t.el.style.height = box + 'px';
+      t.el.width  = Math.round(box * dpr);
+      t.el.height = Math.round(box * dpr);
+      t.dpr = dpr;
+      t.drawR = t.r * scale * dpr;
+      tagFor(t);
     });
   }
 
@@ -620,6 +833,16 @@
   }
 
   function tick(t) {
+    // Held keys move the same yaw/pitch the gyroscope writes, then go through the
+    // same aim() — one path to the screen, so desktop and phone cannot disagree.
+    var kdt = lastFrame ? Math.min((t - lastFrame) / 1000, 0.1) : 0.016;
+    var kx = (keys['arrowright'] || keys['d'] ? 1 : 0) - (keys['arrowleft'] || keys['a'] ? 1 : 0);
+    var ky = (keys['arrowup'] || keys['w'] ? 1 : 0) - (keys['arrowdown'] || keys['s'] ? 1 : 0);
+    if (kx || ky) {
+      yaw = clamp(yaw + kx * PAN_RATE * kdt, -ARC_X / 2, ARC_X / 2);
+      pitch = clamp(pitch + ky * PAN_RATE * kdt, -arcY / 2, arcY / 2);
+      aim();
+    }
     posX += (tgtX - posX) * SMOOTH;
     posY += (tgtY - posY) * SMOOTH;
     draw();
@@ -646,6 +869,23 @@
       if (d <= tt.r * scale) { aiming = tt; onCore = d <= tt.cr * scale; break; }
     }
     drawRadar();
+
+    // One creature recomputed per frame, round-robin, at a resolution matched to how
+    // big it is on screen. All three at full size every frame is what would make the
+    // phone hot; this costs about a third of one.
+    gTick++;
+    var live = TARGETS.filter(function (x) { return x.alive && x.el; });
+    if (live.length && seedReady) {
+      var due = live[gTick % live.length];
+      var want = Math.ceil(due.drawR * 2), N = SIZE_STEPS[SIZE_STEPS.length - 1];
+      for (var q = 0; q < SIZE_STEPS.length; q++) {
+        if (SIZE_STEPS[q] >= want) { N = SIZE_STEPS[q]; break; }
+      }
+      renderCreature(due, t / 1000, N);
+      for (var q2 = 0; q2 < live.length; q2++) { tagFor(live[q2]); drawCreature(live[q2]); }
+    }
+    lockEl.classList.toggle('on', !!aiming);
+
     cooldownFor = Math.max(0, cooldownFor - frameDt);
     onTargetFor = aiming ? onTargetFor + frameDt : 0;
     if (autoFire && aiming && onTargetFor >= DWELL && cooldownFor === 0) {
