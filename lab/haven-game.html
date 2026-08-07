@@ -1453,7 +1453,7 @@
       // start screen — by now it is measured.
       if (peakRate >= MOTION_FLOOR) {
         tutorialBeat = 1;
-        toast('Turn your body to look around. The crosshair never moves — the world moves behind it.', 7000);
+        toast('Turn your body to look around. Drag your finger to fine-tune the crosshair.', 7000);
         setTimeout(beatTwo, 7600);
         return;
       }
@@ -1479,7 +1479,7 @@
         tutorialBeat = 1;
         toast(coarse
           ? 'No movement detected. If you declined motion access, reload and allow it — meanwhile, drag with your thumb to aim.'
-          : 'Arrow keys or WASD to look around. Mouse wheel to zoom.', 9000);
+          : 'Arrow keys or WASD to look around, mouse wheel to zoom. Drag with the mouse to fine-tune the crosshair.', 9000);
         setTimeout(beatTwo, 9600);
       }
     }, 2500);
