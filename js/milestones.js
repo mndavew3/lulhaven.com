@@ -1,5 +1,16 @@
-// generated from haven_wiki.db accomplishments — 622 rows, newest id 636
+// generated from haven_wiki.db accomplishments — 626 rows, newest id 640
 var milestonesDataset = [
+  {
+    "id": 637,
+    "date": "2026-08-06",
+    "theme": "Reliability & Updates",
+    "impact": 5,
+    "summary": "Haven firmware 0.1.71 went live for all four models, and the first real over-the-air update ran end to end: a production router took itself from 0.1.69 to 0.1.71 through the same signed channel every customer will use.",
+    "detail": null,
+    "benefit": "Your router keeps itself current: fixes arrive over the air, verified against Haven's signature, without you touching a cable.",
+    "ref": "866a045af9",
+    "features": []
+  },
   {
     "id": 634,
     "date": "2026-08-06",
@@ -8,6 +19,28 @@ var milestonesDataset = [
     "summary": "We found — before a single router shipped — that four of Haven's nightly jobs were never running at all.",
     "detail": "Every Haven router spreads its nightly work across a random minute so the whole fleet does not hit our servers at once. That random minute was being computed from a number far too large for the router's small shell to handle, and it came out as minus one. Minus one is not a minute, so the router's scheduler threw the whole line away — silently. Four jobs died with it: the blocklist refresh, the adult-list refresh, the update check, and the watchdog that is supposed to notice when something has stopped. Measured on the bench unit, not reasoned about: the first explanation we had was wrong and was thrown out after the box was asked directly.",
     "benefit": "A Haven router that never refreshes its blocklists and never checks for updates would look perfectly healthy while quietly going stale. Catching it on the bench means no customer ever meets it.",
+    "ref": "",
+    "features": []
+  },
+  {
+    "id": 639,
+    "date": "2026-08-06",
+    "theme": "Trust & transparency",
+    "impact": 4,
+    "summary": "We caught the 'Hand this unit to someone else' button confirming an erase it never performs — the wipe script does not exist yet — before a single customer ever pressed it.",
+    "detail": null,
+    "benefit": "Flaws get found on our bench and said out loud, not discovered by you after they have already misled you.",
+    "ref": "",
+    "features": []
+  },
+  {
+    "id": 638,
+    "date": "2026-08-06",
+    "theme": "Product definition",
+    "impact": 4,
+    "summary": "We locked the design that makes a factory reset useless as an escape hatch: one export file that backs up your settings, moves them to a new router, enters the contest, and survives a reset — with every choice about what to share made by you, at import time.",
+    "detail": null,
+    "benefit": "Pressing the reset button hands back a router with the same filters, the same users, and the same passwords it had before — and your backups stay yours, encrypted under your passphrase.",
     "ref": "",
     "features": []
   },
@@ -53,6 +86,17 @@ var milestonesDataset = [
     "detail": "The honest-label check was originally written to fire only when a sensor looked absent — and a test browser that claims to have a compass it does not have defeated it completely, so a made-up bearing was printed as if measured. The label is now always printed, one way or the other. The same day turned up a second invisible fault: the code that gives the creature its texture was returning the same number every time, so two rounds of tuning were spent adjusting something that was not doing anything.",
     "benefit": "Haven sells trust, and a display that quietly makes numbers up is the exact opposite of that. Where a reading is estimated rather than measured, it says so — every time, not only when something looks wrong.",
     "ref": "",
+    "features": []
+  },
+  {
+    "id": 640,
+    "date": "2026-08-06",
+    "theme": "Session continuity",
+    "impact": 2,
+    "summary": "One-command session close: a compact now chains the full end-of-session ritual automatically, carries an explicit publish go-ahead through the boundary, and retries itself past transient network failures.",
+    "detail": null,
+    "benefit": "A working session can be closed and its results published with a single command - nothing depends on remembering follow-up steps, and nothing is lost at a context boundary.",
+    "ref": "6c34cf17",
     "features": []
   },
   {
