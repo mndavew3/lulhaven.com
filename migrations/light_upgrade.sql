@@ -10,6 +10,11 @@ CREATE TABLE IF NOT EXISTS haven_images (
   image_url        TEXT NOT NULL,
   sha256           TEXT NOT NULL,
   version          TEXT NOT NULL,
+  -- 'sysupgrade' = one-tap (e.g. GL.iNet boards). 'bootloader_conversion' =
+  -- needs a UBI installer + boot-chain rewrite first (e.g. Linksys E8450 /
+  -- mt7622). Locked design 2026-07-31 (project_haven_gold_download_flow) --
+  -- a flat supported:true/false can't tell these apart.
+  install_class    TEXT NOT NULL CHECK(install_class IN ('sysupgrade','bootloader_conversion')),
   updated_datetime TEXT NOT NULL
 );
 

@@ -23,7 +23,7 @@ export async function onRequestPost({ request, env }) {
   // Do we have a full-Haven image for this exact router model?
   let img = null;
   try { img = await db.prepare(
-    "SELECT image_url, sha256, version FROM haven_images WHERE board_name=?"
+    "SELECT image_url, sha256, version, install_class FROM haven_images WHERE board_name=?"
   ).bind(board).first(); } catch { return json({ error: "server error" }, 500); }
   const supported = !!img;
 
@@ -45,6 +45,6 @@ export async function onRequestPost({ request, env }) {
   }
 
   const out = { ok: true, supported, registered };
-  if (supported) out.image = { url: img.image_url, sha256: img.sha256, version: img.version };
+  if (supported) out.image = { url: img.image_url, sha256: img.sha256, version: img.version, install_class: img.install_class };
   return json(out);
 }
