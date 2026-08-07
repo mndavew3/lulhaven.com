@@ -95,6 +95,9 @@
                  font:600 13px/1 ui-monospace, Menlo, Consolas, monospace;
                  letter-spacing:1px; }
   #sLabel { color:rgba(120,255,150,.92); text-shadow:0 0 8px rgba(60,255,120,.5); }
+  /* Always visible in the top chrome, not the collapsible debug HUD — Dave asked for the
+     level number to be somewhere on screen at all times, 2026-08-07. */
+  #sLevel { color:rgba(120,255,150,.92); text-shadow:0 0 8px rgba(60,255,120,.5); }
   #sLock  { color:rgba(120,255,150,1); text-shadow:0 0 10px rgba(60,255,120,.8);
             opacity:0; transition:opacity .06s linear; }
   #sLock.on { opacity:1; }
@@ -239,7 +242,7 @@
 <div id="dotG1" class="dot gnome"></div>
 <div id="crossG2" class="cross gnome"><span class="ring"></span><span class="h"></span><span class="v"></span></div>
 <div id="dotG2" class="dot gnome"></div>
-<div id="scopechrome"><span id="sLabel">IP42</span><span id="sLock">LOCK</span></div>
+<div id="scopechrome"><span id="sLabel">IP42</span><span id="sLevel">LV 1</span><span id="sLock">LOCK</span></div>
 <div id="health"><span id="hLabel">INTEGRITY</span><span id="hTrack"><i id="hFill"></i></span></div>
 <div id="over"><b>OVERRUN</b><span>Every instance reached you.</span></div>
 <div id="toast"></div>
@@ -431,27 +434,30 @@
   // frequency of spawning increases, such that late levels would have almost continuous
   // firing" — so it climbs down in lockstep with INTERVAL, same shape, floor above zero
   // so a shot is never truly instant.
+  // COUNT-based levels (Dave, 2026-08-07 — replaces the original time-survival design):
+  // level n resolves exactly (n+4) contacts — 5, 6, 7, 8, 9… — by kill OR breach,
+  // "or they resolve themselves, whatever." No duration/clock; the level's own contact
+  // count IS the pass condition, so it can never stall out or run long on a slow level.
   var CAMPAIGN = [
-    { n:1,  intervalStart:4000, intervalEnd:3300, approachStart:24, approachEnd:22, capacity:12, cooldownStart:0.90, cooldownEnd:0.80, durationMs:30000 },
-    { n:2,  intervalStart:3100, intervalEnd:2500, approachStart:22, approachEnd:20, capacity:14, cooldownStart:0.80, cooldownEnd:0.68, durationMs:31500 },
-    { n:3,  intervalStart:2350, intervalEnd:1850, approachStart:20, approachEnd:18, capacity:16, cooldownStart:0.68, cooldownEnd:0.56, durationMs:33000 },
-    { n:4,  intervalStart:1500, intervalEnd:1100, approachStart:18, approachEnd:16, capacity:18, cooldownStart:0.56, cooldownEnd:0.46, durationMs:34500 },
-    { n:5,  intervalStart:1100, intervalEnd:1000, approachStart:16, approachEnd:14, capacity:22, cooldownStart:0.46, cooldownEnd:0.40, durationMs:36000 },
-    { n:6,  intervalStart:950,  intervalEnd:680,  approachStart:14, approachEnd:12, capacity:24, cooldownStart:0.40, cooldownEnd:0.34, durationMs:37500 },
-    { n:7,  intervalStart:680,  intervalEnd:480,  approachStart:12, approachEnd:10, capacity:28, cooldownStart:0.34, cooldownEnd:0.28, durationMs:39000 },
-    { n:8,  intervalStart:480,  intervalEnd:300,  approachStart:10, approachEnd:9,  capacity:32, cooldownStart:0.28, cooldownEnd:0.22, durationMs:40500 },
-    { n:9,  intervalStart:300,  intervalEnd:300,  approachStart:9,  approachEnd:8,  capacity:34, cooldownStart:0.22, cooldownEnd:0.18, durationMs:42000 },
-    { n:10, intervalStart:280,  intervalEnd:170,  approachStart:8,  approachEnd:7,  capacity:40, cooldownStart:0.18, cooldownEnd:0.14, durationMs:45000 }
+    { n:1,  count:5,  intervalStart:4000, intervalEnd:3300, approachStart:24, approachEnd:22, cooldownStart:0.90, cooldownEnd:0.80 },
+    { n:2,  count:6,  intervalStart:3100, intervalEnd:2500, approachStart:22, approachEnd:20, cooldownStart:0.80, cooldownEnd:0.68 },
+    { n:3,  count:7,  intervalStart:2350, intervalEnd:1850, approachStart:20, approachEnd:18, cooldownStart:0.68, cooldownEnd:0.56 },
+    { n:4,  count:8,  intervalStart:1500, intervalEnd:1100, approachStart:18, approachEnd:16, cooldownStart:0.56, cooldownEnd:0.46 },
+    { n:5,  count:9,  intervalStart:1100, intervalEnd:1000, approachStart:16, approachEnd:14, cooldownStart:0.46, cooldownEnd:0.40 },
+    { n:6,  count:10, intervalStart:950,  intervalEnd:680,  approachStart:14, approachEnd:12, cooldownStart:0.40, cooldownEnd:0.34 },
+    { n:7,  count:11, intervalStart:680,  intervalEnd:480,  approachStart:12, approachEnd:10, cooldownStart:0.34, cooldownEnd:0.28 },
+    { n:8,  count:12, intervalStart:480,  intervalEnd:300,  approachStart:10, approachEnd:9,  cooldownStart:0.28, cooldownEnd:0.22 },
+    { n:9,  count:13, intervalStart:300,  intervalEnd:300,  approachStart:9,  approachEnd:8,  cooldownStart:0.22, cooldownEnd:0.18 },
+    { n:10, count:14, intervalStart:280,  intervalEnd:170,  approachStart:8,  approachEnd:7,  cooldownStart:0.18, cooldownEnd:0.14 }
   ];
   function lerp(a, b, p) { return a + (b - a) * clamp(p, 0, 1); }
   function levelIntervalAt(lv, p) { return lerp(lv.intervalStart, lv.intervalEnd, p); }
   function levelApproachAt(lv, p) { return lerp(lv.approachStart, lv.approachEnd, p); }
   function levelCooldownAt(lv, p) { return lerp(lv.cooldownStart, lv.cooldownEnd, p); }
+  var MAX_CONCURRENT = 3;   // "arrive staggered… three at once is a wall" — unchanged design intent
 
   var campaignIndex = 0;               // 0-based into CAMPAIGN
-  var levelElapsedMs = 0;              // resets each level
-  var levelStartHits = 0;              // hits count at level start, for per-level cleanliness
-  var levelStartBreaches = 0;
+  var levelSpawned = 0, levelResolved = 0;   // this level's own count — the pass condition
   var totalBreaches = 0;
   var campaignComplete = false;
 
@@ -496,24 +502,34 @@
   // apparent size being inversely proportional to range.
   var runStart = 0, levelStartMs = 0;
   function currentLevel() { return CAMPAIGN[campaignIndex]; }
+  function updateLevelChrome() {
+    var el = document.getElementById('sLevel');
+    if (el) el.textContent = 'LV ' + currentLevel().n;
+  }
+  // Progress through the level's own contact count, not a clock — drives the interval/
+  // approach/cooldown dials so later arrivals within a level still come faster and
+  // fiercer than the first, same escalating feel, just keyed to count instead of time.
   function levelProgress(nowMs) {
-    var lv = currentLevel();
-    return clamp((nowMs - levelStartMs) / lv.durationMs, 0, 1);
+    return clamp(levelSpawned / currentLevel().count, 0, 1);
   }
   function advance(nowMs) {
     if (!runStart || campaignComplete || overrun) return;
     var lv = currentLevel();
     var p = levelProgress(nowMs);
 
-    // ---- SPAWNER (V1 Spawner.kt: fixed-rate accumulator against the level's own dial)
+    // ---- SPAWNER (V1 Spawner.kt: fixed-rate accumulator) — stops at the level's OWN
+    // count, not a clock. levelSpawned is the pass condition's other half.
     var frameMs = lastAdvanceMs ? (nowMs - lastAdvanceMs) : 16;
     lastAdvanceMs = nowMs;
     spawnAcc += frameMs;
     var liveCount = TARGETS.filter(function (t) { return t.alive; }).length;
     var interval = levelIntervalAt(lv, p);
-    while (spawnAcc >= interval) {
+    while (spawnAcc >= interval && levelSpawned < lv.count) {
       spawnAcc -= interval;
-      if (liveCount < lv.capacity) { spawnOne(levelApproachAt(lv, p)); liveCount++; }
+      if (liveCount < MAX_CONCURRENT) {
+        spawnOne(levelApproachAt(lv, levelProgress(nowMs)));
+        liveCount++; levelSpawned++;
+      }
     }
 
     // ---- age every live contact toward the player, using ITS OWN approach time
@@ -526,22 +542,24 @@
       t.range = t.rangeFar + (t.rangeNear - t.rangeFar) * ap;
       t.r = t.sizeM * FOCAL_IMG / t.range;
       t.cr = t.r * 0.235;
-      // IT GOT THROUGH. Reaching you is the only thing that costs integrity, so the
-      // approach clock is a real deadline instead of an animation.
+      // IT GOT THROUGH. Reaching you is the only thing that costs integrity — AND, per
+      // Dave, one of the two ways a contact "resolves" for the level count.
       if (ap >= 1 && !t.arrived) { t.arrived = true; breach(t); }
     }
     sizeTargets();
 
-    // ---- level pass: survive the duration, advance the campaign
-    if (p >= 1) {
+    // ---- level pass: every one of this level's own contacts has resolved — killed or
+    // breached, "whatever" — not a clock. "into level you go up" (Dave, 2026-08-07).
+    if (levelSpawned >= lv.count && levelResolved >= lv.count) {
       campaignIndex++;
       if (campaignIndex >= CAMPAIGN.length) {
         campaignComplete = true;
         onCampaignComplete();
       } else {
         levelStartMs = nowMs;
-        spawnAcc = 0;
+        spawnAcc = 0; levelSpawned = 0; levelResolved = 0;
         updateGnomeUnlocks();
+        updateLevelChrome();
         toast('Level ' + CAMPAIGN[campaignIndex].n + '.', 3000);
       }
     }
@@ -557,6 +575,7 @@
   function breach(t) {
     t.alive = false;
     totalBreaches++;
+    levelResolved++;   // "or they resolve themselves, whatever" (Dave, 2026-08-07)
     if (t.el) { t.el.classList.add('dead'); }
     integrity = Math.max(0, integrity - BREACH_COST);
     var f = document.getElementById('hFill');
@@ -1069,6 +1088,7 @@
     f.classList.remove('fire'); void f.offsetWidth; f.classList.add('fire');
     if (onCore) {
       t.alive = false; t.el.classList.add('dead'); hits++;
+      levelResolved++;   // the other of the two ways a contact resolves (Dave, 2026-08-07)
       retireRadarAttn();          // one kill proves they found it; stop shouting
       if (navigator.vibrate) navigator.vibrate([28, 40, 28]);
     } else {
@@ -1349,7 +1369,7 @@
       var left = TARGETS.filter(function (x) { return x.alive; }).length;
       // Kept short enough not to wrap now that the panel reserves the hide button's
       // corner — a wrapped status line pushed the buttons around and read as a bug.
-      L3.innerHTML = 'LV <b>' + (currentLevel().n) + '</b>/' + CAMPAIGN.length +
+      L3.innerHTML = 'LV <b>' + (currentLevel().n) + '</b> &middot; <b>' + levelResolved + '</b>/' + currentLevel().count + ' resolved' +
                      (gnomeCount ? ' &middot; gnomes <b>' + gnomeCount + '</b>' : '') +
                      ' &middot; gain <b>' + gain.toFixed(2) + '</b>&times;' +
                      (aiming ? ' <span class="hold">ON TARGET</span>' : '') +
@@ -1418,6 +1438,8 @@
     runStart = performance.now();   // the approach clock starts when the run does
     levelStartMs = runStart; lastAdvanceMs = runStart; spawnAcc = 0;
     campaignIndex = 0; campaignComplete = false; totalBreaches = 0; hits = 0; stalls = 0;
+    levelSpawned = 0; levelResolved = 0;
+    updateLevelChrome();
     updateGnomeUnlocks();
     document.body.classList.add('started');
     goFullscreen();
@@ -1569,7 +1591,7 @@
     { key:'g1', el:crossG1El, dotEl:dotG1El, dx:-GNOME_SPREAD, x:0, y:0, aiming:null, onTargetFor:0, cooldownFor:0 },
     { key:'g2', el:crossG2El, dotEl:dotG2El, dx: GNOME_SPREAD, x:0, y:0, aiming:null, onTargetFor:0, cooldownFor:0 }
   ];
-  window.__havenDebugSkipToLevel = function (n) { campaignIndex = n; levelStartMs = performance.now(); updateGnomeUnlocks(); };
+  window.__havenDebugSkipToLevel = function (n) { campaignIndex = n; levelStartMs = performance.now(); levelSpawned = 0; levelResolved = 0; spawnAcc = 0; updateGnomeUnlocks(); updateLevelChrome(); };
   function updateGnomeUnlocks() {
     var want = 0;
     for (var i = 0; i < GNOME_UNLOCK_AT.length; i++) if (campaignIndex >= GNOME_UNLOCK_AT[i]) want++;
