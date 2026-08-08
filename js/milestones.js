@@ -1,5 +1,16 @@
-// generated from haven_wiki.db accomplishments — 627 rows, newest id 641
+// generated from haven_wiki.db accomplishments — 628 rows, newest id 642
 var milestonesDataset = [
+  {
+    "id": 642,
+    "date": "2026-08-07",
+    "theme": "Reliability & safety",
+    "impact": 3,
+    "summary": "The built-in recovery account can no longer be deleted from the admin panel.",
+    "detail": "Closed a gap where a second admin account could delete the built-in 'haven' recovery account; it now gets the same protection the root account already had.",
+    "benefit": "Your way back in after a factory reset stays intact, even if another admin account tries to remove it.",
+    "ref": "8773d8e1a9",
+    "features": []
+  },
   {
     "id": 641,
     "date": "2026-08-07",
