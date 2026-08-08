@@ -61,6 +61,20 @@ export async function onRequestPost(context) {
 
     const db = env.haven_builds;
 
+    // Device registry (contest_claims.sql: issued_serials, serial -> unit_nonce),
+    // the fail-closed authenticity check contest-attest.js and claim-intake.js
+    // both query against — was defined at contest launch but never populated
+    // anywhere (confirmed by full-codebase sweep, 2026-08-08). provision.js is
+    // the one place a serial and its unit_nonce are both known and trustworthy
+    // at the moment of birth, so it's the natural (and now the only) place this
+    // registry gets filled. INSERT OR IGNORE: idempotent across every retry/
+    // resume/race path below, and never overwrites an existing enrollment.
+    async function enroll(serial) {
+        await db.prepare(
+            "INSERT OR IGNORE INTO issued_serials (serial, unit_nonce, enrolled_datetime) VALUES (?, ?, datetime('now'))"
+        ).bind(serial, nonce).run();
+    }
+
     // Resume a half-minted row (whetstone #65): the reserve INSERT landed but the
     // serial UPDATE failed/crashed, leaving serial NULL. Before the fix that row
     // both failed the idempotency read AND blocked re-insert (UNIQUE unit_nonce)
@@ -72,6 +86,7 @@ export async function onRequestPost(context) {
                 .bind(serial, row.id).run();
         // Re-read rather than trust our UPDATE: a racing resume may have won.
         const done = await db.prepare("SELECT serial FROM provisioned_units WHERE id = ?").bind(row.id).first();
+        if (done && done.serial) await enroll(done.serial);
         return done && done.serial;
     }
 
@@ -79,7 +94,7 @@ export async function onRequestPost(context) {
     const existing = await db.prepare(
         "SELECT id, serial, channel, hardware, build, region FROM provisioned_units WHERE unit_nonce = ?"
     ).bind(nonce).first();
-    if (existing && existing.serial) return json({ ok: true, serial: existing.serial, reused: true });
+    if (existing && existing.serial) { await enroll(existing.serial); return json({ ok: true, serial: existing.serial, reused: true }); }
     if (existing) {
         const s = await resumeMint(existing);
         if (s) return json({ ok: true, serial: s, reused: true, resumed: true });
@@ -100,7 +115,7 @@ export async function onRequestPost(context) {
         const row = await db.prepare(
             "SELECT id, serial, channel, hardware, build, region FROM provisioned_units WHERE unit_nonce = ?"
         ).bind(nonce).first();
-        if (row && row.serial) return json({ ok: true, serial: row.serial, reused: true });
+        if (row && row.serial) { await enroll(row.serial); return json({ ok: true, serial: row.serial, reused: true }); }
         if (row) {
             const s = await resumeMint(row);
             if (s) return json({ ok: true, serial: s, reused: true, resumed: true });
@@ -110,6 +125,7 @@ export async function onRequestPost(context) {
 
     const serial = buildSerial(seq, channel, hardware, build, region);
     await db.prepare("UPDATE provisioned_units SET serial = ? WHERE id = ?").bind(serial, seq).run();
+    await enroll(serial);
 
     return json({ ok: true, serial });
 }

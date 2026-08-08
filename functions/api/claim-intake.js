@@ -19,6 +19,8 @@
 // The claim is attributed to their account username; email is taken from the
 // account, not a free-text field.
 import { readSession } from "../_lib/account.js";
+import { grantChallengeFreeMonth } from "../_lib/pricing.js";
+import { isTestRequest } from "../_lib/testmode.js";
 
 const CORS = {
   "Access-Control-Allow-Origin": "*",
@@ -225,6 +227,20 @@ export async function onRequestPost(context) {
   }
   const id = ins.meta.last_row_id;
 
+  // Halloween Challenge free-month grant (pricing spec §4): claiming during an
+  // active, device-verified contest is itself the registration event. Best-
+  // effort and non-blocking — the claim record (the hard part: attested,
+  // ranked, already committed above) must never be lost over a grant hiccup;
+  // a missed grant is reconcilable later, a lost claim is not.
+  let grant = null;
+  if (contestActive && serial && email) {
+    try {
+      const testKey = clean(form.get("test_key"), 200);
+      const { isTest } = isTestRequest(env, serial, testKey);
+      grant = await grantChallengeFreeMonth(env, { email, serial, flavor: model, isTest });
+    } catch { grant = null; }
+  }
+
   // Package description volunteers read (plain text; no crypto for them).
   const desc =
     `Claim #${id} · by ${username} · received ${fmt(receivedMs, "UTC")} UTC (${fmt(receivedMs, tz)} ${tz})`
@@ -247,5 +263,6 @@ export async function onRequestPost(context) {
   }
 
   const attNote = hasAtt ? " with your attachment" : "";
-  return json({ ok: true, id, message: `Claim #${id} received${attNote}.` });
+  const grantNote = grant?.granted ? " Your free month is active — check your registration page." : "";
+  return json({ ok: true, id, message: `Claim #${id} received${attNote}.${grantNote}`, free_month_granted: !!grant?.granted });
 }

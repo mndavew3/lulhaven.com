@@ -11,6 +11,9 @@
 -- know who they are and which Stripe customer they map to. A Halloween
 -- Challenge participant's claim uses their contest_accounts email as this
 -- email -- same identity, no second password to create.
+-- No is_test flag here: a single email can hold both a real subscription and
+-- a separate test-mode one (e.g. Dave testing with his own address) — the
+-- lane lives on subscriptions, per-row, not on the identity.
 CREATE TABLE IF NOT EXISTS customers (
   id                 INTEGER PRIMARY KEY AUTOINCREMENT,
   email              TEXT NOT NULL UNIQUE,
@@ -34,7 +37,7 @@ CREATE TABLE IF NOT EXISTS subscriptions (
   flavor                   TEXT NOT NULL,                -- navy | olive | pi | vm -- Founder cohort is per-flavor
   plan                     TEXT NOT NULL,                -- monthly | standard_annual | founder | squad_member | challenge
   rate_cents_per_month     INTEGER NOT NULL,             -- the $/mo this row is actually billed at
-  billing_cadence          TEXT NOT NULL,                -- monthly | annual_lump | annual_installments
+  billing_cadence          TEXT NOT NULL,                -- monthly | annual_lump | annual_installments | free (challenge-grant only, rate_cents_per_month=0)
   stripe_subscription_id   TEXT,
   status                   TEXT NOT NULL DEFAULT 'active',   -- active | lapsed | canceled
   founder_claimed_datetime TEXT,                         -- set once, on first becoming plan='founder'
@@ -43,17 +46,19 @@ CREATE TABLE IF NOT EXISTS subscriptions (
   squad_role               TEXT,                         -- leader | member | NULL (not currently in a squad)
   current_period_end       TEXT,                         -- shared across a customer's rows when squad-synced
   challenge_year           INTEGER,                      -- which year's Challenge earned this rate, if plan='challenge'
+  is_test                  INTEGER NOT NULL DEFAULT 0,   -- 1 = test-mode (functions/_lib/testmode.js): tester-channel serial or TEST_MODE_KEY. Excluded from Founder cohort counts, squad-sync lookups, and every customer-facing stat.
   created_datetime         TEXT NOT NULL,
   modified_datetime        TEXT NOT NULL
 );
 CREATE INDEX IF NOT EXISTS idx_subscriptions_customer ON subscriptions(customer_id);
 CREATE INDEX IF NOT EXISTS idx_subscriptions_status   ON subscriptions(status);
 CREATE INDEX IF NOT EXISTS idx_subscriptions_serial   ON subscriptions(serial);
+CREATE INDEX IF NOT EXISTS idx_subscriptions_is_test  ON subscriptions(is_test);
 
 -- Founder cohort cap enforcement (first 100 per flavor): a plain COUNT under a
 -- transaction is enough at this volume (at most a few hundred rows, ever) --
 -- no atomic-counter table the way the Challenge's claim-ordering needed.
---   SELECT COUNT(*) FROM subscriptions WHERE plan='founder' AND flavor=?;
+--   SELECT COUNT(*) FROM subscriptions WHERE plan='founder' AND flavor=? AND is_test=0;
 --   -- if < 100, this purchase may be offered the founder rate for that flavor.
 
 -- Lapse sweep (scheduled): for every row where status transitions to 'lapsed',
