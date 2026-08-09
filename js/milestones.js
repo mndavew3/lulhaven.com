@@ -1,5 +1,38 @@
-// generated from haven_wiki.db accomplishments — 628 rows, newest id 642
+// generated from haven_wiki.db accomplishments — 631 rows, newest id 645
 var milestonesDataset = [
+  {
+    "id": 645,
+    "date": "2026-08-08",
+    "theme": "Marketing & website",
+    "impact": 4,
+    "summary": "Built the customer registration and checkout flow, the system that turns a router's serial number into an active subscription, and verified the whole path end to end in a real test run: sign up, pay, and have your router recognized as entitled.",
+    "detail": "Register + checkout endpoints, subscription/customer schema, entitlement check wired to router-side downloads, contest-claim bridge into registration. Verified via real local Workers runtime (not code review): fresh-serial registration, checkout writing the row, entitlement read-back, squad options, already-registered handling. Not yet deployed to the live site; Stripe live keys and a Hearst publish are still needed before real customers can use it.",
+    "benefit": "This is the missing link between a Haven router in a box and a Haven router actually filtering your network on your plan. Once it's switched on for real customers, registering a router and starting a subscription will just work.",
+    "ref": "2ea264fbd1",
+    "features": []
+  },
+  {
+    "id": 643,
+    "date": "2026-08-08",
+    "theme": "Reliability & safety",
+    "impact": 4,
+    "summary": "We found and fixed a bug where your router's network address settings could get silently corrupted, breaking automatic address handout (DHCP) to devices on your network — then swept the whole codebase and closed every other place the same mistake could hide.",
+    "detail": "Root cause: a stored network address field sometimes carried a routing suffix (CIDR notation, e.g. /24) that downstream code expected to be a bare address. Found live on hardware during bench troubleshooting, fixed the first two instances, then a full sibling-pattern sweep of Haven's own code and the underlying the router firmware tree confirmed no further occurrences remained.",
+    "benefit": "Fewer 'my devices can't get online' surprises after a settings change or reset.",
+    "ref": "5d6bca5647",
+    "features": []
+  },
+  {
+    "id": 644,
+    "date": "2026-08-08",
+    "theme": "Product definition",
+    "impact": 3,
+    "summary": "Finalized how Haven's subscription pricing, multi-router discounts, and account recovery work, resolving months of scattered earlier decisions into one current design.",
+    "detail": "Reconciled a long chain of earlier, sometimes-conflicting pricing decisions by date (newer wins); locked a new multi-subscription discount with anti-gaming protections found and fixed during design; designed a self-service password-recovery flow offering a choice of verification methods after a factory reset.",
+    "benefit": "Customers get a consistent, honest pricing story (with a real discount for running more than one Haven) and a way back into a forgotten account that doesn't depend on calling anyone.",
+    "ref": "",
+    "features": []
+  },
   {
     "id": 642,
     "date": "2026-08-07",
