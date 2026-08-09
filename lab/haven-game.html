@@ -538,6 +538,7 @@
       if (t.spawnedAtMs === null) t.spawnedAtMs = nowMs;
       var age = (nowMs - t.spawnedAtMs) / 1000;
       var ap = clamp(age / t.approach, 0, 1);
+      t.ap = ap;                    // saved so impact() can read this target's own progress
       t.range = t.rangeFar + (t.rangeNear - t.rangeFar) * ap;
       t.r = t.sizeM * FOCAL_IMG / t.range;
       t.cr = t.r * 0.235;
@@ -1085,7 +1086,12 @@
     f.style.left = (vw / 2 + shooter.x) + 'px';
     f.style.top  = (vh / 2 + shooter.y) + 'px';
     f.classList.remove('fire'); void f.offsetWidth; f.classList.add('fire');
-    if (onCore) {
+    // Early-approach grace (Dave, 2026-08-09): before a contact is even halfway from
+    // spawn to breach, ANY hit is fatal — core or body. The core-only rule only starts
+    // earning its keep once the contact has closed to within the back half of its
+    // approach, when a body-only stall would otherwise cost real ground.
+    var fatal = onCore || t.ap < 0.5;
+    if (fatal) {
       t.alive = false; t.el.classList.add('dead'); hits++;
       levelResolved++;   // the other of the two ways a contact resolves (Dave, 2026-08-07)
       retireRadarAttn();          // one kill proves they found it; stop shouting
