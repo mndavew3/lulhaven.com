@@ -417,6 +417,13 @@
   // phone ALONE cannot bring it to centre — that is the honest test of the thumb trim.
   var autoFire = true;
   var DWELL = 0.20;         // seconds on target before the shot goes — unchanged, per-shooter
+  // Floor under the AIMING radius (Dave, 2026-08-09): a small/far target's true
+  // apparent radius (tt.r, in image pixels) can shrink to a few px, which becomes
+  // the real bottleneck once several contacts are alive and need dealing with fast.
+  // Only widens "close enough to lock on at all" — tt.cr (core precision) and the
+  // rendered size are untouched, so aiming is more forgiving without the skill
+  // mechanic (core kills, body stalls) getting any easier.
+  var MIN_AIM_R = 45;       // image pixels
 
   // ================= CAMPAIGN (ported from V1, 2026-06-08) =================
   // Source: ~/haven/game/core/.../Campaign.kt + LevelConfig.kt — the vetted 10-level
@@ -551,6 +558,10 @@
     // ---- level pass: every one of this level's own contacts has resolved — killed or
     // breached, "whatever" — not a clock. "into level you go up" (Dave, 2026-08-07).
     if (levelSpawned >= lv.count && levelResolved >= lv.count) {
+      // Clearing a level is itself a reward now (Dave, 2026-08-09): recover a third
+      // of max integrity, capped at full. Applies even on the campaign's last level —
+      // harmless, since nothing spends integrity after the run ends.
+      integrity = Math.min(100, integrity + HEAL_ON_LEVEL);
       campaignIndex++;
       if (campaignIndex >= CAMPAIGN.length) {
         campaignComplete = true;
@@ -572,6 +583,7 @@
   // tutorial's 34 because a full 10-level campaign lets far more contacts through
   // over its length; ~12 breaches now costs a run instead of ~3.
   var integrity = 100, BREACH_COST = 8, overrun = false;
+  var HEAL_ON_LEVEL = 33;   // integrity regained on clearing a level (Dave, 2026-08-09: "maybe one third")
   function breach(t) {
     t.alive = false;
     totalBreaches++;
@@ -989,7 +1001,10 @@
   function clamp(v, lo, hi) { return v < lo ? lo : v > hi ? hi : v; }
 
   // The whole world, shrunk. The white box is where you are currently looking; the dots
-  // are viruses in world coordinates. Red = alive, amber = stalled, faint = destroyed.
+  // are viruses in world coordinates. Green = alive, under 50% approached; yellow = past
+  // 50%; red = past 75% (Dave, 2026-08-09 — urgency reads at a glance without opening the
+  // HUD numbers). Amber = stalled (already grazed, still alive — overrides the urgency
+  // color, it's a more specific fact). Faint = destroyed.
   // Reading it should answer one question and only one: which way do I turn?
   var rcv = null, rctx = null;
   function drawRadar() {
@@ -1014,7 +1029,10 @@
       rctx.beginPath();
       rctx.arc((t.ix / imgW) * RW, (t.iy / imgH) * RH, t.alive ? 5 : 3, 0, 6.2832);
       rctx.fillStyle = !t.alive ? 'rgba(255,255,255,.16)'
-                     : t.stalled ? '#d8a92b' : '#4dff88';
+                     : t.stalled ? '#d8a92b'
+                     : t.ap >= 0.75 ? '#ff3b3b'
+                     : t.ap >= 0.5 ? '#ffe135'
+                     : '#4dff88';
       rctx.fill();
       if (t.alive) {
         rctx.strokeStyle = 'rgba(0,0,0,.55)'; rctx.lineWidth = 1; rctx.stroke();
@@ -1283,7 +1301,14 @@
         if (!tt.alive || tt.pending) continue;   // one that has not arrived cannot be hit
         var sx = posX + tt.ix * scale, sy = posY + tt.iy * scale;
         var d = Math.hypot(aimX - sx, aimY - sy);
-        if (d <= tt.r * scale) { sh.aiming = tt; sh.onCore = d <= tt.cr * scale; break; }
+        // Floor under the AIMING test only (Dave, 2026-08-09) — a small/far target's
+        // true apparent radius can shrink to a handful of pixels, which made "am I
+        // even close enough to register" the real bottleneck once several contacts
+        // are alive at once. The target's rendered size and its core-hit precision
+        // (tt.cr, below) are untouched — only how forgiving "close enough to aim at
+        // it at all" is.
+        var effR = Math.max(tt.r, MIN_AIM_R);
+        if (d <= effR * scale) { sh.aiming = tt; sh.onCore = d <= tt.cr * scale; break; }
       }
       sh.cooldownFor = Math.max(0, sh.cooldownFor - frameDt);
       sh.onTargetFor = sh.aiming ? sh.onTargetFor + frameDt : 0;
