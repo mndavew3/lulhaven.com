@@ -1275,16 +1275,41 @@
     draw();
     // While the thumb is down the crosshair tracks it exactly — any easing there would
     // feel like lag against your own finger. On release the target becomes zero and this
-    // same lerp becomes the snap-back. Gnomes ride the SAME crossX/Y, offset by their
-    // fixed dx — dragging the formation drags every shooter in it together.
+    // same lerp becomes the snap-back.
     if (dragging) { crossX = crossTX; crossY = crossTY; }
     else { crossX += (crossTX - crossX) * 0.3; crossY += (crossTY - crossY) * 0.3; }
-    SHOOTERS.forEach(function (sh) {
-      sh.x = crossX + sh.dx; sh.y = crossY;
-      var ct = 'translate(-50%,-50%) translate3d(' + sh.x + 'px,' + sh.y + 'px,0)';
-      sh.el.style.transform = ct;
-      sh.dotEl.style.transform = 'translate3d(' + sh.x + 'px,' + sh.y + 'px,0)';
-    });
+
+    // Player: direct input, unchanged. Gnomes: migrate toward the nearest unclaimed
+    // live target (see GNOME_CHASE_RATE above) instead of riding a fixed offset.
+    SHOOTERS[0].x = crossX; SHOOTERS[0].y = crossY;
+    SHOOTERS[0].el.style.transform = 'translate(-50%,-50%) translate3d(' + crossX + 'px,' + crossY + 'px,0)';
+    SHOOTERS[0].dotEl.style.transform = 'translate3d(' + crossX + 'px,' + crossY + 'px,0)';
+    var claimedTargets = [SHOOTERS[0].aiming];   // last frame's player lock — the freshest signal available at this point
+    for (var gi = 1; gi < SHOOTERS.length; gi++) {
+      var gsh = SHOOTERS[gi];
+      var dest = null;
+      if (gnomeCount >= gi) {
+        var gx = vw / 2 + gsh.x, gy = vh / 2 + gsh.y, bestD = Infinity;
+        for (var ti = 0; ti < TARGETS.length; ti++) {
+          var tgt = TARGETS[ti];
+          if (!tgt.alive || tgt.pending || claimedTargets.indexOf(tgt) >= 0) continue;
+          var tsx = posX + tgt.ix * scale, tsy = posY + tgt.iy * scale;
+          var dd = Math.hypot(gx - tsx, gy - tsy);
+          if (dd < bestD) { bestD = dd; dest = tgt; }
+        }
+        claimedTargets.push(dest);
+      }
+      if (dest) {
+        gsh.x += ((posX + dest.ix * scale - vw / 2) - gsh.x) * GNOME_CHASE_RATE;
+        gsh.y += ((posY + dest.iy * scale - vh / 2) - gsh.y) * GNOME_CHASE_RATE;
+      } else {
+        gsh.x += ((crossX + gsh.dx) - gsh.x) * GNOME_CHASE_RATE;
+        gsh.y += (crossY - gsh.y) * GNOME_CHASE_RATE;
+      }
+      var ct = 'translate(-50%,-50%) translate3d(' + gsh.x + 'px,' + gsh.y + 'px,0)';
+      gsh.el.style.transform = ct;
+      gsh.dotEl.style.transform = 'translate3d(' + gsh.x + 'px,' + gsh.y + 'px,0)';
+    }
 
     // --- what is under EACH shooter's crosshair, and does that shooter's weapon fire?
     // Independent per shooter (V1 Phase 3, "multiple individuals attempting to address
@@ -1609,8 +1634,16 @@
   // screen left and right would drag as far as putting the closest gnome to the edge
   // of the screen." No new input: the trim clamp just tightens by the spread so the
   // OUTER gnome, not the player's own point, is what hits the edge.
-  var GNOME_SPREAD = 130;         // px either side of the player crosshair, once unlocked
+  var GNOME_SPREAD = 130;         // idle/home offset either side of the player, when a gnome has nothing to chase
   var GNOME_UNLOCK_AT = [3, 7];   // campaign level index (0-based) at which gnome 1, 2 arrive
+  // "Robotic crosshairs" (Dave, 2026-08-09): each unlocked gnome now migrates toward
+  // the nearest live target not already claimed by a shooter processed earlier in
+  // the same frame (player first, then g1, then g2) instead of riding a fixed
+  // offset off the player's own aim — so several contacts get covered at once
+  // instead of two guns converging on whichever one happens to sit at the spread.
+  // A gnome that unlocks mid-run finds nothing surprising: with no live target left
+  // unclaimed it just holds the old fixed-offset spot.
+  var GNOME_CHASE_RATE = 0.045;   // per-frame lerp fraction toward the chase target — a visible glide, not a snap
   var gnomeCount = 0;
   var crossG1El = document.getElementById('crossG1'), dotG1El = document.getElementById('dotG1');
   var crossG2El = document.getElementById('crossG2'), dotG2El = document.getElementById('dotG2');
