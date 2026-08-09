@@ -204,44 +204,43 @@
       out.innerHTML = '';
       if (!resp.ok) { out.textContent = resp.error || 'error'; return; }
       if (resp.already_registered) {
-        out.textContent = 'This serial already has an active subscription: ' + resp.subscription.plan
+        out.textContent = 'This serial already has an active subscription: ' + resp.subscription.tier
           + ' at $' + (resp.subscription.rate_cents_per_month/100).toFixed(2) + '/mo, through ' + resp.subscription.current_period_end;
         return;
       }
       resp.options.forEach(function(opt, i){
         var row = document.createElement('div');
         row.style.cssText = 'border:1px solid #cfd8d4;border-radius:9px;padding:10px;margin-bottom:8px;';
-        var cadenceSel = opt.billing_cadence_choices.length > 1
-          ? '<select class="tmCadence">' + opt.billing_cadence_choices.map(function(c){return '<option value="'+c+'">'+c+'</option>';}).join('') + '</select>'
-          : '<input type="hidden" class="tmCadence" value="' + opt.billing_cadence_choices[0] + '" />';
-        var squadSel = opt.plan === 'squad_member'
-          ? '<select class="tmSquadChoice"><option value="trim_new">trim to match existing</option><option value="extend_leader">extend existing to match</option></select>'
-          : '';
-        row.innerHTML = '<label><input type="radio" name="tmPlan" value="' + opt.plan + '" ' + (i===0?'checked':'') + ' /> '
-          + '<b>' + opt.plan + '</b> — $' + (opt.rate_cents_per_month/100).toFixed(2) + '/mo — ' + opt.note + '</label><br/>'
-          + cadenceSel + ' ' + squadSel;
+        row.innerHTML = '<label><input type="radio" name="tmPlan" value="' + i + '" ' + (i===0?'checked':'') + ' /> '
+          + '<b>' + opt.tier + ' · ' + opt.billing_cadence + '</b> — $' + (opt.rate_cents_per_month/100).toFixed(2) + '/mo — ' + opt.note + '</label>';
         out.appendChild(row);
       });
       var buy = document.createElement('button');
       buy.className = 'cta'; buy.textContent = 'Complete test purchase';
-      buy.addEventListener('click', function(){
-        var chosen = document.querySelector('input[name="tmPlan"]:checked');
-        if (!chosen) return;
-        var row = chosen.closest('div');
-        var cadence = row.querySelector('.tmCadence').value;
-        var squadChoice = row.querySelector('.tmSquadChoice') ? row.querySelector('.tmSquadChoice').value : undefined;
-        var email = document.getElementById('tmEmail').value.trim();
-        var fl = document.getElementById('tmFlavor').value.trim().toLowerCase();
-        fetch('/api/checkout', {
-          method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ serial: serial, email: email, flavor: fl, plan: chosen.value, billing_cadence: cadence, squad_choice: squadChoice, test_key: testKey }),
-        }).then(function(r){ return r.json(); }).then(function(res){
-          document.getElementById('tmResult').textContent = res.ok
-            ? ('Simulated purchase OK — ' + res.plan + ' through ' + res.current_period_end)
-            : ('Error: ' + res.error);
-        });
-      });
+      buy.addEventListener('click', function(){ submitPurchase(resp); });
       out.appendChild(buy);
+    }
+
+    function submitPurchase(resp, syncChoice){
+      var chosen = document.querySelector('input[name="tmPlan"]:checked');
+      if (!chosen) return;
+      var opt = resp.options[Number(chosen.value)];
+      var email = document.getElementById('tmEmail').value.trim();
+      var fl = document.getElementById('tmFlavor').value.trim().toLowerCase();
+      var body = { serial: serial, email: email, flavor: fl, tier: opt.wants_founder ? 'founder' : opt.tier, billing_cadence: opt.billing_cadence, test_key: testKey };
+      if (syncChoice) body.sync_choice = syncChoice;
+      fetch('/api/checkout', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body),
+      }).then(function(r){ return r.json(); }).then(function(res){
+        if (!res.ok && /sync_choice/.test(res.error || '')) {
+          var choice = prompt('You have another active router. Type "trim" to end this term with it, or "extend" to give both a fresh full term.', 'trim');
+          if (choice) submitPurchase(resp, choice.indexOf('extend') === 0 ? 'extend_all' : 'trim_new');
+          return;
+        }
+        document.getElementById('tmResult').textContent = res.ok
+          ? ('Simulated purchase OK — ' + res.tier + ' through ' + res.current_period_end)
+          : ('Error: ' + res.error);
+      });
     }
   }
 </script>

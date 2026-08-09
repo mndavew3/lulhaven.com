@@ -1,18 +1,17 @@
 // POST /api/register — step 1 of activating a subscription: given a serial +
-// email (+ flavor, for Founder eligibility), resolve which plan options this
-// customer can be offered. Does NOT create a subscription yet — Squad and the
-// Challenge free-month-upgrade both require the customer's own choice, made
-// on the follow-up call to /api/checkout. See specs/2026-08-08-haven-
-// subscription-pricing-v2.md for the full rate table and rules this encodes.
+// email (+ flavor, for Founder eligibility), resolve which options this
+// customer can be offered right now. Does NOT write a transaction — the
+// customer's choice (which tier/cadence, and how a new annual term should
+// sync with any other currently-active product) is only committed by the
+// follow-up call to /api/checkout. See specs/2026-08-08-haven-subscription-
+// pricing-v3.md.
 //
 // Body: { serial, email, flavor?, test_key? }
 // Test-mode (functions/_lib/testmode.js) rows never touch the real Founder
-// cohort or a real customer's Squad state — see pricing.js's is_test filtering.
+// cohort or a real customer's active-companion state — see pricing.js's
+// is_test filtering throughout.
 import { isTestRequest } from "../_lib/testmode.js";
-import {
-  RATE_CENTS_PER_MONTH, findOrCreateCustomer, findSubscriptionBySerial,
-  founderSlotAvailable, existingActiveSubscription, squadOptions,
-} from "../_lib/pricing.js";
+import { quote } from "../_lib/pricing.js";
 
 const CORS = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Methods": "POST, OPTIONS", "Access-Control-Allow-Headers": "Content-Type" };
 const json = (b, s = 200) => new Response(JSON.stringify(b), { status: s, headers: { "Content-Type": "application/json", ...CORS } });
@@ -30,63 +29,25 @@ export async function onRequestPost({ request, env }) {
 
   const { isTest } = isTestRequest(env, serial, b.test_key);
 
-  let customer;
-  try { customer = await findOrCreateCustomer(env, email); }
+  let result;
+  try { result = await quote(env, { serial, email, flavor, isTest }); }
   catch { return json({ error: "server error" }, 500); }
 
-  // Already has a row for this exact router? Report status rather than
-  // re-offering pricing — UNLESS it's the Challenge's free-month grant
-  // (rate_cents_per_month=0), which is an upgrade-eligible state, not a
-  // terminal one: the customer can still exercise the one-time $48/yr offer.
-  let existingOnSerial;
-  try { existingOnSerial = await findSubscriptionBySerial(env, serial); }
-  catch { return json({ error: "server error" }, 500); }
-
-  if (existingOnSerial && !(existingOnSerial.plan === "challenge" && existingOnSerial.rate_cents_per_month === 0)) {
-    return json({ ok: true, test: isTest, already_registered: true, subscription: existingOnSerial });
-  }
-
-  const options = [];
-  if (existingOnSerial) {
-    options.push({
-      plan: "challenge", rate_cents_per_month: RATE_CENTS_PER_MONTH.challenge,
-      billing_cadence_choices: ["annual_lump", "annual_installments"],
-      note: "Your one-time Challenge-year price — $48/yr, good for this year only.",
-    });
-  } else {
-    let existingActive;
-    try { existingActive = await existingActiveSubscription(env, customer.id, isTest); }
-    catch { existingActive = null; }
-
-    if (existingActive) {
-      const sq = squadOptions(existingActive);
-      options.push(
-        { ...sq.synced_member, billing_cadence_choices: ["annual_lump", "annual_installments"] },
-        { ...sq.independent, billing_cadence_choices: ["annual_lump", "annual_installments"] },
-      );
-    } else {
-      let founderOpen = false;
-      if (flavor) { try { founderOpen = await founderSlotAvailable(env, flavor); } catch { founderOpen = false; } }
-      if (founderOpen) {
-        options.push({
-          plan: "founder", rate_cents_per_month: RATE_CENTS_PER_MONTH.founder,
-          billing_cadence_choices: ["annual_lump", "annual_installments"],
-          note: "First 100 for this flavor — $4/mo for life, while your subscription never lapses.",
-        });
-      } else {
-        options.push({
-          plan: "standard_annual", rate_cents_per_month: RATE_CENTS_PER_MONTH.standard_annual,
-          billing_cadence_choices: ["annual_lump", "annual_installments"],
-          note: "$8/mo, billed for the year.",
-        });
-      }
-    }
-    options.push({
-      plan: "monthly", rate_cents_per_month: RATE_CENTS_PER_MONTH.monthly,
-      billing_cadence_choices: ["monthly"],
-      note: "$10/mo, cancel anytime, no annual commitment.",
+  if (result.status === "already_active") {
+    return json({
+      ok: true, test: isTest, already_registered: true,
+      subscription: {
+        tier: result.transaction.tier,
+        rate_cents_per_month: result.transaction.rate_cents_per_month,
+        billing_cadence: result.transaction.billing_cadence,
+        current_period_end: result.transaction.term_end,
+      },
     });
   }
 
-  return json({ ok: true, test: isTest, already_registered: false, customer_id: customer.id, flavor, options });
+  return json({
+    ok: true, test: isTest, already_registered: false, customer_id: result.customerId, flavor,
+    options: result.options.map(o => ({ ...o, wants_founder: o.tier === "founder" })),
+    sync: result.sync,
+  });
 }

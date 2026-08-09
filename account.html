@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Your Haven account — Lulhaven</title>
+<style>
+  :root { --teal:#1f6b5a; --ink:#13201c; --muted:#5a6b66; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+         color:var(--ink); background:#eef3f1; }
+  .wrap { max-width:560px; margin:0 auto; padding:32px 18px 64px; }
+  .brand { text-align:center; margin-bottom:18px; }
+  .brand b { color:var(--teal); font-size:1.6rem; font-weight:800; letter-spacing:-0.5px; }
+  h1 { font-size:1.4rem; margin:4px 0 18px; text-align:center; }
+  .card { background:#fff; border:1px solid rgba(0,0,0,.10); border-radius:14px;
+          box-shadow:0 2px 10px rgba(0,0,0,.05); padding:22px 24px; margin-bottom:18px; }
+  input[type=email], input[type=text] { width:100%; padding:10px; border:1px solid #cfd8d4;
+       border-radius:9px; margin-bottom:10px; box-sizing:border-box; font-size:1rem; }
+  button.cta { display:block; width:100%; text-align:center; padding:13px; font-size:1rem;
+       font-weight:700; color:#fff; background:var(--teal); border:0; border-radius:10px; cursor:pointer; }
+  button.cta:hover { background:#185748; }
+  button.link { background:none; border:0; color:var(--teal); text-decoration:underline; cursor:pointer; padding:0; font-size:.9rem; }
+  .muted { color:var(--muted); font-size:.9rem; }
+  .msg { margin-top:10px; font-weight:600; font-size:.9rem; }
+  .product { border:1px solid #cfd8d4; border-radius:10px; padding:12px 14px; margin-bottom:10px; }
+  .product .row { display:flex; justify-content:space-between; align-items:baseline; gap:10px; flex-wrap:wrap; }
+  .product code { background:#eef3f1; padding:2px 6px; border-radius:5px; }
+  .badge { display:inline-block; font-size:.72rem; font-weight:700; letter-spacing:.03em; text-transform:uppercase;
+       padding:2px 7px; border-radius:6px; margin-left:6px; }
+  .badge.active { background:#e6f4ea; color:#1c7a3b; } .badge.lapsed { background:#fdeaea; color:#a12222; }
+  .badge.unpaid { background:#fff3cd; color:#7a5b00; } .badge.founder { background:#f1f8f5; color:var(--teal); }
+  hr { border:0; border-top:1px solid #eee; margin:14px 0; }
+</style>
+</head>
+<body>
+<script src="js/haven-nav.js?v=ac53802e"></script>
+<div class="wrap">
+  <div class="brand"><b>Lulhaven</b></div>
+  <h1>Your Haven account</h1>
+
+  <div class="card" id="loginCard">
+    <div id="loginStep1">
+      <p class="muted">Enter your email — we'll get you signed in.</p>
+      <input id="email" type="email" placeholder="you@example.com" />
+      <button class="cta" id="continueBtn">Continue</button>
+      <div class="msg" id="loginMsg"></div>
+    </div>
+    <div id="loginStepTotp" style="display:none;">
+      <p class="muted">Enter the 6-digit code from your authenticator app.</p>
+      <input id="totpInput" type="text" inputmode="numeric" placeholder="000000" maxlength="6" />
+      <button class="cta" id="totpBtn">Sign in</button>
+      <p><button class="link" id="useEmailInstead">Email me a code instead</button></p>
+      <div class="msg" id="totpMsg"></div>
+    </div>
+    <div id="loginStepCode" style="display:none;">
+      <p class="muted">We emailed a 6-digit code to <span id="codeEmail"></span>.</p>
+      <input id="codeInput" type="text" inputmode="numeric" placeholder="000000" maxlength="6" />
+      <button class="cta" id="codeBtn">Sign in</button>
+      <div class="msg" id="codeMsg"></div>
+    </div>
+  </div>
+
+  <div id="dashboard" style="display:none;">
+    <div class="card">
+      <div class="row" style="display:flex;justify-content:space-between;align-items:center;">
+        <span class="muted">Signed in as <b id="dashEmail"></b></span>
+        <button class="link" id="signOut">Sign out</button>
+      </div>
+    </div>
+    <div class="card" id="totpSetupCard"></div>
+    <div class="card">
+      <h2 style="margin-top:0;">Your registered routers</h2>
+      <div id="products"></div>
+      <div class="msg" id="renewMsg"></div>
+    </div>
+  </div>
+</div>
+<script>
+  var email = '';
+  function api(path, body) {
+    return fetch(path, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body || {}) })
+      .then(function(r){ return r.json().then(function(j){ return { ok: r.ok, body: j }; }); });
+  }
+
+  document.getElementById('continueBtn').addEventListener('click', function(){
+    email = document.getElementById('email').value.trim();
+    if (!email) return;
+    api('/api/customer-login', { action: 'check', email: email }).then(function(res){
+      if (res.body.totp_enrolled) {
+        document.getElementById('loginStep1').style.display = 'none';
+        document.getElementById('loginStepTotp').style.display = 'block';
+      } else {
+        requestCode();
+      }
+    });
+  });
+
+  document.getElementById('useEmailInstead').addEventListener('click', function(){
+    document.getElementById('loginStepTotp').style.display = 'none';
+    requestCode();
+  });
+
+  function requestCode() {
+    api('/api/customer-login', { action: 'request_code', email: email }).then(function(res){
+      document.getElementById('loginStep1').style.display = 'none';
+      document.getElementById('loginStepCode').style.display = 'block';
+      document.getElementById('codeEmail').textContent = email;
+    });
+  }
+
+  document.getElementById('totpBtn').addEventListener('click', function(){
+    api('/api/customer-login', { action: 'verify_totp', email: email, totp: document.getElementById('totpInput').value.trim() })
+      .then(function(res){
+        if (!res.ok) { document.getElementById('totpMsg').textContent = res.body.error; return; }
+        onSignedIn();
+      });
+  });
+
+  document.getElementById('codeBtn').addEventListener('click', function(){
+    api('/api/customer-login', { action: 'verify_code', email: email, code: document.getElementById('codeInput').value.trim() })
+      .then(function(res){
+        if (!res.ok) { document.getElementById('codeMsg').textContent = res.body.error; return; }
+        onSignedIn();
+      });
+  });
+
+  document.getElementById('signOut').addEventListener('click', function(){
+    fetch('/api/customer-login', { method: 'DELETE' }).then(function(){ location.reload(); });
+  });
+
+  function onSignedIn() {
+    document.getElementById('loginCard').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
+    document.getElementById('dashEmail').textContent = email;
+    renderTotpSetup();
+    loadProducts();
+  }
+
+  function renderTotpSetup() {
+    var card = document.getElementById('totpSetupCard');
+    card.innerHTML = '<h2 style="margin-top:0;font-size:1.05rem;">Authenticator app</h2>' +
+      '<p class="muted">Set one up for faster sign-in next time (optional).</p>' +
+      '<button class="cta" id="totpStart">Set up authenticator app</button><div id="totpSetupBody"></div>';
+    document.getElementById('totpStart').addEventListener('click', function(){
+      fetch('/api/customer-totp', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'enroll_start' }) })
+        .then(function(r){ return r.json(); }).then(function(j){
+          document.getElementById('totpSetupBody').innerHTML =
+            '<p class="muted">Add this key to your authenticator app:</p><p><code>' + j.secret + '</code></p>' +
+            '<input id="totpConfirm" type="text" inputmode="numeric" placeholder="Enter the 6-digit code" maxlength="6" />' +
+            '<button class="cta" id="totpConfirmBtn">Confirm</button><div class="msg" id="totpSetupMsg"></div>';
+          document.getElementById('totpConfirmBtn').addEventListener('click', function(){
+            fetch('/api/customer-totp', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'enroll_confirm', totp: document.getElementById('totpConfirm').value.trim() }) })
+              .then(function(r){ return r.json(); }).then(function(res){
+                document.getElementById('totpSetupMsg').textContent = res.ok ? 'Authenticator app enabled.' : res.error;
+              });
+          });
+        });
+    });
+  }
+
+  var testKey = new URLSearchParams(location.search).get('test_key') || '';
+  function loadProducts() {
+    var url = '/api/customer-products' + (testKey ? '?test_key=' + encodeURIComponent(testKey) : '');
+    fetch(url).then(function(r){ return r.json(); }).then(function(j){
+      var out = document.getElementById('products');
+      out.innerHTML = '';
+      if (!j.ok || !j.products.length) { out.innerHTML = '<p class="muted">No registered routers yet.</p>'; return; }
+      j.products.forEach(function(p){
+        var div = document.createElement('div');
+        div.className = 'product';
+        var badge = '<span class="badge ' + p.status + '">' + p.status + '</span>' + (p.is_founder ? '<span class="badge founder">founder</span>' : '');
+        div.innerHTML = '<div class="row"><b>' + (p.flavor || 'Haven') + '</b> ' + badge + '</div>' +
+          '<div class="muted">Serial: <code>' + p.serial + '</code></div>' +
+          '<div class="muted">' + (p.current_period_end ? ('Through ' + p.current_period_end.slice(0,10)) : 'Not yet paid') + '</div><hr/>' +
+          '<label><input type="radio" name="cad' + p.id + '" value="annual" checked /> Annual</label> ' +
+          '<label><input type="radio" name="cad' + p.id + '" value="monthly" /> Monthly</label> ' +
+          '<button class="cta" style="width:auto;display:inline-block;margin-top:8px;" data-id="' + p.id + '">Renew</button>';
+        out.appendChild(div);
+        div.querySelector('button').addEventListener('click', function(){ renew(p.id, div); });
+      });
+    });
+  }
+
+  function renew(id, div, syncChoice) {
+    var cadence = div.querySelector('input[name="cad' + id + '"]:checked').value;
+    var body = { registered_product_id: id, billing_cadence: cadence };
+    if (syncChoice) body.sync_choice = syncChoice;
+    api('/api/renew', body).then(function(res){
+      if (!res.ok) {
+        if (/sync_choice/.test(res.body.error || '')) {
+          var choice = prompt('You have another active router. Type "trim" to end this term with it, or "extend" to give both a fresh full term.', 'trim');
+          if (choice) renew(id, div, choice.indexOf('extend') === 0 ? 'extend_all' : 'trim_new');
+          return;
+        }
+        document.getElementById('renewMsg').textContent = res.body.error;
+        return;
+      }
+      document.getElementById('renewMsg').textContent = 'Renewed — ' + res.body.tier + ' through ' + res.body.current_period_end.slice(0,10) + '.';
+      loadProducts();
+    });
+  }
+</script>
+</body>
+</html>

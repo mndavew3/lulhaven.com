@@ -1,6 +1,12 @@
 // POST   /api/contest-login  — { username, password } -> sets session cookie.
+//        also accepts { username, totp } once an account has enrolled an
+//        authenticator app (see contest-totp.js) — TOTP is the primary
+//        method going forward, password stays as a working fallback rather
+//        than a risky rip-out mid-contest (spec §9: full migration off
+//        passwords for existing accounts is still an open item).
 // DELETE /api/contest-login  — logout (clears the cookie).
 import { verifyPassword, makeSession, sessionCookie, SESSION_COOKIE } from "../_lib/account.js";
+import { verifyTotp } from "../_lib/auth.js";
 
 const CORS = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Methods": "POST, DELETE, OPTIONS", "Access-Control-Allow-Headers": "Content-Type" };
 const RATE_WINDOW = 900, RATE_MAX = 10;
@@ -25,19 +31,24 @@ export async function onRequestPost({ request, env }) {
   const ip = request.headers.get("CF-Connecting-IP") || "";
   let b; try { b = await request.json(); } catch { return json({ error: "invalid request" }, 400); }
   const username = (b.username || "").trim();
+  const usingTotp = typeof b.totp === "string";
   // Rate-limit on IP AND username so neither a single account nor a single host can be hammered.
   if (!(await allow(env, "ip:" + ip)) || !(await allow(env, "u:" + username.toLowerCase())))
     return json({ error: "Too many attempts. Wait a few minutes and try again." }, 429);
-  if (!username || typeof b.password !== "string") return json({ error: "Enter your username and password." }, 400);
+  if (!username || (!usingTotp && typeof b.password !== "string")) {
+    return json({ error: "Enter your username and password (or your authenticator code)." }, 400);
+  }
 
   let row;
   try { row = await env.haven_builds.prepare(
-    "SELECT username, email, pw_hash, pw_salt, verified FROM contest_accounts WHERE username_lc=?"
+    "SELECT username, email, pw_hash, pw_salt, verified, totp_secret, totp_enrolled_at FROM contest_accounts WHERE username_lc=?"
   ).bind(username.toLowerCase()).first(); } catch { return json({ error: "server error" }, 500); }
 
-  // Generic failure for both "no such user" and "bad password" — no enumeration.
-  const okPw = row ? await verifyPassword(env, b.password, row.pw_salt, row.pw_hash) : false;
-  if (!row || !okPw) return json({ error: "Invalid username or password." }, 401);
+  // Generic failure for every wrong-credential case — no enumeration.
+  let ok = false;
+  if (row && usingTotp && row.totp_enrolled_at) ok = await verifyTotp(row.totp_secret, b.totp);
+  else if (row && !usingTotp) ok = await verifyPassword(env, b.password, row.pw_salt, row.pw_hash);
+  if (!row || !ok) return json({ error: usingTotp ? "Invalid code." : "Invalid username or password." }, 401);
   if (!row.verified) return json({ error: "Please verify your email first — check for your 6-digit code." }, 403);
 
   const cookie = sessionCookie(await makeSession(env, row.username));

@@ -4,11 +4,12 @@
 // registered router keeps whatever lists it already has (local filtering
 // never turns off) — this endpoint only decides whether FRESH data ships.
 //
-// entitled = a subscriptions row exists for this serial, status='active',
-// and its term (current_period_end) hasn't passed. Never registered, lapsed,
-// or canceled all read the same: false. No PII in the response — a boolean,
-// a reason, and the term end are all a router's own status, and a router
-// only ever asks about its own serial.
+// entitled = a registered_products row exists for this serial AND its most
+// recent transaction is still within its term. No PII in the response — a
+// boolean, a reason, and the term end are all a router's own status, and a
+// router only ever asks about its own serial.
+import { findRegisteredProduct, currentTransaction, isCurrentlyActive } from "../_lib/pricing.js";
+
 const CORS = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Methods": "GET, OPTIONS", "Access-Control-Allow-Headers": "Content-Type" };
 const RATE_WINDOW = 3600, RATE_MAX_IP = 200;   // generous: every fetch-script cron tick from a whole fleet can share one NAT IP
 const json = (b, s = 200) => new Response(JSON.stringify(b), { status: s, headers: { "Content-Type": "application/json", "Cache-Control": "no-store", ...CORS } });
@@ -36,17 +37,14 @@ export async function onRequestGet({ request, env }) {
   const serial = (new URL(request.url).searchParams.get("serial") || "").trim();
   if (!isSerial(serial)) return json({ entitled: false, reason: "bad_serial" }, 400);
 
-  let row;
+  let product, tx;
   try {
-    row = await env.haven_builds.prepare(
-      "SELECT status, current_period_end, is_test FROM subscriptions WHERE serial=?"
-    ).bind(serial).first();
+    product = await findRegisteredProduct(env, serial);
+    if (product) tx = await currentTransaction(env, product.id);
   } catch { return json({ entitled: false, reason: "server_error" }, 500); }
 
-  if (!row) return json({ entitled: false, reason: "not_registered" });
-  if (row.status !== "active") return json({ entitled: false, reason: row.status });
-  if (row.current_period_end && new Date(row.current_period_end) < new Date()) {
-    return json({ entitled: false, reason: "term_ended" });
-  }
-  return json({ entitled: true, reason: "active", current_period_end: row.current_period_end, is_test: !!row.is_test });
+  if (!product) return json({ entitled: false, reason: "not_registered" });
+  if (!tx) return json({ entitled: false, reason: "lapsed" });
+  if (!isCurrentlyActive(tx)) return json({ entitled: false, reason: "term_ended" });
+  return json({ entitled: true, reason: "active", current_period_end: tx.term_end, is_test: !!product.is_test });
 }
