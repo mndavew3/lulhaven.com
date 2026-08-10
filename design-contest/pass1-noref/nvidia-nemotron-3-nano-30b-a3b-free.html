@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Haven – Home Network Content Filtering Router</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root{
+  --bg:#f9fafb;
+  --text:#222;
+  --primary:#2c7be5;
+  --secondary:#6c757d;
+  --accent-green:#2ecc71;
+  --accent-navy:#1a202c;
+  --accent-raspberry:#e75480;
+  --accent-vanilla:#f6d86c;
+  --card-bg:#fff;
+  --radius:.5rem;
+  --transition:.3s ease;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.6;
+}
+a{color:var(--primary);text-decoration:none}
+a:hover{text-decoration:underline}
+.container{max-width:1200px;margin:auto;padding:1rem}
+header{background:var(--primary);color:#fff;padding:1rem 0}
+header .logo{font-weight:700;font-size:1.5rem}
+nav{display:flex;justify-content:space-between;align-items:center}
+nav ul{display:flex;gap:1rem}
+nav a{color:#fff;font-weight:500}
+nav a:hover{opacity:.85}
+.hero{background:url('hero-bg.jpg') center/cover no-repeat;color:#fff;text-align:center;padding:4rem 1rem}
+.hero h1{font-size:2.5rem;margin-bottom:.5rem}
+.hero p{font-size:1.2rem;max-width:600px;margin:auto}
+.btn{display:inline-block;background:#fff;color:var(--primary);padding:.75rem 1.5rem;border-radius:var(--radius);font-weight:600;transition:var(--transition)}
+.btn:hover{background:var(--primary);color:#fff}
+.features{padding:3rem 1rem;text-align:center}
+.features h2{margin-bottom:2rem}
+.feature-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem}
+.feature-card{background:var(--card-bg);padding:1.5rem;border-radius:var(--radius);box-shadow:0 2px 6px rgba(0,0,0,.05)}
+.feature-card h3{margin-bottom:.5rem;font-size:1.25rem}
+.feature-card p{font-size:.95rem;color:var(--secondary)}
+.products{background:#fff;padding:3rem 1rem;text-align:center}
+.products h2{margin-bottom:2rem}
+.product-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem}
+.product-card{background:var(--card-bg);padding:1.5rem;border-radius:var(--radius);box-shadow:0 2px 6px rgba(0,0,0,.05);position:relative;overflow:hidden}
+.product-card h3{margin-bottom:.5rem;font-size:1.2rem}
+.product-card .color-swatch{width:20px;height:20px;border-radius:50%;background:var(--accent-green);position:absolute;top:.5rem;right:.5rem}
+.product-card:nth-child(2) .color-swatch{background:var(--accent-navy)}
+.product-card:nth-child(3) .color-swatch{background:var(--accent-raspberry)}
+.product-card:nth-child(4) .color-swatch{background:var(--accent-vanilla)}
+.product-card p{margin-bottom:1rem}
+.product-card .price{font-weight:700;margin-top:.5rem}
+.subscription{background:var(--primary);color:#fff;padding:3rem 1rem;text-align:center}
+.subscription h2{margin-bottom:.5rem}
+.subscription p{max-width:600px;margin:auto}
+.subscription .cta{margin-top:1rem}
+.subscription .cta .btn{background:#fff;color:var(--primary)}
+footer{background:var(--secondary);color:#fff;text-align:center;padding:1rem;font-size:.9rem}
+@media(max-width:768px){
+  nav ul{flex-direction:column;gap:.5rem}
+  .hero h1{font-size:2rem}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="container">
+    <div class="logo">Haven</div>
+    <nav>
+      <ul>
+        <li><a href="#">Features</a></li>
+        <li><a href="#">Pricing</a></li>
+        <li><a href="#">Support</a></li>
+        <li><a href="#">Download</a></li>
+      </ul>
+      <button class="btn" id="ctaBtn">Get Started</button>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <h1>Secure Your Network, Simplify Your Life</h1>
+    <p>Haven is a home router that lets you filter unwanted content across every device — at home and on the go.</p>
+    <div class="cta">
+      <a href="#" class="btn">Download Firmware</a>
+    </div>
+  </div>
+</section>
+
+<section class="features">
+  <div class="container">
+    <h2>Why Choose Haven?</h2>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <h3>Easy Setup</h3>
+        <p>Guided onboarding takes minutes, no tech expertise required.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Dynamic Blocking</h3>
+        <p>Live content lists keep new threats off your network automatically.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Family‑Safe Everywhere</h3>
+        <p>Protect devices at home, in the car, or on public Wi‑Fi.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Customizable Profiles</h3>
+        <p>Create separate filters for work, play, and kids — without complexity.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="products" id="products">
+  <div class="container">
+    <h2>Choose Your Style</h2>
+    <div class="product-grid">
+      <div class="product-card">
+        <div class="color-swatch"></div>
+        <h3>Green</h3>
+        <p>Eco‑friendly design, subtle hue.</p>
+        <p class="price">$149</p>
+      </div>
+      <div class="product-card">
+        <div class="color-swatch"></div>
+        <h3>Navy Blue</h3>
+        <p>Classic, professional look.</p>
+        <p class="price">$149</p>
+      </div>
+      <div class="product-card">
+        <div class="color-swatch"></div>
+        <h3>Raspberry Gold</h3>
+        <p>Warm, inviting finish.</p>
+        <p class="price">$149</p>
+      </div>
+      <div class="product-card">
+        <div class="color-swatch"></div>
+        <h3>Vanilla Gold</h3>
+        <p>Soft, elegant tone.</p>
+        <p class="price">$149</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="subscription">
+  <div class="container">
+    <h2>Stay Updated</h2>
+    <p>Keep your blocklists fresh with an affordable subscription that delivers new threat data weekly.</p>
+    <div class="cta">
+      <a href="#" class="btn">Subscribe Now</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    © 2025 Haven. All rights reserved.
+  </div>
+</footer>
+
+<script>
+document.getElementById('ctaBtn').addEventListener('click',function(e){
+  e.preventDefault();
+  document.getElementById('products').scrollIntoView({behavior:'smooth'});
+});
+</script>
+</body>
+</html>

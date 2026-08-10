@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Haven — Whole-Network Content Filtering</title>
+  <style>
+    :root {
+      --green: #2e7d32;
+      --navy: #1a237e;
+      --gold: #f0c040;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --gray: #6c757d;
+      --radius: 12px;
+      --transition: all 0.3s ease;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter Tight', sans-serif;
+      background: var(--light);
+      color: var(--dark);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    header {
+      background: #fff;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 0;
+    }
+
+    .logo {
+      font-weight: 800;
+      font-size: 1.5rem;
+      color: var(--navy);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo img {
+      height: 32px;
+      width: auto;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--dark);
+      font-weight: 500;
+      transition: var(--transition);
+    }
+
+    .nav-links a:hover {
+      color: var(--navy);
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+      padding: 80px 0;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      max-width: 700px;
+      margin: 0 auto 32px;
+      opacity: 0.9;
+    }
+
+    .btn-primary {
+      background: var(--navy);
+      color: #fff;
+      border: none;
+      padding: 14px 32px;
+      border-radius: 40px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: var(--transition);
+    }
+
+    .btn-primary:hover {
+      background: #151955;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(26, 35, 126, 0.3);
+    }
+
+    .section {
+      padding: 80px 0;
+    }
+
+    .section.alt {
+      background: #f4f7f6;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
+    .section-subtitle {
+      text-align: center;
+      font-size: 1.1rem;
+      opacity: 0.8;
+      max-width: 700px;
+      margin: 0 auto 40px;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 32px;
+    }
+
+    .feature-card {
+      background: #fff;
+      border-radius: var(--radius);
+      padding: 32px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      transition: var(--transition);
+      text-align: center;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+
+    .feature-card img {
+      height: 80px;
+      margin-bottom: 20px;
+    }
+
+    .feature-card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 12px;
+      color: var(--navy);
+    }
+
+    .routers {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 32px;
+      text-align: center;
+    }
+
+    .router-card {
+      background: #fff;
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+
+    .router-card img {
+      max-width: 180px;
+      margin-bottom: 16px;
+    }
+
+    .router-card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+    }
+
+    .router-card p {
+      font-size: 0.9rem;
+      color: var(--gray);
+    }
+
+    .founder {
+      background: linear-gradient(135deg, var(--navy) 0%, #283593 100%);
+      color: #fff;
+      text-align: center;
+      padding: 60px 0;
+    }
+
+    .founder h2 {
+      font-size: 2rem;
+      margin-bottom: 16px;
+    }
+
+    .founder p {
+      max-width: 700px;
+      margin: 0 auto 32px;
+      opacity: 0.9;
+    }
+
+    .notify-form {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 32px;
+    }
+
+    .notify-form input {
+      flex: 1 1 260px;
+      max-width: 340px;
+      padding: 14px 18px;
+      border: none;
+      border-radius: 40px;
+      font-size: 1rem;
+      outline: none;
+    }
+
+    .notify-form button {
+      padding: 14px 32px;
+      border: none;
+      border-radius: 40px;
+      background: var(--gold);
+      color: var(--navy);
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .notify-form button:hover {
+      background: #e6b830;
+      transform: translateY(-2px);
+    }
+
+    footer {
+      background: #212529;
+      color: #adb5bd;
+      text-align: center;
+      padding: 32px 0;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2rem; }
+      nav { flex-direction: column; gap: 16px; }
+      .nav-links { flex-wrap: wrap; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav>
+      <a href="#" class="logo">
+        <img src="assets/images/haven-navy-gnome.png" alt="Haven Gnome">
+        Haven
+      </a>
+      <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#routers">Routers</a>
+        <a href="#founder">Founders</a>
+        <a href="#notify">Notify Me</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <h1>You pay for the network.<br>You bought the phone.</h1>
+    <p>Haven is the whole-network content filter that blocks unwanted content at the router level — for every device, everywhere. No apps, no cloud logging, no workarounds.</p>
+    <a href="#notify" class="btn-primary">Get Notified at Launch</a>
+  </div>
+</section>
+
+<section id="features" class="section">
+  <div class="container">
+    <h2 class="section-title">Why Haven?</h2>
+    <p class="section-subtitle">Parental controls, privacy, and less algorithm — all three, working together for your whole network.</p>
+    <div class="features">
+      <div class="feature-card">
+        <img src="assets/images/haven-navy-gnome.png" alt="Privacy">
+        <h3>Privacy First</h3>
+        <p>Your settings and activity stay on your router — never a company's cloud. Haven can't access your data even if it wanted to.</p>
+      </div>
+      <div class="feature-card">
+        <img src="assets/images/haven-olive-gnome.png" alt="Parental Controls">
+        <h3>Parental Controls</h3>
+        <p>Block adult content, violence, gambling, and more — on every device. VPNs and encrypted DNS can't slip past Haven.</p>
+      </div>
+      <div class="feature-card">
+        <img src="assets/images/haven-router-gold.png" alt="Less Algorithm">
+        <h3>Less Algorithm</h3>
+        <p>With U-Haven, loosen the feed's grip on YouTube and other platforms — for you, not just the kids.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="routers" class="section alt">
+  <div class="container">
+    <h2 class="section-title">Meet Haven</h2>
+    <p class="section-subtitle">Available in four flavors, each with a guardian gnome ready to protect your network.</p>
+    <div class="routers">
+      <div class="router-card">
+        <img src="assets/images/haven-router-od.png" alt="Haven Olive Green">
+        <h3>Haven Olive Green</h3>
+        <p>Linksys E8450 — Essential Wi-Fi 6</p>
+      </div>
+      <div class="router-card">
+        <img src="assets/images/haven-router-navy.png" alt="Haven Navy">
+        <h3>Haven Navy</h3>
+        <p>GL.iNet MT6000 — Performance Flagship</p>
+      </div>
+      <div class="router-card">
+        <img src="assets/images/haven-router-gold.png" alt="Haven Raspberry Gold">
+        <h3>Haven Raspberry Gold</h3>
+        <p>Raspberry Pi 4 — Maker Edition</p>
+      </div>
+      <div class="router-card">
+        <img src="assets/images/haven-router-gold.png" alt="Haven Vanilla Gold">
+        <h3>Haven Vanilla Gold</h3>
+        <p>OpenWrt Burn Image — Coming Soon</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="founder" class="founder">
+  <div class="container">
+    <h2>Become a Haven Founder</h2>
+    <p>Be one of the first 100. Each Founders router is hand-built and shipped by the founder — your network protected, the mission funded.</p>
+    <div class="notify-form">
+      <input type="email" placeholder="Your email address" required>
+      <button type="submit">Keep Me Posted</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2026 Haven. All rights reserved.</p>
+</footer>
+
+</body>
+</html>

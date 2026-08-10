@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Haven | Peace of Mind for Your Network</title>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --accent-gold: #fbbf24;
+            --accent-navy: #38bdf8;
+            --accent-raspberry: #fb7185;
+            --accent-green: #4ade80;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Layout Containers */
+        container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        section {
+            padding: 100px 0;
+        }
+
+        /* Navigation */
+        nav {
+            padding: 1.5rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        nav-links a {
+            color: var(--text-dim);
+            text-decoration: none;
+            margin-left: 2rem;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        nav-links a:hover {
+            color: var(--text-main);
+        }
+
+        /* Hero Section */
+        hero {
+            text-align: center;
+            padding-top: 180px;
+            padding-bottom: 120px;
+        }
+
+        hero h1 {
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+        }
+
+        hero p {
+            font-size: 1.25rem;
+            color: var(--text-dim);
+            max-width: 600px;
+            margin: 0 auto 2.5rem;
+        }
+
+        btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        btn-primary {
+            background: var(--text-main);
+            color: var(--bg);
+        }
+
+        btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255,255,255,0.1);
+        }
+
+        /* Features Section */
+        features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        feature-card {
+            background: var(--card-bg);
+            padding: 3rem 2rem;
+            border-radius: 24px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: var(--transition);
+        }
+
+        feature-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(255,255,255,0.1);
+        }
+
+        feature-card h3 {
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+        }
+
+        feature-card p {
+            color: var(--text-dim);
+            font-size: 0.95rem;
+        }
+
+        /* Product Section */
+        product-section {
+            background: rgba(255,255,255,0.02);
+        }
+
+        section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        section-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+        }
+
+        product-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            overflow: hidden;
+            text-align: center;
+            padding-bottom: 2rem;
+            transition: var(--transition);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        product-card:hover {
+            transform: scale(1.03);
+        }
+
+        product-visual {
+            height: 200px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* Hardware Visualizer (CSS Shapes) */
+        router-shape {
+            width: 100px;
+            height: 140px;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+
+        green { background: linear-gradient(135deg, #4ade80, #166534); }
+        navy { background: linear-gradient(135deg, #38bdf8, #1e3a8a); }
+        raspberry { background: linear-gradient(135deg, #fb7185, #9f1239); }
+        gold { background: linear-gradient(135deg, #fbbf24, #92400e); }
+
+        product-card h4 {
+            margin: 1.5rem 0 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        product-card.price {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Footer */
+        footer {
+            padding: 4rem 0;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            text-align: center;
+            color: var(--text-dim);
+            font-size: 0.8rem;
+        }
+
+        /* Animations */
+        reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 768px) {
+            nav-links { display: none; }
+            hero h1 { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="container nav-content">
+            <div class="logo">HAVEN</div>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#products">Hardware</a>
+                <a href="#subscription">Subscription</a>
+                <a href="#" class="btn btn-primary" style="padding: 0.5rem 1.5rem;">Get Started</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="container">
+            <h1>Your network, <br>simplified and safe.</h1>
+            <p>The intelligent content filter designed for families, organizations, and individuals. Effortless protection for every device, everywhere.</p>
+            <a href="#products" class="btn btn-primary">Explore Haven</a>
+        </div>
+    </header>
+
+    <section id="features" class="container">
+        <div class="section-header">
+            <h2>Designed for humans.</h2>
+            <p>No IT degree required. Just peace of mind.</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card reveal">
+                <h3>Zero Configuration</h3>
+                <p>Plug it in, open the app, and you're done. We've removed the complexity of traditional network management.</p>
+            </div>
+            <div class="feature-card reveal">
+                <h3>Always Current</h3>
+                <p>Our smart subscription keeps your block-lists updated in real-time against new digital threats.</p>
+            </div>
+            <div class="feature-card reveal">
+                <h3>Mobile Protection</h3>
+                <p>Haven follows you. Protect your mobile devices even when you're away from your home Wi-Fi.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="products" class="product-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Choose your Haven</h2>
+                <p>Premium hardware designed to blend into your space.</p>
+            </div>
+            <div class="product-grid">
+                <!-- Green -->
+                <div class="product-card reveal">
+                    <div class="product-visual">
+                        <div class="router-shape green"></div>
+                    </div>
+                    <h4>Green</h4>
+                    <p class="price">Hardware Only</p>
+                    <a href="#" class="btn btn-primary" style="width: 80%; font-size: 0.8rem;">Buy Now</a>
+                </div>
+                <!-- Navy -->
+                <div class="product-card reveal">
+                    <div class="product-visual">
+                        <div class="router-shape navy"></div>
+                    </div>
+                    <h4>Navy Blue</h4>
+                    <p class="price">Hardware Only</p>
+                    <a href="#" class="btn btn-primary" style="width: 80%; font-size: 0.8rem;">Buy Now</a>
+                </div>
+                <!-- Raspberry -->
+                <div class="product-card reveal">
+                    <div class="product-visual">
+                        <div class="router-shape raspberry"></div>
+                    </div>
+                    <h4>Raspberry Gold</h4>
+                    <p class="price">Hardware Only</p>
+                    <a href="#" class="btn btn-primary" style="width: 80%; font-size: 0.8rem;">Buy Now</a>
+                </div>
+                <!-- Vanilla -->
+                <div class="product-card reveal">
+                    <div class="product-visual">
+                        <div class="router-shape gold"></div>
+                    </div>
+                    <h4>Vanilla Gold</h4>
+                    <p class="price">Hardware Only</p>
+                    <a href="#" class="btn btn-primary" style="width: 80%; font-size: 0.8rem;">Buy Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Haven Technologies. Firmware is free. Subscription required for live updates.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Scroll Reveal Animation
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'mooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>

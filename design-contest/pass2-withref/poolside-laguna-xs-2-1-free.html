@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5">
+  <meta name="description" content="Haven is software that filters content at your router for every device on your network — no apps, no cloud logging, and no workarounds. Ships ready to plug in.">
+  <title>Haven — Zero-Tolerance Content Filtering</title>
+  <style>
+    :root {
+      --green: #2e7d32;
+      --navy: #0d47a1;
+      --gold: #ffd700;
+      --olive: #4caf50;
+      --vanilla: #f5f5dc;
+      --dark: #1a1a1a;
+      --light: #ffffff;
+      --gray: #f5f5f5;
+      --radius: 12px;
+      --transition: all 0.3s ease;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { 
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+      color: var(--dark);
+      background-color: var(--light);
+    }
+
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+    .grid { display: grid; gap: 2rem; }
+    
+    /* Header */
+    header {
+      background: linear-gradient(135deg, var(--green), var(--navy));
+      color: white;
+      padding: 4rem 0 3rem;
+      text-align: center;
+    }
+    
+    .hero-title {
+      font-size: clamp(2.5rem, 5vw, 3.5rem);
+      font-weight: 800;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+    
+    .hero-subtitle {
+      font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+      opacity: 0.9;
+      margin-bottom: 2rem;
+    }
+    
+    .cta-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+    
+    .btn {
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    
+    .btn-primary { background: var(--gold); color: var(--dark); }
+    .btn-outline { 
+      background: transparent; 
+      border: 2px solid white; 
+      color: white; 
+    }
+    
+    .btn-primary:hover, .btn-outline:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    
+    .hero-image {
+      margin-top: 3rem;
+    }
+    
+    .hero-image img {
+      max-width: 400px;
+      width: 100%;
+      height: auto;
+      border-radius: var(--radius);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+
+    /* Features Section */
+    .features {
+      padding: 4rem 0;
+      background: var(--gray);
+    }
+    
+    .section-title {
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    
+    .section-subtitle {
+      text-align: center;
+      opacity: 0.7;
+      margin-bottom: 3rem;
+    }
+    
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    
+    .feature-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 2rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      transition: var(--transition);
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    }
+    
+    .feature-icon {
+      width: 60px;
+      height: 60px;
+      margin-bottom: 1rem;
+    }
+
+    /* Router Section */
+    .routers {
+      padding: 4rem 0;
+    }
+    
+    .router-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    
+    .router-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+    
+    .router-card img {
+      max-width: 200px;
+      width: 100%;
+      height: auto;
+      margin-bottom: 1rem;
+    }
+    
+    .router-name {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    
+    .router-model {
+      opacity: 0.7;
+      font-size: 0.9rem;
+    }
+
+    /* CTA Section */
+    .cta-section {
+      background: linear-gradient(135deg, var(--navy), var(--green));
+      color: white;
+      padding: 4rem 0;
+      text-align: center;
+    }
+    
+    .cta-content {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .cta-title {
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    
+    .cta-description {
+      opacity: 0.9;
+      margin-bottom: 2rem;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--dark);
+      color: white;
+      padding: 2rem 0;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+    
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
+    
+    .footer-links a {
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    
+    .footer-links a:hover {
+      color: var(--gold);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      header { padding: 3rem 0 2rem; }
+      .hero-title { font-size: 2rem; }
+      .cta-buttons { flex-direction: column; }
+      .features, .routers { padding: 3rem 0; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <h1 class="hero-title">You pay for the network.<br>You bought the phone.</h1>
+      <p class="hero-subtitle">It shouldn't <span id="hero-rotate">spew garbage</span>.</p>
+      
+      <div class="cta-buttons">
+        <a href="#notify" class="btn btn-primary">Get notified at launch →</a>
+        <a href="/challenge-preview" class="btn btn-outline">The 2026 Haven Challenge →</a>
+      </div>
+      
+      <div class="hero-image">
+        <img src="assets/images/hero/hero-parent-positioning-v1.png" 
+             alt="A parent working at a kitchen table while child uses phone">
+      </div>
+    </div>
+  </header>
+
+  <!-- Features -->
+  <section class="features">
+    <div class="container">
+      <h2 class="section-title">Why Haven?</h2>
+      <p class="section-subtitle">One solution for all your filtering needs</p>
+      
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🛡️</div>
+          <h3>Whole-Network Protection</h3>
+          <p>Block content on every device automatically - no apps to install or manage.</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">🔒</div>
+          <h3>Your Privacy Protected</h3>
+          <p>Your settings and activity stay on your router - never sent to the cloud.</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">🚀</div>
+          <h3>Works Everywhere</h3>
+          <p>Even when devices leave your Wi-Fi, filtering stays active on mobile.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Routers -->
+  <section class="routers">
+    <div class="container">
+      <h2 class="section-title">Meet Haven</h2>
+      <p class="section-subtitle">Tradition tells of gnomes, the domestic protectors. Lulhaven brings you Haven: your tech protector.</p>
+      
+      <div class="router-grid">
+        <div class="router-card">
+          <img src="assets/images/haven-router-od.png" alt="Haven Olive Green">
+          <h3 class="router-name">Haven Olive Green</h3>
+          <p class="router-model">Linksys E8450 — Essential Wi-Fi 6</p>
+        </div>
+        
+        <div class="router-card">
+          <img src="assets/images/haven-router-navy.png" alt="Haven Navy">
+          <h3 class="router-name">Haven Navy</h3>
+          <p class="router-model">GL.iNet MT6000 — Performance flagship</p>
+        </div>
+        
+        <div class="router-card">
+          <img src="assets/images/haven-router-gold.png" alt="Haven Gold">
+          <h3 class="router-name">Haven Gold</h3>
+          <p class="router-model">OpenWrt image for makers<br><em>(coming soon)</em></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-content">
+        <h2 class="cta-title">Become a Haven Founder</h2>
+        <p class="cta-description">Be one of the first 100. Each Founders router is hand-built and shipped by the founder—your network protected, the mission funded.</p>
+        
+        <div id="founders-card">
+          <img src="assets/images/haven-navy-gnome.png" alt="Haven Navy" style="height:120px; margin: 0 auto 1rem;">
+          <p><strong>Haven Navy — Founders Edition</strong></p>
+          <p>Wi-Fi 6 content filter · GL-MT6000</p>
+          <p><span style="font-size:1.5rem;font-weight:800;">Pricing to be announced</span> <span style="color:#aaa;">· free updates through launch</span></p>
+          <p>Plug it in where your old router was, click the categories you want blocked, and Haven enforces them for every device on your network.</p>
+          <p style="margin-top:1rem; font-weight:700;">
+            Haven launches in <span data-countdown="founders" data-countdown-live="Haven is here!"></span>
+            <span style="display:block; font-size:0.88rem; color:#aaa; margin-top:3px;">
+              Available November 1 · shipping from November 25
+            </span>
+          </p>
+          <div id="founders-buy" style="display:inline-block; padding:12px 28px; border-radius:30px; background:#8aa39b; color:#fff; font-weight:700; cursor:default; margin:1rem 0;">
+            Founders ordering opens soon
+          </div>
+          <p style="margin:10px 0 0; font-size:0.92rem; color:#aaa;">
+            <strong id="founders-count">0</strong> of 100 reserved · ships by November 25, 2026
+          </p>
+          <p style="margin:5px 0 0; font-size:0.82rem; color:#aaa;">Ships to US addresses · <strong>cancel anytime — filter keeps working</strong></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Notification Form -->
+  <section id="notify" style="padding:3rem 0; background:#f4f7f6;">
+    <div class="container">
+      <div class="text-center">
+        <h2 style="font-size:1.8rem; font-weight:700; margin-bottom:1rem;">Not ready yet? Stay in the loop.</h2>
+        <p style="max-width:500px; margin:0 auto 2rem; opacity:0.8;">Drop your email for new-batch alerts and first word when the monthly list-update service goes live.</p>
+        
+        <form id="haven-notify-form" style="display:flex; gap:10px; flex-wrap:wrap; justify-content:center;">
+          <input id="haven-notify-email" type="email" placeholder="Your email address" required 
+                 style="flex:1 1 260px; max-width:340px; padding:14px 18px; border:none; border-radius:40px; font-size:1rem; outline:none;">
+          <button type="submit" style="padding:14px 32px; border:none; border-radius:40px; background:#e53935; color:#fff; font-size:1rem; font-weight:700; cursor:pointer;">Keep me posted</button>
+        </form>
+        <p id="haven-notify-msg" style="margin-top:20px; font-size:1rem; min-height:1.4em; display:none;"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <nav class="footer-links">
+        <a href="benefits.html">Benefits</a>
+        <a href="features.html">Features</a>
+        <a href="demo.html">Demo</a>
+        <a href="milestones.html">Milestones</a>
+        <a href="faq.html">FAQ</a>
+        <a href="about.html">About us</a>
+        <a href="fun.html">Enjoy!</a>
+      </nav>
+      <p>© Copyright 2026 Lulhaven - All Rights Reserved</p>
+    </div>
+  </footer>
+
+  <script>
+    // Hero phrase rotation
+    (function() {
+      var el = document.getElementById('hero-rotate');
+      if (!el) return;
+      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var phrases = ['spew garbage', 'spew rage bait', 'track you', 'harvest your data',
+                     'feed the algorithm', 'hijack your attention', 'autoplay all night',
+                     'sell your attention', 'doomscroll your evening', 'target your children', 'feed you lies', 'hijack your browser', 'program you'];
+      for (var j = phrases.length - 1; j > 0; j--) {
+        var k = Math.floor(Math.random() * (j + 1));
+        var t = phrases[j]; phrases[j] = phrases[k]; phrases[k] = t;
+      }
+      var i = 0;
+      setInterval(function() {
+        if (reduce) {
+          i = (i + 1) % phrases.length;
+          el.textContent = phrases[i];
+          return;
+        }
+        el.style.opacity = '0';
+        setTimeout(function() {
+          i = (i + 1) % phrases.length;
+          el.textContent = phrases[i];
+          el.style.opacity = '1';
+        }, 400);
+      }, 2200);
+    })();
+
+    // Notification form handling
+    (function(){
+      var form  = document.getElementById("haven-notify-form");
+      var email = document.getElementById("haven-notify-email");
+      var msg   = document.getElementById("haven-notify-msg");
+      if (!form) return;
+
+      var qs = new URLSearchParams(window.location.search);
+      var pageSource = qs.get("ref") || qs.get("utm_source") || null;
+      if (pageSource) {
+        try { sessionStorage.setItem("haven_notify_source", pageSource); } catch(e){}
+      }
+
+      form.addEventListener("submit", function(e){
+        e.preventDefault();
+        var btn = form.querySelector("button[type=submit]");
+        btn.disabled = true;
+        btn.textContent = "Sending…";
+        msg.style.display = "none";
+        var src = null;
+        try { src = sessionStorage.getItem("haven_notify_source"); } catch(e){}
+        var payload = { email: email.value.trim() };
+        if (src) payload.source = src;
+        fetch("/api/notify", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        })
+        .then(function(r){ return r.json(); })
+        .then(function(d){
+          if (d.ok) {
+            form.style.display = "none";
+            msg.textContent = d.message || "You're on the list!";
+            msg.style.color = "#a5d6a7";
+          } else {
+            msg.textContent = d.error || "Something went wrong. Please try again.";
+            msg.style.color = "#ef9a9a";
+            btn.disabled = false;
+            btn.textContent = "Keep me posted";
+          }
+          msg.style.display = "block";
+        })
+        .catch(function(){
+          msg.textContent = "Network error. Please try again.";
+          msg.style.color = "#ef9a9a";
+          msg.style.display = "block";
+          btn.disabled = false;
+          btn.textContent = "Keep me posted";
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

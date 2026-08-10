@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Haven - Smart Content Filtering Router</title>
+    <style>
+        :root {
+            --color-green: #4CAF50;
+            --color-navy: #1a237e;
+            --color-raspberry: #D32F2F;
+            --color-vanilla: #FFC107;
+            --color-light: #f8f9fa;
+            --color-dark: #212529;
+            --color-white: #ffffff;
+            --font-primary: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            --transition-standard: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            line-height: 1.6;
+            color: var(--color-dark);
+            overflow-x: hidden;
+        }
+
+        /* Header & Navigation */
+        header {
+            background: var(--color-white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-dark);
+            text-decoration: none;
+        }
+
+        .logo-span {
+            color: var(--color-green);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--color-dark);
+            font-weight: 500;
+            transition: var(--transition-standard);
+        }
+
+        .nav-links a:hover {
+            color: var(--color-green);
+        }
+
+        .cta-button {
+            background: var(--color-green);
+            color: var(--color-white);
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition-standard);
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .cta-button:hover {
+            background: #43a047;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--color-light) 0%, var(--color-white) 100%);
+            display: flex;
+            align-items: center;
+            padding-top: 6rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 600px;
+            padding: 2rem;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            color: var(--color-dark);
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .secondary-button {
+            background: transparent;
+            color: var(--color-green);
+            border: 2px solid var(--color-green);
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition-standard);
+        }
+
+        .secondary-button:hover {
+            background: var(--color-green);
+            color: var(--color-white);
+        }
+
+        .hero-image {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><rect fill="%234CAF50" opacity="0.1"/><circle cx="200" cy="200" r="150" fill="none" stroke="%234CAF50" stroke-width="2" opacity="0.2"/><path d="M200 100 L250 150 L300 100" fill="none" stroke="%234CAF50" stroke-width="2" opacity="0.3"/></svg>') no-repeat center;
+            z-index: 1;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 6rem 2rem;
+            background: var(--color-white);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-title p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: var(--color-light);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: var(--transition-standard);
+            text-align: center;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--color-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: var(--color-white);
+            font-size: 2rem;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        /* Products Section */
+        .products {
+            padding: 6rem 2rem;
+            background: var(--color-light);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .product-card {
+            background: var(--color-white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: var(--transition-standard);
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .product-image {
+            height: 200px;
+            background: linear-gradient(45deg, var(--color-green), var(--color-navy));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-white);
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .product-green { background: linear-gradient(45deg, #4CAF50, #2E7D32); }
+        .product-navy { background: linear-gradient(45deg, #1a237e, #0D47A1); }
+        .product-raspberry { background: linear-gradient(45deg, #D32F2F, #B71C1C); }
+        .product-vanilla { background: linear-gradient(45deg, #FFC107, #F57F17); }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-info h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        .price {
+            font-weight: 700;
+            color: var(--color-green);
+            margin: 1rem 0;
+        }
+
+        /* Subscription Section */
+        .subscription {
+            padding: 6rem 2rem;
+            background: var(--color-green);
+            color: var(--color-white);
+            text-align: center;
+        }
+
+        .subscription h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .subscription p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--color-dark);
+            color: var(--color-white);
+            padding: 3rem 2rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-column h4 {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: #aaa;
+            text-decoration: none;
+            transition: var(--transition-standard);
+        }
+
+        .footer-links a:hover {
+            color: var(--color-green);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #444;
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .hero-image {
+                display: none;
+            }
+
+            .section-title h2 {
+                font-size: 2rem;
+            }
+        }
+
+        /* Micro-interactions */
+        .product-card, .feature-card {
+            transform-style: preserve-3d;
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .product-card:hover::before {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="nav-container">
+            <a href="#" class="logo">Haven<span class="logo-span">.</span></a>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#products">Products</a></li>
+                <li><a href="#subscription">Subscription</a></li>
+                <li><a href="#">Support</a></li>
+            </ul>
+            <a href="#" class="cta-button">Get Started</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Protect Your Network<br>With Smart Content Filtering</h1>
+            <p>Haven gives families, organizations, and individuals the tools they need to create safe, focused digital environments.</p>
+            <div class="hero-buttons">
+                <a href="#" class="cta-button">Shop Now</a>
+                <a href="#" class="secondary-button">Learn More</a>
+            </div>
+        </div>
+        <div class="hero-image"></div>
+    </section>
+
+    <section id="features" class="features">
+        <div class="section-title">
+            <h2>Designed for Everyone</h2>
+            <p>Simple setup, powerful protection for your entire network</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🛡️</div>
+                <h3>Easy Setup</h3>
+                <p>Replace your existing router in minutes. No technical expertise required.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3>Mobile Protection</h3>
+                <p>Extend protection to smartphones and tablets, even when away from home.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔄</div>
+                <h3>Always Updated</h3>
+                <p>Subscription keeps threat databases current with the latest threats.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="products" class="products">
+        <div class="section-title">
+            <h2>Choose Your Haven</h2>
+            <p>Four distinct models to fit every need and budget</p>
+        </div>
+        <div class="products-grid">
+            <div class="product-card product-green">
+                <div class="product-image">Green</div>
+                <div class="product-info">
+                    <h3>Haven Green</h3>
+                    <p>Perfect for families with basic filtering needs</p>
+                    <div class="price">$89.99</div>
+                    <a href="#" class="secondary-button" style="background: transparent; color: #4CAF50; border: 2px solid #4CAF50;">View Details</a>
+                </div>
+            </div>
+            <div class="product-card product-navy">
+                <div class="product-image">Navy Blue</div>
+                <div class="product-info">
+                    <h3>Haven Navy</h3>
+                    <p>Advanced features for organizations and schools</p>
+                    <div class="price">$149.99</div>
+                    <a href="#" class="secondary-button" style="background: transparent; color: #1a237e; border: 2px solid #1a237e;">View Details</a>
+                </div>
+            </div>
+            <div class="product-card product-raspberry">
+                <div class="product-image">Raspberry Gold</div>
+                <div class="product-info">
+                    <h3>Haven Raspberry</h3>
+                    <p>Premium performance with enhanced security</p>
+                    <div class="price">$199.99</div>
+                    <a href="#" class="secondary-button" style="background: transparent; color: #D32F2F; border: 2px solid #D32F2F;">View Details</a>
+                </div>
+            </div>
+            <div class="product-card product-vanilla">
+                <div class="product-image">Vanilla Gold</div>
+                <div class="product-info">
+                    <h3>Haven Vanilla</h3>
+                    <p>Entry-level option for individuals and small offices</p>
+                    <div class="price">$69.99</div>
+                    <a href="#" class="secondary-button" style="background: transparent; color: #FFC107; border: 2px solid #FFC107;">View Details</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="subscription" class="subscription">
+        <h2>Stay Protected with Automatic Updates</h2>
+        <p>$4.99/month keeps your content filters current with the latest threats and categories</p>
+        <a href="#" class="cta-button" style="background: var(--color-white); color: var(--color-green);">Start Free Trial</a>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h4>Haven</h4>
+                <ul class="footer-links">
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Press</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Products</h4>
+                <ul class="footer-links">
+                    <li><a href="#">All Models</a></li>
+                    <li><a href="#">Pricing</a></li>
+                    <li><a href="#">Specs</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Support</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">Community</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Legal</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Cookie Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Haven. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Simple smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add scroll effect to header
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.style.boxShadow = '0 2px 20px rgba(0,0,0,0.15)';
+            } else {
+                header.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+            }
+        });
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe feature cards and product cards
+        document.querySelectorAll('.feature-card, .product-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>

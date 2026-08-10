@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Haven — Zero-Tolerance Content Filtering</title>
+  <style>
+    :root {
+      --primary: #1f6b5a;
+      --secondary: #f0c040;
+      --accent: #ffd700;
+      --dark: #0f1c2e;
+      --light: #f4f7f6;
+      --font: 'Inter Tight', sans-serif;
+    }
+    body {
+      margin: 0;
+      font-family: var(--font);
+      color: var(--dark);
+      line-height: 1.6;
+    }
+    header {
+      background: var(--light);
+      padding: 40px 20px;
+      text-align: center;
+    }
+    header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+    header p {
+      font-size: 1.1rem;
+      color: var(--secondary);
+    }
+    .router-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      max-width: 1200px;
+      margin: 40px auto;
+    }
+    .router-card {
+      background: var(--light);
+      border-radius: 12px;
+      overflow: hidden;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .router-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+    .router-card h3 {
+      margin: 15px 0;
+      font-size: 1.2rem;
+    }
+    .router-card p {
+      font-size: 0.95rem;
+      color: var(--secondary);
+    }
+    .btn {
+      background: var(--secondary);
+      color: var(--dark);
+      padding: 12px 24px;
+      border: none;
+      border-radius: 40px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .btn:hover {
+      background: var(--accent);
+    }
+    .hero-rotate {
+      font-size: 1.1rem;
+      animation: rotate 10s infinite;
+    }
+    @keyframes rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .hero-rotate { animation: none; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Haven — Zero-Tolerance Content Filtering</h1>
+    <p>Control your network. Block what you don’t want.</p>
+  </header>
+
+  <section class="router-grid">
+    <div class="router-card">
+      <img src="assets/images/haven-olive-gnome.png" alt="Haven Green">
+      <h3>Haven Green</h3>
+      <p>Linksys E8450 — Essential Wi-Fi 6</p>
+    </div>
+    <div class="router-card">
+      <img src="assets/images/haven-navy-gnome.png" alt="Haven Navy">
+      <h3>Haven Navy</h3>
+      <p>GL.iNet MT6000 — Performance flagship</p>
+    </div>
+    <div class="router-card">
+      <img src="assets/images/haven-gold-gnome.png" alt="Haven Gold">
+      <h3>Haven Gold</h3>
+      <p>OpenWrt build — For DIY makers</p>
+    </div>
+    <div class="router-card">
+      <img src="assets/images/haven-vanilla-gnome.png" alt="Haven Vanilla Gold">
+      <h3>Haven Vanilla Gold</h3>
+      <p>Custom build — Tailored for specific needs</p>
+    </div>
+  </section>
+
+  <section style="text-align:center; padding:40px; background:var(--dark); color:var(--light);">
+    <h2 style="color:var(--secondary);">It shouldn’t spew garbage.</h2>
+    <p>Haven blocks content at the network level — no workarounds, no cloud.</p>
+    <a href="#notify" class="btn">Get notified at launch</a>
+  </section>
+
+  <section id="notify" style="background:var(--secondary); padding:60px; text-align:center; color:var(--dark);">
+    <h2>Not ready yet? Stay in the loop.</h2>
+    <form style="display:flex; gap:10px; margin:20px auto; max-width:400px;">
+      <input type="email" placeholder="Your email" required style="flex:1; padding:12px; border-radius:40px;">
+      <button type="submit" style="padding:12px 24px; background:var(--dark); color:var(--light); border-radius:40px;">Keep me posted</button>
+    </form>
+  </section>
+
+  <footer style="background:var(--dark); color:var(--light); text-align:center; padding:20px;">
+    © 2026 Lulhaven. All rights reserved.
+  </footer>
+</body>
+</html>

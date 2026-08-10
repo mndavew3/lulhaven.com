@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Haven – Safe Network Filtering</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --navy: #0a1f44;
+    --green: #2ecc71;
+    --raspberry: #e74c3c;
+    --vanilla: #f5cba7;
+    --gold: #f1c40f;
+    --bg: #f9f9f9;
+    --text: #222;
+    --muted: #555;
+  }
+  * { box-sizing: border-box; margin:0; padding:0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+  }
+  a { color: inherit; text-decoration: none; }
+  img { max-width:100%; height:auto; display:block; }
+  header {
+    background: var(--navy);
+    color:#fff;
+    padding:1rem 2rem;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .logo { font-weight:bold; font-size:1.4rem; }
+  nav ul { list-style:none; display:flex; gap:1.5rem; }
+  nav a { color:#ddd; }
+  nav a:hover { color:#fff; }
+  .menu-toggle { display:none; flex-direction:column; gap:4px; cursor:pointer; }
+  .menu-toggle span { width:22px; height:3px; background:#fff; }
+  .hero {
+    background: var(--green);
+    color:#fff;
+    text-align:center;
+    padding:4rem 2rem;
+  }
+  .hero h1 { font-size:2.2rem; margin-bottom:.5rem; }
+  .hero p { font-size:1.1rem; max-width:600px; margin:0 auto 1.5rem; }
+  .cta-btn {
+    display:inline-block;
+    background:var(--gold);
+    color:var(--navy);
+    padding:.8rem 1.5rem;
+    border-radius:4px;
+    font-weight:600;
+    transition:background .2s;
+  }
+  .cta-btn:hover { background:#e6b800; }
+  .features {
+    display:grid;
+    gap:2rem;
+    padding:3rem 2rem;
+    max-width:1100px;
+    margin:0 auto;
+    grid-template-columns:repeat(auto-fit, minmax(260px,1fr));
+  }
+  .card {
+    background:#fff;
+    border-radius:8px;
+    padding:1.5rem;
+    box-shadow:0 2px 6px rgba(0,0,0,.08);
+    text-align:center;
+  }
+  .card img { width:48px; margin-bottom:1rem; }
+  .card h3 { margin-bottom:.5rem; color:var(--navy); }
+  .pricing {
+    background:var(--vanilla);
+    padding:3rem 2rem;
+    text-align:center;
+  }
+  .pricing h2 { margin-bottom:1rem; }
+  .plans {
+    display:flex;
+    gap:1.5rem;
+    justify-content:center;
+    flex-wrap:wrap;
+  }
+  .plan {
+    background:#fff;
+    border:2px solid var(--raspberry);
+    border-radius:8px;
+    padding:1.5rem;
+    min-width:200px;
+    text-align:center;
+  }
+  .plan h3 { color:var(--raspberry); margin-bottom:.5rem; }
+  .plan .price { font-size:1.8rem; margin: .5rem 0; }
+  footer {
+    background:var(--navy);
+    color:#ddd;
+    text-align:center;
+    padding:2rem;
+    font-size:.9rem;
+  }
+  @media (max-width:768px) {
+    nav { position:absolute; top:100%; left:0; right:0; background:var(--navy); max-height:0; overflow:hidden; transition:max-height .3s ease-out; }
+    nav.open { max-height:300px; }
+    .menu-toggle { display:flex; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">Haven</div>
+  <nav id="nav">
+    <ul>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#pricing">Plans</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+  </nav>
+  <div class="menu-toggle" id="menuToggle">
+    <span></span><span></span><span></span>
+  </div>
+</header>
+
+<section class="hero">
+  <h1>Keep unwanted content off your network</h1>
+  <p>Simple router‑based filtering that works at home and on the go — no IT degree required.</p>
+  <a href="#pricing" class="cta-btn">Get Started</a>
+</section>
+
+<section id="features" class="features">
+  <div class="card">
+    <img src="https://img.icons8.com/ios-filled/50/000000/router.png" alt="router">
+    <h3>Easy Setup</h3>
+    <p>Plug in, follow the wizard, and you’re protected in minutes.</p>
+  </div>
+  <div class="card">
+    <img src="https://img.icons8.com/ios-filled/50/000000/shield.png" alt="shield">
+    <h3>Always‑Current Lists</h3>
+    <p>Subscription keeps block‑lists up‑to‑date against emerging threats.</p>
+  </div>
+  <div class="card">
+    <img src="https://img.icons8.com/ios-filled/50/000000/mobile.png" alt="mobile">
+    <h3>Protection Everywhere</h3>
+    <p>Mobile client extends filtering beyond your home Wi‑Fi.</p>
+  </div>
+  <div class="card">
+    <img src="https://img.icons8.com/ios-filled/50/000000/settings.png" alt="settings">
+    <h3>Four Style Options</h3>
+    <p>Choose Green, Navy Blue, Raspberry Gold, or Vanilla Gold to match your décor.</p>
+  </div>
+</section>
+
+<section id="pricing" class="pricing">
+  <h2>Simple Pricing</h2>
+  <p>Hardware purchase + optional subscription for list updates.</p>
+  <div class="plans">
+    <div class="plan">
+      <h3>Green</h3>
+      <div class="price">$99</div>
+      <p>Router hardware</p>
+      <p><small>Free firmware</small></p>
+      <a href="#" class="cta-btn">Buy</a>
+    </div>
+    <div class="plan">
+      <h3>Navy Blue</h3>
+      <div class="price">$99</div>
+      <p>Router hardware</p>
+      <p><small>Free firmware</small></p>
+      <a href="#" class="cta-btn">Buy</a>
+    </div>
+    <div class="plan">
+      <h3>Raspberry Gold</h3>
+      <div class="price">$99</div>
+      <p>Router hardware</p>
+      <p><small>Free firmware</small></p>
+      <a href="#" class="cta-btn">Buy</a>
+    </div>
+    <div class="plan">
+      <h3>Vanilla Gold</h3>
+      <div class="price">$99</div>
+      <p>Router hardware</p>
+      <p><small>Free firmware</small></p>
+      <a href="#" class="cta-btn">Buy</a>
+    </div>
+  </div>
+  <p style="margin-top:1.5rem;font-size:.9rem;color:var(--muted);">
+    Subscription for list updates: $4.99/mo (cancel anytime).
+  </p>
+</section>
+
+<footer>
+  © 2025 Haven • <a href="#" style="color:#fff;">Privacy</a> • <a href="#" style="color:#fff;">Terms</a>
+</footer>
+
+<script>
+  const toggle = document.getElementById('menuToggle');
+  const nav = document.getElementById('nav');
+  toggle.addEventListener('click', () => {
+    nav.classList.toggle('open');
+    toggle.classList.toggle('open');
+  });
+</script>
+</body>
+</html>

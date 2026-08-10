@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Haven — Zero‑Tolerance Content Filtering</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --c-olive:#6b8e23;
+  --c-navy:#001f3f;
+  --c-rasp:#b76e79;
+  --c-vanilla:#d4a017;
+  --accent:#f0c040;
+  --bg:#fafafa;
+  --txt:#222;
+}
+* {box-sizing:border-box;}
+body{margin:0;font-family:'Inter Tight',system-ui,sans-serif;background:var(--bg);color:var(--txt);}
+a{color:var(--accent);text-decoration:none;}
+a:hover{color:var(--c-olive);}
+header{
+  background:linear-gradient(135deg,var(--c-olive),var(--c-navy));
+  color:#fff;
+  padding:4rem 1rem;
+  text-align:center;
+}
+header h1{font-size:2.5rem;margin:.5rem 0;}
+header p{font-size:1.2rem;margin:1rem 0;}
+.cta{
+  background:var(--accent);
+  color:#000;
+  padding:.9rem 1.8rem;
+  border-radius:6px;
+  font-weight:600;
+  animation:pulse 2s infinite;
+}
+@keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.05);}}
+.rotating{display:inline-block;opacity:1;transition:opacity .4s;}
+@media(prefers-reduced-motion:reduce){.rotating{transition:none;}}
+.features{padding:4rem 1rem;text-align:center;}
+.features .card{
+  display:inline-block;
+  background:#fff;
+  padding:1.5rem;
+  border-radius:8px;
+  box-shadow:0 2px 6px rgba(0,0,0,.1);
+  margin:0 1rem;
+  max-width:260px;
+}
+.features img{max-width:80px;margin-bottom:1rem;}
+footer{
+  background:#222;
+  color:#ccc;
+  padding:2rem 1rem;
+  text-align:center;
+  font-size:.9rem;
+}
+@media(max-width:600px){
+  header h1{font-size:2rem;}
+  header p{font-size:1rem;}
+}
+.chip{
+  padding:.6rem 1.2rem;
+  border-radius:22px;
+  border:1px solid rgba(255,255,255,.35);
+  background:transparent;
+  color:#fff;
+  cursor:pointer;
+  font-size:.95rem;
+  transition:all .2s;
+}
+.chip:hover{border-color:#fff;}
+.chip.active{
+  background:var(--accent);
+  border-color:var(--accent);
+  color:#0f1c2e;
+  font-weight:700;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Haven</h1>
+  <p>Zero‑Tolerance Content Filtering for Every Device</p>
+  <p class="rotating" id="hero-rotate">spew garbage</p>
+  <div class="cta" id="demo-cta">Try the live demo →</div>
+</header>
+
+<section class="features">
+  <div class="container" style="max-width:960px;margin:auto;">
+    <div style="display:flex;flex-wrap:wrap;gap:1.5rem;justify-content:center;">
+      <div class="card">
+        <img src="assets/images/haven-olive-gnome.png" alt="Olive Gnome">
+        <h3>Olive Green</h3>
+        <p>Essential Wi‑Fi 6 router – perfect for most homes.</p>
+      </div>
+      <div class="card">
+        <img src="assets/images/haven-navy-gnome.png" alt="Navy Gnome">
+        <h3>Navy Blue</h3>
+        <p>Performance flagship with Wi‑Fi 6E.</p>
+      </div>
+      <div class="card">
+        <img src="assets/images/haven-gold-gnome.png" alt="Gold Gnome">
+        <h3>Gold</h3>
+        <p>OpenWrt‑ready maker edition.</p>
+      </div>
+      <div class="card">
+        <img src="assets/images/haven-vanilla-gnome.png" alt="Vanilla Gnome">
+        <h3>Vanilla</h3>
+        <p>Compact mini‑router for travel.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:2rem;">
+      <h2>Why Haven?</h2>
+      <p style="max-width:600px;margin:auto;line-height:1.6;">
+        The filter they can’t slip past. VPNs, encrypted DNS, Private Relay – none bypass Haven. It lives on your router, never in the cloud, and works even when a device leaves your Wi‑Fi.
+      </p>
+    </div>
+
+    <div style="margin-top:3rem;">
+      <h2>Try to Bypass It</h2>
+      <p style="opacity:.85;margin-bottom:1rem;">These tricks slip past ordinary filters. Pick one and see what happens.</p>
+      <div style="display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;">
+        <button class="chip active" data-trick="vpn">VPN</button>
+        <button class="chip" data-trick="doh">Encrypted DNS</button>
+        <button class="chip" data-trick="relay">Private Relay</button>
+        <button class="chip" data-trick="dns">Change DNS</button>
+      </div>
+      <div style="margin:1rem auto;max-width:500px;">
+        <div style="border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);padding:1rem;border-radius:8px;">
+          <div><strong>Ordinary</strong></div>
+          <div style="font-family:monospace;background:rgba(0,0,0,.2);padding:.3rem .6rem;border-radius:4px;">blocked-site.com</div>
+          <div style="color:#ff6b6b;">✗ Bypassed</div>
+        </div>
+        <div style="margin:1rem 0;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);padding:1rem;border-radius:8px;flex:1;">
+          <div><strong>Haven</strong></div>
+          <div style="font-family:monospace;background:rgba(0,0,0,.2);padding:.3rem .6rem;border-radius:4px;">blocked-site.com</div>
+          <div style="color:#34d17f;">✓ Still blocked</div>
+        </div>
+      </div>
+      <p style="opacity:.85;margin-top:1rem;">Haven enforces filtering at the network layer, so these workarounds are routed back into the filter.</p>
+    </div>
+
+    <div style="margin-top:3rem;background:#fff;padding:2rem;border-radius:8px;">
+      <h2>Become a Founder</h2>
+      <p>Be one of the first 100. Each Founders router is hand‑built and shipped by the founder.</p>
+      <div style="display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;">
+        <img src="assets/images/haven-navy-gnome.png" alt="Founders Gnome" style="height:120px;border-radius:8px;">
+        <div>
+          <h3>Haven Navy – Founders Edition</h3>
+          <p><strong>Wi‑Fi 6 content filter &amp; GL‑MT6000</strong></p>
+          <p style="color:#1f6b5a;font-weight:bold;">Pricing to be announced</p>
+          <p>Plug it in, click categories you want blocked, and Haven enforces them for every device.</p>
+          <p style="font-size:1.2rem;color:#1f6b5a;">Launching <span id="countdown">Soon</span></p>
+          <a href="#notify" style="display:inline-block;padding:12px 24px;background:#1f6b5a;color:#fff;border-radius:6px;text-decoration:none;">Reserve yours</a>
+        </div>
+      </div>
+    </div>
+
+    <section id="notify" style="background:#1a237e;color:#fff;padding:3rem 1rem;text-align:center;">
+      <h2>Stay Updated</h2>
+      <p style="opacity:.85;margin-bottom:1rem;">Drop your email for launch alerts and first‑access to the monthly list‑update service.</p>
+      <form id="notify-form" style="display:flex;gap:.5rem;justify-content:center;max-width:400px;margin:auto;">
+        <input type="email" placeholder="you@example.com" required style="flex:1;padding:.8rem;border:none;border-radius:6px;font-size:1rem;">
+        <button type="submit" style="padding:.8rem 1.5rem;background:#e53935;color:#fff;border:none;border-radius:6px;font-weight:700;">Notify Me</button>
+      </form>
+      <p id="notify-msg" style="margin-top:1rem;opacity:0;"></p>
+    </section>
+
+    <footer>
+      © Copyright 2026 Lulhaven - All Rights Reserved
+    </footer>
+
+    <script>
+    // Rotate hero subtitle
+    (function(){
+      const el = document.getElementById('hero-rotate');
+      if(!el) return;
+      const phrases = ['spew garbage','spew rage bait','track you','harvest your data','feed the algorithm','hijack your attention','autoplay all night','sell your attention','doomscroll your evening','target your children','feed you lies','hijack your browser','program you'];
+      let i=0;
+      const rotate = ()=>{ i=(i+1)%phrases.length; el.textContent=phrases[i]; };
+      if(window.matchMedia('(prefers-reduced-motion:reduce)').matches){
+        setInterval(rotate,2200);
+      }else{
+        setInterval(()=>{
+          el.style.opacity='0';
+          setTimeout(()=>{ el.textContent=phrases[i]; el.style.opacity='1'; },200);
+          i=(i+1)%phrases.length;
+        },2200);
+      }
+    })();
+
+    // Chip interaction for bypass demo
+    (function(){
+      const chips = document.querySelectorAll('.chip');
+      const left = document.querySelector('#bp-left');
+      const right = document.querySelector('#bp-right');
+      const how = document.getElementById('bp-how');
+      const HOW = {
+        vpn:'A VPN app hides traffic in an encrypted tunnel. Haven detects and blocks consumer VPN tunnels.',
+        doh:'Encrypted DNS (DoH) sends lookups to external resolvers, bypassing the router filter. Haven intercepts DoH.',
+        relay:'Apple Private Relay hides browsing from the network. Haven sinkholes it so filtering stays active.',
+        dns:'Changing DNS to 8.8.8.8 dodges most filters. Haven redirects all DNS back to itself.'
+      };
+      chips.forEach(c=>c.addEventListener('click',()=>{ 
+        chips.forEach(x=>x.classList.remove('active'));
+        c.classList.add('active');
+        how.textContent = HOW[c.dataset.trick];
+        left.style.opacity='0'; right.style.opacity='0';
+        setTimeout(()=>{ left.style.opacity='1'; right.style.opacity='1'; },200);
+      }));
+      chips[0].click(); // default
+    })();
+
+    // Simple countdown placeholder
+    (function(){
+      const el = document.getElementById('countdown');
+      if(el){
+        const now = new Date();
+        const target = new Date('Nov 1, 2026 00:00:00').getTime();
+        const diff = target - now;
+        if(diff>0){
+          const d = Math.floor(diff/86400000);
+          const h = Math.floor((diff%86400000)/3600000);
+          const m = Math.floor((diff%3600000)/60000);
+          const s = Math.floor((diff%60000)/1000);
+          el.textContent = `${d}d ${h}h ${m}m ${s}s`;
+        }else{
+          el.textContent = 'Now';
+        }
+      }
+    })();
+
+    // Notify form mock (no backend)
+    (function(){
+      const form = document.getElementById('notify-form');
+      const msg = document.getElementById('notify-msg');
+      if(!form) return;
+      form.addEventListener('submit',e=>{
+        e.preventDefault();
+        const btn = form.querySelector('button');
+        btn.disabled = true;
+        btn.textContent = 'Sending…';
+        msg.style.opacity = '0';
+        setTimeout(()=>{
+          msg.textContent = 'Thanks! We’ll keep you posted.';
+          msg.style.opacity = '1';
+          form.reset();
+          btn.disabled = false;
+          btn.textContent = 'Notify Me';
+        },500);
+      });
+    })();
+    </script>
+  </div>
+</body>
+</html>

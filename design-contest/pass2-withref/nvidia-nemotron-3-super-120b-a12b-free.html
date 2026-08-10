@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Haven — Zero‑Tolerance Content Filtering</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Haven is software that filters content at your router for every device on your network — no apps, no cloud logging, and no workarounds.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --clr-bg:#fff;
+    --clr-primary:#1f6b5a;
+    --clr-accent:#f0c040;
+    --clr-dark:#0f1c2e;
+    --clr-muted:#666;
+    --clr-light:#f4f7f6;
+    --clr-green:#6b8e23;
+    --clr-navy:#1f6b5a;
+    --clr-raspberry:#c41e3a;
+    --clr-vanilla:#f5deb3;
+    --fs-base:1rem;
+    --fs-lg:1.5rem;
+    --fs-xl:2.2rem;
+    --fs-xxl:3rem;
+    --gap:1.5rem;
+    --radius:12px;
+    --transition:0.3s ease;
+  }
+  *, *::before, *::after{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:'Inter',system-ui,sans-serif;
+    background:var(--clr-bg);
+    color:var(--clr-dark);
+    line-height:1.6;
+  }
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;height:auto;display:block;}
+  .container{width:90%;max-width:1200px;margin:auto;padding:0 1rem;}
+  section{padding:var(--gap) 0;}
+  h1,h2,h3{margin:0 0 .5rem;font-weight:800;line-height:1.2;}
+  p{margin:0 0 1rem;}
+  .btn{
+    display:inline-block;
+    padding:.75rem 1.5rem;
+    background:var(--clr-primary);
+    color:#fff;
+    border:none;
+    border-radius:var(--radius);
+    font-weight:600;
+    cursor:pointer;
+    transition:var(--transition);
+  }
+  .btn:hover{background:var(--clr-accent);color:var(--clr-dark);}
+  .btn-secondary{background:var(--clr-accent);color:var(--clr-dark);}
+  .btn-secondary:hover{background:#ffeb99;}
+  .btn-outline{
+    background:transparent;
+    border:2px solid var(--clr-primary);
+    color:var(--clr-primary);
+  }
+  .btn-outline:hover{background:var(--clr-primary);color:#fff;}
+  /* Hero */
+  .hero{
+    min-height:80vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    background:var(--clr-light);
+    position:relative;
+    overflow:hidden;
+  }
+  .hero::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><circle cx="100" cy="100" r="80" fill="%231f6b5a" fill-opacity="0.03"/></svg>') center/cover;
+    pointer-events:none;
+  }
+  .hero-content{max-width:800px;}
+  .hero h1{font-size:var(--fs-xxl);margin-bottom:.5rem;}
+  .hero h2{font-size:var(--fs-xl);font-weight:400;margin-bottom:1rem;}
+  #hero-rotate{display:inline-block;color:var(--clr-accent);}
+  .hero .btn{margin-top:1rem;font-size:var(--fs-lg);}
+  .hero-img{margin-top:2rem;max-width:320px;}
+  /* Features */
+  .features{display:grid;gap:var(--gap);grid-template-columns:repeat(auto-fit,minmax(260px,1fr));text-align:center;}
+  .feature{padding:1.5rem;border:1px solid rgba(0,0,0,.08);border-radius:var(--radius);background:var(--clr-light);}
+  .feature h3{font-size:var(--fs-lg);color:var(--clr-primary);}
+  /* Product cards */
+  .products{display:grid;gap:var(--gap);grid-template-columns:repeat(auto-fit,minmax(260px,1fr));}
+  .product-card{
+    border:2px solid transparent;
+    border-radius:var(--radius);
+    overflow:hidden;
+    transition:var(--transition);
+    position:relative;
+  }
+  .product-card:hover{border-color:var(--clr-accent);transform:translateY(-4px);}
+  .product-card img{width:100%;height:auto;display:block;}
+  .product-card .overlay{
+    position:absolute;inset:0;background:rgba(0,0,0,.4);color:#fff;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    opacity:0;transition:var(--transition);
+  }
+  .product-card:hover .overlay{opacity:1;}
+  .product-card h3{margin:1rem 0 .5rem;font-size:var(--fs-lg);}
+  .product-card p{font-size:.9rem;color:var(--clr-muted);}
+  .product-card .btn{margin-top:1rem;}
+  /* Color variants */
+  .green .overlay{background:rgba(107,142,35,.6);}
+  .navy .overlay{background:rgba(31,107,90,.6);}
+  .raspberry .overlay{background:rgba(196,30,58,.6);}
+  .vanilla .overlay{background:rgba(245,221,179,.6);}
+  /* Bypass demo */
+  .bypass{background:var(--clr-dark);color:#fff;text-align:center;}
+  .bypass h2{margin-bottom:1rem;font-size:var(--fs-xl);}
+  .bypass .chips{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;margin:1.5rem 0;}
+  .bypass .chip{
+    padding:.5rem 1rem;
+    background:rgba(255,255,255,.1);
+    border:1px solid rgba(255,255,255,.3);
+    border-radius:20px;
+    cursor:pointer;
+    transition:var(--transition);
+  }
+  .bypass .chip:hover,.bypass .chip.active{background:var(--clr-accent);color:var(--clr-dark);border-color:var(--clr-accent);}
+  .bypass .panels{display:flex;gap:2rem;justify-content:center;flex-wrap:wrap;}
+  .bypass .panel{
+    flex:1 1 280px;max-width:340px;background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.1);border-radius:var(--radius);
+    padding:1.5rem;text-align:left;
+  }
+  .bypass .panel h4{margin-bottom:.5rem;font-size:var(--fs-lg);}
+  .bypass .site{font-family:monospace;background:rgba(0,0,0,.2);padding:.3rem .6rem;border-radius:4px;margin:.5rem 0;}
+  .bypass .verdict{font-size:1.5rem;font-weight:800;margin:.5rem 0;}
+  .bypass .ordinary .verdict{color:#ff6b6b;}
+  .bypass .haven .verdict{color:#34d17f;}
+  .bypass .how{margin:1.5rem 0;line-height:1.5;max-width:600px;}
+  .bypass .disc{font-size:.9rem;opacity:.7;}
+  /* Founders */
+  .founders{background:var(--clr-light);text-align:center;}
+  .founders .card{
+    display:inline-flex;flex-wrap:wrap;align-items:center;justify-content:center;
+    gap:2rem;background:#fff;border-radius:var(--radius);padding:2rem;
+    box-shadow:0 4px 12px rgba(0,0,0,.08);max-width:860px;
+  }
+  .founders img{height:180px;border-radius:var(--radius);}
+  .founders .info{flex:1 1 260px;text-align:left;}
+  .founders .price{font-size:1.8rem;font-weight:800;color:var(--clr-primary);margin:.5rem 0;}
+  .founders .btn{margin-top:1rem;}
+  /* Newsletter */
+  .newsletter{background:var(--clr-primary);color:#fff;text-align:center;padding:var(--gap) 0;}
+  .newsletter input{
+    padding:.75rem 1rem;border:none;border-radius:30px;width:260px;max-width:80%;
+    margin-right:.5rem;font-size:1rem;
+  }
+  .newsletter button{
+    padding:.75rem 1.5rem;border:none;border-radius:30px;background:#e53935;color:#fff;
+    font-weight:600;cursor:pointer;
+  }
+  .newsletter button:hover{background:#c62828;}
+  /* Footer */
+  footer{background:var(--clr-dark);color:#fff;text-align:center;padding:1.5rem 0;font-size:.9rem;}
+  footer a{color:#a5d6a7;}
+  /* Animations */
+  @keyframes pulse{
+    0%,100%{opacity:.6;}
+    50%{opacity:1;}
+  }
+  .pulse{animation:pulse 2s ease-in-out infinite;}
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important;transition-delay:0.001ms !important;}
+  }
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="container hero-content">
+    <h1>You pay for the network.<br>You bought the phone.</h1>
+    <h2>It shouldn't <span id="hero-rotate">spew garbage</span>.</h2>
+    <p class="mbr-text" style="max-width:600px;margin:0 auto 1.5rem;">
+      The filter they can't slip past. VPNs, encrypted DNS, and Private Relay — the tricks that defeat ordinary filters — don't get around Haven. It accompanies every device, even off your Wi‑Fi, and your settings stay on your router, never a company's cloud.
+    </p>
+    <div>
+      <a href="#notify" class="btn btn-outline pulse">Get notified at launch →</a>
+      <a href="/challenge-preview" class="btn ml-2">⚡ The 2026 Haven Challenge →</a>
+    </div>
+    <img src="assets/images/hero/hero-parent-positioning-v1.png" alt="Parent working at kitchen table, child on couch" class="hero-img">
+  </div>
+</section>
+
+<!-- Why Haven -->
+<section class="features">
+  <div class="container">
+    <h2 style="text-align:center;font-size:var(--fs-xl);margin-bottom:1.5rem;">Why not all three?</h2>
+    <div class="feature">
+      <h3>Parental controls</h3>
+      <p>Block what shouldn't reach your network — on every device, and they can't slip past it with a VPN or encrypted DNS.</p>
+    </div>
+    <div class="feature">
+      <h3>Privacy</h3>
+      <p>Your settings, device list, and activity log stay on your router — never a company's cloud.</p>
+    </div>
+    <div class="feature">
+      <h3>Less algorithm</h3>
+      <p>With <a href="get-uhaven.html" style="color:var(--clr-primary);font-weight:600;">U‑Haven</a>, loosen the feed's grip on YouTube — for you, not just the kids.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Product Versions -->
+<section>
+  <div class="container">
+    <h2 style="text-align:center;font-size:var(--fs-xl);margin-bottom:1.5rem;">Meet Haven</h2>
+    <p style="text-align:center;max-width:720px;margin:auto;font-style:italic;color:var(--clr-muted);">
+      Tradition tells of gnomes, the domestic protectors. Lulhaven brings you Haven: your tech protector.
+    </p>
+    <div class="products">
+      <!-- Green -->
+      <div class="product-card green">
+        <img src="assets/images/haven-olive-gnome.png" alt="Olive‑green gnome">
+        <div class="overlay">
+          <h3>Haven Olive Green</h3>
+          <p>Linksys E8450 — Essential Wi‑Fi 6</p>
+          <a href="#" class="btn btn-outline">Learn more</a>
+        </div>
+      </div>
+      <!-- Navy -->
+      <div class="product-card navy">
+        <img src="assets/images/haven-navy-gnome.png" alt="Navy‑blue gnome">
+        <div class="overlay">
+          <h3>Haven Navy</h3>
+          <p>GL.iNet MT6000 — Performance flagship</p>
+          <a href="#" class="btn btn-outline">Learn more</a>
+        </div>
+      </div>
+      <!-- Raspberry Gold -->
+      <div class="product-card raspberry">
+        <img src="assets/images/haven-raspberry-gnome.png" alt="Raspberry‑gold gnome">
+        <div class="overlay">
+          <h3>Haven Raspberry Gold</h3>
+          <p>Premium finish — coming soon</p>
+          <a href="#" class="btn btn-outline">Learn more</a>
+        </div>
+      </div>
+      <!-- Vanilla Gold -->
+      <div class="product-card vanilla">
+        <img src="assets/images/haven-vanilla-gnome.png" alt="Vanilla‑gold gnome">
+        <div class="overlay">
+          <h3>Haven Vanilla Gold</h3>
+          <p>Warm tone — coming soon</p>
+          <a href="#" class="btn btn-outline">Learn more</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Bypass Demo -->
+<section class="bypass" id="bypass-demo">
+  <div class="container">
+    <h2>Try to bypass it.</h2>
+    <p class="bp-sub" style="max-width:640px;margin:0 auto 1.5rem;">
+      These are the tricks that walk right past ordinary parental controls. Pick one and watch what happens to a blocked site — on a normal filter, and on Haven.
+    </p>
+    <div class="chips">
+      <button class="chip active" data-m="vpn">VPN app</button>
+      <button class="chip" data-m="doh">Encrypted DNS (DoH)</button>
+      <button class="chip" data-m="relay">Apple Private Relay</button>
+      <button class="chip" data-m="dns">Change the DNS</button>
+    </div>
+    <div class="panels">
+      <div class="panel ordinary">
+        <h4 class="bp-ptitle">Ordinary parental controls</h4>
+        <div class="site">blocked-site.com</div>
+        <div class="verdict ordinary" id="bp-left">✗ Bypassed<span class="bp-vlabel">the blocked site loads</span></div>
+      </div>
+      <div class="panel haven">
+        <h4 class="bp-ptitle">Haven</h4>
+        <div class="site">blocked-site.com</div>
+        <div class="verdict haven" id="bp-right">✓ Still blocked<span class="bp-vlabel">the workaround doesn't work</span></div>
+      </div>
+    </div>
+    <p class="how" id="bp-how"></p>
+    <p class="disc">Illustration of how each workaround behaves. Haven enforces filtering at the network layer, so these tricks get routed back through the filter instead of around it.</p>
+  </div>
+</section>
+
+<script>
+  (function(){
+    const HOW = {
+      vpn:  "A VPN app hides a device's traffic in an encrypted tunnel to an outside server — an ordinary filter can't see past it. Haven detects and blocks consumer VPN tunnels from leaving the network.",
+      doh:  "Browsers can send their DNS lookups encrypted (DNS‑over‑HTTPS) to Google or Cloudflare, skipping the router's filter entirely. Haven intercepts DoH and routes it back through the filter.",
+      relay:"Apple Private Relay hides browsing from the network on iPhones and Macs. Haven sinkholes Private Relay so it can't connect, and filtering keeps working.",
+      dns:  "Typing a public DNS like 8.8.8.8 into a device's settings dodges most router filters. Haven redirects all DNS back to itself, so changing it does nothing."
+    };
+    const chips = document.querySelectorAll('#bypass-demo .chip');
+    const how = document.getElementById('bp-how');
+    const left = document.getElementById('bp-left');
+    const right = document.getElementById('bp-right');
+    function pick(m, el){
+      chips.forEach(c=>c.classList.toggle('active',c===el));
+      how.style.opacity='0'; left.style.opacity='0'; right.style.opacity='0';
+      setTimeout(()=>{
+        how.textContent = HOW[m];
+        how.style.opacity='1'; left.style.opacity='1'; right.style.opacity='1';
+      },200);
+    }
+    chips.forEach(c=>c.addEventListener('click',()=>pick(c.getAttribute('data-m'),c)));
+    how.textContent = HOW.vpn;
+  })();
+</script>
+
+<!-- Founders -->
+<section class="founders" id="founders">
+  <div class="container">
+    <h2 style="margin-bottom:1rem;font-size:var(--fs-xl);">Become a Haven Founder</h2>
+    <p style="max-width:680px;margin:0 auto 2rem;color:var(--clr-muted);">
+      Be one of the first 100. Each Founders router is hand‑built and shipped by the founder — your network protected, the mission funded.
+    </p>
+    <div class="card">
+      <img src="assets/images/haven-navy-gnome.png" alt="Haven Navy gnome">
+      <div class="info">
+        <h3>Haven Navy &mdash; Founders Edition</h3>
+        <p>Wi‑Fi 6 content filter &middot; GL‑MT6000</p>
+        <div class="price">Pricing to be announced</div>
+        <p style="color:var(--clr-muted);margin:.5rem 0;">Free updates through launch</p>
+        <p>Plug it in where your old router was, click the categories you want blocked, and Haven enforces them for every device on your network. Filter everything — or nothing. You’re in control.</p>
+        <p style="margin:1rem 0;font-size:1.1rem;color:var(--clr-muted);">
+          Haven launches in <span id="founders-countdown"></span>
+          <br>
+          <span style="display:block;font-size:.9rem;color:var(--clr-muted);margin-top:.3rem;">
+            Available November&nbsp;1 &middot; shipping from November&nbsp;25
+          </span>
+        </p>
+        <span id="founders-buy" class="btn">Founders ordering opens soon</span>
+        <p style="margin-top:1rem;font-size:.9rem;color:var(--clr-muted);">
+          <strong id="founders-count">0</strong> of 100 reserved &middot; ships by November&nbsp;25,&nbsp;2026
+        </p>
+        <p style="font-size:.85rem;color:var(--clr-muted);margin-top:.5rem;">
+          Ships to US addresses &middot; <strong>cancel anytime — filter keeps working</strong>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Newsletter -->
+<section class="newsletter" id="notify">
+  <div class="container">
+    <h2 style="margin-bottom:1rem;font-size:var(--fs-xl);">Not ready yet? Stay in the loop.</h2>
+    <p style="max-width:500px;margin:auto 0 1.5rem;opacity:.9;">
+      Drop your email for new‑batch alerts and first word when the monthly list‑update service goes live.
+    </p>
+    <form id="haven-notify-form" style="display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;">
+      <input type="email" id="haven-notify-email" placeholder="Your email address" required>
+      <button type="submit">Keep me posted</button>
+    </form>
+    <p id="haven-notify-msg" style="margin-top:1rem;min-height:1.4em;display:none;"></p>
+  </div>
+</section>
+
+<script>
+  (function(){
+    const form = document.getElementById('haven-notify-form');
+    const email = document.getElementById('haven-notify-email');
+    const msg = document.getElementById('haven-notify-msg');
+    if(!form) return;
+    const qs = new URLSearchParams(window.location.search);
+    const src = qs.get('ref') || qs.get('utm_source') || null;
+    if(src){try{sessionStorage.setItem('haven_notify_source',src);}catch(e){}}
+    form.addEventListener('submit',function(e){
+      e.preventDefault();
+      const btn = form.querySelector('button[type=submit]');
+      btn.disabled = true; btn.textContent = 'Sending…';
+      msg.style.display = 'none';
+      let source = null;
+      try{source = sessionStorage.getItem('haven_notify_source');}catch(e){}
+      const payload = {email:email.value.trim()};
+      if(source) payload.source = source;
+      fetch('/api/notify',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify(payload)
+      })
+      .then(r=>r.json())
+      .then(d=>{
+        if(d.ok){
+          form.style.display='none';
+          msg.textContent = d.message || 'You’re on the list!';
+          msg.style.color = '#a5d6a7';
+        }else{
+          msg.textContent = d.error || 'Something went wrong. Please try again.';
+          msg.style.color = '#ef9a9a';
+          btn.disabled = false;
+          btn.textContent = 'Keep me posted';
+        }
+        msg.style.display = 'block';
+      })
+      .catch(()=>{
+        msg.textContent = 'Network error. Please try again.';
+        msg.style.color = '#ef9a9a';
+        msg.style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = 'Keep me posted';
+      });
+    });
+  })();
+</script>
+
+<!-- Hero subtitle rotation -->
+<script>
+  (function(){
+    const el = document.getElementById('hero-rotate');
+    if(!el) return;
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const phrases = [
+      'spew garbage','spew rage bait','track you','harvest your data',
+      'feed the algorithm','hijack your attention','autoplay all night',
+      'sell your attention','doomscroll your evening','target your children',
+      'feed you lies','hijack your browser','program you'
+    ];
+    // shuffle
+    for(let j=phrases.length-1;j>0;j--){
+      const k = Math.floor(Math.random()*(j+1));
+      [phrases[j],phrases[k]] = [phrases[k],phrases[j]];
+    }
+    let i=0;
+    setInterval(()=>{
+      if(reduce){
+        i = (i+1)%phrases.length;
+        el.textContent = phrases[i];
+        return;
+      }
+      el.style.opacity='0';
+      setTimeout(()=>{
+        i = (i+1)%phrases.length;
+        el.textContent = phrases[i];
+        el.style.opacity='1';
+      },400);
+    },2200);
+  })();
+</script>
+
+<!-- Founders countdown (simple placeholder) -->
+<script>
+  (function(){
+    const target = new Date('2026-11-01T00:00:00');
+    const el = document.getElementById('founders-countdown');
+    if(!el) return;
+    function update(){
+      const now = new Date();
+      const diff = target - now;
+      if(diff <= 0){el.textContent = 'Live now!'; return;}
+      const days = Math.floor(diff/(1000*60*60*24));
+      const hrs = Math.floor((diff/(1000*60*60))%24);
+      const mins = Math.floor((diff/(1000*60))%60);
+      el.textContent = `${days}d ${hrs}h ${mins}m`;
+    }
+    update();
+    setInterval(update,1000);
+  })();
+</script>
+
+<footer>
+  <div class="container">
+    © Copyright 2026 Lulhaven - All Rights Reserved
+  </div>
+</footer>
+</body>
+</html>
