@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html  >
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+  <script>
+    /* TV-class displays render the desktop layout, not the phone layout.
+       Fire TV / Roku / Tizen / WebOS browsers are Android-derived and
+       advertise mobile-class viewports despite running on 50" screens,
+       which trips Bootstrap's stacked mobile layout. Override viewport
+       to a desktop width so Bootstrap responds with the PC layout. */
+    (function() {
+      var ua = navigator.userAgent || '';
+      var tvRE = /AFT[A-Z]+|Fire[ -]?TV|SmartTV|SMART-TV|GoogleTV|AppleTV|HbbTV|NetCast|Viera|Bravia|CrKey|WebOS|Tizen|Roku|PlayStation|Xbox/i;
+      var bigLandscape = window.matchMedia &&
+        window.matchMedia('(min-aspect-ratio: 16/9) and (min-width: 1280px) and (pointer: coarse)').matches;
+      if (tvRE.test(ua) || bigLandscape) {
+        var meta = document.querySelector('meta[name="viewport"]');
+        if (meta) meta.setAttribute('content', 'width=1280, initial-scale=1');
+        document.documentElement.classList.add('haven-tv');
+      }
+    })();
+  </script>
+  <link rel="shortcut icon" href="assets/images/lulhaven20dock20line20art202-64x42.png" type="image/x-icon">
+  <meta name="description" content="Haven is software that filters content at your router for every device on your network — no apps, no cloud logging, and no workarounds. Ships ready to plug in.">
+
+
+  <title>Haven — Zero-Tolerance Content Filtering</title>
+  <link rel="stylesheet" href="assets/web/assets/mobirise-icons2/mobirise2.css">
+  <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/parallax/jarallax.css">
+  <link rel="stylesheet" href="assets/animatecss/animate.css">
+  <link rel="stylesheet" href="assets/dropdown/css/style.css">
+  <link rel="stylesheet" href="assets/socicon/css/styles.css">
+  <link rel="stylesheet" href="assets/theme/css/style.css">
+  <link rel="stylesheet" href="assets/gallery/style.css">
+  <link rel="preload" href="https://fonts.googleapis.com/css?family=Inter+Tight:100,200,300,400,500,600,700,800,900,100i,200i,300i,400i,500i,600i,700i,800i,900i&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter+Tight:100,200,300,400,500,600,700,800,900,100i,200i,300i,400i,500i,600i,700i,800i,900i&display=swap"></noscript>
+  <link rel="preload" as="style" href="assets/mobirise/css/mbr-additional.css%3Fv=2WGiz1.css"><link rel="stylesheet" href="assets/mobirise/css/mbr-additional.css%3Fv=2WGiz1.css" type="text/css">
+  <style>
+    /* Hero CTA — Live demo: same green background as the other buttons,
+       but the label is gold and the gold pulses softly. Pauses on hover. */
+    .btn-haven-demo {
+      color: #f0c040 !important;
+      animation: haven-demo-flash 1.2s ease-in-out infinite;
+    }
+    .btn-haven-demo:hover {
+      animation: none;
+      color: #ffd700 !important;
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.85);
+    }
+    @keyframes haven-demo-flash {
+      0%, 100% {
+        color: #d4a017;
+        text-shadow: 0 0 0 rgba(255, 215, 0, 0);
+      }
+      50% {
+        color: #ffd700;
+        text-shadow: 0 0 12px rgba(255, 215, 0, 0.9);
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .btn-haven-demo {
+        animation: none;
+        color: #f0c040 !important;
+      }
+    }
+    /* 47 Strategies card — expandable explainer */
+    .strat47-panel {
+      display: none;
+      margin-top: 16px;
+      padding: 14px 18px;
+      background: #f4f7f6;
+      border-left: 3px solid #1f6b5a;
+      border-radius: 4px;
+      font-size: 0.92em;
+      line-height: 1.55;
+    }
+    .strat47-panel.strat47-open { display: block; }
+    .strat47-panel p:last-child { margin-bottom: 0; }
+    /* Hero subtitle: rotating phrase after "It shouldn't ___" */
+    #hero-rotate { display: inline-block; transition: opacity 0.4s ease; }
+    @media (prefers-reduced-motion: reduce) { #hero-rotate { transition: none; } }
+  </style>
+
+
+
+</head>
+<body>
+
+<section data-bs-version="5.1" class="header5 cid-tJS6uM4N87 mbr-parallax-background" id="header05-1">
+	<div class="mbr-overlay" style="opacity: 0.8; background-color: rgb(255, 255, 255);"></div>
+	<div class="topbg"></div>
+	<div class="align-center container">
+		<div class="row justify-content-center">
+			<div class="col-md-12 col-lg-9">
+				<div class="mbr-section-btn mb-4">
+					<div class="row justify-content-center">
+						<div class="col-md align-center px-2 mb-2"><a class="btn btn-primary display-7 w-100 haven-challenge-btn" href="/challenge-preview"><span class="cb-badge">NEW</span> ⚡ The 2026 Haven Challenge →</a></div>
+					</div>
+				</div>
+				<style>
+				.haven-challenge-btn{background:#c40000!important;border-color:#c40000!important;color:#fff!important;}
+				.haven-challenge-btn:hover,.haven-challenge-btn:focus{background:#a30000!important;border-color:#a30000!important;color:#fff!important;}
+				.haven-challenge-btn .cb-badge{background:#fff;color:#c40000;font-weight:900;border-radius:4px;padding:1px 7px;font-size:.72rem;letter-spacing:.06em;margin-right:6px;vertical-align:middle;animation:cb-blink 1.1s steps(1,end) infinite;}
+				@keyframes cb-blink{50%{opacity:0;}}
+				@media (prefers-reduced-motion:reduce){.haven-challenge-btn .cb-badge{animation:none;}}
+				</style>
+				<p class="mbr-text mbr-fonts-style mb-4 display-7" style="text-align:center;opacity:0.85;margin-top:-4px;">We will dare the web's best to break our filter. <a href="/challenge-preview" style="font-weight:700;">See the challenge →</a></p>
+				<h1 class="mbr-section-title mbr-fonts-style mb-4 display-1" style="text-align:center;">You pay for the network.<br>You bought the phone.</h1>
+				<h2 class="mbr-section-subtitle mbr-fonts-style mb-4 display-2" style="font-weight:400;">It shouldn't <span id="hero-rotate">spew garbage</span>.</h2>
+				<h2 class="mbr-section-title mbr-fonts-style mb-2 display-2" style="font-weight:800;text-align:center;">There is only one Haven.</h2>
+				<p class="mbr-text mbr-fonts-style mb-4 display-5" style="font-weight:600;text-align:center;">Haven is the software; a router is just a box.</p>
+				<p class="mbr-text mbr-fonts-style mb-4 display-7" style="max-width:780px;margin-left:auto;margin-right:auto;">The filter they can't slip past. VPNs, encrypted DNS, and Private Relay — the tricks that defeat ordinary filters — don't get around Haven. It accompanies every device, even off your Wi-Fi, and your settings and activity stay on your router, never a company's cloud.</p>
+				<div class="mbr-section-btn mb-4">
+					<div class="row justify-content-center">
+						<div class="col-md align-center px-2 mb-2"><a class="btn btn-primary display-7 w-100" href="#notify">Get notified at launch →</a></div>
+					</div>
+				</div>
+				<p class="mbr-text mbr-fonts-style mb-4 display-7">Haven is the whole-network content filter.<br><br>It fixes:<br>The weak content-control apps and Wi-Fi rules.<br>The streaming devices that force content you never asked for.<br>The sidebar that takes half an hour when you only meant to look up one thing.<br>The autoplay you didn't autoplay.<br><br>You have watched all of them fail.<br><br>Haven works at the level all of those bypass: your local network. One device, one interface, one click per category. Adult content. Violence. Gambling. Mobile game ads. Misinformation. Trackers.<br><br>On or off — your network, your call. Click. Save. Gone.</p>
+			</div>
+		</div>
+		<div class="row mt-5 justify-content-center">
+			<div class="col-12 col-lg-12">
+				<img src="assets/images/hero/hero-parent-positioning-v1.png" alt="A parent in profile working at a warm kitchen-table laptop in the evening, her child visible through the doorway scrolling a phone on the couch" title="">
+			</div>
+		</div>
+	</div>
+</section>
+
+<section id="all-three" style="padding:72px 0;background:#fff;">
+  <div class="container" style="max-width:920px;text-align:center;">
+    <p class="mbr-fonts-style display-7" style="opacity:0.6;margin-bottom:6px;">Parental controls, or privacy, or less algorithm?</p>
+    <h2 class="mbr-section-title mbr-fonts-style display-2" style="font-weight:800;margin-bottom:6px;">Why not all three?</h2>
+    <p class="mbr-fonts-style display-5" style="margin-bottom:36px;">Haven, for your whole network.</p>
+    <div class="row justify-content-center">
+      <div class="col-md-4 px-3 mb-3">
+        <h3 class="mbr-fonts-style display-7" style="font-weight:700;">Parental controls</h3>
+        <p class="mbr-fonts-style display-7" style="opacity:0.85;line-height:1.55;">Block what shouldn't reach your network — on every device, and they can't slip past it with a VPN or encrypted DNS.</p>
+      </div>
+      <div class="col-md-4 px-3 mb-3">
+        <h3 class="mbr-fonts-style display-7" style="font-weight:700;">Privacy</h3>
+        <p class="mbr-fonts-style display-7" style="opacity:0.85;line-height:1.55;">Your settings, your device list, your activity log stay on your router — never a company's cloud. NextDNS keeps query logs on their servers by design. Haven can't access yours even if it wanted to — the data never leaves your device.</p>
+      </div>
+      <div class="col-md-4 px-3 mb-3">
+        <h3 class="mbr-fonts-style display-7" style="font-weight:700;">Less algorithm</h3>
+        <p class="mbr-fonts-style display-7" style="opacity:0.85;line-height:1.55;">With <a href="get-uhaven.html" style="color:#1f6b5a;font-weight:600;">U-Haven</a>, loosen the feed's grip on YouTube — for you, not just the kids.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="bypass-demo" style="padding:72px 0;background:#0f1c2e;color:#fff;">
+  <style>
+    #bypass-demo .bp-wrap { max-width: 940px; margin: 0 auto; padding: 0 20px; text-align: center; }
+    #bypass-demo h2 { font-weight: 800; margin-bottom: 10px; }
+    #bypass-demo .bp-sub { opacity: 0.8; max-width: 640px; margin: 0 auto 28px; line-height: 1.5; }
+    #bypass-demo .bp-chips { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 28px; }
+    #bypass-demo .bp-chip { padding: 9px 16px; border-radius: 22px; border: 1px solid rgba(255,255,255,0.35);
+      background: transparent; color: #fff; cursor: pointer; font-size: 0.95em; transition: all .2s; }
+    #bypass-demo .bp-chip:hover { border-color: #fff; }
+    #bypass-demo .bp-chip.bp-active { background: #f0c040; border-color: #f0c040; color: #0f1c2e; font-weight: 700; }
+    #bypass-demo .bp-cols { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+    #bypass-demo .bp-panel { flex: 1 1 320px; max-width: 420px; border-radius: 12px; padding: 24px 22px;
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); }
+    #bypass-demo .bp-ptitle { font-size: 0.8em; text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.65; margin-bottom: 14px; }
+    #bypass-demo .bp-site { font-family: monospace; font-size: 1.05em; background: rgba(0,0,0,0.25);
+      border-radius: 6px; padding: 8px 12px; margin-bottom: 16px; }
+    #bypass-demo .bp-verdict { font-size: 1.25em; font-weight: 800; transition: opacity .35s; }
+    #bypass-demo .bp-ordinary .bp-verdict { color: #ff6b6b; }
+    #bypass-demo .bp-haven .bp-verdict { color: #34d17f; }
+    #bypass-demo .bp-vlabel { font-size: 0.78em; font-weight: 400; opacity: 0.7; display: block; margin-top: 4px; }
+    #bypass-demo .bp-how { max-width: 700px; margin: 26px auto 0; line-height: 1.55; min-height: 3.2em; transition: opacity .35s; }
+    #bypass-demo .bp-disc { font-size: 0.8em; opacity: 0.5; max-width: 640px; margin: 18px auto 0; line-height: 1.45; }
+  </style>
+  <div class="bp-wrap">
+    <h2 class="mbr-section-title mbr-fonts-style display-2">Try to bypass it.</h2>
+    <p class="bp-sub mbr-fonts-style display-7">These are the tricks that walk right past ordinary parental controls. Pick one and watch what happens to a blocked site — on a normal filter, and on Haven.</p>
+    <div class="bp-chips">
+      <button type="button" class="bp-chip bp-active" data-m="vpn">VPN app</button>
+      <button type="button" class="bp-chip" data-m="doh">Encrypted DNS (DoH)</button>
+      <button type="button" class="bp-chip" data-m="relay">Apple Private Relay</button>
+      <button type="button" class="bp-chip" data-m="dns">Change the DNS</button>
+    </div>
+    <div class="bp-cols">
+      <div class="bp-panel bp-ordinary">
+        <div class="bp-ptitle">Ordinary parental controls</div>
+        <div class="bp-site">blocked-site.com</div>
+        <div class="bp-verdict" id="bp-left">✗ Bypassed<span class="bp-vlabel">the blocked site loads</span></div>
+      </div>
+      <div class="bp-panel bp-haven">
+        <div class="bp-ptitle">Haven</div>
+        <div class="bp-site">blocked-site.com</div>
+        <div class="bp-verdict" id="bp-right">✓ Still blocked<span class="bp-vlabel">the workaround doesn't work</span></div>
+      </div>
+    </div>
+    <p class="bp-how mbr-fonts-style display-7" id="bp-how"></p>
+    <p class="bp-disc">Illustration of how each workaround behaves. Haven enforces filtering at the network layer, so these tricks get routed back through the filter instead of around it.</p>
+  </div>
+  <script>
+    (function () {
+      var HOW = {
+        vpn:  "A VPN app hides a device's traffic in an encrypted tunnel to an outside server — an ordinary filter can't see past it. Haven detects and blocks consumer VPN tunnels from leaving the network.",
+        doh:  "Browsers can send their DNS lookups encrypted (DNS-over-HTTPS) to Google or Cloudflare, skipping the router's filter entirely. Haven intercepts DoH and routes it back through the filter.",
+        relay:"Apple Private Relay hides browsing from the network on iPhones and Macs. Haven sinkholes Private Relay so it can't connect, and filtering keeps working.",
+        dns:  "Typing a public DNS like 8.8.8.8 into a device's settings dodges most router filters. Haven redirects all DNS back to itself, so changing it does nothing."
+      };
+      var chips = document.querySelectorAll('#bypass-demo .bp-chip');
+      var how = document.getElementById('bp-how');
+      var left = document.getElementById('bp-left'), right = document.getElementById('bp-right');
+      function pick(m, el) {
+        chips.forEach(function (c) { c.classList.toggle('bp-active', c === el); });
+        how.style.opacity = '0'; left.style.opacity = '0'; right.style.opacity = '0';
+        setTimeout(function () {
+          how.textContent = HOW[m];
+          how.style.opacity = '1'; left.style.opacity = '1'; right.style.opacity = '1';
+        }, 200);
+      }
+      chips.forEach(function (c) { c.addEventListener('click', function () { pick(c.getAttribute('data-m'), c); }); });
+      how.textContent = HOW.vpn;
+    })();
+  </script>
+</section>
+
+<section id="founders" style="background:#f4f7f6;padding:64px 0;">
+  <div class="container">
+    <div class="row justify-content-center text-center">
+      <div class="col-12 col-lg-10">
+        <h2 class="mbr-fonts-style display-2" style="font-weight:700;margin-bottom:10px;">Become a Haven Founder</h2>
+        <p class="mbr-fonts-style display-7" style="max-width:680px;margin:0 auto 34px;color:#444;">
+          Be one of the first 100. Each Founders router is hand-built and shipped by the founder&mdash;your network protected, the mission funded.
+        </p>
+        <div style="display:inline-flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:30px;
+                    background:#fff;border-radius:16px;padding:30px 36px;box-shadow:0 8px 30px rgba(0,0,0,0.10);
+                    text-align:left;max-width:780px;">
+          <img src="assets/images/haven-navy-gnome.png" alt="Haven Navy" style="height:160px;width:auto;border-radius:12px;flex:0 0 auto;">
+          <div style="flex:1 1 330px;">
+            <h3 class="mbr-fonts-style display-5" style="font-weight:700;margin:0 0 4px;">Haven Navy &mdash; Founders Edition</h3>
+            <p class="mbr-fonts-style" style="color:#666;margin:0 0 12px;">Wi-Fi 6 content filter &middot; GL-MT6000</p>
+            <p style="margin:0 0 14px;"><span style="font-size:1.5rem;font-weight:800;color:#1f6b5a;">Pricing to be announced</span>
+              <span style="color:#777;"> &middot; free updates through launch</span></p>
+            <p style="margin:0 0 18px;color:#444;">Plug it in where your old router was, click the categories you want blocked, and Haven enforces them for every device on your network. Filter everything&mdash;or nothing. You&rsquo;re in control.</p>
+            <p style="margin:0 0 16px;font-size:1rem;color:#1f6b5a;font-weight:700;">
+              Haven launches in <span data-countdown="founders" data-countdown-live="Haven is here!"></span>
+              <span style="display:block;font-weight:400;font-size:0.88rem;color:#666;margin-top:3px;">Available November&nbsp;1 &middot; shipping from November&nbsp;25</span>
+            </p>
+            <span id="founders-buy"
+              style="display:inline-block;padding:15px 34px;border-radius:40px;background:#8aa39b;color:#fff;
+                     font-size:1.05rem;font-weight:700;text-decoration:none;cursor:default;">Founders ordering opens soon</span>
+            <p style="margin:14px 0 0;font-size:0.92rem;color:#888;">
+              <!-- MANUAL FOUNDERS COUNTER: bump this number as orders come in -->
+              <strong id="founders-count">0</strong> of 100 reserved &middot; ships by November&nbsp;25,&nbsp;2026
+            </p>
+            <p style="margin:6px 0 0;font-size:0.82rem;color:#aaa;">Ships to US addresses &middot; <strong>cancel anytime — filter keeps working</strong></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-bs-version="5.1" class="features1 haven-routers" id="haven-routers">
+	<div class="container">
+		<div class="row justify-content-center mb-4">
+			<div class="col-12 align-center">
+				<h2 class="mbr-section-title mbr-fonts-style mb-3 display-2"><strong>Meet Haven</strong></h2>
+				<p class="mbr-text mbr-fonts-style mb-0 display-5" style="max-width:720px;margin:0 auto;font-style:italic;">Tradition tells of gnomes, the domestic protectors. Lulhaven brings you Haven: your tech protector.</p>
+			</div>
+		</div>
+		<div class="row justify-content-center align-items-start">
+			<div class="col-md-6 col-lg-4 align-center px-3 mb-4">
+				<img src="assets/images/haven-router-od.png" alt="Haven Olive Green — gnome in U.S. Army camouflage uniform with sergeant chevrons" style="max-width: 360px; width: 100%; height: auto; display: block; margin: 0 auto;">
+				<h3 class="mbr-section-subtitle mbr-fonts-style mt-1 mb-1 display-5"><strong>Haven Olive Green</strong></h3>
+				<p class="mbr-text mbr-fonts-style mb-0 display-7">Linksys E8450 — Essential Wi-Fi 6</p>
+			</div>
+			<div class="col-md-6 col-lg-4 align-center px-3 mb-4">
+				<img src="assets/images/haven-router-navy.png" alt="Haven Navy — gnome in U.S. Navy uniform" style="max-width: 360px; width: 100%; height: auto; display: block; margin: 0 auto;">
+				<h3 class="mbr-section-subtitle mbr-fonts-style mt-1 mb-1 display-5"><strong>Haven Navy</strong></h3>
+				<p class="mbr-text mbr-fonts-style mb-0 display-7">GL.iNet MT6000 — Performance flagship</p>
+			</div>
+			<div class="col-md-6 col-lg-4 align-center px-3 mb-4">
+				<img src="assets/images/haven-router-gold.png" alt="Haven Gold — U.S. Navy Seabee, the DIY maker mascot" style="max-width: 360px; width: 100%; height: auto; display: block; margin: 0 auto;">
+				<h3 class="mbr-section-subtitle mbr-fonts-style mt-1 mb-1 display-5"><strong>Haven Gold</strong></h3>
+				<p class="mbr-text mbr-fonts-style mb-0 display-7">The OpenWrt burn image for makers<br><em>(coming soon)</em></p>
+			</div>
+		</div>
+		<div class="row justify-content-center align-items-center" style="margin:14px auto 0;max-width:600px;">
+			<div class="col-6 align-center px-2"><img src="assets/images/mt6000.png?v=1" alt="An ordinary Wi-Fi router" style="max-width:250px;width:100%;height:auto;display:block;margin:0 auto;"></div>
+			<div class="col-6 align-center px-2"><img src="assets/images/mt6000.png?v=1" alt="The same router, running Haven" style="max-width:250px;width:100%;height:auto;display:block;margin:0 auto;transform:scaleX(-1);"></div>
+		</div>
+		<p class="mbr-text mbr-fonts-style display-5" style="max-width:760px;margin:16px auto 0;font-weight:700;text-align:center;">These two routers look identical. One of them has complicated, weak, limited, only local control. The other one has Haven.</p>
+	</div>
+</section>
+
+
+
+
+<section data-bs-version="5.1" class="header09 cid-tLAX5BnXkJ" id="header09-q">
+	
+	
+	<div class="container">
+		<div class="row">
+			<div class="content-wrap col-12 col-md-8">
+				<h1 class="mbr-section-title mbr-fonts-style mbr-white mb-4 display-1"><strong>Big Tech decides what you see. Your Haven gives that decision back to you.</strong></h1>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+<section data-bs-version="5.1" class="content6 cid-vbDatyX8mZ" id="content6-1l">
+    
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-md-12 col-lg-10">
+                <hr class="line">
+                <p class="mbr-text align-center mbr-fonts-style my-4 display-5"><strong><em><br></em></strong><strong><em>Intentional Design, built on experience</em></strong><br><strong><em><br></em></strong></p>
+                <hr class="line">
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section id="notify" style="background:#1a237e;padding:80px 0;">
+  <div class="container">
+    <div class="row justify-content-center text-center">
+      <div class="col-12 col-md-8 col-lg-6">
+        <h2 class="mbr-fonts-style display-2" style="color:#fff;font-weight:700;margin-bottom:16px;">
+          Not ready yet? Stay in the loop.
+        </h2>
+        <p class="mbr-fonts-style display-7" style="color:rgba(255,255,255,0.82);margin-bottom:36px;">
+          Drop your email for new-batch alerts and first word when the monthly list-update service goes live.
+        </p>
+        <form id="haven-notify-form" style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
+          <input
+            id="haven-notify-email"
+            type="email"
+            placeholder="Your email address"
+            required
+            style="flex:1 1 260px;max-width:340px;padding:14px 18px;border:none;border-radius:40px;
+                   font-size:1rem;outline:none;"
+          />
+          <button
+            type="submit"
+            style="padding:14px 32px;border:none;border-radius:40px;background:#e53935;color:#fff;
+                   font-size:1rem;font-weight:700;cursor:pointer;white-space:nowrap;"
+          >Keep me posted</button>
+        </form>
+        <p id="haven-notify-msg" style="margin-top:20px;font-size:1rem;min-height:1.4em;color:#fff;display:none;"></p>
+      </div>
+    </div>
+  </div>
+  <script>
+  (function(){
+    var form  = document.getElementById("haven-notify-form");
+    var email = document.getElementById("haven-notify-email");
+    var msg   = document.getElementById("haven-notify-msg");
+    if (!form) return;
+
+    // Source attribution: capture ?ref=<channel> OR ?utm_source=<channel> from
+    // the landing URL and persist for the session so a deep-link from HN
+    // (lulhaven.com/?ref=hn) still tags the signup even if the user clicks
+    // around before submitting. sessionStorage scope = single browser tab.
+    var qs = new URLSearchParams(window.location.search);
+    var pageSource = qs.get("ref") || qs.get("utm_source") || null;
+    if (pageSource) {
+      try { sessionStorage.setItem("haven_notify_source", pageSource); } catch(e){}
+    }
+
+    form.addEventListener("submit", function(e){
+      e.preventDefault();
+      var btn = form.querySelector("button[type=submit]");
+      btn.disabled = true;
+      btn.textContent = "Sending…";
+      msg.style.display = "none";
+      var src = null;
+      try { src = sessionStorage.getItem("haven_notify_source"); } catch(e){}
+      var payload = { email: email.value.trim() };
+      if (src) payload.source = src;
+      fetch("/api/notify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      })
+      .then(function(r){ return r.json(); })
+      .then(function(d){
+        if (d.ok) {
+          form.style.display = "none";
+          msg.textContent = d.message || "You’re on the list!";
+          msg.style.color = "#a5d6a7";
+        } else {
+          msg.textContent = d.error || "Something went wrong. Please try again.";
+          msg.style.color = "#ef9a9a";
+          btn.disabled = false;
+          btn.textContent = "Keep me posted";
+        }
+        msg.style.display = "block";
+      })
+      .catch(function(){
+        msg.textContent = "Network error. Please try again.";
+        msg.style.color = "#ef9a9a";
+        msg.style.display = "block";
+        btn.disabled = false;
+        btn.textContent = "Keep me posted";
+      });
+    });
+  })();
+  </script>
+</section>
+</section>
+
+
+
+<section data-bs-version="5.1" class="footer1 programm5 cid-tJS9NNcTLZ" once="footers" id="footer03-8">
+
+        
+
+    
+
+    <div class="container">
+        <div class="row">
+
+            <div class="row-links mb-4">
+                <ul class="header-menu">
+                  <li class="header-menu-item mbr-fonts-style display-5"><a href="benefits.html">Benefits</a></li>
+                  <li class="header-menu-item mbr-fonts-style display-5"><a href="features.html">Features</a></li>
+                  <li class="header-menu-item mbr-fonts-style display-5"><a href="demo.html">Demo</a></li>
+                  <li class="header-menu-item mbr-fonts-style display-5"><a href="milestones.html">Milestones</a></li>
+                  <li class="header-menu-item mbr-fonts-style display-5"><a href="faq.html">FAQ</a></li>
+                  <li class="header-menu-item mbr-fonts-style display-5"><a href="about.html">About us</a></li>
+                  <li class="header-menu-item mbr-fonts-style display-5"><a href="fun.html">Enjoy!</a></li>
+                </ul>
+              </div>
+
+            <div class="col-12 mt-5">
+                <p class="mbr-fonts-style copyright display-7">
+                    © Copyright 2026 Lulhaven - All Rights Reserved
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+  
+  
+  <input name="animation" type="hidden">
+  <script>
+    // 47 Strategies card — toggle the explainer panel.
+    (function () {
+      var btn = document.querySelector('.strat47-toggle');
+      var panel = document.getElementById('strat47-panel');
+      if (!btn || !panel) return;
+      btn.addEventListener('click', function () {
+        var open = panel.classList.toggle('strat47-open');
+        btn.textContent = open ? 'Show less' : 'Learn more';
+      });
+    })();
+  </script>
+  <script>
+    /* Rotate the hero subtitle's variable phrase through the things the open
+       internet does that Haven throttles. Real text ships in the span, so
+       no-JS and crawlers still read "spew garbage"; reduced-motion users get
+       the static phrase too. */
+    (function () {
+      var el = document.getElementById('hero-rotate');
+      if (!el) return;
+      // Reduced-motion: still ROTATE the phrases (the information), just skip the
+      // opacity fade (the motion). Freezing the text entirely was over-broad.
+      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var phrases = ['spew garbage', 'spew rage bait', 'track you', 'harvest your data',
+                     'feed the algorithm', 'hijack your attention', 'autoplay all night',
+                     'sell your attention', 'doomscroll your evening', 'target your children', 'feed you lies', 'hijack your browser', 'program you'];
+      // Shuffle so each visit cycles the phrases in a fresh order.
+      for (var j = phrases.length - 1; j > 0; j--) {
+        var k = Math.floor(Math.random() * (j + 1));
+        var t = phrases[j]; phrases[j] = phrases[k]; phrases[k] = t;
+      }
+      var i = 0;
+      setInterval(function () {
+        if (reduce) {
+          i = (i + 1) % phrases.length;
+          el.textContent = phrases[i];
+          return;
+        }
+        el.style.opacity = '0';
+        setTimeout(function () {
+          i = (i + 1) % phrases.length;
+          el.textContent = phrases[i];
+          el.style.opacity = '1';
+        }, 400);
+      }, 2200);
+    })();
+  </script>
+  <script src="js/kyc.js?v=2ed04668"></script>
+  <script src="js/haven-nav.js?v=ac53802e"></script>
+  <script src="js/countdown.js?v=4f547e3f"></script>
+  <script>
+    /* Hidden entry to the Haven Challenge page: shift + double-click the
+       "Get notified at launch" button. Unadvertised, noindex page. */
+    (function(){
+      document.querySelectorAll('a[href="#notify"]').forEach(function(btn){
+        // Shift+click on an <a> is the browser's native "open in new window"
+        // gesture — suppress it so the two shift-clicks don't fire the #notify
+        // jump (or a new window) before our shift+double-click handler runs.
+        btn.addEventListener("click", function(e){ if (e.shiftKey) e.preventDefault(); });
+        btn.addEventListener("dblclick", function(e){
+          if (e.shiftKey) { e.preventDefault(); window.location.href = "/challenge"; }
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
