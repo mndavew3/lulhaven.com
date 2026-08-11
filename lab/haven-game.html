@@ -611,6 +611,7 @@
       // of max integrity, capped at full. Applies even on the campaign's last level —
       // harmless, since nothing spends integrity after the run ends.
       integrity = Math.min(100, integrity + HEAL_ON_LEVEL);
+      updateHealthBar();
       campaignIndex++;
       if (campaignIndex >= CAMPAIGN.length) {
         campaignComplete = true;
@@ -633,18 +634,21 @@
   // over its length; ~12 breaches now costs a run instead of ~3.
   var integrity = 100, BREACH_COST = 8, overrun = false;
   var HEAL_ON_LEVEL = 33;   // integrity regained on clearing a level (Dave, 2026-08-09: "maybe one third")
-  function breach(t) {
-    t.alive = false;
-    totalBreaches++;
-    levelResolved++;   // "or they resolve themselves, whatever" (Dave, 2026-08-07)
-    if (t.el) { t.el.classList.add('dead'); }
-    integrity = Math.max(0, integrity - BREACH_COST);
+  function updateHealthBar() {
     var f = document.getElementById('hFill');
     if (f) {
       f.style.width = integrity + '%';
       f.style.backgroundColor = integrity > 66 ? '#4fd6a8'
                               : integrity > 33 ? '#e5c04a' : '#ff5a50';
     }
+  }
+  function breach(t) {
+    t.alive = false;
+    totalBreaches++;
+    levelResolved++;   // "or they resolve themselves, whatever" (Dave, 2026-08-07)
+    if (t.el) { t.el.classList.add('dead'); }
+    integrity = Math.max(0, integrity - BREACH_COST);
+    updateHealthBar();
     document.body.classList.add('hurt');
     setTimeout(function () { document.body.classList.remove('hurt'); }, 460);
     if (navigator.vibrate) { try { navigator.vibrate([28, 40, 28]); } catch (e) {} }
