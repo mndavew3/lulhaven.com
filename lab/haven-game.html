@@ -214,6 +214,17 @@
            background:rgba(18,49,42,.92); border:1px solid #2f6f5e;
            opacity:0; pointer-events:none; transition:opacity .25s ease; }
   #toast.show { opacity:1; }
+
+  /* Points the player at the radar before anything else happens, tutorial only
+     (Dave, 2026-08-10). Center-screen so it can't be missed, an arrow rather than
+     a precise pointer line since the radar always sits fixed top-right. */
+  #radarCallout { position:fixed; left:50%; top:50%; transform:translate(-50%,-50%);
+           z-index:7; padding:12px 18px; border-radius:8px; text-align:center; color:#dff;
+           font:700 16px/1.3 system-ui, sans-serif;
+           background:rgba(18,49,42,.92); border:1px solid #2f6f5e;
+           opacity:0; pointer-events:none; transition:opacity .25s ease; }
+  #radarCallout.show { opacity:1; }
+  #radarCallout .arrow { display:block; font-size:22px; line-height:1; margin-bottom:3px; }
   #hud b { color:#fff; font-weight:600; }
   #hud .warn { color:#ffb3b3; }
   #hud .hold { color:#8fb; }
@@ -273,6 +284,7 @@
   </a>
 </div>
 <div id="toast"></div>
+<div id="radarCallout"><span class="arrow">&#8599;</span>Radar</div>
 <div id="hud" class="dim">
   <div id="mbar"><div id="mfill"></div></div>
   <div id="line1">waiting for motion…</div>
@@ -1547,6 +1559,24 @@
     radarAttnTimer = setTimeout(retireRadarAttn, 20000);   // if no kill ever comes
     if (navigator.wakeLock) navigator.wakeLock.request('screen').catch(function(){});
     if (skipTutorial) return;
+    // Intro pair, tutorial only (Dave, 2026-08-10): point at the radar for 3s, then a
+    // plain "move your phone" prompt for 3s — both before BEAT 1's own measurement below,
+    // so nothing overlaps. Pushing BEAT 1 back to 8500ms (was 2500ms) also means its
+    // peakRate check now measures motion AFTER the player has been told to move, instead
+    // of during a silent 2.5s window — the prompt and the measurement now line up.
+    var radarCallout = document.getElementById('radarCallout');
+    if (radarCallout) {
+      radarCallout.classList.add('show');
+      setTimeout(function () {
+        radarCallout.classList.remove('show');
+        // Same wording-only guess already used elsewhere in this tutorial (coarse
+        // pointer = phone-like touch input) — never drives behavior, only which
+        // words are shown; the real motion measurement still happens below.
+        toast(coarse
+          ? 'Move your phone left and right, up and down.'
+          : 'Use the arrow keys — left, right, up, down.', 3000);
+      }, 3000);
+    }
     setTimeout(function () {
       // BEAT 1 of the tutorial: how to look around. Which words depends on what this
       // device turned out to be able to do, which is why it happens HERE and not on the
@@ -1582,7 +1612,7 @@
           : 'Arrow keys or WASD to look around, mouse wheel to zoom. Drag with the mouse to fine-tune the crosshair.', 9000);
         setTimeout(beatTwo, 9600);
       }
-    }, 2500);
+    }, 8500);
   }
 
   // Shared by both landing buttons — each is its own direct tap gesture, so each gets
