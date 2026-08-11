@@ -127,6 +127,15 @@
   #over b { font:800 30px/1 system-ui, sans-serif; letter-spacing:.16em; color:#ff8d84; }
   #over span { font:400 15px/1.5 system-ui, sans-serif; color:#ffd9d5; }
   body.overrun #over { display:flex; }
+  /* A FIXED, always-the-same line of marketing copy dressed as an ad — not a real ad
+     slot, no tracking, no rotation (Dave, 2026-08-10). Styled to read as a little mock
+     banner ad set apart from the OVERRUN readout above it. */
+  #overAd { display:flex; align-items:center; gap:10px; margin-top:6px; padding:12px 16px;
+            max-width:26em; background:#f4f4f4; border-radius:6px; text-decoration:none;
+            box-shadow:0 2px 10px rgba(0,0,0,.35); }
+  #overAd .ad-tag { flex:0 0 auto; font:800 10px/1 system-ui, sans-serif; letter-spacing:.08em;
+                     color:#888; border:1px solid #bbb; border-radius:3px; padding:2px 5px; }
+  #overAd .ad-copy { font:500 13px/1.4 system-ui, sans-serif; color:#222; text-align:left; }
   /* A faint marker left at true centre while trimming, so it stays obvious how far the
      crosshair has been pulled off and which way it will snap back. */
   /* Radar (Dave, 2026-08-05): once targets can sit outside the view, the player needs to
@@ -214,16 +223,29 @@
   .btns button.on { background:#2f6f5e; color:#fff; }
 
   #gate { position:fixed; inset:0; display:flex; flex-direction:column; align-items:center;
-          justify-content:center; gap:20px; padding:28px; text-align:center; background:#07100e;
-          font-family:system-ui, sans-serif; color:#cfe; }
+          justify-content:center; gap:16px; padding:28px; text-align:center; background:#07100e;
+          font-family:system-ui, sans-serif; color:#cfe;
+          overflow-y:auto; touch-action:pan-y; -webkit-overflow-scrolling:touch; }
   #gate h1 { font-size:21px; font-weight:700; color:#fff; margin-bottom:-6px; }
   #gate p  { font-size:15px; line-height:1.6; max-width:24em; color:#9fc7b8; }
   #gate p.lead { color:#4fd6a8; font-weight:600; letter-spacing:.06em;
-                 text-transform:uppercase; font-size:12px; }
+                 text-transform:uppercase; font-size:12px; margin-bottom:-4px; }
   #gate button { padding:16px 34px; font:700 17px system-ui, sans-serif; color:#04140f;
                  background:#4fd6a8; border:0; border-radius:11px; }
+  #gate button.secondary { padding:13px 28px; font-size:15px; color:#cfe; background:transparent;
+                            border:1px solid #2f6f5e; }
   #gate.hide { display:none; }
   #err { color:#ffb3b3; font-size:14px; max-width:26em; }
+
+  /* "Our Backstory" — the three manga-chapter links, copied verbatim (URLs, targets,
+     labels) from fun.html's #header12-1m row (Dave, 2026-08-10). fun.html's own
+     .btn.btn-primary comes from Bootstrap, which this page doesn't load, so .btn-manga
+     is a same-page equivalent sized to sit on a 5-item landing screen. */
+  .gate-section { display:flex; flex-direction:column; align-items:center; gap:8px; }
+  .manga-btns { display:flex; gap:8px; flex-wrap:wrap; justify-content:center; }
+  .btn-manga { padding:9px 14px; font:600 13px system-ui, sans-serif; color:#04140f;
+               background:#9fe0c8; border-radius:8px; text-decoration:none; }
+  .gate-actions { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; }
 </style>
 </head>
 <body>
@@ -244,7 +266,12 @@
 <div id="dotG2" class="dot gnome"></div>
 <div id="scopechrome"><span id="sLabel">IP42</span><span id="sLevel">LV 1</span><span id="sLock">LOCK</span></div>
 <div id="health"><span id="hLabel">INTEGRITY</span><span id="hTrack"><i id="hFill"></i></span></div>
-<div id="over"><b>OVERRUN</b><span>Every instance reached you.</span></div>
+<div id="over"><b>OVERRUN</b><span>Every instance reached you.</span>
+  <a id="overAd" href="../index.html#founders" data-ev="overrun_ad_click">
+    <div class="ad-tag">AD</div>
+    <div class="ad-copy">If you had a Haven subscription, you wouldn't have to look at an ad. But here's your ad. And, by the way, it's for Haven.</div>
+  </a>
+</div>
 <div id="toast"></div>
 <div id="hud" class="dim">
   <div id="mbar"><div id="mfill"></div></div>
@@ -272,8 +299,18 @@
      it a body: something with a shape, a distance and a bearing, that a person can put
      a crosshair on. What you are about to look at is not the infection itself. It is
      the interface Al made so the infection could be triaged.</p>
-  <p class="lead">This part teaches you the controls.</p>
-  <button id="go">Start</button>
+  <div class="gate-section">
+    <p class="lead">Our Backstory</p>
+    <div class="manga-btns">
+      <a class="btn-manga" href="https://mangaka.app/en/story/haven-ver-3-7663/chapter-0-8263" data-ev="manga_click" data-ev-label="ch1">Chapter 1</a>
+      <a class="btn-manga" href="https://heyzine.com/flip-book/8aaa691d99.html" target="_blank" data-ev="manga_click" data-ev-label="ch2a">Chapter 2a</a>
+      <a class="btn-manga" href="https://heyzine.com/flip-book/9ec65d5f25.html" target="_blank" data-ev="manga_click" data-ev-label="ch2b">Chapter 2b</a>
+    </div>
+  </div>
+  <div class="gate-actions">
+    <button id="goStart">Start</button>
+    <button id="goTutorial" class="secondary">Tutorial</button>
+  </div>
   <div id="err"></div>
 </div>
 
@@ -1487,7 +1524,13 @@
     if (oe) { var s = oe.querySelector('span'); if (s) s.textContent = 'Reached level ' + (campaignIndex + 1) + '. Score ' + r.score + (r.improved ? ' — new best.' : '.'); }
   }
 
-  function listen() {
+  // skipTutorial: the landing screen now offers Start (straight into the campaign) and
+  // Tutorial (today's coaching flow) as two buttons instead of one (Dave, 2026-08-10).
+  // Fullscreen + motion permission are requested identically for both — that part cannot
+  // move, since a browser only grants it inside the direct tap that triggered THIS call.
+  // Only the two beats of toast coaching below are conditional; spawning/campaign start
+  // is unchanged either way.
+  function listen(skipTutorial) {
     window.addEventListener('devicemotion', onMotion, true);   // the ONLY motion source
     started = true;
     runStart = performance.now();   // the approach clock starts when the run does
@@ -1503,6 +1546,7 @@
     if (rEl) rEl.classList.add('attn');
     radarAttnTimer = setTimeout(retireRadarAttn, 20000);   // if no kill ever comes
     if (navigator.wakeLock) navigator.wakeLock.request('screen').catch(function(){});
+    if (skipTutorial) return;
     setTimeout(function () {
       // BEAT 1 of the tutorial: how to look around. Which words depends on what this
       // device turned out to be able to do, which is why it happens HERE and not on the
@@ -1541,16 +1585,20 @@
     }, 2500);
   }
 
-  document.getElementById('go').onclick = function () {
+  // Shared by both landing buttons — each is its own direct tap gesture, so each gets
+  // its own full run at the fullscreen/motion request. Only skipTutorial differs.
+  function startRun(skipTutorial) {
     var DME = window.DeviceMotionEvent;
     if (!DME) { err.textContent = 'This browser has no DeviceMotion support.'; return; }
     if (typeof DME.requestPermission === 'function') {          // iOS 13+
       DME.requestPermission().then(function (r) {
-        if (r === 'granted') listen();
+        if (r === 'granted') listen(skipTutorial);
         else err.textContent = 'Motion access denied. Settings → Safari → Motion & Orientation Access.';
       }).catch(function (e) { err.textContent = 'Motion request failed: ' + e; });
-    } else { listen(); }
-  };
+    } else { listen(skipTutorial); }
+  }
+  document.getElementById('goStart').onclick = function () { startRun(true); };
+  document.getElementById('goTutorial').onclick = function () { startRun(false); };
 
   function tog(id, fn, on) {
     var b = document.getElementById(id);
