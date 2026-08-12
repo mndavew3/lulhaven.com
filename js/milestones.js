@@ -1,5 +1,27 @@
-// generated from haven_wiki.db accomplishments — 634 rows, newest id 648
+// generated from haven_wiki.db accomplishments — 636 rows, newest id 650
 var milestonesDataset = [
+  {
+    "id": 650,
+    "date": "2026-08-12",
+    "theme": "Testing & quality",
+    "impact": 4,
+    "summary": "Ran Haven's first-ever real block-rate and false-positive measurement -- drove the actual filtering code against real domain lists instead of a mock, and confirmed zero true false positives across 500 clean domains tested.",
+    "detail": "Built a measurement harness that runs the real the content-filtering module module against a real generated config and queries it with dig, rather than a mock. Tested a hand-verified ad-tech list (36.7% blocked, 11/30) and a must-not-block Tranco top-500 snapshot (0 true false positives after removing ad-tech infrastructure Haven deliberately blocks from the corpus). Honest limitations logged: feed snapshot ~3.5 months stale, DNS-layer only, 2 of 37 categories tested, dev-box conditions not real customer network. Whetstone (harness) and (publish methodology) apply; publishing any percentage is gated by the accuracy-claim-strategy decision (raw counts over a weak percentage) made the same day.",
+    "benefit": "We now have real, tested evidence for how well Haven's filtering actually works, and proof it doesn't wrongly block sites you visit every day -- not just a claim.",
+    "ref": "",
+    "features": []
+  },
+  {
+    "id": 649,
+    "date": "2026-08-12",
+    "theme": "Ad & Tracker Blocking",
+    "impact": 4,
+    "summary": "Rebuilt how Haven distributes its ad and tracker blocklist so it comes only through our own server, never straight from a third party -- and stopped silently dropping 157,000 domains to fit a file-size limit.",
+    "detail": "Built a dedicated blocklist_domains table + sync/export pipeline (sync-blocklist-domains.py, export_blocklist_ads_db.py/delta.py) separate from the main <database>, after finding <database>'s own export script had been silently excluding these 157,606 domains to stay under Cloudflare's 25MiB asset limit. Rewrote the router-side fetch-ads.sh to match the existing delta-then-full sync pattern. Tested end-to-end (full sync, delta sync, tombstone round-trip) against real exported data; not yet run on physical hardware or included in a build. Commits: router /, data ///, website..",
+    "benefit": "Your router's ad and tracker list stops shrinking behind the scenes to fit a size limit -- every domain we curate is actually in your filter, and no third party ever sees which lists your router pulls.",
+    "ref": "abe295d",
+    "features": []
+  },
   {
     "id": 647,
     "date": "2026-08-12",
