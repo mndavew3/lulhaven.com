@@ -1,5 +1,38 @@
-// generated from haven_wiki.db accomplishments — 631 rows, newest id 645
+// generated from haven_wiki.db accomplishments — 634 rows, newest id 648
 var milestonesDataset = [
+  {
+    "id": 647,
+    "date": "2026-08-12",
+    "theme": "Reliability & safety",
+    "impact": 4,
+    "summary": "We found and fixed a security gap that could let someone inject malicious code through the router's admin schedule and user-list pages, plus closed a matching timing-attack and spreadsheet-injection risk on the website login and admin export.",
+    "detail": "Fixed: router-side code %q used as SQL quoting (not SQL-safe) let a hostname containing a quote break a schedule query; an unvalidated display name written into <system auth file> and rendered unescaped in the admin user list; timing-unsafe password compare on the website's <admin tool>enance login; CSV export allowed spreadsheet-formula injection via attacker-controlled email. Same pattern fixed identically in the downstream build overlay tree; build/flash/capture tooling hardened (image size+md5 verified before flashing, concurrent-build lock added, silent DB-failure version fallback removed).",
+    "benefit": "Your router's admin pages and lulhaven.com can't be tricked into running an attacker's code or leaking your password through timing -- the fix was swept everywhere the same pattern showed up, not just where it was first caught.",
+    "ref": "9d87ad35c9",
+    "features": []
+  },
+  {
+    "id": 648,
+    "date": "2026-08-12",
+    "theme": "Trust & transparency",
+    "impact": 3,
+    "summary": "Corrected three customer-facing claims that didn't match what the router actually does: adult content is off by default (site copy said blocked-by-default), ad/tracker blocking is opt-in (site copy said always-on), and block-list updates are daily, not weekly (only the adult-content list is weekly).",
+    "detail": null,
+    "benefit": "What the website says Haven does now matches what it actually does -- no surprise gap between the marketing copy and the setting you find on your router.",
+    "ref": "8914fb3a0a",
+    "features": []
+  },
+  {
+    "id": 646,
+    "date": "2026-08-10",
+    "theme": "Product definition",
+    "impact": 3,
+    "summary": "Routers now stop pulling fresh block-list updates automatically once a subscription lapses or was never started",
+    "detail": "New check-entitlement.sh gate sourced into fetch-feed.sh (overlay + package copies): checks a cached entitlement state (1hr TTL) against the router's own serial, fails open on connectivity trouble, fails closed (skip fetch, keep cached lists) when genuinely unentitled or unregistered. Not yet hardware-verified -- needs a Fuego/Shakedown pass.",
+    "benefit": "Keeps filtering working exactly as it always has on lists you already have; simply stops refreshing those lists until the subscription is active again -- no surprise loss of protection, no silent overreach either",
+    "ref": "eba8d8d",
+    "features": []
+  },
   {
     "id": 645,
     "date": "2026-08-08",
@@ -5459,7 +5492,7 @@ var milestonesDataset = [
     "features": [
       {
         "id": 18,
-        "lead": "Updated weekly"
+        "lead": "Updated daily"
       }
     ]
   },
@@ -5757,7 +5790,7 @@ var milestonesDataset = [
     "features": [
       {
         "id": 18,
-        "lead": "Updated weekly"
+        "lead": "Updated daily"
       },
       {
         "id": 28,
@@ -6312,7 +6345,7 @@ var milestonesDataset = [
     "features": [
       {
         "id": 18,
-        "lead": "Updated weekly"
+        "lead": "Updated daily"
       }
     ]
   },
@@ -6344,7 +6377,7 @@ var milestonesDataset = [
     "features": [
       {
         "id": 18,
-        "lead": "Updated weekly"
+        "lead": "Updated daily"
       }
     ]
   },

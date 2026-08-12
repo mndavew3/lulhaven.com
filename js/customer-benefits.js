@@ -126,7 +126,7 @@ var cbDataset = [
     "family_lead": null,
     "privacy_lead": null,
     "related_feature_ids": "8,19",
-    "details": "<p>The standard YouTube and social-media apps decide what to recommend to you. U-Haven (companion Android app) puts that decision back in your hands — hide channels and providers you have decided you do not want in your feed. On Haven itself: adult content is blocked by default and only an admin can opt in. Trackers are blocked. Mobile game ads are blocked. The defaults respect that you are an adult making your own choices, not a target for algorithmic shaping.</p>",
+    "details": "<p>The standard YouTube and social-media apps decide what to recommend to you. U-Haven (companion Android app) puts that decision back in your hands — hide channels and providers you have decided you do not want in your feed. On Haven itself: adult content is off by default; an admin can opt in to block it. Trackers are blocked. Mobile game ads are blocked. The defaults respect that you are an adult making your own choices, not a target for algorithmic shaping.</p>",
     "link": null
   },
   {
@@ -237,13 +237,13 @@ var cbDataset = [
     "id": 19,
     "section": "main",
     "lead": "Ads and trackers, gone too",
-    "body": "The same Haven that filters content also strips ads and trackers across every device.",
+    "body": "Ads and trackers are one more category you can switch on — and once you do, Haven strips them across every device.",
     "family_rank": 19,
     "privacy_rank": 11,
     "family_lead": null,
     "privacy_lead": null,
     "related_feature_ids": null,
-    "details": "<p>Haven's filtering doubles as network-wide ad and tracker blocking. Known ad servers and trackers are refused by Haven, so pages load lighter and cleaner on every device in the place — no browser extension to install, no per-device setup. It's the same one-box approach: turn it on once, it applies everywhere.</p>",
+    "details": "<p>Ad and tracker blocking is a category like any other in Haven — off until you turn it on. Flip it on once and Haven refuses known ad servers and trackers network-wide, so pages load lighter and cleaner on every device in the place — no browser extension to install, no per-device setup.</p>",
     "link": null
   },
   {
