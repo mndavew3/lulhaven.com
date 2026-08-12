@@ -19,6 +19,14 @@ async function hmacHex(secret, message) {
         .map(b => b.toString(16).padStart(2, "0")).join("");
 }
 
+// Constant-time-ish compare -- same shape as ctEqual in _lib/auth.js (which is not
+// exported, hence the local copy). Length still leaks; the content does not.
+function ctEqual(a, b) {
+    if (typeof a !== "string" || typeof b !== "string" || a.length !== b.length) return false;
+    let d = 0; for (let i = 0; i < a.length; i++) d |= a.charCodeAt(i) ^ b.charCodeAt(i);
+    return d === 0;
+}
+
 export async function onRequestPost(context) {
     const { request, env } = context;
 
@@ -40,7 +48,7 @@ export async function onRequestPost(context) {
         );
     }
 
-    if (body.password !== secret) {
+    if (!ctEqual(body.password, secret)) {
         // Generic message; no info leak about whether the password format was close.
         return new Response(
             JSON.stringify({ error: "Invalid password" }),

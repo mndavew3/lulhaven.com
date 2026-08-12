@@ -41,15 +41,20 @@ export async function onRequestGet(context) {
     rows.forEach(r => { r.status = rowStatus(r); });
 
     if (format === "csv") {
+        // Quote-double every field, and prefix a single quote on anything Excel/Sheets
+        // would otherwise evaluate as a formula -- the email field is user-supplied and
+        // the signup regex allows a leading =, +, -, @ and embedded double quotes.
+        const cell = (v) => {
+            let s = v == null ? "" : String(v);
+            if (/^[=+\-@\t\r]/.test(s)) s = "'" + s;
+            return `"${s.replace(/"/g, '""')}"`;
+        };
         const lines = [
             "id,email,signed_up_at,source_ip,source,status,confirmed_at,unsubscribed_at"
         ];
         for (const r of rows) {
-            const ip   = r.source_ip || "";
-            const src  = (r.source || "").replace(/"/g, '""');
-            const conf = r.confirmed_at || "";
-            const unsub = r.unsubscribed_at || "";
-            lines.push(`${r.id},"${r.email}","${r.signed_up_at}","${ip}","${src}","${r.status}","${conf}","${unsub}"`);
+            lines.push([r.id, r.email, r.signed_up_at, r.source_ip, r.source,
+                        r.status, r.confirmed_at, r.unsubscribed_at].map(cell).join(","));
         }
         return new Response(lines.join("\r\n"), {
             status: 200,

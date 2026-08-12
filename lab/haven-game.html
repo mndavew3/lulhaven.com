@@ -349,8 +349,9 @@
 
   // One short line for the PLAYER. The readout above it is instrumentation for me, and
   // it now starts hidden, so anything a visitor needs has to be said out here.
-  var toastEl = document.getElementById('toast'), toastTimer = 0;
+  var toastEl = document.getElementById('toast'), toastTimer = 0, toastSeq = 0;
   function toast(msg, ms) {
+    toastSeq++;                 // whoever raised it last owns the element
     toastEl.textContent = msg;
     toastEl.classList.add('show');
     clearTimeout(toastTimer);
@@ -676,6 +677,10 @@
     keys[k] = true; e.preventDefault();
   });
   window.addEventListener('keyup', function (e) { keys[e.key.toLowerCase()] = false; });
+  // A key held while the window/tab loses focus never delivers its keyup here, so it
+  // stays true and the view keeps panning by itself after refocus.
+  window.addEventListener('blur', function () { keys = {}; });
+  document.addEventListener('visibilitychange', function () { if (document.hidden) keys = {}; });
   window.addEventListener('wheel', function (e) {
     ZOOM = clamp(ZOOM * (e.deltaY > 0 ? 0.92 : 1.087), 1, 4);
     layout();
@@ -970,7 +975,7 @@
   // 0.1. Two deg/s sits two orders above the noise and six below the weakest real
   // signal, so nothing lands in between.
   // Same failure as the MAG/SIM marker: the arrival of a reading is not the reading.
-  var peakRate = 0, noMotionTold = false;
+  var peakRate = 0, noMotionTold = false, noMotionToastSeq = -1;
   var MOTION_FLOOR = 2;             // deg/s
 
   function layout() {
@@ -1141,11 +1146,14 @@
       l.style.strokeDashoffset = 0;
     });
 
-    // The hit lands when the light arrives, not when the trigger goes.
-    setTimeout(function () { impact(shooter, t, onCore); }, PULSE_MS);
+    // The hit lands when the light arrives, not when the trigger goes -- but WHAT it
+    // hits is decided now, from the picture the player actually aimed at. Reading
+    // t.ap PULSE_MS later can cross the 0.5 grace boundary mid-flight.
+    var fatalAtAim = onCore || t.ap < 0.5;
+    setTimeout(function () { impact(shooter, t, fatalAtAim); }, PULSE_MS);
   }
 
-  function impact(shooter, t, onCore) {
+  function impact(shooter, t, fatal) {
     var bm = document.getElementById('beam');
     bm.style.transition = 'opacity 90ms ease-out';
     bm.style.opacity = 0;
@@ -1161,7 +1169,7 @@
     // spawn to breach, ANY hit is fatal — core or body. The core-only rule only starts
     // earning its keep once the contact has closed to within the back half of its
     // approach, when a body-only stall would otherwise cost real ground.
-    var fatal = onCore || t.ap < 0.5;
+    // (`fatal` is decided in fire(), at aim time -- see there.)
     if (fatal) {
       t.alive = false; t.el.classList.add('dead'); hits++;
       levelResolved++;   // the other of the two ways a contact resolves (Dave, 2026-08-07)
@@ -1374,6 +1382,7 @@
     activeShooters.forEach(function (sh) {
       var aimX = vw / 2 + sh.x, aimY = vh / 2 + sh.y;
       sh.aiming = null; sh.onCore = false;
+      var bestAimD = Infinity;   // nearest in range wins, not first in TARGETS order
       for (var i = 0; i < TARGETS.length; i++) {
         var tt = TARGETS[i];
         if (!tt.alive || tt.pending) continue;   // one that has not arrived cannot be hit
@@ -1386,11 +1395,11 @@
         // (tt.cr, below) are untouched — only how forgiving "close enough to aim at
         // it at all" is.
         var effR = Math.max(tt.r, MIN_AIM_R);
-        if (d <= effR * scale) { sh.aiming = tt; sh.onCore = d <= tt.cr * scale; break; }
+        if (d <= effR * scale && d < bestAimD) { bestAimD = d; sh.aiming = tt; sh.onCore = d <= tt.cr * scale; }
       }
       sh.cooldownFor = Math.max(0, sh.cooldownFor - frameDt);
       sh.onTargetFor = sh.aiming ? sh.onTargetFor + frameDt : 0;
-      if (autoFire && sh.aiming && sh.onTargetFor >= DWELL && sh.cooldownFor === 0) {
+      if (autoFire && !overrun && sh.aiming && sh.onTargetFor >= DWELL && sh.cooldownFor === 0) {
         fire(sh, sh.aiming, sh.onCore);
         sh.cooldownFor = levelCooldown;
         sh.onTargetFor = 0;
@@ -1445,12 +1454,14 @@
     // phone player reading keyboard instructions for the rest of the run.
     if (noMotionTold && peakRate >= MOTION_FLOOR) {
       noMotionTold = false;
-      toastEl.classList.remove('show');
+      // Retract only OUR message — by now a level banner or tutorial beat may own the
+      // element, and hiding that would cut off something the player still needs.
+      if (toastSeq === noMotionToastSeq) toastEl.classList.remove('show');
     }
     if (started) {
-      var pct = Math.round(gateVal * 100);
-      mfill.style.width = pct + '%';
-      mbar.classList.toggle('locked', gateVal === 0);
+      // (the old gateVal bar write lived here -- gateOn is hardcoded false, so gateVal
+      // is always 1 and this width was overwritten by the gain write below in the very
+      // same frame, and .locked could never apply.)
       // RAW rates first and biggest — this is the instrument. Turn left and watch
       // which of the three moves: that names the yaw axis and ends the guessing.
       L1.innerHTML = 'raw &alpha; <b>' + rA.toFixed(0) + '</b>&nbsp; &beta; <b>' +
@@ -1614,6 +1625,7 @@
         toast(coarse
           ? 'No movement detected. If you declined motion access, reload and allow it — meanwhile, drag with your thumb to aim.'
           : 'Arrow keys or WASD to look around, mouse wheel to zoom. Drag with the mouse to fine-tune the crosshair.', 9000);
+        noMotionToastSeq = toastSeq;
         setTimeout(beatTwo, 9600);
       }
     }, 8500);
