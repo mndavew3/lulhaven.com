@@ -9,7 +9,7 @@
 // boolean, a reason, and the term end are all a router's own status, and a
 // router only ever asks about its own serial.
 import { findRegisteredProduct, currentTransaction, isCurrentlyActive } from "../_lib/pricing.js";
-import { deriveRootPassword } from "../_lib/root_creds.js";
+import { deriveCredPassword } from "../_lib/root_creds.js";
 
 const CORS = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Methods": "GET, OPTIONS", "Access-Control-Allow-Headers": "Content-Type" };
 const RATE_WINDOW = 3600, RATE_MAX_IP = 200;   // generous: every fetch-script cron tick from a whole fleet can share one NAT IP
@@ -43,7 +43,7 @@ async function rootCredsField(env, serial) {
         if (!row || row.status !== "pending") return {};
         const key = env.ROOT_CREDS_KEY;
         if (!key) return {};   // fail closed — no key on the server, no password handed out
-        const password = await deriveRootPassword(serial, row.password_date, key);
+        const password = await deriveCredPassword(serial, row.password_date, key);
         return { new_root_password: password, new_root_password_date: row.password_date };
     } catch {
         return {};

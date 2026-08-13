@@ -1,14 +1,18 @@
 // POST /api/builds/root-creds-seed — bench-only. Called by haven-station's
 // install-haven.sh (via lib/_d1.sh's d1_seed_root_creds) during a burn.
 // Registers this serial's hidden-root-account row as already updated as of
-// today, and returns the password the bench should set on the unit. Auth:
-// gated by _middleware.js (build_maint_token cookie) via the /api/builds/
-// prefix, same as every other build-maint route — this is an operator call
-// from the bench, not something a router ever calls.
+// today, and returns the passwords the bench should set on the unit: the
+// hidden root password (rotation-tracked via root_creds) AND the customer-
+// facing haven admin password (derived with a separate key, no D1 tracking
+// needed — it's bench-set once and the Helm forces a change on first login,
+// so nothing about it needs to survive past that). Auth: gated by
+// _middleware.js (build_maint_token cookie) via the /api/builds/ prefix,
+// same as every other build-maint route — this is an operator call from the
+// bench, not something a router ever calls.
 //
 // See ~/haven/docs/USER_CREDENTIAL_STRATEGY.md section 2 and
 // functions/_lib/root_creds.js.
-import { deriveRootPassword, todayStr } from "../../_lib/root_creds.js";
+import { deriveCredPassword, todayStr } from "../../_lib/root_creds.js";
 
 const json = (b, s = 200) => new Response(JSON.stringify(b), { status: s, headers: { "Content-Type": "application/json" } });
 const isSerial = (s) => typeof s === "string" && /^[A-Za-z0-9-]{6,64}$/.test(s);
@@ -21,6 +25,8 @@ export async function onRequestPost({ request, env }) {
 
     const key = env.ROOT_CREDS_KEY;
     if (!key) return json({ ok: false, error: "ROOT_CREDS_KEY not configured on server" }, 500);
+    const havenKey = env.HAVEN_CREDS_KEY;
+    if (!havenKey) return json({ ok: false, error: "HAVEN_CREDS_KEY not configured on server" }, 500);
 
     const db = env.haven_builds;
 
@@ -43,6 +49,7 @@ export async function onRequestPost({ request, env }) {
         "  status = 'updated', modified_datetime = datetime('now')"
     ).bind(serial, today, today).run();
 
-    const password = await deriveRootPassword(serial, today, key);
-    return json({ ok: true, serial, password_date: today, password });
+    const password = await deriveCredPassword(serial, today, key);
+    const havenPassword = await deriveCredPassword(serial, today, havenKey);
+    return json({ ok: true, serial, password_date: today, password, havenPassword });
 }
