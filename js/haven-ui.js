@@ -1,3 +1,9 @@
+// Single source of truth for the version shown on this page — per
+// feedback_demo_live_parity_default, the demo must stay version-compliant with
+// the real live product. Bump this ONLY after verifying the demo actually has
+// UI/feature parity with that live version (see the 2026-08-13 parity audit).
+var HD_CURRENT_VERSION = '0.1.76';
+
 var hdNameGroups = {};
 var hdKeyNameMap = {};
 var hdBasicMode = false;
@@ -35,6 +41,20 @@ for (var _hdi = 0; _hdi < hdDataset.length; _hdi++) { if (hdDataset[_hdi][0] ===
 var hdIsFilteredView = false;
 var hdIsAZView = false;
 var hdSectionOpen = {};
+
+// Remote Filter strategy — PER CATEGORY, chosen on the sub-panel header dropdown.
+// Full = traffic comes home to Haven for thorough filtering; Fast = quick checks
+// only (easier on battery); None = not filtered remotely. Absent = 'fast' (the
+// live default). Independent of Filter/Delayed — it says HOW filters in this
+// category follow a device off-network, not whether they're on.
+var hdRemoteFilters = {};
+function hdCatRemoteChanged(sel) {
+  var cat = sel.getAttribute('data-remote-cat');
+  if (!cat) return;
+  hdRemoteFilters[cat] = sel.value;
+  hdMarkDirty();
+  hdShowMsg('Remote connection for ' + cat + ' set to ' + sel.options[sel.selectedIndex].text + '.', '#0060a0');
+}
 
 var hdSections = [
   { name: 'Adult & Sensitive', cats: [
@@ -404,6 +424,8 @@ function hdRenderFilteredView() {
   document.getElementById('hd-sub-title').textContent = count > 0
     ? 'Active filters (' + count + ' item' + (count > 1 ? 's' : '') + ')'
     : 'Nothing filtered yet';
+  var rrow = document.getElementById('hd-remote-conn-row');
+  if (rrow) rrow.style.display = 'none';   // mixed categories — no single strategy
 }
 
 function hdToggleFilteredView() {
@@ -445,6 +467,17 @@ function hdStatCells(key) {
          '<td class="c hd-stat-col">' + reached + '</td>';
 }
 
+// Items eligible for U-Haven per-channel actions (gear icon). Mirrors the live
+// Helm's ytItems set, scoped to the demo dataset's YouTube-family entries.
+var hdYtItems = {
+  'entertainment/youtube': true,
+  'kids_family/youtube_kids': true,
+  'streaming_music/youtube_music': true
+};
+// master: bool — global "apply YT account actions" switch. items: { "cat/item": { dont_recommend: true } }
+var hdYtActions = { master: false, items: {} };
+var hdYtCurrentKey = null;
+
 function hdMakeRow(key, subName, catName, showCat) {
   var hasStrategy = key in itemUrls;
   var url = hasStrategy ? (itemUrls[key] || '') : '';
@@ -469,8 +502,17 @@ function hdMakeRow(key, subName, catName, showCat) {
   var nameHtml = url
     ? '<a href="' + url + '" target="_blank" rel="noopener noreferrer" class="item-link"' + tip + '>' + subName + '</a>'
     : (tip ? '<span' + tip + '>' + subName + '</span>' : subName);
+  var gearHtml = '';
+  if (hdYtItems[key]) {
+    var ytCur = hdYtActions.items[key] || {};
+    var ytAnyOn = false;
+    for (var _a in ytCur) { if (ytCur[_a]) { ytAnyOn = true; break; } }
+    gearHtml = ' <button type="button" class="hd-yt-gear' + (ytAnyOn ? ' active' : '') +
+               '" id="hd_yt_gear_' + safeId + '" title="U-Haven channel actions" ' +
+               'onclick="hdOpenYTActions(\'' + ek + '\')">&#9881;</button>';
+  }
   return '<tr data-key="' + key + '">' +
-    '<td>' + nameHtml + catHtml + '</td>' +
+    '<td>' + nameHtml + gearHtml + catHtml + '</td>' +
     '<td class="c"><input type="checkbox" title="Filter this provider — it won&#39;t load on your network." id="' + blkId + '"' + (cur==='block'?' checked':'') + ' onchange="hdToggle(\'' + ek + '\',\'block\',\'' + delId + '\')"></td>' +
     '<td class="c hd-delayed-col"><input type="checkbox" title="Allow this provider only for the daily minutes set above, then filter it." id="' + delId + '"' + (cur==='delayed'?' checked':'') + ' onchange="hdToggle(\'' + ek + '\',\'delayed\',\'' + blkId + '\')"></td>' +
     hdStatCells(key) +
@@ -486,6 +528,15 @@ function hdSelect(index) {
   if (item) item.classList.add('hd-selected');
   var cat = hdDataset[index];
   document.getElementById('hd-sub-title').textContent = cat[0];
+  // Per-category Remote Filter: bind the header dropdown to this category.
+  var rrow = document.getElementById('hd-remote-conn-row');
+  var rsel = document.getElementById('hd-cat-remote-sel');
+  if (rrow && rsel) {
+    rrow.style.display = '';
+    rsel.setAttribute('data-remote-cat', cat[0]);
+    var rv = hdRemoteFilters[cat[0]];
+    rsel.value = (rv === 'full' || rv === 'none') ? rv : 'fast';   // Fast = default; Full is the rare, deliberate choice
+  }
   var tbody = document.getElementById('hd-sub-body');
   tbody.innerHTML = '';
   for (var j = 0; j < cat[1].length; j++) {
@@ -538,6 +589,8 @@ function hdSearch(term) {
   document.getElementById('hd-sub-title').textContent = count > 0
     ? 'Search results (' + count + ' match' + (count > 1 ? 'es' : '') + ')'
     : 'No results found';
+  var rrow = document.getElementById('hd-remote-conn-row');
+  if (rrow) rrow.style.display = 'none';   // mixed categories — no single strategy
 }
 
 function hdClear() {
@@ -724,6 +777,23 @@ function hdHandleImport(input) {
       input.value = '';
       return;
     }
+    // Dry-run preview: report what the file holds before anything is applied —
+    // mirrors the router's config_import dry_run:'1' step (check first, act second).
+    var prefCount = 0;
+    for (var pk in newSettings) { if (newSettings[pk]) prefCount++; }
+    var deviceCount = (doc && doc.devices && doc.devices.length) || 0;
+    var whitelistCount = (doc && doc.whitelist && doc.whitelist.length) || 0;
+    var summary =
+      'This file contains:\n' +
+      '  • ' + prefCount + ' filter settings\n' +
+      '  • ' + deviceCount + ' devices\n' +
+      '  • ' + whitelistCount + ' always-allow addresses\n' +
+      '\nOK = Apply these settings to the demo (replaces what you have here).\nCancel = do nothing.';
+    if (!confirm(summary)) {
+      hdShowMsg('Import cancelled — nothing changed.', '#555');
+      input.value = '';
+      return;
+    }
     if (delayMin !== null && !isNaN(delayMin)) {
       document.getElementById('hd-temp-min').value = delayMin;
     }
@@ -744,7 +814,8 @@ function hdSave() {
   var data = {
     s: clean,
     m: document.getElementById('hd-temp-min').value,
-    w: wlArea ? wlArea.value : ''
+    w: wlArea ? wlArea.value : '',
+    r: hdRemoteFilters
   };
   try { localStorage.setItem('havenDemo', JSON.stringify(data)); } catch (e) {}
   hdMarkClean();
@@ -763,6 +834,7 @@ function hdLoad() {
       var wl = document.getElementById('hd-whitelist-area');
       if (wl) wl.value = data.w;
     }
+    if (data.r) hdRemoteFilters = data.r;
   } catch(e) {}
 }
 
@@ -791,15 +863,299 @@ function hdAllowDomain(domain) {
 }
 
 // Illustrative parity features (demo facade, mirrors the live Helm) -----------
+// Alternates so a visitor clicking "Check for updates" genuinely sees both
+// states, not a permanently-green stub — odd clicks find an update, even
+// clicks report latest, same as flipping a coin would but deterministic
+// enough to demo reliably.
+var hdUpdateCheckCount = 0;
 function hdCheckUpdate() {
   var s = document.getElementById('hd-update-status');
   if (!s) return;
   s.textContent = 'Checking…';
-  setTimeout(function () { s.textContent = "You're running the latest version."; }, 700);
+  hdUpdateCheckCount++;
+  setTimeout(function () {
+    if (hdUpdateCheckCount % 2 === 1) {
+      document.getElementById('hd-update-text').textContent = 'A newer version of Haven is available.';
+      document.getElementById('hd-update-banner').style.display = '';
+      s.textContent = '';
+    } else {
+      document.getElementById('hd-update-banner').style.display = 'none';
+      s.textContent = "You're on the latest version.";
+    }
+  }, 700);
+}
+function hdApplyHavenUpdate() {
+  if (!confirm('Update Haven now?\n\nThis restarts your Haven. Your internet will drop for about 2 minutes, then reconnect automatically.')) return;
+  var b = document.getElementById('hd-update-banner');
+  b.innerHTML = 'Updating Haven… your internet will drop briefly, then reconnect. This page will be unavailable for about 2 minutes — no action needed.';
+  setTimeout(function () {
+    b.style.display = 'none';
+    var rv = document.getElementById('hd-running-version');
+    if (rv) rv.textContent = 'Running Haven ' + HD_CURRENT_VERSION;
+    hdShowMsg('Update applied. (Demo simulation — a live Haven actually reboots.)', '#007a40');
+  }, 2200);
 }
 function hdToggleYTMaster() {
+  var cb = document.getElementById('hd-yt-master-cb');
+  hdYtActions.master = !!(cb && cb.checked);
   hdMarkDirty();
 }
+
+// ---- U-Haven per-channel gear modal -----------------------------------
+function hdOpenYTActions(itemKey) {
+  hdYtCurrentKey = itemKey;
+  var name = hdKeyNameMap[itemKey] || itemKey;
+  document.getElementById('hd-yt-actions-modal-title').textContent = 'U-Haven channel actions for ' + name;
+  var cur = hdYtActions.items[itemKey] || {};
+  var cb = document.getElementById('hd-yt-act-dont-recommend');
+  if (cb) cb.checked = !!cur.dont_recommend;
+  var m = document.getElementById('hd-yt-actions-modal');
+  if (m) m.style.display = 'flex';
+}
+function hdCloseYTActions() {
+  var m = document.getElementById('hd-yt-actions-modal');
+  if (m) m.style.display = 'none';
+  hdYtCurrentKey = null;
+}
+function hdToggleYTAction(on) {
+  if (!hdYtCurrentKey) return;
+  hdYtActions.items[hdYtCurrentKey] = hdYtActions.items[hdYtCurrentKey] || {};
+  hdYtActions.items[hdYtCurrentKey].dont_recommend = !!on;
+  if (!on) delete hdYtActions.items[hdYtCurrentKey];
+  hdMarkDirty();
+  var safeId = hdYtCurrentKey.replace(/\//g, '__');
+  var gear = document.getElementById('hd_yt_gear_' + safeId);
+  if (gear) gear.classList.toggle('active', !!on);
+}
+
+// ---- Suspected ads & trackers advisory bar -----------------------------
+var HD_SAMPLE_ADVISORIES = [
+  { name: 'metrics.adnexus-cdn.net', confidence: 96 },
+  { name: 'px.trackwave.io', confidence: 88 },
+  { name: 'beacon.clickfunnel-ads.com', confidence: 74 }
+];
+function hdAdqConfidenceLabel(c) {
+  if (c >= 99) return 'very high confidence';
+  if (c >= 90) return 'high confidence';
+  if (c >= 80) return 'moderate confidence';
+  return 'flagged by Haven';
+}
+function hdRenderAdvisories() {
+  var bar = document.getElementById('hd-adq-advisory-bar');
+  var box = document.getElementById('hd-adq-advisory-list');
+  if (!bar || !box) return;
+  box.innerHTML = HD_SAMPLE_ADVISORIES.map(function (a) {
+    return '<div class="hd-adq-card" data-name="' + a.name + '">' +
+      '<span class="hd-adq-dst">' + a.name + '</span>' +
+      '<span class="hd-adq-meta"><span class="hd-adq-badge">' + hdAdqConfidenceLabel(a.confidence) + '</span></span>' +
+      '<button type="button" class="hd-adq-btn hd-adq-block" title="Blocks this suspected ad or tracker." onclick="hdApplyAdvisory(\'' + a.name + '\',\'block\',this)">Block</button>' +
+      '<button type="button" class="hd-adq-btn hd-adq-allow" title="Keeps this allowed and dismisses the notice." onclick="hdApplyAdvisory(\'' + a.name + '\',\'allow\',this)">Allow</button>' +
+      '</div>';
+  }).join('');
+  bar.style.display = HD_SAMPLE_ADVISORIES.length ? '' : 'none';
+}
+function hdApplyAdvisory(name, verdict, btn) {
+  var card = btn.closest ? btn.closest('.hd-adq-card') : btn.parentNode;
+  var btns = card.querySelectorAll('.hd-adq-btn');
+  for (var i = 0; i < btns.length; i++) btns[i].disabled = true;
+  setTimeout(function () {
+    card.parentNode.removeChild(card);
+    HD_SAMPLE_ADVISORIES = HD_SAMPLE_ADVISORIES.filter(function (a) { return a.name !== name; });
+    var box = document.getElementById('hd-adq-advisory-list');
+    if (box && !box.children.length) document.getElementById('hd-adq-advisory-bar').style.display = 'none';
+    hdShowMsg(verdict === 'block' ? 'Blocked: ' + name : 'Allowed: ' + name, '#007a40');
+  }, 250);
+}
+
+// ---- Canvas-drawn QR-style placeholder (illustrative — encodes nothing) --
+function hdDrawFakeQR(containerId, seed) {
+  var box = document.getElementById(containerId);
+  if (!box) return;
+  box.innerHTML = '';
+  var size = box.clientWidth || 180;
+  var canvas = document.createElement('canvas');
+  canvas.width = size; canvas.height = size;
+  box.appendChild(canvas);
+  var ctx = canvas.getContext('2d');
+  var cells = 21;
+  var cs = size / cells;
+  ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, size, size);
+  ctx.fillStyle = '#111';
+  var h = 0;
+  for (var i = 0; i < seed.length; i++) h = (h * 31 + seed.charCodeAt(i)) >>> 0;
+  function rnd() { h = (h * 1103515245 + 12345) >>> 0; return (h >>> 16) % 100; }
+  for (var y = 0; y < cells; y++) {
+    for (var x = 0; x < cells; x++) {
+      if (rnd() < 46) ctx.fillRect(Math.round(x * cs), Math.round(y * cs), Math.ceil(cs), Math.ceil(cs));
+    }
+  }
+  // Finder squares (top-left, top-right, bottom-left) — the QR "tell".
+  [[0, 0], [cells - 7, 0], [0, cells - 7]].forEach(function (p) {
+    ctx.fillStyle = '#fff'; ctx.fillRect(p[0] * cs, p[1] * cs, 7 * cs, 7 * cs);
+    ctx.fillStyle = '#111'; ctx.fillRect(p[0] * cs, p[1] * cs, 7 * cs, 7 * cs);
+    ctx.fillStyle = '#fff'; ctx.fillRect((p[0] + 1) * cs, (p[1] + 1) * cs, 5 * cs, 5 * cs);
+    ctx.fillStyle = '#111'; ctx.fillRect((p[0] + 2) * cs, (p[1] + 2) * cs, 3 * cs, 3 * cs);
+  });
+}
+
+// ---- Pair a phone: illustrative pairing code + QR + countdown -----------
+var hdPairCountdownTimer = null;
+function hdOpenPairModal() {
+  var m = document.getElementById('hd-pair-modal');
+  if (m) m.style.display = 'flex';
+  hdGeneratePairCode();
+}
+function hdClosePairModal() {
+  var m = document.getElementById('hd-pair-modal');
+  if (m) m.style.display = 'none';
+  if (hdPairCountdownTimer) { clearInterval(hdPairCountdownTimer); hdPairCountdownTimer = null; }
+}
+function hdGeneratePairCode() {
+  var codeEl = document.getElementById('hd-pair-code');
+  var msgEl = document.getElementById('hd-pair-expiry');
+  if (!codeEl) return;
+  var code = Math.random().toString(36).slice(2, 8).toUpperCase();
+  codeEl.textContent = code;
+  hdDrawFakeQR('hd-pair-qr', 'haven://pair?code=' + code);
+  var expires = Date.now() / 1000 + 300;   // 5-minute code, like the live pairing flow
+  if (hdPairCountdownTimer) clearInterval(hdPairCountdownTimer);
+  function tick() {
+    var secs = Math.max(0, Math.round(expires - Date.now() / 1000));
+    if (secs <= 0) { msgEl.textContent = 'This code has expired — tap Regenerate.'; clearInterval(hdPairCountdownTimer); hdPairCountdownTimer = null; return; }
+    var m = Math.floor(secs / 60), s = secs % 60;
+    msgEl.textContent = 'Code valid for ' + m + ':' + (s < 10 ? '0' : '') + s;
+  }
+  tick(); hdPairCountdownTimer = setInterval(tick, 1000);
+}
+function hdRegeneratePairCode() { hdGeneratePairCode(); }
+
+// ---- Off-network QR (device-specific) ------------------------------------
+function hdDeviceSchedule() { hdOpenScheduleModal(); }
+function hdDeviceOffnetQR() {
+  var sel = document.getElementById('hd-device-picker');
+  var devName = (sel && sel.value) ? sel.value : 'this device';
+  document.getElementById('hd-offnet-title').textContent = 'Deploy off-base filtering for ' + devName + '.';
+  var slug = devName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+  var host = (slug || 'demo') + '.dns.lulhaven.com';
+  document.getElementById('hd-offnet-host').textContent = host;
+  hdDrawFakeQR('hd-offnet-qr', 'https://lulhaven.com/off-network?h=' + host);
+  var m = document.getElementById('hd-offnet-modal');
+  if (m) m.style.display = 'flex';
+}
+function hdCloseOffnetModal() { var m = document.getElementById('hd-offnet-modal'); if (m) m.style.display = 'none'; }
+function hdCopyOffnetHost() {
+  var host = document.getElementById('hd-offnet-host').textContent;
+  var btn = document.getElementById('hd-offnet-copy-btn');
+  var done = function () { var o = btn.textContent; btn.textContent = 'Copied'; setTimeout(function () { btn.textContent = o; }, 1500); };
+  if (navigator.clipboard && window.isSecureContext) { navigator.clipboard.writeText(host).then(done, done); }
+  else { done(); }
+}
+
+// ---- Access Schedule editor (click-drag hour grid, per device) ----------
+var HD_SCHED_DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+var hdSchedByDevice = {};   // device name -> [ [24 bools], ... x7 ], true = open
+function hdDefaultSchedule() {
+  var days = [];
+  for (var d = 0; d < 7; d++) {
+    var hrs = [];
+    for (var h = 0; h < 24; h++) hrs.push(h >= 7 && h < 22);   // 7am–10pm default
+    days.push(hrs);
+  }
+  return days;
+}
+var hdSchedDragging = false, hdSchedPaintValue = true;
+function hdOpenScheduleModal() {
+  var sel = document.getElementById('hd-device-picker');
+  var devName = (sel && sel.value) ? sel.value : 'this device';
+  document.getElementById('hd-sched-title').textContent = 'Access Schedule — ' + devName;
+  if (!hdSchedByDevice[devName]) hdSchedByDevice[devName] = hdDefaultSchedule();
+  hdSchedCurrentDevice = devName;
+  hdBuildSchedGrid();
+  var m = document.getElementById('hd-sched-modal');
+  if (m) m.style.display = 'flex';
+}
+var hdSchedCurrentDevice = null;
+function hdCloseScheduleModal() { var m = document.getElementById('hd-sched-modal'); if (m) m.style.display = 'none'; }
+function hdBuildSchedGrid() {
+  var hl = document.getElementById('hd-sched-hour-labels');
+  hl.innerHTML = [0, 4, 8, 12, 16, 20, 24].map(function (h) {
+    return '<span>' + (h === 0 || h === 24 ? '12a' : h === 12 ? '12p' : h > 12 ? (h - 12) + 'p' : h + 'a') + '</span>';
+  }).join('');
+  var cont = document.getElementById('hd-sched-day-rows');
+  var state = hdSchedByDevice[hdSchedCurrentDevice];
+  cont.innerHTML = HD_SCHED_DAYS.map(function (name, di) {
+    var cells = state[di].map(function (open, hi) {
+      return '<div class="hd-sched-cell' + (open ? '' : ' hd-blocked-hr') + '" data-day="' + di + '" data-hour="' + hi + '"' +
+        ' onmousedown="hdSchedPaintStart(this)" onmouseenter="hdSchedPaintOver(this)"></div>';
+    }).join('');
+    return '<div class="hd-sched-day-row"><div class="hd-sched-day-name">' + name + '</div><div class="hd-sched-bar">' + cells + '</div></div>';
+  }).join('');
+}
+function hdSchedSetCell(el, open) {
+  var di = parseInt(el.getAttribute('data-day'), 10);
+  var hi = parseInt(el.getAttribute('data-hour'), 10);
+  hdSchedByDevice[hdSchedCurrentDevice][di][hi] = open;
+  el.classList.toggle('hd-blocked-hr', !open);
+}
+function hdSchedPaintStart(el) {
+  hdSchedDragging = true;
+  var di = parseInt(el.getAttribute('data-day'), 10), hi = parseInt(el.getAttribute('data-hour'), 10);
+  hdSchedPaintValue = !hdSchedByDevice[hdSchedCurrentDevice][di][hi];
+  hdSchedSetCell(el, hdSchedPaintValue);
+  hdMarkDirty();
+}
+function hdSchedPaintOver(el) {
+  if (!hdSchedDragging) return;
+  hdSchedSetCell(el, hdSchedPaintValue);
+}
+document.addEventListener('mouseup', function () { hdSchedDragging = false; });
+function hdSaveSchedule() {
+  hdCloseScheduleModal();
+  hdMarkDirty();
+  hdShowMsg('Schedule saved for ' + hdSchedCurrentDevice + '.', '#007a40');
+}
+
+// ---- Apps modal: per-app remote-connection pin ---------------------------
+function hdSetAppOverride(sel) {
+  var app = sel.getAttribute('data-app');
+  var badge = document.getElementById('hd-app-badge-' + app);
+  if (!badge) return;
+  var CONN = { full: 'Full', fast: 'Fast', none: 'None' };
+  if (sel.value) {
+    badge.textContent = CONN[sel.value] + ' 📌';
+    badge.className = 'hd-conn-badge hd-conn-' + sel.value;
+  } else {
+    // Derived — fall back to this app's original demo-illustrative connection.
+    var orig = { yt: 'full', safari: 'fast', roblox: 'fast' }[app] || 'fast';
+    badge.textContent = CONN[orig];
+    badge.className = 'hd-conn-badge hd-conn-' + orig;
+  }
+  hdShowMsg('Remote connection for this app set to ' + (sel.options[sel.selectedIndex].text) + '.', '#0060a0');
+}
+
+// ---- Blocked-attempts report (printable) ---------------------------------
+function hdOpenReportModal() {
+  var byDevice = {};
+  HD_SAMPLE_LOG.forEach(function (e) {
+    (byDevice[e.device] = byDevice[e.device] || []).push(e);
+  });
+  var now = new Date();
+  document.getElementById('hd-report-date').textContent = now.toLocaleString();
+  var body = Object.keys(byDevice).sort().map(function (dev) {
+    var rows = byDevice[dev].map(function (e) {
+      return '<tr><td style="padding:4px 8px;">' + e.time + '</td><td style="padding:4px 8px;">' + e.domain +
+        '</td><td style="padding:4px 8px;">' + e.cat + '</td><td style="padding:4px 8px;">' + e.item + '</td></tr>';
+    }).join('');
+    return '<h4 style="margin:14px 0 4px;color:#0a5c4a;">' + dev + ' — ' + byDevice[dev].length + ' blocked</h4>' +
+      '<table style="width:100%;border-collapse:collapse;font-size:0.85em;">' +
+      '<thead><tr style="text-align:left;border-bottom:1px solid rgba(0,0,0,0.15);"><th style="padding:4px 8px;">Time</th><th style="padding:4px 8px;">Domain</th><th style="padding:4px 8px;">Category</th><th style="padding:4px 8px;">Provider</th></tr></thead>' +
+      '<tbody>' + rows + '</tbody></table>';
+  }).join('');
+  document.getElementById('hd-report-body').innerHTML = body || '<p>No blocked attempts recorded.</p>';
+  var m = document.getElementById('hd-report-modal');
+  if (m) m.style.display = 'flex';
+}
+function hdCloseReportModal() { var m = document.getElementById('hd-report-modal'); if (m) m.style.display = 'none'; }
 
 // Device picker + per-device controls (illustrative — mirrors live "Filtering for").
 var HD_DEMO_DEVICES = ['Mom\'s phone','East Lounge TV','Sales department phones','Classroom Chromebooks','Lobby kiosk','Applicant kiosk','Guest Wi-Fi'];
@@ -826,10 +1182,6 @@ function hdRenameDevice() {
   var name = window.prompt('Rename this device:', sel.value);
   if (name) { var o = sel.options[sel.selectedIndex]; o.textContent = name; o.value = name; hdMarkDirty(); }
 }
-function hdDeviceSchedule() { hdShowMsg('Schedule access hours — available on a live Haven router.'); }
-function hdDeviceOffnetQR() { hdShowMsg('Off-network QR — pair this device to filter it away from home.'); }
-function hdOpenPairModal() { var m = document.getElementById('hd-pair-modal'); if (m) m.style.display = 'flex'; }
-function hdClosePairModal() { var m = document.getElementById('hd-pair-modal'); if (m) m.style.display = 'none'; }
 function hdOpenAppsModal() { var m = document.getElementById('hd-apps-modal'); if (m) m.style.display = 'flex'; }
 function hdCloseAppsModal() { var m = document.getElementById('hd-apps-modal'); if (m) m.style.display = 'none'; }
 
@@ -882,6 +1234,28 @@ function hdToggleLog() {
   var visible = panel.classList.toggle('hd-log-visible');
   btn.classList.toggle('active', visible);
   if (visible) hdRenderSampleLog();
+}
+
+// Refresh button: reshuffle order + re-timestamp the sample entries relative
+// to now, so the button visibly does something (illustrative — a live Haven
+// re-fetches real entries from the router).
+function hdRefreshLog() {
+  var status = document.getElementById('hd-log-status');
+  if (status) status.textContent = 'Loading...';
+  setTimeout(function () {
+    var now = Date.now();
+    for (var i = 0; i < HD_SAMPLE_LOG.length; i++) {
+      var t = new Date(now - i * 61000 - Math.floor(Math.random() * 20000));
+      function p2(n) { return (n < 10 ? '0' : '') + n; }
+      HD_SAMPLE_LOG[i].time = p2(t.getHours()) + ':' + p2(t.getMinutes()) + ':' + p2(t.getSeconds());
+    }
+    for (var j = HD_SAMPLE_LOG.length - 1; j > 0; j--) {
+      var k = Math.floor(Math.random() * (j + 1));
+      var tmp = HD_SAMPLE_LOG[j]; HD_SAMPLE_LOG[j] = HD_SAMPLE_LOG[k]; HD_SAMPLE_LOG[k] = tmp;
+    }
+    hdRenderSampleLog();
+    if (status) status.textContent = HD_SAMPLE_LOG.length + ' entries';
+  }, 400);
 }
 
 // Shift+click on the Log button opens the password-gated Build Maintenance UI
@@ -939,6 +1313,9 @@ document.addEventListener('DOMContentLoaded', function() {
   if (dm) dm.addEventListener('input', hdMarkDirty);
 });
 
+var _rvInit = document.getElementById('hd-running-version');
+if (_rvInit) _rvInit.textContent = 'Running Haven ' + HD_CURRENT_VERSION;
+
 hdRenderCatList();
 hdLoad();
 hdInitDevicePicker();
@@ -951,6 +1328,7 @@ for (var _i = 0; _i < hdDataset.length; _i++) {
 }
 hdSelect(_initialIdx);
 hdUpdateBadges();
+hdRenderAdvisories();
 hdBasicMode = true;
 hdApplyMode();
 hdUpdateBadges();
@@ -967,7 +1345,7 @@ hdUpdateBadges();
       for (var k in hdSettings) { if (hdSettings[k] && valid[k]) clean[k] = hdSettings[k]; }
       var dm = document.getElementById('hd-temp-min');
       var wl = document.getElementById('hd-whitelist-area');
-      var data = { s: clean, m: dm ? dm.value : '', w: wl ? wl.value : '' };
+      var data = { s: clean, m: dm ? dm.value : '', w: wl ? wl.value : '', r: hdRemoteFilters };
       localStorage.setItem('havenDemo', JSON.stringify(data));
     } catch (e) {}
   }

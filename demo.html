@@ -98,7 +98,7 @@
     color: #007a8a;
     font-weight: bold;
   }
-  #hd-search-bar button, #hd-az-btn, #hd-save-btn, #hd-export-btn, #hd-import-btn, #hd-filter-view-btn, #hd-mode-btn, #hd-log-btn, #hd-admin-btn, #hd-apps-btn {
+  #hd-search-bar button, #hd-az-btn, #hd-save-btn, #hd-export-btn, #hd-import-btn, #hd-filter-view-btn, #hd-mode-btn, #hd-log-btn, #hd-admin-btn, #hd-apps-btn, #hd-report-btn {
     appearance: none; -webkit-appearance: none;
     background: rgba(255,255,255,0.55);
     backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
@@ -109,8 +109,8 @@
     transition: all 0.2s ease;
   }
   #hd-search-bar button, #hd-az-btn { padding: 8px 14px; font-size: 0.9em; }
-  #hd-save-btn, #hd-export-btn, #hd-import-btn, #hd-filter-view-btn, #hd-mode-btn, #hd-log-btn, #hd-admin-btn, #hd-apps-btn { padding: 8px 18px; font-size: 1em; }
-  #hd-search-bar button:hover, #hd-az-btn:hover, #hd-save-btn:hover, #hd-export-btn:hover, #hd-import-btn:hover, #hd-filter-view-btn:hover, #hd-mode-btn:hover, #hd-log-btn:hover, #hd-admin-btn:hover, #hd-apps-btn:hover {
+  #hd-save-btn, #hd-export-btn, #hd-import-btn, #hd-filter-view-btn, #hd-mode-btn, #hd-log-btn, #hd-admin-btn, #hd-apps-btn, #hd-report-btn { padding: 8px 18px; font-size: 1em; }
+  #hd-search-bar button:hover, #hd-az-btn:hover, #hd-save-btn:hover, #hd-export-btn:hover, #hd-import-btn:hover, #hd-filter-view-btn:hover, #hd-mode-btn:hover, #hd-log-btn:hover, #hd-admin-btn:hover, #hd-apps-btn:hover, #hd-report-btn:hover {
     background: rgba(255,255,255,0.8);
     border-color: rgba(0,0,0,0.35);
     transform: translateY(-1px);
@@ -279,6 +279,54 @@
   #hd-preset-modal-btns button { appearance:none; -webkit-appearance:none; background:rgba(255,255,255,0.55); backdrop-filter:blur(10px); border:1px solid rgba(0,0,0,0.2); border-radius:8px; cursor:pointer; font-family:inherit; padding:8px 18px; font-size:0.9em; color:#111; }
   #hd-preset-modal-btns button:hover { background:rgba(255,255,255,0.8); border-color:rgba(0,0,0,0.35); }
 
+  /* Per-category Remote Filter dropdown on the sub-panel header */
+  #hd-sub-head { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
+  #hd-sub-head h3 { margin: 0; }
+  #hd-remote-conn-row { font-size: 0.85em; white-space: nowrap; }
+  #hd-remote-conn-row label { font-weight: 600; margin-right: 6px; color: rgba(0,0,0,0.7); }
+  #hd-cat-remote-sel { background: rgba(255,255,255,0.88); border: 1px solid rgba(0,0,0,0.2); border-radius: 6px; padding: 3px 6px; }
+  #haven-demo.hd-basic #hd-remote-conn-row { display: none !important; }
+
+  /* Suspected ads & trackers advisory bar */
+  #hd-adq-advisory-bar { margin: 0 0 12px; padding: 12px 16px; border-left: 4px solid #0a5c4a; }
+  .hd-adq-card { display: flex; align-items: center; gap: 12px; padding: 8px 4px; border-top: 1px solid rgba(0,0,0,0.08); }
+  .hd-adq-card .hd-adq-dst { font-family: monospace; color: #12303a; word-break: break-all; }
+  .hd-adq-card .hd-adq-meta { flex: 1 1 auto; font-size: 12px; color: #567; }
+  .hd-adq-badge { display: inline-block; padding: 1px 7px; border-radius: 8px; background: #e6f4ef; color: #0a5c4a; font-size: 11px; margin-right: 6px; }
+  .hd-adq-btn { border: none; border-radius: 7px; padding: 5px 14px; cursor: pointer; font-weight: bold; }
+  .hd-adq-block { background: #0a5c4a; color: #fff; }
+  .hd-adq-allow { background: #e8e8ea; color: #333; }
+  .hd-adq-btn[disabled] { opacity: 0.5; cursor: default; }
+
+  /* YouTube gear + actions modal */
+  .hd-yt-gear { display: inline-block; margin-left: 6px; cursor: pointer; opacity: 0.45; font-size: 1em; background: none; border: none; padding: 0 2px; transition: opacity 0.15s ease, transform 0.15s ease, color 0.15s ease; color: inherit; }
+  .hd-yt-gear:hover { opacity: 1; transform: rotate(30deg); }
+  .hd-yt-gear.active { opacity: 1; color: #c00; }
+
+  /* Access Schedule grid */
+  #hd-sched-hour-labels { display: flex; justify-content: space-between; font-size: 0.6rem; color: rgba(0,0,0,0.4); margin-left: 38px; margin-bottom: 3px; }
+  .hd-sched-day-row { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
+  .hd-sched-day-name { width: 30px; font-size: 0.72rem; color: rgba(0,0,0,0.5); text-align: right; flex-shrink: 0; }
+  .hd-sched-bar { position: relative; flex: 1; height: 22px; display: flex; border-radius: 5px; overflow: hidden; user-select: none; }
+  .hd-sched-cell { flex: 1; background: #007a40; cursor: pointer; border-right: 1px solid rgba(255,255,255,0.35); }
+  .hd-sched-cell.hd-blocked-hr { background: #c0392b; }
+  .hd-sched-cell:last-child { border-right: none; }
+
+  /* Apps modal remote-connection pin */
+  .hd-conn-badge { display: inline-block; padding: 1px 10px; border-radius: 10px; font-weight: 600; font-size: 0.9em; }
+  .hd-conn-full { background: rgba(0,120,130,0.15); color: #00646f; }
+  .hd-conn-fast { background: rgba(168,109,0,0.15); color: #7a5200; }
+  .hd-conn-none { background: rgba(0,0,0,0.08); color: #555; }
+  select.hd-app-pin { font-size: 0.85em; padding: 1px 3px; margin-left: 6px; background: rgba(255,255,255,0.9); border: 1px solid rgba(0,0,0,0.2); border-radius: 6px; }
+
+  /* Report modal print affordance — only the report body survives print */
+  @media print {
+    body * { visibility: hidden; }
+    #hd-report-modal, #hd-report-modal * { visibility: visible; }
+    #hd-report-modal { position: absolute; inset: 0; background: #fff !important; }
+    #hd-report-modal button { display: none !important; }
+  }
+
   @media (max-width: 540px) {
     #hd-layout { flex-direction: column; }
     #hd-cats { flex: none; overflow-x: auto; overflow-y: hidden; }
@@ -297,8 +345,13 @@
     <a id="hd-back" title="Return to the previous page." href="index.html" style="display:none; margin-bottom:14px; font-weight:bold; font-size:16px; text-decoration:none; color:#16465f;">&larr; Back</a>
     <script>(function(){if(window.top===window.self){var b=document.getElementById('hd-back');if(b){b.style.display='inline-block';b.addEventListener('click',function(e){if(window.history.length>1){e.preventDefault();history.back();}});}}})();</script>
 
+    <div id="hd-update-banner" style="display:none;margin:0 0 12px 0;padding:12px 16px;border-radius:8px;background:#e8f4ff;border:1px solid #7fbfff;color:#0b3d66;font-weight:bold;">
+      <span id="hd-update-text"></span>
+      <button type="button" title="Installs the waiting Haven update." onclick="hdApplyHavenUpdate()" style="margin-left:12px;font-weight:bold;">Update now</button>
+      <button type="button" title="Hide this update notice." onclick="this.parentNode.style.display='none'" style="margin-left:6px;font-weight:normal;">Dismiss</button>
+    </div>
     <div id="hd-update-check" style="margin:0 0 12px 0;font-size:0.9em;color:#555;">
-      <span id="hd-running-version" title="The Haven firmware version this router is running.">Running Haven 0.1.75</span>
+      <span id="hd-running-version" title="The Haven firmware version this router is running.">Running Haven</span>
       <button type="button" id="hd-check-update-btn" title="Check now for a newer Haven release." onclick="hdCheckUpdate()" style="margin-left:8px;padding:3px 10px;">Check for updates</button>
       <span id="hd-update-status" style="margin-left:8px;color:#007a40;font-weight:bold;"></span>
     </div>
@@ -331,6 +384,7 @@
       <button id="hd-log-btn" title="See what's been filtered and when — and the whitelist." onclick="hdHandleLogClick(event)">Log</button>
       <button id="hd-admin-btn" title="Manage who's allowed to change these settings." onclick="hdToggleAdminPanel()">Admins</button>
       <button id="hd-apps-btn" title="Apps reported by paired phones, and the remote connection each would use." onclick="hdOpenAppsModal()">Apps</button>
+      <button id="hd-report-btn" title="A printable report of blocked attempts, by device — save as PDF and take it to a meeting." onclick="hdOpenReportModal()">Report</button>
       <p class="subtitle">Click a category, click a content provider, and click Save. This, right here, right now, is exactly how Haven works.</p>
     </div>
 
@@ -363,6 +417,14 @@
     </div>
     <script>function hdShowYtDetails(){ document.getElementById('hd-details-modal').style.display='flex'; }</script>
 
+    <div id="hd-adq-advisory-bar" class="hd-glass" style="display:none">
+      <div style="display:flex;flex-direction:column;margin-bottom:6px;">
+        <span style="font-weight:bold;font-size:15px;color:#0a5c4a;">Suspected ads &amp; trackers</span>
+        <span style="font-size:12px;color:#456;">Haven's Tutored Modeling flagged these connections as likely ads or trackers. Block or Allow.</span>
+      </div>
+      <div id="hd-adq-advisory-list"></div>
+    </div>
+
     <div id="hd-search-bar">
       <input type="text" id="hd-search-input" title="Search every category and content provider by name." placeholder="Search contents... (e.g. Fox, Apple, CNN)" oninput="hdSearch(this.value)">
       <button onclick="hdClear()" title="Clear the search box.">Clear</button>
@@ -378,7 +440,17 @@
         </div>
       </div>
       <div id="hd-subs" class="hd-glass">
-        <h3 id="hd-sub-title">Select a category</h3>
+        <div id="hd-sub-head">
+          <h3 id="hd-sub-title">Select a category</h3>
+          <div id="hd-remote-conn-row" title="How this category follows a device off-network. Full = traffic comes home to Haven for thorough filtering. Fast = quick checks only, easier on battery. None = not filtered remotely.">
+            <label for="hd-cat-remote-sel">Remote connection:</label>
+            <select id="hd-cat-remote-sel" onchange="hdCatRemoteChanged(this)">
+              <option value="full">Full</option>
+              <option value="fast">Fast</option>
+              <option value="none">None</option>
+            </select>
+          </div>
+        </div>
         <table id="hd-sub-table">
           <thead>
             <tr>
@@ -459,6 +531,10 @@
     </div>
 
     <div id="hd-log-panel" class="hd-glass">
+      <div id="hd-log-top-bar" style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+        <span id="hd-log-status" style="font-size:0.85em;color:rgba(0,0,0,0.5);flex:1;">Recent filtered requests</span>
+        <button onclick="hdRefreshLog()" title="Reload the activity log.">Refresh</button>
+      </div>
       <p id="hd-log-notice">The activity log shows recent filtered requests on your real Haven router at <span style="font-family:monospace">192.168.1.1 → Haven → Log</span>. The sample below illustrates the experience.</p>
       <table id="hd-log-table" style="width:100%;border-collapse:collapse;margin-top:10px;">
         <thead>
@@ -485,7 +561,17 @@
 </div>
 
 <div style="padding:16px 20px;border-top:1px solid rgba(0,0,0,0.08);margin-top:16px;text-align:center;">
-  <a href="get-uhaven.html" title="Download U-Haven — a filtered way to watch YouTube (requires Haven to filter)." style="display:inline-block;padding:8px 18px;background:rgba(0,100,160,0.12);border:1px solid rgba(0,100,160,0.35);border-radius:6px;color:#005a9e;font-weight:bold;text-decoration:none;font-size:0.95em;">Download U-Haven</a>
+  <div style="display:flex;flex-wrap:wrap;gap:18px;justify-content:center;align-items:flex-start;margin-bottom:12px;">
+    <div style="max-width:220px;">
+      <a href="https://github.com/mndavew3/lulhaven.com/releases/download/u-haven-v1.0.0/U-Haven-android.apk" title="Download the U-Haven app for Android devices." style="display:inline-block;min-width:170px;text-align:center;padding:8px 18px;background:rgba(0,100,160,0.12);border:1px solid rgba(0,100,160,0.35);border-radius:6px;color:#005a9e;font-weight:bold;text-decoration:none;font-size:0.95em;">&#8595; U-Haven Android</a>
+      <div style="font-size:0.8em;color:#666;margin-top:4px;">Install U-Haven, the YouTube content filter app, on your phone, tablet, or Fire TV.</div>
+    </div>
+    <div style="max-width:220px;">
+      <a href="https://github.com/mndavew3/lulhaven.com/releases/download/u-haven-v1.0.0/U-Haven-1.0.0.AppImage" title="Download the U-Haven app for Linux computers." style="display:inline-block;min-width:170px;text-align:center;padding:8px 18px;background:rgba(0,100,160,0.12);border:1px solid rgba(0,100,160,0.35);border-radius:6px;color:#005a9e;font-weight:bold;text-decoration:none;font-size:0.95em;">&#8595; U-Haven Linux</a>
+      <div style="font-size:0.8em;color:#666;margin-top:4px;">Download the Linux build for your desktop or laptop.</div>
+    </div>
+  </div>
+  <p style="font-size:0.8em;color:#777;margin:0;">Filter lists updated as of: <span id="hd-lists-updated">August 12, 2026</span></p>
 </div>
 
 <div id="hd-preset-modal">
@@ -502,9 +588,79 @@
 <div id="hd-pair-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:1000;align-items:center;justify-content:center;">
   <div style="padding:24px 28px;max-width:420px;width:90%;text-align:center;background:#fff;border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,0.3);">
     <h3 style="margin:0 0 10px;color:#111;">Pair a phone</h3>
-    <div style="width:180px;height:180px;margin:0 auto 14px;border:2px dashed #0a5c4a;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#0a5c4a;font-size:0.85em;">[ QR code ]</div>
+    <div id="hd-pair-qr" style="width:180px;height:180px;margin:0 auto 14px;"></div>
+    <div style="display:flex;align-items:center;gap:6px;justify-content:center;margin:0 0 10px;">
+      <code id="hd-pair-code" style="font-family:monospace;background:#f0f2f4;padding:6px 10px;border-radius:6px;font-size:13px;color:#0a5c4a;font-weight:bold;">&hellip;</code>
+    </div>
+    <p id="hd-pair-expiry" style="font-size:12px;color:#567;margin:0 0 10px;min-height:1em;"></p>
     <p style="font-size:13px;color:#456;margin:0 0 14px;">Scan with the Haven companion app to pair this phone. Once paired, you can flag ads you see in apps and games, and Haven learns to filter them.</p>
+    <button onclick="hdRegeneratePairCode()" title="Generate a fresh pairing code." style="padding:6px 16px;margin-right:6px;">Regenerate</button>
     <button onclick="hdClosePairModal()" style="padding:6px 16px;">Close</button>
+  </div>
+</div>
+
+<div id="hd-offnet-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:1000;align-items:center;justify-content:center;" onclick="if(event.target===this)hdCloseOffnetModal()">
+  <div style="padding:24px 28px;max-width:420px;width:90%;text-align:center;background:#fff;border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,0.3);">
+    <h3 id="hd-offnet-title" style="margin-top:0;color:#111;">Deploy off-base filtering</h3>
+    <div id="hd-offnet-qr" style="width:200px;height:200px;margin:0 auto 14px;"></div>
+    <div style="display:flex;align-items:stretch;gap:6px;margin:0 0 14px;">
+      <code id="hd-offnet-host" style="flex:1;font-family:monospace;font-size:0.9em;word-break:break-all;background:rgba(0,0,0,0.06);padding:8px 10px;border-radius:6px;display:flex;align-items:center;justify-content:center;"></code>
+      <button id="hd-offnet-copy-btn" onclick="hdCopyOffnetHost()" title="Copy the address to the clipboard." style="padding:8px 16px;font-size:0.9em;">Copy</button>
+    </div>
+    <p style="font-size:0.85em;color:rgba(0,0,0,0.7);line-height:1.5;">On the phone, open <b>Settings &rarr; Network &amp; internet &rarr; Private DNS</b>, choose <b>Private DNS provider hostname</b>, and enter the address above &mdash; scan the code, or copy/type it if the device has no camera.</p>
+    <button onclick="hdCloseOffnetModal()" style="padding:8px 18px;margin-top:6px;">Return</button>
+  </div>
+</div>
+
+<div id="hd-report-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:1000;align-items:center;justify-content:center;" onclick="if(event.target===this)hdCloseReportModal()">
+  <div style="padding:20px 24px;max-width:640px;width:94%;max-height:82vh;overflow-y:auto;background:#fff;border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,0.3);text-align:left;">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;">
+      <h3 style="margin:0;color:#111;">Blocked-attempts report</h3>
+      <button onclick="hdCloseReportModal()" title="Close" style="padding:2px 8px;font-size:1rem;border:none;background:none;color:rgba(0,0,0,0.4);cursor:pointer;">&#10005;</button>
+    </div>
+    <p style="font-size:0.85em;color:#456;margin:0 0 12px;">Generated <span id="hd-report-date"></span> &middot; sample data for illustration</p>
+    <div id="hd-report-body"></div>
+    <div style="text-align:right;margin-top:14px;">
+      <button onclick="window.print()" title="Print or save this report as a PDF." style="padding:8px 18px;background:#0a5c4a;color:#fff;border:none;border-radius:6px;font-weight:bold;cursor:pointer;">Print</button>
+      <button onclick="hdCloseReportModal()" style="padding:8px 18px;">Close</button>
+    </div>
+  </div>
+</div>
+
+<div id="hd-yt-actions-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:1000;align-items:center;justify-content:center;" onclick="if(event.target===this)hdCloseYTActions()">
+  <div style="padding:22px 26px;max-width:460px;width:90%;background:#fff;border-radius:12px;box-shadow:0 6px 24px rgba(0,0,0,0.25);">
+    <h3 id="hd-yt-actions-modal-title" style="margin:0 0 6px;font-size:1.05em;color:#111;">U-Haven channel actions</h3>
+    <p style="color:rgba(0,0,0,0.55);font-size:0.85em;margin:0 0 12px;">Requires the master switch above to be on. Off by default.</p>
+    <div style="display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-top:1px solid rgba(0,0,0,0.06);">
+      <input type="checkbox" id="hd-yt-act-dont-recommend" style="margin-top:3px;transform:scale(1.1);" onchange="hdToggleYTAction(this.checked)">
+      <div>
+        <div style="font-weight:bold;color:#222;"><label for="hd-yt-act-dont-recommend">Don't show this channel</label></div>
+        <div style="color:rgba(0,0,0,0.6);font-size:0.85em;line-height:1.4;margin-top:3px;">U-Haven culls the channels under this item from what it shows in the wrapper — on this device, local or remote.</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:14px;">
+      <button onclick="hdCloseYTActions()" style="padding:6px 16px;font-size:0.9em;border:1px solid rgba(0,0,0,0.2);border-radius:6px;background:#fff;cursor:pointer;">Done</button>
+    </div>
+  </div>
+</div>
+
+<div id="hd-sched-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:1000;align-items:center;justify-content:center;" onclick="if(event.target===this)hdCloseScheduleModal()">
+  <div style="padding:22px 26px;width:600px;max-width:96vw;background:#fff;border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,0.25);">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;">
+      <h3 id="hd-sched-title" style="margin:0;color:#111;">Access Schedule</h3>
+      <button onclick="hdCloseScheduleModal()" title="Close without saving changes." style="padding:2px 8px;font-size:1rem;border:none;background:none;color:rgba(0,0,0,0.4);cursor:pointer;">&#10005;</button>
+    </div>
+    <p style="font-size:0.8em;color:rgba(0,0,0,0.5);margin:0 0 10px;">Green = access allowed &middot; Red = access blocked &middot; Click, or click-and-drag, to toggle hours.</p>
+    <div id="hd-sched-hour-labels"></div>
+    <div id="hd-sched-day-rows"></div>
+    <div style="display:flex;gap:14px;font-size:0.72rem;color:rgba(0,0,0,0.5);margin-top:10px;">
+      <span><span style="display:inline-block;width:10px;height:10px;background:#007a40;border-radius:2px;margin-right:4px;"></span>Access open</span>
+      <span><span style="display:inline-block;width:10px;height:10px;background:#c0392b;border-radius:2px;margin-right:4px;"></span>Access blocked</span>
+    </div>
+    <div style="text-align:right;margin-top:14px;">
+      <button onclick="hdCloseScheduleModal()" title="Close without saving changes." style="padding:6px 16px;">Cancel</button>
+      <button onclick="hdSaveSchedule()" title="Saves and applies this device's schedule." style="padding:6px 16px;background:#0a5c4a;color:#fff;border:none;border-radius:6px;margin-left:6px;">Save Schedule</button>
+    </div>
   </div>
 </div>
 
@@ -515,9 +671,9 @@
     <table style="width:100%;border-collapse:collapse;font-size:0.88em;">
       <thead><tr style="text-align:left;border-bottom:1px solid rgba(0,0,0,0.25);"><th style="padding:6px 8px;">App</th><th style="padding:6px 8px;">Device</th><th style="padding:6px 8px;">Remote connection</th></tr></thead>
       <tbody>
-        <tr><td style="padding:5px 8px;">YouTube</td><td style="padding:5px 8px;">Mom's phone</td><td style="padding:5px 8px;">Full</td></tr>
-        <tr><td style="padding:5px 8px;">Safari</td><td style="padding:5px 8px;">Mom's phone</td><td style="padding:5px 8px;">Fast</td></tr>
-        <tr><td style="padding:5px 8px;">Roblox</td><td style="padding:5px 8px;">Classroom Chromebooks</td><td style="padding:5px 8px;">Fast</td></tr>
+        <tr><td style="padding:5px 8px;">YouTube</td><td style="padding:5px 8px;">Mom's phone</td><td style="padding:5px 8px;"><span id="hd-app-badge-yt" class="hd-conn-badge hd-conn-full">Full</span> <select class="hd-app-pin" data-app="yt" title="Derived follows the category settings; pick Full/Fast/None to pin this app." onchange="hdSetAppOverride(this)"><option value="" selected>Derived</option><option value="full">Full</option><option value="fast">Fast</option><option value="none">None</option></select></td></tr>
+        <tr><td style="padding:5px 8px;">Safari</td><td style="padding:5px 8px;">Mom's phone</td><td style="padding:5px 8px;"><span id="hd-app-badge-safari" class="hd-conn-badge hd-conn-fast">Fast</span> <select class="hd-app-pin" data-app="safari" title="Derived follows the category settings; pick Full/Fast/None to pin this app." onchange="hdSetAppOverride(this)"><option value="" selected>Derived</option><option value="full">Full</option><option value="fast">Fast</option><option value="none">None</option></select></td></tr>
+        <tr><td style="padding:5px 8px;">Roblox</td><td style="padding:5px 8px;">Classroom Chromebooks</td><td style="padding:5px 8px;"><span id="hd-app-badge-roblox" class="hd-conn-badge hd-conn-fast">Fast</span> <select class="hd-app-pin" data-app="roblox" title="Derived follows the category settings; pick Full/Fast/None to pin this app." onchange="hdSetAppOverride(this)"><option value="" selected>Derived</option><option value="full">Full</option><option value="fast">Fast</option><option value="none">None</option></select></td></tr>
       </tbody>
     </table>
     <div style="text-align:right;margin-top:12px;"><button onclick="hdCloseAppsModal()" style="padding:6px 16px;">Close</button></div>
