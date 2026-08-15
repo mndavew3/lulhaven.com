@@ -1565,6 +1565,7 @@
     var r = saveProgress(campaignIndex, currentCleanliness());
     var oe = document.getElementById('over');
     if (oe) { var s = oe.querySelector('span'); if (s) s.textContent = 'Reached level ' + (campaignIndex + 1) + '. Score ' + r.score + (r.improved ? ' — new best.' : '.'); }
+    if (window.havenKyc) window.havenKyc.event('game_overrun', 'level' + (campaignIndex + 1) + ':score' + r.score);
   }
 
   // skipTutorial: the landing screen now offers Start (straight into the campaign) and
@@ -1663,8 +1664,14 @@
       }).catch(function (e) { err.textContent = 'Motion request failed: ' + e; });
     } else { listen(skipTutorial); }
   }
-  document.getElementById('goStart').onclick = function () { startRun(true); };
-  document.getElementById('goTutorial').onclick = function () { startRun(false); };
+  document.getElementById('goStart').onclick = function () {
+    if (window.havenKyc) window.havenKyc.event('game_start', 'skip_tutorial');
+    startRun(true);
+  };
+  document.getElementById('goTutorial').onclick = function () {
+    if (window.havenKyc) window.havenKyc.event('game_start', 'tutorial');
+    startRun(false);
+  };
 
   // Escape = the back/return key (Dave, 2026-08-15: "no elegant way to leave the
   // game"). Works from the main game and the tutorial alike, since they're the same
@@ -1880,5 +1887,10 @@
   requestAnimationFrame(tick);
 })();
 </script>
+<!-- Analytics beacon (Dave, 2026-08-15: the game page had none -- no pageviews, no
+     button presses, no manga-chapter clicks were ever visible). Loading this also
+     picks up the existing data-ev="manga_click"/"overrun_ad_click" tags on the
+     chapter and ad links for free, via kyc.js's own outbound-click handler. -->
+<script src="../js/kyc.js?v=2ed04668"></script>
 </body>
 </html>
