@@ -15,6 +15,12 @@
   .align-center { text-align: center !important; }
   body { background-image: linear-gradient(rgba(255,255,255,0.9),rgba(255,255,255,0.9)), url("assets/images/lulhaven20dock20line20art-1024x1536.png"); background-size:cover; background-position:center top; background-attachment:fixed; background-repeat:no-repeat; }
   .fun-back { display:block; text-align:center; padding:20px 0 60px; }
+  .play-haven-cta { color:#d4a017; text-decoration:none; display:inline-block; animation:play-haven-pulse 1.2s ease-in-out infinite; }
+  .play-haven-cta:hover, .play-haven-cta:focus { animation:none; color:#ffd700; }
+  @keyframes play-haven-pulse { 0%,100% { color:#d4a017; } 50% { color:#ffd700; } }
+  @media (prefers-reduced-motion: reduce) {
+    .play-haven-cta { animation:none; }
+  }
 </style>
 </head>
 <body>
@@ -24,10 +30,9 @@
 <section class="align-center container" style="padding-top:44px;">
   <div class="row justify-content-center">
     <div class="col-md-12 col-lg-9 mb-4">
-      <h1 class="mbr-section-title mbr-fonts-style display-1"><strong>The Haven Game</strong></h1>
-      <p class="mbr-text mbr-fonts-style mt-3 display-7">
-        <a href="lab/haven-game.html" style="color:#2b7a69;font-weight:700;text-decoration:none;">Play it &rarr;</a>
-      </p>
+      <h1 class="mbr-section-title mbr-fonts-style display-1">
+        <a href="lab/haven-game.html" class="play-haven-cta"><strong>Play Haven - The Game &rarr;</strong></a>
+      </h1>
     </div>
   </div>
 </section>
