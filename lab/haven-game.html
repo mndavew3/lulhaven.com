@@ -1564,6 +1564,10 @@
     levelStartMs = runStart; lastAdvanceMs = runStart; spawnAcc = 0;
     campaignIndex = 0; campaignComplete = false; totalBreaches = 0; hits = 0; stalls = 0;
     levelSpawned = 0; levelResolved = 0;
+    // Escape (2026-08-15) makes a second listen() call in one page load possible for
+    // the first time -- before, OVERRUN or the gate were dead ends needing a reload,
+    // so integrity/overrun never needed resetting here. Now they do.
+    integrity = 100; overrun = false;
     updateLevelChrome();
     updateGnomeUnlocks();
     document.body.classList.add('started');
@@ -1645,6 +1649,30 @@
   }
   document.getElementById('goStart').onclick = function () { startRun(true); };
   document.getElementById('goTutorial').onclick = function () { startRun(false); };
+
+  // Escape = the back/return key (Dave, 2026-08-15: "no elegant way to leave the
+  // game"). Works from the main game and the tutorial alike, since they're the same
+  // screen underneath -- skipTutorial only changes which toasts play, not which
+  // state 'started' means. A no-op at the gate itself: there is nothing further back.
+  function returnToGate() {
+    if (!document.body.classList.contains('started')) return;
+    runStart = 0;               // advance() checks !runStart and stops touching campaign state
+    clearTimeout(radarAttnTimer);
+    for (var i = TARGETS.length - 1; i >= 0; i--) {
+      var tEl = TARGETS[i].el;
+      if (tEl && tEl.parentNode) tEl.parentNode.removeChild(tEl);
+    }
+    TARGETS.length = 0;         // stale contacts must not carry into the next run
+    document.body.classList.remove('started', 'overrun');
+    gateEl.classList.remove('hide');
+    var exitFn = document.exitFullscreen || document.webkitExitFullscreen;
+    if ((document.fullscreenElement || document.webkitFullscreenElement) && exitFn) {
+      try { exitFn.call(document); } catch (e) {}
+    }
+  }
+  window.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') { e.preventDefault(); returnToGate(); }
+  });
 
   function tog(id, fn, on) {
     var b = document.getElementById(id);
