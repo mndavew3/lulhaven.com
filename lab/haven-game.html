@@ -233,10 +233,24 @@
                  color:#dff; background:#12312a; border:1px solid #2f6f5e; border-radius:8px; }
   .btns button.on { background:#2f6f5e; color:#fff; }
 
-  #gate { position:fixed; inset:0; display:flex; flex-direction:column; align-items:center;
-          justify-content:center; gap:16px; padding:28px; text-align:center; background:#07100e;
-          font-family:system-ui, sans-serif; color:#cfe;
-          overflow-y:auto; touch-action:pan-y; -webkit-overflow-scrolling:touch; }
+  /* Landing-screen background (Dave, 2026-08-15): the "wall of screens all diverted to
+     IP42" graphic sits behind the gate content, softened to read as atmosphere rather
+     than compete with it -- blurred + desaturated + darkened on a ::before layer (never
+     `filter` on #gate itself, which would blur the text too), plus a center vignette on
+     ::after so the copy stays legible. ::before/::after are position:fixed, not
+     absolute, and oversized past the viewport edges to hide the blur's soft border --
+     fixed elements don't contribute to any ancestor's scrollable area, so the oversize
+     never turns into a scrollbar (the bug an `absolute` version of this hit first). */
+  #gate { position:fixed; inset:0; background:#07100e; overflow-y:auto;
+          touch-action:pan-y; -webkit-overflow-scrolling:touch; }
+  #gate::before { content:''; position:fixed; inset:-30px; z-index:0;
+          background:url('../assets/images/game-ip42-wall.jpg') center center / cover no-repeat;
+          filter:blur(1.2px) saturate(.55) brightness(.62) contrast(.75); }
+  #gate::after { content:''; position:fixed; inset:0; z-index:1; pointer-events:none;
+          background:radial-gradient(ellipse 46% 42% at 50% 48%, rgba(4,10,9,.6) 0%, rgba(4,10,9,.3) 55%, rgba(4,10,9,0) 78%); }
+  #gate .gate-content { position:relative; z-index:2; min-height:100%; display:flex;
+          flex-direction:column; align-items:center; justify-content:center; gap:16px;
+          padding:28px; text-align:center; font-family:system-ui, sans-serif; color:#cfe; }
   #gate h1 { font-size:21px; font-weight:700; color:#fff; margin-bottom:-6px; }
   #gate p  { font-size:15px; line-height:1.6; max-width:24em; color:#9fc7b8; }
   #gate p.lead { color:#4fd6a8; font-weight:600; letter-spacing:.06em;
@@ -300,6 +314,7 @@
 </div>
 
 <div id="gate">
+ <div class="gate-content">
   <h1>Haven</h1>
   <!-- Dave, 2026-08-06: the synopsis says WHY you are looking at what you are looking
        at, and it is device-agnostic on purpose. This screen cannot know whether it is
@@ -324,6 +339,7 @@
     <button id="goTutorial" class="secondary">Tutorial</button>
   </div>
   <div id="err"></div>
+ </div>
 </div>
 
 <script>
