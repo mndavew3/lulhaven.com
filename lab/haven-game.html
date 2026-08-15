@@ -136,6 +136,38 @@
   #overAd .ad-tag { flex:0 0 auto; font:800 10px/1 system-ui, sans-serif; letter-spacing:.08em;
                      color:#888; border:1px solid #bbb; border-radius:3px; padding:2px 5px; }
   #overAd .ad-copy { font:500 13px/1.4 system-ui, sans-serif; color:#222; text-align:left; }
+  /* Between-level screen (Dave, 2026-08-15): same "mock ad for Haven" bit as #overAd,
+     shown for 5 seconds between levels. Clicking the ad opens lulhaven.com in a NEW
+     tab on purpose -- the run is paused, not ended, so the countdown/game must not
+     silently continue without the player watching. Once clicked, the countdown is
+     replaced by a Continue button instead of resuming on its own, so coming back from
+     the other tab is always a deliberate act, never a race against a timer. */
+  #levelAd { position:fixed; inset:0; z-index:9; display:none; flex-direction:column;
+             align-items:center; justify-content:center; text-align:center;
+             background:rgba(4,16,14,.86); backdrop-filter:blur(2px); padding:24px; }
+  #levelAd b { font:800 22px/1.3 system-ui, sans-serif; color:#fff; max-width:16em; }
+  #levelAd span { font:400 15px/1.5 system-ui, sans-serif; color:#9fc7b8; max-width:22em; }
+  body.levelad #levelAd { display:flex; }
+  /* Two beats, one at a time -- the intro flash, then the ad screen underneath it.
+     Each is its own flex column so toggling .show swaps between them cleanly. */
+  #levelAdIntro, #levelAdMain { display:none; flex-direction:column; align-items:center;
+                                 justify-content:center; gap:10px; }
+  #levelAdIntro.show, #levelAdMain.show { display:flex; }
+  #levelAdPortrait { width:96px; height:96px; border-radius:50%; object-fit:cover;
+                      border:2px solid rgba(79,214,168,.55);
+                      box-shadow:0 0 22px rgba(79,214,168,.28); margin-bottom:2px; }
+  #levelAdHero { width:100%; max-width:280px; border-radius:10px; object-fit:cover;
+                 border:1px solid rgba(79,214,168,.4);
+                 box-shadow:0 4px 18px rgba(0,0,0,.5); margin-bottom:2px; }
+  #levelAdCta { display:flex; align-items:center; gap:10px; margin-top:6px; padding:12px 16px;
+                max-width:26em; background:#f4f4f4; border-radius:6px; text-decoration:none;
+                box-shadow:0 2px 10px rgba(0,0,0,.35); }
+  #levelAdCta .ad-tag { flex:0 0 auto; font:800 10px/1 system-ui, sans-serif; letter-spacing:.08em;
+                         color:#888; border:1px solid #bbb; border-radius:3px; padding:2px 5px; }
+  #levelAdCta .ad-copy { font:500 13px/1.4 system-ui, sans-serif; color:#222; text-align:left; }
+  #levelAdCountdown { font:800 26px/1 system-ui, sans-serif; color:#4fd6a8; margin-top:4px; }
+  #levelAdContinue { padding:14px 30px; font:700 16px system-ui, sans-serif; color:#04140f;
+                      background:#4fd6a8; border:0; border-radius:11px; margin-top:4px; }
   /* A faint marker left at true centre while trimming, so it stays obvious how far the
      crosshair has been pulled off and which way it will snap back. */
   /* Radar (Dave, 2026-08-05): once targets can sit outside the view, the player needs to
@@ -296,6 +328,28 @@
     <div class="ad-tag">AD</div>
     <div class="ad-copy">If you had a Haven subscription, you wouldn't have to look at an ad. But here's your ad. And, by the way, it's for Haven.</div>
   </a>
+</div>
+<div id="levelAd">
+  <!-- Al's cold-open (Dave, 2026-08-15): a brief host-to-camera flash before "our
+       regularly scheduled shilling" -- old kids'-show-mascot energy, not a replacement
+       for the ad screen below it. -->
+  <div id="levelAdIntro">
+    <img id="levelAdPortrait" src="../assets/images/al-portrait.png" alt="Al">
+    <b>Al here.</b>
+    <span>Hello, boys and girls. I'm Al and this is Haven. When we're not busy saving
+      the planet, we come to homes like yours and we protect your network from IP42.</span>
+  </div>
+  <div id="levelAdMain">
+    <img id="levelAdHero" src="../assets/images/al-router-hero.jpg" alt="Al, with a Haven router">
+    <b>Haven does a lot.</b>
+    <span>One of the things it does? Eliminate ads like this.</span>
+    <a id="levelAdCta" href="https://lulhaven.com" target="_blank" rel="noopener" data-ev="interstitial_cta_click">
+      <div class="ad-tag">AD</div>
+      <div class="ad-copy">See what Haven actually does &rarr; lulhaven.com</div>
+    </a>
+    <div id="levelAdCountdown">5</div>
+    <button id="levelAdContinue" style="display:none;">Continue</button>
+  </div>
 </div>
 <div id="toast"></div>
 <div id="radarCallout"><span class="arrow">&#8599;</span>Radar</div>
@@ -532,6 +586,8 @@
   var levelSpawned = 0, levelResolved = 0;   // this level's own count — the pass condition
   var totalBreaches = 0;
   var campaignComplete = false;
+  var levelAdShowing = false, levelAdTimer = null, levelAdSecondsLeft = 5;   // between-level screen
+  var levelAdIntroTimer = null, LEVELAD_INTRO_MS = 2200;   // Al's cold-open, before the ad beat
 
   // ================= SPAWNER (ported from V1 Spawner.kt) =================
   // V1: fixed-rate accumulator — acc += dt; while (acc >= interval) spawn. Identical
@@ -585,7 +641,7 @@
     return clamp(levelSpawned / currentLevel().count, 0, 1);
   }
   function advance(nowMs) {
-    if (!runStart || campaignComplete || overrun) return;
+    if (!runStart || campaignComplete || overrun || levelAdShowing) return;
     var lv = currentLevel();
     var p = levelProgress(nowMs);
 
@@ -634,11 +690,7 @@
         campaignComplete = true;
         onCampaignComplete();
       } else {
-        levelStartMs = nowMs;
-        spawnAcc = 0; levelSpawned = 0; levelResolved = 0;
-        updateGnomeUnlocks();
-        updateLevelChrome();
-        toast('Level ' + CAMPAIGN[campaignIndex].n + '.', 3000);
+        showLevelAd();
       }
     }
   }
@@ -1573,6 +1625,57 @@
     if (window.havenKyc) window.havenKyc.event('game_overrun', 'level' + (campaignIndex + 1) + ':score' + r.score);
   }
 
+  // Between-level screen (Dave, 2026-08-15). The actual "start the next level" work
+  // used to run immediately on clearing a level; now it's deferred to beginLevel(),
+  // called only once this screen is dismissed -- either the 5s countdown finishing
+  // on its own, or the player clicking Continue after visiting the ad link.
+  function beginLevel() {
+    levelStartMs = performance.now();
+    spawnAcc = 0; levelSpawned = 0; levelResolved = 0;
+    updateGnomeUnlocks();
+    updateLevelChrome();
+    toast('Level ' + CAMPAIGN[campaignIndex].n + '.', 3000);
+  }
+  function showLevelAd() {
+    levelAdShowing = true;
+    document.body.classList.add('levelad');
+    var introEl = document.getElementById('levelAdIntro'), mainEl = document.getElementById('levelAdMain');
+    var cont = document.getElementById('levelAdContinue');
+    if (cont) cont.style.display = 'none';
+    if (mainEl) mainEl.classList.remove('show');
+    if (introEl) introEl.classList.add('show');
+    if (window.havenKyc) window.havenKyc.event('game_interstitial_shown', 'level' + CAMPAIGN[campaignIndex].n);
+    // Al's cold-open plays first, THEN the ad beat with its own countdown starts --
+    // "flash this on that screen before we resume with our regularly scheduled
+    // shilling" (Dave, 2026-08-15). Not part of the 5s countdown; it's a lead-in.
+    if (levelAdIntroTimer) clearTimeout(levelAdIntroTimer);
+    levelAdIntroTimer = setTimeout(function () {
+      levelAdIntroTimer = null;
+      if (introEl) introEl.classList.remove('show');
+      if (mainEl) mainEl.classList.add('show');
+      startLevelAdCountdown();
+    }, LEVELAD_INTRO_MS);
+  }
+  function startLevelAdCountdown() {
+    levelAdSecondsLeft = 5;
+    var cd = document.getElementById('levelAdCountdown');
+    if (cd) { cd.style.display = ''; cd.textContent = levelAdSecondsLeft; }
+    if (levelAdTimer) clearInterval(levelAdTimer);
+    levelAdTimer = setInterval(function () {
+      levelAdSecondsLeft--;
+      if (cd) cd.textContent = Math.max(levelAdSecondsLeft, 0);
+      if (levelAdSecondsLeft <= 0) { clearInterval(levelAdTimer); levelAdTimer = null; dismissLevelAd(); }
+    }, 1000);
+  }
+  function dismissLevelAd() {
+    if (levelAdIntroTimer) { clearTimeout(levelAdIntroTimer); levelAdIntroTimer = null; }
+    if (levelAdTimer) { clearInterval(levelAdTimer); levelAdTimer = null; }
+    levelAdShowing = false;
+    document.body.classList.remove('levelad');
+    lastAdvanceMs = performance.now();   // don't let the paused gap read as one giant frame
+    beginLevel();
+  }
+
   // skipTutorial: the landing screen now offers Start (straight into the campaign) and
   // Tutorial (today's coaching flow) as two buttons instead of one (Dave, 2026-08-10).
   // Fullscreen + motion permission are requested identically for both — that part cannot
@@ -1678,6 +1781,22 @@
     startRun(false);
   };
 
+  // Between-level screen buttons. Clicking the ad link opens lulhaven.com in a new
+  // tab (target="_blank" in the markup) and, right here, stops the countdown dead --
+  // the run stays paused until the player deliberately clicks Continue, rather than
+  // ticking down behind their back while they're reading the other tab.
+  document.getElementById('levelAdCta').addEventListener('click', function () {
+    if (levelAdTimer) { clearInterval(levelAdTimer); levelAdTimer = null; }
+    var cd = document.getElementById('levelAdCountdown');
+    var cont = document.getElementById('levelAdContinue');
+    if (cd) cd.style.display = 'none';
+    if (cont) cont.style.display = '';
+  });
+  document.getElementById('levelAdContinue').onclick = function () {
+    if (window.havenKyc) window.havenKyc.event('game_interstitial_continue_click', 'level' + CAMPAIGN[campaignIndex].n);
+    dismissLevelAd();
+  };
+
   // Escape = the back/return key (Dave, 2026-08-15: "no elegant way to leave the
   // game"). Works from the main game and the tutorial alike, since they're the same
   // screen underneath -- skipTutorial only changes which toasts play, not which
@@ -1686,12 +1805,15 @@
     if (!document.body.classList.contains('started')) return;
     runStart = 0;               // advance() checks !runStart and stops touching campaign state
     clearTimeout(radarAttnTimer);
+    if (levelAdIntroTimer) { clearTimeout(levelAdIntroTimer); levelAdIntroTimer = null; }
+    if (levelAdTimer) { clearInterval(levelAdTimer); levelAdTimer = null; }
+    levelAdShowing = false;     // a stuck true here would gate advance() forever on the next run
     for (var i = TARGETS.length - 1; i >= 0; i--) {
       var tEl = TARGETS[i].el;
       if (tEl && tEl.parentNode) tEl.parentNode.removeChild(tEl);
     }
     TARGETS.length = 0;         // stale contacts must not carry into the next run
-    document.body.classList.remove('started', 'overrun');
+    document.body.classList.remove('started', 'overrun', 'levelad');
     gateEl.classList.remove('hide');
     var exitFn = document.exitFullscreen || document.webkitExitFullscreen;
     if ((document.fullscreenElement || document.webkitFullscreenElement) && exitFn) {
