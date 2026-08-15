@@ -347,7 +347,7 @@
       <div class="ad-tag">AD</div>
       <div class="ad-copy">See what Haven actually does &rarr; lulhaven.com</div>
     </a>
-    <div id="levelAdCountdown">8</div>
+    <div id="levelAdCountdown">5</div>
     <button id="levelAdContinue" style="display:none;">Continue</button>
   </div>
 </div>
@@ -586,8 +586,11 @@
   var levelSpawned = 0, levelResolved = 0;   // this level's own count — the pass condition
   var totalBreaches = 0;
   var campaignComplete = false;
-  var levelAdShowing = false, levelAdTimer = null, levelAdSecondsLeft = 8;   // between-level screen
+  var levelAdShowing = false, levelAdTimer = null, levelAdSecondsLeft = 5;   // between-level screen
   var levelAdIntroTimer = null, LEVELAD_INTRO_MS = 8000;   // Al's cold-open, before the ad beat
+  // Countdown still reads 5..0 (Dave, 2026-08-15) -- only the CADENCE stretched to fill
+  // the 8s ad beat: 5 ticks (5->4->3->2->1->0) * 1.6s each = 8.0s, matching the intro.
+  var LEVELAD_TICK_MS = 1600;
 
   // ================= SPAWNER (ported from V1 Spawner.kt) =================
   // V1: fixed-rate accumulator — acc += dt; while (acc >= interval) spawn. Identical
@@ -1657,7 +1660,7 @@
     }, LEVELAD_INTRO_MS);
   }
   function startLevelAdCountdown() {
-    levelAdSecondsLeft = 8;
+    levelAdSecondsLeft = 5;
     var cd = document.getElementById('levelAdCountdown');
     if (cd) { cd.style.display = ''; cd.textContent = levelAdSecondsLeft; }
     if (levelAdTimer) clearInterval(levelAdTimer);
@@ -1665,7 +1668,7 @@
       levelAdSecondsLeft--;
       if (cd) cd.textContent = Math.max(levelAdSecondsLeft, 0);
       if (levelAdSecondsLeft <= 0) { clearInterval(levelAdTimer); levelAdTimer = null; dismissLevelAd(); }
-    }, 1000);
+    }, LEVELAD_TICK_MS);
   }
   function dismissLevelAd() {
     if (levelAdIntroTimer) { clearTimeout(levelAdIntroTimer); levelAdIntroTimer = null; }
