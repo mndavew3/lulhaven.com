@@ -1142,7 +1142,12 @@
     // gnome stands, not always dead centre.
     var bl = document.getElementById('beamline'), bc = document.getElementById('beamcore');
     var bm = document.getElementById('beam');
-    var ox = vw / 2 + shooter.dx, oy = vh + 10, tx2 = vw / 2 + shooter.x, ty2 = vh / 2 + shooter.y;
+    // Endpoint is the TARGET's own on-screen position (Dave, 2026-08-15) -- not the
+    // crosshair's, which is only ever "close enough to aim" (see the effR floor at
+    // the call site) and can visibly sit off the target itself. Same sx/sy formula
+    // used there to decide what's being aimed at; a shot that misses should still
+    // look aimed AT the virus, hit or not.
+    var ox = vw / 2 + shooter.dx, oy = vh + 10, tx2 = posX + t.ix * scale, ty2 = posY + t.iy * scale;
     var len = Math.hypot(tx2 - ox, ty2 - oy);
 
     // Drawn by revealing the line from the emitter end — a dash the length of the whole
