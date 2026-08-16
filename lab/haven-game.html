@@ -1218,17 +1218,28 @@
     osc.start(); osc.stop(ac.currentTime + 0.1);
   }
   function playTargetPing(pan, urgency) {
+    // 1940s active-sonar character (Dave, 2026-08-16): a pure, lower tone with a
+    // fast attack and a long decaying tail -- the "ping.........." sound, not a
+    // quick blip -- plus a faint slow vibrato, the warble a real tone gets from
+    // beating against its own underwater reverb.
     var ac = audioCtx(); if (!ac) return;
+    var t0 = ac.currentTime, dur = 0.9;
     var osc = ac.createOscillator(), gain = ac.createGain(), panner = ac.createStereoPanner();
+    var lfo = ac.createOscillator(), lfoGain = ac.createGain();
     osc.type = 'sine';
-    var freq = 520 + urgency * 480;   // closer -> higher pitch
-    osc.frequency.setValueAtTime(freq, ac.currentTime);
-    var vol = 0.05 + urgency * 0.09;  // closer -> louder
-    gain.gain.setValueAtTime(vol, ac.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + 0.14);
-    panner.pan.setValueAtTime(clamp(pan, -1, 1), ac.currentTime);
+    var freq = 850 + urgency * 250;   // classic sonar's narrow low band; closer -> higher
+    osc.frequency.setValueAtTime(freq, t0);
+    lfo.frequency.setValueAtTime(5, t0);
+    lfoGain.gain.setValueAtTime(4, t0);
+    lfo.connect(lfoGain); lfoGain.connect(osc.frequency);
+    var vol = 0.05 + urgency * 0.08;  // closer -> louder
+    gain.gain.setValueAtTime(0.0001, t0);
+    gain.gain.exponentialRampToValueAtTime(vol, t0 + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+    panner.pan.setValueAtTime(clamp(pan, -1, 1), t0);
     osc.connect(gain); gain.connect(panner); panner.connect(ac.destination);
-    osc.start(); osc.stop(ac.currentTime + 0.14);
+    osc.start(t0); osc.stop(t0 + dur);
+    lfo.start(t0); lfo.stop(t0 + dur);
   }
 
   function fire(shooter, t, onCore) {
