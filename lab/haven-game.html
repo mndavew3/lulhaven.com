@@ -1191,7 +1191,48 @@
   // flash elements are shared across all three shooters (a spike simplification —
   // simultaneous shots from two shooters can visually interrupt each other's beam,
   // acceptable since dwell/cooldown make that rare, not a gameplay effect).
+  // ================= AUDIO (Dave, 2026-08-16) =================
+  // Synthesized via Web Audio API -- no sound files, nothing to host. Two cues:
+  // a fire "pew" (centered, on every shot) and a per-target proximity "ping"
+  // (panned to that target's own screen position, louder/higher the closer it
+  // is -- t.ap, 0 just spawned .. 1 about to breach). Trigger points: fire()
+  // below, and the real per-target flash event in tick() (see `flash` there).
+  var actx = null;
+  function audioCtx() {
+    if (!actx) {
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if (AC) actx = new AC();
+    }
+    if (actx && actx.state === 'suspended') actx.resume();
+    return actx;
+  }
+  function playFireSound() {
+    var ac = audioCtx(); if (!ac) return;
+    var osc = ac.createOscillator(), gain = ac.createGain();
+    osc.type = 'square';
+    osc.frequency.setValueAtTime(620, ac.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(180, ac.currentTime + 0.09);
+    gain.gain.setValueAtTime(0.16, ac.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + 0.1);
+    osc.connect(gain); gain.connect(ac.destination);
+    osc.start(); osc.stop(ac.currentTime + 0.1);
+  }
+  function playTargetPing(pan, urgency) {
+    var ac = audioCtx(); if (!ac) return;
+    var osc = ac.createOscillator(), gain = ac.createGain(), panner = ac.createStereoPanner();
+    osc.type = 'sine';
+    var freq = 520 + urgency * 480;   // closer -> higher pitch
+    osc.frequency.setValueAtTime(freq, ac.currentTime);
+    var vol = 0.05 + urgency * 0.09;  // closer -> louder
+    gain.gain.setValueAtTime(vol, ac.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + 0.14);
+    panner.pan.setValueAtTime(clamp(pan, -1, 1), ac.currentTime);
+    osc.connect(gain); gain.connect(panner); panner.connect(ac.destination);
+    osc.start(); osc.stop(ac.currentTime + 0.14);
+  }
+
   function fire(shooter, t, onCore) {
+    playFireSound();
     // The beam rises from the emitter, which sits below the line of sight, AT THAT
     // SHOOTER'S horizontal position — a gnome's shot visibly comes from where the
     // gnome stands, not always dead centre.
@@ -1519,6 +1560,10 @@
         if (SIZE_STEPS[q] >= want) { N = SIZE_STEPS[q]; break; }
       }
       renderCreature(due, nowS, N, flash);
+      if (flash) {
+        var pingSx = posX + due.ix * scale;
+        playTargetPing((pingSx - vw / 2) / (vw / 2), due.ap || 0);
+      }
       for (var q2 = 0; q2 < live.length; q2++) { tagFor(live[q2]); drawCreature(live[q2]); }
     }
     lockEl.classList.toggle('on', !!aiming);
@@ -1776,10 +1821,12 @@
     } else { listen(skipTutorial); }
   }
   document.getElementById('goStart').onclick = function () {
+    audioCtx();   // unlock/create on the real click gesture, not on first fire()
     if (window.havenKyc) window.havenKyc.event('game_start', 'skip_tutorial');
     startRun(true);
   };
   document.getElementById('goTutorial').onclick = function () {
+    audioCtx();
     if (window.havenKyc) window.havenKyc.event('game_start', 'tutorial');
     startRun(false);
   };
