@@ -1,5 +1,27 @@
-// generated from haven_wiki.db accomplishments — 638 rows, newest id 652
+// generated from haven_wiki.db accomplishments — 640 rows, newest id 654
 var milestonesDataset = [
+  {
+    "id": 654,
+    "date": "2026-08-15",
+    "theme": "Reliability & safety",
+    "impact": 3,
+    "summary": "Added an internal alarm that fires if the router's SNI-inspection queue starts backing up, instead of failing silently.",
+    "detail": null,
+    "benefit": "Catches a filtering slowdown before it becomes a customer-visible problem.",
+    "ref": "9f03faa1b1",
+    "features": []
+  },
+  {
+    "id": 653,
+    "date": "2026-08-15",
+    "theme": "Manga / lore",
+    "impact": 2,
+    "summary": "The Haven game now has a story beat between levels -- Al's cold-open intro and a mock-ad break, both fully pausing gameplay until the player is ready to continue.",
+    "detail": "New between-level screen sequence: Al's cold-open flash leads into an illustrated mock-ad beat; clicking the ad opens lulhaven.com in a new tab and swaps the countdown for a manual Continue button so the run stays paused until the player comes back on their own. Escape/returnToGate cleans up both timers so a mid-screen exit can't leave the next run stuck.",
+    "benefit": "Adds personality and pacing to the game instead of levels running back-to-back.",
+    "ref": "d2a8887a",
+    "features": []
+  },
   {
     "id": 652,
     "date": "2026-08-15",
