@@ -1517,6 +1517,11 @@
           var tgt = TARGETS[ti];
           if (!tgt.alive || tgt.pending || claimedTargets.indexOf(tgt) >= 0) continue;
           var tsx = posX + tgt.ix * scale, tsy = posY + tgt.iy * scale;
+          // Gnomes may only lock onto a virus that is actually visible right now (Dave,
+          // 2026-08-16) -- the world is wider than the screen, so a contact can exist and
+          // be nearest-in-world before the camera has ever panned it into view. Without
+          // this, a gnome reads as shooting at nothing you can see.
+          if (tsx < 0 || tsx > vw || tsy < 0 || tsy > vh) continue;
           var dd = Math.hypot(gx - tsx, gy - tsy);
           if (dd < bestD) { bestD = dd; dest = tgt; }
         }
