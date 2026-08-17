@@ -1,8 +1,8 @@
 {
-  "feed_seq": 2,
-  "published_ts": 1785203575,
-  "content_hash": "b3516b527d69d9ba0ad9323080129a35fd7ef8a5156433ee92f3f2b7149781ff",
+  "feed_seq": 3,
+  "published_ts": 1786944015,
+  "content_hash": "5e205bf160bff56014d946dea6972592761c44a6ed4f9a282eafdc0197a0aa0c",
   "toulouse_hash": "fed7f76095c5b781659e8212bb37823c626c61f0e9c845d6dfe491f763763bd1",
   "yt_hash": "cdf95d458d09944cb98f81e7b1187c740b7fadde372c4cd00801d27827211a52",
-  "feed_bytes": 3227648
+  "feed_bytes": 4177920
 }
