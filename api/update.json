@@ -2,28 +2,28 @@
   "firmware": {
     "enabled": true,
     "navy": {
-      "version": "0.1.76",
-      "url": "https://pub-37d0a3fa28b1485cbe594b4b7123c524.r2.dev/openwrt-25.12.5-haven-0.1.76-mediatek-filogic-glinet_gl-mt6000-squashfs-sysupgrade.bin",
-      "sha256": "945b680fa7010573e9259fd0498efd60658850bcd62e6191a68a4abf16adc338",
-      "size": 36720960
+      "version": "0.1.79",
+      "url": "https://pub-37d0a3fa28b1485cbe594b4b7123c524.r2.dev/openwrt-25.12.5-haven-0.1.79-mediatek-filogic-glinet_gl-mt6000-squashfs-sysupgrade.bin",
+      "sha256": "abc112c6da4452bed87d91615c643d2c20a2577551f6b1608d4d966dfa3a7580",
+      "size": 36884800
     },
     "olive": {
-      "version": "0.1.76",
-      "url": "https://pub-37d0a3fa28b1485cbe594b4b7123c524.r2.dev/openwrt-25.12.5-haven-0.1.76-mediatek-mt7622-linksys_e8450-ubi-squashfs-sysupgrade.itb",
-      "sha256": "216821466f1529de1fb555b92432236c3a7479e46a03b49dcc92df92b84288a0",
-      "size": 37393086
+      "version": "0.1.79",
+      "url": "https://pub-37d0a3fa28b1485cbe594b4b7123c524.r2.dev/openwrt-25.12.5-haven-0.1.79-mediatek-mt7622-linksys_e8450-ubi-squashfs-sysupgrade.itb",
+      "sha256": "1af943ed8f4a7aec38bad396d2c0b7f61d5edd4ec8157750eaac4880198282d5",
+      "size": 37565118
     },
     "pi": {
-      "version": "0.1.76",
-      "url": "https://pub-37d0a3fa28b1485cbe594b4b7123c524.r2.dev/openwrt-25.12.5-haven-0.1.76-bcm27xx-bcm2712-rpi-5-squashfs-sysupgrade.img.gz",
-      "sha256": "76c1edc9a671894e18aea19896a40584f31d2f4cdb661f10547f858465e06e2b",
-      "size": 39180484
+      "version": "0.1.79",
+      "url": "https://pub-37d0a3fa28b1485cbe594b4b7123c524.r2.dev/openwrt-25.12.5-haven-0.1.79-bcm27xx-bcm2712-rpi-5-squashfs-sysupgrade.img.gz",
+      "sha256": "6cdf11003e9b96d22df465c7f07cb9c7e7f0e6e21b846a95d121f6f816e3e6e4",
+      "size": 39492010
     },
     "vm": {
-      "version": "0.1.76",
-      "url": "https://pub-37d0a3fa28b1485cbe594b4b7123c524.r2.dev/openwrt-25.12.5-haven-0.1.76-x86-64-generic-squashfs-combined.img.gz",
-      "sha256": "a6829b3e73f475afd2a52296b7f674c1b32e59bbe0de1e882ef21cc7a9a21a12",
-      "size": 38543263
+      "version": "0.1.79",
+      "url": "https://pub-37d0a3fa28b1485cbe594b4b7123c524.r2.dev/openwrt-25.12.5-haven-0.1.79-x86-64-generic-squashfs-combined.img.gz",
+      "sha256": "ff4d7ee1abf30a7755fcf82922cbaf78530b14a2099cffb65f3479e5b5f01b15",
+      "size": 38714935
     }
   }
 }
