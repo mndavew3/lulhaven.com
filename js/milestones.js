@@ -1,5 +1,16 @@
-// generated from haven_wiki.db accomplishments — 645 rows, newest id 660
+// generated from haven_wiki.db accomplishments — 649 rows, newest id 664
 var milestonesDataset = [
+  {
+    "id": 661,
+    "date": "2026-08-17",
+    "theme": "Process & discipline",
+    "impact": 4,
+    "summary": "Worked the frozen backlog in one autonomous evening pass under a new rule — a 'needs Dave' answer means rewrite the prompt, not stop: eight items closed and six more built, staged, and verified in under two hours.",
+    "detail": "Closed: haven-seek concept search, /api/redeem endpoint, download-flow beacon strip, overlay back-port, stale-fix sweeps (,,,). Staged+verified: consent screen, intake rewrite, offnet enrollment pieces. Copy overclaim scoped to 'actively filtered' (/).",
+    "benefit": "Open items stop waiting on meetings; the backlog shrinks on its own, and the ship date gets protected instead of pushed.",
+    "ref": "65ae767430",
+    "features": []
+  },
   {
     "id": 660,
     "date": "2026-08-17",
@@ -9,6 +20,28 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "The display demo is the firmware itself, not a video or mockup — a trust statement a screenshot can't make.",
     "ref": "c7771bb94b",
+    "features": []
+  },
+  {
+    "id": 663,
+    "date": "2026-08-17",
+    "theme": "Customer features (website)",
+    "impact": 3,
+    "summary": "The Challenge download flow now runs end to end: detect your hardware, sign off, redeem a code, download — with the consent screen wired to live release metadata instead of placeholders.",
+    "detail": "'Get on the list' replaced by a 3-step flow (detect, verdict/sign-off, delivery-of-code); a manual hardware chooser covers the no-detector path; /api/redeem endpoint with a pure logic core (9/9 tests); kyc.js stripped so nothing beacons before consent. Eyes-on verified via the browser test framework. Staged, not in the publish path.",
+    "benefit": "Contestants get their firmware through one clear, consent-first path instead of a mailing-list promise.",
+    "ref": "6405234000",
+    "features": []
+  },
+  {
+    "id": 662,
+    "date": "2026-08-17",
+    "theme": "Off-network filtering",
+    "impact": 3,
+    "summary": "Built the off-network enrollment pipeline: a claim-queue endpoint on the relay plus a router-side poller, authenticated so the enrollment secret never leaves the router.",
+    "detail": "Decision 1A: /api/offnet-claim queue endpoint with bearer auth derived as HMAC(secret, serial); the router long-polls the claim queue over the tunnel and posts the pairing payload on match. 9/9 node tests including JS-to-shell HMAC construction match. Staged-inert.",
+    "benefit": "Phones and laptops will be able to keep Haven's protection when they leave your network, through a pairing flow that cannot leak the key that guards it.",
+    "ref": "e24589d5e7",
     "features": []
   },
   {
@@ -42,6 +75,17 @@ var milestonesDataset = [
     "detail": "Overnight deep dive settled the recommended six screens, the depth verdict, and the privacy rules the display must follow; the bench demo proves the panel hardware works end to end. Product build is deliberately gated behind the current backlog freeze.",
     "benefit": "A glanceable screen on the router itself means you can see your network is healthy without opening an app.",
     "ref": "0461a77ae5",
+    "features": []
+  },
+  {
+    "id": 664,
+    "date": "2026-08-17",
+    "theme": "Tooling & infrastructure",
+    "impact": 2,
+    "summary": "Built haven-seek, a concept search engine over Haven's design surfaces — ask in plain words, get the sections that already cover the idea, even when no keyword matches.",
+    "detail": "FTS5/porter/BM25 over section-granular chunks with w2vgrep query expansion; indexes 3,376 chunks in 0.3 seconds; all three acid tests pass (reset/factory, config-inject-the DNS layer, subscription-lapse).",
+    "benefit": "Design decisions stop getting remade from scratch because the earlier answer could not be found.",
+    "ref": "c96bc548c8",
     "features": []
   },
   {
