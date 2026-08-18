@@ -18,9 +18,13 @@
   h2 { margin:40px 0 12px; font-size:26px; }
   p { margin:10px 0; color:var(--dim); }
   p strong { color:var(--ink); }
-  .demo-slot { margin:30px 0; padding:40px 20px; background:#000; border:2px dashed #333;
+  .demo-slot { margin:30px 0; padding:26px 20px 18px; background:#000; border:2px solid #333;
                text-align:center; color:var(--dim); border-radius:8px; }
-  .demo-slot .soon { color:#ff6a6a; font-weight:700; letter-spacing:.08em; }
+  .deck-stage { position:relative; width:min(720px,100%); margin:0 auto; aspect-ratio:3/2; }
+  .deck-stage canvas { width:100%; height:100%; image-rendering:pixelated;
+                       border-radius:6px; background:#000; cursor:none; display:block; }
+  .deck-stage .lid { position:absolute; inset:0; background:#000; opacity:1;
+                     pointer-events:none; border-radius:6px; }
   ul { margin:10px 0 10px 22px; color:var(--dim); }
   li { margin:6px 0; }
   li strong { color:var(--ink); }
@@ -62,11 +66,33 @@
   </div>
 
   <div class="demo-slot">
-    <p class="soon">LIVE DEMO — LANDING SHORTLY</p>
-    <p>This is not going to be a video or a mockup. The router's actual display firmware,
-       compiled for your browser — wheel through the screens, click the buttons,
-       run the speed test, try the shuffled keypad.</p>
+    <div class="deck-stage">
+      <canvas id="hvndeck" width="480" height="320"></canvas>
+      <div class="lid" id="hvnlid"></div>
+    </div>
+    <p id="hvncode" style="margin-top:10px; color:#ff6a6a; display:none"></p>
+    <p style="margin-top:12px">Not a video, not a mockup — the router&rsquo;s actual display
+       firmware, the same C program the hardware runs, compiled for your browser.
+       <strong>Wheel</strong> turns the pages, <strong>left-click</strong> selects,
+       <strong>right-click</strong> backs out. Try the speed test, the gamer report card,
+       the shuffled keypad. Network data is simulated for the demo; after two idle minutes
+       it sleeps, like the glass does &mdash; move the mouse to wake it.</p>
   </div>
+  <script src="assets/deck/deck.js"></script>
+  <script>
+    (function () {
+      var iv = setInterval(function () {
+        var el = document.getElementById("hvncode");
+        if (!el || !window.Module || !Module.FS) return;
+        try {
+          var s = Module.FS.readFile("/tmp/haven-unlock-code", {encoding: "utf8"}).trim();
+          el.textContent = "Your phone, on the router sign-in page, would show the one-time code: " +
+                           s.split("").join(" ");
+          el.style.display = "block";
+        } catch (e) { el.style.display = "none"; }
+      }, 500);
+    })();
+  </script>
 
   <h2>What the head shows</h2>
   <ul>
