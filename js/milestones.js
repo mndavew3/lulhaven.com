@@ -1,5 +1,60 @@
-// generated from haven_wiki.db accomplishments — 640 rows, newest id 654
+// generated from haven_wiki.db accomplishments — 645 rows, newest id 660
 var milestonesDataset = [
+  {
+    "id": 660,
+    "date": "2026-08-17",
+    "theme": "Marketing & website",
+    "impact": 4,
+    "summary": "The router's actual display firmware — the same C program the hardware runs — now runs live in the browser on the 'Give Haven back its head' page. Visitors wheel through the screens, run the speed test, and unlock the owner ring with the shuffled keypad, exactly as on the glass.",
+    "detail": null,
+    "benefit": "The display demo is the firmware itself, not a video or mockup — a trust statement a screenshot can't make.",
+    "ref": "c7771bb94b",
+    "features": []
+  },
+  {
+    "id": 658,
+    "date": "2026-08-17",
+    "theme": "Product definition",
+    "impact": 3,
+    "summary": "Rewrote the router status-screen demo in lean C: all 18 screens now run live on the real panel from binaries totaling about 150 KB, replacing a stack measured at over 9 MB.",
+    "detail": "Footprint audit with measured receipts: vanilla the router firmware bake 10.7 MB, Haven 0.1.76 at 37.4 MB, the C deck about 150 KB. Includes credentials gate with shuffled keypad, QR pairing, live speed/weather/gamer screens, idle screensaver, and a per-process memory collector. Bench work only — the product build stays behind the backlog freeze.",
+    "benefit": "A status screen this small fits the router's tight storage without crowding out the filtering features you bought it for.",
+    "ref": "ce8ceb4",
+    "features": []
+  },
+  {
+    "id": 656,
+    "date": "2026-08-17",
+    "theme": "Bypass resistance",
+    "impact": 3,
+    "summary": "Helm now lists the new filter-evasion categories by name -- DDNS tunneling, encrypted-DNS resolvers, SmartDNS services, and free VPN apps -- each with a plain-language explanation of what it covers.",
+    "detail": null,
+    "benefit": "You can see and choose exactly which evasion routes are closed on your network, instead of trusting a vague 'bypass' switch.",
+    "ref": "3f67324504",
+    "features": []
+  },
+  {
+    "id": 655,
+    "date": "2026-08-17",
+    "theme": "Product definition",
+    "impact": 3,
+    "summary": "Prototyped a small status screen for the router: a working bench demo cycling through network health, per-port activity, live speed, and connection status on real display hardware.",
+    "detail": "Overnight deep dive settled the recommended six screens, the depth verdict, and the privacy rules the display must follow; the bench demo proves the panel hardware works end to end. Product build is deliberately gated behind the current backlog freeze.",
+    "benefit": "A glanceable screen on the router itself means you can see your network is healthy without opening an app.",
+    "ref": "0461a77ae5",
+    "features": []
+  },
+  {
+    "id": 657,
+    "date": "2026-08-17",
+    "theme": "Website / Marketing",
+    "impact": 2,
+    "summary": "lulhaven.com pages now share one navigation header and footer, stamped automatically at build time so no page can drift out of date.",
+    "detail": "Also added a Halloween tribute page (head.html): the Headless Horseman in monochrome with a burning jack-o'-lantern, tagline 'Do you know what your network is doing?', linked from a third pill on the home page.",
+    "benefit": "Wherever you land on the site, the same menu takes you to the demo, features, benefits, and milestones in one click.",
+    "ref": "9af4f9ec9c",
+    "features": []
+  },
   {
     "id": 654,
     "date": "2026-08-15",
