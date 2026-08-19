@@ -29,6 +29,15 @@ migrations/**
 # --- tool + repo configuration. wrangler.toml names the D1/R2 bindings and the
 #     BUILD_MAINT_PASSWORD secret; publishing it hands out the attack map.
 wrangler.toml
+# --- local-dev secret env files (Cloudflare Workers). .dev.vars held a real
+#     CONTEST_ACCOUNT_KEY and was publicly served on lulhaven.com until it was
+#     caught by the Hearst live-exclusion check 2026-08-19 — never ship these.
+.dev.vars
+**/.dev.vars
+.dev.vars.*
+.env
+.env.*
+*.env
 .assetsignore
 .gitignore
 .git
