@@ -4,26 +4,26 @@
     "navy": {
       "version": "0.1.80",
       "url": "https://pub-37d0a3fa28b1485cbe594b4b7123c524.r2.dev/openwrt-25.12.5-haven-0.1.80-mediatek-filogic-glinet_gl-mt6000-squashfs-sysupgrade.bin",
-      "sha256": "4d31ffd26e90330d2e4a53509dd1d5798cd9c5f34cb278a70484c5706ca84027",
-      "size": 36895040
+      "sha256": "c60283bba876f46c1f1108512e2c6ed124913c9cf1806f7ca242f2c9ca635a08",
+      "size": 36905280
     },
     "olive": {
       "version": "0.1.80",
       "url": "https://pub-37d0a3fa28b1485cbe594b4b7123c524.r2.dev/openwrt-25.12.5-haven-0.1.80-mediatek-mt7622-linksys_e8450-ubi-squashfs-sysupgrade.itb",
-      "sha256": "66e4190a0a3d820566d21d92167749824cd4a5ee019eef136ed791d7b4de49b2",
-      "size": 37565118
+      "sha256": "9602d2ca0865ec04f64416be4f7123902115078f2d18d7d8f58f4c6d7a998143",
+      "size": 37577406
     },
     "pi": {
       "version": "0.1.80",
       "url": "https://pub-37d0a3fa28b1485cbe594b4b7123c524.r2.dev/openwrt-25.12.5-haven-0.1.80-bcm27xx-bcm2712-rpi-5-squashfs-sysupgrade.img.gz",
-      "sha256": "fc1e08d0a3e625aa176da677a6d00a845f029032f260c9b26b1db27b7e77c41d",
-      "size": 39662143
+      "sha256": "b32fe23d42583d278235e6eeec91ca3aa7bffea8c007b3fab5f76683ff5b4e75",
+      "size": 39673650
     },
     "vm": {
       "version": "0.1.80",
       "url": "https://pub-37d0a3fa28b1485cbe594b4b7123c524.r2.dev/openwrt-25.12.5-haven-0.1.80-x86-64-generic-squashfs-combined.img.gz",
-      "sha256": "0504378acc0d341f8c2ea4cf9ffb09fdb46849a0683afe5710271f06dfa99b3b",
-      "size": 40926875
+      "sha256": "dc6b3987f9b8fadc181365171c8614402a09fa3b6c2c57803436572ee1d61e1a",
+      "size": 40934960
     }
   }
 }
