@@ -1,5 +1,82 @@
-// generated from haven_wiki.db accomplishments — 649 rows, newest id 664
+// generated from haven_wiki.db accomplishments — 656 rows, newest id 671
 var milestonesDataset = [
+  {
+    "id": 670,
+    "date": "2026-08-19",
+    "theme": "Firmware & overlay",
+    "impact": 4,
+    "summary": "Shipped 0.1.80 with password recovery: if you forget your Haven admin password, a factory reset now reveals a 'Reset Haven password' button on the login screen. Prove it's you with a PIN you set ahead of time or a printed recovery code, then choose a new password — so a forgotten password can never permanently lock you out of your own router. The release also restores ad- and tracker-blocking and gives every Haven a uniquely-named Wi-Fi network out of the box.",
+    "detail": null,
+    "benefit": "A forgotten password can no longer strand you from your own network, and your Haven runs cleaner (ads and trackers blocked) and is easy to tell apart from any other network nearby.",
+    "ref": "#397",
+    "features": []
+  },
+  {
+    "id": 671,
+    "date": "2026-08-19",
+    "theme": "Firmware & overlay",
+    "impact": 3,
+    "summary": "Released 0.1.81, a reliability pass that closes gaps where shipped features were not fully wired: blocked ad and tracker connections are now severed instantly instead of lingering on an already-open page, and every unit's automatic settings backup keeps running so a factory reset restores your current setup rather than the day it was first configured.",
+    "detail": null,
+    "benefit": "The protection you pay for behaves the way it should — ads and trackers are cut the moment they are blocked, and your settings stay continuously and safely backed up.",
+    "ref": "4c3c1e3a98",
+    "features": []
+  },
+  {
+    "id": 666,
+    "date": "2026-08-18",
+    "theme": "Firmware & overlay",
+    "impact": 5,
+    "summary": "0.1.78 also rescued three finished-but-never-shipped protections: the hand-off wipe that really erases, the reset-surviving vault (a factory reset recovers your setup instead of erasing your life), and Helm's new filter categories for VPN/DNS filter-evasion apps. A permanent tripwire now stops finished work from stranding again.",
+    "detail": null,
+    "benefit": "Selling or resetting your Haven is now safe by default, and finished protections can no longer silently miss the release train.",
+    "ref": "981bc8f",
+    "features": []
+  },
+  {
+    "id": 665,
+    "date": "2026-08-18",
+    "theme": "Firmware & overlay",
+    "impact": 5,
+    "summary": "Shipped 0.1.78: the router's 3.5\" screen gained a Plain English card — an AI-written, on-router explanation of network health. Zero bytes leave the customer's network; works with the internet down.",
+    "detail": null,
+    "benefit": "Metrics become sentences anyone can read, without sending a single byte of your network's story to anyone — including us.",
+    "ref": "43aa775",
+    "features": []
+  },
+  {
+    "id": 668,
+    "date": "2026-08-18",
+    "theme": "Process & discipline",
+    "impact": 4,
+    "summary": "Completed full redundancy for the firmware release-signing keys: a printed recovery copy in the safe plus three encrypted copies in separate systems, all hash-verified identical.",
+    "detail": null,
+    "benefit": "The keys that guarantee every update really came from Haven can now survive fire, theft, or a forgotten passphrase — your router's trust anchor is protected for the long haul.",
+    "ref": "359c2b0a",
+    "features": []
+  },
+  {
+    "id": 667,
+    "date": "2026-08-18",
+    "theme": "Firmware & overlay",
+    "impact": 4,
+    "summary": "Shipped 0.1.79 same day: the screen now finds its hardware on any USB port and heals itself after unplugs, crashes, and reboots — plus a screenshot channel that lets support see the screen remotely when you ask for help.",
+    "detail": null,
+    "benefit": "Plug it in any port, any order — the screen just works, and keeps working.",
+    "ref": "aa4c92d",
+    "features": []
+  },
+  {
+    "id": 669,
+    "date": "2026-08-18",
+    "theme": "Process & discipline",
+    "impact": 3,
+    "summary": "Audited every customer-facing screen in the shipped 0.1.79 firmware byte-by-byte — login, control panels, block page — confirming each one renders Haven's version, closing the class of bug where a theme silently replaces a page.",
+    "detail": null,
+    "benefit": "What you see on your Haven is provably what we built — every screen verified against the exact bytes we shipped.",
+    "ref": "359c2b0a",
+    "features": []
+  },
   {
     "id": 661,
     "date": "2026-08-17",
