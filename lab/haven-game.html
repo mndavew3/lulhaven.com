@@ -2246,6 +2246,31 @@
   ];
   // Two splats, not one. A floor of identical sprites reads as wallpaper however
   // much each one is rotated and scaled -- the silhouette is what gives it away.
+  // Eight headings, photographed, with the machine's own scan fan already pointed
+  // the right way in each one -- which is why the fan does not need drawing any
+  // more. ax/ay are the anchor INSIDE each frame, measured from the dark body
+  // rather than the whole picture: the fan is a different size in every frame, so
+  // anchoring on the image would slide the machine around the floor as it turned.
+  // bw is the body's width as a fraction of the frame, so a frame can be scaled by
+  // how big the MACHINE should look instead of how big its fan happens to be.
+  var RB_DIRS = ['e', 'ne', 'n', 'nw', 'w', 'sw', 's', 'se'];
+  var RB_FRAMES = {
+    n:  { ax:0.497, ay:0.802, bw:0.767 },
+    ne: { ax:0.305, ay:0.807, bw:0.555 },
+    e:  { ax:0.215, ay:0.405, bw:0.414 },
+    se: { ax:0.232, ay:0.440, bw:0.436 },
+    s:  { ax:0.500, ay:0.431, bw:0.446 },
+    sw: { ax:0.241, ay:0.444, bw:0.443 },
+    w:  { ax:0.775, ay:0.761, bw:0.423 },
+    nw: { ax:0.725, ay:0.746, bw:0.471 }
+  };
+  function rbFrameFor(h) {
+    // +x is east, +y is away from the camera, so a heading maps straight onto the
+    // compass the frames were named for.
+    var step = Math.round(h / (Math.PI / 4));
+    return RB_DIRS[((step % 8) + 8) % 8];
+  }
+  var RB_NODE_SPRITE = '../assets/game/node-router.png';
   var RB_VIRUS_SPRITES = ['../assets/game/virus-splat.png',
                           '../assets/game/virus-splat2.png',
                           '../assets/game/virus-splat3.png'];
@@ -2348,7 +2373,11 @@
   function rbCamera() {
     // yaw sweeps the camera along the floor, pitch reaches further down it.
     var yn = clamp(yaw / (ARC_X / 2), -1, 1), pn = clamp(pitch / ((arcY || 30) / 2), -1, 1);
-    rbCamX = yn * RB_HALFW * 0.92;
+    // NEGATED (Dave, 2026-08-20: "left and right buttons are backwards"). Arc one
+    // moves the WORLD by +yaw; here yaw moves the CAMERA, and a camera that walks
+    // the same way the world used to slide turns you the opposite way. Pressing
+    // left now swings your view left, as it does in arc one and on a phone.
+    rbCamX = -yn * RB_HALFW * 0.92;
     rbHorizon = arcH * 0.27 + pn * arcH * 0.04;
     rbAim.x = rbCamX; rbAim.y = lerp(90, 900, (pn + 1) / 2);
   }
@@ -2533,24 +2562,25 @@
     var w = RB_CORE.r * 2 * p.k, h = RB_CORE.r * 2.1 * p.k;
     c.save();
     c.globalAlpha = 0.30; c.fillStyle = v.tint;
-    c.beginPath(); c.ellipse(p.x, p.y, w * 0.8, w * 0.28, 0, 0, 6.2832); c.fill();
+    c.beginPath(); c.ellipse(p.x, p.y, w * 0.55, w * 0.19, 0, 0, 6.2832); c.fill();
     c.globalAlpha = 1;
-    // A rack, not a sheet of paper: a dark cabinet on a plinth with lit slots down
-    // the front. The first pass drew evenly spaced full-width bars, which read as
-    // lines of text on a document rather than as the thing you are defending.
-    c.fillStyle = 'rgba(0,0,0,.55)';
-    c.fillRect(p.x - w * 0.58, p.y - h * 0.1, w * 1.16, h * 0.1);
-    c.fillStyle = '#08161200'; c.fillStyle = '#0a1a16';
-    c.fillRect(p.x - w / 2, p.y - h, w, h);
-    c.strokeStyle = v.tint; c.lineWidth = Math.max(1, w * 0.02);
-    c.strokeRect(p.x - w / 2, p.y - h, w, h);
-    for (var i = 0; i < 6; i++) {
-      c.globalAlpha = 0.35 + 0.5 * (i % 2);
-      c.fillStyle = v.tint;
-      c.fillRect(p.x - w * 0.36, p.y - h + h * (0.10 + i * 0.135), w * 0.5, h * 0.055);
-      c.globalAlpha = 1;
-      c.fillStyle = i % 3 ? '#4fd6a8' : '#ffd98a';
-      c.fillRect(p.x + w * 0.24, p.y - h + h * (0.10 + i * 0.135), w * 0.09, h * 0.055);
+    // The node is a Haven router, because that is what it literally is: the thing
+    // the player spends the level protecting is the thing the product IS. A drawn
+    // stand-in was always going to read as generic server furniture instead.
+    var sp = rbImg(RB_NODE_SPRITE);
+    if (sp) {
+      // Sized against the MACHINES, not against its own collision radius. At the
+      // first attempt the router came out about three times a vacuum's width, which
+      // a real one never is -- and an object at the wrong scale reads as floating
+      // above the floor however carefully its shadow is placed.
+      var sw = w * 0.78, sh = sw * (sp.naturalHeight / sp.naturalWidth);
+      c.fillStyle = 'rgba(0,0,0,.5)';
+      c.beginPath(); c.ellipse(p.x, p.y, sw * 0.42, sw * 0.12, 0, 0, 6.2832); c.fill();
+      c.drawImage(sp, p.x - sw / 2, p.y - sh * 0.98, sw, sh);
+    } else {
+      c.fillStyle = '#0a1a16'; c.fillRect(p.x - w / 2, p.y - h, w, h);
+      c.strokeStyle = v.tint; c.lineWidth = Math.max(1, w * 0.02);
+      c.strokeRect(p.x - w / 2, p.y - h, w, h);
     }
     c.restore();
   }
@@ -2589,35 +2619,29 @@
     }
     c.restore();
   }
-  function rbDrawvacuum(c, u, isMate) {
+  function rbDrawUnit(c, u, isMate) {
     var p = rbProject(u.x, u.y);
     var r = u.r * p.k, tint = isMate ? '#78c8ff' : '#4fd6a8';
+    var dir = rbFrameFor(u.h), fr = RB_FRAMES[dir];
+    var sp = rbImg('../assets/game/unit-' + dir + (isMate ? '' : '-g') + '.png');
     c.save();
-    c.fillStyle = 'rgba(0,0,0,.45)';
-    c.beginPath(); c.ellipse(p.x, p.y + r * 0.16, r * 1.1, r * 0.34, 0, 0, 6.2832); c.fill();
-    // Body: a squashed disc, because we are looking at a floor from a low angle.
-    // It carries a lit rim and a bumper arc rather than a flat fill -- against a
-    // dark floor with big red shapes on it, an unlit disc disappears.
-    c.beginPath(); c.ellipse(p.x, p.y, r, r * 0.42, 0, 0, 6.2832);
-    var gg = c.createLinearGradient(p.x, p.y - r * 0.42, p.x, p.y + r * 0.42);
-    gg.addColorStop(0, '#1c4a3e'); gg.addColorStop(1, '#0a1f19');
-    c.fillStyle = gg; c.fill();
-    c.strokeStyle = tint; c.lineWidth = Math.max(1.6, r * 0.12); c.stroke();
-    // Sensor eye, off-centre toward the front: the manga Haven is a device with one
-    // optical sensor, and it is also the fastest read of which way this thing faces.
-    c.globalAlpha = 0.9; c.fillStyle = '#d8fff2';
-    c.beginPath();
-    c.ellipse(p.x + Math.cos(u.h) * r * 0.42, p.y + Math.sin(u.h) * r * 0.42 * 0.42,
-              r * 0.17, r * 0.11, 0, 0, 6.2832);
-    c.fill(); c.globalAlpha = 1;
-    // Heading wedge on the leading edge -- this is the end that kills, so it has
-    // to be the end you can see. Foreshortened with the same 0.42 the body uses.
-    var hx = Math.cos(u.h), hy = Math.sin(u.h) * 0.42;
-    c.beginPath();
-    c.moveTo(p.x + hx * r * 1.15, p.y + hy * r * 1.15);
-    c.lineTo(p.x + (hx * 0.35 - -hy * 0.9) * r, p.y + (hy * 0.35 + -hx * 0.9 * 0.42) * r);
-    c.lineTo(p.x + (hx * 0.35 + -hy * 0.9) * r, p.y + (hy * 0.35 - -hx * 0.9 * 0.42) * r);
-    c.closePath(); c.fillStyle = tint; c.fill();
+    c.fillStyle = 'rgba(0,0,0,.42)';
+    c.beginPath(); c.ellipse(p.x, p.y, r * 1.0, r * 0.28, 0, 0, 6.2832); c.fill();
+    // Both units are the same machine; the colour that tells them apart lives in
+    // the scan fan and in this ring, not in the body.
+    c.globalAlpha = 0.34; c.fillStyle = tint;
+    c.beginPath(); c.ellipse(p.x, p.y, r * 1.3, r * 0.40, 0, 0, 6.2832); c.fill();
+    c.globalAlpha = 1;
+    if (sp) {
+      // Scale by the BODY, so the machine keeps one size while its fan changes
+      // shape underneath it from frame to frame.
+      var dw = (r * 2.5) / fr.bw, dh = dw * (sp.naturalHeight / sp.naturalWidth);
+      c.drawImage(sp, p.x - fr.ax * dw, p.y - fr.ay * dh, dw, dh);
+    } else {
+      c.beginPath(); c.ellipse(p.x, p.y, r, r * 0.42, 0, 0, 6.2832);
+      c.fillStyle = '#0a1f19'; c.fill();
+      c.strokeStyle = tint; c.lineWidth = Math.max(1.6, r * 0.12); c.stroke();
+    }
     if (u.zap > 0) {                                   // the blue arc, from the manga
       c.globalAlpha = Math.max(0, u.zap / 0.22);
       c.strokeStyle = '#9fe8ff'; c.lineWidth = Math.max(1, r * 0.14);
@@ -2713,8 +2737,8 @@
     if (rbMate) order.push(rbMate);
     order.sort(function (a, b) { return b.y - a.y; }).forEach(function (o) {
       if (o === RB_CORE) rbDrawCore(c);
-      else if (o === rbP) rbDrawvacuum(c, rbP, false);
-      else if (o === rbMate) rbDrawvacuum(c, rbMate, true);
+      else if (o === rbP) rbDrawUnit(c, rbP, false);
+      else if (o === rbMate) rbDrawUnit(c, rbMate, true);
       else rbDrawVirus(c, o);
     });
     rbDrawHud(c);
@@ -2970,6 +2994,11 @@
     yaw = 0; pitch = 0;
     rbStartWave(0);
     RB_VIRUS_SPRITES.forEach(rbImg);
+    RB_DIRS.forEach(function (d) {
+      rbImg('../assets/game/unit-' + d + '.png');
+      rbImg('../assets/game/unit-' + d + '-g.png');
+    });
+    rbImg(RB_NODE_SPRITE);
     RB_VENUES.forEach(function (vv) { rbImg(vv.bg); });
     arcResize();
     arcRaf = requestAnimationFrame(arcLoop);
