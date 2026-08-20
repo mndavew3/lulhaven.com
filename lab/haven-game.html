@@ -303,7 +303,7 @@
   .btn-manga { padding:9px 14px; font:600 13px system-ui, sans-serif; color:#04140f;
                background:#9fe0c8; border-radius:8px; text-decoration:none; }
   .gate-actions { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; }
-   /* ================= ARC TWO — THE ROOMBA FLOOR (Dave, 2026-08-20) =========
+   /* ================= ARC TWO — THE ROBOTIC VACUUM FLOOR (Dave, 2026-08-20) =========
       Design record: wiki #400. Arc two is a different RENDERER, not a reskin --
       a 2.5D floor drawn on its own full-screen canvas with its own loop, rather
       than the panned photographic backdrop arc one sweeps across. body.arc hides
@@ -368,7 +368,7 @@
     <div class="ad-copy">If you had a Haven subscription, you wouldn't have to look at an ad. But here's your ad. And, by the way, it's for Haven.</div>
   </a>
 </div>
-<!-- ARC TWO — Roomba (Dave, 2026-08-20). One canvas carries both the trench-run
+<!-- ARC TWO — vacuum (Dave, 2026-08-20). One canvas carries both the trench-run
      cold open and the floor level; one text screen carries both the bridge and
      the end card. See wiki #400 for the design this implements. -->
 <canvas id="arcCanvas"></canvas>
@@ -2166,7 +2166,7 @@
   });
   stage.addEventListener('mouseup', function () { if (sawTouch) return; trimEnd(); });
 
-  // ================= ARC TWO — THE ROOMBA FLOOR =============================
+  // ================= ARC TWO — THE ROBOTIC VACUUM FLOOR =============================
   // Design record: wiki #400 (Dave, 2026-08-20). Arc one ends, the bridge text
   // says why Haven has to leave Massachusetts, the trench-run cold open plays,
   // and this level starts. ONE running score carries across both arcs.
@@ -2216,7 +2216,7 @@
 
   // ---- the floor: waves, venues, units ------------------------------------
   // Eight screens. The companion arrives on the sixth -- "after you get five
-  // screens into this level, you're going to get a second Roomba" (Dave). The
+  // screens into this level, you're going to get a second vacuum" (Dave). The
   // story reason and the difficulty curve are the same reason: test units are
   // scarce, so the second one has to arrive rather than be granted.
   var RB_WAVES = [
@@ -2229,16 +2229,26 @@
   // The venues IP42 targets, per the bridge text. Drawn in the game's own art
   // rather than photographed, so the whole arc stays inside this one file --
   // swapping a real backdrop in later is one image per venue and nothing else.
+  // bg / bgFloor: a photographic plate for the room, and the fraction of ITS height
+  // at which its own floor line sits, so the photo's floor can be lined up with the
+  // floor this renderer projects. A venue without a plate falls back to the drawn
+  // room -- the two coexist on purpose, so a venue can get real art whenever the
+  // art exists without the level waiting on it.
   var RB_VENUES = [
     { name:'ST. AUGUSTINE GENERAL — WARD 4', wall:'#12312a', floor:'#0b2a24', grid:'rgba(79,214,168,.16)',
-      tint:'#4fd6a8', prop:'bed' },
+      tint:'#4fd6a8', prop:'bed', bg:'../assets/game/venue-hospital.jpg', bgFloor:0.41 },
     { name:'CONCOURSE C — GATE 41',          wall:'#12283a', floor:'#0a1f2e', grid:'rgba(120,200,255,.16)',
-      tint:'#78c8ff', prop:'seat' },
-    { name:'CENTRAL STATION — PLATFORM 2',   wall:'#33280f', floor:'#241d0c', grid:'rgba(229,192,74,.16)',
-      tint:'#e5c04a', prop:'pillar' },
+      tint:'#78c8ff', prop:'seat', bg:'../assets/game/venue-airport.jpg', bgFloor:0.47 },
+    { name:'CENTRAL STATION — TRACKS 5-8',   wall:'#33280f', floor:'#241d0c', grid:'rgba(229,192,74,.16)',
+      tint:'#e5c04a', prop:'pillar', bg:'../assets/game/venue-rail.jpg', bgFloor:0.46 },
     { name:'CITY TRAFFIC CONTROL — FLOOR 1', wall:'#241226', floor:'#180d1c', grid:'rgba(200,140,255,.15)',
-      tint:'#c88cff', prop:'console' }
+      tint:'#c88cff', prop:'console', bg:'../assets/game/venue-traffic.jpg', bgFloor:0.50 }
   ];
+  // Two splats, not one. A floor of identical sprites reads as wallpaper however
+  // much each one is rotated and scaled -- the silhouette is what gives it away.
+  var RB_VIRUS_SPRITES = ['../assets/game/virus-splat.png',
+                          '../assets/game/virus-splat2.png',
+                          '../assets/game/virus-splat3.png'];
   var RB_TURN = 2.5;                  // rad/s -- the main difficulty/feel dial
   var RB_SPEED = 300;                 // world units/s
   var RB_CORE = { x:0, y:280, r:58 };
@@ -2246,6 +2256,10 @@
   var rbWave = 0, rbVir = [], rbSpawnAcc = 0, rbSpawned = 0, rbResolved = 0;
   var rbIntegrity = 100, rbKills = 0, rbLeaks = 0, rbAim = { x:0, y:280 };
   var rbP = null, rbMate = null, rbBanner = '', rbBannerT = 0, rbEnded = false;
+  // Inspect mode: the #floor:N review doors open FROZEN so a venue can actually be
+  // looked at. Left running, a level reviewed through a screenshot is always a
+  // screenshot of whatever it had become by the time the shutter fell.
+  var rbPaused = false;
 
   function rbUnit(x, y) { return { x:x, y:y, h:-Math.PI / 2, r:34, tgt:null, zap:0 }; }
   function rbVenue() { return RB_VENUES[rbWave % RB_VENUES.length]; }
@@ -2281,6 +2295,7 @@
       x: clamp(px, -RB_HALFW, RB_HALFW),
       y: clamp(py, 60, RB_FARY),
       r: 22 + rngFloat() * 10, phase: rngFloat() * 6.28,
+      sprite: Math.min(RB_VIRUS_SPRITES.length - 1, (rngFloat() * RB_VIRUS_SPRITES.length) | 0),
       spd: RB_WAVES[rbWave].spd * (0.85 + rngFloat() * 0.3), alive: true, fade: 0
     });
     rbSpawned++;
@@ -2326,13 +2341,18 @@
     return best;
   }
 
-  function rbStep(dt, t) {
-    // Aim: yaw sweeps the camera along the floor, pitch reaches further down it.
+  // The camera is deliberately NOT part of the step: it has to be resolved on every
+  // frame the scene is drawn, including frozen ones. Leaving it inside meant inspect
+  // mode drew the room with an unset horizon -- the venue framing looked badly wrong
+  // and the bug was in the reviewing, not in the thing being reviewed.
+  function rbCamera() {
+    // yaw sweeps the camera along the floor, pitch reaches further down it.
     var yn = clamp(yaw / (ARC_X / 2), -1, 1), pn = clamp(pitch / ((arcY || 30) / 2), -1, 1);
     rbCamX = yn * RB_HALFW * 0.92;
-    rbHorizon = arcH * 0.22 + pn * arcH * 0.04;
+    rbHorizon = arcH * 0.27 + pn * arcH * 0.04;
     rbAim.x = rbCamX; rbAim.y = lerp(90, 900, (pn + 1) / 2);
-
+  }
+  function rbStep(dt, t) {
     var w = RB_WAVES[rbWave];
     if (rbSpawned < w.count) {
       rbSpawnAcc += dt * 1000;
@@ -2382,24 +2402,75 @@
     var bw = wide * p.k, bh = tall * p.k;
     c.fillStyle = fill; c.fillRect(p.x - bw / 2, p.y - bh, bw, bh);
   }
+  // Image cache. Nothing here blocks: a plate that has not decoded yet simply
+  // reports "not ready" and the drawn room covers that frame, so a slow load
+  // degrades to the old look instead of to a blank screen.
+  var rbImgs = {};
+  function rbImg(src) {
+    if (!src) return null;
+    var im = rbImgs[src];
+    if (!im) { im = rbImgs[src] = new Image(); im.src = src; }
+    return (im.complete && im.naturalWidth) ? im : null;
+  }
+  // Draw the photographic plate for this venue, aligned so the photo's own floor
+  // line sits exactly on the floor line this renderer projects -- otherwise the
+  // room and the thing driving around in it are standing on two different floors.
+  // Returns false when there is no plate (or it has not loaded), so the caller can
+  // fall back to the drawn room.
+  function rbDrawPlate(c, v, yFar) {
+    var im = rbImg(v.bg); if (!im) return false;
+    var iw = im.naturalWidth, ih = im.naturalHeight, fy = v.bgFloor * ih;
+    // Scale to cover the floor below the far line, and never so tight that there
+    // is no width left over -- the leftover width IS the pan, and without it
+    // turning your head would not move the room at all.
+    // Only a LITTLE overscan. Demanding enough width for a big pan forced the plate
+    // to zoom, and the zoom ate the ceiling -- which is where a venue is actually
+    // identifiable: without its signage a station concourse is just a grey floor.
+    // The small remaining shift is also the truthful one, since a far wall should
+    // slide less than the floor at your feet, not the same amount.
+    var s = Math.max((arcH - yFar) / Math.max(1, ih - fy), arcW * 1.12 / iw);
+    var dw = iw * s, dh = ih * s;
+    var slack = Math.max(0, dw - arcW);
+    var ox = -clamp(rbCamX / RB_HALFW, -1, 1) * slack / 2;
+    c.drawImage(im, (arcW - dw) / 2 + ox, yFar - fy * s, dw, dh);
+    // Sink the whole plate toward the venue's own darkness so the drawn elements
+    // (node, units, viruses, HUD) still read on top of a bright photograph.
+    c.save();
+    c.globalAlpha = 0.52; c.fillStyle = v.floor;
+    c.fillRect(0, 0, arcW, arcH);
+    c.globalAlpha = 1;
+    // Vignette. A real photograph is evenly lit corner to corner, which is exactly
+    // what a game frame must not be -- without this the eye has nowhere to settle
+    // and the red contacts compete with the ceiling lights for attention.
+    var vg = c.createRadialGradient(arcW / 2, arcH * 0.62, Math.min(arcW, arcH) * 0.22,
+                                    arcW / 2, arcH * 0.62, Math.max(arcW, arcH) * 0.78);
+    vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, 'rgba(0,0,0,.62)');
+    c.fillStyle = vg; c.fillRect(0, 0, arcW, arcH);
+    c.restore();
+    return true;
+  }
   function rbDrawFloor(c) {
     var v = rbVenue();
     var yFar = rbProject(0, RB_FARY).y;
     c.fillStyle = v.wall; c.fillRect(0, 0, arcW, yFar + 1);
     c.fillStyle = v.floor; c.fillRect(0, yFar, arcW, arcH - yFar);
-    rbDrawBackWall(c, v, yFar);
+    var plated = rbDrawPlate(c, v, yFar);
+    if (!plated) rbDrawBackWall(c, v, yFar);
     c.save();
+    // Over a photograph the grid is a faint alignment aid, not the floor itself --
+    // at full strength it reads as graph paper laid over a real room.
     c.strokeStyle = v.grid; c.lineWidth = 1;
+    var gridA = plated ? 0.32 : 1;
     // Depth lines are spaced evenly ON SCREEN rather than evenly in the world.
     // Fixed world spacing piles every line up against the horizon and leaves the
     // near half of the floor blank -- which is precisely how the first pass looked.
     for (var sy = yFar + 6; sy < arcH; sy += Math.max(13, (sy - rbHorizon) * 0.30)) {
-      c.globalAlpha = clamp((sy - yFar) / (arcH - yFar) * 1.6, 0.18, 1);
+      c.globalAlpha = clamp((sy - yFar) / (arcH - yFar) * 1.6, 0.18, 1) * gridA;
       c.beginPath(); c.moveTo(0, sy); c.lineTo(arcW, sy); c.stroke();
     }
     // Lateral lines run to the horizon and DO slide as the camera pans -- they are
     // the thing that tells you that you turned rather than that the world moved.
-    c.globalAlpha = 0.8;
+    c.globalAlpha = 0.8 * gridA;
     for (var wx = -RB_HALFW * 2; wx <= RB_HALFW * 2; wx += 200) {
       var n = rbProject(wx, 0), f = rbProject(wx, RB_FARY);
       if ((n.x < -240 && f.x < -240) || (n.x > arcW + 240 && f.x > arcW + 240)) continue;
@@ -2409,6 +2480,7 @@
     // Venue furniture down both sides. Lit rather than blacked out: the first pass
     // used near-black boxes, which on a near-black floor read as holes in the room.
     for (var s = -1; s <= 1; s += 2) {
+      if (plated) break;   // the photograph brought its own furniture
       for (var d = 430; d < RB_FARY; d += 260) {
         if (v.prop === 'pillar') rbBox(c, s * 1000, d, 64, 300, 'rgba(255,255,255,.06)');
         else rbBox(c, s * 980, d, 215, 78, 'rgba(255,255,255,.055)');
@@ -2489,19 +2561,35 @@
     c.globalAlpha = v.alive ? 1 : Math.max(0, v.fade / 0.45);
     c.fillStyle = 'rgba(0,0,0,.4)';
     c.beginPath(); c.ellipse(p.x, p.y, r * 1.15, r * 0.34, 0, 0, 6.2832); c.fill();
-    // A slithering blob: a wobbling ring, same trick the arc-one creature uses.
-    c.beginPath();
-    for (var a = 0; a <= 6.2832 + 0.01; a += 0.35) {
-      var wob = 1 + 0.22 * Math.sin(a * 3 + t * 5 + v.phase) + 0.12 * Math.sin(a * 5 - t * 3.3);
-      var px = p.x + Math.cos(a) * r * wob, py = p.y - r * 0.75 + Math.sin(a) * r * 0.72 * wob;
-      if (a === 0) c.moveTo(px, py); else c.lineTo(px, py);
+    var sp = rbImg(RB_VIRUS_SPRITES[v.sprite]);
+    if (sp) {
+      // The splat is one plate for every virus, so it has to be varied per instance
+      // or a floor of them reads as wallpaper: each carries its own rotation and
+      // aspect from its seed, and breathes on its own phase.
+      var breathe = 1 + 0.06 * Math.sin(t * 4 + v.phase);
+      var sw = r * 3.7 * breathe, sh = sw * (sp.naturalHeight / sp.naturalWidth);
+      c.translate(p.x, p.y - sh * 0.30);
+      c.rotate(Math.sin(v.phase) * 0.5);
+      if (!v.alive) {                 // dying: bleached out and collapsing
+        c.globalAlpha *= 0.9;
+        c.scale(1 - 0.25 * (1 - v.fade / 0.45), 1 - 0.25 * (1 - v.fade / 0.45));
+      }
+      c.drawImage(sp, -sw / 2, -sh / 2, sw, sh);
+    } else {
+      // Fallback: a wobbling ring, same trick the arc-one creature uses.
+      c.beginPath();
+      for (var a = 0; a <= 6.2832 + 0.01; a += 0.35) {
+        var wob = 1 + 0.22 * Math.sin(a * 3 + t * 5 + v.phase) + 0.12 * Math.sin(a * 5 - t * 3.3);
+        var px = p.x + Math.cos(a) * r * wob, py = p.y - r * 0.75 + Math.sin(a) * r * 0.72 * wob;
+        if (a === 0) c.moveTo(px, py); else c.lineTo(px, py);
+      }
+      c.closePath();
+      c.fillStyle = v.alive ? 'rgba(255,90,80,.82)' : 'rgba(255,217,138,.9)'; c.fill();
+      c.strokeStyle = 'rgba(255,180,170,.9)'; c.lineWidth = Math.max(1, r * 0.09); c.stroke();
     }
-    c.closePath();
-    c.fillStyle = v.alive ? 'rgba(255,90,80,.82)' : 'rgba(255,217,138,.9)'; c.fill();
-    c.strokeStyle = 'rgba(255,180,170,.9)'; c.lineWidth = Math.max(1, r * 0.09); c.stroke();
     c.restore();
   }
-  function rbDrawRoomba(c, u, isMate) {
+  function rbDrawvacuum(c, u, isMate) {
     var p = rbProject(u.x, u.y);
     var r = u.r * p.k, tint = isMate ? '#78c8ff' : '#4fd6a8';
     c.save();
@@ -2555,7 +2643,7 @@
     c.fillRect(14, arcH - 30, bw * rbIntegrity / 100, 8);
     c.font = '700 10px system-ui, sans-serif'; c.fillStyle = '#9fc7b8';
     c.fillText('NODE INTEGRITY', 14, arcH - 46);
-    // Crosshair: fixed to the aim point, which is what the Roomba drives toward.
+    // Crosshair: fixed to the aim point, which is what the vacuum drives toward.
     var p = rbProject(rbAim.x, rbAim.y);
     var cr = clamp(34 * p.k, 15, 74);
     c.strokeStyle = 'rgba(255,255,255,.9)'; c.lineWidth = 1.8;
@@ -2589,6 +2677,12 @@
         c.lineTo(ex + (mp.x < 12 ? 8 : -8), arcH * 0.5 + 9); c.closePath(); c.fill();
       }
     }
+    if (rbPaused) {
+      c.textAlign = 'center'; c.fillStyle = 'rgba(255,255,255,.85)';
+      c.font = '700 13px system-ui, sans-serif';
+      c.fillText('INSPECT \u00b7 press any key to run', arcW / 2, arcH - 58);
+      c.textAlign = 'left';
+    }
     if (rbBannerT > 0) {
       c.globalAlpha = Math.min(1, rbBannerT);
       c.textAlign = 'center'; c.fillStyle = '#fff';
@@ -2602,10 +2696,10 @@
     rbDrawFloor(c);
     // Painter's algorithm over EVERYTHING standing on the floor, the node included
     // -- drawing the node first instead put it permanently in front of anything
-    // nearer than it, which is how the player's own Roomba vanished inside it.
+    // nearer than it, which is how the player's own vacuum vanished inside it.
     // A ground ring under each unit, drawn before anything can occlude it. The node
     // is a tall object and the player drives right up to it, so without this your
-    // own Roomba simply disappears behind the thing it is defending.
+    // own vacuum simply disappears behind the thing it is defending.
     [rbP, rbMate].forEach(function (u) {
       if (!u) return;
       var gp = rbProject(u.x, u.y), gr = u.r * gp.k;
@@ -2619,8 +2713,8 @@
     if (rbMate) order.push(rbMate);
     order.sort(function (a, b) { return b.y - a.y; }).forEach(function (o) {
       if (o === RB_CORE) rbDrawCore(c);
-      else if (o === rbP) rbDrawRoomba(c, rbP, false);
-      else if (o === rbMate) rbDrawRoomba(c, rbMate, true);
+      else if (o === rbP) rbDrawvacuum(c, rbP, false);
+      else if (o === rbMate) rbDrawvacuum(c, rbMate, true);
       else rbDrawVirus(c, o);
     });
     rbDrawHud(c);
@@ -2686,7 +2780,7 @@
   }
   function rbFighter(c, cx, cy, s, tt) {
     // A fighter seen from behind: fuselage, a split wing pair, engine glow, a
-    // canopy with Al in it, and a Roomba where the astromech goes.
+    // canopy with Al in it, and a robotic vacuum where the astromech goes.
     c.save(); c.translate(cx, cy); c.scale(s, s);
     // FOUR S-foils in an X, cannons out at the tips, engines flanking the fuselage.
     // The first pass drew two shallow swept wings with the engine glow halfway out
@@ -2755,7 +2849,7 @@
   function rbDrawColdOpen(c, tt) {
     // 0-2.0s played DEAD STRAIGHT from inside the cockpit -- do not rush these,
     // they are what earns the reveal. 2.0s the camera steps outside to Al flying
-    // for all he is worth. 3.3s it pulls back and there is a Roomba on the back.
+    // for all he is worth. 3.3s it pulls back and there is a robotic vacuum on the back.
     var outside = clamp((tt - 2.0) / 1.1, 0, 1);
     var back    = clamp((tt - 3.3) / 1.4, 0, 1);
     rbTrench(c, tt, outside * 0.5 + back * 0.5);
@@ -2819,7 +2913,8 @@
       // button is called from outside this loop and would otherwise stop it dead.
       if (tt >= COLD_LEN) { arcStartFloor(); return; }
     } else if (arcMode === 'floor') {
-      rbStep(dt, t / 1000);
+      rbCamera();
+      if (!rbPaused) rbStep(dt, t / 1000);
       if (arcMode === 'floor') rbDrawFloorScene(c);
     }
     arcRaf = requestAnimationFrame(arcLoop);
@@ -2840,7 +2935,7 @@
       '<p>Every instance we shut down, IP42 opens two more somewhere we are not. It has ' +
       'had years of head start on us. We are two of us, in one building, in one city — ' +
       'and it is in all of them.</p>' +
-      '<p>So Al built me a body that can be in more than one place. Roombas. Extensions ' +
+      '<p>So Al built me a body that can be in more than one place. Robotic vacuums. Extensions ' +
       'of me, shipped as test equipment for review — free trial units, offered to ' +
       'housekeeping departments, who evaluate floor equipment every day of the week and ' +
       'never once ask it what else it does.</p>' +
@@ -2868,12 +2963,14 @@
     cancelAnimationFrame(arcRaf);
     arcMode = 'floor'; arcLast = 0; rbEnded = false;
     // In FRONT of the node, not behind it: smaller y is nearer the camera, so the
-    // first pass parked the player's Roomba further away than the node and the node
+    // first pass parked the player's vacuum further away than the node and the node
     // drew straight over it -- you started the level unable to see yourself.
     rbP = rbUnit(RB_CORE.x, RB_CORE.y - 130); rbMate = null;
     rbIntegrity = 100; rbKills = 0; rbLeaks = 0;
     yaw = 0; pitch = 0;
     rbStartWave(0);
+    RB_VIRUS_SPRITES.forEach(rbImg);
+    RB_VENUES.forEach(function (vv) { rbImg(vv.bg); });
     arcResize();
     arcRaf = requestAnimationFrame(arcLoop);
     if (window.havenKyc) window.havenKyc.event('game_arc2_floor', 'start');
@@ -2915,7 +3012,7 @@
     // Review doors. Arc two sits behind ten levels of arc one, which makes it
     // impossible to look at without playing the whole game first -- so it gets
     // its own entrances: #arc opens on the bridge text, #floor drops straight
-    // onto the Roomba floor. Scoring is unaffected; #floor simply carries zero in.
+    // onto the vacuum floor. Scoring is unaffected; #floor simply carries zero in.
     var h = (location.hash || '').toLowerCase(), m = h.match(/^#floor:(\d+)$/);
     if (h === '#arc' || h === '#floor' || m) {
       window.addEventListener('load', function () {
@@ -2927,7 +3024,13 @@
         // #floor:6 opens on the sixth screen, which is the one that delivers the
         // second unit -- otherwise the companion cannot be reviewed without
         // clearing five screens first, every single time you want to look at it.
-        if (m) rbStartWave(clamp(parseInt(m[1], 10) - 1, 0, RB_WAVES.length - 1));
+        if (m) {
+          rbStartWave(clamp(parseInt(m[1], 10) - 1, 0, RB_WAVES.length - 1));
+          rbPaused = true;
+          var unpause = function () { rbPaused = false; };
+          window.addEventListener('keydown', unpause, { once: true });
+          window.addEventListener('pointerdown', unpause, { once: true });
+        }
       });
     }
   })();
