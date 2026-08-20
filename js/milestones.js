@@ -1,5 +1,27 @@
-// generated from haven_wiki.db accomplishments — 658 rows, newest id 673
+// generated from haven_wiki.db accomplishments — 660 rows, newest id 675
 var milestonesDataset = [
+  {
+    "id": 674,
+    "date": "2026-08-20",
+    "theme": "Open source",
+    "impact": 4,
+    "summary": "Screen Haven, our free status display for the little 3.5-inch router screen, was formally submitted to the open-source community's shared package library and accepted for review.",
+    "detail": null,
+    "benefit": "The screen software is free for anyone to install, and Haven's work is now visible to the wider open-source world.",
+    "ref": "67e426a",
+    "features": []
+  },
+  {
+    "id": 675,
+    "date": "2026-08-20",
+    "theme": "Website",
+    "impact": 3,
+    "summary": "Gave the Haven comics their own home page, Manga Haven, so one button opens the whole story instead of three buttons crowding the page.",
+    "detail": null,
+    "benefit": "Readers find every chapter in one place, and the page is less cluttered on a phone.",
+    "ref": "67e426a",
+    "features": []
+  },
   {
     "id": 673,
     "date": "2026-08-20",
