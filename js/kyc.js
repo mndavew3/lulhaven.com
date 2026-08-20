@@ -1,8 +1,8 @@
 // kyc.js — Know Your Client beacon for lulhaven.com.
 //
-// Sends one /api/visit POST per pageview, plus /api/event POSTs for outbound
-// clicks. Owner visits are tagged is_owner=1, not blocked — filter at query
-// time, not at write time.
+// Sends one /api/visit POST per pageview, plus /api/event POSTs for every
+// click (nav, buttons, outbound, and a catch-all). Owner visits are tagged
+// is_owner=1, not blocked — filter at query time, not at write time.
 //
 // Owner toggle:
 //   https://lulhaven.com/?havenowner=on    -> sets localStorage.havenOwner = 'yes'
@@ -101,41 +101,80 @@
   // Exposed so other pages can fire custom events: window.havenKyc.event(...)
   window.havenKyc = { event: logEvent, isOwner: isOwner };
 
-  function wireOutboundClicks() {
+  // Compact, legible descriptor of a clicked element for the event value:
+  // "tag#id.class | visible text", capped so rows stay readable at review time.
+  function describe(el) {
+    if (!el || el.nodeType !== 1) return '';
+    var tag = (el.tagName || '').toLowerCase();
+    var id  = el.id ? '#' + el.id : '';
+    var cls = (typeof el.className === 'string' && el.className.trim())
+      ? '.' + el.className.trim().split(/\s+/).slice(0, 2).join('.') : '';
+    var txt = (el.getAttribute && el.getAttribute('aria-label')) ||
+              el.textContent || el.value || '';
+    txt = String(txt).replace(/\s+/g, ' ').trim().slice(0, 60);
+    return (tag + id + cls + (txt ? ' | ' + txt : '')).slice(0, 200);
+  }
+
+  // One delegated handler logs EVERY click, classified so the review stays
+  // legible: outbound/buy/labeled links keep their own kinds; same-site links
+  // log as nav_click; buttons and controls as ui_click; anything else as
+  // click. Bare taps on <html>/<body> (background whitespace) are ignored.
+  function wireClicks() {
     document.addEventListener('click', function (ev) {
-      var a = ev.target.closest && ev.target.closest('a[href]');
-      if (!a) return;
-      var href = a.getAttribute('href');
-      if (!href) return;
-      // External http/https links (not same-origin, not mailto/tel/etc anchors)
-      var isAbsolute = /^https?:\/\//i.test(href);
-      if (!isAbsolute) return;
-      try {
-        var u = new URL(href, window.location.href);
-        if (u.host === window.location.host) return; // same site, ignore
-      } catch (e) { return; }
-      // Buy/checkout clicks get their own event kind so they're not buried
-      // among ordinary outbound clicks. Match the Stripe host or the button id.
-      if (/(^|\.)stripe\.com$/i.test(u.host) || (a.id === 'founders-buy')) {
-        logEvent('buy_click', href);
+      var t = ev.target;
+      if (!t || t.nodeType !== 1) return;
+
+      var a = t.closest && t.closest('a[href]');
+      if (a) {
+        var href   = a.getAttribute('href') || '';
+        var custom = a.getAttribute('data-ev');
+        // Outbound: absolute http/https to a different host.
+        if (/^https?:\/\//i.test(href)) {
+          try {
+            var u = new URL(href, window.location.href);
+            if (u.host !== window.location.host) {
+              // Buy/checkout clicks get their own kind (Stripe host or the id).
+              if (/(^|\.)stripe\.com$/i.test(u.host) || a.id === 'founders-buy') {
+                logEvent('buy_click', href);
+              } else if (custom) {
+                // Labeled outbound (data-ev="manga_click" data-ev-label="ch1").
+                logEvent(custom.slice(0, 64), a.getAttribute('data-ev-label') || href);
+              } else {
+                logEvent('outbound_click', href);
+              }
+              return;
+            }
+          } catch (e) { /* malformed URL — fall through to internal handling */ }
+        }
+        // Same-site or relative link.
+        if (custom) { logEvent(custom.slice(0, 64), a.getAttribute('data-ev-label') || href); return; }
+        var label = (a.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 60);
+        logEvent('nav_click', href + (label ? ' | ' + label : ''));
         return;
       }
-      // A labeled outbound link (data-ev="manga_click" data-ev-label="ch1")
-      // logs under its own kind with a friendly label, so e.g. the opaque
-      // heyzine chapter hashes don't have to be decoded at query time.
-      var evKind = a.getAttribute('data-ev');
-      if (evKind) {
-        logEvent(evKind.slice(0, 64), a.getAttribute('data-ev-label') || href);
+
+      // Non-link interactive controls.
+      var ctl = t.closest && t.closest(
+        'button,[role="button"],input[type="submit"],input[type="button"],' +
+        'input[type="checkbox"],input[type="radio"],select,summary,label,[data-ev],[onclick]');
+      if (ctl) {
+        var cev = ctl.getAttribute('data-ev');
+        if (cev) { logEvent(cev.slice(0, 64), ctl.getAttribute('data-ev-label') || describe(ctl)); return; }
+        logEvent('ui_click', describe(ctl));
         return;
       }
-      logEvent('outbound_click', href);
+
+      // Everything else — basically every click. Skip only bare background taps.
+      var tag = (t.tagName || '').toLowerCase();
+      if (tag === 'html' || tag === 'body') return;
+      logEvent('click', describe(t));
     }, true);
   }
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', function () {
       logPageview();
-      wireOutboundClicks();
+      wireClicks();
     });
   } else {
     logPageview();

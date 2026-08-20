@@ -1,5 +1,27 @@
-// generated from haven_wiki.db accomplishments — 656 rows, newest id 671
+// generated from haven_wiki.db accomplishments — 658 rows, newest id 673
 var milestonesDataset = [
+  {
+    "id": 673,
+    "date": "2026-08-20",
+    "theme": "Marketing & website",
+    "impact": 3,
+    "summary": "Released Screen Haven: a free, open-source status display package for routers — seven live screens carrying the Haven brand mark — plus a product page on lulhaven.com showcasing it.",
+    "detail": "Open-core split locked: the commodity display engine is MIT-licensed and public; Haven's filtering, content, and brand stay private. Builds to a real installable package (proven on x86-64) with bandwidth, system, network, devices, clock, and about screens; the About screen is an honest QR signpost to lulhaven.com, never a decoy. Upstream package submission staged; website page committed, in the site nav.",
+    "benefit": "Anyone with a compatible router can experience Haven's polish for free, and every screen carries a signpost to the full product.",
+    "ref": "d7b1b88292",
+    "features": []
+  },
+  {
+    "id": 672,
+    "date": "2026-08-19",
+    "theme": "Firmware & overlay",
+    "impact": 4,
+    "summary": "Shipped 0.1.82: the router's 3.5-inch status screen can capture itself. Middle-click the deck and it saves the live screen as a downloadable image — grab it from the web dashboard (Helm) or straight onto a plugged-in USB drive. Universal drive-format support (exFAT and HFS+ added) means a thumb drive from Windows, macOS, or Linux just works, and the router never has to format anything.",
+    "detail": null,
+    "benefit": "Reviewers and customers can capture and share a real snapshot of Haven's live filtering and throughput screen — proof of what the router is actually doing, taken straight off the hardware, no phone camera needed.",
+    "ref": "29bfe9e",
+    "features": []
+  },
   {
     "id": 670,
     "date": "2026-08-19",
