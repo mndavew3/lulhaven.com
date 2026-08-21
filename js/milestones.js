@@ -1,4 +1,4 @@
-// generated from haven_wiki.db accomplishments — 660 rows, newest id 675
+// generated from haven_wiki.db accomplishments — 661 rows, newest id 676
 var milestonesDataset = [
   {
     "id": 674,
@@ -9,6 +9,17 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "The screen software is free for anyone to install, and Haven's work is now visible to the wider open-source world.",
     "ref": "67e426a",
+    "features": []
+  },
+  {
+    "id": 676,
+    "date": "2026-08-20",
+    "theme": "Marketing & website",
+    "impact": 3,
+    "summary": "Haven's free browser game got a second chapter: after the city rooftop, the fight moves to the floor of a hospital, an airport, a train station and a city traffic control room, where little robotic vacuums carrying Haven hunt down infections before they reach the router they are protecting.",
+    "detail": "The new chapter opens with Haven explaining why two of them in one building can never keep up, and what they do about it. A five-second animated cold open plays before the level starts. Your score carries straight through from the first chapter instead of resetting, and a second vacuum joins you partway in, going after whatever you are not covering.",
+    "benefit": "More of the Haven story, free and in a browser, with no app to install and nothing to sign up for.",
+    "ref": "0d73cd3",
     "features": []
   },
   {
