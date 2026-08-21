@@ -1,5 +1,38 @@
-// generated from haven_wiki.db accomplishments — 662 rows, newest id 677
+// generated from haven_wiki.db accomplishments — 665 rows, newest id 680
 var milestonesDataset = [
+  {
+    "id": 679,
+    "date": "2026-08-21",
+    "theme": "Testing & quality",
+    "impact": 3,
+    "summary": "Confirmed the interactive demo on lulhaven.com matches the current shipped release, feature for feature.",
+    "detail": "Audited every change in the seven releases up to 0.1.83 against what the demo presents — the hand-off control and all four filter-evasion categories are present and behave as they do on a real Haven. The demo now states the release it was measured against, and that claim is re-checked automatically before every publish.",
+    "benefit": "What you try in the browser is what you get on the router — and the version it names is one somebody actually verified.",
+    "ref": "ca58b1b",
+    "features": []
+  },
+  {
+    "id": 680,
+    "date": "2026-08-21",
+    "theme": "Trust & transparency",
+    "impact": 2,
+    "summary": "Milestones now reach lulhaven.com in the same session they are recorded.",
+    "detail": "The milestones page is regenerated and published as part of closing out every working session, so the record you read is the record as it stands.",
+    "benefit": "What you see on the milestones page is current, every day we work.",
+    "ref": "359c2b0a",
+    "features": []
+  },
+  {
+    "id": 678,
+    "date": "2026-08-21",
+    "theme": "Manga / lore",
+    "impact": 2,
+    "summary": "Haven's free browser game now changes its setting as you climb through the first chapter — the rooftop view shifts from one city to another as you advance.",
+    "detail": "Four backdrops now rotate across the ten levels of chapter one, each a different skyline. Playable in any browser on a phone or a desktop, with nothing to install.",
+    "benefit": "More to look at as you play, free, with no app and no sign-up.",
+    "ref": "ca58b1b",
+    "features": []
+  },
   {
     "id": 677,
     "date": "2026-08-20",
