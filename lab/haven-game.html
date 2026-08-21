@@ -1716,6 +1716,21 @@
     requestAnimationFrame(tick);
   }
 
+  // Arc-one backdrops (Dave, 2026-08-20). One photograph carried all ten levels, so the
+  // arc had exactly one look. Cycling gives the campaign variety -- and it is also how a
+  // candidate gets JUDGED, because the only question that matters is whether a mid-green
+  // virus can be FOUND against the picture, and that shows only in motion with a target
+  // on screen (Dave, 2026-08-06: "it's getting lost in the background"). Press B mid-run
+  // to step through by hand. Adding a candidate is one line here.
+  var BACKDROPS = ['ar-backdrop.jpg', 'ar-backdrop-manhattan.jpg',
+                   'ar-backdrop-sf.jpg', 'ar-backdrop-grid.jpg'];
+  var backdropIx = 0;
+  function setBackdrop(i) {
+    backdropIx = ((i % BACKDROPS.length) + BACKDROPS.length) % BACKDROPS.length;
+    var want = BACKDROPS[backdropIx];
+    if (bg.getAttribute('src') !== want) bg.src = want;   // onload re-runs layout()
+  }
+
   bg.onload = function () { imgW = bg.naturalWidth; imgH = bg.naturalHeight; layout(); };
   if (bg.complete && bg.naturalWidth) bg.onload();
   window.addEventListener('resize', layout);
@@ -1781,6 +1796,7 @@
   function beginLevel() {
     levelStartMs = performance.now();
     spawnAcc = 0; levelSpawned = 0; levelResolved = 0;
+    setBackdrop(campaignIndex);      // a new look per level, cycling the list
     updateGnomeUnlocks();
     updateLevelChrome();
     toast('Level ' + CAMPAIGN[campaignIndex].n + '.', 3000);
@@ -1977,6 +1993,10 @@
   }
   window.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') { e.preventDefault(); returnToGate(); }
+    if (e.key === 'b' || e.key === 'B') {
+      setBackdrop(backdropIx + 1);
+      toast('Backdrop ' + (backdropIx + 1) + '/' + BACKDROPS.length + ' — ' + BACKDROPS[backdropIx], 2200);
+    }
   });
 
   function tog(id, fn, on) {

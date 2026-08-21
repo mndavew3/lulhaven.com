@@ -1,8 +1,25 @@
 // Single source of truth for the version shown on this page — per
 // feedback_demo_live_parity_default, the demo must stay version-compliant with
 // the real live product. Bump this ONLY after verifying the demo actually has
-// UI/feature parity with that live version (see the 2026-08-13 parity audit).
-var HD_CURRENT_VERSION = '0.1.76';
+// UI/feature parity with that live version.
+//
+// PARITY AUDIT 2026-08-21 (0.1.76 -> 0.1.83). Dave spotted the demo still claiming
+// 0.1.76 while seven releases had shipped. Audited every mod in 0.1.77..0.1.83
+// against what this demo simulates:
+//   in scope, PRESENT  : #21 Erase & hand off button; #34 the four filter-evasion
+//                        categories (ddns_tunneling, smartdns_resolvers, DoH
+//                        resolvers, free VPN apps) — all carried by the generated
+//                        haven-data.js / haven-tooltips.js the demo loads.
+//   OUT OF SCOPE       : #35/#36/#37/#39/#51 (3.5" deck + its Helm gallery — the
+//                        demo simulates the filtering Helm, not the deck),
+//                        #48 login-screen password recovery (no login in the demo),
+//                        #23/#38..#47/#49/#50/#52 (vault, build, relay — no UI).
+// Nothing in scope was missing, so the pin advances to the current shipped version.
+//
+// A stale pin is now caught mechanically by hearst-preflight.sh, which compares this
+// constant against the newest built image before any publish — the previous audit was
+// 2026-08-13 and nothing noticed for eight days.
+var HD_CURRENT_VERSION = '0.1.83';
 
 var hdNameGroups = {};
 var hdKeyNameMap = {};

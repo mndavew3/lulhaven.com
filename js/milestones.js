@@ -1,5 +1,16 @@
-// generated from haven_wiki.db accomplishments — 661 rows, newest id 676
+// generated from haven_wiki.db accomplishments — 662 rows, newest id 677
 var milestonesDataset = [
+  {
+    "id": 677,
+    "date": "2026-08-20",
+    "theme": "Firmware & overlay",
+    "impact": 4,
+    "summary": "Added steps to improve the security of your filters and your login even further.",
+    "detail": "Bench-identified on an Olive unit: three opportunities to further secure your filters and your login. All three were taken — an unnecessary data seek removed, password retention strengthened, and backup and restore made more resilient. Shipped in 0.1.83 to all four Haven models.",
+    "benefit": "Even more protection around the settings and the login you set up.",
+    "ref": "6b54dc8242",
+    "features": []
+  },
   {
     "id": 674,
     "date": "2026-08-20",
