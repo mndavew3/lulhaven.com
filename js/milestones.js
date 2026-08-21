@@ -1,5 +1,16 @@
-// generated from haven_wiki.db accomplishments — 665 rows, newest id 680
+// generated from haven_wiki.db accomplishments — 666 rows, newest id 681
 var milestonesDataset = [
+  {
+    "id": 681,
+    "date": "2026-08-21",
+    "theme": "Live-fire findings",
+    "impact": 4,
+    "summary": "Confirmed on real hardware that your settings, your login, and your saved device list all come back after a factory reset.",
+    "detail": "Bench-verified end to end on an Olive Green unit running 0.1.83. Three automated checks now cover the whole path: your filter choices and admin login returning after a reset-button press, the protected-storage layer's own behaviour across 17 separate assertions, and the dedicated storage area plus its contents coming through a full factory reset with a marker confirmed present afterwards. All three run against the shipping firmware and are now permanent members of the standing test regimen, so the guarantee is re-checked on every future release.",
+    "benefit": "Confidence that resetting your Haven never costs you the setup you built.",
+    "ref": "38d1fe2",
+    "features": []
+  },
   {
     "id": 679,
     "date": "2026-08-21",
