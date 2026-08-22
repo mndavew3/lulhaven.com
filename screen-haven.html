@@ -29,6 +29,9 @@ html,body{background:var(--bg);margin:0}
 .sh-hero .row{display:flex;align-items:center;gap:14px}
 .sh-hero h1{font-size:clamp(32px,6vw,50px);font-weight:700;letter-spacing:-.02em;margin:0;color:var(--ink)}
 .sh-hero .lede{color:var(--dim);font-size:clamp(16px,2.4vw,19px);max-width:60ch;margin:18px 0 22px}
+.sh-shot{margin:26px 0 0;max-width:420px}
+.sh-shot img{width:100%;height:auto;display:block;border-radius:10px;border:1px solid rgba(255,255,255,.12)}
+.sh-shot figcaption{color:var(--dim);font-size:14px;margin-top:9px;line-height:1.45}
 .chip{display:inline-block;font-family:var(--mono);font-size:12.5px;color:var(--accent);
   border:1px solid rgba(70,222,201,.35);border-radius:999px;padding:6px 13px;background:var(--panel)}
 
@@ -85,6 +88,12 @@ figcaption{padding:13px 4px 2px}
         network and connected devices &mdash; on the inexpensive 3.5-inch screen, driven by a USB mouse
         you plug into the router. A glimpse of what a Haven does.</p>
       <span class="chip">Open-source &middot; MIT &middot; coming to the OpenWrt feed</span>
+      <figure class="sh-shot">
+        <img src="/assets/images/screen-haven-hardware.jpg" width="1200" height="1600" loading="lazy"
+             alt="A Haven router standing upright with the Screen Haven display mounted on top, showing the Lulhaven splash image, a wireless mouse on the surface beside it">
+        <figcaption>Screen Haven on a real unit &mdash; the display mounted on the router, driven by the
+          USB mouse beside it.</figcaption>
+      </figure>
     </div>
 
     <section class="sh">
