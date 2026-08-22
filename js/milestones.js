@@ -1,5 +1,16 @@
-// generated from haven_wiki.db accomplishments — 666 rows, newest id 681
+// generated from haven_wiki.db accomplishments — 668 rows, newest id 683
 var milestonesDataset = [
+  {
+    "id": 683,
+    "date": "2026-08-21",
+    "theme": "Reliability",
+    "impact": 4,
+    "summary": "The virtual-machine edition of Haven was put through a full factory reset on the bench and came back with its identity and its saved settings intact.",
+    "detail": null,
+    "benefit": "Every edition of Haven, not just the routers, now has its settings-survival proven on real hardware rather than assumed.",
+    "ref": "",
+    "features": []
+  },
   {
     "id": 681,
     "date": "2026-08-21",
@@ -9,6 +20,17 @@ var milestonesDataset = [
     "detail": "Bench-verified end to end on an Olive Green unit running 0.1.83. Three automated checks now cover the whole path: your filter choices and admin login returning after a reset-button press, the protected-storage layer's own behaviour across 17 separate assertions, and the dedicated storage area plus its contents coming through a full factory reset with a marker confirmed present afterwards. All three run against the shipping firmware and are now permanent members of the standing test regimen, so the guarantee is re-checked on every future release.",
     "benefit": "Confidence that resetting your Haven never costs you the setup you built.",
     "ref": "38d1fe2",
+    "features": []
+  },
+  {
+    "id": 682,
+    "date": "2026-08-21",
+    "theme": "Reliability",
+    "impact": 3,
+    "summary": "Haven now keeps the correct date and time through a factory reset, so the activity log reads correctly from the moment the router comes back.",
+    "detail": null,
+    "benefit": "After a reset your activity log shows when things actually happened, instead of dates from months earlier.",
+    "ref": "636cfa054f",
     "features": []
   },
   {
@@ -30,7 +52,7 @@ var milestonesDataset = [
     "summary": "Milestones now reach lulhaven.com in the same session they are recorded.",
     "detail": "The milestones page is regenerated and published as part of closing out every working session, so the record you read is the record as it stands.",
     "benefit": "What you see on the milestones page is current, every day we work.",
-    "ref": "359c2b0a",
+    "ref": "",
     "features": []
   },
   {
