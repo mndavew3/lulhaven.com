@@ -414,7 +414,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "Built the customer registration and checkout flow, the system that turns a router's serial number into an active subscription, and verified the whole path end to end in a real test run: sign up, pay, and have your router recognized as entitled.",
     "detail": "Register + checkout endpoints, subscription/customer schema, entitlement check wired to router-side downloads, contest-claim bridge into registration. Verified via real local Workers runtime (not code review): fresh-serial registration, checkout writing the row, entitlement read-back, squad options, already-registered handling. Not yet deployed to the live site; Stripe live keys and a Hearst publish are still needed before real customers can use it.",
-    "benefit": "This is the missing link between a Haven router in a box and a Haven router actually filtering your network on your plan. Once it's switched on for real customers, registering a router and starting a subscription will just work.",
+    "benefit": "This is the missing link between a Haven in a box and a Haven actually filtering your network on your plan. Once it's switched on for real customers, registering a router and starting a subscription will just work.",
     "ref": "2ea264fbd1",
     "features": []
   },
@@ -480,7 +480,7 @@ var milestonesDataset = [
     "impact": 5,
     "summary": "Strengthened our internal nightly build jobs.",
     "detail": "Every Haven router spreads its nightly work across a random minute so the whole fleet does not hit our servers at once. That random minute was being computed from a number far too large for the router's small shell to handle, and it came out as minus one. Minus one is not a minute, so the router's scheduler threw the whole line away — silently. Four jobs died with it: the blocklist refresh, the adult-list refresh, the update check, and the watchdog that is supposed to notice when something has stopped. Measured on the bench unit, not reasoned about: the first explanation we had was wrong and was thrown out after the box was asked directly.",
-    "benefit": "Every router we ship has its background update jobs verified working before it ever reaches a customer.",
+    "benefit": "Every Haven we ship has its background update jobs verified working before it ever reaches a customer.",
     "ref": "",
     "features": []
   },
@@ -665,7 +665,7 @@ var milestonesDataset = [
     "date": "2026-07-30",
     "theme": "Filter strategies",
     "impact": 5,
-    "summary": "Haven now does nothing at all until you ask it to. With no filters turned on, a Haven router behaves exactly like the same router without Haven — your devices reach the internet, and the DNS settings you chose, untouched.",
+    "summary": "Haven now does nothing at all until you ask it to. With no filters turned on, a Haven behaves exactly like the same router without Haven — your devices reach the internet, and the DNS settings you chose, untouched.",
     "detail": "Every enforcement layer — DNS redirection, encrypted-DNS blocking, VPN and Tor blocking, connection inspection — now switches off completely when nothing is being filtered, and switches back on the moment you filter anything. Verified on real hardware from a device behind the router: with filters off it reached the resolver it asked for and encrypted DNS worked; with one filter on, everything clamped again.",
     "benefit": "You decide what gets filtered. Until you do, Haven stays out of the way — no blocking, no redirecting, nothing you can notice.",
     "ref": "c832a345c0",
@@ -775,7 +775,7 @@ var milestonesDataset = [
     "date": "2026-07-27",
     "theme": "Demo page",
     "impact": 3,
-    "summary": "Demo exports now use the real router's configuration file format — settings built in the demo import straight into a Haven router",
+    "summary": "Demo exports now use the real router's configuration file format — settings built in the demo import straight into a Haven",
     "detail": null,
     "benefit": "Try filters in the browser, keep the file, and load the same choices onto your router when it arrives",
     "ref": "8b91aa4",
@@ -951,7 +951,7 @@ var milestonesDataset = [
     "date": "2026-07-17",
     "theme": "Process / Quality",
     "impact": 3,
-    "summary": "Every router ships with a current filter list, a unique serial number, and an encrypted, restore-tested backup of its support credentials.",
+    "summary": "Every Haven ships with a current filter list, a unique serial number, and an encrypted, restore-tested backup of its support credentials.",
     "detail": null,
     "benefit": "Your router ships with fresher protection out of the box and support access that's safely backed up.",
     "ref": "747e5b7",
@@ -997,7 +997,7 @@ var milestonesDataset = [
     "impact": 3,
     "summary": "Strengthened our internal build-and-ship process.",
     "detail": "Campaign survived a hard resource-limit wall, an 18-hour machine suspend, and a process kill with zero work lost — every pass checkpoints its findings to SQLite as it completes",
-    "benefit": "The process that builds Haven now checks itself automatically, before every router ships.",
+    "benefit": "The process that builds Haven now checks itself automatically, before every Haven ships.",
     "ref": "4ce5016f-2",
     "features": []
   },
@@ -1116,7 +1116,7 @@ var milestonesDataset = [
     "date": "2026-07-08",
     "theme": "Off-network filtering",
     "impact": 4,
-    "summary": "Off-network phone filtering proven live end-to-end: a real Android on Haven's Private-DNS address, filtered by its Haven router",
+    "summary": "Off-network phone filtering proven live end-to-end: a real Android on Haven's Private-DNS address, filtered by its Haven",
     "detail": null,
     "benefit": "Your rules follow your phone everywhere — cellular included — with nothing to install",
     "ref": "262",
@@ -1281,7 +1281,7 @@ var milestonesDataset = [
     "date": "2026-07-03",
     "theme": "Build pipeline",
     "impact": 3,
-    "summary": "Every router ships with the complete ad-filtering system built in, with safeguards to keep it that way.",
+    "summary": "Every Haven ships with the complete ad-filtering system built in, with safeguards to keep it that way.",
     "detail": "The router code had two downstream copies that had drifted apart; the image that bakes was missing the newest ad-identification work while carrying a half-wired newer piece. Rebuilt from a single reconciled source into a consistent image, and made the copy that bakes generated-from-source so this can't recur unnoticed.",
     "benefit": "The router image you receive is built from one consistent source, so it reliably contains the features it's supposed to.",
     "ref": "2026-07-03-session",
@@ -1435,7 +1435,7 @@ var milestonesDataset = [
     "date": "2026-06-27",
     "theme": "Firmware & overlay",
     "impact": 5,
-    "summary": "Serial provisioning: each Haven router mints its own unique serial number the first time it reaches the internet, recorded durably on the device.",
+    "summary": "Serial provisioning: each Haven mints its own unique serial number the first time it reaches the internet, recorded durably on the device.",
     "detail": null,
     "benefit": "Every Haven is individually identifiable from day one — the backbone of support and warranty.",
     "ref": "609b4c4",
@@ -1534,9 +1534,9 @@ var milestonesDataset = [
     "date": "2026-06-23",
     "theme": "Burn Automation",
     "impact": 4,
-    "summary": "Every Haven router ships with a per-unit Wi-Fi password and an owner login that must be changed on first use.",
+    "summary": "Every Haven ships with a per-unit Wi-Fi password and an owner login that must be changed on first use.",
     "detail": "Consolidated the production burn onto one personalizer that creates the owner's admin account, arms the first-login password reset, derives per-unit Wi-Fi credentials, and lays down the filter and network config. Verified end-to-end in the test VM; final hardware-burn validation pending.",
-    "benefit": "A safe, consistent first-contact experience on every shipped router: no shared passwords, and the owner sets their own login the first time they connect.",
+    "benefit": "A safe, consistent first-contact experience on every shipped Haven: no shared passwords, and the owner sets their own login the first time they connect.",
     "ref": "744f1549f4",
     "features": []
   },
@@ -1635,7 +1635,7 @@ var milestonesDataset = [
     "impact": 3,
     "summary": "Hardened and fully validated our automated process for building a router from the ground up -- strengthened the build script and added a safety check for the network cable before starting. The finished router then passed a full 87-point test with zero real defects, confirmed by independent review.",
     "detail": "Burn chain hardened: a flash-script exit-code bug fixed and a cable-safety prompt added; the rebuilt unit then passed an 87-point automated test suite with no real defects (transient failures all traced to expected unconfigured/no-internet state).",
-    "benefit": "Every router we ship runs through a repeatable, self-checking rebuild-and-test cycle for consistent, verified reliability.",
+    "benefit": "Every Haven we ship runs through a repeatable, self-checking rebuild-and-test cycle for consistent, verified reliability.",
     "ref": "34618c3",
     "features": []
   },
@@ -1710,7 +1710,7 @@ var milestonesDataset = [
     "date": "2026-06-11",
     "theme": "Haven Helm",
     "impact": 3,
-    "summary": "Secure first login: every Haven router now requires its owner to set a personal admin password before the dashboard opens — no unit is usable with a shared setup password.",
+    "summary": "Secure first login: every Haven now requires its owner to set a personal admin password before the dashboard opens — no unit is usable with a shared setup password.",
     "detail": "Built into the shipping firmware and proven end-to-end on the first unit: signing in with the shared setup password forces the owner to choose their own before anything else loads.",
     "benefit": "Out-of-the-box security: a Haven is controllable only by the owner who set it up, with a unique password from first boot.",
     "ref": "",
@@ -1721,7 +1721,7 @@ var milestonesDataset = [
     "date": "2026-06-09",
     "theme": "Burn Automation",
     "impact": 5,
-    "summary": "Completed the first fully-automated, end-to-end router burn — from factory-stock to a ready-to-ship, personalized Haven router — with no manual reflashing, recorded step-by-step by the burn black box.",
+    "summary": "Completed the first fully-automated, end-to-end router burn — from factory-stock to a ready-to-ship, personalized Haven — with no manual reflashing, recorded step-by-step by the burn black box.",
     "detail": "Factory restore, automated setup, OpenWrt, the Haven image, per-unit personalization, and a customer-experience QC pass — every step scripted and journaled, run start to finish autonomously.",
     "benefit": "Proves Haven routers can be produced reliably and repeatably ahead of the first shipment: the build pipeline works end to end.",
     "ref": "209",
@@ -1796,7 +1796,7 @@ var milestonesDataset = [
     "date": "2026-06-07",
     "theme": "Burn Automation",
     "impact": 4,
-    "summary": "Improved our router-flashing process.",
+    "summary": "Improved our-flashing process.",
     "detail": null,
     "benefit": "Burn chain no longer requires operator browser interaction for OEM→initramfs stage",
     "ref": "c078ab3",
@@ -1818,7 +1818,7 @@ var milestonesDataset = [
     "date": "2026-06-07",
     "theme": "Burn Automation",
     "impact": 3,
-    "summary": "Automated our router recovery process.",
+    "summary": "Automated our recovery process.",
     "detail": null,
     "benefit": "When router lands in U-Boot failsafe, operator runs one script instead of using a browser",
     "ref": "c078ab3",
@@ -1851,7 +1851,7 @@ var milestonesDataset = [
     "date": "2026-06-06",
     "theme": "Hardware / Burn",
     "impact": 4,
-    "summary": "Documented our official process for turning a stock router into a Haven router, and strengthened our router-recovery procedures.",
+    "summary": "Documented our official process for turning a stock router into a Haven, and strengthened our-recovery procedures.",
     "detail": "5 wrinkles documented: factory.bin/sysupgrade.bin distinction, GL.iNet 4.8.4 security hardening, U-Boot signature check, TFTP not available, failsafe unreachable from boot loop. Correct path: U-Boot web recovery → GL.iNet 4.6.2 → sysupgrade Haven.bin",
     "benefit": "<router serial> (Shane's router) is ready for Haven sysupgrade flash; burn procedure for all future MT6000 units is validated and documented in wiki",
     "ref": "-204",
@@ -1963,7 +1963,7 @@ var milestonesDataset = [
     "impact": 3,
     "summary": "Sharpened the homepage around one clear idea: Haven is the software, not the box. Renamed the router lineup to 'Meet Haven,' added a 'these two identical routers — one has Haven' visual, and reframed the page title and description from 'router' to 'router software.'",
     "detail": null,
-    "benefit": "Visitors grasp in a line that they're buying the intelligence, not the hardware — and that it runs on our router or one they already own.",
+    "benefit": "Visitors grasp in a line that they're buying the intelligence, not the hardware — and that it runs on our or one they already own.",
     "ref": "275348d",
     "features": []
   },
@@ -2148,7 +2148,7 @@ var milestonesDataset = [
     "date": "2026-05-30",
     "theme": "Off-network filtering",
     "impact": 5,
-    "summary": "Off-network filtering went live: a device keeps Haven's protection on cellular with no app, set up by scanning a code on the router. Proven end-to-end on a real phone, and each network routes to its own router.",
+    "summary": "Off-network filtering went live: a device keeps Haven's protection on cellular with no app, set up by scanning a code on the router. Proven end-to-end on a real phone, and each network routes to its own unit.",
     "detail": "Cloud relay (DoT/DoH) over WireGuard to your router's filter; per-router provisioning scripted into the burn; SNI selector routes each network to its own router; per-device routing mechanism proven.",
     "benefit": "Protection that used to stop at the front door now follows phones and tablets wherever they go, with a one-scan setup and nothing to install.",
     "ref": "",
@@ -2159,7 +2159,7 @@ var milestonesDataset = [
     "date": "2026-05-30",
     "theme": "Off-network filtering",
     "impact": 4,
-    "summary": "Locked the no-app off-network design — a phone keeps Haven's filtering on cellular with only a DNS setting (no app to install), routed back to its own Haven router; and stood up the live relay server it runs on.",
+    "summary": "Locked the no-app off-network design — a phone keeps Haven's filtering on cellular with only a DNS setting (no app to install), routed back to its own Haven; and stood up the live relay server it runs on.",
     "detail": null,
     "benefit": "Filtering follows people wherever they go without installing anything on the phone — a one-time setting, not yet another monitoring app.",
     "ref": "",
@@ -2337,7 +2337,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "Haven routers now configure themselves to your network the moment you plug them in. The router automatically detects and resolves address conflicts with your existing equipment — whether it clashes with your current router's settings or your network is laid out differently than the factory default — so setup stays genuinely plug-and-play with no manual network configuration.",
     "detail": "On first power-up the router examines the network on both sides, chooses an address range that won't conflict, and quietly reconfigures itself if needed. Your existing devices keep working, and the router's filtering and admin page follow the new address automatically. The behavior is covered by an automated regression check. Rollout note: confirm the earliest Early-Adopter units receive this update.",
-    "benefit": "A customer can plug a Haven router into any network and have it just work — no manual setup — even when their existing router uses the same common address range or an unusual one.",
+    "benefit": "A customer can plug a Haven into any network and have it just work — no manual setup — even when their existing router uses the same common address range or an unusual one.",
     "ref": "8ae6134362",
     "features": [
       {
@@ -2519,7 +2519,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "\"Meet Haven's Routers\" section added to the homepage -- the Olive and Navy gnomes introduce the product lineup.",
     "detail": "New section between hero and How-It-Works introduces Haven Olive (Essential Wi-Fi 6) and Haven Navy (Performance flagship) with mascot illustrations. The homepage previously named no specific product.",
-    "benefit": "Visitors learn which Haven router fits their network before clicking through to specifications.",
+    "benefit": "Visitors learn which Haven fits their network before clicking through to specifications.",
     "ref": "f6e964f533",
     "features": [
       {
@@ -2544,7 +2544,7 @@ var milestonesDataset = [
     "date": "2026-05-25",
     "theme": "Burn procedure & build station",
     "impact": 3,
-    "summary": "Improved our router software update process.",
+    "summary": "Improved our software update process.",
     "detail": "Internal-only refinement.",
     "benefit": "OTA upgrades land cleanly, and filtering stays continuously active throughout.",
     "ref": "wiki-144",
@@ -2760,7 +2760,7 @@ var milestonesDataset = [
     "date": "2026-05-24",
     "theme": "Email notifications",
     "impact": 4,
-    "summary": "Built our internal router-status reporting system.",
+    "summary": "Built our internal-status reporting system.",
     "detail": null,
     "benefit": "Parents see what is happening on their network without having to log in and look.",
     "ref": "173f36dbd4",
@@ -3325,7 +3325,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "Finished more of the behind-the-scenes work for account-level enforcement; the feature isn't fully active yet.",
     "detail": "Step D split into two sub-steps. D.1 (this session): plumbing. MainActivity.kt fetchActions() mirrors fetchBlocklist(), pushes window.havenYtActions={v,actions} at onPageFinished; haven_filter.js passive sweep walks every InnerTube response for menuServiceItemRenderer with NOT_IN…",
-    "benefit": "Reliable, persistent router behavior with no manual setup the customer has to do.",
+    "benefit": "Reliable, persistent behavior with no manual setup the customer has to do.",
     "ref": "",
     "features": []
   },
@@ -3773,9 +3773,9 @@ var milestonesDataset = [
     "date": "2026-05-16",
     "theme": "Burn procedure & build station",
     "impact": 5,
-    "summary": "Built internal tools that automate our router-build process.",
+    "summary": "Built internal tools that automate our-build process.",
     "detail": null,
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "benefit": "Havens ship reliably and quickly; refining the burn procedure improves every future unit.",
     "ref": "d9cc60280d",
     "features": [
       {
@@ -3791,7 +3791,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "Improved our internal build tools.",
     "detail": null,
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "benefit": "Havens ship reliably and quickly; refining the burn procedure improves every future unit.",
     "ref": "b4c9e37b56",
     "features": [
       {
@@ -3811,7 +3811,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "Refined our internal build tooling.",
     "detail": null,
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "benefit": "Havens ship reliably and quickly; refining the burn procedure improves every future unit.",
     "ref": "e1dba06af6",
     "features": []
   },
@@ -3822,7 +3822,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "Improved our internal build tooling.",
     "detail": null,
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "benefit": "Havens ship reliably and quickly; refining the burn procedure improves every future unit.",
     "ref": "9c9d57af4f",
     "features": []
   },
@@ -3831,9 +3831,9 @@ var milestonesDataset = [
     "date": "2026-05-16",
     "theme": "Firmware & overlay",
     "impact": 4,
-    "summary": "Improved our internal router-restore process.",
+    "summary": "Improved our internal-restore process.",
     "detail": null,
-    "benefit": "Reliable, persistent router behavior with no manual setup the customer has to do.",
+    "benefit": "Reliable, persistent behavior with no manual setup the customer has to do.",
     "ref": "f3f1fababb",
     "features": []
   },
@@ -3875,7 +3875,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "Strengthened our firmware-recovery process.",
     "detail": "~90-minute exploration documented so future-us doesn't repeat the dead-end. Internal-only learning.",
-    "benefit": "Routers ship reliably; we know the safe vs unsafe recovery paths.",
+    "benefit": "Havens ship reliably; we know the safe vs unsafe recovery paths.",
     "ref": "",
     "features": []
   },
@@ -4005,7 +4005,7 @@ var milestonesDataset = [
     "date": "2026-05-16",
     "theme": "Repo hygiene",
     "impact": 1,
-    "summary": "Improved our internal router-recovery process.",
+    "summary": "Improved our internal-recovery process.",
     "detail": null,
     "benefit": "Cleaner repos and smaller diffs — less time fighting tooling, more time shipping.",
     "ref": "6e3e63685d",
@@ -4106,7 +4106,7 @@ var milestonesDataset = [
     "impact": 5,
     "summary": "Improved our internal build tracking.",
     "detail": null,
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "benefit": "Havens ship reliably and quickly; refining the burn procedure improves every future unit.",
     "ref": "c972f30264",
     "features": [
       {
@@ -4133,7 +4133,7 @@ var milestonesDataset = [
     "impact": 5,
     "summary": "Finished and verified, on real hardware, the process used to load Haven software onto routers before they ship.",
     "detail": null,
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "benefit": "Havens ship reliably and quickly; refining the burn procedure improves every future unit.",
     "ref": "6974f27a64",
     "features": []
   },
@@ -4142,7 +4142,7 @@ var milestonesDataset = [
     "date": "2026-05-15",
     "theme": "Build maintenance UI",
     "impact": 5,
-    "summary": "Streamlined our internal router build process.",
+    "summary": "Streamlined our internal build process.",
     "detail": null,
     "benefit": "Burn procedure lives in D1 as data, not in code. Refinement is a SQL UPDATE — every site/Claude instantly uses the new procedure.",
     "ref": "d6e94c0fd6",
@@ -4175,9 +4175,9 @@ var milestonesDataset = [
     "date": "2026-05-15",
     "theme": "Burn procedure & build station",
     "impact": 5,
-    "summary": "Improved our router-flashing process.",
+    "summary": "Improved our-flashing process.",
     "detail": "2026-05-15 21:46 CDT — Dave's reaction: \"This was my vision from the\nstart.\" The Phase 2 burn architecture (committed to per is\nnow fully implemented, live-fire tested end-to-end, and operationally\nsound. <router serial> will be the first router burned under this architecture.",
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "benefit": "Havens ship reliably and quickly; refining the burn procedure improves every future unit.",
     "ref": "",
     "features": [
       {
@@ -4223,7 +4223,7 @@ var milestonesDataset = [
     "date": "2026-05-15",
     "theme": "Architecture & data model",
     "impact": 4,
-    "summary": "Improved our internal router-identity tracking.",
+    "summary": "Improved our internal-identity tracking.",
     "detail": null,
     "benefit": "Today's design supports tomorrow's features without painful rewrites.",
     "ref": "fd7d6bb42a",
@@ -4236,7 +4236,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "Improved our internal build tracking.",
     "detail": null,
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "benefit": "Havens ship reliably and quickly; refining the burn procedure improves every future unit.",
     "ref": "a8264cbc98",
     "features": []
   },
@@ -4247,7 +4247,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "Refined our internal build tooling.",
     "detail": null,
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "benefit": "Havens ship reliably and quickly; refining the burn procedure improves every future unit.",
     "ref": "a18f311dc2",
     "features": []
   },
@@ -4258,7 +4258,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "Refined our internal build tooling.",
     "detail": null,
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "benefit": "Havens ship reliably and quickly; refining the burn procedure improves every future unit.",
     "ref": "03120a4862",
     "features": []
   },
@@ -4269,7 +4269,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "Refined our internal build tooling.",
     "detail": null,
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "benefit": "Havens ship reliably and quickly; refining the burn procedure improves every future unit.",
     "ref": "20978e0896",
     "features": []
   },
@@ -4324,7 +4324,7 @@ var milestonesDataset = [
     "impact": 5,
     "summary": "Strengthened our internal admin-tool logging.",
     "detail": null,
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "benefit": "Havens ship reliably and quickly; refining the burn procedure improves every future unit.",
     "ref": "ce956dae2c",
     "features": []
   },
@@ -4335,7 +4335,7 @@ var milestonesDataset = [
     "impact": 5,
     "summary": "Strengthened our production quality-control process.",
     "detail": "user2's re-burn (2026-05-14) exposed five real defects in the burn\nautomation. All five would have hit <router serial> unaltered. All five are\nnow fixed and committed in ~/haven-station.",
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "benefit": "Havens ship reliably and quickly; refining the burn procedure improves every future unit.",
     "ref": "",
     "features": []
   },
@@ -4344,7 +4344,7 @@ var milestonesDataset = [
     "date": "2026-05-14",
     "theme": "Burn procedure & build station",
     "impact": 5,
-    "summary": "Improved our router backup system.",
+    "summary": "Improved our backup system.",
     "detail": "Burn-procedure step adjusted so each day's backup is preserved with a datestamp — never overwritten — and a diff against the prior known-good is run before ship.",
     "benefit": "Every router has a verifiable golden baseline; any drift is caught before the unit leaves the bench.",
     "ref": "",
@@ -4357,7 +4357,7 @@ var milestonesDataset = [
     "impact": 5,
     "summary": "Improved router branding display in the admin screen.",
     "detail": "Live-fire 2026-05-14, user2 <router serial> retrofit. The 3-line brand area\n(\"Lulhaven / Haven Navy / 2 of 100\") refused to render correctly across\n~6 distinct CSS/HTML approaches. Root cause was finally identified:",
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "benefit": "Havens ship reliably and quickly; refining the burn procedure improves every future unit.",
     "ref": "",
     "features": []
   },
@@ -4368,7 +4368,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "Simplified our internal build documentation.",
     "detail": null,
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "benefit": "Havens ship reliably and quickly; refining the burn procedure improves every future unit.",
     "ref": "931866a411",
     "features": []
   },
@@ -4379,7 +4379,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "The router firmware image in production now has the complete Lulhaven / Haven Navy brand design built in.",
     "detail": null,
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "benefit": "Havens ship reliably and quickly; refining the burn procedure improves every future unit.",
     "ref": "d93bc882d2",
     "features": []
   },
@@ -4390,7 +4390,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "Refined our internal build tooling.",
     "detail": null,
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "benefit": "Havens ship reliably and quickly; refining the burn procedure improves every future unit.",
     "ref": "c49bfbeee3",
     "features": []
   },
@@ -4401,7 +4401,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "Strengthened our pre-ship quality checks.",
     "detail": "Validated admin-screen checks ensure the admin interface works correctly on production routers before they leave the bench.",
-    "benefit": "First-boot admin-screen access is verified before every router ships.",
+    "benefit": "First-boot admin-screen access is verified before every Haven ships.",
     "ref": "81a9a4a5a9",
     "features": []
   },
@@ -4421,7 +4421,7 @@ var milestonesDataset = [
     "date": "2026-05-14",
     "theme": "Burn procedure & build station",
     "impact": 4,
-    "summary": "Improved our internal router build process.",
+    "summary": "Improved our internal build process.",
     "detail": null,
     "benefit": "Burn procedure lives in D1 as data, not in code. Refinement is a SQL UPDATE — every site/Claude instantly uses the new procedure.",
     "ref": "5058091c8b",
@@ -4434,7 +4434,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "Improved our build-station network setup.",
     "detail": "2026-05-14 23:48 — final resolution of tonight's my.lulhaven.com NXDOMAIN\nconfusion. user2 was never broken. The station laptop test environment\nwas the obstacle.",
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "benefit": "Havens ship reliably and quickly; refining the burn procedure improves every future unit.",
     "ref": "",
     "features": []
   },
@@ -4445,7 +4445,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "Strengthened our internal quality-check process.",
     "detail": "2026-05-14 23:27 — Dave called out that DNS does NOT serve my.lulhaven.com,\nright after I closed user2 <router serial> build #3 with step 16 (QC-5 visual\nverification) marked success. I had claimed \"my.lulhaven.com redirects\nto Haven admin\" without ever testing it.",
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "benefit": "Havens ship reliably and quickly; refining the burn procedure improves every future unit.",
     "ref": "",
     "features": []
   },
@@ -4465,7 +4465,7 @@ var milestonesDataset = [
     "date": "2026-05-14",
     "theme": "Build maintenance UI",
     "impact": 3,
-    "summary": "Strengthened our router build verification process.",
+    "summary": "Strengthened our build verification process.",
     "detail": null,
     "benefit": "Burn procedure lives in D1 as data, not in code. Refinement is a SQL UPDATE — every site/Claude instantly uses the new procedure.",
     "ref": "a287a91fd4",
@@ -4509,7 +4509,7 @@ var milestonesDataset = [
     "date": "2026-05-14",
     "theme": "Build maintenance UI",
     "impact": 2,
-    "summary": "Improved our internal router build documentation.",
+    "summary": "Improved our internal build documentation.",
     "detail": null,
     "benefit": "Burn procedure lives in D1 as data, not in code. Refinement is a SQL UPDATE — every site/Claude instantly uses the new procedure.",
     "ref": "6b44c057cc",
@@ -4542,7 +4542,7 @@ var milestonesDataset = [
     "date": "2026-05-14",
     "theme": "Repo hygiene",
     "impact": 1,
-    "summary": "Improved internal tracking of our router build process.",
+    "summary": "Improved internal tracking of our build process.",
     "detail": null,
     "benefit": "Cleaner repos and smaller diffs — less time fighting tooling, more time shipping.",
     "ref": "3417f141aa",
@@ -4566,7 +4566,7 @@ var milestonesDataset = [
     "impact": 5,
     "summary": "Improved our internal build checklist.",
     "detail": null,
-    "benefit": "Reliable, persistent router behavior with no manual setup the customer has to do.",
+    "benefit": "Reliable, persistent behavior with no manual setup the customer has to do.",
     "ref": "0be99c48db",
     "features": []
   },
@@ -4628,7 +4628,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "Improved the admin panel's background image display.",
     "detail": null,
-    "benefit": "Reliable, persistent router behavior with no manual setup the customer has to do.",
+    "benefit": "Reliable, persistent behavior with no manual setup the customer has to do.",
     "ref": "76468ace24",
     "features": []
   },
@@ -4639,7 +4639,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "Consolidated our internal build documentation.",
     "detail": null,
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "benefit": "Havens ship reliably and quickly; refining the burn procedure improves every future unit.",
     "ref": "7a6483cac0",
     "features": []
   },
@@ -4650,7 +4650,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "Improved our internal build procedure.",
     "detail": null,
-    "benefit": "Reliable, persistent router behavior with no manual setup the customer has to do.",
+    "benefit": "Reliable, persistent behavior with no manual setup the customer has to do.",
     "ref": "2944273695",
     "features": []
   },
@@ -4661,7 +4661,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "Improved our internal build procedure.",
     "detail": null,
-    "benefit": "Reliable, persistent router behavior with no manual setup the customer has to do.",
+    "benefit": "Reliable, persistent behavior with no manual setup the customer has to do.",
     "ref": "70f2df58e0",
     "features": []
   },
@@ -4672,7 +4672,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "Logged an internal build record.",
     "detail": null,
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "benefit": "Havens ship reliably and quickly; refining the burn procedure improves every future unit.",
     "ref": "58f2200b0a",
     "features": []
   },
@@ -4710,7 +4710,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "Your router's memorable web address (like haven.navyblue) keeps working automatically, even if your network's IP settings change.",
     "detail": "Dave 2026-05-13 before user2's burn: 'one of the most frequently used options when setting up a router is to change its IP address. so i'm wondering if there's some way we can, in the boot-up of the router, restore that dns listing to whatever the current ip address is for the ro…",
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "benefit": "Havens ship reliably and quickly; refining the burn procedure improves every future unit.",
     "ref": "",
     "features": []
   },
@@ -4797,7 +4797,7 @@ var milestonesDataset = [
     "impact": 5,
     "summary": "Began work on making router production fully automated, targeting a ten-minute build process for every unit.",
     "detail": "Ultrathink session 2026-05-13. Dave: 'we need to improve the design of automation with regard to our router burning process. This needs to become a ten minute task with no user interaction.'",
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "benefit": "Havens ship reliably and quickly; refining the burn procedure improves every future unit.",
     "ref": "",
     "features": []
   },
@@ -4806,7 +4806,7 @@ var milestonesDataset = [
     "date": "2026-05-12",
     "theme": "Burn procedure & build station",
     "impact": 5,
-    "summary": "Memorable shortname customers can type to reach the router admin screen — haven.navyblue for Navy units, haven.olivegreen for Olive units.",
+    "summary": "Memorable shortname customers can type to reach the admin screen — haven.navyblue for Navy units, haven.olivegreen for Olive units.",
     "detail": "Customers no longer need to remember the router's IP address. Type the friendly name in any browser on your network and the admin screen loads.",
     "benefit": "Reaching the Haven controls is as easy as typing a memorable name — no IP-address lookup required.",
     "ref": "",
@@ -4895,7 +4895,7 @@ var milestonesDataset = [
     "impact": 5,
     "summary": "Admin screen now has the same frosted-glass design language as lulhaven.com.",
     "detail": "Visual continuity between the marketing site and the in-router experience — customers recognize they're in the same product family.",
-    "benefit": "The router admin screen feels like a polished consumer product, not a 2010-vintage admin panel.",
+    "benefit": "The admin screen feels like a polished consumer product, not a 2010-vintage admin panel.",
     "ref": "",
     "features": []
   },
@@ -4906,7 +4906,7 @@ var milestonesDataset = [
     "impact": 5,
     "summary": "Admin screen sidebar shows both \"Haven\" and the model name on two lines — a subtle but clear product identification.",
     "detail": "Internal-only branding polish so the model is always visible in the sidebar.",
-    "benefit": "Customers always know which Haven router model they're looking at, without having to check labels.",
+    "benefit": "Customers always know which Haven model they're looking at, without having to check labels.",
     "ref": "",
     "features": []
   },
@@ -4928,7 +4928,7 @@ var milestonesDataset = [
     "impact": 5,
     "summary": "The first production router's configuration snapshot passed all 38 quality checks and was promoted to the reference standard for future Navy-model builds.",
     "detail": "Live-fire 2026-05-12. user1's <router serial> golden snapshot promoted to <directory> as the founding golden master for the NAV/haven-0.1.0 era. QC-5 result: 38/38 PASS. Reusable check script written: <script> — runs against a…",
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "benefit": "Havens ship reliably and quickly; refining the burn procedure improves every future unit.",
     "ref": "",
     "features": []
   },
@@ -4937,9 +4937,9 @@ var milestonesDataset = [
     "date": "2026-05-12",
     "theme": "Burn procedure & build station",
     "impact": 5,
-    "summary": "Improved our router-verification testing tools.",
+    "summary": "Improved our-verification testing tools.",
     "detail": "Live-fire 2026-05-12 (user1 <router serial> Step 16). Two fixes shipped to ~/haven-station/scripts/golden-smoke-test.sh: (1) bare 'ssh' failed because the haven-station key (~/haven-station/credentials/id_ed25519) isn't in operator's default SSH identity set — sibling scripts already use…",
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "benefit": "Havens ship reliably and quickly; refining the burn procedure improves every future unit.",
     "ref": "",
     "features": []
   },
@@ -4966,7 +4966,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "Every router now shows 'Haven' in the admin panel sidebar right out of the box, with no setup needed.",
     "detail": null,
-    "benefit": "Reliable, persistent router behavior with no manual setup the customer has to do.",
+    "benefit": "Reliable, persistent behavior with no manual setup the customer has to do.",
     "ref": "9697b6c8f0",
     "features": []
   },
@@ -4977,7 +4977,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "Improved the admin panel sidebar display.",
     "detail": null,
-    "benefit": "Reliable, persistent router behavior with no manual setup the customer has to do.",
+    "benefit": "Reliable, persistent behavior with no manual setup the customer has to do.",
     "ref": "66924b8876",
     "features": []
   },
@@ -4988,7 +4988,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "Frosted-glass design language extended into the Haven admin screen so it matches the marketing site.",
     "detail": "Internal refinement on the admin-screen background.",
-    "benefit": "Customers see one coherent product across the website, the demo, and the router admin screen.",
+    "benefit": "Customers see one coherent product across the website, the demo, and the admin screen.",
     "ref": "52727af93a",
     "features": []
   },
@@ -4999,7 +4999,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "The admin panel sidebar now shows 'Haven' and the router model name on two clear lines, built into every router shipped.",
     "detail": null,
-    "benefit": "Reliable, persistent router behavior with no manual setup the customer has to do.",
+    "benefit": "Reliable, persistent behavior with no manual setup the customer has to do.",
     "ref": "8a2080e17f",
     "features": [
       {
@@ -5015,7 +5015,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "Filter categories in the admin panel now collapse by default and expand one at a time — hold Ctrl to expand multiple at once.",
     "detail": null,
-    "benefit": "Reliable, persistent router behavior with no manual setup the customer has to do.",
+    "benefit": "Reliable, persistent behavior with no manual setup the customer has to do.",
     "ref": "a966af2120",
     "features": [
       {
@@ -5031,7 +5031,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "The Haven admin page now opens with the Social & Communication filter category expanded by default.",
     "detail": null,
-    "benefit": "Reliable, persistent router behavior with no manual setup the customer has to do.",
+    "benefit": "Reliable, persistent behavior with no manual setup the customer has to do.",
     "ref": "0bc4742062",
     "features": []
   },
@@ -5042,7 +5042,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "The admin panel can now show your router's unit number (like '12 of 100') under the model name.",
     "detail": null,
-    "benefit": "Reliable, persistent router behavior with no manual setup the customer has to do.",
+    "benefit": "Reliable, persistent behavior with no manual setup the customer has to do.",
     "ref": "31ff7e3362",
     "features": []
   },
@@ -5053,7 +5053,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "Each router model now has its own easy-to-remember web address — haven.navyblue for Navy, haven.olivegreen for Olive.",
     "detail": null,
-    "benefit": "Reliable, persistent router behavior with no manual setup the customer has to do.",
+    "benefit": "Reliable, persistent behavior with no manual setup the customer has to do.",
     "ref": "d7ad159895",
     "features": [
       {
@@ -5073,7 +5073,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "Your router can now be reached securely at my.lulhaven.com, ready for HTTPS.",
     "detail": null,
-    "benefit": "Reliable, persistent router behavior with no manual setup the customer has to do.",
+    "benefit": "Reliable, persistent behavior with no manual setup the customer has to do.",
     "ref": "3002402011",
     "features": []
   },
@@ -5106,7 +5106,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "Built an internal tool that takes a router from flashing to ready-to-ship.",
     "detail": null,
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "benefit": "Havens ship reliably and quickly; refining the burn procedure improves every future unit.",
     "ref": "2384dd7b21",
     "features": [
       {
@@ -5124,9 +5124,9 @@ var milestonesDataset = [
     "date": "2026-05-12",
     "theme": "Burn procedure & build station",
     "impact": 4,
-    "summary": "Built internal tooling to automate our router-build process.",
+    "summary": "Built internal tooling to automate our-build process.",
     "detail": null,
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "benefit": "Havens ship reliably and quickly; refining the burn procedure improves every future unit.",
     "ref": "2ce36729db",
     "features": []
   },
@@ -5137,7 +5137,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "Named Haven's router colorways Olive and Navy.",
     "detail": null,
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "benefit": "Havens ship reliably and quickly; refining the burn procedure improves every future unit.",
     "ref": "b59285c776",
     "features": [
       {
@@ -5157,7 +5157,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "Finalized Haven's $4/month subscription pricing.",
     "detail": null,
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "benefit": "Havens ship reliably and quickly; refining the burn procedure improves every future unit.",
     "ref": "2a04729a2f",
     "features": []
   },
@@ -5168,7 +5168,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "Documented our approach to automating router builds.",
     "detail": null,
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "benefit": "Havens ship reliably and quickly; refining the burn procedure improves every future unit.",
     "ref": "69076b8af5",
     "features": []
   },
@@ -5179,7 +5179,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "Set a production goal: the only manual step in building a router should be the physical actions a person must do; everything else is automated.",
     "detail": "Dave 2026-05-13 ultrathink: '10-minute task with no user interaction.'",
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "benefit": "Havens ship reliably and quickly; refining the burn procedure improves every future unit.",
     "ref": "",
     "features": []
   },
@@ -5243,7 +5243,7 @@ var milestonesDataset = [
     "date": "2026-05-12",
     "theme": "Filter strategies",
     "impact": 4,
-    "summary": "Explored a long-term concept for Haven to build its own router operating system from the ground up.",
+    "summary": "Explored a long-term concept for Haven to build its own unit operating system from the ground up.",
     "detail": "Strategic vision Dave articulated 2026-05-12. Re-opens an earlier (pre-archive) conversation about Android-as-router-platform. Concept refined this session.",
     "benefit": "More of what parents and adults actually care about is blockable in one click.",
     "ref": "",
@@ -5299,7 +5299,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "Each router's unit-number display is now written in permanently during manufacturing.",
     "detail": "Dave 2026-05-12: 'Can we just hardwire that at burn?' chose hardwiring over readfile() for the unit-number line because (1) the value never changes per-router so runtime IO is wasted, (2) simpler to inspect. Templates ship with 'const unit_display = '';' (empty). Burn procedure d…",
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "benefit": "Havens ship reliably and quickly; refining the burn procedure improves every future unit.",
     "ref": "",
     "features": []
   },
@@ -5479,7 +5479,7 @@ var milestonesDataset = [
     "impact": 2,
     "summary": "Improved the Haven admin page's redirect behavior.",
     "detail": null,
-    "benefit": "Reliable, persistent router behavior with no manual setup the customer has to do.",
+    "benefit": "Reliable, persistent behavior with no manual setup the customer has to do.",
     "ref": "b4245d86e9",
     "features": []
   },
@@ -5523,7 +5523,7 @@ var milestonesDataset = [
     "impact": 1,
     "summary": "Strengthened our internal backup documentation.",
     "detail": "Knowledge note for production.",
-    "benefit": "Routers ship reliably; we know exactly what's captured and what's not.",
+    "benefit": "Havens ship reliably; we know exactly what's captured and what's not.",
     "ref": "",
     "features": []
   },
@@ -5532,7 +5532,7 @@ var milestonesDataset = [
     "date": "2026-05-11",
     "theme": "Milestones",
     "impact": 5,
-    "summary": "Built the initial internal codebase for our router-build system.",
+    "summary": "Built the initial internal codebase for our-build system.",
     "detail": null,
     "benefit": "Anchor points for 'we got here' — orientation in a long project.",
     "ref": "ff9a46d233",
@@ -5545,7 +5545,7 @@ var milestonesDataset = [
     "impact": 5,
     "summary": "Strengthened our standard build process based on real-world experience.",
     "detail": null,
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "benefit": "Havens ship reliably and quickly; refining the burn procedure improves every future unit.",
     "ref": "2de69c6f84",
     "features": []
   },
@@ -5592,7 +5592,7 @@ var milestonesDataset = [
     "impact": 5,
     "summary": "Strengthened our internal data-integrity practices.",
     "detail": "Live-fire 2026-05-11. Tried INSERT OR REPLACE INTO identity (key, value, modified_datetime)... and got 'table identity has no column named modified_datetime'. By design: identity is immutable per-serial — serial doesn't change after burn. Schema: identity(key TEXT PK, value TEXT…",
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "benefit": "Havens ship reliably and quickly; refining the burn procedure improves every future unit.",
     "ref": "",
     "features": []
   },
@@ -5630,7 +5630,7 @@ var milestonesDataset = [
     "impact": 5,
     "summary": "Strengthened our production build process.",
     "detail": "Live-fire 2026-05-11. NC#1 in build_id=2: Step 3 couldn't ping GL.iNet at 192.168.8.1 because dev workstation's 'Wired connection 1' (USB-Ethernet enx0050b6ef2e37) had a static 192.168.1.4 override layered on DHCP. NIC was on 192.168.1.x while GL.iNet stock DHCP serves 192.168.8.…",
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "benefit": "Havens ship reliably and quickly; refining the burn procedure improves every future unit.",
     "ref": "",
     "features": []
   },
@@ -5674,7 +5674,7 @@ var milestonesDataset = [
     "impact": 5,
     "summary": "Improved reliability of content-filter list updates.",
     "detail": "Live-fire 2026-05-11. user1's router at first boot returned 401 on /api/<database>, /api/feed-delta.db, /api/update.json, /api/feed.json — the entire subscription feed delivery surface — because the Cloudflare Pages middleware gated ALL /api/* paths except /api/auth. Routers have no…",
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "benefit": "Havens ship reliably and quickly; refining the burn procedure improves every future unit.",
     "ref": "",
     "features": []
   },
@@ -5707,7 +5707,7 @@ var milestonesDataset = [
     "impact": 5,
     "summary": "Improved our production flashing tools.",
     "detail": "Discovered 2026-05-11 21:57 CDT during user1 <router serial> burn — first live exercise of flash-stage-1.sh against actual stock GL.iNet hardware.",
-    "benefit": "A real burn strengthened the procedure — fixed at the source before any router ships.",
+    "benefit": "A real burn strengthened the procedure — fixed at the source before any Haven ships.",
     "ref": "",
     "features": []
   },
@@ -5718,7 +5718,7 @@ var milestonesDataset = [
     "impact": 5,
     "summary": "Strengthened our production quality checks.",
     "detail": "Discovered 2026-05-11 21:00-21:30 CDT during user1 <router serial> burn. Two procedural gaps in Step 3 as currently written, both surfaced under real conditions.",
-    "benefit": "A real burn strengthened the procedure — fixed at the source before any router ships.",
+    "benefit": "A real burn strengthened the procedure — fixed at the source before any Haven ships.",
     "ref": "",
     "features": []
   },
@@ -5806,7 +5806,7 @@ var milestonesDataset = [
     "impact": 5,
     "summary": "Hardened our build toolchain against upstream changes.",
     "detail": "Caught during firmware-image prep. Locked-down version reproducibly builds with the rest of our stack.",
-    "benefit": "Secure-tunnel capability is dependable on every router we ship.",
+    "benefit": "Secure-tunnel capability is dependable on every Haven we ship.",
     "ref": "",
     "features": []
   },
@@ -5839,7 +5839,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "Updated the order in which early routers go out to specific recipients.",
     "detail": "Dave 2026-05-11 20:32 CDT: 'After user1 comes user2.'",
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "benefit": "Havens ship reliably and quickly; refining the burn procedure improves every future unit.",
     "ref": "",
     "features": []
   },
@@ -5850,7 +5850,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "Improved our internal production tooling.",
     "detail": "Per Dave 2026-05-11: all router-burning resources moved into one distinct tree at ~/haven-station/. Nothing else lives in that path. Designed for clean migration to other build stations (Southern Missouri etc.).",
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "benefit": "Havens ship reliably and quickly; refining the burn procedure improves every future unit.",
     "ref": "",
     "features": []
   },
@@ -5861,7 +5861,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "Laid groundwork for expanding router production to additional build locations.",
     "detail": "Per Dave 2026-05-11 (after the burning-strategy discussion + OS-portability question): prepped two of the high-value items from that analysis — image cache + preflight script — and structured them so a remote station (Southern Missouri etc.) can bootstrap from clean with three co…",
-    "benefit": "Reliable, persistent router behavior with no manual setup the customer has to do.",
+    "benefit": "Reliable, persistent behavior with no manual setup the customer has to do.",
     "ref": "",
     "features": [
       {
@@ -5910,7 +5910,7 @@ var milestonesDataset = [
     "impact": 2,
     "summary": "Simplified our pre-burn production sequence.",
     "detail": "",
-    "benefit": "Routers ship reliably; less procedural surface to go wrong.",
+    "benefit": "Havens ship reliably; less procedural surface to go wrong.",
     "ref": "e39a171ed9",
     "features": []
   },
@@ -6020,7 +6020,7 @@ var milestonesDataset = [
     "impact": 5,
     "summary": "Improved our internal documentation on content-filter bypass protections.",
     "detail": "Two follow-ups from closed: (a) selected categories on the golden router enumerated and added to the snapshot; (b) project_haven_bypass_resistance.md rewritten to reflect the actually-deployed state.",
-    "benefit": "Reliable, persistent router behavior with no manual setup the customer has to do.",
+    "benefit": "Reliable, persistent behavior with no manual setup the customer has to do.",
     "ref": "",
     "features": [
       {
@@ -6064,7 +6064,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "Strengthened our internal build documentation.",
     "detail": null,
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "benefit": "Havens ship reliably and quickly; refining the burn procedure improves every future unit.",
     "ref": "77d076cdb4",
     "features": []
   },
@@ -6086,7 +6086,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "Improved our internal delivery-preparation process.",
     "detail": null,
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "benefit": "Havens ship reliably and quickly; refining the burn procedure improves every future unit.",
     "ref": "4e8b24eabf",
     "features": [
       {
@@ -6104,9 +6104,9 @@ var milestonesDataset = [
     "date": "2026-05-10",
     "theme": "Burn procedure & build station",
     "impact": 4,
-    "summary": "Strengthened our internal router-build tracking system.",
+    "summary": "Strengthened our internal-build tracking system.",
     "detail": null,
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "benefit": "Havens ship reliably and quickly; refining the burn procedure improves every future unit.",
     "ref": "016ac8f9ac",
     "features": []
   },
@@ -6117,7 +6117,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "Standardized our internal serial-number tracking.",
     "detail": null,
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "benefit": "Havens ship reliably and quickly; refining the burn procedure improves every future unit.",
     "ref": "2c6dc8d691",
     "features": []
   },
@@ -6237,7 +6237,7 @@ var milestonesDataset = [
     "date": "2026-05-10",
     "theme": "Filter strategies",
     "impact": 4,
-    "summary": "Strengthened our router build procedure documentation.",
+    "summary": "Strengthened our build procedure documentation.",
     "detail": "The Haven router build procedure (per-step executable commands, verification, human-helper instructions) is stored in D1 on lulhaven.com as the canonical source of truth. NOT in a local python script. Any Claude instance at any build site (Dave's, son1's, son2's) fetche…",
     "benefit": "Burn procedure lives in D1 as data, not in code. Refinement is a SQL UPDATE — every site/Claude instantly uses the new procedure.",
     "ref": "",
@@ -6248,7 +6248,7 @@ var milestonesDataset = [
     "date": "2026-05-10",
     "theme": "Filter strategies",
     "impact": 4,
-    "summary": "Standardized our router production-tracking system.",
+    "summary": "Standardized our production-tracking system.",
     "detail": "Internal record-keeping: every burned router gets a unique date-stamped serial that encodes the model and the unit number within its model.",
     "benefit": "Every router has a unique, traceable identity from manufacture — supports warranty service, support lookups, and recall scope if ever needed.",
     "ref": "",
@@ -6259,7 +6259,7 @@ var milestonesDataset = [
     "date": "2026-05-10",
     "theme": "Filter strategies",
     "impact": 4,
-    "summary": "Finalized the list of software components built directly into every Haven router's firmware from the factory.",
+    "summary": "Finalized the list of software components built directly into every Haven's firmware from the factory.",
     "detail": "Adopt the specific kernel-module + small-userspace inclusion list below as the firmware-build configuration for Haven routers, starting with user1's burn. Total firmware weight increase: approximately 3-5 MB on routers with 256+ MB of flash. Zero runtime cost unless a m…",
     "benefit": "More of what parents and adults actually care about is blockable in one click.",
     "ref": "",
@@ -6272,7 +6272,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "Production record-keeping system adopted — modeled on the regimens used in military, aerospace, FDA medical-device, and pharma manufacturing.",
     "detail": "Three-table internal schema records every burn step, every test result, every operator action. Built to the same standard professional industries use for procedural traceability.",
-    "benefit": "Every router we ship is backed by a formal record of how it was made — same discipline used by the most safety-critical industries.",
+    "benefit": "Every Haven we ship is backed by a formal record of how it was made — same discipline used by the most safety-critical industries.",
     "ref": "",
     "features": []
   },
@@ -6303,9 +6303,9 @@ var milestonesDataset = [
     "date": "2026-05-10",
     "theme": "Firmware & overlay",
     "impact": 4,
-    "summary": "Pre-freeze production smoke-test passed; reference router preserved as a known-good restore point.",
+    "summary": "Pre-freeze production smoke-test passed; reference unit preserved as a known-good restore point.",
     "detail": "One specific router preserved as the \"everything works on this one\" baseline; future production runs diff against it.",
-    "benefit": "Every shipped router has a verifiable known-good reference behind it.",
+    "benefit": "Every shipped Haven has a verifiable known-good reference behind it.",
     "ref": "",
     "features": []
   },
@@ -6314,9 +6314,9 @@ var milestonesDataset = [
     "date": "2026-05-10",
     "theme": "Filter strategies",
     "impact": 4,
-    "summary": "Production strategy for first customer router: build from scratch from a new-in-box unit, with a tested router held as a safety net.",
+    "summary": "Production strategy for first customer unit: build from scratch from a new-in-box unit, with a tested unit held as a safety net.",
     "detail": "Internal production-path decision. Primary: fresh burn. Fallback: pre-tested unit, if the fresh burn surfaces a blocker.",
-    "benefit": "First customer gets a router built with the full production procedure, not a hand-tuned prototype.",
+    "benefit": "First customer gets a Haven built with the full production procedure, not a hand-tuned prototype.",
     "ref": "",
     "features": []
   },
@@ -6391,7 +6391,7 @@ var milestonesDataset = [
     "date": "2026-05-10",
     "theme": "Filter strategies",
     "impact": 4,
-    "summary": "Adopted a product strategy where the router is the core product and branded accessories are sold around it, similar to how Raspberry Pi built its ecosystem.",
+    "summary": "Adopted a product strategy where the Haven is the core product and branded accessories are sold around it, similar to how Raspberry Pi built its ecosystem.",
     "detail": "Haven adopts the Raspberry Pi accessory-ecosystem model — sell\nthe router as the core product, then sell branded accessory SKUs around it.",
     "benefit": "More of what parents and adults actually care about is blockable in one click.",
     "ref": "",
@@ -6402,7 +6402,7 @@ var milestonesDataset = [
     "date": "2026-05-10",
     "theme": "Filter strategies",
     "impact": 4,
-    "summary": "Made router manufacturing reliability a top engineering priority.",
+    "summary": "Made manufacturing reliability a top engineering priority.",
     "detail": "Burn process must be rock-solid before scale. Manifest +\nverify-script + golden-snapshot work is NOT infrastructure overhead — it\nIS the actual product engineering. Every burn that ships without\nverification is a customer's bad first impression we paid to manufacture.",
     "benefit": "More of what parents and adults actually care about is blockable in one click.",
     "ref": "",
@@ -6648,7 +6648,7 @@ var milestonesDataset = [
     "impact": 1,
     "summary": "Standardized our internal build terminology.",
     "detail": null,
-    "benefit": "Routers ship reliably and quickly; refining the burn procedure improves every future router.",
+    "benefit": "Havens ship reliably and quickly; refining the burn procedure improves every future unit.",
     "ref": "d8912e00ac",
     "features": []
   },
@@ -6793,7 +6793,7 @@ var milestonesDataset = [
     "date": "2026-05-09",
     "theme": "Brand & packaging",
     "impact": 4,
-    "summary": "Three new one-click starter presets — Parenting, Privacy, Senior — added to both the demo and the in-router admin screen.",
+    "summary": "Three new one-click starter presets — Parenting, Privacy, Senior — added to both the demo and the built-in admin screen.",
     "detail": "Customers can apply a sensible-defaults preset with one click on either surface, then refine if they want. First application of the \"include-for-conversation\" principle (when in doubt, include).",
     "benefit": "Setup is one click instead of dozens of decisions. The presets cover the most common filtering goals out of the box.",
     "ref": "",
@@ -7450,7 +7450,7 @@ var milestonesDataset = [
     "impact": 3,
     "summary": "Improved the live demo's example content.",
     "detail": "Pruned the Coors / MillerCoors brand from the Alcohol & Tobacco preview list and dropped its itemUrls entry, keeping the demo dataset aligned with the curated production list.",
-    "benefit": "Prospective customers see the same UI in the demo as the router ships with, so what they try is exactly what they get.",
+    "benefit": "Prospective customers see in the demo exactly what ships, so what they try is exactly what they get.",
     "ref": "b24da6f226",
     "features": []
   },
@@ -7461,7 +7461,7 @@ var milestonesDataset = [
     "impact": 3,
     "summary": "Improved the live demo's default mode.",
     "detail": "Pinned hdBasicMode = true at script load — first-time visitors and returning visitors both land in Basic mode regardless of localStorage (Advanced still reachable via the toggle).",
-    "benefit": "Prospective customers see the same UI in the demo as the router ships with, so what they try is exactly what they get.",
+    "benefit": "Prospective customers see in the demo exactly what ships, so what they try is exactly what they get.",
     "ref": "7875b2268c",
     "features": [
       {
@@ -7477,7 +7477,7 @@ var milestonesDataset = [
     "impact": 3,
     "summary": "Improved the live demo's page header and item list.",
     "detail": "Header text → \"Haven by Lulhaven - n of 100\". Filtered-view render now skips settings whose key is not in itemUrls (prevents a stray entry from breaking the table). Basic-mode default flipped from \"off unless localStorage says basic\" to \"on unless localStorage says advanced\".",
-    "benefit": "Prospective customers see the same UI in the demo as the router ships with, so what they try is exactly what they get.",
+    "benefit": "Prospective customers see in the demo exactly what ships, so what they try is exactly what they get.",
     "ref": "7045795ae4",
     "features": []
   },
@@ -7499,7 +7499,7 @@ var milestonesDataset = [
     "impact": 5,
     "summary": "Demo page: stacked brand header experiment",
     "detail": "Tried splitting the title into \"Lulhaven\" + a \"Live Demo\" subscript line, with new .hd-unit-line CSS. Reverted in the next commit (less readable at small widths).",
-    "benefit": "Prospective customers see the exact same UI in the demo as the router ships with.",
+    "benefit": "Prospective customers see in the demo exactly what ships.",
     "ref": "e5293b7f78",
     "features": [
       {
@@ -7515,7 +7515,7 @@ var milestonesDataset = [
     "impact": 3,
     "summary": "Improved the live demo's filtered view.",
     "detail": "hdApplyPreset() and hdClearAll() now call hdToggleFilteredView() instead of plain hdRenderFilteredView(), so applying a preset enters the filtered-view mode automatically.",
-    "benefit": "Prospective customers see the same UI in the demo as the router ships with, so what they try is exactly what they get.",
+    "benefit": "Prospective customers see in the demo exactly what ships, so what they try is exactly what they get.",
     "ref": "47a9d12654",
     "features": [
       {
@@ -7535,7 +7535,7 @@ var milestonesDataset = [
     "impact": 3,
     "summary": "Demo page header simplified to a single, clean line.",
     "detail": "Backed out the stacked brand experiment; single inline title reads better in the constrained demo header.",
-    "benefit": "Prospective customers see the same UI in the demo as the router ships with, so what they try is exactly what they get.",
+    "benefit": "Prospective customers see in the demo exactly what ships, so what they try is exactly what they get.",
     "ref": "35177cc537",
     "features": []
   },
@@ -7546,7 +7546,7 @@ var milestonesDataset = [
     "impact": 3,
     "summary": "Demo page: subscription table zebra striping added",
     "detail": "Alternating row backgrounds for #hd-sub-table — translucent white on odd rows, translucent black on even rows. Visibly improves scannability of the filter list.",
-    "benefit": "Prospective customers see the exact same UI in the demo as the router ships with.",
+    "benefit": "Prospective customers see in the demo exactly what ships.",
     "ref": "9794873d4a",
     "features": []
   },
@@ -7557,7 +7557,7 @@ var milestonesDataset = [
     "impact": 3,
     "summary": "Demo page: Basic/Advanced mode toggle added",
     "detail": "New Basic-mode CSS class hides advanced controls (delayed-filter, search, import/export, filter-view, badges); Basic/Advanced button + hdToggleMode() persisted via localStorage. 44 lines of new CSS + JS function + class wiring in demo.html and js/haven-ui.js.",
-    "benefit": "Prospective customers see the exact same UI in the demo as the router ships with.",
+    "benefit": "Prospective customers see in the demo exactly what ships.",
     "ref": "125b8567cc",
     "features": [
       {
@@ -7573,7 +7573,7 @@ var milestonesDataset = [
     "impact": 2,
     "summary": "Improved the demo page's row-striping display.",
     "detail": "Without !important the Bootstrap row-color rules were winning; added !important to the demo-table odd/even rules so the zebra survives the cascade.",
-    "benefit": "Prospective customers see the exact same UI in the demo as the router ships with.",
+    "benefit": "Prospective customers see in the demo exactly what ships.",
     "ref": "45da3de850",
     "features": []
   },
@@ -7584,7 +7584,7 @@ var milestonesDataset = [
     "impact": 2,
     "summary": "Improved the demo page's readability.",
     "detail": "Initial stripe opacities (0.18 / 0.06) were too subtle on most monitors; bumped to 0.4 / 0.10 so the alternation actually reads.",
-    "benefit": "Prospective customers see the exact same UI in the demo as the router ships with.",
+    "benefit": "Prospective customers see in the demo exactly what ships.",
     "ref": "e8544da0d6",
     "features": []
   },
@@ -7815,7 +7815,7 @@ var milestonesDataset = [
     "date": "2026-04-25",
     "theme": "Product definition",
     "impact": 4,
-    "summary": "Development began on lulhaven.com, with work on the Haven router software starting the very next day.",
+    "summary": "Development began on lulhaven.com, with work on the Haven software starting the very next day.",
     "detail": "website 8209de7 (2026-04-25 initial commit) + router c07f094192 (2026-04-26 luci-app-haven, Argon theme, E8450 build config).",
     "benefit": "Start of the build: from conception (Feb 18) to first code in nine weeks, firmware app on day two",
     "ref": "8209de7",
