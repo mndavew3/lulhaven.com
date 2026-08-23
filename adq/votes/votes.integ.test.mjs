@@ -5,6 +5,21 @@ import { adqMac, canonical, bodyHash, submitterToken, verifyKey } from "../lib/a
 import { EPOCH, N } from "./gen-votes-testdata.mjs";
 
 const VOTES = process.env.VOTES_URL || "http://127.0.0.1:8792";
+
+// This is an INTEGRATION test: it needs the adq worker(s) answering on the URL(s)
+// above (`wrangler dev` in this directory). When nothing is listening, every fetch
+// threw ECONNREFUSED and the file died with a stack trace, which the regimen scored
+// as an ERROR — a missing bench prerequisite dressed up as a broken product. Report
+// it as the skip it is (the runner honours a leading SKIP line) so a run without the
+// worker stays legible. Found 2026-08-23.
+for (const url of [VOTES]) {
+  try {
+    await fetch(url, { signal: AbortSignal.timeout(2000) });
+  } catch {
+    console.log(`SKIP — adq worker not reachable at ${url}; start \`wrangler dev\` in website/adq to run this`);
+    process.exit(77);
+  }
+}
 const DAY = "2026-06-30";
 const ADNET_IP = "203.0.113.7";     // AS394699 adnet -> should confirm at >=25
 const DENY_IP = "52.1.2.3";         // AS16509 aws -> suppressed at any count

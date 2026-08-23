@@ -3,6 +3,19 @@
 import { adqMac, canonical, bodyHash, submitterToken, verifyKey } from "../lib/adqmac.js";
 
 const BASE = process.env.BASE || "http://127.0.0.1:8791";
+
+// This is an INTEGRATION test: it needs the adq worker answering on BASE
+// (`wrangler dev` in this directory). When nothing is listening, every fetch
+// threw ECONNREFUSED and the file died with a stack trace, which the regimen
+// scored as an ERROR — a missing bench prerequisite dressed up as a broken
+// product. Report it as the skip it is (the runner honours a leading SKIP line)
+// so a run without the worker stays legible. Found 2026-08-23.
+try {
+  await fetch(BASE, { signal: AbortSignal.timeout(2000) });
+} catch {
+  console.log(`SKIP — adq worker not reachable at ${BASE}; start \`wrangler dev\` in website/adq to run this`);
+  process.exit(77);
+}
 const RTR_SEED = "TESTSECRET_ROUTER_0001";
 const EPOCH = "2026Q3";
 const SALT = "a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1";
