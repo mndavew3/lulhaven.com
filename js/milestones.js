@@ -1,5 +1,27 @@
-// generated from haven_wiki.db accomplishments — 679 rows, newest id 694
+// generated from haven_wiki.db accomplishments — 681 rows, newest id 696
 var milestonesDataset = [
+  {
+    "id": 695,
+    "date": "2026-08-23",
+    "theme": "Testing & quality",
+    "impact": 4,
+    "summary": "Every automated test now proves which unit it is examining before it runs",
+    "detail": "The automated suite gained a standing requirement: every check must read the unit it was asked to examine before it opens a connection, and the test runner refuses to start any check that does not, naming the exact line. Nine checks were brought to that standard in one pass and six more inherited it from a single shared line. Proven with a recorder that logs every destination attempted, and a sweep of the whole suite now passes the requirement with nothing held back.",
+    "benefit": "A test result names the unit it came from, so what the suite reports about a Haven is about that Haven.",
+    "ref": "f1a939b8cb",
+    "features": []
+  },
+  {
+    "id": 696,
+    "date": "2026-08-23",
+    "theme": "Testing & quality",
+    "impact": 3,
+    "summary": "Two pre-flight checks learned to recognise a healthy test bench",
+    "detail": "The wireless guard now accepts both of the ways a machine reports its radio switched off, verified against six synthetic states where it still refuses the three genuinely unprepared ones. The connectivity canary now reaches for an alternate hardware address when the system has not yet released the first, and only for that one specific condition.",
+    "benefit": "A check that refuses only genuinely unsafe conditions is a check people obey, so the guard standing in front of every test run keeps its authority.",
+    "ref": "83e362a595",
+    "features": []
+  },
   {
     "id": 691,
     "date": "2026-08-22",
