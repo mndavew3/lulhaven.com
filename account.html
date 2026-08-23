@@ -187,7 +187,7 @@
       j.products.forEach(function(p){
         var div = document.createElement('div');
         div.className = 'product';
-        var badge = '<span class="badge ' + p.status + '">' + p.status + '</span>' + (p.is_founder ? '<span class="badge founder">founder</span>' : '');
+        var badge = '<span class="badge ' + p.status + '">' + p.status + '</span>' + (p.is_founder ? '<span class="badge founder">charter member</span>' : '');
         div.innerHTML = '<div class="row"><b>' + (p.flavor || 'Haven') + '</b> ' + badge + '</div>' +
           '<div class="muted">Serial: <code>' + p.serial + '</code></div>' +
           '<div class="muted">' + (p.current_period_end ? ('Through ' + p.current_period_end.slice(0,10)) : 'Not yet paid') + '</div><hr/>' +

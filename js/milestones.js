@@ -2029,7 +2029,7 @@ var milestonesDataset = [
     "impact": 3,
     "summary": "Established Haven social media presence: Facebook (facebook.com/lulhaven), X (@lulhaven), YouTube (@lulhaven). Profile photo, banners, bios set. Social click telemetry live in footer. Instagram/TikTok deferred.",
     "detail": null,
-    "benefit": "Haven now has a social footprint for the Founders campaign launch.",
+    "benefit": "Haven now has a social footprint for the Charter Member campaign launch.",
     "ref": "996e2d6b34",
     "features": []
   },
@@ -2313,7 +2313,7 @@ var milestonesDataset = [
     "date": "2026-05-29",
     "theme": "Marketing & website",
     "impact": 5,
-    "summary": "Launched the Haven Founders campaign page on lulhaven.com — a Founders-edition Haven Navy router, limited to 100, ships Nov 25 2026.",
+    "summary": "Launched the Haven Charter Member campaign page on lulhaven.com — a Charter Edition Haven Navy router, limited to 100, ships Nov 25 2026.",
     "detail": null,
     "benefit": "Haven's first production run has a public home and a ships-by date.",
     "ref": "36fc519e18",
@@ -2324,8 +2324,8 @@ var milestonesDataset = [
     "date": "2026-05-29",
     "theme": "Marketing & website",
     "impact": 5,
-    "summary": "Launched the Haven Founders campaign page on lulhaven.com: a Founders edition router, limited to a run of 100.",
-    "detail": "Founders band below the hero for the Haven Navy, a manual of-100 counter, and a ships-by date; replaced outdated crowdfunding copy.",
+    "summary": "Launched the Haven Charter Member campaign page on lulhaven.com: a Charter Edition router, limited to a run of 100.",
+    "detail": "Charter Member band below the hero for the Haven Navy, a manual of-100 counter, and a ships-by date; replaced outdated crowdfunding copy.",
     "benefit": "Haven's first production run has a public home and a ships-by date.",
     "ref": "36fc519e18",
     "features": []
