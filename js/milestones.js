@@ -1,4 +1,4 @@
-// generated from haven_wiki.db accomplishments — 677 rows, newest id 692
+// generated from haven_wiki.db accomplishments — 679 rows, newest id 694
 var milestonesDataset = [
   {
     "id": 691,
@@ -31,6 +31,28 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "Your settings and history survive a factory reset on every Olive Green, not only the ones built in our shop.",
     "ref": "6fc2ec954e",
+    "features": []
+  },
+  {
+    "id": 694,
+    "date": "2026-08-22",
+    "theme": "Firmware & overlay",
+    "impact": 3,
+    "summary": "Shipped 0.1.85 to all four Haven editions over the air: the screen keeps a save button and an eject button, captures are far smaller, and a capture can no longer be lost.",
+    "detail": null,
+    "benefit": "The improvements to the screen reach a unit you already own without you doing anything but accepting the update.",
+    "ref": "cdc0723d5b",
+    "features": []
+  },
+  {
+    "id": 693,
+    "date": "2026-08-22",
+    "theme": "Demo page",
+    "impact": 3,
+    "summary": "The online demo now shows seven real captures taken from a Haven's own 3.5-inch screen, and you can download any of them.",
+    "detail": null,
+    "benefit": "You can see exactly what the little screen looks like before you own one, instead of taking a drawing's word for it.",
+    "ref": "8ec37c5228",
     "features": []
   },
   {
