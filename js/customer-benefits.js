@@ -271,5 +271,18 @@ var cbDataset = [
     "related_feature_ids": null,
     "details": "<p>Filtering is only as good as the help behind it. If your Haven is ever broken, bricked, or doing something unsafe, we will always help you make it right — that is never gated behind a subscription. Your subscription adds the ongoing relationship: hands-on help setting up templates, tuning what is blocked for each person, getting YouHaven dialed in, and priority answers when you want them. Every Haven arrives with a support honeymoon alongside your first month of list updates; keep your subscription and that help keeps going.</p>",
     "link": null
+  },
+  {
+    "id": 22,
+    "section": "main",
+    "lead": "See it at a glance — and capture it",
+    "body": "A $30 add-on screen puts live bandwidth, system health and connected devices on the unit itself, and a press of the mouse wheel saves the exact frame as a shareable image.",
+    "family_rank": 22,
+    "privacy_rank": 22,
+    "family_lead": null,
+    "privacy_lead": null,
+    "related_feature_ids": "36",
+    "details": "<p>Most of what Haven knows is a browser tab away. The screen makes it a glance instead &mdash; walk past and see whether the connection is healthy, what the traffic looks like, and who is on the network, without unlocking anything.</p><p>The capture is the part people do not expect. Reviewers, writers and anyone showing Haven to someone else get a clean 480&times;320 PNG of the real panel straight off the device &mdash; saved onto the unit and onto a USB stick &mdash; instead of a photograph of a small screen.</p>",
+    "link": "https://lulhaven.com/screen-haven"
   }
 ];

@@ -668,5 +668,26 @@ var cfDataset = [
     "milestone_ids": null,
     "wiki_slug": null,
     "benefits": []
+  },
+  {
+    "id": 36,
+    "section": "main",
+    "lead": "Live status on a $30 screen",
+    "body": "Add a 3.5-inch display and a small USB hub — about $30 — and Haven shows live bandwidth, system health and every connected device on the unit itself. Free, open source, no app or website needed.",
+    "family_rank": 7,
+    "privacy_rank": 39,
+    "family_lead": null,
+    "privacy_lead": null,
+    "link": "https://lulhaven.com/screen-haven",
+    "details": "<p>Screen Haven is a free, open status display that runs on the Haven unit itself. It cycles through six screens &mdash; live download and upload rates on auto-ranging graphs, CPU load, memory and temperature, WAN and LAN status with per-port link lights, every connected device with a live reachability dot, and a quiet clock.</p><p><strong>Press the mouse wheel and it saves a screenshot.</strong> Whatever is on the panel is written as a clean 480&times;320 PNG &mdash; no camera, no glare, no phone held at an angle. Each capture is saved twice: onto the unit, where any admin can view and download it from the Helm, and straight onto a USB stick if one is plugged in.</p><p>The hardware is about $30 &mdash; the 3.5-inch screen and a small USB hub, because a single USB port has to carry both the screen and a mouse. Any USB or wireless mouse will do. Screen Haven is open source under the MIT license and reads only your own network&rsquo;s state; nothing it displays leaves the unit.</p>",
+    "image": null,
+    "milestone_ids": null,
+    "wiki_slug": "haven/screen-haven",
+    "benefits": [
+      {
+        "id": 22,
+        "lead": "See it at a glance — and capture it"
+      }
+    ]
   }
 ];
