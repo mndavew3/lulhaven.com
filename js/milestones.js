@@ -1,5 +1,27 @@
-// generated from haven_wiki.db accomplishments — 673 rows, newest id 688
+// generated from haven_wiki.db accomplishments — 677 rows, newest id 692
 var milestonesDataset = [
+  {
+    "id": 691,
+    "date": "2026-08-22",
+    "theme": "Firmware & overlay",
+    "impact": 4,
+    "summary": "The screen's top corner now has a save button and an eject button, each of which tells you what it does when you rest the pointer on it.",
+    "detail": null,
+    "benefit": "Everything the screen can do is now visible and labelled, instead of being a mouse gesture you had to be told about.",
+    "ref": "ff34b9c000",
+    "features": []
+  },
+  {
+    "id": 690,
+    "date": "2026-08-22",
+    "theme": "Firmware & overlay",
+    "impact": 4,
+    "summary": "A screenshot can no longer be lost: it is always written to the unit first, and only then copied to a USB drive - and the screen tells you which happened.",
+    "detail": null,
+    "benefit": "Plug a drive in, press the wheel, pull it out - your pictures are on it, and the screen never claims a save that did not happen.",
+    "ref": "ff34b9c000",
+    "features": []
+  },
   {
     "id": 685,
     "date": "2026-08-22",
@@ -9,6 +31,17 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "Your settings and history survive a factory reset on every Olive Green, not only the ones built in our shop.",
     "ref": "6fc2ec954e",
+    "features": []
+  },
+  {
+    "id": 689,
+    "date": "2026-08-22",
+    "theme": "Firmware & overlay",
+    "impact": 3,
+    "summary": "Screenshots taken from the 3.5-inch screen are now about fifty times smaller, so capturing a run of them no longer eats the unit's memory.",
+    "detail": null,
+    "benefit": "You can take as many screenshots as you like without worrying about the unit running short of memory.",
+    "ref": "ff34b9c000",
     "features": []
   },
   {
@@ -42,6 +75,17 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "Everything your Haven records right after a reset carries the right date, even before it reaches the internet.",
     "ref": "636cfa054f",
+    "features": []
+  },
+  {
+    "id": 692,
+    "date": "2026-08-22",
+    "theme": "Marketing & website",
+    "impact": 2,
+    "summary": "The milestone history now calls the product by its name throughout, instead of describing it as a router.",
+    "detail": null,
+    "benefit": "The history reads as the story of a product rather than of a piece of network equipment.",
+    "ref": "ff34b9c000",
     "features": []
   },
   {

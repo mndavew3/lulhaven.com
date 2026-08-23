@@ -403,6 +403,7 @@
       <button id="hd-admin-btn" title="Manage who's allowed to change these settings." onclick="hdToggleAdminPanel()">Admins</button>
       <button id="hd-apps-btn" title="Apps reported by paired phones, and the remote connection each would use." onclick="hdOpenAppsModal()">Apps</button>
       <button id="hd-report-btn" title="A printable report of blocked attempts, by device — save as PDF and take it to a meeting." onclick="hdOpenReportModal()">Report</button>
+      <button id="hd-shots-btn" title="Pictures captured from the 3.5-inch deck screen — click any one to download it." onclick="hdToggleShotsPanel()">Screenshots</button>
       <p class="subtitle">Click a category, click a content provider, and click Save. This, right here, right now, is exactly how Haven works.</p>
     </div>
 
@@ -546,6 +547,111 @@
       <p style="margin-top:14px; padding-top:12px; border-top:1px solid rgba(0,0,0,0.08); color:#555; font-size:0.85em; line-height:1.45;">
         <strong>How this works on a real Haven router:</strong> the first time you log in to your fresh router, you are taken straight here to change the Haven user's credentials and, optionally, create administrators.
       </p>
+    </div>
+
+    <!-- Deck screenshots. Mirrors luci-app-haven/luasrc/view/haven/shots.htm, which is
+         what an 0.1.85 unit actually serves — the demo's version line claims parity with
+         the shipped Helm, so this panel has to earn that claim rather than decorate it.
+         The seven images are real captures taken off a deck, the same files the Screen
+         Haven page uses. Nothing here is wired to a backend; the router does the work. -->
+    <div id="hd-shots-panel" class="hd-glass" style="display:none; padding:18px 20px; margin-top:14px;">
+      <h3 style="margin:0 0 6px; font-size:1.2em;">Deck Screenshots</h3>
+      <p style="margin:0 0 12px; color:#555; font-size:0.92em; line-height:1.5;">
+        Middle-click the mouse on the 3.5&Prime; deck &mdash; or click the save icon in its top
+        corner &mdash; to capture the screen. Captures appear here; click any one to download the
+        PNG. (Held in memory; cleared on reboot.) Leave a USB stick in the router and every
+        capture is written to it as well, into a <b>Screen-Haven</b> folder &mdash; those survive a
+        reboot. If the stick was out when you captured, the next capture with it in copies the
+        whole backlog across.
+      </p>
+      <div style="margin-bottom:12px;">
+        <button id="hd-shots-clear-btn" onclick="hdShotsClearDemo()">Clear all (7)</button>
+      </div>
+      <div id="hd-shots-grid"
+           style="display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:14px;">
+        <div style="background:rgba(255,255,255,0.55);border:1px solid rgba(0,0,0,0.12);border-radius:8px;overflow:hidden;">
+          <a href="/assets/screen-haven/0-home.png" download="haven-2026-08-22_17-19-09.png" title="Download haven-2026-08-22_17-19-09.png">
+            <img src="/assets/screen-haven/0-home.png" alt="Home screen captured from the deck" loading="lazy"
+                 style="width:100%;display:block;background:#0e1218;" />
+          </a>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 8px;font-size:0.8em;color:rgba(0,0,0,0.6);">
+            <span style="font-variant-numeric:tabular-nums;">2026-08-22_17-19-09 UTC</span>
+            <a href="/assets/screen-haven/0-home.png" download="haven-2026-08-22_17-19-09.png" style="color:#007a8a;">Download</a>
+          </div>
+        </div>
+        <div style="background:rgba(255,255,255,0.55);border:1px solid rgba(0,0,0,0.12);border-radius:8px;overflow:hidden;">
+          <a href="/assets/screen-haven/1-traffic.png" download="haven-2026-08-22_17-21-44.png" title="Download haven-2026-08-22_17-21-44.png">
+            <img src="/assets/screen-haven/1-traffic.png" alt="Traffic screen captured from the deck" loading="lazy"
+                 style="width:100%;display:block;background:#0e1218;" />
+          </a>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 8px;font-size:0.8em;color:rgba(0,0,0,0.6);">
+            <span style="font-variant-numeric:tabular-nums;">2026-08-22_17-21-44 UTC</span>
+            <a href="/assets/screen-haven/1-traffic.png" download="haven-2026-08-22_17-21-44.png" style="color:#007a8a;">Download</a>
+          </div>
+        </div>
+        <div style="background:rgba(255,255,255,0.55);border:1px solid rgba(0,0,0,0.12);border-radius:8px;overflow:hidden;">
+          <a href="/assets/screen-haven/2-system.png" download="haven-2026-08-22_17-22-02.png" title="Download haven-2026-08-22_17-22-02.png">
+            <img src="/assets/screen-haven/2-system.png" alt="System screen captured from the deck" loading="lazy"
+                 style="width:100%;display:block;background:#0e1218;" />
+          </a>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 8px;font-size:0.8em;color:rgba(0,0,0,0.6);">
+            <span style="font-variant-numeric:tabular-nums;">2026-08-22_17-22-02 UTC</span>
+            <a href="/assets/screen-haven/2-system.png" download="haven-2026-08-22_17-22-02.png" style="color:#007a8a;">Download</a>
+          </div>
+        </div>
+        <div style="background:rgba(255,255,255,0.55);border:1px solid rgba(0,0,0,0.12);border-radius:8px;overflow:hidden;">
+          <a href="/assets/screen-haven/3-network.png" download="haven-2026-08-22_17-24-31.png" title="Download haven-2026-08-22_17-24-31.png">
+            <img src="/assets/screen-haven/3-network.png" alt="Network screen captured from the deck" loading="lazy"
+                 style="width:100%;display:block;background:#0e1218;" />
+          </a>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 8px;font-size:0.8em;color:rgba(0,0,0,0.6);">
+            <span style="font-variant-numeric:tabular-nums;">2026-08-22_17-24-31 UTC</span>
+            <a href="/assets/screen-haven/3-network.png" download="haven-2026-08-22_17-24-31.png" style="color:#007a8a;">Download</a>
+          </div>
+        </div>
+        <div style="background:rgba(255,255,255,0.55);border:1px solid rgba(0,0,0,0.12);border-radius:8px;overflow:hidden;">
+          <a href="/assets/screen-haven/4-devices.png" download="haven-2026-08-22_17-26-18.png" title="Download haven-2026-08-22_17-26-18.png">
+            <img src="/assets/screen-haven/4-devices.png" alt="Devices screen captured from the deck" loading="lazy"
+                 style="width:100%;display:block;background:#0e1218;" />
+          </a>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 8px;font-size:0.8em;color:rgba(0,0,0,0.6);">
+            <span style="font-variant-numeric:tabular-nums;">2026-08-22_17-26-18 UTC</span>
+            <a href="/assets/screen-haven/4-devices.png" download="haven-2026-08-22_17-26-18.png" style="color:#007a8a;">Download</a>
+          </div>
+        </div>
+        <div style="background:rgba(255,255,255,0.55);border:1px solid rgba(0,0,0,0.12);border-radius:8px;overflow:hidden;">
+          <a href="/assets/screen-haven/5-clock.png" download="haven-2026-08-22_17-28-55.png" title="Download haven-2026-08-22_17-28-55.png">
+            <img src="/assets/screen-haven/5-clock.png" alt="Clock screen captured from the deck" loading="lazy"
+                 style="width:100%;display:block;background:#0e1218;" />
+          </a>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 8px;font-size:0.8em;color:rgba(0,0,0,0.6);">
+            <span style="font-variant-numeric:tabular-nums;">2026-08-22_17-28-55 UTC</span>
+            <a href="/assets/screen-haven/5-clock.png" download="haven-2026-08-22_17-28-55.png" style="color:#007a8a;">Download</a>
+          </div>
+        </div>
+        <div style="background:rgba(255,255,255,0.55);border:1px solid rgba(0,0,0,0.12);border-radius:8px;overflow:hidden;">
+          <a href="/assets/screen-haven/6-about.png" download="haven-2026-08-22_17-30-12.png" title="Download haven-2026-08-22_17-30-12.png">
+            <img src="/assets/screen-haven/6-about.png" alt="About screen captured from the deck" loading="lazy"
+                 style="width:100%;display:block;background:#0e1218;" />
+          </a>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 8px;font-size:0.8em;color:rgba(0,0,0,0.6);">
+            <span style="font-variant-numeric:tabular-nums;">2026-08-22_17-30-12 UTC</span>
+            <a href="/assets/screen-haven/6-about.png" download="haven-2026-08-22_17-30-12.png" style="color:#007a8a;">Download</a>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:16px; padding:12px 14px; border-left:3px solid #158f6b;
+                  background:rgba(21,143,107,0.08); border-radius:0 8px 8px 0;
+                  font-size:0.9em; color:#333; line-height:1.55;">
+        <strong>Made something worth sharing?</strong>
+        These are clean 480&times;320 PNGs &mdash; the screen exactly as it looked, with no cursor
+        drawn into them &mdash; so they publish as they are, with no capture card and no
+        photographing the glass. The same deck is free and open-source as <strong>Screen
+        Haven</strong>, and it runs on any OpenWrt router with about <strong>$30</strong> of
+        hardware: a 3.5&Prime; screen and a USB mouse. If you review hardware or make videos,
+        that is a full dashboard you can screenshot at will.
+        <a href="/screen-haven" style="color:#158f6b;font-weight:600;">Read about Screen Haven &rarr;</a>
+      </div>
     </div>
 
     <div id="hd-log-panel" class="hd-glass">
@@ -700,7 +806,7 @@
 
 <script src="js/haven-data.js?v=e5896e0f"></script>
 <script src="js/haven-tooltips.js?v=95d88958"></script>
-<script src="js/haven-ui.js?v=7031d9e2"></script>
+<script src="js/haven-ui.js?v=27b65399"></script>
 <script src="js/kyc.js?v=68bdcb3c"></script>
 
 <!-- HAVEN-SHARED-FOOTER START (generated by tools/inject-nav.py; edit there) -->

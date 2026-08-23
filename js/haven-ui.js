@@ -19,7 +19,7 @@
 // A stale pin is now caught mechanically by hearst-preflight.sh, which compares this
 // constant against the newest built image before any publish — the previous audit was
 // 2026-08-13 and nothing noticed for eight days.
-var HD_CURRENT_VERSION = '0.1.83';
+var HD_CURRENT_VERSION = '0.1.85';
 
 var hdNameGroups = {};
 var hdKeyNameMap = {};
@@ -1290,6 +1290,23 @@ function hdHandleLogClick(e) {
 
 // Toggle the Administrators panel. Mirrors hdToggleLog. Shows the multi-admin
 // concept — first-run UX, named superusers, lock/remove, no Linux jargon.
+// Deck screenshots panel. Same toggle idiom as the admin panel below it.
+function hdToggleShotsPanel() {
+  var panel = document.getElementById('hd-shots-panel');
+  if (!panel) return;
+  var visible = (panel.style.display === 'none' || !panel.style.display);
+  panel.style.display = visible ? 'block' : 'none';
+  var btn = document.getElementById('hd-shots-btn');
+  if (btn) btn.classList.toggle('active', visible);
+}
+
+// The demo has no backend, so Clear all shows the real confirmation and then says
+// plainly that nothing was deleted — rather than appearing to work and not working.
+function hdShotsClearDemo() {
+  if (!confirm('Delete all 7 screenshot(s)?')) return;
+  hdShowMsg('On a real Haven this empties the gallery. The demo keeps its samples.', '#007a8a');
+}
+
 function hdToggleAdminPanel() {
   var panel = document.getElementById('hd-admin-panel');
   if (!panel) return;
