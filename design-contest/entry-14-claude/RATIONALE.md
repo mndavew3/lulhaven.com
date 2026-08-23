@@ -16,7 +16,7 @@ type (teal + gold, very quiet); typography-led multi-line headline as the hero i
 3-tile value grid replacing the dense "why not all three" paragraph; pill/chip selectors in
 the bypass demo; one dark band for emphasis (the demo — proof belongs in the spotlight) plus
 a closing ink block (quote + footer); an elevated white card floating on the teal field
-(Founders); and color-blocked band rhythm down the page (cream / white / cream / ink / white
+(Charter Members); and color-blocked band rhythm down the page (cream / white / cream / ink / white
 / teal / cream / ink).
 
 **The deliberate calls.** (1) The gnome portraits are KEPT at full size — the brief flagged
