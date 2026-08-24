@@ -187,7 +187,8 @@ var hdPresets = {
     'Adult Content','AI & Automation','Alcohol & Tobacco','Anonymous & Random Chat',
     'Cheating & Academic Fraud','Cult & Coercive Groups','Dating & Relationships',
     'Drugs & Substances','Extremism & Radicalization','Firearms & Weapons','Gambling',
-    'Hate & Discriminatory Content','Conspiracy & Fabricated Claims','Mobile Game Ads',
+    'Hate & Discriminatory Content','Conspiracy & Fabricated Claims',
+    'Hyperpartisan Commentary — Left','Hyperpartisan Commentary — Right','Mobile Game Ads',
     'Pseudo-Medicine & Health Fraud','Scams & Predatory Services','Self-Harm & Crisis Content',
     'Social Media','Sports & Betting','Tracking & Stalkerware','Violence & Graphic Content'
   ],
