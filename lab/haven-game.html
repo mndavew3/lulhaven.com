@@ -346,7 +346,7 @@
 </head>
 <body>
 
-<div id="stage"><img id="bg" src="ar-backdrop.jpg" alt=""><div id="world"></div></div>
+<div id="stage"><img id="bg" src="ar-backdrop-hongkong-dark.jpg" alt=""><div id="world"></div></div>
 
 <button id="bHide">show</button>
 <canvas id="radar" width="208" height="114"></canvas>
@@ -1523,7 +1523,16 @@
     aim();
   }
 
+  // One bad frame must not end the run. requestAnimationFrame(tick) used to be the
+  // LAST STATEMENT INSIDE tick, so a single throw anywhere above it stopped the loop
+  // permanently -- the picture froze, and every control went dead with it, including
+  // the arrows. Dave, 2026-08-24: "Arrow keys worked when it first came up and then
+  // they stopped working." The reschedule now lives in a finally, so the loop
+  // survives a bad frame; the first few throws are logged with their frame number so
+  // a real fault is still findable instead of silently swallowed.
+  var tickErrors = 0, tickFrames = 0;
   function tick(t) {
+   try {
     // Held keys move the same yaw/pitch the gyroscope writes, then go through the
     // same aim() — one path to the screen, so desktop and phone cannot disagree.
     var kdt = lastFrame ? Math.min((t - lastFrame) / 1000, 0.1) : 0.016;
@@ -1713,7 +1722,14 @@
                      (usePitchGravity ? ' &middot; grav off by <b>' + errNow.toFixed(1) + '&deg;</b>' : '') +
                      (haveAcc === false ? ' <span class="warn">— no accelerometer</span>' : '');
     }
-    requestAnimationFrame(tick);
+   } catch (e) {
+     if (tickErrors++ < 5) {
+       console.error('haven: tick threw on frame ' + tickFrames + ' (error ' + tickErrors + ')', e);
+     }
+   } finally {
+     tickFrames++;
+     requestAnimationFrame(tick);
+   }
   }
 
   // Arc-one backdrops (Dave, 2026-08-20). One photograph carried all ten levels, so the
@@ -1722,7 +1738,8 @@
   // virus can be FOUND against the picture, and that shows only in motion with a target
   // on screen (Dave, 2026-08-06: "it's getting lost in the background"). Press B mid-run
   // to step through by hand. Adding a candidate is one line here.
-  var BACKDROPS = ['ar-backdrop.jpg', 'ar-backdrop-manhattan.jpg',
+  var BACKDROPS = ['ar-backdrop-hongkong-dark.jpg', 'ar-backdrop-hongkong.jpg',
+                   'ar-backdrop.jpg', 'ar-backdrop-manhattan.jpg',
                    'ar-backdrop-sf.jpg', 'ar-backdrop-grid.jpg'];
   var backdropIx = 0;
   function setBackdrop(i) {
