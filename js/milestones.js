@@ -1,5 +1,93 @@
-// generated from haven_wiki.db accomplishments — 681 rows, newest id 696
+// generated from haven_wiki.db accomplishments — 690 rows, newest id 705
 var milestonesDataset = [
+  {
+    "id": 705,
+    "date": "2026-08-24",
+    "theme": "Reliability",
+    "impact": 5,
+    "summary": "Proved on hardware that a factory reset keeps your settings",
+    "detail": null,
+    "benefit": "Hold the reset button and the router comes back with your filtering, your devices and your password intact — demonstrated on a real unit, not assumed.",
+    "ref": "410",
+    "features": []
+  },
+  {
+    "id": 703,
+    "date": "2026-08-24",
+    "theme": "Filtering",
+    "impact": 5,
+    "summary": "Added a whole-catalogue audit so every one of the 632 providers is reachable from the template that lists it",
+    "detail": null,
+    "benefit": "Apply a one-click template and it covers every provider it names — verified across the entire catalogue, on the router's own screen and the website demo alike.",
+    "ref": "909317d",
+    "features": []
+  },
+  {
+    "id": 704,
+    "date": "2026-08-24",
+    "theme": "Filtering",
+    "impact": 4,
+    "summary": "Outrage-farming sites are now one category named for what they do, with each entry's leaning stated",
+    "detail": null,
+    "benefit": "You can switch off content built to provoke rather than inform, without the filter picking a political side for you — and you can see which way each site leans before you decide.",
+    "ref": "909317d",
+    "features": []
+  },
+  {
+    "id": 697,
+    "date": "2026-08-23",
+    "theme": "Filtering",
+    "impact": 5,
+    "summary": "Filtering now holds continuously through every settings change",
+    "detail": null,
+    "benefit": "Your filter stays on duty from the moment you press save — protection runs continuously across every change you make.",
+    "ref": "28f1554126",
+    "features": []
+  },
+  {
+    "id": 702,
+    "date": "2026-08-23",
+    "theme": "Testing & quality",
+    "impact": 4,
+    "summary": "Five automated checks were sharpened to test exactly what they name",
+    "detail": null,
+    "benefit": "A green test result carries its full weight, because each check now reads the thing it claims to read.",
+    "ref": "ed52699",
+    "features": []
+  },
+  {
+    "id": 701,
+    "date": "2026-08-23",
+    "theme": "Trust & transparency",
+    "impact": 4,
+    "summary": "A strict credential floor now guards every word before it goes public",
+    "detail": null,
+    "benefit": "Anything resembling a password or a key is held back from the public progress page automatically.",
+    "ref": "31fb6ea",
+    "features": []
+  },
+  {
+    "id": 700,
+    "date": "2026-08-23",
+    "theme": "Security & Trust",
+    "impact": 4,
+    "summary": "The publish list now names exactly what belongs on the website",
+    "detail": null,
+    "benefit": "Everything the site serves you is real website content.",
+    "ref": "0f6fed7",
+    "features": []
+  },
+  {
+    "id": 698,
+    "date": "2026-08-23",
+    "theme": "Reliability & safety",
+    "impact": 4,
+    "summary": "Reset-survival now re-arms itself on every factory reset",
+    "detail": null,
+    "benefit": "Every factory reset brings your settings back with it, and sets up the one after that to do the same.",
+    "ref": "1230077589",
+    "features": []
+  },
   {
     "id": 695,
     "date": "2026-08-23",
@@ -9,6 +97,17 @@ var milestonesDataset = [
     "detail": "The automated suite gained a standing requirement: every check must read the unit it was asked to examine before it opens a connection, and the test runner refuses to start any check that does not, naming the exact line. Nine checks were brought to that standard in one pass and six more inherited it from a single shared line. Proven with a recorder that logs every destination attempted, and a sweep of the whole suite now passes the requirement with nothing held back.",
     "benefit": "A test result names the unit it came from, so what the suite reports about a Haven is about that Haven.",
     "ref": "f1a939b8cb",
+    "features": []
+  },
+  {
+    "id": 699,
+    "date": "2026-08-23",
+    "theme": "Firmware & overlay",
+    "impact": 3,
+    "summary": "The Vanilla build now ships with the headroom its settings vault needs",
+    "detail": null,
+    "benefit": "Every unit arrives ready to store your settings from the moment it leaves the build machine.",
+    "ref": "bffb577",
     "features": []
   },
   {
