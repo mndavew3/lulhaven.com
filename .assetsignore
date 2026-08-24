@@ -26,6 +26,19 @@ migrations/**
 *.sql
 **/*.sql
 
+# --- build/tooling scripts. The site directory is a working directory, so the
+#     generators that produce the pages sit right next to the pages. Two of them
+#     were publicly fetchable on lulhaven.com until the Hearst live-exclusion
+#     check caught them 2026-08-23: tools/inject-nav.py (stamps the shared nav)
+#     and wiki/wiki_pages_seed.py (seeds wiki content). Neither held a credential
+#     -- read both before adding this -- but a generator is never website content,
+#     and publishing one hands over how the site is assembled for free.
+#     Blanket rather than by-name: nothing here loads a .py, the only references
+#     are HTML comments saying which generator wrote the page, so the next helper
+#     dropped in this tree is covered without anyone remembering to list it.
+*.py
+**/*.py
+
 # --- tool + repo configuration. wrangler.toml names the D1/R2 bindings and the
 #     BUILD_MAINT_PASSWORD secret; publishing it hands out the attack map.
 wrangler.toml
