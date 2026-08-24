@@ -88,7 +88,7 @@ var hdSections = [
   { name: 'Entertainment', cats: ['Entertainment','Gaming','Sports & Betting','Streaming Music']},
   { name: 'Health & Wellness', cats: ['Health & Wellness','Pseudo-Medicine & Health Fraud']},
   { name: 'Kids & Education', cats: ['Cheating & Academic Fraud','Education','Kids & Family']},
-  { name: 'News & Media', cats: ['Conspiracy & Fabricated Claims','Hyperpartisan Commentary — Left','Hyperpartisan Commentary — Right','News & Media','Politics & Government']},
+  { name: 'News & Media', cats: ['Conspiracy & Fabricated Claims','News & Media','Politics & Government','Ragebait']},
   { name: 'Social & Communication', cats: ['Forums & Community','Messaging & Chat','Social Media']},
   { name: 'Technology', cats: [
     'Advertising','AI & Automation','Cloud Services','File Sharing',
@@ -143,8 +143,7 @@ var hdCatTips = {
   "Cheating & Academic Fraud":"Homework-answer farms and essay-for-hire services.",
   "Education":"Learning platforms and online courses.",
   "Kids & Family":"Children's content and family-oriented sites.",
-  "Hyperpartisan Commentary — Right":"Right-leaning opinion and aggregation sites.",
-  "Hyperpartisan Commentary — Left":"Left-leaning opinion and aggregation sites.",
+  "Ragebait":"Sites built to provoke a reaction rather than inform you — outrage farmed for engagement, from both directions. Each entry is labelled with the side it plays to, so you can see the balance for yourself.",
   "Conspiracy & Fabricated Claims":"Fabricated claims and conspiracy material — flat earth, QAnon and the like.",
   "News & Media":"News outlets across the spectrum.",
   "Politics & Government":"Party, campaign, advocacy, and government sites across the spectrum.",
@@ -188,7 +187,7 @@ var hdPresets = {
     'Cheating & Academic Fraud','Cult & Coercive Groups','Dating & Relationships',
     'Drugs & Substances','Extremism & Radicalization','Firearms & Weapons','Gambling',
     'Hate & Discriminatory Content','Conspiracy & Fabricated Claims',
-    'Hyperpartisan Commentary — Left','Hyperpartisan Commentary — Right','Mobile Game Ads',
+    'Mobile Game Ads','Ragebait',
     'Pseudo-Medicine & Health Fraud','Scams & Predatory Services','Self-Harm & Crisis Content',
     'Social Media','Sports & Betting','Tracking & Stalkerware','Violence & Graphic Content'
   ],
