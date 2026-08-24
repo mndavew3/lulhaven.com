@@ -346,7 +346,7 @@
 </head>
 <body>
 
-<div id="stage"><img id="bg" src="ar-backdrop-hongkong-dark.jpg" alt=""><div id="world"></div></div>
+<div id="stage"><img id="bg" src="ar-backdrop-pittsburgh-cc0.jpg" alt=""><div id="world"></div></div>
 
 <button id="bHide">show</button>
 <canvas id="radar" width="208" height="114"></canvas>
@@ -1738,9 +1738,19 @@
   // virus can be FOUND against the picture, and that shows only in motion with a target
   // on screen (Dave, 2026-08-06: "it's getting lost in the background"). Press B mid-run
   // to step through by hand. Adding a candidate is one line here.
-  var BACKDROPS = ['ar-backdrop-hongkong-dark.jpg', 'ar-backdrop-hongkong.jpg',
-                   'ar-backdrop.jpg', 'ar-backdrop-manhattan.jpg',
-                   'ar-backdrop-sf.jpg', 'ar-backdrop-grid.jpg'];
+  // Ten backdrops for arc one's ten levels, so no level repeats a view.
+  // Ordered darkest first: the darker the city, the easier a green contact is to
+  // find by eye, which is the whole reason this list exists (see 2026-08-21).
+  var BACKDROPS = ['ar-backdrop-pittsburgh-cc0.jpg',   // brightness  9
+                   'ar-backdrop-pittsburgh-2.jpg',     //            19
+                   'ar-backdrop-manhattan.jpg',        //            33
+                   'ar-backdrop-sf.jpg',               //            39
+                   'ar-backdrop-shanghai.jpg',         //            43
+                   'ar-backdrop-hongkong-dark.jpg',    //            48
+                   'ar-backdrop-grid.jpg',             //            49
+                   'ar-backdrop.jpg',                  //            55
+                   'ar-backdrop-pittsburgh-big.jpg',   //            62
+                   'ar-backdrop-singapore.jpg'];       //            86
   var backdropIx = 0;
   function setBackdrop(i) {
     backdropIx = ((i % BACKDROPS.length) + BACKDROPS.length) % BACKDROPS.length;
