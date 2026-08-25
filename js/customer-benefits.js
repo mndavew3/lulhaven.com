@@ -276,7 +276,7 @@ var cbDataset = [
     "id": 22,
     "section": "main",
     "lead": "See it at a glance — and capture it",
-    "body": "A $30 add-on screen puts live bandwidth, system health and connected devices on the unit itself, and a press of the mouse wheel saves the exact frame as a shareable image.",
+    "body": "A $40 add-on screen puts live bandwidth, system health and connected devices on the unit itself, and a press of the mouse wheel saves the exact frame as a shareable image.",
     "family_rank": 22,
     "privacy_rank": 22,
     "family_lead": null,

@@ -1,5 +1,38 @@
-// generated from haven_wiki.db accomplishments — 696 rows, newest id 711
+// generated from haven_wiki.db accomplishments — 700 rows, newest id 715
 var milestonesDataset = [
+  {
+    "id": 715,
+    "date": "2026-08-25",
+    "theme": "Firmware & overlay",
+    "impact": 5,
+    "summary": "The sealed settings record now publishes an outside-checkable fingerprint from the router's managed schedule",
+    "detail": null,
+    "benefit": "The record of what changed on your router can be checked from outside it - the one thing that catches a change made behind your back.",
+    "ref": "b3f9e66e25",
+    "features": []
+  },
+  {
+    "id": 714,
+    "date": "2026-08-25",
+    "theme": "Filter strategies",
+    "impact": 5,
+    "summary": "The browser-ads switch now arms all 157,629 domains, proven both directions on a real unit",
+    "detail": null,
+    "benefit": "Turning on browser ad blocking blocks the ads - and turning it off gives them straight back.",
+    "ref": "8bc3e7cfe0",
+    "features": []
+  },
+  {
+    "id": 712,
+    "date": "2026-08-25",
+    "theme": "Firmware & overlay",
+    "impact": 5,
+    "summary": "Your chosen administrator password now travels through a factory reset on all four Haven models",
+    "detail": null,
+    "benefit": "The password you chose is still your password after a factory reset, whichever Haven you own.",
+    "ref": "254321fbad",
+    "features": []
+  },
   {
     "id": 708,
     "date": "2026-08-25",
@@ -9,6 +42,17 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "The promise that a factory reset keeps your settings is now checked on the model you actually own. On two of the four it found the admin password does not come back - caught on the bench, before a single unit ships.",
     "ref": "b437d3abe5",
+    "features": []
+  },
+  {
+    "id": 713,
+    "date": "2026-08-25",
+    "theme": "Haven Helm",
+    "impact": 4,
+    "summary": "The off-network setup screen now states the outcome of every enrolment on the spot",
+    "detail": null,
+    "benefit": "You always know which kind of off-network protection you just set up, and Haven tells you on the spot when a phone needs another try.",
+    "ref": "5f434e60a0",
     "features": []
   },
   {
