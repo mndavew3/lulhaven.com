@@ -10,6 +10,7 @@
 // router only ever asks about its own serial.
 import { findRegisteredProduct, currentTransaction, isCurrentlyActive } from "../_lib/pricing.js";
 import { deriveCredPassword } from "../_lib/root_creds.js";
+import { verifyRouterIdentity } from "../_lib/haven-identity.js";
 
 const CORS = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Methods": "GET, OPTIONS", "Access-Control-Allow-Headers": "Content-Type" };
 const RATE_WINDOW = 3600, RATE_MAX_IP = 200;   // generous: every fetch-script cron tick from a whole fleet can share one NAT IP
@@ -57,7 +58,13 @@ export async function onRequestGet({ request, env }) {
   const serial = (new URL(request.url).searchParams.get("serial") || "").trim();
   if (!isSerial(serial)) return json({ entitled: false, reason: "bad_serial" }, 400);
 
-  const extra = await rootCredsField(env, serial);
+  // The root-creds rotation hands out a PASSWORD, so it goes only to a caller
+  // that PROVED it is this unit (per-unit Ed25519 signature over a bodyless
+  // request -- task_ladder #147 option B). The entitled/not answer itself stays
+  // open to unsigned callers: old firmware keeps its lists flowing (the lapse
+  // design is fail-open), it just no longer receives credential fields.
+  const ident = await verifyRouterIdentity(env, request, "");
+  const extra = (ident.ok && ident.serial === serial) ? await rootCredsField(env, serial) : {};
 
   let product, tx;
   try {

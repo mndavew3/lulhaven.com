@@ -16,6 +16,8 @@ const CORS = {
 const json = (b, s = 200) =>
     new Response(JSON.stringify(b), { status: s, headers: { "Content-Type": "application/json", ...CORS } });
 
+import { bindIdentity } from "../_lib/haven-identity.js";
+
 const CHANNELS = new Set(["R", "G", "T", "I", "D"]);   // retail/gold/tester/influencer/dev
 const B36 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
@@ -61,6 +63,21 @@ export async function onRequestPost(context) {
 
     const db = env.haven_builds;
 
+    // Optional Ed25519 identity pubkey (task_ladder #147 option B): the same
+    // first boot that asks for a serial offers the key that will sign AS that
+    // serial forever. No possession proof here and none is possible -- the
+    // signed message format needs a serial, and this request is what mints it.
+    // That is safe: nobody else knows the serial before this response returns,
+    // and the binding is first-claim-then-immutable (bindIdentity).
+    const identity_pubkey = typeof body.identity_pubkey === "string" ? body.identity_pubkey.trim() : "";
+    async function respond(payload) {
+        if (identity_pubkey && payload.serial) {
+            const b = await bindIdentity(env, payload.serial, identity_pubkey, "provision");
+            payload.identity = b.ok ? b.bound : b.reason;   // best-effort: never blocks the mint
+        }
+        return json(payload);
+    }
+
     // Device registry (contest_claims.sql: issued_serials, serial -> unit_nonce),
     // the fail-closed authenticity check contest-attest.js and claim-intake.js
     // both query against — was defined at contest launch but never populated
@@ -102,10 +119,10 @@ export async function onRequestPost(context) {
     const existing = await db.prepare(
         "SELECT id, serial, channel, hardware, build, region FROM provisioned_units WHERE unit_nonce = ?"
     ).bind(nonce).first();
-    if (existing && existing.serial) { await enroll(existing.serial); return json({ ok: true, serial: existing.serial, reused: true }); }
+    if (existing && existing.serial) { await enroll(existing.serial); return respond({ ok: true, serial: existing.serial, reused: true }); }
     if (existing) {
         const s = await resumeMint(existing);
-        if (s) return json({ ok: true, serial: s, reused: true, resumed: true });
+        if (s) return respond({ ok: true, serial: s, reused: true, resumed: true });
         return json({ ok: false, error: "mint failed" }, 500);
     }
 
@@ -123,10 +140,10 @@ export async function onRequestPost(context) {
         const row = await db.prepare(
             "SELECT id, serial, channel, hardware, build, region FROM provisioned_units WHERE unit_nonce = ?"
         ).bind(nonce).first();
-        if (row && row.serial) { await enroll(row.serial); return json({ ok: true, serial: row.serial, reused: true }); }
+        if (row && row.serial) { await enroll(row.serial); return respond({ ok: true, serial: row.serial, reused: true }); }
         if (row) {
             const s = await resumeMint(row);
-            if (s) return json({ ok: true, serial: s, reused: true, resumed: true });
+            if (s) return respond({ ok: true, serial: s, reused: true, resumed: true });
         }
         return json({ ok: false, error: "mint failed" }, 500);
     }
@@ -135,5 +152,5 @@ export async function onRequestPost(context) {
     await db.prepare("UPDATE provisioned_units SET serial = ? WHERE id = ?").bind(serial, seq).run();
     await enroll(serial);
 
-    return json({ ok: true, serial });
+    return respond({ ok: true, serial });
 }

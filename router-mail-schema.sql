@@ -7,8 +7,9 @@
 -- recipient, never the address, and never the subject or body. Just enough to
 -- rate-limit per unit and to answer "did this unit's recovery mail go out?".
 --
--- Reuses the existing enroll_secrets table (per-unit ENROLL_SECRET) for bearer
--- auth — no new identity store.
+-- Auth is the per-unit Ed25519 signature verified against unit_identities
+-- (unit-identities-schema.sql) — the enroll_secrets bearer this originally
+-- reused is retired (no normal unit ever had the secret; ladder #147 option B).
 --   npx wrangler d1 execute haven_builds --remote --file=router-mail-schema.sql
 
 CREATE TABLE IF NOT EXISTS router_mail_log (

@@ -5,9 +5,12 @@
 // router->lulhaven channel the off-network enrollment already uses, and the
 // relay calls the transactional provider (Resend, via _lib/email.js).
 //
-// The router authenticates with the SAME bearer as offnet-claim: an HMAC over
-// its serial keyed by the per-unit ENROLL_SECRET; the secret never crosses the
-// wire, so a stranger cannot make the relay send mail as someone's router.
+// The router authenticates with its per-unit Ed25519 SIGNATURE (task_ladder
+// #147 option B, 2026-08-25): headers X-Haven-Serial / X-Haven-Timestamp /
+// X-Haven-Signature over "<serial>\n<ts>\n<sha256 of the exact body>\n". We
+// hold only the public key (unit_identities), so nothing on our side can forge
+// a router. Replaced the HMAC bearer, which required an ENROLL_SECRET no
+// normal unit ever received -- measured on a provisioned 0.1.89 bench Olive.
 //
 // Trust posture (customer_caveats): relay email = data leaving the house, so
 // only a fixed allowlist of owner-initiated / security events may be sent, the
@@ -18,11 +21,11 @@
 //   - RESEND_API_KEY unset  -> sendEmail() returns {skipped} and we log 'skipped'
 //   - router-mail-schema.sql not yet applied to the haven_builds D1 -> the
 //     INSERT throws and we degrade to sending without an audit row.
-import { verifyRouterBearer } from "../_lib/offnet-claim-logic.js";
+import { verifyRouterIdentity } from "../_lib/haven-identity.js";
 import { validateMail, hashRecipient, EVENT_TYPES } from "../_lib/router-mail-logic.js";
 import { sendEmail } from "../_lib/email.js";
 
-const CORS = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Methods": "POST, OPTIONS", "Access-Control-Allow-Headers": "Content-Type, Authorization" };
+const CORS = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Methods": "POST, OPTIONS", "Access-Control-Allow-Headers": "Content-Type, X-Haven-Serial, X-Haven-Timestamp, X-Haven-Signature" };
 const json = (b, s = 200) => new Response(JSON.stringify(b), { status: s, headers: { "Content-Type": "application/json", "Cache-Control": "no-store", ...CORS } });
 const isSerial = (s) => typeof s === "string" && /^[A-Za-z0-9-]{6,64}$/.test(s);
 const nowIso = () => new Date().toISOString().replace("T", " ").slice(0, 19);
@@ -33,14 +36,18 @@ const RATE_WINDOW_MIN = 60;
 export async function onRequestOptions() { return new Response(null, { status: 204, headers: CORS }); }
 
 export async function onRequestPost({ request, env }) {
-    let body;
-    try { body = await request.json(); } catch { return json({ error: "bad_body" }, 400); }
+    // Raw text FIRST: the signature covers the exact bytes the router sent,
+    // so we hash what arrived -- a re-serialized body would hash differently.
+    let raw, body;
+    try { raw = await request.text(); body = JSON.parse(raw); } catch { return json({ error: "bad_body" }, 400); }
 
-    const serial = body.serial;
-    if (!isSerial(serial)) return json({ error: "bad_serial" }, 400);
+    const ident = await verifyRouterIdentity(env, request, raw);
+    if (!ident.ok) return json({ error: "unauthorized", reason: ident.reason }, 401);
 
-    const auth = (request.headers.get("Authorization") || "").replace(/^Bearer\s+/i, "");
-    if (!(await verifyRouterBearer(env, serial, auth))) return json({ error: "unauthorized" }, 401);
+    // The signed headers are the authority; the body's serial must agree, so a
+    // payload can never be attributed to a unit that did not sign it.
+    const serial = ident.serial;
+    if (body.serial !== serial) return json({ error: "serial_mismatch" }, 400);
 
     const v = validateMail(body);
     if (!v.ok) return json({ error: v.error }, 400);
