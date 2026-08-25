@@ -1,4 +1,4 @@
-// generated from haven_wiki.db accomplishments — 690 rows, newest id 705
+// generated from haven_wiki.db accomplishments — 692 rows, newest id 707
 var milestonesDataset = [
   {
     "id": 705,
@@ -31,6 +31,28 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "You can switch off content built to provoke rather than inform, without the filter picking a political side for you — and you can see which way each site leans before you decide.",
     "ref": "909317d",
+    "features": []
+  },
+  {
+    "id": 707,
+    "date": "2026-08-24",
+    "theme": "Reliability",
+    "impact": 2,
+    "summary": "A single bad frame can no longer end a game run",
+    "detail": null,
+    "benefit": "Your run ends when you lose it, not when the game trips over itself.",
+    "ref": "2d50c11",
+    "features": []
+  },
+  {
+    "id": 706,
+    "date": "2026-08-24",
+    "theme": "Manga / lore",
+    "impact": 2,
+    "summary": "Every level of the game's first arc now has its own backdrop",
+    "detail": null,
+    "benefit": "The game stops looking like it is repeating itself, and every level is one you can actually see well enough to play.",
+    "ref": "ba89e7e",
     "features": []
   },
   {
