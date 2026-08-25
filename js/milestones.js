@@ -1,5 +1,49 @@
-// generated from haven_wiki.db accomplishments — 692 rows, newest id 707
+// generated from haven_wiki.db accomplishments — 696 rows, newest id 711
 var milestonesDataset = [
+  {
+    "id": 708,
+    "date": "2026-08-25",
+    "theme": "Reliability",
+    "impact": 5,
+    "summary": "Reset survival is now tested on all four Haven models, not two - and the new test found a real gap",
+    "detail": null,
+    "benefit": "The promise that a factory reset keeps your settings is now checked on the model you actually own. On two of the four it found the admin password does not come back - caught on the bench, before a single unit ships.",
+    "ref": "b437d3abe5",
+    "features": []
+  },
+  {
+    "id": 711,
+    "date": "2026-08-25",
+    "theme": "Testing & quality",
+    "impact": 4,
+    "summary": "A safety test that could quietly switch itself off can no longer do so",
+    "detail": null,
+    "benefit": "The reset-survival check used a real filter entry as its marker, so on any network that already blocked that entry it skipped - and a skip scored as a pass. It now uses a reserved marker no catalogue ships.",
+    "ref": "f8296c0669",
+    "features": []
+  },
+  {
+    "id": 709,
+    "date": "2026-08-25",
+    "theme": "Testing & quality",
+    "impact": 4,
+    "summary": "Every claim on the features page now has a test behind it",
+    "detail": null,
+    "benefit": "The live-status screen was the last advertised claim with nothing checking it. Now a running Haven has to prove it is driving that panel with live data before a build can pass.",
+    "ref": "7f22b9208d",
+    "features": []
+  },
+  {
+    "id": 710,
+    "date": "2026-08-25",
+    "theme": "Reliability",
+    "impact": 3,
+    "summary": "The status screen is now chosen by what it is, not by what plugged in first",
+    "detail": null,
+    "benefit": "If you have a modem or another USB gadget attached to your Haven, the screen software finds the actual panel instead of streaming pixels at the wrong device.",
+    "ref": "7bcd06fd75",
+    "features": []
+  },
   {
     "id": 705,
     "date": "2026-08-24",
