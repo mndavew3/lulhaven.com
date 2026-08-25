@@ -1,5 +1,49 @@
-// generated from haven_wiki.db accomplishments — 700 rows, newest id 715
+// generated from haven_wiki.db accomplishments — 707 rows, newest id 722
 var milestonesDataset = [
+  {
+    "id": 719,
+    "date": "2026-08-25",
+    "theme": "Firmware & overlay",
+    "impact": 5,
+    "summary": "The saved settings record now fits every Haven, including the model with the smallest hardware vault",
+    "detail": null,
+    "benefit": "Everything you have set on your Haven is captured in a record small enough to fit every model we sell, so a factory reset hands it all back.",
+    "ref": "c33dfcbd9a",
+    "features": []
+  },
+  {
+    "id": 718,
+    "date": "2026-08-25",
+    "theme": "Burn procedure & build station",
+    "impact": 5,
+    "summary": "Every Haven now ships with a genuinely unique administrator password, and the burn proves it before the unit passes",
+    "detail": null,
+    "benefit": "The password we print for your Haven is yours alone - if someone else's unit is compromised, it tells them nothing about yours.",
+    "ref": "fa71edd",
+    "features": []
+  },
+  {
+    "id": 717,
+    "date": "2026-08-25",
+    "theme": "Haven Helm",
+    "impact": 5,
+    "summary": "The recovery PIN can finally be set from a screen a customer can reach",
+    "detail": null,
+    "benefit": "You can set a six-digit recovery PIN yourself, so a forgotten password is a minor annoyance instead of a support call.",
+    "ref": "8ed90fdc75",
+    "features": []
+  },
+  {
+    "id": 716,
+    "date": "2026-08-25",
+    "theme": "Security & Trust",
+    "impact": 5,
+    "summary": "The recovery code printed on your Haven box now actually gets you back in",
+    "detail": null,
+    "benefit": "If you forget your Haven password, the code printed on the box gets you back in - and it keeps working after a factory reset.",
+    "ref": "9921cbe61e",
+    "features": []
+  },
   {
     "id": 715,
     "date": "2026-08-25",
@@ -45,6 +89,28 @@ var milestonesDataset = [
     "features": []
   },
   {
+    "id": 721,
+    "date": "2026-08-25",
+    "theme": "Testing & quality",
+    "impact": 4,
+    "summary": "Restarts now run eight for eight clean on the software test bench, six times faster than before",
+    "detail": null,
+    "benefit": "Every test we run against Haven now finishes several times faster, so more of the product gets checked before your unit ships.",
+    "ref": "f748a3e",
+    "features": []
+  },
+  {
+    "id": 720,
+    "date": "2026-08-25",
+    "theme": "Ad blocking",
+    "impact": 4,
+    "summary": "A Haven that loses its ad list now refills it within the hour instead of waiting up to a week",
+    "detail": null,
+    "benefit": "Ad blocking comes back on its own within an hour of anything that wipes the list, instead of leaving you unprotected for days.",
+    "ref": "c33dfcbd9a",
+    "features": []
+  },
+  {
     "id": 713,
     "date": "2026-08-25",
     "theme": "Haven Helm",
@@ -75,6 +141,17 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "The live-status screen was the last advertised claim with nothing checking it. Now a running Haven has to prove it is driving that panel with live data before a build can pass.",
     "ref": "7f22b9208d",
+    "features": []
+  },
+  {
+    "id": 722,
+    "date": "2026-08-25",
+    "theme": "Off-network filtering",
+    "impact": 3,
+    "summary": "Haven running as software is now proven to filter a separate machine, not just itself",
+    "detail": null,
+    "benefit": "The evidence now shows Haven filtering another machine on the network, which is the only claim that matters.",
+    "ref": "a758519",
     "features": []
   },
   {
