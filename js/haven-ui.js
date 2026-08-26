@@ -19,7 +19,7 @@
 // A stale pin is now caught mechanically by hearst-preflight.sh, which compares this
 // constant against the newest built image before any publish — the previous audit was
 // 2026-08-13 and nothing noticed for eight days.
-var HD_CURRENT_VERSION = '0.1.88';
+var HD_CURRENT_VERSION = '0.1.91';
 
 var hdNameGroups = {};
 var hdKeyNameMap = {};

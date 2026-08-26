@@ -1,5 +1,16 @@
-// generated from haven_wiki.db accomplishments — 707 rows, newest id 722
+// generated from haven_wiki.db accomplishments — 716 rows, newest id 731
 var milestonesDataset = [
+  {
+    "id": 727,
+    "date": "2026-08-25",
+    "theme": "Security & Trust",
+    "impact": 5,
+    "summary": "Every Haven now signs what it sends with its own key, and the service checks that signature before believing it",
+    "detail": null,
+    "benefit": "A message that claims to be from your Haven can be proven to be from your Haven, and nothing else can pretend to be it.",
+    "ref": "88f004c0d0",
+    "features": []
+  },
   {
     "id": 719,
     "date": "2026-08-25",
@@ -89,6 +100,50 @@ var milestonesDataset = [
     "features": []
   },
   {
+    "id": 729,
+    "date": "2026-08-25",
+    "theme": "Firmware & overlay",
+    "impact": 4,
+    "summary": "Version 0.1.90 is built for all four Haven models, signed, and verified against the release key",
+    "detail": null,
+    "benefit": "Your Haven will only take an update whose signature checks out against Haven's own release key.",
+    "ref": "443031c1c1",
+    "features": []
+  },
+  {
+    "id": 728,
+    "date": "2026-08-25",
+    "theme": "Trust & transparency",
+    "impact": 4,
+    "summary": "The password-reset screen no longer says a code was sent when nothing was sent",
+    "detail": null,
+    "benefit": "If a reset email cannot go out, you are told on the spot instead of waiting for a code that was never coming.",
+    "ref": "5b6f8e23ed",
+    "features": []
+  },
+  {
+    "id": 724,
+    "date": "2026-08-25",
+    "theme": "Trust & transparency",
+    "impact": 4,
+    "summary": "When Haven is refused a list update it now says so out loud and names which filtering has stopped",
+    "detail": null,
+    "benefit": "You find out when a kind of filtering is off, instead of owning a router that looks fine while blocking nothing.",
+    "ref": "e9fefa25fb",
+    "features": []
+  },
+  {
+    "id": 723,
+    "date": "2026-08-25",
+    "theme": "Reliability & Updates",
+    "impact": 4,
+    "summary": "A Haven can now keep its filter lists on a plugged-in USB stick and restore them from it instead of re-downloading",
+    "detail": null,
+    "benefit": "After a reflash or a reset your ad and adult filtering comes straight back from the stick, with no internet and no waiting.",
+    "ref": "868bc4ddcb",
+    "features": []
+  },
+  {
     "id": 721,
     "date": "2026-08-25",
     "theme": "Testing & quality",
@@ -141,6 +196,50 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "The live-status screen was the last advertised claim with nothing checking it. Now a running Haven has to prove it is driving that panel with live data before a build can pass.",
     "ref": "7f22b9208d",
+    "features": []
+  },
+  {
+    "id": 731,
+    "date": "2026-08-25",
+    "theme": "Testing & quality",
+    "impact": 3,
+    "summary": "The test bench can photograph the Haven screen while the screen is asleep",
+    "detail": null,
+    "benefit": "The bench proves the screen is right on its own, so screen checks run unattended.",
+    "ref": "331e96c52f",
+    "features": []
+  },
+  {
+    "id": 730,
+    "date": "2026-08-25",
+    "theme": "Burn procedure & build station",
+    "impact": 3,
+    "summary": "A Haven updated while keeping your settings now reports the version it is actually running",
+    "detail": null,
+    "benefit": "The version on the screen matches the software on the unit, so you can tell at a glance whether an update landed.",
+    "ref": "b63f8ad9f7",
+    "features": []
+  },
+  {
+    "id": 726,
+    "date": "2026-08-25",
+    "theme": "Security & Trust",
+    "impact": 3,
+    "summary": "The wifi safety net that falls back to the key shipped in every image now announces itself loudly instead of looking like routine setup",
+    "detail": null,
+    "benefit": "In the rare case your Haven comes up on the shipped default wifi key rather than your own, the router says so plainly rather than hiding it.",
+    "ref": "ad6fcbe",
+    "features": []
+  },
+  {
+    "id": 725,
+    "date": "2026-08-25",
+    "theme": "Filtering & enforcement",
+    "impact": 3,
+    "summary": "Domains withdrawn from a filter list are now marked rather than erased, so the list can be asked what it looked like on any past day",
+    "detail": null,
+    "benefit": "If your subscription ever lapses, a factory reset can bring back exactly the protection you paid for, instead of a shorter list.",
+    "ref": "07b1fc2",
     "features": []
   },
   {
