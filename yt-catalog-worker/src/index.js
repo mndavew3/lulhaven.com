@@ -1,16 +1,29 @@
 // haven-yt-catalog-refresh -- scheduled Worker.
-// Keeps yt_channels current against yt_items, autonomously, no local machine
+// Keeps the item -> channel catalog current, autonomously, no local machine
 // or Claude session involved. Runs on Cloudflare's own clock (Cron Triggers).
 //
 // Two modes, same code, picked by which cron string fired:
-//   "0 9 * * MON"  -> gapfill: only items with zero channels yet
-//   "0 9 1 * *"    -> full:    every item, re-verified (catches renamed/
-//                     deleted/banned channels)
+//   "0 9 * * MON"  -> gapfill: items with no channel yet -> yt_candidates
+//   "0 9 1 * *"    -> full:    re-checks every EXISTING yt_channels row
+//                     still resolves; flags (never silently replaces) any
+//                     that come back missing/deleted/banned
+//
+// GAP-FILL WRITES TO yt_candidates, NOT yt_channels, ON PURPOSE. Proven
+// necessary the same day this shipped: on its first real run this exact
+// heuristic (normalized-title match + real subscriber count) matched
+// "Berkshire Hathaway" to "Berkshire Hathaway HomeServices" (a real-estate
+// franchise, not Warren Buffett's company, which has no channel at all) and
+// three deplatformed entities (Gab/Brighteon/InfoWars) to same-named
+// channels that are almost certainly reuploads, not the real thing --
+// InfoWars scored 'high' confidence on subscriber count alone despite
+// YouTube having banned the actual InfoWars channel outright. A same-name
+// match with real subscribers is not sufficient evidence on its own; it
+// needs a human glance before it can block or allow anything. Candidates
+// sit in yt_candidates until reviewed and promoted into yt_channels by hand.
 //
 // Method: YouTube Data API v3 search.list (official, no scraping) + a
-// conservative scoring rule -- normalized-title match plus a real
-// subscriber count. If nothing clears the bar, the item is left alone
-// rather than guessed at (same rule the manual pass used tonight).
+// scoring rule -- normalized-title match plus a real subscriber count.
+// If nothing clears the bar, the item is left alone rather than guessed at.
 //
 // Daily quota is real and finite (free tier: 10,000 units/day; search.list
 // costs 100 units/call). MAX_SEARCH_CALLS below stops the run safely under
@@ -81,18 +94,14 @@ async function findChannel(apiKey, itemName) {
   return best;
 }
 
-async function runRefresh(env, mode) {
+async function runGapfill(env) {
   const db = env.DB;
-  let items;
-  if (mode === 'full') {
-    items = (await db.prepare('SELECT item_id, name FROM yt_items ORDER BY item_id').all()).results;
-  } else {
-    items = (await db.prepare(
-      `SELECT item_id, name FROM yt_items
-       WHERE item_id NOT IN (SELECT DISTINCT item_id FROM yt_channels)
-       ORDER BY item_id`
-    ).all()).results;
-  }
+  const items = (await db.prepare(
+    `SELECT item_id, name FROM yt_items
+     WHERE item_id NOT IN (SELECT DISTINCT item_id FROM yt_channels)
+       AND item_id NOT IN (SELECT DISTINCT item_id FROM yt_candidates)
+     ORDER BY item_id`
+  ).all()).results;
 
   let checked = 0, found = 0, failed = 0, skippedBudget = 0;
   for (const item of items) {
@@ -101,11 +110,15 @@ async function runRefresh(env, mode) {
     try {
       const result = await findChannel(env.YOUTUBE_API_KEY, item.name);
       if (result) {
+        // Staged for review, NOT written into the live/served yt_channels --
+        // see the top-of-file note on why this heuristic isn't trusted alone.
+        // status stays 'pending' here even on a re-find (a prior reject
+        // decision isn't overwritten by an untouched default).
         await db.prepare(
-          `INSERT INTO yt_channels (item_id, channel_id, label, confidence, sort_order, verified_datetime)
-           VALUES (?, ?, ?, ?, 0, datetime('now'))
+          `INSERT INTO yt_candidates (item_id, channel_id, label, confidence, found_datetime, status)
+           VALUES (?, ?, ?, ?, datetime('now'), 'pending')
            ON CONFLICT(item_id, channel_id) DO UPDATE SET
-             label=excluded.label, confidence=excluded.confidence, verified_datetime=excluded.verified_datetime`
+             label=excluded.label, confidence=excluded.confidence, found_datetime=excluded.found_datetime`
         ).bind(item.item_id, result.channel_id, result.label, result.confidence).run();
         found++;
       }
@@ -118,23 +131,68 @@ async function runRefresh(env, mode) {
     ? `${skippedBudget} item(s) deferred to next run (daily search-quota budget reached)`
     : null;
   await db.prepare(
-    `INSERT INTO yt_refresh_runs (mode, items_checked, items_found, items_failed, notes) VALUES (?, ?, ?, ?, ?)`
-  ).bind(mode, checked, found, failed, notes).run();
+    `INSERT INTO yt_refresh_runs (mode, items_checked, items_found, items_failed, notes) VALUES ('gapfill', ?, ?, ?, ?)`
+  ).bind(checked, found, failed, notes).run();
+}
+
+async function runFullCheck(env) {
+  const db = env.DB;
+  // Includes soft-deleted rows too -- a channel that vanished last month and
+  // resolves again now gets reactivated (deleted_datetime cleared) rather
+  // than staying invisible forever.
+  const rows = (await db.prepare('SELECT item_id, channel_id, deleted_datetime FROM yt_channels ORDER BY item_id').all()).results;
+
+  let checked = 0, missing = 0, reactivated = 0, failed = 0;
+  const missingList = [];
+  // channels.list accepts up to 50 IDs per call -- batch to stay cheap (1 unit/call
+  // regardless of batch size, unlike search.list's 100 units/call).
+  for (let i = 0; i < rows.length; i += 50) {
+    const batch = rows.slice(i, i + 50);
+    checked += batch.length;
+    try {
+      const stats = await ytChannelStats(env.YOUTUBE_API_KEY, batch.map(r => r.channel_id));
+      const foundIds = new Set((stats.items || []).map(ch => ch.id));
+      for (const r of batch) {
+        const stillResolves = foundIds.has(r.channel_id);
+        if (!stillResolves && !r.deleted_datetime) {
+          // Flag by soft-deleting -- never a hard DELETE, so the row (and
+          // its history) survives and can come back.
+          await db.prepare(
+            `UPDATE yt_channels SET deleted_datetime = datetime('now') WHERE item_id = ? AND channel_id = ?`
+          ).bind(r.item_id, r.channel_id).run();
+          missing++;
+          missingList.push(`${r.item_id}:${r.channel_id}`);
+        } else if (stillResolves && r.deleted_datetime) {
+          await db.prepare(
+            `UPDATE yt_channels SET deleted_datetime = NULL, verified_datetime = datetime('now') WHERE item_id = ? AND channel_id = ?`
+          ).bind(r.item_id, r.channel_id).run();
+          reactivated++;
+        }
+      }
+    } catch (e) {
+      failed += batch.length;
+    }
+  }
+
+  const notes = missingList.length > 0
+    ? `newly flagged (channel no longer resolves): ${missingList.join(', ')}`
+    : (reactivated > 0 ? `${reactivated} previously-flagged channel(s) resolved again, reactivated` : null);
+  await db.prepare(
+    `INSERT INTO yt_refresh_runs (mode, items_checked, items_found, items_failed, notes) VALUES ('full', ?, ?, ?, ?)`
+  ).bind(checked, checked - missing - failed, failed, notes).run();
 }
 
 export default {
   async scheduled(controller, env, ctx) {
-    const mode = controller.cron === '0 9 1 * *' ? 'full' : 'gapfill';
-    ctx.waitUntil(runRefresh(env, mode));
+    const run = controller.cron === '0 9 1 * *' ? runFullCheck : runGapfill;
+    ctx.waitUntil(run(env));
   },
   // Manual trigger for testing: GET /?run=gapfill or /?run=full
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
     const run = url.searchParams.get('run');
-    if (run === 'gapfill' || run === 'full') {
-      await runRefresh(env, run);
-      return new Response(`ran ${run}\n`);
-    }
-    return new Response('haven-yt-catalog-refresh: scheduled Worker, no public endpoint. Use ?run=gapfill or ?run=full to test manually.\n');
+    if (run === 'gapfill') { await runGapfill(env); return new Response('ran gapfill\n'); }
+    if (run === 'full') { await runFullCheck(env); return new Response('ran full\n'); }
+    return new Response('haven-yt-catalog-refresh: scheduled Worker, no public endpoint. Use ?run=gapfill or ?run=full to test manually. New matches land in yt_candidates for review, not yt_channels directly.\n');
   },
 };

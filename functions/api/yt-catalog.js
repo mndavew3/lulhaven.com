@@ -9,8 +9,12 @@
 export async function onRequestGet({ env }) {
   const db = env.haven_yt_catalog;
 
+  // deleted_datetime is a soft-delete (channel flagged dead by the monthly
+  // recheck, or a bad candidate never promoted) -- excluded from what's
+  // served, but the row stays so it can be reactivated later instead of
+  // needing to be rediscovered from scratch.
   const rows = await db.prepare(
-    `SELECT item_id, channel_id FROM yt_channels ORDER BY item_id, sort_order`
+    `SELECT item_id, channel_id FROM yt_channels WHERE deleted_datetime IS NULL ORDER BY item_id, sort_order`
   ).all();
 
   const items = {};
@@ -20,7 +24,7 @@ export async function onRequestGet({ env }) {
   }
 
   const latest = await db.prepare(
-    `SELECT strftime('%s', MAX(verified_datetime)) AS ts FROM yt_channels`
+    `SELECT strftime('%s', MAX(verified_datetime)) AS ts FROM yt_channels WHERE deleted_datetime IS NULL`
   ).first();
 
   const body = JSON.stringify({ version: parseInt(latest?.ts || '0', 10), items });

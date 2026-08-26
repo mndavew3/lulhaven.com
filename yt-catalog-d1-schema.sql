@@ -10,13 +10,34 @@ CREATE TABLE IF NOT EXISTS yt_items (
     category          TEXT NOT NULL
 );
 
+-- The live, served table. deleted_datetime is a soft-delete (Dave's ruling
+-- 2026-08-26, matching the existing blocklist_domains convention): a channel
+-- that goes bad or comes back is one row toggling, never a delete+re-insert
+-- that throws away history.
 CREATE TABLE IF NOT EXISTS yt_channels (
     item_id           INTEGER NOT NULL REFERENCES yt_items(item_id) ON DELETE CASCADE,
     channel_id        TEXT    NOT NULL,
     label             TEXT,
     confidence        TEXT    NOT NULL DEFAULT 'medium',
     sort_order        INTEGER NOT NULL DEFAULT 0,
-    verified_datetime TEXT    NOT NULL DEFAULT (datetime('now')),
+    created_datetime  TEXT,                   -- when first added
+    verified_datetime TEXT    NOT NULL DEFAULT (datetime('now')),  -- last confirmed live
+    deleted_datetime  TEXT,                   -- NULL = active; set = flagged/removed
+    PRIMARY KEY (item_id, channel_id)
+);
+
+-- Matches found by the automated heuristic, staged for a human look before
+-- they can ever reach yt_channels -- built 2026-08-26 after the heuristic's
+-- first real run matched Berkshire Hathaway to an unrelated real-estate
+-- franchise and three banned entities (Gab/Brighteon/InfoWars) to same-named
+-- reupload channels. status is set by hand on review; never auto-flips.
+CREATE TABLE IF NOT EXISTS yt_candidates (
+    item_id           INTEGER NOT NULL REFERENCES yt_items(item_id) ON DELETE CASCADE,
+    channel_id        TEXT    NOT NULL,
+    label             TEXT,
+    confidence        TEXT    NOT NULL DEFAULT 'medium',
+    found_datetime    TEXT    NOT NULL DEFAULT (datetime('now')),
+    status            TEXT    NOT NULL DEFAULT 'pending',  -- pending | approved | rejected
     PRIMARY KEY (item_id, channel_id)
 );
 
