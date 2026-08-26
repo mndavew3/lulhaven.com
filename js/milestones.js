@@ -1,5 +1,49 @@
-// generated from haven_wiki.db accomplishments — 716 rows, newest id 731
+// generated from haven_wiki.db accomplishments — 720 rows, newest id 735
 var milestonesDataset = [
+  {
+    "id": 732,
+    "date": "2026-08-26",
+    "theme": "Trust & transparency",
+    "impact": 4,
+    "summary": "Haven can now capture a dated speed, ping, and connection-quality reading you can point to if your ISP says everything's fine",
+    "detail": null,
+    "benefit": "One button press gives you your own timestamped proof of your internet's real performance -- evidence that survives a reboot, not just a claim.",
+    "ref": "600dd45d3d",
+    "features": []
+  },
+  {
+    "id": 733,
+    "date": "2026-08-26",
+    "theme": "Filtering & enforcement",
+    "impact": 3,
+    "summary": "Haven now blocks VPN-tunneled ad and tracker bypass by default, and lets your paired phone ask for a short, verified exception",
+    "detail": null,
+    "benefit": "Encrypted VPN tunnels can no longer be used to slip past your filtering unnoticed -- and a legitimate app can still ask for the access it needs.",
+    "ref": "61a8e103bf",
+    "features": []
+  },
+  {
+    "id": 734,
+    "date": "2026-08-26",
+    "theme": "Firmware & overlay",
+    "impact": 2,
+    "summary": "Haven's on-device screen can now run on an HDMI display, not just the small panel screen",
+    "detail": null,
+    "benefit": "Any Haven unit can show its live status on a repurposed monitor or TV -- no special hardware panel required.",
+    "ref": "6dc8830c00",
+    "features": []
+  },
+  {
+    "id": 735,
+    "date": "2026-08-26",
+    "theme": "Trust & transparency",
+    "impact": 1,
+    "summary": "The ad-blocking description text now names the list Haven actually uses (AdGuard DNS + UT1, ~158,000 domains) instead of an outdated one",
+    "detail": null,
+    "benefit": "What the app tells you about your filtering now matches what it's actually doing.",
+    "ref": "bfb28ddc35",
+    "features": []
+  },
   {
     "id": 727,
     "date": "2026-08-25",
