@@ -1,0 +1,23 @@
+# haven-yt-catalog-refresh -- standalone scheduled Worker, independent of any
+# local machine. Keeps the item -> YouTube-channel catalog (haven-yt-catalog D1)
+# current on its own, forever, as long as Cloudflare is up.
+#
+# Two cron schedules, same Worker, distinguished at runtime by controller.cron:
+#   - weekly (Mon 09:00 UTC):  gap-fill only  -- items with zero channels yet
+#   - monthly (1st, 09:00 UTC): full re-verify -- every item, catches renamed/
+#     deleted/banned channels
+#
+# Needs one secret only Dave can provide (Google issues it free, no billing
+# required for this volume): wrangler secret put YOUTUBE_API_KEY
+
+name = "haven-yt-catalog-refresh"
+main = "src/index.js"
+compatibility_date = "2026-05-10"
+
+[triggers]
+crons = ["0 9 * * MON", "0 9 1 * *"]
+
+[[d1_databases]]
+binding       = "DB"
+database_name = "haven-yt-catalog"
+database_id   = "926b43a0-e59f-4c7a-9a86-46901a0c5a41"

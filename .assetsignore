@@ -21,6 +21,8 @@ adq
 adq/**
 migrations
 migrations/**
+yt-catalog-worker
+yt-catalog-worker/**
 
 # --- database schemas: never content, and they map our storage for anyone
 *.sql

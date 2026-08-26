@@ -18,6 +18,14 @@ binding       = "haven_wiki"
 database_name = "haven-wiki"
 database_id   = "caa95dda-bf1c-4ab8-a1bd-ed7071386395"
 
+# YouTube channel catalog (item -> channel_id), refreshed autonomously by the
+# separate haven-yt-catalog-refresh Worker (yt-catalog-worker/). Served live
+# from here via functions/api/yt-catalog.js.
+[[d1_databases]]
+binding       = "haven_yt_catalog"
+database_name = "haven-yt-catalog"
+database_id   = "926b43a0-e59f-4c7a-9a86-46901a0c5a41"
+
 # R2 bucket holding Challenge claim packages (settings export + attachment +
 # manifest, one prefix per claim). Files are too large / wrong-shaped for D1.
 # LAUNCH PREREQUISITE — create the bucket before a contest opens:
