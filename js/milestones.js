@@ -1,5 +1,49 @@
-// generated from haven_wiki.db accomplishments — 728 rows, newest id 743
+// generated from haven_wiki.db accomplishments — 732 rows, newest id 747
 var milestonesDataset = [
+  {
+    "id": 745,
+    "date": "2026-08-28",
+    "theme": "Trust & transparency",
+    "impact": 5,
+    "summary": "Every page now says plainly that a new Haven filters nothing until you choose what to filter.",
+    "detail": null,
+    "benefit": "What the website promises now matches what comes out of the box, so nobody is surprised in either direction — nothing is blocked behind your back, and nothing you expected to be on is quietly off.",
+    "ref": "295b33369c",
+    "features": []
+  },
+  {
+    "id": 746,
+    "date": "2026-08-28",
+    "theme": "Marketing & website",
+    "impact": 4,
+    "summary": "Site updates now reach returning visitors on their very next visit.",
+    "detail": null,
+    "benefit": "Whatever we publish — new milestones, new copy, a new page — is what a returning visitor sees straight away.",
+    "ref": "484d43c1f2",
+    "features": []
+  },
+  {
+    "id": 744,
+    "date": "2026-08-28",
+    "theme": "Trust & transparency",
+    "impact": 4,
+    "summary": "Removed a product comparison from the public milestone list that we could not back with our own measurements, along with three entries that were publishing internal audience research.",
+    "detail": null,
+    "benefit": "Everything on the milestone list is now something Haven can show you, not something we assumed; and the page reads as a record of what shipped rather than a look inside our marketing notes.",
+    "ref": "176669c8e0",
+    "features": []
+  },
+  {
+    "id": 747,
+    "date": "2026-08-28",
+    "theme": "Marketing & website",
+    "impact": 3,
+    "summary": "Published milestones now speak to every kind of network Haven runs on — schools and offices as much as any private one.",
+    "detail": null,
+    "benefit": "Anyone running a shared network can read the milestone list and see their own situation described, not somebody else's.",
+    "ref": "4361a4bb-b6",
+    "features": []
+  },
   {
     "id": 741,
     "date": "2026-08-27",
@@ -799,7 +843,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "Shipped 0.1.80 with password recovery: if you forget your Haven admin password, a factory reset now reveals a 'Reset Haven password' button on the login screen. Prove it's you with a PIN you set ahead of time or a printed recovery code, then choose a new password — so a forgotten password can never permanently lock you out of your own router. The release also restores ad- and tracker-blocking and gives every Haven a uniquely-named Wi-Fi network out of the box.",
     "detail": null,
-    "benefit": "A forgotten password can no longer strand you from your own network, your Haven is easy to tell apart from any other network nearby, and ad and tracker blocking works properly again for the households that switch it on.",
+    "benefit": "A forgotten password can no longer strand you from your own network, your Haven is easy to tell apart from any other network nearby, and ad and tracker blocking works properly again for the customers who switch it on.",
     "ref": "#397",
     "features": []
   },
@@ -2720,9 +2764,9 @@ var milestonesDataset = [
     "date": "2026-06-01",
     "theme": "Filtering",
     "impact": 4,
-    "summary": "Haven can now block known VPN and Tor exit points, using a constantly updated list of thousands of IP ranges — so when a household turns filtering on, that protection extends to VPN and Tor traffic too.",
+    "summary": "Haven can now block known VPN and Tor exit points, using a constantly updated list of thousands of IP ranges — so when a customer turns filtering on, that protection extends to VPN and Tor traffic too.",
     "detail": null,
-    "benefit": "Closes a major evasion path for the households that filter, with the list refreshed on the normal low-traffic update schedule.",
+    "benefit": "Closes a major evasion path for the customers who filter, with the list refreshed on the normal low-traffic update schedule.",
     "ref": "0ff0297",
     "features": []
   },
@@ -4132,7 +4176,7 @@ var milestonesDataset = [
     "theme": "Marketing & website",
     "impact": 3,
     "summary": "Studied do-it-yourself filtering setups to sharpen Haven's approach.",
-    "detail": "Reviewed the popular do-it-yourself guides that layer ad-blocking and per-domain control on top of a basic filtered-DNS setup, and listed every step they leave to the household. Those steps are the ones Haven is built to absorb.",
+    "detail": "Reviewed the popular do-it-yourself guides that layer ad-blocking and per-domain control on top of a basic filtered-DNS setup, and listed every step they leave to the customer. Those steps are the ones Haven is built to absorb.",
     "benefit": "Catalogued what a do-it-yourself ad-blocking setup actually asks of you — a container to run, blocklists to wire up, upkeep to remember — so that Haven can do that work instead of handing it to you.",
     "ref": "",
     "features": []
@@ -4143,8 +4187,8 @@ var milestonesDataset = [
     "theme": "Marketing & website",
     "impact": 3,
     "summary": "Studied competing filtering tools to sharpen Haven's approach.",
-    "detail": "Reviewed the most widely-followed do-it-yourself guides for filtering a home network and catalogued every step they ask a household to perform. Each of those steps is work Haven is built to absorb.",
-    "benefit": "Confirmed that the households who care about parental control and the households who care about privacy are largely the same people, wanting the same thing — which keeps Haven pointed at a real need rather than a guess.",
+    "detail": "Reviewed the most widely-followed do-it-yourself guides for filtering a home network and catalogued every step they ask a customer to perform. Each of those steps is work Haven is built to absorb.",
+    "benefit": "Confirmed that the customers who care about parental control and the customers who care about privacy are largely the same people, wanting the same thing — which keeps Haven pointed at a real need rather than a guess.",
     "ref": "",
     "features": []
   },
