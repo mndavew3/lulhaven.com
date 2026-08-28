@@ -1,5 +1,27 @@
-// generated from haven_wiki.db accomplishments — 732 rows, newest id 747
+// generated from haven_wiki.db accomplishments — 739 rows, newest id 754
 var milestonesDataset = [
+  {
+    "id": 752,
+    "date": "2026-08-28",
+    "theme": "Testing & quality",
+    "impact": 5,
+    "summary": "A Haven version number is earned by opening the finished image and confirming the new work is inside it byte for byte — evidence a build report on its own cannot give.",
+    "detail": null,
+    "benefit": "When a Haven release says it contains something, the shipped image itself was opened and checked. The claim rests on the bytes, not on a log.",
+    "ref": "fb03cf2a1c",
+    "features": []
+  },
+  {
+    "id": 749,
+    "date": "2026-08-28",
+    "theme": "Security & Trust",
+    "impact": 5,
+    "summary": "The optional status screen no longer shows your Wi-Fi guest password where anyone standing near the unit could read it. It now sits behind the owner code, along with the new device-presence view.",
+    "detail": null,
+    "benefit": "Anything on the little screen that could let a stranger onto your network, or reveal who is present, now takes the owner code to see. The open view shows shape only.",
+    "ref": "83783910b1",
+    "features": []
+  },
   {
     "id": 745,
     "date": "2026-08-28",
@@ -9,6 +31,50 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "What the website promises now matches what comes out of the box, so nobody is surprised in either direction — nothing is blocked behind your back, and nothing you expected to be on is quietly off.",
     "ref": "295b33369c",
+    "features": []
+  },
+  {
+    "id": 753,
+    "date": "2026-08-28",
+    "theme": "Trust & transparency",
+    "impact": 4,
+    "summary": "Contest claims are now reviewed by a judge before they count, and the system itself refuses any outcome the published rules do not allow.",
+    "detail": null,
+    "benefit": "What the contest rules promise you is what the system will physically allow. A claim can be unconfirmed and invited back; it cannot be thrown out.",
+    "ref": "47775c7a2b",
+    "features": []
+  },
+  {
+    "id": 751,
+    "date": "2026-08-28",
+    "theme": "Firmware & overlay",
+    "impact": 4,
+    "summary": "The status-screen software now starts on an ordinary TV or monitor over HDMI with no USB panel attached, exercised across all four hardware combinations on the bench and carried into the next version.",
+    "detail": null,
+    "benefit": "When the optional status screen reaches you, the TV-only setup is one we have already run ourselves — and we say which version carries it.",
+    "ref": "b804ee5fbb",
+    "features": []
+  },
+  {
+    "id": 750,
+    "date": "2026-08-28",
+    "theme": "Reliability & safety",
+    "impact": 4,
+    "summary": "Forgot-password recovery was exercised end to end on a running Haven: PIN entry, the printed recovery code, the lockout after repeated wrong guesses, and signing in again with the new password.",
+    "detail": null,
+    "benefit": "The way back into your own router after a forgotten password is not a promise on a page — it has been walked through, including what happens when someone guesses wrong five times.",
+    "ref": "session 2026-08-28",
+    "features": []
+  },
+  {
+    "id": 748,
+    "date": "2026-08-28",
+    "theme": "Firmware & overlay",
+    "impact": 4,
+    "summary": "Every Haven now names its own Wi-Fi network, so you can tell yours apart from any other nearby.",
+    "detail": null,
+    "benefit": "No more guessing which network is yours when you set up, and no two Havens on the same street look alike.",
+    "ref": "27127cf50c",
     "features": []
   },
   {
@@ -31,6 +97,17 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "Everything on the milestone list is now something Haven can show you, not something we assumed; and the page reads as a record of what shipped rather than a look inside our marketing notes.",
     "ref": "176669c8e0",
+    "features": []
+  },
+  {
+    "id": 754,
+    "date": "2026-08-28",
+    "theme": "Trust & transparency",
+    "impact": 3,
+    "summary": "Made-up records created by an automated helper were found in a live database, measured, and reported instead of quietly cleaned up.",
+    "detail": null,
+    "benefit": "When something goes wrong inside Haven, the number you get is measured and the report is public — not a reassurance.",
+    "ref": "1e9632b4d7",
     "features": []
   },
   {
