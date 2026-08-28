@@ -25,6 +25,24 @@
   .empty{color:#889;padding:14px 0;}
   .refresh{float:right;font-size:.8rem;font-weight:600;}
   a.refresh{color:#fff;text-decoration:underline;cursor:pointer;}
+  .badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:.75rem;font-weight:700;margin-left:6px;}
+  .badge.ok{background:#e6f4ea;color:#1e7e34;}
+  .badge.warn{background:#fff3e0;color:#a6650a;}
+  .badge.pending{background:#e8edf2;color:#556;}
+  .claim{background:#fff;border-radius:8px;box-shadow:0 1px 4px rgba(0,0,0,.08);padding:14px 16px;margin-bottom:12px;font-size:.86rem;}
+  .claim-head{font-size:.95rem;}
+  .claim-details{white-space:pre-wrap;margin:8px 0;padding:8px 10px;background:#f7f9fb;border-radius:6px;font-size:.85rem;}
+  .lanewarn{background:#fff3e0;color:#a6650a;border-radius:8px;padding:1px 7px;font-size:.72rem;font-weight:700;}
+  .vet{margin-top:10px;border-top:1px solid #eef1f5;padding-top:10px;}
+  .vet label{font-size:.82rem;}
+  .vet textarea{width:100%;box-sizing:border-box;min-height:54px;padding:8px;border:1px solid #ccd3dc;border-radius:6px;font:inherit;font-size:.85rem;margin-top:6px;}
+  .claim-actions{margin-top:8px;display:flex;align-items:center;gap:8px;}
+  .claim-actions button{width:auto;margin-top:0;padding:7px 16px;font-size:.85rem;}
+  .claim-actions button.confirm{background:#2e7d32;}
+  .claim-actions button.confirm:hover{background:#256428;}
+  .claim-actions button.unconfirm{background:#a6650a;}
+  .claim-actions button.unconfirm:hover{background:#8a5408;}
+  .vetmsg{font-size:.8rem;color:#667;}
 </style>
 </head>
 <body>
@@ -62,6 +80,48 @@ function table(rows){
   return h+'</tbody></table></div>';
 }
 
+function statusBadge(s){
+  const cls = s==='confirmed' ? 'ok' : s==='unconfirmed' ? 'warn' : 'pending';
+  return '<span class="badge '+cls+'">'+esc(s)+'</span>';
+}
+
+function claimCard(c){
+  const id = c.id;
+  const lane = c.lane==='attested' ? '' : ' <span class="lanewarn">lane: '+esc(c.lane)+'</span>';
+  return '<div class="claim">'
+    + '<div class="claim-head"><b>#'+id+' — '+esc(c.claim_title)+'</b> '+statusBadge(c.status)+lane+'</div>'
+    + '<div class="meta">'+esc(c.package_description || (c.username+' · '+c.email))+'</div>'
+    + '<div class="claim-details">'+esc(c.claim_details)+'</div>'
+    + (c.attachment_name ? '<div class="meta">attachment: '+esc(c.attachment_name)+' ('+esc(c.attachment_type)+', '+esc(c.attachment_bytes)+' bytes)</div>' : '')
+    + '<div class="vet">'
+    +   '<label><input type="checkbox" id="es-'+id+'" '+(c.evidence_sufficient?'checked':'')+'> evidence sufficient (duplicate-priority gate)</label>'
+    +   '<textarea id="note-'+id+'" placeholder="Note — shown as the unconfirmed invitation for more evidence">'+esc(c.vet_note||'')+'</textarea>'
+    +   '<div class="claim-actions">'
+    +     '<button class="confirm" onclick="vet('+id+',\'confirmed\')">Confirm</button>'
+    +     '<button class="unconfirm" onclick="vet('+id+',\'unconfirmed\')">Unconfirm</button>'
+    +     '<span class="vetmsg" id="vetmsg-'+id+'"></span>'
+    +   '</div>'
+    + '</div>'
+  + '</div>';
+}
+
+function claimsView(rows){
+  if(!rows.length) return '<p class="empty">No claims yet.</p>';
+  return rows.map(claimCard).join('');
+}
+
+async function vet(id, status){
+  const note = document.getElementById('note-'+id).value;
+  const evidence_sufficient = document.getElementById('es-'+id).checked;
+  const msg = document.getElementById('vetmsg-'+id);
+  msg.textContent = 'Saving…';
+  const r = await fetch('/api/claim-vet',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id,status,note,evidence_sufficient})});
+  if(r.ok){ load(); } else {
+    const d = await r.json().catch(()=>({}));
+    msg.textContent = 'Error: '+(d.error||r.status);
+  }
+}
+
 function loginView(msg){
   M.innerHTML =
     '<div class="login"><h1>Sign in</h1>'+
@@ -83,8 +143,10 @@ async function load(){
   if(r.status===401){ loginView(''); return; }
   if(!r.ok){ M.innerHTML = '<p class="err">Error loading ('+r.status+').</p>'; return; }
   const d = await r.json();
-  const s = d.router_survey||[], a = d.challenge_applications||[];
+  const s = d.router_survey||[], a = d.challenge_applications||[], c = d.contest_claims||[];
   M.innerHTML =
+    '<h2>Challenge bug claims — vetting <span class="meta">('+c.length+')</span></h2>'+
+    '<div class="meta">/challenge-submit → contest_claims — set Confirmed or Unconfirmed (never rejected; Unconfirmed sends the note as an invitation for more evidence)</div>'+ claimsView(c) +
     '<h2>Challenge-preview survey <span class="meta">('+s.length+')</span></h2>'+
     '<div class="meta">/challenge-preview → router_survey</div>'+ table(s) +
     '<h2>Challenge applications <span class="meta">('+a.length+')</span></h2>'+

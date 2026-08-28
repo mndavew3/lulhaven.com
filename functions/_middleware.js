@@ -140,6 +140,7 @@ export async function onRequest(context) {
     // tool on this site; there is no separate judge login system (#34/#44/#45).
     if (url.pathname.startsWith("/api/builds/") || url.pathname === "/api/builds"
         || url.pathname === "/api/signups" || url.pathname === "/api/submissions"
+        || url.pathname === "/api/claim-vet"
         || url.pathname === "/api/challenge-judge"
         || url.pathname === "/challenge-judge-tool.html" || url.pathname === "/challenge-judge-tool") {
         const secret = env.BUILD_MAINT_PASSWORD || "";
