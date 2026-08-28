@@ -1,5 +1,38 @@
-// generated from haven_wiki.db accomplishments — 720 rows, newest id 735
+// generated from haven_wiki.db accomplishments — 723 rows, newest id 738
 var milestonesDataset = [
+  {
+    "id": 738,
+    "date": "2026-08-27",
+    "theme": "Security & Trust",
+    "impact": 4,
+    "summary": "Added an attended tool that produces a printable paper backup of Haven's fleet update-signing keys -- a second, independent recovery copy alongside the existing encrypted USB backup, with per-key checksums to verify it.",
+    "detail": null,
+    "benefit": "Haven's ability to safely sign and push verified software updates now has a second, offline backup.",
+    "ref": "e5ddf3f",
+    "features": []
+  },
+  {
+    "id": 737,
+    "date": "2026-08-27",
+    "theme": "Firmware & overlay",
+    "impact": 3,
+    "summary": "Each Haven router now broadcasts its own unique WiFi name, built from its serial number, instead of every unit sharing the same default network name.",
+    "detail": null,
+    "benefit": "If two Havens ever end up near each other -- two units on one customer's network, or side by side during setup -- it's now possible to tell which WiFi network belongs to which router.",
+    "ref": "9dda7a4b14",
+    "features": []
+  },
+  {
+    "id": 736,
+    "date": "2026-08-27",
+    "theme": "Filtering & enforcement",
+    "impact": 3,
+    "summary": "Expanded Haven's on-device content catalog with roughly 70 new entries across news outlets, political organizations, big-business brands, and extremism/ragebait sources, so customers get finer-grained blocking choices in those categories.",
+    "detail": null,
+    "benefit": "More real-world sources customers can specifically allow or block -- sharper control over news, politics, and business content instead of one-size-fits-all filtering.",
+    "ref": "2cf951b9ec",
+    "features": []
+  },
   {
     "id": 732,
     "date": "2026-08-26",
