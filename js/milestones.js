@@ -799,7 +799,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "Shipped 0.1.80 with password recovery: if you forget your Haven admin password, a factory reset now reveals a 'Reset Haven password' button on the login screen. Prove it's you with a PIN you set ahead of time or a printed recovery code, then choose a new password — so a forgotten password can never permanently lock you out of your own router. The release also restores ad- and tracker-blocking and gives every Haven a uniquely-named Wi-Fi network out of the box.",
     "detail": null,
-    "benefit": "A forgotten password can no longer strand you from your own network, and your Haven runs cleaner (ads and trackers blocked) and is easy to tell apart from any other network nearby.",
+    "benefit": "A forgotten password can no longer strand you from your own network, your Haven is easy to tell apart from any other network nearby, and ad and tracker blocking works properly again for the households that switch it on.",
     "ref": "#397",
     "features": []
   },
@@ -1613,7 +1613,7 @@ var milestonesDataset = [
     "impact": 3,
     "summary": "Every Haven ships with a current filter list, a unique serial number, and an encrypted, restore-tested backup of its support credentials.",
     "detail": null,
-    "benefit": "Your Haven ships with fresher protection out of the box and support access that's safely backed up.",
+    "benefit": "Your Haven ships with a current filter list ready to go, and support access that's safely backed up.",
     "ref": "747e5b7",
     "features": []
   },
@@ -1844,7 +1844,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "Haven can now block thousands of additional ad and tracker networks with one checkbox, on top of the named brands it already covers.",
     "detail": null,
-    "benefit": "Fewer ads and far less tracking across every device on your network, right out of the box.",
+    "benefit": "Fewer ads and far less tracking across every device on your network, from the moment you tick the box.",
     "ref": "f0cfcb0",
     "features": []
   },
@@ -2403,7 +2403,7 @@ var milestonesDataset = [
       },
       {
         "id": 26,
-        "lead": "Plug in, set a password, you are filtering"
+        "lead": "Plug in, set a password, choose what to filter"
       }
     ]
   },
@@ -2720,9 +2720,9 @@ var milestonesDataset = [
     "date": "2026-06-01",
     "theme": "Filtering",
     "impact": 4,
-    "summary": "Haven now automatically blocks known VPN and Tor exit points, using a constantly updated list of thousands of IP ranges -- extending filtering protection to VPN and Tor traffic too.",
+    "summary": "Haven can now block known VPN and Tor exit points, using a constantly updated list of thousands of IP ranges — so when a household turns filtering on, that protection extends to VPN and Tor traffic too.",
     "detail": null,
-    "benefit": "Closes a major evasion path automatically, refreshed on the normal low-traffic update schedule",
+    "benefit": "Closes a major evasion path for the households that filter, with the list refreshed on the normal low-traffic update schedule.",
     "ref": "0ff0297",
     "features": []
   },
@@ -3006,7 +3006,7 @@ var milestonesDataset = [
       },
       {
         "id": 26,
-        "lead": "Plug in, set a password, you are filtering"
+        "lead": "Plug in, set a password, choose what to filter"
       }
     ]
   },
@@ -4460,7 +4460,7 @@ var milestonesDataset = [
       },
       {
         "id": 26,
-        "lead": "Plug in, set a password, you are filtering"
+        "lead": "Plug in, set a password, choose what to filter"
       }
     ]
   },
@@ -4524,7 +4524,7 @@ var milestonesDataset = [
       },
       {
         "id": 26,
-        "lead": "Plug in, set a password, you are filtering"
+        "lead": "Plug in, set a password, choose what to filter"
       }
     ]
   },
@@ -5775,7 +5775,7 @@ var milestonesDataset = [
       },
       {
         "id": 26,
-        "lead": "Plug in, set a password, you are filtering"
+        "lead": "Plug in, set a password, choose what to filter"
       }
     ]
   },
@@ -6241,7 +6241,7 @@ var milestonesDataset = [
       },
       {
         "id": 26,
-        "lead": "Plug in, set a password, you are filtering"
+        "lead": "Plug in, set a password, choose what to filter"
       }
     ]
   },
@@ -6755,7 +6755,7 @@ var milestonesDataset = [
       },
       {
         "id": 26,
-        "lead": "Plug in, set a password, you are filtering"
+        "lead": "Plug in, set a password, choose what to filter"
       }
     ]
   },
@@ -7455,7 +7455,7 @@ var milestonesDataset = [
     "impact": 4,
     "summary": "Three new one-click starter presets — Parenting, Privacy, Senior — added to both the demo and the built-in admin screen.",
     "detail": "Customers can apply a sensible-defaults preset with one click on either surface, then refine if they want. First application of the \"include-for-conversation\" principle (when in doubt, include).",
-    "benefit": "Setup is one click instead of dozens of decisions. The presets cover the most common filtering goals out of the box.",
+    "benefit": "Setup is one click instead of dozens of decisions — the presets ship with Haven and cover the most common filtering goals the moment you pick one.",
     "ref": "",
     "features": [
       {

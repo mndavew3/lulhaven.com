@@ -120,7 +120,7 @@ var cbDataset = [
     "id": 10,
     "section": "main",
     "lead": "Your choices, not algorithmic ones",
-    "body": "U-Haven hides channels you have decided not to see. Adult content is opt-in. Trackers blocked.",
+    "body": "U-Haven hides channels you have decided not to see. Adult content is opt-in — and so is everything else, trackers included. Every category is your call.",
     "family_rank": 10,
     "privacy_rank": 5,
     "family_lead": null,
