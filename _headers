@@ -1,8 +1,21 @@
 # Cloudflare Pages cache rules (T2-E).
-# JS is cache-busted via ?v=YYYYMMDD-HHMM (see tier5 #53), so versioned files
-# are safe to cache forever — a content change ships under a new URL.
+# JS is cache-busted with ?v=<sha256 prefix> (build.py; see tier5 #53), so a
+# content change always ships under a new URL and the versioned form is safe to
+# cache for a long time.
+#
+# It is NOT safe to mark `immutable`, and it was. This rule matches the PATH, so
+# it applied to the unversioned /js/foo.js too — and anything that ever fetched
+# the bare URL (a crawler, a curl, me checking the live site before a publish)
+# pinned that one response in Cloudflare's cache for a year, where no later
+# deploy dislodged it. Found 2026-08-28: bare /js/milestones.js kept serving
+# copy that had been retracted and republished hours earlier, while every page —
+# which requests the ?v= form — served the corrected file. Same defect class as
+# accomplishment 627, where a caching fault froze a page on an older copy of
+# itself and "would not have corrected itself for a year".
+# A plain max-age still gives repeat visitors a cheap 304 on unchanged files,
+# and lets a poisoned bare-URL entry heal on its own within a day.
 /js/*
-  Cache-Control: public, max-age=31536000, immutable
+  Cache-Control: public, max-age=86400, must-revalidate
 
 # Static assets (images/fonts) change rarely — cache a day, then revalidate.
 /assets/*
