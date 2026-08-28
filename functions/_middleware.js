@@ -135,8 +135,13 @@ export async function onRequest(context) {
     }
 
     // Build-maint endpoints (everything under /api/builds/) requires auth cookie.
+    // Challenge judge-ranking tool reuses the SAME internal maintenance realm --
+    // judges are given the maint password out of band, same as any other staff
+    // tool on this site; there is no separate judge login system (#34/#44/#45).
     if (url.pathname.startsWith("/api/builds/") || url.pathname === "/api/builds"
-        || url.pathname === "/api/signups" || url.pathname === "/api/submissions") {
+        || url.pathname === "/api/signups" || url.pathname === "/api/submissions"
+        || url.pathname === "/api/challenge-judge"
+        || url.pathname === "/challenge-judge-tool.html" || url.pathname === "/challenge-judge-tool") {
         const secret = env.BUILD_MAINT_PASSWORD || "";
         if (!secret) {
             return new Response(

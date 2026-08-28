@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<link rel="shortcut icon" href="assets/images/lulhaven20dock20line20art202-64x42.png" type="image/x-icon">
+<title>Haven Challenge — Judge Ranking</title>
+<style>
+  :root{ --navy:#1a237e; --navy-2:#11164d; --ink:#15171c; --paper:#f6f7fb; --line:#e3e6f0; --accent:#c8a24b; }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+       color:var(--ink);background:var(--paper);line-height:1.5;}
+  .wrap{max-width:900px;margin:0 auto;padding:0 22px;}
+  header.hero{background:var(--navy);color:#fff;padding:30px 0;text-align:center;}
+  header.hero h1{font-size:1.8rem;margin:0 0 6px;}
+  header.hero p{opacity:.9;margin:0;font-size:.95rem;}
+  main{padding:30px 0 60px;}
+  #login{max-width:340px;margin:60px auto;background:#fff;border:1px solid var(--line);border-radius:10px;padding:26px;}
+  #login label{display:block;font-weight:600;margin-bottom:6px;}
+  #login input{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:6px;font-size:1rem;}
+  #login button, .rank-form button{background:var(--navy);color:#fff;border:0;border-radius:6px;
+        padding:9px 16px;font-weight:700;cursor:pointer;font-size:.95rem;}
+  #login button:hover, .rank-form button:hover{background:var(--navy-2);}
+  #login .err{color:#a3231f;margin-top:10px;font-size:.9rem;min-height:1.2em;}
+  .tier-block{margin:26px 0 40px;}
+  .tier-block h2{color:var(--navy);border-bottom:1px solid var(--line);padding-bottom:8px;}
+  .finding{background:#fff;border:1px solid var(--line);border-radius:8px;padding:16px 18px;margin:12px 0;}
+  .finding.ranked{border-left:4px solid var(--accent);}
+  .finding h3{margin:0 0 6px;font-size:1.05rem;color:var(--ink);}
+  .finding .meta{color:#6a7086;font-size:.82rem;margin-bottom:10px;}
+  .finding dl{margin:0;font-size:.92rem;}
+  .finding dt{font-weight:700;color:var(--navy-2);margin-top:8px;}
+  .finding dd{margin:2px 0 0;white-space:pre-wrap;}
+  .rank-form{display:flex;align-items:center;gap:8px;margin-top:14px;}
+  .rank-form input{width:70px;padding:7px 8px;border:1px solid var(--line);border-radius:6px;font-size:.95rem;}
+  .rank-form .status{font-size:.85rem;color:#6a7086;}
+  .empty{color:#6a7086;font-style:italic;}
+  .note{background:#fff7e6;border:1px solid #f0d99a;border-radius:8px;padding:12px 16px;font-size:.88rem;color:#5a4708;margin-bottom:20px;}
+</style>
+</head>
+<body>
+<header class="hero"><div class="wrap">
+  <h1>Judge Ranking</h1>
+  <p>Confirmed findings, ordered for judging. Reporter identity is never shown here.</p>
+</div></header>
+<main><div class="wrap">
+  <div id="login">
+    <label for="pw">Maintenance password</label>
+    <input id="pw" type="password" autocomplete="current-password">
+    <p style="margin-top:14px;"><button id="loginBtn" type="button">Sign in</button></p>
+    <div class="err" id="loginErr"></div>
+  </div>
+  <div id="tool" style="display:none;">
+    <p class="note">Set or adjust a finding's rank (1 = first place). This is your call, not a formula — nothing here computes a score.</p>
+    <div id="boards"></div>
+  </div>
+</div></main>
+<script>
+const TIERS = [["vm", "VM tier"], ["full", "Full tier"]];
+
+function esc(s) {
+  return String(s == null ? "" : s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+}
+
+async function tryLogin(password) {
+  const r = await fetch("/api/auth", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ password }),
+  });
+  return r.ok;
+}
+
+async function loadFindings() {
+  const r = await fetch("/api/challenge-judge");
+  if (!r.ok) throw new Error("load failed: " + r.status);
+  const { findings } = await r.json();
+  return findings || [];
+}
+
+async function setRank(id, judge_rank, statusEl) {
+  statusEl.textContent = "Saving…";
+  const r = await fetch("/api/challenge-judge", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ id, judge_rank }),
+  });
+  if (!r.ok) {
+    const body = await r.json().catch(() => ({}));
+    statusEl.textContent = "Error: " + (body.error || r.status);
+    return false;
+  }
+  statusEl.textContent = "Saved.";
+  return true;
+}
+
+function renderFinding(f) {
+  const div = document.createElement("div");
+  div.className = "finding" + (f.judge_rank != null ? " ranked" : "");
+  div.innerHTML = `
+    <h3>${esc(f.title)}</h3>
+    <div class="meta">#${f.id} &middot; confirmed ${esc(f.confirmed_datetime || "")}${f.haven_version ? " &middot; v" + esc(f.haven_version) : ""}</div>
+    <dl>
+      <dt>Steps</dt><dd>${esc(f.steps)}</dd>
+      ${f.expected ? `<dt>Expected</dt><dd>${esc(f.expected)}</dd>` : ""}
+      ${f.actual ? `<dt>Actual</dt><dd>${esc(f.actual)}</dd>` : ""}
+      ${f.evidence ? `<dt>Evidence</dt><dd>${esc(f.evidence)}</dd>` : ""}
+    </dl>
+    <div class="rank-form">
+      <label>Rank <input type="number" min="1" step="1" class="rank-input" value="${f.judge_rank != null ? f.judge_rank : ""}"></label>
+      <button type="button" class="save-btn">Save</button>
+      <button type="button" class="clear-btn">Clear</button>
+      <span class="status"></span>
+    </div>
+  `;
+  const input = div.querySelector(".rank-input");
+  const statusEl = div.querySelector(".status");
+  div.querySelector(".save-btn").addEventListener("click", async () => {
+    const v = input.value.trim();
+    const n = v === "" ? null : parseInt(v, 10);
+    if (n !== null && (!Number.isInteger(n) || n <= 0)) {
+      statusEl.textContent = "Rank must be a positive whole number.";
+      return;
+    }
+    if (await setRank(f.id, n, statusEl)) div.classList.toggle("ranked", n != null);
+  });
+  div.querySelector(".clear-btn").addEventListener("click", async () => {
+    input.value = "";
+    if (await setRank(f.id, null, statusEl)) div.classList.remove("ranked");
+  });
+  return div;
+}
+
+async function renderBoards() {
+  const boards = document.getElementById("boards");
+  boards.innerHTML = "";
+  let findings;
+  try {
+    findings = await loadFindings();
+  } catch (e) {
+    boards.innerHTML = `<p class="empty">Could not load findings (${esc(e.message)}).</p>`;
+    return;
+  }
+  for (const [tier, label] of TIERS) {
+    const block = document.createElement("div");
+    block.className = "tier-block";
+    const heading = document.createElement("h2");
+    heading.textContent = label;
+    block.appendChild(heading);
+    const tierFindings = findings.filter(f => f.tier === tier);
+    if (tierFindings.length === 0) {
+      const p = document.createElement("p");
+      p.className = "empty";
+      p.textContent = "No confirmed findings yet.";
+      block.appendChild(p);
+    } else {
+      for (const f of tierFindings) block.appendChild(renderFinding(f));
+    }
+    boards.appendChild(block);
+  }
+}
+
+document.getElementById("loginBtn").addEventListener("click", async () => {
+  const pw = document.getElementById("pw").value;
+  const errEl = document.getElementById("loginErr");
+  errEl.textContent = "";
+  if (!(await tryLogin(pw))) {
+    errEl.textContent = "Wrong password.";
+    return;
+  }
+  document.getElementById("login").style.display = "none";
+  document.getElementById("tool").style.display = "block";
+  renderBoards();
+});
+document.getElementById("pw").addEventListener("keydown", (e) => {
+  if (e.key === "Enter") document.getElementById("loginBtn").click();
+});
+
+// If a valid session cookie already exists, /api/challenge-judge succeeds
+// straight away -- skip the login screen in that case.
+(async () => {
+  try {
+    const r = await fetch("/api/challenge-judge");
+    if (r.ok) {
+      document.getElementById("login").style.display = "none";
+      document.getElementById("tool").style.display = "block";
+      renderBoards();
+    }
+  } catch { /* stay on login */ }
+})();
+</script>
+</body>
+</html>
