@@ -103,6 +103,11 @@ export async function onRequestPost(context) {
   let form;
   try { form = await request.formData(); } catch { return json({ error: "expected a multipart form upload" }, 400); }
   const title = clean(form.get("claim_title"), 200), details = clean(form.get("claim_details"), 20000);
+  // Rules acceptance (mirrors /api/finding #50): record WHO accepted WHICH
+  // rules version, WHEN. Submission is the moment the terms actually bind.
+  // Optional/fail-open -- a missing checkbox must never cost a real claim.
+  const rulesVersion = clean(form.get("rules_version"), 40);
+  const rulesAccepted = rulesVersion ? new Date().toISOString() : null;
   const fileText = form.get("file_text");
   // Optional second upload: a screenshot or any other file to illustrate the claim.
   const attFile = form.get("attachment");
@@ -211,13 +216,15 @@ export async function onRequestPost(context) {
          feed_build_id, model, haven_version, tamper_flags, lane, disqualified_from_priority,
          evidence_sufficient, package_description, evidence_b64,
          package_prefix, settings_r2_key, attachment_r2_key, attachment_name, attachment_type, attachment_bytes,
+         rules_version, rules_accepted_datetime,
          source_ip, status, created_datetime)
-       VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,0,?,?,?,?,?,?,?,?,?,'submitted',datetime('now'))`
+       VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,0,?,?,?,?,?,?,?,?,?,?,?,'submitted',datetime('now'))`
     ).bind(
       attestation, username, email, title, details, receivedMs, tExport, serial,
       feedBuild, model, hv, flags.join(","), lane, disq,
       "", fileText,
       prefix, settingsKey, attKey, attName, attType, attBytes,
+      rulesVersion, rulesAccepted,
       ip
     ).run();
   } catch (e) {

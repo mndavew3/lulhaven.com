@@ -30,6 +30,8 @@
   .msg.err{ background:#fdecea; color:var(--err); display:block; }
   .hidden { display:none; }
   .who { text-align:right; font-size:.9rem; color:#555; }
+  .accept { display:flex; align-items:flex-start; gap:8px; font-weight:400; margin-top:16px; font-size:.92rem; }
+  .accept input { margin-top:3px; }
 </style>
 </head>
 <body>
@@ -117,6 +119,7 @@
     <label for="up-attach">Screenshot or other file <span style="font-weight:400;color:#888;">(optional, max 8 MB)</span></label>
     <input type="file" id="up-attach">
     <div id="attachinfo"></div>
+    <label class="accept"><input type="checkbox" id="up-rules"><span>I have read and accept the <a href="challenge-rules.html" target="_blank" rel="noopener">Challenge rules</a> (version <span id="rules-version-label"></span>).</span></label>
     <button id="up-btn" disabled>Submit claim</button>
     <div id="up-msg" class="msg"></div>
   </div>
@@ -209,9 +212,15 @@
   });
 
   // ---- upload ----
+  // Rules acceptance (mirrors /api/finding #50): the version string identifies
+  // WHICH rules the checkbox binds to. Keep in sync with challenge-rules.html's
+  // dated PROPOSED marker.
+  var RULES_VERSION = "2026-08-03";
+  $("rules-version-label").textContent = RULES_VERSION;
   var fileText=null;
-  function refresh(){ $("up-btn").disabled=!(fileText&&$("up-title").value.trim()); }
+  function refresh(){ $("up-btn").disabled=!(fileText&&$("up-title").value.trim()&&$("up-rules").checked); }
   $("up-title").addEventListener("input",refresh);
+  $("up-rules").addEventListener("change",refresh);
   function readFile(f){ if(!f)return; if(f.size>512*1024){ $("fileinfo").textContent="That file is too large (max 512 KB)."; fileText=null; refresh(); return; }
     var r=new FileReader(); r.onload=function(){ fileText=r.result; $("fileinfo").textContent="✓ "+f.name+" ("+f.size+" bytes)"; refresh(); }; r.readAsText(f); }
   $("drop").addEventListener("click",function(){ $("up-file").click(); });
@@ -232,6 +241,7 @@
     fd.append("claim_title",$("up-title").value);
     fd.append("claim_details",$("up-details").value);
     fd.append("file_text",fileText);
+    if($("up-rules").checked) fd.append("rules_version",RULES_VERSION);
     var af=$("up-attach").files[0];
     if(af) fd.append("attachment",af,af.name);
     fetch("/api/claim-intake",{method:"POST",body:fd})           // multipart — let the browser set the boundary
