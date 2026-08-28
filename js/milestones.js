@@ -1,5 +1,16 @@
-// generated from haven_wiki.db accomplishments — 723 rows, newest id 738
+// generated from haven_wiki.db accomplishments — 728 rows, newest id 743
 var milestonesDataset = [
+  {
+    "id": 741,
+    "date": "2026-08-27",
+    "theme": "Security & Trust",
+    "impact": 4,
+    "summary": "Haven's downloadable virtual-machine image is now hardened before release: remote console login is switched off and the build station's private signing key is left out of the image entirely.",
+    "detail": null,
+    "benefit": "The free copy of Haven you can download and try is sealed off from the machines that build and sign real Haven firmware.",
+    "ref": "9063a63d5e",
+    "features": []
+  },
   {
     "id": 738,
     "date": "2026-08-27",
@@ -9,6 +20,39 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "Haven's ability to safely sign and push verified software updates now has a second, offline backup.",
     "ref": "e5ddf3f",
+    "features": []
+  },
+  {
+    "id": 743,
+    "date": "2026-08-27",
+    "theme": "Testing & quality",
+    "impact": 3,
+    "summary": "The router smoke test now reads the tested unit's own serial number and hardware model live from the device and prints them in its report.",
+    "detail": null,
+    "benefit": "Every test result names the exact router it ran on, so a Haven unit's pass is backed by evidence from that unit.",
+    "ref": "d0998877e7",
+    "features": []
+  },
+  {
+    "id": 742,
+    "date": "2026-08-27",
+    "theme": "Testing & quality",
+    "impact": 3,
+    "summary": "Haven's blocking-rate measurement now scores tracker and stalkerware test sites as their own category, with each category scored strictly against its own sources.",
+    "detail": null,
+    "benefit": "The blocking percentages Haven publishes are measured cleanly category by category, so the numbers customers see reflect exactly what the router stops.",
+    "ref": "7a5a82ff9e",
+    "features": []
+  },
+  {
+    "id": 739,
+    "date": "2026-08-27",
+    "theme": "Marketing & website",
+    "impact": 3,
+    "summary": "Haven's open design contest now shows a public top-three leaderboard on the website, fed by a new scoring tool the judges use to rank entries.",
+    "detail": null,
+    "benefit": "Anyone following the contest can see which entries are leading and how they were judged, instead of waiting for a single announcement at the end.",
+    "ref": "607900ae58",
     "features": []
   },
   {
@@ -31,6 +75,17 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "More real-world sources customers can specifically allow or block -- sharper control over news, politics, and business content instead of one-size-fits-all filtering.",
     "ref": "2cf951b9ec",
+    "features": []
+  },
+  {
+    "id": 740,
+    "date": "2026-08-27",
+    "theme": "Trust & transparency",
+    "impact": 2,
+    "summary": "Contest entrants now record their agreement to the contest rules at the moment they submit, and that agreement is stored with the entry.",
+    "detail": null,
+    "benefit": "Everyone who enters has the same clear terms on record, so there is no argument later about what was agreed to.",
+    "ref": "b0a75c5b01",
     "features": []
   },
   {
@@ -2260,9 +2315,9 @@ var milestonesDataset = [
     "date": "2026-06-15",
     "theme": "Ad blocking",
     "impact": 4,
-    "summary": "Haven does what people set up a Pi-hole for — network-wide ad, pop-up, and pop-under blocking for every device — and goes a step further: it filters PER DEVICE, so a child’s tablet and the adults’ phones can carry different rules, all from one screen. No separate box, no software to run, nothing to install on each device. A one-tap “Miscellaneous Browser Ads” control adds a comprehensive, always-updated blocklist that catches the pop-under networks basic blockers miss.",
+    "summary": "Network-wide ad, pop-up, and pop-under blocking for every device on the house network — and it goes a step further: it filters PER DEVICE, so a child’s tablet and the adults’ phones can carry different rules, all from one screen. No separate box, no software to run, nothing to install on each device. A one-tap “Miscellaneous Browser Ads” control adds an always-updated list of more than 150,000 ad and tracker domains, including the pop-under networks that blocking the named brands alone misses.",
     "detail": "Built by integrating the open HaGeZi ad/pop-up blocklists into Haven's existing DNS filtering, so the comprehensive list ships as a single Helm toggle rather than something the customer has to assemble.",
-    "benefit": "Everything a Pi-hole gives you — without the Pi-hole — plus straightforward per-device control. One switch blocks ads and pop-ups across the whole network, and you can still tighten or loosen filtering for any single device.",
+    "benefit": "Whole-house ad and pop-up blocking with nothing to build and nothing to maintain — plus straightforward per-device control. One switch turns on more than 150,000 ad and tracker domains across the whole network, and you can still tighten or loosen filtering for any single device.",
     "ref": "9b42161228",
     "features": []
   },
@@ -3940,7 +3995,7 @@ var milestonesDataset = [
     "theme": "Session continuity",
     "impact": 3,
     "summary": "Reviewed competitive research and refreshed the homepage's main call-to-action.",
-    "detail": "Captured competitive teardown of NetworkChuck-style DIY router pitches against Haven's pre-flashed approach; refreshed homepage hero CTAs.",
+    "detail": "Captured a teardown of do-it-yourself router-filtering guides against Haven's pre-flashed approach; refreshed homepage hero CTAs.",
     "benefit": "Decisions and discoveries persist across sessions; future-us picks up where past-us left off.",
     "ref": "165e9beb81",
     "features": []
@@ -4077,8 +4132,8 @@ var milestonesDataset = [
     "theme": "Marketing & website",
     "impact": 3,
     "summary": "Studied do-it-yourself filtering setups to sharpen Haven's approach.",
-    "detail": "Sequel to wiki (OpenDNS tutorial). NetworkChuck's \"BLOCK EVERYTHING w/ PiHole\non Docker, OpenDNS and IFTTT\" (May 2020, 920K views, 891 comments) is the DIY-IT\nESCALATION TIER — the viewer who started with OpenDNS and now wants ad-blocking, granular\ndomain control, and v…",
-    "benefit": "PiHole comparison cataloged — Haven covers what PiHole forces hobbyists to figure out themselves.",
+    "detail": "Reviewed the popular do-it-yourself guides that layer ad-blocking and per-domain control on top of a basic filtered-DNS setup, and listed every step they leave to the household. Those steps are the ones Haven is built to absorb.",
+    "benefit": "Catalogued what a do-it-yourself ad-blocking setup actually asks of you — a container to run, blocklists to wire up, upkeep to remember — so that Haven can do that work instead of handing it to you.",
     "ref": "",
     "features": []
   },
@@ -4088,8 +4143,8 @@ var milestonesDataset = [
     "theme": "Marketing & website",
     "impact": 3,
     "summary": "Studied competing filtering tools to sharpen Haven's approach.",
-    "detail": "The canonical DIY \"block adult sites at home\" YouTube tutorial is NetworkChuck's \"block\nADULT sites and other BAD STUFF on your home network (EASY)\" — Apr 2020, 5.27M-subscriber\nchannel, 638K views, walks IT-literate viewers through setting OpenDNS as their router's upstream…",
-    "benefit": "NetworkChuck's audience identified as the parent-and-privacy crossover Haven also targets — competitive read confirms Haven's positioning is durable.",
+    "detail": "Reviewed the most widely-followed do-it-yourself guides for filtering a home network and catalogued every step they ask a household to perform. Each of those steps is work Haven is built to absorb.",
+    "benefit": "Confirmed that the households who care about parental control and the households who care about privacy are largely the same people, wanting the same thing — which keeps Haven pointed at a real need rather than a guess.",
     "ref": "",
     "features": []
   },
