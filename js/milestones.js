@@ -1,5 +1,16 @@
-// generated from haven_wiki.db accomplishments — 739 rows, newest id 754
+// generated from haven_wiki.db accomplishments — 740 rows, newest id 755
 var milestonesDataset = [
+  {
+    "id": 755,
+    "date": "2026-08-29",
+    "theme": "Testing & quality",
+    "impact": 2,
+    "summary": "The try-it-yourself demo on the website now matches the software actually shipping, and a category that had lost its icon has it back.",
+    "detail": null,
+    "benefit": "What you click on the website is what arrives on the router, so trying Haven before you buy it tells you the truth.",
+    "ref": "7538cea",
+    "features": []
+  },
   {
     "id": 752,
     "date": "2026-08-28",
