@@ -1,5 +1,16 @@
-// generated from haven_wiki.db accomplishments — 740 rows, newest id 755
+// generated from haven_wiki.db accomplishments — 741 rows, newest id 756
 var milestonesDataset = [
+  {
+    "id": 756,
+    "date": "2026-08-30",
+    "theme": "Tooling & infrastructure",
+    "impact": 2,
+    "summary": "The workbench can now check its own work with a camera",
+    "detail": "A small USB display panel on the workbench shows live data pulled straight off a Haven router. Getting it to draw correctly meant proving what the panel actually does rather than trusting the manufacturer's notes, so a webcam was pointed at the screen: the bench uploads a layout, photographs the panel, reads the photo back, and tries again, with no person in the loop. The layout format also went from about 312 KB per screen to under 5 KB, which is why the panel now refreshes in five seconds instead of fourteen.",
+    "benefit": "Claims about Haven hardware get checked by a camera looking at the real thing, not by a script printing that it worked.",
+    "ref": "33a2aed0aa",
+    "features": []
+  },
   {
     "id": 755,
     "date": "2026-08-29",
