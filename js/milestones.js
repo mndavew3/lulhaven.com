@@ -1,5 +1,16 @@
-// generated from haven_wiki.db accomplishments — 742 rows, newest id 757
+// generated from haven_wiki.db accomplishments — 743 rows, newest id 758
 var milestonesDataset = [
+  {
+    "id": 758,
+    "date": "2026-08-31",
+    "theme": "Firmware & overlay",
+    "impact": 3,
+    "summary": "The little pocket-size monitor panel on the workbench now has its own software package inside the router's firmware build, so a router can drive it straight out of the box",
+    "detail": null,
+    "benefit": "A reviewer or customer who plugs in the small companion display gets live, easy-to-read status cards with no extra setup",
+    "ref": "1ec97c1277",
+    "features": []
+  },
   {
     "id": 757,
     "date": "2026-08-30",
