@@ -1,5 +1,16 @@
-// generated from haven_wiki.db accomplishments — 741 rows, newest id 756
+// generated from haven_wiki.db accomplishments — 742 rows, newest id 757
 var milestonesDataset = [
+  {
+    "id": 757,
+    "date": "2026-08-30",
+    "theme": "Firmware & overlay",
+    "impact": 3,
+    "summary": "The small status display planned for the router can now show any number, dial or symbol Haven draws, without altering the display's own built-in software.",
+    "detail": "The router's optional status screen draws its numbers and dials from artwork Haven designs, and the router picks which one to show simply by sending a value. That means a clearer or better-looking readout is something Haven can design and send out later, rather than something locked in when the screen was made. There are now twenty screens to move between, and the main one carries two speed dials that track what your network is actually doing, from a trickle up to the fastest connections on the market.",
+    "benefit": "Readouts on the router's screen can be improved or added at any time without risky changes to the display hardware, so the screen keeps getting better after the router is on a customer's shelf.",
+    "ref": "2610f9ad79",
+    "features": []
+  },
   {
     "id": 756,
     "date": "2026-08-30",
