@@ -1,5 +1,16 @@
-// generated from haven_wiki.db accomplishments — 743 rows, newest id 758
+// generated from haven_wiki.db accomplishments — 744 rows, newest id 759
 var milestonesDataset = [
+  {
+    "id": 759,
+    "date": "2026-08-31",
+    "theme": "Firmware & overlay",
+    "impact": 3,
+    "summary": "SmartMonitor panel driver hardened: theme uploads are 3x faster after dropping needless per-report pacing, and the panel handshake now has tracing and stale-input flushing so link problems are visible instead of silent",
+    "detail": null,
+    "benefit": "The add-on status display loads its look in seconds instead of half a minute, and future panel glitches can be diagnosed instead of guessed at",
+    "ref": "58d4a8e090",
+    "features": []
+  },
   {
     "id": 758,
     "date": "2026-08-31",
