@@ -1,5 +1,38 @@
-// generated from haven_wiki.db accomplishments — 744 rows, newest id 759
+// generated from haven_wiki.db accomplishments — 747 rows, newest id 762
 var milestonesDataset = [
+  {
+    "id": 761,
+    "date": "2026-09-01",
+    "theme": "Reliability & Updates",
+    "impact": 3,
+    "summary": "Firmware 0.1.97 built across all four flavors, the first release produced under the new unsaved-source build guard; over-the-air manifest staged for publish.",
+    "detail": null,
+    "benefit": "Your router's next update adds dependable hot-plug handling for the status panel and a branded display theme — with a release check built to prove each image carries exactly the code it claims.",
+    "ref": "5a350c0670",
+    "features": []
+  },
+  {
+    "id": 762,
+    "date": "2026-09-01",
+    "theme": "Tooling & infrastructure",
+    "impact": 2,
+    "summary": "usbfix: USB bus-reset and hub port-power recovery tool, proven live curing the status panel's Class-B wedge on the bench.",
+    "detail": null,
+    "benefit": "Hardware testing keeps moving: a wedged USB panel now recovers in seconds with a targeted reset instead of a machine power-cycle.",
+    "ref": "a30c77e4a2",
+    "features": []
+  },
+  {
+    "id": 760,
+    "date": "2026-08-31",
+    "theme": "Trust & transparency",
+    "impact": 4,
+    "summary": "Caught that a firmware release could be built from edited-but-unsaved source, meaning the exact software on a shipped router might not be rebuildable later; the source behind the current release is now saved and byte-matched to what is inside the images",
+    "detail": null,
+    "benefit": "Whatever is running on your router can always be rebuilt and inspected — a release can no longer exist that nobody can reproduce",
+    "ref": "5eb7ba45ef",
+    "features": []
+  },
   {
     "id": 759,
     "date": "2026-08-31",
