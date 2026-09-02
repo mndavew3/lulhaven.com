@@ -94,8 +94,14 @@ export async function onRequest(context) {
         });
     }
 
+    // Cloudflare resolves /API/x, /api/x/ and %-encoded forms to the same
+    // function, so every gate below compares against this folded path — a raw
+    // exact-case compare is a login bypass (found live 2026-09-02: /API/submissions
+    // returned customer data with no cookie while /api/submissions was gated).
+    const path = decoded.toLowerCase().replace(/\/+$/, "") || "/";
+
     // /api/auth itself is public — POST password, get cookie.
-    if (url.pathname === "/api/auth") {
+    if (path === "/api/auth") {
         return next();
     }
 
@@ -109,7 +115,7 @@ export async function onRequest(context) {
         "/api/feed-delta.db",
         "/api/update.json",   // version-check ping
     ];
-    if (PUBLIC_API_PATHS.includes(url.pathname)) {
+    if (PUBLIC_API_PATHS.includes(path)) {
         return next();
     }
 
@@ -120,7 +126,7 @@ export async function onRequest(context) {
     // check; this closes the account endpoints (register/verify/login/…) too.
     // Closed => 403, nothing runs. /api/challenge (coming-soon interest) is NOT
     // gated — it stays open before the contest so people can register interest.
-    const p = url.pathname;
+    const p = path;
     if (p.startsWith("/api/contest-") || p === "/api/claim-intake"
         || p === "/api/finding" || p === "/api/attest") {
         const now = Math.floor(Date.now() / 1000);
@@ -138,11 +144,11 @@ export async function onRequest(context) {
     // Challenge judge-ranking tool reuses the SAME internal maintenance realm --
     // judges are given the maint password out of band, same as any other staff
     // tool on this site; there is no separate judge login system (#34/#44/#45).
-    if (url.pathname.startsWith("/api/builds/") || url.pathname === "/api/builds"
-        || url.pathname === "/api/signups" || url.pathname === "/api/submissions"
-        || url.pathname === "/api/claim-vet"
-        || url.pathname === "/api/challenge-judge"
-        || url.pathname === "/challenge-judge-tool.html" || url.pathname === "/challenge-judge-tool") {
+    if (path.startsWith("/api/builds/") || path === "/api/builds"
+        || path === "/api/signups" || path === "/api/submissions"
+        || path === "/api/claim-vet"
+        || path === "/api/challenge-judge"
+        || path === "/challenge-judge-tool.html" || path === "/challenge-judge-tool") {
         const secret = env.BUILD_MAINT_PASSWORD || "";
         if (!secret) {
             return new Response(
