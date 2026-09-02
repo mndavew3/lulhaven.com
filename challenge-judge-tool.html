@@ -117,13 +117,11 @@ function renderFinding(f) {
   const div = document.createElement("div");
   div.className = "finding" + (f.judge_rank != null ? " ranked" : "");
   div.innerHTML = `
-    <h3>${esc(f.title)}</h3>
-    <div class="meta">#${f.id} &middot; confirmed ${esc(f.confirmed_datetime || "")}${f.haven_version ? " &middot; v" + esc(f.haven_version) : ""}</div>
+    <h3>${esc(f.claim_title || "(untitled claim)")}</h3>
+    <div class="meta">#${f.id} &middot; received ${esc(f.created_datetime || "")}${f.haven_version ? " &middot; v" + esc(f.haven_version) : ""}${f.model ? " &middot; " + esc(f.model) : ""}</div>
     <dl>
-      <dt>Steps</dt><dd>${esc(f.steps)}</dd>
-      ${f.expected ? `<dt>Expected</dt><dd>${esc(f.expected)}</dd>` : ""}
-      ${f.actual ? `<dt>Actual</dt><dd>${esc(f.actual)}</dd>` : ""}
-      ${f.evidence ? `<dt>Evidence</dt><dd>${esc(f.evidence)}</dd>` : ""}
+      <dt>Details</dt><dd>${esc(f.claim_details || "")}</dd>
+      ${f.feed_build_id ? `<dt>Feed build</dt><dd>${esc(String(f.feed_build_id))}</dd>` : ""}
     </dl>
     <div class="rank-form">
       <label>Rank <input type="number" min="1" step="1" class="rank-input" value="${f.judge_rank != null ? f.judge_rank : ""}"></label>

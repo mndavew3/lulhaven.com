@@ -4,13 +4,15 @@
 // quantitative metric ... but the VALUES are never rendered" / "display only
 // the top three, not a full ranked list, so nobody sees that they are 87th").
 //
-// Standing comes straight from judge_rank -- a number a human judge typed in
-// via /api/challenge-judge (#44: judge pool, not an algorithm). This endpoint
-// does no scoring of its own: it only groups confirmed, non-duplicate,
-// judge-ranked findings by reporter (email is the identity key; a person may
-// have several findings) and takes each person's best (lowest) judge_rank,
-// then returns the top three per tier ordered by that rank. Ties break on
-// confirmed_datetime then id -- earliest confirmed wins, no algorithm.
+// PORTED 2026-09-02 to contest_claims (challenge_findings never existed in
+// remote D1). Standing comes straight from judge_rank -- a number a human judge
+// typed in via /api/challenge-judge (#44: judge pool, not an algorithm). This
+// endpoint does no scoring of its own: it groups rankable claims by reporter
+// (email is the identity key; a person may have several claims), takes each
+// person's best (lowest) judge_rank, and returns the top three per tier.
+// Ties break on id ASC -- contest_claims.id is the §3c seq, so earliest
+// submission wins, no algorithm. Display name is the contestant's username
+// (never the email); a blank username renders as "Anonymous".
 
 const CORS_HEADERS = {
     "Access-Control-Allow-Origin":  "*",
@@ -25,10 +27,11 @@ function json(body, status = 200) {
 
 async function topThree(env, tier) {
     const { results } = await env.haven_builds.prepare(
-        `SELECT email, handle FROM challenge_findings
-          WHERE tier = ? AND status = 'confirmed' AND duplicate_of IS NULL
+        `SELECT email, username FROM contest_claims
+          WHERE tier = ? AND status = 'confirmed' AND lane = 'attested'
+                AND evidence_sufficient = 1 AND disqualified_from_priority = 0
                 AND judge_rank IS NOT NULL
-          ORDER BY judge_rank ASC, confirmed_datetime ASC, id ASC`
+          ORDER BY judge_rank ASC, id ASC`
     ).bind(tier).all();
 
     const seen = new Set();
@@ -37,8 +40,8 @@ async function topThree(env, tier) {
         const key = (row.email || "").toLowerCase();
         if (!key || seen.has(key)) continue;
         seen.add(key);
-        const handle = typeof row.handle === "string" ? row.handle.trim() : "";
-        names.push(handle || "Anonymous");
+        const username = typeof row.username === "string" ? row.username.trim() : "";
+        names.push(username || "Anonymous");
         if (names.length === 3) break;
     }
     return names;

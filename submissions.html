@@ -95,6 +95,11 @@ function claimCard(c){
     + (c.attachment_name ? '<div class="meta">attachment: '+esc(c.attachment_name)+' ('+esc(c.attachment_type)+', '+esc(c.attachment_bytes)+' bytes)</div>' : '')
     + '<div class="vet">'
     +   '<label><input type="checkbox" id="es-'+id+'" '+(c.evidence_sufficient?'checked':'')+'> evidence sufficient (duplicate-priority gate)</label>'
+    +   '<label> board: <select id="tier-'+id+'">'
+    +     '<option value=""'+(!c.tier?' selected':'')+'>— unassigned —</option>'
+    +     '<option value="vm"'+(c.tier==='vm'?' selected':'')+'>VM tier</option>'
+    +     '<option value="full"'+(c.tier==='full'?' selected':'')+'>Full tier</option>'
+    +   '</select></label>'
     +   '<textarea id="note-'+id+'" placeholder="Note — shown as the unconfirmed invitation for more evidence">'+esc(c.vet_note||'')+'</textarea>'
     +   '<div class="claim-actions">'
     +     '<button class="confirm" onclick="vet('+id+',\'confirmed\')">Confirm</button>'
@@ -113,9 +118,10 @@ function claimsView(rows){
 async function vet(id, status){
   const note = document.getElementById('note-'+id).value;
   const evidence_sufficient = document.getElementById('es-'+id).checked;
+  const tier = document.getElementById('tier-'+id).value || null;
   const msg = document.getElementById('vetmsg-'+id);
   msg.textContent = 'Saving…';
-  const r = await fetch('/api/claim-vet',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id,status,note,evidence_sufficient})});
+  const r = await fetch('/api/claim-vet',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id,status,note,evidence_sufficient,tier})});
   if(r.ok){ load(); } else {
     const d = await r.json().catch(()=>({}));
     msg.textContent = 'Error: '+(d.error||r.status);
