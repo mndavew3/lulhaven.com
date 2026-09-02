@@ -1,5 +1,16 @@
-// generated from haven_wiki.db accomplishments — 749 rows, newest id 764
+// generated from haven_wiki.db accomplishments — 750 rows, newest id 765
 var milestonesDataset = [
+  {
+    "id": 765,
+    "date": "2026-09-01",
+    "theme": "Reliability & Updates",
+    "impact": 3,
+    "summary": "Firmware 0.1.99 built for the Haven router line: list updates now detect changes by fingerprint instead of keeping raw downloaded copies on the router's own storage",
+    "detail": null,
+    "benefit": "Every list update leaves less leftover data on your router and puts less wear on its storage chip",
+    "ref": "a32ef80eab",
+    "features": []
+  },
   {
     "id": 764,
     "date": "2026-09-01",
