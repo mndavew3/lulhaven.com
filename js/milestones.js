@@ -1,5 +1,27 @@
-// generated from haven_wiki.db accomplishments — 747 rows, newest id 762
+// generated from haven_wiki.db accomplishments — 749 rows, newest id 764
 var milestonesDataset = [
+  {
+    "id": 764,
+    "date": "2026-09-01",
+    "theme": "Reliability",
+    "impact": 3,
+    "summary": "Found a software-only way to unlock a frozen status screen and shipped a self-healing ladder that applies it automatically",
+    "detail": null,
+    "benefit": "A screen that locks up can rescue itself instead of waiting for someone to pull a plug",
+    "ref": "c7efa371ae",
+    "features": []
+  },
+  {
+    "id": 763,
+    "date": "2026-09-01",
+    "theme": "Reliability & Updates",
+    "impact": 3,
+    "summary": "Firmware 0.1.98 built and published for all four router flavors, with the release checker catching a stale first build before it could ship",
+    "detail": null,
+    "benefit": "Updates reach customers through a gate that provably refuses a bad build instead of trusting that everything went right",
+    "ref": "bc25bc112d",
+    "features": []
+  },
   {
     "id": 761,
     "date": "2026-09-01",
