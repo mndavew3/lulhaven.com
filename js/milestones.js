@@ -1,5 +1,38 @@
-// generated from haven_wiki.db accomplishments — 750 rows, newest id 765
+// generated from haven_wiki.db accomplishments — 753 rows, newest id 768
 var milestonesDataset = [
+  {
+    "id": 766,
+    "date": "2026-09-02",
+    "theme": "Security & Trust",
+    "impact": 5,
+    "summary": "A self-audit of the site found a way past the login check, and it was closed the same day: web addresses typed with different capitalization or a trailing slash were treated as different pages and skipped the check entirely.",
+    "detail": null,
+    "benefit": "The private parts of the site stay private. A trust product cannot ask you to take its word for it, so we audit our own front door and publish what we find.",
+    "ref": "39b4668f01",
+    "features": []
+  },
+  {
+    "id": 767,
+    "date": "2026-09-02",
+    "theme": "Reliability & Updates",
+    "impact": 4,
+    "summary": "Firmware 0.1.99 went live for all four Haven models, and each one was checked on the real update server after publishing rather than assumed to have landed.",
+    "detail": null,
+    "benefit": "Your router only accepts an update we signed, and we confirm the update it will be offered is the one we meant to ship.",
+    "ref": "a534d4e992",
+    "features": []
+  },
+  {
+    "id": 768,
+    "date": "2026-09-02",
+    "theme": "Filtering",
+    "impact": 3,
+    "summary": "Cleaned the block list: entries pointing at sites that no longer exist were pulled, one provider's entry was narrowed from a broad sweep to the four addresses it actually uses, and the published counts were corrected to match.",
+    "detail": null,
+    "benefit": "Fewer things blocked by accident, and the number we publish is the number that is actually enforced.",
+    "ref": "a866203d21",
+    "features": []
+  },
   {
     "id": 765,
     "date": "2026-09-01",
