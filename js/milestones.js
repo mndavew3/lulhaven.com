@@ -1,5 +1,93 @@
-// generated from haven_wiki.db accomplishments — 753 rows, newest id 768
+// generated from haven_wiki.db accomplishments — 761 rows, newest id 776
 var milestonesDataset = [
+  {
+    "id": 776,
+    "date": "2026-09-05",
+    "theme": "Firmware & overlay",
+    "impact": 5,
+    "summary": "The Haven display's on-screen keyboard now echoes each key the moment you press it",
+    "detail": null,
+    "benefit": "Typing on the display feels like typing on a phone: the key you pressed appears right away, so entering a password is something you can do at a glance.",
+    "ref": "a021d4f",
+    "features": []
+  },
+  {
+    "id": 774,
+    "date": "2026-09-05",
+    "theme": "Firmware & overlay",
+    "impact": 4,
+    "summary": "The Haven display can now restart the router, change its password, and locks itself when left alone",
+    "detail": null,
+    "benefit": "You can handle the two things people actually need without finding a computer, and a display on the wall does not stay signed in for whoever walks past.",
+    "ref": "a021d4f",
+    "features": []
+  },
+  {
+    "id": 773,
+    "date": "2026-09-05",
+    "theme": "Firmware & overlay",
+    "impact": 4,
+    "summary": "The seven-inch Haven display comes up ready to use in about six seconds",
+    "detail": null,
+    "benefit": "You reach your router's controls almost immediately after switching the display on.",
+    "ref": "a021d4f",
+    "features": []
+  },
+  {
+    "id": 775,
+    "date": "2026-09-05",
+    "theme": "Firmware & overlay",
+    "impact": 3,
+    "summary": "The Haven display now carries its artwork and software in its own on-board storage",
+    "detail": null,
+    "benefit": "Everything the display needs to run is built into the unit itself.",
+    "ref": "a021d4f",
+    "features": []
+  },
+  {
+    "id": 772,
+    "date": "2026-09-04",
+    "theme": "Firmware & overlay",
+    "impact": 3,
+    "summary": "You can now walk through the router's own screens on the seven-inch Haven display",
+    "detail": null,
+    "benefit": "See what your network is doing — devices, wireless, system health, logs — by touching a screen, no laptop and no app needed.",
+    "ref": "11724a2c60",
+    "features": []
+  },
+  {
+    "id": 771,
+    "date": "2026-09-04",
+    "theme": "Firmware & overlay",
+    "impact": 3,
+    "summary": "You can now sign in on the seven-inch Haven screen by typing on the screen itself",
+    "detail": "Signing in on the big screen means typing your password on the glass, and today that became something you can do comfortably. Three opportunities were taken in one sitting: each tap now produces exactly one letter, a firm press registers reliably, and the sign-in buttons are sized to read from a step away. The screen also measures its own size from the glass it is bonded to, so Haven is not tied to one exact part; a different panel is supported by naming its artwork rather than rewriting the software. Next up is making the typing quicker still.",
+    "benefit": "The big screen is becoming something you use with your hands, not just look at. Each tap gives you one letter, the buttons read clearly from across the room, and a firm press registers reliably.",
+    "ref": "25c32b273e",
+    "features": []
+  },
+  {
+    "id": 770,
+    "date": "2026-09-04",
+    "theme": "Firmware & overlay",
+    "impact": 2,
+    "summary": "The larger seven-inch Haven screen now draws its own interface and answers to touch",
+    "detail": null,
+    "benefit": "A big, readable screen option is on the table for people who want to see and tap Haven's controls from across the room.",
+    "ref": "646d047b64",
+    "features": []
+  },
+  {
+    "id": 769,
+    "date": "2026-09-03",
+    "theme": "Firmware & overlay",
+    "impact": 3,
+    "summary": "Screen Haven now sleeps when you walk away and wakes the moment you touch the mouse",
+    "detail": "The 3.5-inch status display now dims to its lowest backlight and shows a plain black card after thirty seconds with no mouse activity. Any movement, click or wheel roll brings it back to the main screen at full brightness, and the waking input only wakes the screen, so walking up to the unit never changes the page by accident. Sleep is its own display layout rather than a dimmed version of the live one, so nothing is left on the glass while you are away. While the full display reloads, a short LOADING message holds the screen so the pause reads as normal. Proven end to end on a bench unit with a camera on the glass, measuring brightness at every step: awake, asleep, woken by a cursor move, and woken by a click.",
+    "benefit": "The screen stops glowing at an empty room and comes straight back when you walk up to it.",
+    "ref": "4dde2c25be",
+    "features": []
+  },
   {
     "id": 766,
     "date": "2026-09-02",
