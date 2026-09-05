@@ -1,4 +1,4 @@
-// generated from haven_wiki.db accomplishments — 761 rows, newest id 776
+// generated from haven_wiki.db accomplishments — 762 rows, newest id 777
 var milestonesDataset = [
   {
     "id": 776,
@@ -31,6 +31,17 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "You reach your router's controls almost immediately after switching the display on.",
     "ref": "a021d4f",
+    "features": []
+  },
+  {
+    "id": 777,
+    "date": "2026-09-05",
+    "theme": "Firmware & overlay",
+    "impact": 3,
+    "summary": "The Haven screen keeps your router's address hidden until you sign in",
+    "detail": "Walk past a Haven screen nobody has signed into and you learn nothing about the network behind it. The sign-in card used to show the router's address before anyone had proved who they were. Now it starts empty and simply uses the router on the network the screen is already joined to, so signing in still takes no extra typing. If you run more than one Haven, you can type the other one's address in to reach it from here. The card also tells you which wireless network the screen is on, and gives you a button to move it to a different one.",
+    "benefit": "Before anyone signs in, the screen gives away nothing a passer-by could not already learn from the air, and it now names the wireless network it is on with a button to change it.",
+    "ref": "783f6a923d",
     "features": []
   },
   {
