@@ -1,4 +1,4 @@
-// generated from haven_wiki.db accomplishments — 762 rows, newest id 777
+// generated from haven_wiki.db accomplishments — 765 rows, newest id 780
 var milestonesDataset = [
   {
     "id": 776,
@@ -9,6 +9,28 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "Typing on the display feels like typing on a phone: the key you pressed appears right away, so entering a password is something you can do at a glance.",
     "ref": "a021d4f",
+    "features": []
+  },
+  {
+    "id": 780,
+    "date": "2026-09-05",
+    "theme": "Trust & transparency",
+    "impact": 4,
+    "summary": "The list file your router downloads now carries the filtering lists and nothing else",
+    "detail": null,
+    "benefit": "What your router downloads is only what it needs to filter, so nothing else about Haven's workings rides along with it.",
+    "ref": "940ff78bbd",
+    "features": []
+  },
+  {
+    "id": 779,
+    "date": "2026-09-05",
+    "theme": "Firmware & overlay",
+    "impact": 4,
+    "summary": "The Haven screen can now open Haven's own pages, not just the router's",
+    "detail": null,
+    "benefit": "The Haven pages you use in a browser -- Helm, the administrator list, the screenshots -- now open on the screen on the router itself.",
+    "ref": "01b51593eb",
     "features": []
   },
   {
@@ -31,6 +53,17 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "You reach your router's controls almost immediately after switching the display on.",
     "ref": "a021d4f",
+    "features": []
+  },
+  {
+    "id": 778,
+    "date": "2026-09-05",
+    "theme": "Firmware & overlay",
+    "impact": 3,
+    "summary": "The Haven screen turns its light off when nobody is using it, and the tap that wakes it never presses a button",
+    "detail": null,
+    "benefit": "No glowing rectangle in the room all night, and no accidental press when you reach for a dark screen.",
+    "ref": "a43a3181ec",
     "features": []
   },
   {
