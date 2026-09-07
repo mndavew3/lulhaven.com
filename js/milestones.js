@@ -1,4 +1,4 @@
-// generated from haven_wiki.db accomplishments — 772 rows, newest id 787
+// generated from haven_wiki.db accomplishments — 773 rows, newest id 788
 var milestonesDataset = [
   {
     "id": 787,
@@ -9,6 +9,17 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "Sign in and change settings right on the router's own screen, with no phone or computer needed.",
     "ref": "00f4c316ca",
+    "features": []
+  },
+  {
+    "id": 788,
+    "date": "2026-09-07",
+    "theme": "Haven Helm",
+    "impact": 2,
+    "summary": "Haven Helm sign-in now plays a three-layer portcullis-raise animation on the glass when login succeeds.",
+    "detail": null,
+    "benefit": "The panel visibly opens the gate when you sign in, so the operator sees the system respond instead of guessing whether the tap landed.",
+    "ref": "1f0ef5d90",
     "features": []
   },
   {
