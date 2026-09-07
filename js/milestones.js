@@ -1,5 +1,16 @@
-// generated from haven_wiki.db accomplishments — 765 rows, newest id 780
+// generated from haven_wiki.db accomplishments — 769 rows, newest id 784
 var milestonesDataset = [
+  {
+    "id": 781,
+    "date": "2026-09-05",
+    "theme": "Haven Helm",
+    "impact": 5,
+    "summary": "The Haven screen now runs the filtering controls themselves, not just the router's settings",
+    "detail": null,
+    "benefit": "You can change what is blocked by walking up to the box, without finding a computer first.",
+    "ref": "7843173",
+    "features": []
+  },
   {
     "id": 776,
     "date": "2026-09-05",
@@ -9,6 +20,28 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "Typing on the display feels like typing on a phone: the key you pressed appears right away, so entering a password is something you can do at a glance.",
     "ref": "a021d4f",
+    "features": []
+  },
+  {
+    "id": 783,
+    "date": "2026-09-05",
+    "theme": "Haven Helm",
+    "impact": 4,
+    "summary": "Pair a phone from the screen, and watch the blocks arrive",
+    "detail": null,
+    "benefit": "You can add a phone and see the filtering working without leaving the panel.",
+    "ref": "10be18e",
+    "features": []
+  },
+  {
+    "id": 782,
+    "date": "2026-09-05",
+    "theme": "Haven Helm",
+    "impact": 4,
+    "summary": "One press can filter a whole shelf of sites, instead of fifteen",
+    "detail": null,
+    "benefit": "Setting up a category on a touch screen takes one tap instead of fifteen, and you can see which entries are actually being used.",
+    "ref": "f4e4094",
     "features": []
   },
   {
@@ -53,6 +86,17 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "You reach your router's controls almost immediately after switching the display on.",
     "ref": "a021d4f",
+    "features": []
+  },
+  {
+    "id": 784,
+    "date": "2026-09-05",
+    "theme": "Haven Helm",
+    "impact": 3,
+    "summary": "Signing out of the Haven screen is a real sign-out, and changing who administers the router locks it again",
+    "detail": null,
+    "benefit": "The screen never leaves you signed in to a session the router has already forgotten.",
+    "ref": "43adcde",
     "features": []
   },
   {
