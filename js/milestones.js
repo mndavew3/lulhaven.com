@@ -1,5 +1,27 @@
-// generated from haven_wiki.db accomplishments — 769 rows, newest id 784
+// generated from haven_wiki.db accomplishments — 771 rows, newest id 786
 var milestonesDataset = [
+  {
+    "id": 785,
+    "date": "2026-09-06",
+    "theme": "Haven Helm",
+    "impact": 4,
+    "summary": "The Haven screen is now a thin display: the router draws every frame and the panel just shows it",
+    "detail": null,
+    "benefit": "The screen stays simple and cheap — no second computer inside the box to break or maintain.",
+    "ref": "582526ce31",
+    "features": []
+  },
+  {
+    "id": 786,
+    "date": "2026-09-06",
+    "theme": "Haven Helm",
+    "impact": 3,
+    "summary": "Touch on the Haven screen now tells a tap from a scroll reliably, with the gesture logic under unit test",
+    "detail": null,
+    "benefit": "Taps land where your finger does — the screen responds the way you expect.",
+    "ref": "0418dfe6cd",
+    "features": []
+  },
   {
     "id": 781,
     "date": "2026-09-05",
