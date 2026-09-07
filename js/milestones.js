@@ -1,5 +1,16 @@
-// generated from haven_wiki.db accomplishments — 771 rows, newest id 786
+// generated from haven_wiki.db accomplishments — 772 rows, newest id 787
 var milestonesDataset = [
+  {
+    "id": 787,
+    "date": "2026-09-07",
+    "theme": "Haven Helm",
+    "impact": 4,
+    "summary": "Type on the Haven screen itself: a built-in keyboard with a full-screen entry mode, field labels, and hold-to-reveal for passwords",
+    "detail": null,
+    "benefit": "Sign in and change settings right on the router's own screen, with no phone or computer needed.",
+    "ref": "00f4c316ca",
+    "features": []
+  },
   {
     "id": 785,
     "date": "2026-09-06",
