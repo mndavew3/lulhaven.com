@@ -1,4 +1,4 @@
-// generated from haven_wiki.db accomplishments — 773 rows, newest id 788
+// generated from haven_wiki.db accomplishments — 774 rows, newest id 789
 var milestonesDataset = [
   {
     "id": 787,
@@ -9,6 +9,17 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "Sign in and change settings right on the router's own screen, with no phone or computer needed.",
     "ref": "00f4c316ca",
+    "features": []
+  },
+  {
+    "id": 789,
+    "date": "2026-09-07",
+    "theme": "Haven Helm",
+    "impact": 3,
+    "summary": "Swipe sideways on the Haven screen to turn pages, and page turns no longer flicker: the display now flips whole frames between scans instead of repainting in visible strips.",
+    "detail": null,
+    "benefit": "The screen on the router feels like a finished device — smooth swipes and clean page turns, not a circuit board redrawing in front of you.",
+    "ref": "2b6acf035f",
     "features": []
   },
   {
