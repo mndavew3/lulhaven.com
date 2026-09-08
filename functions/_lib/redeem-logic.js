@@ -42,6 +42,10 @@ export function evaluateRedemption({ parse, firmware }) {
         url: image.url,
         sha256: image.sha256,
         size: image.size,
-        message: "Verify the sha256 before flashing. The download link is below.",
+        // pi/vm are written or imported, never flashed — their own guided pages
+        // promise "nothing is flashed", so this message must not say otherwise.
+        message: parse.flavor === "pi" || parse.flavor === "vm"
+            ? "Verify the sha256, then follow the guided steps for your platform. Nothing is flashed."
+            : "Verify the sha256 before flashing. The download link is below.",
     };
 }
