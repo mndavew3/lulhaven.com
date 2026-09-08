@@ -48,11 +48,15 @@ export async function onRequestPost({ request, env }) {
     try { await env.haven_builds.prepare(
       "UPDATE contest_accounts SET reset_code=?, reset_code_expiry=?, reset_tries=0 WHERE username_lc=?"
     ).bind(code, exp, username.toLowerCase()).run(); } catch { return json(GENERIC); }
-    await sendEmail({
+    // GENERIC is kept even on a failed send — the reset flow's anti-enumeration
+    // response must not differentiate. The failure still lands in the logs so a
+    // system-wide outage (e.g. missing RESEND_API_KEY) is visible server-side.
+    const sent = await sendEmail({
       env, to: row.email, subject: "Your Haven Challenge password-reset code",
       text: `Your Haven Challenge password-reset code is ${code}. It expires in 20 minutes. If you didn't request a reset, ignore this email — your password won't change.`,
       html: `<p>Your Haven Challenge password-reset code is:</p><p style="font-size:22px;font-weight:bold;letter-spacing:3px;">${code}</p><p>It expires in 20 minutes. If you didn't request a reset, ignore this email — your password won't change.</p>`,
     });
+    if (!sent.ok) console.error("contest-forgot: reset email failed", sent);
   }
   return json(GENERIC);
 }

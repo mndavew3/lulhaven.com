@@ -22,7 +22,9 @@ export async function onRequestPost({ request, env }) {
 
   if (action === "enroll_start") {
     const secret = newTotpSecret();
-    await env.haven_builds.prepare("UPDATE contest_accounts SET totp_secret=? WHERE username_lc=?").bind(secret, username.toLowerCase()).run();
+    // Clear totp_enrolled_at: an unconfirmed secret must never be login-valid,
+    // and re-enrollment must not strand the old app's still-working codes.
+    await env.haven_builds.prepare("UPDATE contest_accounts SET totp_secret=?, totp_enrolled_at=NULL WHERE username_lc=?").bind(secret, username.toLowerCase()).run();
     return json({ secret, uri: totpUri(secret, username, "Haven Challenge") });
   }
 

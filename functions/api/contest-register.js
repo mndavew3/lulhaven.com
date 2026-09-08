@@ -56,11 +56,17 @@ export async function onRequestPost({ request, env }) {
     return json({ error: "could not create account" }, 500);
   }
 
-  await sendEmail({
+  const sent = await sendEmail({
     env, to: email, subject: "Your Haven Challenge verification code",
     text: `Your Haven Challenge verification code is ${code}. It expires in 20 minutes.`,
     html: `<p>Your Haven Challenge verification code is:</p><p style="font-size:22px;font-weight:bold;letter-spacing:3px;">${code}</p><p>It expires in 20 minutes.</p>`,
   });
+  if (!sent.ok) {
+    // The account row exists; promising "check your email" would dead-end them
+    // at verification with no code and no way to re-register.
+    console.error("contest-register: verification email failed", sent);
+    return json({ ok: true, email_failed: true, message: "Account created, but the verification email could not be sent. Use 'Resend code' in a minute or two." });
+  }
 
   return json({ ok: true, message: "Account created. Check your email for a 6-digit code to verify it." });
 }

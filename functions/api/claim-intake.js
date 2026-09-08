@@ -207,6 +207,23 @@ export async function onRequestPost(context) {
     } catch { return json({ error: "could not store your files, please try again" }, 502); }
   }
 
+  // ---- Duplicate attestation: contest_claims' UNIQUE(attestation) means this
+  // submission can never insert there — record the second claimant in the
+  // disputes table instead, so "a reviewer will adjudicate" is actually true
+  // and the R2 package above stays referenced. ----
+  if (dup) {
+    try {
+      await env.haven_builds.prepare(
+        `INSERT INTO contest_claim_disputes
+          (attestation, original_claim_id, username, email, claim_title, claim_details,
+           serial, tamper_flags, package_prefix, settings_r2_key, attachment_r2_key, source_ip)
+         VALUES (?,?,?,?,?,?,?,?,?,?,?,?)`
+      ).bind(attestation, dup.id, username, email, title, details, serial,
+             flags.join(","), prefix, settingsKey, attKey, ip).run();
+    } catch { return json({ error: "could not record your dispute, please try again" }, 500); }
+    return json({ ok: true, duplicate: true, message: "This exact file was already submitted; a reviewer will adjudicate." });
+  }
+
   // ---- Accept: INSERT allocates the atomic id = ranking seq. ----
   let ins;
   try {
@@ -228,8 +245,23 @@ export async function onRequestPost(context) {
       ip
     ).run();
   } catch (e) {
-    // UNIQUE(attestation) at the DB layer is the last-resort dedup guard.
-    if (String(e).includes("UNIQUE")) return json({ ok: true, duplicate: true, message: "This exact file was already submitted; a reviewer will adjudicate." });
+    // UNIQUE(attestation) at the DB layer is the last-resort dedup guard: a rival
+    // claim landed between the pre-check and this INSERT. Same rule as the
+    // pre-checked path — no adjudication promise without a recorded dispute.
+    if (String(e).includes("UNIQUE")) {
+      let orig = null;
+      try { orig = await env.haven_builds.prepare("SELECT id FROM contest_claims WHERE attestation=?").bind(attestation).first(); } catch {}
+      try {
+        await env.haven_builds.prepare(
+          `INSERT INTO contest_claim_disputes
+            (attestation, original_claim_id, username, email, claim_title, claim_details,
+             serial, tamper_flags, package_prefix, settings_r2_key, attachment_r2_key, source_ip)
+           VALUES (?,?,?,?,?,?,?,?,?,?,?,?)`
+        ).bind(attestation, orig ? orig.id : null, username, email, title, details, serial,
+               flags.join(","), prefix, settingsKey, attKey, ip).run();
+      } catch { return json({ error: "could not record your dispute, please try again" }, 500); }
+      return json({ ok: true, duplicate: true, message: "This exact file was already submitted; a reviewer will adjudicate." });
+    }
     return json({ error: "could not record claim" }, 500);
   }
   const id = ins.meta.last_row_id;

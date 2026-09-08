@@ -22,9 +22,11 @@ export async function onRequestPost({ request, env }) {
 
   if (action === "enroll_start") {
     const secret = newTotpSecret();
-    // Held only as a pending secret until confirmed — totp_enrolled_at stays
-    // NULL, so a half-finished enrollment never becomes a usable login path.
-    await env.haven_builds.prepare("UPDATE customers SET totp_secret=? WHERE email=?").bind(secret, email).run();
+    // Held only as a pending secret until confirmed — totp_enrolled_at is
+    // cleared (it survives re-enrollment otherwise), so a half-finished
+    // enrollment never becomes a usable login path and re-enrollment can't
+    // strand the old app's still-working codes.
+    await env.haven_builds.prepare("UPDATE customers SET totp_secret=?, totp_enrolled_at=NULL WHERE email=?").bind(secret, email).run();
     return json({ secret, uri: totpUri(secret, email) });
   }
 

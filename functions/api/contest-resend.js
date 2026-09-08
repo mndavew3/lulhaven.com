@@ -48,11 +48,15 @@ export async function onRequestPost({ request, env }) {
     "UPDATE contest_accounts SET code=?, code_expiry=?, code_tries=0 WHERE username_lc=?"
   ).bind(code, codeExpiry, username.toLowerCase()).run(); } catch { return json({ error: "server error" }, 500); }
 
-  await sendEmail({
+  const sent = await sendEmail({
     env, to: row.email, subject: "Your new Haven Challenge verification code",
     text: `Your Haven Challenge verification code is ${code}. It expires in 20 minutes.`,
     html: `<p>Your Haven Challenge verification code is:</p><p style="font-size:22px;font-weight:bold;letter-spacing:3px;">${code}</p><p>It expires in 20 minutes.</p>`,
   });
+  if (!sent.ok) {
+    console.error("contest-resend: verification email failed", sent);
+    return json({ ok: true, email_failed: true, message: "The email could not be sent just now — try again in a minute or two." });
+  }
 
   return json({ ok: true, message: "A new code is on its way — check your email." });
 }
