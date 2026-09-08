@@ -20,7 +20,7 @@
 // account, not a free-text field.
 import { readSession } from "../_lib/account.js";
 import { grantChallengeFreeMonth } from "../_lib/pricing.js";
-import { isTestRequest } from "../_lib/testmode.js";
+import { isTestRequest, headerTestKey } from "../_lib/testmode.js";
 
 const CORS = {
   "Access-Control-Allow-Origin": "*",
@@ -207,6 +207,12 @@ export async function onRequestPost(context) {
     } catch { return json({ error: "could not store your files, please try again" }, 502); }
   }
 
+  // ---- Test-mode: tester-channel serials (channel 'T') and the explicit test
+  // key flag the claim ROW itself (recorded requirement — QA claims must never
+  // pollute ranking, counts, or reviewer queues), not just the grant below. ----
+  const testKey = clean(form.get("test_key"), 200) || headerTestKey(request);
+  const { isTest } = isTestRequest(env, serial, testKey);
+
   // ---- Duplicate attestation: contest_claims' UNIQUE(attestation) means this
   // submission can never insert there — record the second claimant in the
   // disputes table instead, so "a reviewer will adjudicate" is actually true
@@ -216,10 +222,10 @@ export async function onRequestPost(context) {
       await env.haven_builds.prepare(
         `INSERT INTO contest_claim_disputes
           (attestation, original_claim_id, username, email, claim_title, claim_details,
-           serial, tamper_flags, package_prefix, settings_r2_key, attachment_r2_key, source_ip)
-         VALUES (?,?,?,?,?,?,?,?,?,?,?,?)`
+           serial, tamper_flags, package_prefix, settings_r2_key, attachment_r2_key, source_ip, is_test)
+         VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)`
       ).bind(attestation, dup.id, username, email, title, details, serial,
-             flags.join(","), prefix, settingsKey, attKey, ip).run();
+             flags.join(","), prefix, settingsKey, attKey, ip, isTest ? 1 : 0).run();
     } catch { return json({ error: "could not record your dispute, please try again" }, 500); }
     return json({ ok: true, duplicate: true, message: "This exact file was already submitted; a reviewer will adjudicate." });
   }
@@ -234,15 +240,15 @@ export async function onRequestPost(context) {
          evidence_sufficient, package_description, evidence_b64,
          package_prefix, settings_r2_key, attachment_r2_key, attachment_name, attachment_type, attachment_bytes,
          rules_version, rules_accepted_datetime,
-         source_ip, status, created_datetime)
-       VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,0,?,?,?,?,?,?,?,?,?,?,?,'submitted',datetime('now'))`
+         source_ip, is_test, status, created_datetime)
+       VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,0,?,?,?,?,?,?,?,?,?,?,?,?,'submitted',datetime('now'))`
     ).bind(
       attestation, username, email, title, details, receivedMs, tExport, serial,
       feedBuild, model, hv, flags.join(","), lane, disq,
       "", fileText,
       prefix, settingsKey, attKey, attName, attType, attBytes,
       rulesVersion, rulesAccepted,
-      ip
+      ip, isTest ? 1 : 0
     ).run();
   } catch (e) {
     // UNIQUE(attestation) at the DB layer is the last-resort dedup guard: a rival
@@ -255,10 +261,10 @@ export async function onRequestPost(context) {
         await env.haven_builds.prepare(
           `INSERT INTO contest_claim_disputes
             (attestation, original_claim_id, username, email, claim_title, claim_details,
-             serial, tamper_flags, package_prefix, settings_r2_key, attachment_r2_key, source_ip)
-           VALUES (?,?,?,?,?,?,?,?,?,?,?,?)`
+             serial, tamper_flags, package_prefix, settings_r2_key, attachment_r2_key, source_ip, is_test)
+           VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)`
         ).bind(attestation, orig ? orig.id : null, username, email, title, details, serial,
-               flags.join(","), prefix, settingsKey, attKey, ip).run();
+               flags.join(","), prefix, settingsKey, attKey, ip, isTest ? 1 : 0).run();
       } catch { return json({ error: "could not record your dispute, please try again" }, 500); }
       return json({ ok: true, duplicate: true, message: "This exact file was already submitted; a reviewer will adjudicate." });
     }
@@ -274,8 +280,7 @@ export async function onRequestPost(context) {
   let grant = null;
   if (contestActive && serial && email) {
     try {
-      const testKey = clean(form.get("test_key"), 200);
-      const { isTest } = isTestRequest(env, serial, testKey);
+      // isTest computed once above, before the claim row was written.
       grant = await grantChallengeFreeMonth(env, { email, serial, flavor: model, isTest });
     } catch { grant = null; }
   }

@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS contest_claim_disputes (
   settings_r2_key TEXT,
   attachment_r2_key TEXT,
   source_ip TEXT,
+  is_test INTEGER NOT NULL DEFAULT 0,  -- testmode.js verdict; exclude from reviewer queues/counts
   status TEXT NOT NULL DEFAULT 'pending',  -- pending | adjudicated
   created_datetime TEXT NOT NULL DEFAULT (datetime('now'))
 );

@@ -3,6 +3,7 @@
 // Sends a 6-digit code to the email; the account can't log in until verified.
 import { hashPassword, newCode, rules } from "../_lib/account.js";
 import { sendEmail } from "../_lib/email.js";
+import { isTestRequest, headerTestKey } from "../_lib/testmode.js";
 
 const CORS = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Methods": "POST, OPTIONS", "Access-Control-Allow-Headers": "Content-Type" };
 const CODE_TTL_SEC = 20 * 60, RATE_WINDOW = 3600, RATE_MAX_IP = 20;
@@ -46,11 +47,15 @@ export async function onRequestPost({ request, env }) {
   const { salt, hash } = await hashPassword(env, b.password);
   const code = newCode();
   const codeExpiry = Math.floor(Date.now() / 1000) + CODE_TTL_SEC;
+  // Test-mode (recorded requirement: QA/demo visits must not create real
+  // contestant rows). No serial exists at registration, so only the explicit
+  // TEST_MODE_KEY path applies; gated on TEST_MODE_ACTIVE like everywhere else.
+  const { isTest } = isTestRequest(env, null, b.test_key || headerTestKey(request));
   try {
     await env.haven_builds.prepare(
-      `INSERT INTO contest_accounts (username, username_lc, email, pw_hash, pw_salt, verified, code, code_expiry, code_tries, created_datetime)
-       VALUES (?,?,?,?,?,0,?,?,0, datetime('now'))`
-    ).bind(username, username.toLowerCase(), email, hash, salt, code, codeExpiry).run();
+      `INSERT INTO contest_accounts (username, username_lc, email, pw_hash, pw_salt, verified, code, code_expiry, code_tries, is_test, created_datetime)
+       VALUES (?,?,?,?,?,0,?,?,0,?, datetime('now'))`
+    ).bind(username, username.toLowerCase(), email, hash, salt, code, codeExpiry, isTest ? 1 : 0).run();
   } catch (e) {
     if (String(e).includes("UNIQUE")) return json({ error: "That username or email is already registered." }, 409);
     return json({ error: "could not create account" }, 500);
