@@ -8,7 +8,10 @@ export async function onRequestGet(context) {
     const db = env.haven_wiki;
     const url = new URL(request.url);
     const ns    = url.searchParams.get("ns")    || null;
-    const limit = Math.min(parseInt(url.searchParams.get("limit") || "100", 10), 200);
+    // Guard a non-numeric ?limit — parseInt("abc") is NaN, which would
+    // interpolate "LIMIT NaN" into the SQL below and 500 (bug-hunt wf_cc76eaba-c0b).
+    const limitRaw = parseInt(url.searchParams.get("limit") || "100", 10);
+    const limit = Math.min(Number.isFinite(limitRaw) && limitRaw > 0 ? limitRaw : 100, 200);
 
     const nsClause = ns ? "WHERE namespace = ?1" : "";
     const stmt = ns

@@ -10,6 +10,14 @@ const CORS_HEADERS = {
     "Access-Control-Allow-Headers": "Content-Type",
 };
 
+// Rate limit per IP per window — mirrors /api/finding.checkRate (bug-hunt
+// wf_cc76eaba-c0b). This public, unauthenticated endpoint otherwise lets a
+// script create unbounded application rows from distinct emails. Fails OPEN so
+// a D1 hiccup never loses a real applicant.
+const RATE_BUCKET = "challenge";
+const RATE_WINDOW = 3600;   // seconds
+const RATE_MAX    = 20;     // per window per IP
+
 function json(body, status = 200) {
     return new Response(JSON.stringify(body), {
         status,
@@ -28,6 +36,37 @@ function clean(s, max) {
     if (typeof s !== "string") return null;
     const t = s.trim().slice(0, max);
     return t || null;
+}
+
+// Per-IP rate limiter against challenge_rate — same shape as /api/finding.
+async function checkRate(env, ip) {
+    if (!ip) return { allowed: true };
+    const windowStart = Math.floor(Date.now() / 1000 / RATE_WINDOW) * RATE_WINDOW;
+    try {
+        await env.haven_builds
+            .prepare(
+                `INSERT INTO challenge_rate (bucket, key, window_start, count)
+                 VALUES (?, ?, ?, 1)
+                 ON CONFLICT(bucket, key, window_start)
+                 DO UPDATE SET count = count + 1`
+            )
+            .bind(RATE_BUCKET, ip, windowStart)
+            .run();
+        const row = await env.haven_builds
+            .prepare(
+                `SELECT count FROM challenge_rate
+                  WHERE bucket = ? AND key = ? AND window_start = ?`
+            )
+            .bind(RATE_BUCKET, ip, windowStart)
+            .first();
+        if (row && row.count > RATE_MAX) {
+            return { allowed: false, retry_after: windowStart + RATE_WINDOW - Math.floor(Date.now() / 1000) };
+        }
+        return { allowed: true };
+    } catch (err) {
+        console.error("rate limiter error (failing open):", err);
+        return { allowed: true };
+    }
 }
 
 export async function onRequestOptions() {
@@ -60,6 +99,11 @@ export async function onRequestPost(context) {
     const target_router_other = clean(body.target_router_other, 120);
     const stage               = body.stage === "prereg" ? "prereg" : "applied";
     const ip                  = request.headers.get("CF-Connecting-IP") || null;
+
+    const rate = await checkRate(env, ip);
+    if (!rate.allowed) {
+        return json({ ok: false, error: "That's a lot of applications in a short time. Please wait a little and try again.", retry_after: rate.retry_after }, 429);
+    }
 
     try {
         await env.haven_builds

@@ -28,21 +28,29 @@ export async function onRequestPut(context) {
             status: 400, headers: { "Content-Type": "application/json" },
         });
     }
-    if (!body.resolved_by) {
+    // 'open' means reopened / unresolved, so resolved_by is neither required
+    // nor recorded for it (bug-hunt wf_cc76eaba-c0b); every resolving
+    // disposition still requires it.
+    if (body.disposition !== "open" && !body.resolved_by) {
         return new Response(JSON.stringify({ error: "resolved_by required" }), {
             status: 400, headers: { "Content-Type": "application/json" },
         });
     }
 
+    // Reopening clears any prior resolution stamp instead of writing a
+    // self-contradictory resolved-yet-open row.
+    const resolvedBy = body.disposition === "open" ? null : body.resolved_by;
     await env.haven_builds.prepare(
         `UPDATE build_nonconformances
-            SET disposition = ?, resolved_by = ?, resolved_datetime = strftime('%s','now'),
+            SET disposition = ?,
+                resolved_by = ?,
+                resolved_datetime = CASE WHEN ? = 'open' THEN NULL ELSE strftime('%s','now') END,
                 root_cause = COALESCE(?, root_cause),
                 corrective_action = COALESCE(?, corrective_action),
                 modified_datetime = strftime('%s','now')
           WHERE id = ? AND build_id = ?`
     ).bind(
-        body.disposition, body.resolved_by,
+        body.disposition, resolvedBy, body.disposition,
         body.root_cause || null, body.corrective_action || null,
         ncId, buildId
     ).run();

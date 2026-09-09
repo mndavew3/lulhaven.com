@@ -10,6 +10,23 @@
 const CORS = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Methods": "POST, OPTIONS", "Access-Control-Allow-Headers": "Content-Type" };
 const json = (b, s = 200) => new Response(JSON.stringify(b), { status: s, headers: { "Content-Type": "application/json", ...CORS } });
 
+const RATE_WINDOW = 3600, RATE_MAX = 10;
+// Cap how fast one IP can run up a model's demand counter — that counter drives
+// "what firmware to build next", so an unauthenticated, unthrottled increment
+// is a poisonable signal (bug-hunt wf_cc76eaba-c0b). Fails OPEN.
+async function allowDemand(env, ip) {
+  if (!ip) return true;
+  const w = Math.floor(Date.now() / 1000 / RATE_WINDOW) * RATE_WINDOW;
+  try {
+    await env.haven_builds.prepare(
+      `INSERT INTO challenge_rate (bucket,key,window_start,count) VALUES ('light-demand',?,?,1)
+       ON CONFLICT(bucket,key,window_start) DO UPDATE SET count=count+1`).bind(ip, w).run();
+    const r = await env.haven_builds.prepare(
+      `SELECT count FROM challenge_rate WHERE bucket='light-demand' AND key=? AND window_start=?`).bind(ip, w).first();
+    return !r || r.count <= RATE_MAX;
+  } catch { return true; }
+}
+
 export async function onRequestOptions() { return new Response(null, { status: 204, headers: CORS }); }
 
 export async function onRequestPost({ request, env }) {
@@ -27,12 +44,17 @@ export async function onRequestPost({ request, env }) {
   ).bind(board).first(); } catch { return json({ error: "server error" }, 500); }
   const supported = !!img;
 
-  // Unsupported model -> record demand so we can decide what firmware to build next.
+  // Unsupported model -> record demand so we can decide what firmware to build
+  // next. Throttle the increment per IP so the build-priority signal can't be
+  // inflated by a script.
   if (!supported) {
-    try { await db.prepare(
-      `INSERT INTO haven_model_demand (board_name, count, last_datetime) VALUES (?, 1, datetime('now'))
-       ON CONFLICT(board_name) DO UPDATE SET count = count + 1, last_datetime = datetime('now')`
-    ).bind(board).run(); } catch {}
+    const ip = request.headers.get("CF-Connecting-IP") || "";
+    if (await allowDemand(env, ip)) {
+      try { await db.prepare(
+        `INSERT INTO haven_model_demand (board_name, count, last_datetime) VALUES (?, 1, datetime('now'))
+         ON CONFLICT(board_name) DO UPDATE SET count = count + 1, last_datetime = datetime('now')`
+      ).bind(board).run(); } catch {}
+    }
   }
 
   // Is this exact unit already registered (fast-track path)?

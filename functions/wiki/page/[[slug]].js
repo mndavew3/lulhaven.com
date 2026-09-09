@@ -14,7 +14,10 @@ function slugFromParams(params) {
 }
 
 function namespace(slug) {
-    return slug.split("/")[0] || "community";
+    // Lowercase so the admin write-gate below cannot be bypassed with a
+    // mixed-case first segment ("Haven/x" would slip past ns === "haven"), and
+    // so the stored namespace stays canonical (bug-hunt wf_cc76eaba-c0b).
+    return (slug.split("/")[0] || "community").toLowerCase();
 }
 
 // --- GET ---

@@ -31,6 +31,19 @@ export function serialChannel(serial) {
   return parts[2] || null;
 }
 
+// Constant-time string compare — avoids leaking TEST_MODE_KEY through a
+// ===-comparison timing side channel (bug-hunt wf_41634fe9-676). Stays
+// synchronous so isTestRequest's callers (including the money path in
+// checkout.js) need no change; the loop always spans the longer input so a
+// mismatch never short-circuits.
+function ctEqual(a, b) {
+  if (typeof a !== "string" || typeof b !== "string") return false;
+  let diff = a.length ^ b.length;
+  const n = Math.max(a.length, b.length);
+  for (let i = 0; i < n; i++) diff |= (a.charCodeAt(i) || 0) ^ (b.charCodeAt(i) || 0);
+  return diff === 0;
+}
+
 // Pure decision, no Request object needed — callers pull testKey from wherever
 // it lives for their method (GET: URL query or header; POST: JSON body or
 // header), so the same function works everywhere without re-reading a
@@ -38,7 +51,7 @@ export function serialChannel(serial) {
 export function isTestRequest(env, serial, testKey) {
   if (env.TEST_MODE_ACTIVE !== "1") return { isTest: false, reason: null };
   if (serialChannel(serial) === "T") return { isTest: true, reason: "tester-channel" };
-  if (env.TEST_MODE_KEY && testKey && testKey === env.TEST_MODE_KEY) return { isTest: true, reason: "test-key" };
+  if (env.TEST_MODE_KEY && testKey && ctEqual(testKey, env.TEST_MODE_KEY)) return { isTest: true, reason: "test-key" };
   return { isTest: false, reason: null };
 }
 

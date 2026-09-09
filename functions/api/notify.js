@@ -84,7 +84,13 @@ export async function onRequestPost(context) {
                      ON CONFLICT(email) DO UPDATE SET
                          source               = COALESCE(excluded.source, source),
                          confirmation_token   = COALESCE(confirmation_token, excluded.confirmation_token),
-                         confirmation_sent_at = datetime('now')`
+                         confirmation_sent_at = datetime('now'),
+                         -- A resubmit is fresh intent to be on the list, so it
+                         -- resubscribes a previously-unsubscribed address (the
+                         -- unsubscribe page promises "sign up again at any time").
+                         -- Without this the "already on the list" reply below is a
+                         -- lie and the user is never resubscribed (bug-hunt wf_cc76eaba-c0b).
+                         unsubscribed_at      = NULL`
                 )
                 .bind(email, ip, source, token)
                 .run();
@@ -96,7 +102,10 @@ export async function onRequestPost(context) {
                         (email, source_ip, source, confirmed_at)
                      VALUES (?, ?, ?, datetime('now'))
                      ON CONFLICT(email) DO UPDATE SET
-                         source = COALESCE(excluded.source, source)`
+                         source          = COALESCE(excluded.source, source),
+                         -- Same resubscribe-on-resubmit fix as the double-opt-in
+                         -- path above (sibling; bug-hunt wf_cc76eaba-c0b).
+                         unsubscribed_at = NULL`
                 )
                 .bind(email, ip, source)
                 .run();

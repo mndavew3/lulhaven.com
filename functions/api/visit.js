@@ -57,6 +57,10 @@ export async function onRequestPost(context) {
   let body;
   try { body = await request.json(); }
   catch { return json({ error: "invalid JSON" }, 400); }
+  // Literal JSON `null` (or any non-object) parses without throwing, so the
+  // catch never fires; the body.* reads below would then crash with an
+  // unhandled 500 (bug-hunt wf_cc76eaba-c0b). Treat it as a bad request.
+  if (!body || typeof body !== "object") return json({ error: "invalid JSON" }, 400);
 
   const cf = request.cf || {};
   const ua = request.headers.get("User-Agent") || "";
