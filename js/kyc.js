@@ -178,6 +178,6 @@
     });
   } else {
     logPageview();
-    wireOutboundClicks();
+    wireClicks();
   }
 })();
