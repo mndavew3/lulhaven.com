@@ -33,6 +33,16 @@ export async function onRequestPost({ request, env }) {
   ).bind(registeredProductId).first();
   if (!product || product.customer_id !== customer.id) return json({ error: "product not found" }, 404);
 
+  // Real (non-test) renewals must be paid, but this endpoint has NO Stripe
+  // interaction — committing here grants a free paid year, repeatable forever
+  // (bug-hunt wf_41634fe9-676: renew.js free-renewal leak). Until the renewal
+  // charge flow is built (a Checkout Session / off-session charge mirroring
+  // checkout.js's production path), refuse real renewals cleanly rather than
+  // silently succeed. Test-lane products still simulate — no money moves.
+  if (!product.is_test) {
+    return json({ error: "Renewal isn't available yet — the payment step for renewals is not connected. Your subscription was not changed." }, 501);
+  }
+
   try {
     const result = await purchase(env, {
       serial: product.serial, email, flavor: product.flavor, wantsFounder: false,

@@ -38,7 +38,13 @@ export async function onRequestPost({ request, env }) {
   const email = (b.email || "").trim().toLowerCase();
   const action = (b.action || "").trim();
   if (!authRules.email(email)) return json({ error: "enter a valid email address" }, 400);
-  if (!(await allow(env, "ip:" + ip)) || !(await allow(env, "e:" + email))) {
+  // IP is always throttled. The per-EMAIL budget is only drawn by actions the
+  // account owner actually initiates — NOT the side-effect-free 'check', which
+  // a third party could otherwise spam with a victim's address to lock them
+  // out of their own login (bug-hunt wf_41634fe9-676).
+  const ipOk = await allow(env, "ip:" + ip);
+  const emailOk = action === "check" ? true : await allow(env, "e:" + email);
+  if (!ipOk || !emailOk) {
     return json({ error: "Too many attempts. Wait a few minutes and try again." }, 429);
   }
 

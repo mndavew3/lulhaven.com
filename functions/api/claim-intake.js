@@ -123,7 +123,7 @@ export async function onRequestPost(context) {
   } catch { email = null; }
   if (!title) return json({ error: "a claim title is required" }, 400);
   if (typeof fileText !== "string" || fileText.length === 0) return json({ error: "attach your exported Haven file" }, 400);
-  if (fileText.length > MAX_FILE_BYTES) return json({ error: "file too large" }, 413);
+  if (enc.encode(fileText).length > MAX_FILE_BYTES) return json({ error: "file too large" }, 413); // byte length, not UTF-16 code units (bug-hunt wf_41634fe9-676)
 
   let file;
   try { file = JSON.parse(fileText); } catch { return json({ error: "the attached file is not valid JSON" }, 400); }
