@@ -118,7 +118,17 @@ export function renderMarkdown(md) {
             .replace(/`([^`]+)`/g, "<code>$1</code>")
             .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
             .replace(/\*([^*]+)\*/g, "<em>$1</em>")
-            .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+            .replace(/\[([^\]]+)\]\(([^)]+)\)/g, (m, text, url) => {
+                // url arrives already &<>-escaped by the passes above, but the
+                // attribute-breaking " and dangerous schemes still slip through
+                // (stored XSS — bug-hunt wf_cc76eaba-c0b). Drop any non
+                // http(s)/mailto scheme to plain text, and escape the quotes so
+                // the value cannot break out of href="…". Shared by /wiki/preview.
+                const bare = url.replace(/[\x00-\x20]+/g, "");
+                if (/^[a-z][a-z0-9+.-]*:/i.test(bare) && !/^(?:https?|mailto):/i.test(bare)) return text;
+                const safeUrl = url.replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+                return '<a href="' + safeUrl + '">' + text + '</a>';
+            });
     }
 
     while (i < lines.length) {
