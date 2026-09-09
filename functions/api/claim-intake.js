@@ -132,7 +132,7 @@ export async function onRequestPost(context) {
     && (!env.CONTEST_END || Math.floor(Date.now() / 1000) <= Number(env.CONTEST_END));
 
   // ---- Reject table (§3c). Runs before any id is allocated. ----
-  let lane = "attested", flags = [], serial = null, tExport = null, feedBuild = null, model = null, hv = null, attestation = null;
+  let lane = "attested", flags = [], serial = null, tExport = null, feedBuild = null, model = null, hv = null, attestation = null, dup = null;
 
   if (contestActive) {
     // #1 must be an attested contest file (lean-during-contest is rejected).
@@ -167,7 +167,6 @@ export async function onRequestPost(context) {
       return json({ error: "device_forgery" }, 400);
     }
     // #5 UNIQUE(attestation): a stolen/re-used file is not auto-credited to whoever submits second.
-    let dup = null;
     try { dup = await env.haven_builds.prepare("SELECT id FROM contest_claims WHERE attestation=?").bind(attestation).first(); } catch {}
     if (dup) { lane = "manual_review"; flags.push("duplicate_attestation"); }
 
