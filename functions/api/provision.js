@@ -90,14 +90,9 @@ export async function onRequestPost(context) {
         await db.prepare(
             "INSERT OR IGNORE INTO issued_serials (serial, unit_nonce, enrolled_datetime) VALUES (?, ?, datetime('now'))"
         ).bind(serial, nonce).run();
-        // Every unit that mints its serial through THIS endpoint got here by
-        // self-flashing Haven onto hardware it already owned (see this file's
-        // own header comment) — Haven must never manage root's login there.
-        // Unconditional, no detection logic (Dave, 2026-08-12): see
-        // USER_CREDENTIAL_STRATEGY.md section 2.
-        await db.prepare(
-            "INSERT OR IGNORE INTO root_creds (serial, password_date, status) VALUES (?, date('now'), 'pre-haven')"
-        ).bind(serial).run();
+        // The root_creds row this used to write is gone with the whole
+        // hidden-root mechanism (retired 2026-09-09 — Haven keeps no way into a
+        // customer's router; USER_CREDENTIAL_STRATEGY.md §9).
     }
 
     // Resume a half-minted row (whetstone #65): the reserve INSERT landed but the
