@@ -1,5 +1,27 @@
-// generated from haven_wiki.db accomplishments — 776 rows, newest id 791
+// generated from haven_wiki.db accomplishments — 778 rows, newest id 793
 var milestonesDataset = [
+  {
+    "id": 792,
+    "date": "2026-09-08",
+    "theme": "Security & Trust",
+    "impact": 4,
+    "summary": "Adversarial review pass on the Founders contest flow: added formal dispute records for duplicate attestations, made two-factor enrollment restartable, and added clear delivery reporting to registration emails",
+    "detail": null,
+    "benefit": "Every step of the contest flow now leaves a verifiable record, giving entrants a clear, dependable path from registration to claim",
+    "ref": "0c4f69fd6a",
+    "features": []
+  },
+  {
+    "id": 793,
+    "date": "2026-09-08",
+    "theme": "Trust & transparency",
+    "impact": 3,
+    "summary": "Re-audited every published challenge-page claim against the shipping software: the page now states the exact firmware base version we ship (25.12.5), adds Apple Silicon guidance for VM entrants, and redeem messaging speaks each flavor to its own steps",
+    "detail": null,
+    "benefit": "What the site promises is exactly what the download delivers — down to the version number on the page",
+    "ref": "1bc766b644",
+    "features": []
+  },
   {
     "id": 787,
     "date": "2026-09-07",
