@@ -1,4 +1,4 @@
-// generated from haven_wiki.db accomplishments — 774 rows, newest id 789
+// generated from haven_wiki.db accomplishments — 776 rows, newest id 791
 var milestonesDataset = [
   {
     "id": 787,
@@ -9,6 +9,28 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "Sign in and change settings right on the router's own screen, with no phone or computer needed.",
     "ref": "00f4c316ca",
+    "features": []
+  },
+  {
+    "id": 791,
+    "date": "2026-09-07",
+    "theme": "Trust & transparency",
+    "impact": 3,
+    "summary": "Haven firmware is free to download: the download code is now just a data carrier, not a gate — detecting your router on your network is the only check",
+    "detail": null,
+    "benefit": "No artificial gatekeeping between you and free software; the router itself proves the firmware fits",
+    "ref": "5597d04861",
+    "features": []
+  },
+  {
+    "id": 790,
+    "date": "2026-09-07",
+    "theme": "Trust & transparency",
+    "impact": 3,
+    "summary": "Downloading Haven firmware now opens with a straight-talk warning about what flashing can break, and your router is never called by a Haven model name before Haven is actually on it",
+    "detail": null,
+    "benefit": "You know the real risk before you flash, in plain English, and nothing pretends your router is something it is not yet",
+    "ref": "6e78b82a2b",
     "features": []
   },
   {
