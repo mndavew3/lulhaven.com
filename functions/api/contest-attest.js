@@ -29,7 +29,7 @@ function json(body, status = 200) {
 }
 const enc = new TextEncoder();
 const isHex = (s, n) => typeof s === "string" && (!n || s.length === n) && /^[0-9a-f]+$/i.test(s);
-const isSerial = (s) => typeof s === "string" && /^[A-Za-z0-9]{6,32}$/.test(s);
+const isSerial = (s) => typeof s === "string" && /^[A-Za-z0-9-]{6,64}$/.test(s);
 
 function hexToBytes(h) {
   const a = new Uint8Array(h.length / 2);
