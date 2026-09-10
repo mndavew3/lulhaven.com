@@ -1,4 +1,4 @@
-// generated from haven_wiki.db accomplishments — 784 rows, newest id 799
+// generated from haven_wiki.db accomplishments — 785 rows, newest id 800
 var milestonesDataset = [
   {
     "id": 797,
@@ -42,6 +42,17 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "Every wiki page renders as text and links only — nothing a page author writes can run code in your browser.",
     "ref": "47b26f657e",
+    "features": []
+  },
+  {
+    "id": 800,
+    "date": "2026-09-09",
+    "theme": "Haven Helm",
+    "impact": 3,
+    "summary": "Locked and built the Helm tab redesign — the control screen now splits into tabs across the top, matching the router firmware convention, so a customer sees one clear quarter of the controls at a time instead of one long page",
+    "detail": null,
+    "benefit": "Less scrolling and less overwhelm: each Helm screen now shows one focused set of controls",
+    "ref": "71ba6ae97b",
     "features": []
   },
   {
