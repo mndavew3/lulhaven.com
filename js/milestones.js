@@ -1,5 +1,38 @@
-// generated from haven_wiki.db accomplishments — 778 rows, newest id 793
+// generated from haven_wiki.db accomplishments — 781 rows, newest id 796
 var milestonesDataset = [
+  {
+    "id": 795,
+    "date": "2026-09-09",
+    "theme": "Testing & quality",
+    "impact": 4,
+    "summary": "An adversarial launch-readiness sweep of the site's server functions surfaced four launch-critical hardening opportunities — all four taken before launch",
+    "detail": null,
+    "benefit": "The launch path gets exercised by a hostile reviewer before any customer touches it.",
+    "ref": "17461cf91c",
+    "features": []
+  },
+  {
+    "id": 794,
+    "date": "2026-09-09",
+    "theme": "Security & Trust",
+    "impact": 4,
+    "summary": "Hardened the wiki's markdown link renderer against script injection ahead of launch",
+    "detail": null,
+    "benefit": "Every wiki page renders as text and links only — nothing a page author writes can run code in your browser.",
+    "ref": "47b26f657e",
+    "features": []
+  },
+  {
+    "id": 796,
+    "date": "2026-09-09",
+    "theme": "Tooling & infrastructure",
+    "impact": 2,
+    "summary": "Added a reminder watchdog with a one-shot cron installer so due reminders cannot silently go unseen",
+    "detail": null,
+    "benefit": "Standing commitments surface on time even when no work session is open.",
+    "ref": "21cdc9a22c",
+    "features": []
+  },
   {
     "id": 792,
     "date": "2026-09-08",
