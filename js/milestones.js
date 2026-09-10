@@ -1,5 +1,27 @@
-// generated from haven_wiki.db accomplishments — 781 rows, newest id 796
+// generated from haven_wiki.db accomplishments — 784 rows, newest id 799
 var milestonesDataset = [
+  {
+    "id": 797,
+    "date": "2026-09-09",
+    "theme": "Security & Trust",
+    "impact": 5,
+    "summary": "Retired the root-account service backdoor entirely — no hidden way into a customer's router, not even for us",
+    "detail": null,
+    "benefit": "Your router answers to you alone; Haven keeps no secret key to your equipment",
+    "ref": "f6626e8384",
+    "features": []
+  },
+  {
+    "id": 798,
+    "date": "2026-09-09",
+    "theme": "Firmware & overlay",
+    "impact": 4,
+    "summary": "Built and signed firmware 0.1.101 across all four flavors — the first build with the backdoor gone",
+    "detail": null,
+    "benefit": "The next update your router installs carries the no-backdoor guarantee",
+    "ref": "a6f6da6587",
+    "features": []
+  },
   {
     "id": 795,
     "date": "2026-09-09",
@@ -20,6 +42,17 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "Every wiki page renders as text and links only — nothing a page author writes can run code in your browser.",
     "ref": "47b26f657e",
+    "features": []
+  },
+  {
+    "id": 799,
+    "date": "2026-09-09",
+    "theme": "Haven Helm",
+    "impact": 2,
+    "summary": "Locked the Helm sign-in to a still image until credentials pass — the gate-raise animation now greets only a successful entry",
+    "detail": null,
+    "benefit": "Your control panel keeps its gate down until you have actually signed in",
+    "ref": "444bfd51cc",
     "features": []
   },
   {
