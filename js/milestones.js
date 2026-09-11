@@ -1,5 +1,16 @@
-// generated from haven_wiki.db accomplishments — 785 rows, newest id 800
+// generated from haven_wiki.db accomplishments — 786 rows, newest id 801
 var milestonesDataset = [
+  {
+    "id": 801,
+    "date": "2026-09-10",
+    "theme": "Haven Helm",
+    "impact": 2,
+    "summary": "Refined the Helm control screen: a clean light theme on every page, a sign-in layout that sits right on short screens, and a filter row that holds to one line even at narrow widths",
+    "detail": null,
+    "benefit": "The control screen looks right and stays easy to use on every screen size a customer plugs in",
+    "ref": "99ae0a2395",
+    "features": []
+  },
   {
     "id": 797,
     "date": "2026-09-09",
