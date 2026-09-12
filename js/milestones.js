@@ -1,5 +1,16 @@
-// generated from haven_wiki.db accomplishments — 786 rows, newest id 801
+// generated from haven_wiki.db accomplishments — 787 rows, newest id 802
 var milestonesDataset = [
+  {
+    "id": 802,
+    "date": "2026-09-10",
+    "theme": "Product definition",
+    "impact": 3,
+    "summary": "Locked the crate-display direction: the 7-inch touch tablet beats every SBC-plus-screen option on price and already runs the real Helm",
+    "detail": null,
+    "benefit": "The status display on your Haven ships without raising the build cost — a real touchscreen showing the live control screen, not a bare status light",
+    "ref": "bb9b6d50",
+    "features": []
+  },
   {
     "id": 801,
     "date": "2026-09-10",
