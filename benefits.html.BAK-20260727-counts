@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Benefits — Haven</title>
+<meta name="description" content="What Haven does for you. The why behind the features.">
+
+<link rel="icon" type="image/png" href="assets/images/haven-icon-32x32.png">
+<link rel="stylesheet" href="assets/web/assets/mobirise-icons2/mobirise2.css">
+<link rel="preload" as="style" href="assets/mobirise/css/mbr-additional.css%3Fv=2WGiz1.css">
+<link rel="stylesheet" href="assets/mobirise/css/mbr-additional.css%3Fv=2WGiz1.css" type="text/css">
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Inter+Tight:100,200,300,400,500,600,700,800,900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter+Tight:100,200,300,400,500,600,700,800,900&display=swap"></noscript>
+
+<style>
+  .align-center { text-align: center !important; }
+  body { background: #fff; }
+  .cb-page-title { text-align: center; padding: 40px 16px 24px; }
+  .cb-sort-bar { display: flex; justify-content: center; align-items: center; gap: 12px; flex-wrap: wrap; padding: 0 16px 40px; }
+  .cb-sort-bar .cb-sort-label { font-weight: 600; margin-right: 4px; }
+  .cb-sort-bar .btn { min-width: 140px; }
+  .cb-sort-bar .btn.cb-inactive { opacity: 0.45; }
+  .cb-content { max-width: 820px; margin: 0 auto; padding: 0 24px 80px; }
+  .cb-section { margin-bottom: 36px; }
+  .cb-section-title { margin: 0 0 18px; font-weight: 700; }
+  .cb-row { padding: 14px 0; border-bottom: 1px solid #eaeaea; }
+  .cb-row:last-child { border-bottom: none; }
+  .cb-lead { font-weight: 700; line-height: 1.35; }
+  .cb-body { opacity: 0.9; margin-top: 6px; line-height: 1.5; }
+  .cb-details-btn { display: inline-block; margin-top: 8px; padding: 2px 10px; font-size: 0.85em;
+                    background: transparent; color: #1f6b5a; border: 1px solid #1f6b5a;
+                    border-radius: 12px; cursor: pointer; }
+  .cb-details-btn:hover, .cb-details-btn.cb-active { background: #1f6b5a; color: #fff; }
+  .cb-details-panel { display: none; margin: 8px 0 4px; padding: 12px 16px;
+                      background: #f4f7f6; border-left: 3px solid #1f6b5a;
+                      border-radius: 4px; font-size: 0.95em; line-height: 1.55; }
+  .cb-details-panel.cb-open { display: block; }
+  .cb-related { font-size: 0.85em; opacity: 0.7; margin-top: 6px; }
+  .cb-related a { color: #1f6b5a; }
+  .cb-feature-banner { display: none; max-width: 820px; margin: 0 auto 24px; padding: 14px 18px; background: #f4f7f6; border-left: 4px solid #1f6b5a; border-radius: 4px; font-size: 0.95em; line-height: 1.5; }
+  .cb-feature-banner.cb-banner-on { display: block; }
+  .cb-feature-banner a { color: #1f6b5a; font-weight: 600; }
+  .cb-back-link { display: block; text-align: center; padding: 0 0 60px; }
+  body { background-image: linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.9)), url("assets/images/lulhaven20dock20line20art-1024x1536.png"); background-size: cover; background-position: center top; background-attachment: fixed; background-repeat: no-repeat; }
+  .cb-page-title *, #features-why-haven, #features-why-haven *, .cb-content, .cb-content * { text-align:center !important; }
+  #features-why-haven { background:transparent !important; }
+  #features-why-haven .mbr-section-head { background:#2b7a69; padding:22px 20px; margin-bottom:0 !important; }
+  #features-why-haven .mbr-section-head h4 { margin-bottom:6px !important; line-height:1.1; }
+  #features-why-haven .mbr-section-head h5 { margin-top:8px !important; }
+  #features-why-haven .mbr-section-head * { color:#fff !important; }
+  #features-why-haven .item { padding:34px 20px; }
+  #features-why-haven .item:nth-child(even) { background:#2b7a69; }
+  #features-why-haven .item:nth-child(even) * { color:#fff !important; }
+  #features-why-haven .item:nth-child(odd) { background:#fff; }
+  /* tighten top spacing on all bands */
+  .cb-page-title { padding-top:26px !important; }
+  #features-why-haven .mbr-section-head { padding-top:14px !important; padding-bottom:18px !important; }
+  #features-why-haven .item { padding-top:14px !important; padding-bottom:26px !important; }
+  #features-why-haven .item-title { margin-top:0 !important; padding-top:0 !important; }
+  #features-why-haven .item-wrapper, #features-why-haven .item-content { margin-top:0 !important; padding-top:0 !important; }
+  #features-why-haven .mbr-section-head h4 { padding-top:0 !important; }
+  #features-why-haven { padding-top:0 !important; }
+  #features-why-haven .container, #features-why-haven .row, #features-why-haven .content-head { padding-top:0 !important; margin-top:0 !important; }
+  #features-why-haven .mbr-section-head { padding-top:6px !important; }
+  #features-why-haven .mbr-section-head h4 { margin:0 !important; padding:0 !important; line-height:1.1 !important; }
+  #features-why-haven .mbr-section-head { padding:8px 20px !important; margin-bottom:0 !important; }
+  #features-why-haven .mbr-section-head h4 { margin:0 !important; padding:0 !important; line-height:1.1 !important; }
+  #features-why-haven .mbr-section-head h5 { margin:4px 0 0 0 !important; padding:0 !important; }
+
+
+
+
+</style>
+</head>
+
+<body>
+
+
+<section class="cb-page-title">
+  <h1 id="cb-title" class="mbr-section-title mbr-fonts-style display-1"><strong>Benefits</strong></h1>
+  <p class="mbr-text mbr-fonts-style display-7" style="max-width:640px;margin:18px auto 0;">
+    Haven is for intentional internet use — for people who decide what comes into their space
+    rather than letting an ad algorithm, a gambling platform, a rage-bait publisher, or
+    anything else you didn't invite decide for them. And for the makers who'd rather
+    build that control themselves than rent it. Here's the why behind every feature.
+  </p>
+  <p class="mbr-text mbr-fonts-style display-5" style="max-width:640px;margin:18px auto 0;">
+    And every one of them adds up to a single culminating benefit: <strong>your day feels a little more sane.</strong>
+  </p>
+</section>
+<section data-bs-version="5.1" class="features4 cid-haven-why" id="features-why-haven">
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-12 content-head">
+				<div class="mbr-section-head mb-5">
+					<h4 class="mbr-section-title mbr-fonts-style align-center mb-0 display-2"><strong>Why Haven</strong></h4>
+					<h5 class="mbr-section-subtitle mbr-fonts-style align-center mb-0 mt-4 display-7">The others are better than nothing. Haven is another level of better.</h5>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="item col-12 col-md-6 col-lg-4">
+				<div class="item-wrapper">
+					<div class="item-content">
+						<h5 class="item-title mbr-fonts-style display-5"><strong>Better filtering</strong></h5>
+						<p class="mbr-text mbr-fonts-style display-7">Haven's curated blocklist draws on multiple sources across 49 categories — adult content, gambling, violence, misinformation, trackers, mobile game ads, and more. Millions of domains. Continuously updated.<br><br>Every category you turn on triggers up to 42 distinct strategies &mdash; not one, not three. Stacked layers that close the bypass loopholes others don't even know about. Across all 613 providers, that's ~6.36 million total blocking strategies.<br><br>Unlike Circle's preset profiles or your router's on/off switch, Haven's 49 categories are visible, editable, and explained — your values, your rules.</p>
+					</div>
+				</div>
+			</div>
+			<div class="item col-12 col-md-6 col-lg-4">
+				<div class="item-wrapper">
+					<div class="item-content">
+						<h5 class="item-title mbr-fonts-style display-5"><strong>Easier to use</strong></h5>
+						<p class="mbr-text mbr-fonts-style display-7"><strong>Why ease of use matters:</strong> in some cases, roughly two-thirds of the protectable devices go unprotected.<span style="opacity:.6;font-size:.85em;"> &mdash; Family Online Safety Institute, 2025 (only 35% of game consoles that have protection options actually have protections enabled).</span></p>
+						<p class="mbr-text mbr-fonts-style display-7">Browse the categories. Tap what you don't want. Save. That's the whole interface.<br><br>You see exactly what's blocked, why, and you can change anything in one click. Your values, your rules &mdash; not a vendor's opaque categories.<br><br><strong>Set it up once for your entire network &mdash; and if you need to set it by device, you can do that too.</strong></p>
+					</div>
+				</div>
+			</div>
+			<div class="item col-12 col-md-6 col-lg-4">
+				<div class="item-wrapper">
+					<div class="item-content">
+						<h5 class="item-title mbr-fonts-style display-5"><strong>Built for you, priced for you</strong></h5>
+						<p class="mbr-text mbr-fonts-style display-7">One Haven device protects every phone, tablet, TV, console, and IoT gadget on your network &mdash; no per-device installs, no per-child profiles, no per-app subscriptions.<br><br>The subscription is a low monthly fee for the latest category updates. Your filter keeps working whether you renew or not &mdash; it just stops getting new list updates. Most competitors charge several times as much, and when their payments stop, your filtering stops.<br><br>Privacy by architecture: the only thing Haven sends out is a version check. No query logs, no device identifiers, nothing linking the request to you. Cloud-based DNS filters like NextDNS log your traffic to their servers by design. Haven cannot &mdash; your data never leaves the box.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<div class="cb-sort-bar">
+  <span class="cb-sort-label mbr-fonts-style display-7">Sort:</span>
+  <a class="btn btn-primary display-7" id="cb-sort-neither" href="#">Unsorted</a>
+  <a class="btn btn-primary display-7" id="cb-sort-family"  href="#">Family</a>
+  <a class="btn btn-primary display-7" id="cb-sort-privacy" href="#">Privacy</a>
+</div>
+
+<div id="cb-feature-banner" class="cb-feature-banner mbr-text mbr-fonts-style display-7"></div>
+
+<div class="cb-content" id="cb-content">
+  <p class="mbr-text mbr-fonts-style display-7" style="text-align:center;opacity:0.5;">Loading…</p>
+</div>
+
+<div class="cb-back-link">
+  <a class="mbr-text mbr-fonts-style display-7" href="index.html">← Back to home</a>
+  &nbsp;·&nbsp;
+  <a class="mbr-text mbr-fonts-style display-7" href="features.html">See the features</a>
+</div>
+
+<script src="js/haven-nav.js?v=7"></script>
+<script src="js/customer-benefits.js?v=5ef22242"></script>
+<script src="js/benefits-ui.js?v=20260617-count"></script>
+<script src="js/kyc.js?v=20260603-manga"></script>
+
+</body>
+</html>

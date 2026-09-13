@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Features — Haven</title>
+<meta name="description" content="Haven blocks content at the router, engineered to close the usual bypasses — VPNs, encrypted DNS, Private Relay. 613 providers, 49 categories, 42 strategies per provider. Your data never leaves your device.">
+
+<link rel="icon" type="image/png" href="assets/images/haven-icon-32x32.png">
+<link rel="stylesheet" href="assets/web/assets/mobirise-icons2/mobirise2.css">
+<link rel="preload" as="style" href="assets/mobirise/css/mbr-additional.css%3Fv=2WGiz1.css">
+<link rel="stylesheet" href="assets/mobirise/css/mbr-additional.css%3Fv=2WGiz1.css" type="text/css">
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Inter+Tight:100,200,300,400,500,600,700,800,900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter+Tight:100,200,300,400,500,600,700,800,900&display=swap"></noscript>
+
+<style>
+  .align-center { text-align: center !important; }
+  body { background: #fff; }
+  .cf-page-title { text-align: center; padding: 40px 16px 24px; }
+  .cf-sort-bar { display: flex; justify-content: center; align-items: center; gap: 12px; flex-wrap: wrap; padding: 0 16px 40px; }
+  .cf-sort-bar .cf-sort-label { font-weight: 600; margin-right: 4px; }
+  .cf-sort-bar .btn { min-width: 160px; }
+  .cf-sort-bar .btn.cf-inactive { opacity: 1; background:#a8c8bf !important; color:#fff !important; }
+  .cf-content { max-width: 760px; margin: 0 auto; padding: 0 24px 80px; }
+  .cf-section { margin-bottom: 36px; }
+  .cf-section-title { margin: 0 0 16px; font-weight: 700; }
+  .cf-bullet { padding: 10px 0; line-height: 1.55; }
+  .cf-bullet strong { display: block; }
+  .cf-bullet-with-image { display: flex; align-items: flex-start; gap: 14px; }
+  .cf-bullet-with-image .cf-bullet-text { flex: 1; }
+  .cf-bullet-thumb { flex: 0 0 96px; width: 96px; height: auto; border-radius: 8px; }
+  @media (max-width: 480px) {
+    .cf-bullet-thumb { flex-basis: 72px; width: 72px; }
+  }
+  .cf-details-btn { display: inline-block; margin-top: 4px; padding: 2px 10px; font-size: 0.85em;
+                    background: transparent; color: #1f6b5a; border: 1px solid #1f6b5a;
+                    border-radius: 12px; cursor: pointer; }
+  .cf-details-btn:hover { background: #1f6b5a; color: #fff; }
+  .cf-details-btn.cf-active { background: #1f6b5a; color: #fff; }
+  .cf-milestone-link { display: inline-block; margin-left: 8px; font-size: 0.85em; color: #1f6b5a; text-decoration: none; }
+  .cf-milestone-link:hover { text-decoration: underline; }
+  .cf-benefit-link { display: inline-block; margin-left: 8px; font-size: 0.85em; color: #1f6b5a; text-decoration: none; }
+  .cf-benefit-link:hover { text-decoration: underline; }
+  .cf-wiki-link { display: inline-block; margin-left: 8px; padding: 1px 8px; font-size: 0.85em; color: #1f6b5a;
+    text-decoration: none; border: 1px solid #1f6b5a; border-radius: 10px; cursor: help; }
+  .cf-wiki-link:hover { background: #1f6b5a; color: #fff; }
+  .cf-benefit-banner { display: none; max-width: 760px; margin: 0 auto 24px; padding: 14px 18px; background: #f4f7f6; border-left: 4px solid #1f6b5a; border-radius: 4px; font-size: 0.95em; line-height: 1.5; }
+  .cf-benefit-banner.cf-banner-on { display: block; }
+  .cf-benefit-banner a { color: #1f6b5a; font-weight: 600; }
+  .cf-details-panel { display: none; margin: 4px 0 12px; padding: 14px 18px;
+                      background: #f4f7f6; border-left: 3px solid #1f6b5a;
+                      border-radius: 4px; font-size: 0.95em; line-height: 1.55; }
+  .cf-details-panel.cf-open { display: block; }
+  .cf-details-panel p { margin: 0 0 10px; }
+  .cf-details-panel p:last-child { margin-bottom: 0; }
+  .cf-back-link { display: block; text-align: center; padding: 0 0 60px; }
+  body { background-image: linear-gradient(rgba(255,255,255,0.9),rgba(255,255,255,0.9)), url("assets/images/lulhaven20dock20line20art-1024x1536.png"); background-size:cover; background-position:center top; background-attachment:fixed; background-repeat:no-repeat; }
+  .cf-page-title *, #features04-w, #features04-w *, .cf-content, .cf-content * { text-align:center !important; }
+  #features04-w { background:transparent !important; padding-top:0 !important; }
+  #features04-w .item, #features04-w .item * { color:#111 !important; }
+  /* col-12 demo card: teal bg, centered, tight gap */
+  #features04-w .item.col-12 { background:#2b7a69 !important; padding:24px 32px !important; box-sizing:border-box !important; width:100% !important; }
+  #features04-w .item.col-12 .item-wrapper { width:100% !important; max-width:none !important; }
+  #features04-w .item.col-12 .item-img { display:block; width:100% !important; }
+  #features04-w .item.col-12 .haven-demo-preview { width:100% !important; max-width:none !important; overflow:auto !important; }
+  #features04-w .item.col-12 .haven-demo-preview iframe { width:100% !important; min-width:0 !important; }
+  #features04-w .item.col-12 .item-content { text-align:center !important; margin-top:16px !important; }
+  #features04-w .item.col-12 .item-content * { color:#111 !important; }
+  /* items 2+3: side-by-side on wide, stacked on narrow */
+  #features04-w .row { display:flex !important; flex-wrap:wrap !important; }
+  #features04-w .item.col-md-6 { background:#2b7a69 !important; padding:20px !important; box-sizing:border-box !important; }
+  @media (min-width:768px) {
+    #features04-w .item.col-md-6 { flex:0 0 50% !important; max-width:50% !important; }
+  }
+  @media (max-width:767px) {
+    #features04-w .item.col-md-6 { flex:0 0 100% !important; max-width:100% !important; }
+  }
+  #features04-w .item.col-md-6, #features04-w .item.col-md-6 * { color:#111 !important; }
+  #features04-w .content-head { width:100% !important; max-width:100% !important; flex:0 0 100% !important; padding:0 !important; }
+  #features04-w .mbr-section-head { background:#2b7a69 !important; padding:10px 22px !important; margin:0 0 30px 0 !important; width:100% !important; box-sizing:border-box !important; }
+  #features04-w .mbr-section-head * { color:#fff !important; }
+  #features04-w .mbr-section-head h4 { margin:0 !important; padding:0 !important; line-height:1.1 !important; }
+  #features04-w .mbr-section-head h5 { margin:6px 0 0 0 !important; padding:0 !important; }
+  /* strat47 popup */
+  .strat47-panel { display:none; }
+  .strat47-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.55); z-index:2000; align-items:center; justify-content:center; }
+  .strat47-overlay.open { display:flex; }
+  .strat47-box { background:#fff; color:#111; max-width:640px; width:90%; border-radius:12px; padding:32px 28px; box-shadow:0 8px 40px rgba(0,0,0,0.35); position:relative; font-family:'Inter Tight',system-ui,Arial,sans-serif; font-size:1rem; line-height:1.65; }
+  .strat47-close { position:absolute; top:12px; right:16px; font-size:1.4rem; cursor:pointer; background:none; border:none; color:#555; }
+  .strat47-close:hover { color:#111; }
+
+</style>
+</head>
+
+<body>
+
+
+<section id="demo-hero" style="background:#1a4a3c;padding:32px 24px 16px;text-align:center;">
+  <h2 class="mbr-fonts-style" style="color:#fff;font-size:2.3rem;font-weight:800;margin:0 0 8px;line-height:1.2;">Watch it work. In your browser. Right now.</h2>
+  <p class="mbr-fonts-style display-7" style="color:rgba(255,255,255,0.82);margin:0 0 16px;">This is a Haven simulator. Click anything.</p>
+  <div id="demo-wrap" data-ev="demo_interact" data-ev-label="hero">
+    <iframe src="demo.html" title="Haven interactive demo" loading="eager" style="width:100%;height:calc(100vh - 200px);min-height:480px;border:0;display:block;"></iframe>
+  </div>
+  <div style="padding:14px 24px 32px;">
+    <a href="demo.html" class="btn display-7" style="background:#fff;color:#1a4a3c;border:none;font-weight:700;font-size:1.05rem;padding:13px 40px;border-radius:8px;text-decoration:none;box-shadow:0 2px 12px rgba(0,0,0,0.25);">Open full demo →</a>
+  </div>
+</section>
+<section data-bs-version="5.1" class="features4 cid-tMlEXTHLbS" id="features04-w">
+	
+	
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-12 content-head">
+				<div class="mbr-section-head mb-5">
+					<h4 class="mbr-section-title mbr-fonts-style align-center mb-0 display-2"><strong>How It Works</strong></h4>
+					<h5 class="mbr-section-subtitle mbr-fonts-style align-center mb-0 mt-4 display-7">Haven is an extension of the OpenWrt router software. Many routers come directly from the manufacturer with OpenWrt as their software. OpenWrt can replace the original software in millions of other routers. OpenWrt is the leading open-source router software available.<br><br>If you choose to filter nothing with Haven, then you’re just running unaltered OpenWrt, and that’s fine. Haven adds its own interface on top of OpenWrt, but all original OpenWrt screens and settings remain fully accessible.<br><br>Many content providers use a large number of IP addresses to provide their content. And that’s just one of about a dozen attributes that are used to filter content. And each attribute can be used in multiple strategies. With a single mouse click, you activate all those strategies.</h5>
+					
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="item features-image col-12 col-md-6">
+				<div class="item-wrapper">
+					<div class="item-img">
+						<img src="assets/images/51505739-398x225.png" alt="">
+					</div>
+					<div class="item-content">
+						<p class="mbr-fonts-style" style="font-size: 0.85em; font-style: italic; color: #666; margin-bottom: 0.5rem;">One click activates up to 42 strategies at once — IP blocks, domain blocks, behavioral patterns. Across 613 providers, that's ~6.36 million total blocking strategies working for you.</p>
+						<h5 class="item-title mbr-fonts-style display-5">
+							<strong>42 Strategies</strong>
+						</h5>
+
+						<p class="mbr-text mbr-fonts-style display-7">
+							When you select a content provider, Haven uses as many as 42 unique strategies to block that content from your network — with a single click.</p>
+						<div class="mbr-section-btn item-footer"><button type="button" class="btn item-btn btn-primary display-7 strat47-toggle">Learn more</button></div>
+						<div class="strat47-panel mbr-text mbr-fonts-style display-7" id="strat47-panel">
+							<p>When you select a provider to block, Haven uses up to 42 different methods to stop that content — IP addresses, domain names, behavioral patterns. Across all 613 providers, that's ~6.36 million total blocking strategies working for you.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="item features-image col-12 col-md-6">
+				<div class="item-wrapper">
+					<div class="item-img">
+						<img src="assets/images/lulhaven20dock-815x1223.png" alt="">
+					</div>
+					<div class="item-content">
+						<h5 class="item-title mbr-fonts-style display-5">
+							<strong>You can relax. This is your browser on Haven.</strong>
+						</h5>
+
+						<p class="mbr-text mbr-fonts-style display-7">
+							What you came for, in its natural shape. No pop-ups, no sidebar outrage, no algorithm reaching into your evening. The internet was supposed to work like this.
+						</p>
+						<div class="mbr-section-btn item-footer"><a href="demo.html" class="btn item-btn btn-primary display-7">Learn more</a></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<div class="cf-sort-bar">
+  <span class="cf-sort-label mbr-fonts-style display-7">Sort:</span>
+  <a class="btn btn-primary display-7" id="cf-sort-neither" href="#">Unsorted</a>
+  <a class="btn btn-primary display-7" id="cf-sort-family"  href="#">Family</a>
+  <a class="btn btn-primary display-7" id="cf-sort-privacy" href="#">Privacy</a>
+</div>
+
+<div id="cf-benefit-banner" class="cf-benefit-banner mbr-text mbr-fonts-style display-7"></div>
+
+<div class="cf-content" id="cf-content">
+  <p class="mbr-text mbr-fonts-style display-7" style="text-align:center;opacity:0.5;">Loading…</p>
+</div>
+
+<div class="cf-back-link">
+  <a class="mbr-text mbr-fonts-style display-7" href="index.html">← Back to home</a>
+</div>
+
+<script src="js/haven-nav.js?v=7"></script>
+<script src="js/customer-features.js?v=0db7daad"></script>
+<script src="js/customer-features-ui.js?v=20260608-1240"></script>
+
+<script src="js/kyc.js?v=20260603-manga"></script>
+
+<div class="strat47-overlay" id="strat47-overlay">
+  <div class="strat47-box">
+    <button class="strat47-close" id="strat47-close" aria-label="Close">&#x2715;</button>
+    <div id="strat47-content"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var btn = document.querySelector('.strat47-toggle');
+  var panel = document.getElementById('strat47-panel');
+  var overlay = document.getElementById('strat47-overlay');
+  var content = document.getElementById('strat47-content');
+  var close = document.getElementById('strat47-close');
+  if (!btn || !panel) return;
+  content.innerHTML = panel.innerHTML;
+  btn.addEventListener('click', function(){ overlay.classList.add('open'); });
+  close.addEventListener('click', function(){ overlay.classList.remove('open'); });
+  overlay.addEventListener('click', function(e){ if(e.target===overlay) overlay.classList.remove('open'); });
+})();
+</script>
+
+
+</body>
+</html>
