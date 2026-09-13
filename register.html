@@ -134,9 +134,12 @@
   var testKey  = params.get('test_key') || '';
   document.getElementById('serial').textContent = serial || '(open this from your Haven Helm)';
 
-  // Rates (standard, off the $10/mo anchor). Founder/first-year discounts are
-  // applied at checkout once the serial's tier is confirmed server-side.
-  var RATE = { annual: 72, monthly: 10 };   // $/period
+  // Rates (standard). Suggested retail is $8/mo billed annually ($96/yr); the
+  // month-to-month option carries no annual commitment at $10/mo. Must stay in
+  // step with functions/_lib/pricing.js (single_annual 800, single_monthly 1000).
+  // Founder/first-year discounts are applied at checkout once the serial's tier
+  // is confirmed server-side.
+  var RATE = { annual: 96, monthly: 10 };   // $/period
   var plan = 'annual', qty = 1;
 
   function periodWord(p, n){ return (p==='annual' ? 'year' : 'month') + (n>1 ? 's' : ''); }

@@ -5760,7 +5760,7 @@ var milestonesDataset = [
     "date": "2026-05-12",
     "theme": "Burn procedure & build station",
     "impact": 4,
-    "summary": "Finalized Haven's $4/month subscription pricing.",
+    "summary": "Finalized Haven's subscription pricing.",
     "detail": null,
     "benefit": "Havens ship reliably and quickly; refining the burn procedure improves every future unit.",
     "ref": "2a04729a2f",

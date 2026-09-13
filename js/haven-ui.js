@@ -76,7 +76,7 @@ function hdCatRemoteChanged(sel) {
 var hdSections = [
   { name: 'Adult & Sensitive', cats: [
     'Adult Content','Alcohol & Tobacco','Anonymous & Random Chat',
-    'Cult & Coercive Groups','Dating & Relationships','Drugs & Substances',
+    'Controversial Movements','Dating & Relationships','Drugs & Substances',
     'Extremism & Radicalization','Firearms & Weapons','Gambling',
     'Hate & Discriminatory Content','Occult & Alternative Beliefs','Scams & Predatory Services',
     'Self-Harm & Crisis Content','Tracking & Stalkerware','Violence & Graphic Content'
@@ -115,7 +115,7 @@ var hdCatTips = {
   "Adult Content":"Pornography and sexually explicit sites.",
   "Alcohol & Tobacco":"Beer, wine, spirits, vaping, and tobacco brands and retailers.",
   "Anonymous & Random Chat":"Sites that pair you with strangers over webcam or text.",
-  "Cult & Coercive Groups":"High-control groups and coercive recruitment networks.",
+  "Controversial Movements":"Religious and ideological movements that attract controversy.",
   "Dating & Relationships":"Dating and hookup apps and sites.",
   "Drugs & Substances":"Recreational-drug sites, dispensaries, and harm-reduction forums.",
   "Extremism & Radicalization":"Sites known for extremist content and radicalization.",
@@ -165,7 +165,7 @@ var hdCatTips = {
 var hdPresets = {
   School: [
     'Adult Content','Alcohol & Tobacco','Anonymous & Random Chat',
-    'Cheating & Academic Fraud','Cult & Coercive Groups','Dating & Relationships',
+    'Cheating & Academic Fraud','Controversial Movements','Dating & Relationships',
     'Drugs & Substances','Extremism & Radicalization','Firearms & Weapons','Gambling',
     'Hate & Discriminatory Content','Conspiracy & Fabricated Claims','Occult & Alternative Beliefs',
     'Scams & Predatory Services','Self-Harm & Crisis Content','Tracking & Stalkerware',
@@ -177,14 +177,14 @@ var hdPresets = {
     'Violence & Graphic Content'
   ],
   Recovery: [
-    'Adult Content','Alcohol & Tobacco','Cult & Coercive Groups',
+    'Adult Content','Alcohol & Tobacco','Controversial Movements',
     'Dating & Relationships','Drugs & Substances','Extremism & Radicalization','Gambling',
     'Hate & Discriminatory Content','Occult & Alternative Beliefs','Scams & Predatory Services',
     'Self-Harm & Crisis Content','Violence & Graphic Content'
   ],
-  Parenting: [
+  Caregiver: [
     'Adult Content','AI & Automation','Alcohol & Tobacco','Anonymous & Random Chat',
-    'Cheating & Academic Fraud','Cult & Coercive Groups','Dating & Relationships',
+    'Cheating & Academic Fraud','Controversial Movements','Dating & Relationships',
     'Drugs & Substances','Extremism & Radicalization','Firearms & Weapons','Gambling',
     'Hate & Discriminatory Content','Conspiracy & Fabricated Claims',
     'Mobile Game Ads','Ragebait',
@@ -195,7 +195,7 @@ var hdPresets = {
     'Advertising','AI & Automation','Big Business','Cloud Services','Mobile Game Ads',
     'Search Engines','Social Media','Tracking & Stalkerware'
   ],
-  Senior: [
+  Fraud: [
     'Cryptocurrency','Gambling','Conspiracy & Fabricated Claims',
     'Pseudo-Medicine & Health Fraud','Scams & Predatory Services',
     'Security','Sports & Betting'
