@@ -78,7 +78,7 @@ var hdSections = [
     'Adult Content','Alcohol & Tobacco','Anonymous & Random Chat',
     'Controversial Movements','Dating & Relationships','Drugs & Substances',
     'Extremism & Radicalization','Firearms & Weapons','Gambling',
-    'Hate & Discriminatory Content','Occult & Alternative Beliefs','Scams & Predatory Services',
+    'Hate & Discriminatory Content','Impersonation & High-Cost Lending','Occult & Alternative Beliefs',
     'Self-Harm & Crisis Content','Tracking & Stalkerware','Violence & Graphic Content'
   ]},
   { name: 'Business & Finance', cats: [
@@ -123,7 +123,7 @@ var hdCatTips = {
   "Gambling":"Casinos, sportsbooks, and online betting.",
   "Hate & Discriminatory Content":"Sites built around hateful or discriminatory content.",
   "Occult & Alternative Beliefs":"Astrology, tarot, psychics, and occult communities.",
-  "Scams & Predatory Services":"Known scams, fraud, and predatory lending.",
+  "Impersonation & High-Cost Lending":"Fake agencies, support lines, and profiles, plus payday and other high-cost lenders.",
   "Self-Harm & Crisis Content":"Forums that promote self-harm or eating disorders.",
   "Tracking & Stalkerware":"Data brokers, people-search, and phone-monitoring tools.",
   "Violence & Graphic Content":"Graphic violence, gore, and shock sites.",
@@ -168,18 +168,18 @@ var hdPresets = {
     'Cheating & Academic Fraud','Controversial Movements','Dating & Relationships',
     'Drugs & Substances','Extremism & Radicalization','Firearms & Weapons','Gambling',
     'Hate & Discriminatory Content','Conspiracy & Fabricated Claims','Occult & Alternative Beliefs',
-    'Scams & Predatory Services','Self-Harm & Crisis Content','Tracking & Stalkerware',
+    'Impersonation & High-Cost Lending','Self-Harm & Crisis Content','Tracking & Stalkerware',
     'Violence & Graphic Content'
   ],
   Workplace: [
     'Adult Content','Dating & Relationships','Extremism & Radicalization','Gambling',
-    'Hate & Discriminatory Content','Scams & Predatory Services','Self-Harm & Crisis Content',
+    'Hate & Discriminatory Content','Impersonation & High-Cost Lending','Self-Harm & Crisis Content',
     'Violence & Graphic Content'
   ],
   Recovery: [
     'Adult Content','Alcohol & Tobacco','Controversial Movements',
     'Dating & Relationships','Drugs & Substances','Extremism & Radicalization','Gambling',
-    'Hate & Discriminatory Content','Occult & Alternative Beliefs','Scams & Predatory Services',
+    'Hate & Discriminatory Content','Occult & Alternative Beliefs','Impersonation & High-Cost Lending',
     'Self-Harm & Crisis Content','Violence & Graphic Content'
   ],
   Caregiver: [
@@ -188,7 +188,7 @@ var hdPresets = {
     'Drugs & Substances','Extremism & Radicalization','Firearms & Weapons','Gambling',
     'Hate & Discriminatory Content','Conspiracy & Fabricated Claims',
     'Mobile Game Ads','Ragebait',
-    'Pseudo-Medicine & Health Fraud','Scams & Predatory Services','Self-Harm & Crisis Content',
+    'Pseudo-Medicine & Health Fraud','Impersonation & High-Cost Lending','Self-Harm & Crisis Content',
     'Social Media','Sports & Betting','Tracking & Stalkerware','Violence & Graphic Content'
   ],
   Privacy: [
@@ -197,7 +197,7 @@ var hdPresets = {
   ],
   Fraud: [
     'Cryptocurrency','Gambling','Conspiracy & Fabricated Claims',
-    'Pseudo-Medicine & Health Fraud','Scams & Predatory Services',
+    'Pseudo-Medicine & Health Fraud','Impersonation & High-Cost Lending',
     'Security','Sports & Betting'
   ]
 };
