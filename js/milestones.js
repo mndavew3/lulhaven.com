@@ -291,8 +291,8 @@ var milestonesDataset = [
     "date": "2026-09-05",
     "theme": "Haven Helm",
     "impact": 4,
-    "summary": "Pair a phone from the screen, and watch the blocks arrive",
-    "detail": null,
+    "summary": "Paired a phone from the screen and watched the blocks arrive",
+    "detail": "The screen produced the address and the single-use code the phone app needs; a Log button listed the most recent blocks, newest first — bench-proven.",
     "benefit": "You can add a phone and see the filtering working without leaving the panel.",
     "ref": "10be18e",
     "features": []
@@ -2018,7 +2018,7 @@ var milestonesDataset = [
     "date": "2026-08-01",
     "theme": "Demo page",
     "impact": 3,
-    "summary": "The demo now shows Haven's blocked-connection counts and explains U-Haven on tap",
+    "summary": "The demo now shows Haven's blocked-connection counts",
     "detail": null,
     "benefit": "On ad and tracker categories you can see per-provider Blocked counts — the concrete work Haven does — and a Details button explains device-specific U-Haven enforcement without needing hover tooltips.",
     "ref": "05fb72b",
@@ -2436,8 +2436,8 @@ var milestonesDataset = [
     "date": "2026-07-09",
     "theme": "Off-network filtering",
     "impact": 5,
-    "summary": "Choose how each content category follows a phone away from your network — and Haven works out the rest per app",
-    "detail": "End-to-end control plane shipped and confirmed on a real phone: a per-category Remote Filter selector in the dashboard (Full / Fast / None, with Fast as the sensible everyday default and Full kept rare); the phone app reports its installed apps; Haven classifies them (games, social, streaming, storefronts) and shows every app with the connection it would use; the administrator can pin any single app; and the phone pulls the finished policy back with one tap. On the first real phone: 185 apps — 6 on Full (the games and browsers that need deep protection), 179 on Fast, none unprotected.",
+    "summary": "Built the away-from-home control plane: choose how each content category follows a phone off your network, per app.",
+    "detail": "End-to-end control plane built and confirmed on a real phone: a per-category Remote Filter selector in the dashboard (Full / Fast / None, with Fast as the sensible everyday default and Full kept rare); the phone app reports its installed apps; Haven classifies them (games, social, streaming, storefronts) and shows every app with the connection it would use; the administrator can pin any single app; and the phone pulls the finished policy back with one tap. On the first real phone: 185 apps — 6 on Full (the games and browsers that need deep protection), 179 on Fast, none unprotected.",
     "benefit": "You set intent once per category (Full protection, Fast checks, or None); every app on the phone automatically gets the right treatment, and the rare heavy-duty path is reserved for the apps that actually need it.",
     "ref": "38ade0cbd2",
     "features": []
@@ -3019,7 +3019,7 @@ var milestonesDataset = [
     "date": "2026-06-17",
     "theme": "Marketing & website",
     "impact": 2,
-    "summary": "Expanded the Benefits page to 20 entries, adding Delayed Filtering and a clearer explanation of how granular Haven's controls really are (down to the individual content source within a category), and rewrote the page to speak to any kind of buyer.",
+    "summary": "Expanded /benefits to 20 entries, sharpened the granularity benefit to the Template→Section→Category→Content Provider drill-down, added an umbrella 'your home gets more sane' line, and made the page setting-agnostic ('Built for you') so non-family buyers aren't excluded.",
     "detail": null,
     "benefit": "Clearer, broader benefits page that speaks to families and institutions alike.",
     "ref": "b00f4d89",
@@ -3380,8 +3380,8 @@ var milestonesDataset = [
     "date": "2026-06-02",
     "theme": "YouHaven anti-algorithm app",
     "impact": 3,
-    "summary": "U-Haven, the YouTube content-filter companion app, is now downloadable for both Android and Linux — the Linux build is a self-contained desktop app, and a new chooser page lets people pick their platform.",
-    "detail": "Linux desktop is an Electron AppImage; Android is the existing APK; both hosted on GitHub Releases; lulhaven.com/get-uhaven is the platform chooser.",
+    "summary": "U-Haven, the YouTube content-filter companion app, built and proven for both Android and Linux — the Linux build is a self-contained desktop app.",
+    "detail": "Linux desktop is an Electron AppImage; Android is an APK; one codebase, two platforms — groundwork for the companion experience to come.",
     "benefit": "Customers can extend Haven's filtering to YouTube on the devices they actually watch on, not just at the router.",
     "ref": "75ca060abc",
     "features": []
@@ -4290,12 +4290,7 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "Decisions and discoveries persist across sessions; future-us picks up cold with full context.",
     "ref": "fbf722c23b",
-    "features": [
-      {
-        "id": 34,
-        "lead": "Emergency-unblock button"
-      }
-    ]
+    "features": []
   },
   {
     "id": 284,
@@ -4508,12 +4503,7 @@ var milestonesDataset = [
     "detail": "Dave 2026-05-24 09:12 CDT, in a \"mixed feelings\" reflection on filtering: imagine you're\ntrying to figure out how to put together a tourniquet, you're searching online, and a\nHaven category block puts you between you and the page. That's the failure mode where the\nfilter actively…",
     "benefit": "Emergency info-seeking design baked in — poison control, Red Cross, and Mayo Clinic are always reachable, filter or no filter.",
     "ref": "",
-    "features": [
-      {
-        "id": 34,
-        "lead": "Emergency-unblock button"
-      }
-    ]
+    "features": []
   },
   {
     "id": 153,
@@ -6223,7 +6213,7 @@ var milestonesDataset = [
       },
       {
         "id": 22,
-        "lead": "Two modes"
+        "lead": "Simple by design"
       },
       {
         "id": 31,
@@ -6395,7 +6385,7 @@ var milestonesDataset = [
     "features": [
       {
         "id": 22,
-        "lead": "Two modes"
+        "lead": "Simple by design"
       }
     ]
   },
@@ -6734,7 +6724,7 @@ var milestonesDataset = [
     "features": [
       {
         "id": 22,
-        "lead": "Two modes"
+        "lead": "Simple by design"
       }
     ]
   },
@@ -8841,7 +8831,7 @@ var milestonesDataset = [
     "features": [
       {
         "id": 22,
-        "lead": "Two modes"
+        "lead": "Simple by design"
       }
     ]
   },
@@ -8937,7 +8927,7 @@ var milestonesDataset = [
     "features": [
       {
         "id": 22,
-        "lead": "Two modes"
+        "lead": "Simple by design"
       }
     ]
   },

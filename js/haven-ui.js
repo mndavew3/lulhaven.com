@@ -417,8 +417,20 @@ function hdApplyMode() {
 }
 
 function hdToggleMode() {
-  hdBasicMode = !hdBasicMode;
-  hdApplyMode();
+  // Advanced mode ships with a future tier (Dave, 2026-09-14). The demo teases it,
+  // never opens it: hdBasicMode stays true, the click answers "Coming soon".
+  var btn = document.getElementById('hd-mode-btn');
+  var tip = document.getElementById('hd-adv-soon');
+  if (!tip) {
+    tip = document.createElement('span');
+    tip.id = 'hd-adv-soon';
+    tip.textContent = 'Coming soon';
+    tip.style.cssText = 'margin-left:8px;padding:4px 10px;border-radius:12px;background:#1f2d50;color:#fff;font-size:0.85em;vertical-align:middle;';
+    btn.parentNode.insertBefore(tip, btn.nextSibling);
+  }
+  tip.style.display = '';
+  clearTimeout(tip._hdT);
+  tip._hdT = setTimeout(function () { tip.style.display = 'none'; }, 2200);
 }
 
 function hdRenderFilteredView() {

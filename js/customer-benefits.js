@@ -120,13 +120,13 @@ var cbDataset = [
     "id": 10,
     "section": "main",
     "lead": "Your choices, not algorithmic ones",
-    "body": "U-Haven hides channels you have decided not to see. Adult content is opt-in — and so is everything else, trackers included. Every category is your call.",
+    "body": "Adult content is opt-in — and so is everything else, trackers included. Every category is your call.",
     "family_rank": 10,
     "privacy_rank": 5,
     "family_lead": null,
     "privacy_lead": null,
     "related_feature_ids": "8,19",
-    "details": "<p>The standard YouTube and social-media apps decide what to recommend to you. U-Haven (companion Android app) puts that decision back in your hands — hide channels and providers you have decided you do not want in your feed. On Haven itself: adult content is off by default; an admin can opt in to block it. Trackers are blocked. Mobile game ads are blocked. The defaults respect that you are an adult making your own choices, not a target for algorithmic shaping.</p>",
+    "details": "<p>On Haven, adult content is off by default; an admin can opt in to block it. Trackers are blocked. Mobile game ads are blocked. The defaults respect that you are an adult making your own choices, not a target for algorithmic shaping.</p><p>Coming soon: U-Haven, a companion app that carries those choices onto YouTube itself — hiding channels you have decided you do not want in your feed.</p>",
     "link": null
   },
   {
@@ -244,19 +244,6 @@ var cbDataset = [
     "privacy_lead": null,
     "related_feature_ids": null,
     "details": "<p>Ad and tracker blocking is a category like any other in Haven — off until you turn it on. Flip it on once and Haven refuses known ad servers and trackers network-wide, so pages load lighter and cleaner on every device in the place — no browser extension to install, no per-device setup.</p>",
-    "link": null
-  },
-  {
-    "id": 20,
-    "section": "main",
-    "lead": "Give yourself thirty minutes — then it re-blocks itself",
-    "body": "That channel is normally blocked. You heard they said something about your candidate, so you grant yourself thirty minutes to go look — and when the timer runs out, the filter comes back on by itself. You never have to remember to turn it off again.",
-    "family_rank": 20,
-    "privacy_rank": 20,
-    "family_lead": null,
-    "privacy_lead": null,
-    "related_feature_ids": null,
-    "details": "<p>Alongside the plain block switch, every provider has a <strong>Delayed Filter</strong>. Turn it on and that category stays reachable for a set window — thirty minutes from the moment you click, by default — then filtering resumes automatically. It is a budget, not a battle: hand a kid a measured daily allowance of TikTok, or give yourself a short, self-closing window to check something you normally keep blocked. Either way nobody has to remember to switch it back off.</p>",
     "link": null
   },
   {
