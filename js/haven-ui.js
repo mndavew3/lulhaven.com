@@ -19,7 +19,7 @@
 // A stale pin is now caught mechanically by hearst-preflight.sh, which compares this
 // constant against the newest built image before any publish — the previous audit was
 // 2026-08-13 and nothing noticed for eight days.
-var HD_CURRENT_VERSION = '0.1.101'; // audited 2026-09-14: 0.1.100 (haven-screen-hid, physical panel only) and 0.1.101 (root-creds poller removal, server-side) shipped zero Helm-UI changes — 0.1.99 parity carries forward
+var HD_CURRENT_VERSION = '0.1.102'; // audited 2026-09-14: 0.1.102 (mod #121, Helm main.htm rename catch-up) brings the router UI in line with what this demo already shows — the renamed categories (Controversial News & Commentary, Impersonation & High-Cost Lending) were published to js/haven-data.js in an earlier session, so the demo led and the firmware caught up, not the reverse
 
 var hdNameGroups = {};
 var hdKeyNameMap = {};
