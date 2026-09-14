@@ -1,5 +1,71 @@
-// generated from haven_wiki.db accomplishments — 787 rows, newest id 802
+// generated from haven_wiki.db accomplishments — 793 rows, newest id 808
 var milestonesDataset = [
+  {
+    "id": 807,
+    "date": "2026-09-14",
+    "theme": "Email notifications",
+    "impact": 4,
+    "summary": "Contest sign-up confirmations now arrive in your inbox, proven end to end with a live send after the site went out.",
+    "detail": "Email delivery is wired to a verified sending domain for lulhaven.com and confirmed with an actual test message delivered after the deploy — not a configuration that merely looks right.",
+    "benefit": "When you enter the build contest you get a real confirmation you can point at, instead of wondering whether your entry registered.",
+    "ref": "aa145b0a2c",
+    "features": []
+  },
+  {
+    "id": 806,
+    "date": "2026-09-14",
+    "theme": "Marketing & website",
+    "impact": 4,
+    "summary": "The download page now tells you the awkward parts up front: DSL sign-in details do not survive the flash, and the virtual image will not run on an Apple Silicon Mac.",
+    "detail": "Per-flavor notes on the Get Haven gate. Olive and Navy tell you that DSL/PPPoE sign-in credentials are cleared by the flash and will need re-entering. The virtual image states plainly that Apple Silicon Macs cannot run it. The rules page also gained a straight answer on updates: they are simply free through November 1, with nothing to register.",
+    "benefit": "You find out what a Haven install will and will not do on your setup before you download it, not halfway through when your internet is already down.",
+    "ref": "d90739b5ba",
+    "features": []
+  },
+  {
+    "id": 805,
+    "date": "2026-09-14",
+    "theme": "Marketing & website",
+    "impact": 4,
+    "summary": "Walked the whole path a build-contest participant takes through lulhaven.com and took thirty separate opportunities to sharpen it — clearer wording, links that land where they say, and more careful handling of what people send us.",
+    "detail": "An end-to-end review of the participant journey, from the first page through the submission form, surfaced thirty confirmed opportunities and all thirty were taken: wording made more precise, navigation made to land where it promises, and tighter handling of the information people send us.",
+    "benefit": "Anyone joining the build contest gets pages that say exactly what is true, links that go where they claim, and their submitted details handled with more care.",
+    "ref": "7032d6a2e5",
+    "features": []
+  },
+  {
+    "id": 803,
+    "date": "2026-09-14",
+    "theme": "Haven Helm",
+    "impact": 4,
+    "summary": "Haven 0.1.102 went out to all four Haven flavors on the same day, and the update notice on your router stopped shouting a version number at you.",
+    "detail": "One release, four images, each checked byte for byte before it left the bench. The Helm banner now reads 'A Haven update is available' rather than naming a version, because the version is our bookkeeping, not yours.",
+    "benefit": "Your router tells you an update is ready in plain words instead of a number you would have to look up, and every Haven — Olive, Navy, Raspberry, or the virtual one — is on the same release.",
+    "ref": "4f5030721f",
+    "features": []
+  },
+  {
+    "id": 804,
+    "date": "2026-09-14",
+    "theme": "Haven Helm",
+    "impact": 3,
+    "summary": "Olive Haven units now show Olive artwork in the Helm, and the line telling you which version you are running is easy to read at a glance.",
+    "detail": "Each Haven flavor carries its own art through the Helm sign-in, and the running-version line was given the contrast it needed to read clearly.",
+    "benefit": "The screen you sign in to looks like the router sitting on your shelf, and your version is readable without leaning in.",
+    "ref": "6d6b7bcc5b",
+    "features": []
+  },
+  {
+    "id": 808,
+    "date": "2026-09-13",
+    "theme": "Marketing & website",
+    "impact": 5,
+    "summary": "Haven images are now a direct download: four archives on one page, each with its image, its setup notes and its checksums, and no code to request first.",
+    "detail": "A single Get Haven page carries all four flavors as direct archives, each bundling the image, a setup README and checksums, with the Olive archive also carrying its recovery installer. A responsibilities page sits ahead of the download and says plainly what is and is not guaranteed. If your router is not supported, the page tells you so and lets you register demand for it, with the virtual image offered as the way to try Haven today.",
+    "benefit": "You click once and the file starts, and you can check for yourself that what landed on your disk is exactly what we published.",
+    "ref": "28c5fbc43d",
+    "features": []
+  },
   {
     "id": 802,
     "date": "2026-09-10",
