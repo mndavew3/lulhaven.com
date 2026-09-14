@@ -8,6 +8,15 @@
 // recent transaction is still within its term. No PII in the response — a
 // boolean, a reason, and the term end are all a router's own status, and a
 // router only ever asks about its own serial.
+//
+// CONTEST FREE GRANT (Dave, 2026-09-14): while CONTEST_ACTIVE=1, an otherwise
+// unentitled serial gets exactly ONE entitled=true answer, provided it's a
+// real provisioned unit (present in issued_serials — closes the made-up-
+// serial abuse path). The grant is recorded and never repeats, even across
+// contest windows in future years. This is deliberately narrower than a
+// subscription grant: no customer row, no email, no transaction — it exists
+// only to make good on "your blocklists update for free while the Challenge
+// is open," and it stops the instant the flag comes down.
 import { findRegisteredProduct, currentTransaction, isCurrentlyActive } from "../_lib/pricing.js";
 
 const CORS = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Methods": "GET, OPTIONS", "Access-Control-Allow-Headers": "Content-Type" };
@@ -47,8 +56,33 @@ export async function onRequestGet({ request, env }) {
     if (product) tx = await currentTransaction(env, product.id);
   } catch { return json({ entitled: false, reason: "server_error" }, 500); }
 
+  if (product && tx && isCurrentlyActive(tx)) {
+    return json({ entitled: true, reason: "active", current_period_end: tx.term_end, is_test: !!product.is_test });
+  }
+
+  // No active subscription. While the Challenge is live, give this serial its
+  // one free grant — but only if it's a real provisioned unit and hasn't
+  // already used it.
+  const contestLive = env.CONTEST_ACTIVE === "1"
+    && (!env.CONTEST_END || Math.floor(Date.now() / 1000) <= Number(env.CONTEST_END));
+  if (contestLive) {
+    try {
+      const issued = await env.haven_builds.prepare(
+        "SELECT 1 FROM issued_serials WHERE serial=?").bind(serial).first();
+      if (issued) {
+        const already = await env.haven_builds.prepare(
+          "SELECT 1 FROM contest_free_feed_grant WHERE serial=?").bind(serial).first();
+        if (!already) {
+          await env.haven_builds.prepare(
+            "INSERT INTO contest_free_feed_grant (serial, granted_datetime) VALUES (?, ?)"
+          ).bind(serial, new Date().toISOString()).run();
+          return json({ entitled: true, reason: "contest_free_grant" });
+        }
+      }
+    } catch { /* fail closed into the normal reasons below on any DB error */ }
+  }
+
   if (!product) return json({ entitled: false, reason: "not_registered" });
   if (!tx) return json({ entitled: false, reason: "lapsed" });
-  if (!isCurrentlyActive(tx)) return json({ entitled: false, reason: "term_ended" });
-  return json({ entitled: true, reason: "active", current_period_end: tx.term_end, is_test: !!product.is_test });
+  return json({ entitled: false, reason: "term_ended" });
 }

@@ -135,8 +135,8 @@ export async function onRequestPost(context) {
         to: opTo,
         subject: `New Challenge survey: ${router}`.slice(0, 120),
         text: `Router: ${router}\nJudge interest: ${judge_interest ? "yes" : "no"}\nEmail: ${email || "(none)"}\n`
-            + `Priority note: ${priority_note || "(none)"}\nJudge background: ${judge_background || "(none)"}\n`
-            + `IP: ${ip || "(none)"}\n\nView all: https://lulhaven.com/submissions`,
+            + `Priority note: ${priority_note || "(none)"}\nJudge background: ${judge_background || "(none)"}\n\n`
+            + `View all: https://lulhaven.com/submissions`,
         html: `<h3>New Challenge survey submission</h3><ul>`
             + `<li><b>Router:</b> ${esc(router)}</li>`
             + `<li><b>Judge interest:</b> ${judge_interest ? "yes" : "no"}</li>`
