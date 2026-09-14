@@ -101,7 +101,7 @@
     <p>Haven is software &mdash; it is hosted on your network. And Haven stands in the breach. The Challenge is an open invitation to the most capable people on the planet to find where it doesn&rsquo;t.</p>
     <p class="lede">A published scope. An open window. No frozen build &mdash; we patch as we go, and every finding is credited to the version you found it on. Find what we missed &mdash; and get credit for it.</p>
     <p><strong>Leaderboards, plural.</strong> An overall board, and one for each class of adversary &mdash; so there&rsquo;s more than one way to claim first blood, and more than one board to top. Every confirmed finding is credited to the name that found it.</p>
-    <p>It&rsquo;s not live yet. But the list is open. Get on it, and we&rsquo;ll tell you the moment the gates open.</p>
+    <p>The download is open &mdash; get set up now, and anything you find already counts. The gates open October&nbsp;1.</p>
   </div>
 </section>
 
@@ -139,38 +139,22 @@
 
 <section id="list">
   <div class="wrap">
-    <h2>Get on the list</h2>
-    <p class="note">The Challenge isn&rsquo;t live yet &mdash; but the list is open. Tell us who you are and what you&rsquo;d run Haven on, and we&rsquo;ll be in touch the moment it opens.</p>
-    <p class="note"><strong>No router needed.</strong> A ready-to-run virtual machine image turns the computer you already have into a Haven test bench &mdash; that&rsquo;s the whole Challenge for most people (x86-64 PCs and Intel Macs; Apple Silicon Macs can&rsquo;t run the image). Prefer your own hardware? Firmware is ready today for Raspberry Pi, GL.iNet GL-MT6000, and Linksys E8450. <strong>On something else?</strong> Tell us &mdash; it helps us decide what to build next.</p>
-    <form id="prereg-form">
+    <h2>Get Haven, then come break it</h2>
+    <p class="note">Everything downloads from one place &mdash; pick your hardware, read one page of
+       plain talk about what you&rsquo;re taking on, and the file is yours. No sign-up, no waiting list,
+       no download codes.</p>
+    <p style="margin:18px 0;"><a class="btn-cta" style="display:inline-block;text-decoration:none;background:var(--navy);color:#fff;border-radius:8px;padding:14px 30px;font-size:1.1rem;font-weight:700;" href="get-haven.html">Download Haven &rarr;</a></p>
+    <p class="note" style="margin-top:22px;"><strong>Router we don&rsquo;t build for yet?</strong> Tell us the model
+       &mdash; we need the lead time &mdash; and where to reach you when an image for it exists.</p>
+    <form id="tellus-form" style="max-width:560px;">
       <div class="row">
-        <div><label for="p-name">Name</label><input id="p-name" name="name" autocomplete="name" required></div>
-        <div><label for="p-email">Email</label><input id="p-email" name="email" type="email" autocomplete="email" required></div>
+        <div><label for="t-model">Router model</label><input id="t-model" name="target_router_other" placeholder="Make &amp; model" required></div>
+        <div><label for="t-name">Name or handle</label><input id="t-name" name="name" required></div>
       </div>
       <div class="row">
-        <div><label for="p-router">What you&rsquo;d run it on</label>
-          <select id="p-router" name="target_router">
-            <option value="">Choose&hellip;</option>
-            <option>Virtual machine &mdash; no router needed</option>
-            <option>Raspberry Pi</option>
-            <option>GL.iNet GL-MT6000 (Navy)</option>
-            <option>Linksys E8450 (Olive)</option>
-            <option>Something else</option>
-          </select></div>
-        <div><label for="p-router-other">If something else, which?</label>
-          <input id="p-router-other" name="target_router_other" placeholder="Make &amp; model"></div>
+        <div><label for="t-email">Email</label><input id="t-email" name="email" type="email" required></div>
       </div>
-      <div class="row">
-        <div><label for="p-handle">Handle / channel <span class="note">(optional)</span></label><input id="p-handle" name="handle" placeholder="@yourhandle"></div>
-        <div><label for="p-platform">Where you publish <span class="note">(optional)</span></label>
-          <select id="p-platform" name="platform">
-            <option value="">Choose&hellip;</option>
-            <option>YouTube</option><option>Twitch</option><option>X / Twitter</option>
-            <option>TikTok</option><option>Blog / Site</option><option>Forum (e.g. OpenWrt)</option>
-            <option>Other</option>
-          </select></div>
-      </div>
-      <button class="submit" type="submit">Put me on the list</button>
+      <button class="submit" type="submit">Ask for my router</button>
       <div id="msg"></div>
     </form>
   </div>
@@ -180,27 +164,19 @@
 
 <script>
 (function(){
-  var form = document.getElementById("prereg-form");
+  var form = document.getElementById("tellus-form");
   var msg  = document.getElementById("msg");
   form.addEventListener("submit", function(e){
     e.preventDefault();
     msg.style.color = "#1a237e";
     msg.textContent = "Sending…";
-    var data = {
-      stage:               "prereg",
-      name:                form.name.value,
-      email:               form.email.value,
-      handle:              form.handle.value,
-      platform:            form.platform.value,
-      target_router:       form.target_router.value,
-      target_router_other: form.target_router_other.value
-    };
     fetch("/api/challenge", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data)
+      body: JSON.stringify({ name: form.name.value, email: form.email.value,
+                             target_router_other: form.target_router_other.value })
     }).then(function(r){ return r.json(); }).then(function(j){
-      if (j && j.ok) { msg.style.color = "#1b6b2a"; msg.textContent = "You&rsquo;re on the list. We&rsquo;ll be in touch the moment the Challenge opens."; form.reset(); }
+      if (j && j.ok) { msg.style.color = "#1b6b2a"; msg.textContent = "Got it — we\u2019ll email you when an image for it exists."; form.reset(); }
       else { msg.style.color = "#b3261e"; msg.textContent = (j && j.error) || "Something went wrong. Please try again."; }
     }).catch(function(){
       msg.style.color = "#b3261e"; msg.textContent = "Network error. Please try again.";
