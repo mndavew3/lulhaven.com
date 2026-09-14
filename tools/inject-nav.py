@@ -55,8 +55,10 @@ BEACON = (
 def ensure_beacon(html: str) -> str:
     """Guarantee the KYC beacon (js/kyc.js) is on the page so every pageview
     and click is captured. No-op if the page already references js/kyc.js;
-    otherwise inject before </body>. build.py restamps the ?v= content hash."""
-    if "js/kyc.js" in html:
+    otherwise inject before </body>. build.py restamps the ?v= content hash.
+    Pages carrying HAVEN-KYC-EXEMPT are skipped: the download flow promises
+    "Nothing in this process contacts us or identifies you" (task_ladder #59)."""
+    if "HAVEN-KYC-EXEMPT" in html or "js/kyc.js" in html:
         return html
     idx = html.lower().rfind("</body>")
     if idx == -1:
