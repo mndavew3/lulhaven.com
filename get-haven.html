@@ -83,6 +83,7 @@
    <li>The archive contains firmware, step-by-step instructions, and possibly, helper scripts.</li>
    <li>Nothing in this process contacts us or identifies you. You enter the Challenge only when you file your first finding.</li>
    <li>Our humble suggestion is to back up your original firmware before you start and practice on expendable equipment until you are confident in the process.</li>
+   <li id="g-note" style="display:none;"></li>
   </ul>
   <p class="lede"><b>By clicking below, you accept responsibility for the outcome.</b></p>
  </div>
@@ -109,8 +110,14 @@
                 vm:["Virtual Machine","VM image and instructions \u2014 no router needed","assets/images/haven-ui-724x437.png"] };
  window.go = function(id){ document.querySelectorAll('.view').forEach(function(v){v.classList.remove('on');});
    document.getElementById(id).classList.add('on'); window.scrollTo(0,0); };
+ var NOTES = { olive:"One more thing: if your internet login (a DSL or fiber PPPoE username and password) is stored in this router, write it down before you start — flashing replaces the firmware that holds it, and your internet provider may not make it easy to get back.",
+               navy:"One more thing: if your internet login (a DSL or fiber PPPoE username and password) is stored in this router, write it down before you start — flashing replaces the firmware that holds it, and your internet provider may not make it easy to get back.",
+               vm:"This image runs on x86 computers — ordinary PCs and Intel Macs. Apple Silicon Macs (M1–M4) cannot run it." };
  window.gate = function(fl){ model = fl;
    var f = manifest.flavors[fl];
+   var n = document.getElementById('g-note');
+   if (NOTES[fl]) { n.innerHTML = '<b>' + NOTES[fl] + '</b>'; n.style.display = ''; }
+   else { n.style.display = 'none'; }
    document.getElementById('g-img').src = LABELS[fl][2];
    document.getElementById('g-model').textContent = LABELS[fl][0];
    document.getElementById('g-meta').textContent = 'Haven ' + manifest.version + ' \u00b7 ' +
