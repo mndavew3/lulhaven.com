@@ -18,7 +18,7 @@
 // AUTH: the submitter must be a logged-in Challenge participant (session cookie).
 // The claim is attributed to their account username; email is taken from the
 // account, not a free-text field.
-import { readSession } from "../_lib/account.js";
+import { readSession, ctEqual } from "../_lib/account.js";
 import { grantChallengeFreeMonth } from "../_lib/pricing.js";
 import { isTestRequest, headerTestKey } from "../_lib/testmode.js";
 
@@ -156,14 +156,14 @@ export async function onRequestPost(context) {
     serial = claim.s; tExport = claim.t_export;
 
     // #3 the token binds to THIS file's payload.
-    if (await sha256hex(file.payload) !== String(claim.h).toLowerCase()) {
+    if (!ctEqual(await sha256hex(file.payload), String(claim.h).toLowerCase())) {
       return json({ error: "content_token_mismatch" }, 400);
     }
     // #4 device proof — fail CLOSED against the issued-serial registry.
     let reg = null;
     try { reg = await env.haven_builds.prepare("SELECT unit_nonce FROM issued_serials WHERE serial=?").bind(serial).first(); } catch {}
     if (!reg || !reg.unit_nonce) return json({ error: "device_forgery" }, 400);
-    if (await sha256hex(`${reg.unit_nonce}|${claim.h}`) !== String(file.pop).toLowerCase()) {
+    if (!ctEqual(await sha256hex(`${reg.unit_nonce}|${claim.h}`), String(file.pop).toLowerCase())) {
       return json({ error: "device_forgery" }, 400);
     }
     // #5 UNIQUE(attestation): a stolen/re-used file is not auto-credited to whoever submits second.

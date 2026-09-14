@@ -19,7 +19,7 @@ function b64url(bytes) { let s = ""; for (const b of bytes) s += String.fromChar
 function fromB64url(s) { s = s.replace(/-/g,"+").replace(/_/g,"/"); while (s.length % 4) s += "="; const bin = atob(s), a = new Uint8Array(bin.length); for (let i=0;i<bin.length;i++) a[i]=bin.charCodeAt(i); return a; }
 
 // Constant-time-ish compare of two equal-length hex strings.
-function ctEqual(a, b) {
+export function ctEqual(a, b) {
   if (typeof a !== "string" || typeof b !== "string" || a.length !== b.length) return false;
   let d = 0; for (let i = 0; i < a.length; i++) d |= a.charCodeAt(i) ^ b.charCodeAt(i);
   return d === 0;

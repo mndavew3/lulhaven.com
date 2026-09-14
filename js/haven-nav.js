@@ -14,7 +14,7 @@
     { label: "About us",  href: "about.html",    tip: "Who we are" }
   ];
   var CTA = { label: "Start now", href: "index.html#notify" };
-  var CHALLENGE = { label: "⚡ The Challenge", href: "challenge-preview.html" };
+  var CHALLENGE = { label: "⚡ The Challenge", href: "challenge.html" };
   // Pulled out of LINKS to get the same pill+badge treatment as Challenge
   // (Dave, 2026-08-07): "take all of its cues from the challenge menu option" —
   // same pill, same blinking badge, badge text FRESH instead of NEW.

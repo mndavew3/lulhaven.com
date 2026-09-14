@@ -12,6 +12,8 @@
 // is provenance + a device-bound anchor. Fails CLOSED: no issued-serial match or
 // no pop match ⇒ { active:false }, so a fabricated serial gets no token.
 
+import { ctEqual } from "../_lib/account.js";
+
 const CORS = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "POST, OPTIONS",
@@ -108,7 +110,7 @@ export async function onRequestPost(context) {
   } catch { reg = null; }
   if (!reg || !reg.unit_nonce) return json({ active: false });
   const expectPop = await sha256hex(`${reg.unit_nonce}|${content_hash}`);
-  if (expectPop !== pop.toLowerCase()) return json({ active: false });
+  if (!ctEqual(expectPop, pop.toLowerCase())) return json({ active: false });
 
   // Mint the token.
   const now = Date.now();

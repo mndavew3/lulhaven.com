@@ -2,7 +2,7 @@
 // Body: { username, code, password, password2 }. Verifies the reset code (expiry +
 // try-cap), then re-hashes the new password (one-way, salted, peppered — same as
 // register) and clears the reset code. Rate-limited on IP.
-import { hashPassword, rules } from "../_lib/account.js";
+import { hashPassword, rules, ctEqual } from "../_lib/account.js";
 
 const CORS = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Methods": "POST, OPTIONS", "Access-Control-Allow-Headers": "Content-Type" };
 const MAX_TRIES = 5, RATE_WINDOW = 3600, RATE_MAX_IP = 30;
@@ -42,7 +42,7 @@ export async function onRequestPost({ request, env }) {
   if (row.reset_tries >= MAX_TRIES) return json({ error: "Too many attempts. Request a new reset code." }, 429);
   if (Math.floor(Date.now() / 1000) > row.reset_code_expiry) return json({ error: "That code has expired. Request a new reset code." }, 410);
 
-  if (code !== row.reset_code) {
+  if (!ctEqual(code, row.reset_code)) {
     try { await env.haven_builds.prepare(
       "UPDATE contest_accounts SET reset_tries = reset_tries + 1 WHERE username_lc=?"
     ).bind(username.toLowerCase()).run(); } catch {}

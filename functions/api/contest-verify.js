@@ -1,5 +1,6 @@
 // POST /api/contest-verify — echo the emailed code to activate an account.
 // Body: { username, code }. On success the account is verified (still must log in).
+import { ctEqual } from "../_lib/account.js";
 const CORS = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Methods": "POST, OPTIONS", "Access-Control-Allow-Headers": "Content-Type" };
 const MAX_TRIES = 5;
 const RATE_WINDOW = 3600, RATE_MAX_IP = 20;
@@ -42,7 +43,7 @@ export async function onRequestPost({ request, env }) {
   if (row.code_tries >= MAX_TRIES) return json({ error: "Too many attempts. Use “Resend code” to get a fresh one." }, 429);
   if (Math.floor(Date.now() / 1000) > row.code_expiry) return json({ error: "That code has expired. Use “Resend code” to get a fresh one." }, 410);
 
-  if (code !== row.code) {
+  if (!ctEqual(code, row.code)) {
     try { await env.haven_builds.prepare(
       "UPDATE contest_accounts SET code_tries = code_tries + 1 WHERE username_lc=?"
     ).bind(username.toLowerCase()).run(); } catch {}
