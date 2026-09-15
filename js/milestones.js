@@ -1,5 +1,16 @@
-// generated from haven_wiki.db accomplishments — 793 rows, newest id 808
+// generated from haven_wiki.db accomplishments — 794 rows, newest id 809
 var milestonesDataset = [
+  {
+    "id": 809,
+    "date": "2026-09-15",
+    "theme": "Burn procedure & build station",
+    "impact": 4,
+    "summary": "A full recovery burn on the bench put the installer through its complete flash-and-install path, and we hardened three of its steps the very same day — each proven again on real hardware before it could ever reach a customer.",
+    "detail": null,
+    "benefit": "Every installer step gets proven on our bench, on real hardware, before it reaches your network.",
+    "ref": "ee00a13234",
+    "features": []
+  },
   {
     "id": 807,
     "date": "2026-09-14",
