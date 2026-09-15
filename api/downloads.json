@@ -1,55 +1,55 @@
 {
- "version": "0.1.102",
- "generated_utc": "2026-09-14 21:11:30",
+ "version": "0.1.103",
+ "generated_utc": "2026-09-15 00:31:54",
  "flavors": {
   "olive": {
    "title": "Linksys E8450",
-   "file": "haven-olive-0.1.102.zip",
-   "size": 74315261,
-   "sha256": "b97e0dc44d1d6d6dc21d4801dcddabbefb745b2065421d877cde2f81ab098b8c",
+   "file": "haven-olive-0.1.103.zip",
+   "size": 74721138,
+   "sha256": "f1e083f6803bf180fb74ec4a734602a4590b309c1eafa3025f6603df11d7ef08",
    "contents": [
     "openwrt-24.10.0-mediatek-mt7622-linksys_e8450-ubi-initramfs-recovery-installer.itb",
-    "openwrt-25.12.5-haven-0.1.102-mediatek-mt7622-linksys_e8450-ubi-squashfs-sysupgrade.itb",
+    "openwrt-25.12.5-haven-0.1.103-mediatek-mt7622-linksys_e8450-ubi-squashfs-sysupgrade.itb",
     "README.txt",
     "checksums.txt"
    ],
-   "url": "https://pub-37d0a3fa28b1485cbe594b4b7123c524.r2.dev/haven-olive-0.1.102.zip"
+   "url": "https://pub-37d0a3fa28b1485cbe594b4b7123c524.r2.dev/haven-olive-0.1.103.zip"
   },
   "navy": {
    "title": "GL.iNet GL-MT6000",
-   "file": "haven-navy-0.1.102.zip",
-   "size": 58669482,
-   "sha256": "84a3c19da752fa728f40025e6ed0cb212d8b1ac24d1cb83213ad4458e58660aa",
+   "file": "haven-navy-0.1.103.zip",
+   "size": 59075437,
+   "sha256": "e695dd2b8fe75b5179dd3fd451dcf920d8a01d4e52227d24d59bd24ce1c3ac54",
    "contents": [
-    "openwrt-25.12.5-haven-0.1.102-mediatek-filogic-glinet_gl-mt6000-squashfs-sysupgrade.bin",
+    "openwrt-25.12.5-haven-0.1.103-mediatek-filogic-glinet_gl-mt6000-squashfs-sysupgrade.bin",
     "README.txt",
     "checksums.txt"
    ],
-   "url": "https://pub-37d0a3fa28b1485cbe594b4b7123c524.r2.dev/haven-navy-0.1.102.zip"
+   "url": "https://pub-37d0a3fa28b1485cbe594b4b7123c524.r2.dev/haven-navy-0.1.103.zip"
   },
   "pi": {
    "title": "Raspberry Pi 5",
-   "file": "haven-pi-0.1.102.zip",
-   "size": 61360401,
-   "sha256": "82aae59421febcfec1f02856c95f0aaab7c0e8fe74cbeebd92784cd6b6482c83",
+   "file": "haven-pi-0.1.103.zip",
+   "size": 61765975,
+   "sha256": "c1b2cb7b91fed3c5a9d7122e160a69ee9b7dcacfed6825d3294187969fc22e13",
    "contents": [
-    "openwrt-25.12.5-haven-0.1.102-bcm27xx-bcm2712-rpi-5-squashfs-sysupgrade.img.gz",
+    "openwrt-25.12.5-haven-0.1.103-bcm27xx-bcm2712-rpi-5-squashfs-sysupgrade.img.gz",
     "README.txt",
     "checksums.txt"
    ],
-   "url": "https://pub-37d0a3fa28b1485cbe594b4b7123c524.r2.dev/haven-pi-0.1.102.zip"
+   "url": "https://pub-37d0a3fa28b1485cbe594b4b7123c524.r2.dev/haven-pi-0.1.103.zip"
   },
   "vm": {
    "title": "Virtual Machine",
-   "file": "haven-vm-0.1.102.zip",
-   "size": 64120937,
-   "sha256": "6eb062e41c6840114cb325174cdec9355ec855451b4fa469dc0cf7bbd8cf4786",
+   "file": "haven-vm-0.1.103.zip",
+   "size": 64527049,
+   "sha256": "dd3ae5a4abcb24bad4526016fcd8964426e258b568401f26ccb7a73adf72d191",
    "contents": [
-    "openwrt-25.12.5-haven-0.1.102-x86-64-generic-squashfs-combined.img.gz",
+    "openwrt-25.12.5-haven-0.1.103-x86-64-generic-squashfs-combined.img.gz",
     "README.txt",
     "checksums.txt"
    ],
-   "url": "https://pub-37d0a3fa28b1485cbe594b4b7123c524.r2.dev/haven-vm-0.1.102.zip"
+   "url": "https://pub-37d0a3fa28b1485cbe594b4b7123c524.r2.dev/haven-vm-0.1.103.zip"
   }
  }
 }
