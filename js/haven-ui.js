@@ -19,7 +19,7 @@
 // A stale pin is now caught mechanically by hearst-preflight.sh, which compares this
 // constant against the newest built image before any publish — the previous audit was
 // 2026-08-13 and nothing noticed for eight days.
-var HD_CURRENT_VERSION = '0.1.102'; // audited 2026-09-14: 0.1.102 (mod #121, Helm main.htm rename catch-up) brings the router UI in line with what this demo already shows — the renamed categories (Controversial News & Commentary, Impersonation & High-Cost Lending) were published to js/haven-data.js in an earlier session, so the demo led and the firmware caught up, not the reverse
+var HD_CURRENT_VERSION = '0.1.103'; // audited 2026-09-14 (second audit today): 0.1.103 carries mods #122 (update banner drops the version number — this demo's banner text is aligned to the same string below) and #123 (Olive theme art + version-line legibility in the router argon header — no demo surface at all). Nothing else changed router UI.
 
 var hdNameGroups = {};
 var hdKeyNameMap = {};
@@ -905,7 +905,7 @@ function hdCheckUpdate() {
   hdUpdateCheckCount++;
   setTimeout(function () {
     if (hdUpdateCheckCount % 2 === 1) {
-      document.getElementById('hd-update-text').textContent = 'A newer version of Haven is available.';
+      document.getElementById('hd-update-text').textContent = 'A Haven update is available.';
       document.getElementById('hd-update-banner').style.display = '';
       s.textContent = '';
     } else {
