@@ -1,4 +1,4 @@
-// generated from haven_wiki.db accomplishments — 794 rows, newest id 809
+// generated from haven_wiki.db accomplishments — 795 rows, newest id 810
 var milestonesDataset = [
   {
     "id": 809,
@@ -9,6 +9,17 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "Every installer step gets proven on our bench, on real hardware, before it reaches your network.",
     "ref": "ee00a13234",
+    "features": []
+  },
+  {
+    "id": 810,
+    "date": "2026-09-15",
+    "theme": "Helm UI",
+    "impact": 3,
+    "summary": "The Helm now opens in Basic mode by default on every router; the Advanced view is gated behind the premium add-on entitlement instead of being one accidental click away.",
+    "detail": null,
+    "benefit": "A new customer always lands in the simple view — expert controls appear only after opting into the premium add-on.",
+    "ref": "6b8dee9029",
     "features": []
   },
   {

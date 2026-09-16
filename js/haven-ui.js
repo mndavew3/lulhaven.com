@@ -19,7 +19,7 @@
 // A stale pin is now caught mechanically by hearst-preflight.sh, which compares this
 // constant against the newest built image before any publish — the previous audit was
 // 2026-08-13 and nothing noticed for eight days.
-var HD_CURRENT_VERSION = '0.1.103'; // audited 2026-09-14 (second audit today): 0.1.103 carries mods #122 (update banner drops the version number — this demo's banner text is aligned to the same string below) and #123 (Olive theme art + version-line legibility in the router argon header — no demo surface at all). Nothing else changed router UI.
+var HD_CURRENT_VERSION = '0.1.104'; // audited 2026-09-15: 0.1.104 carries mods #124 (Advanced toggle answers "Coming soon" instead of switching modes — this demo already shipped the same gate, see hdToggleMode below) and #131 (Helm booted into Advanced when the browser had no saved mode — no demo surface at all: the demo persists only 'havenDemo' state, has no mode key in localStorage, and hdBasicMode is pinned true at init). Nothing else changed router UI.
 
 var hdNameGroups = {};
 var hdKeyNameMap = {};
