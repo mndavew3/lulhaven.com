@@ -1,5 +1,16 @@
-// generated from haven_wiki.db accomplishments — 795 rows, newest id 810
+// generated from haven_wiki.db accomplishments — 796 rows, newest id 811
 var milestonesDataset = [
+  {
+    "id": 811,
+    "date": "2026-09-19",
+    "theme": "Product definition",
+    "impact": 4,
+    "summary": "Made the display standard on every Haven router: each unit now ships in a custom case with its own screen built in, a five-inch screen on the Olive Green model and a seven-inch on the Navy Blue.",
+    "detail": "The Navy Blue router carries a seven-inch screen seated in a slot sized for a standard Android tablet, so the screen is a part you can service on its own and Haven supplies a replacement built to run all day in that position. The Olive Green model carries a five-inch screen. The tablet runs a plain stock Android build that starts straight into Haven.",
+    "benefit": "You can see what your network is doing by walking past the router, with no app to open and no phone in hand — and the screen stays a part you can service on its own, with the router running throughout.",
+    "ref": "0559e7df-1f",
+    "features": []
+  },
   {
     "id": 809,
     "date": "2026-09-15",
