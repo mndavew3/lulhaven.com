@@ -1,5 +1,16 @@
-// generated from haven_wiki.db accomplishments — 796 rows, newest id 811
+// generated from haven_wiki.db accomplishments — 797 rows, newest id 812
 var milestonesDataset = [
+  {
+    "id": 812,
+    "date": "2026-09-20",
+    "theme": "Product definition",
+    "impact": 3,
+    "summary": "The console screen that ships with every Haven router now has a proven recovery path: its entire system image was captured, restored from that capture, and booted clean on the bench.",
+    "detail": null,
+    "benefit": "Your Haven's screen can be returned to a known-good state at any time, on the spot, without new hardware.",
+    "ref": "3313c6d7",
+    "features": []
+  },
   {
     "id": 811,
     "date": "2026-09-19",
