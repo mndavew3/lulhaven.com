@@ -1,5 +1,16 @@
-// generated from haven_wiki.db accomplishments — 797 rows, newest id 812
+// generated from haven_wiki.db accomplishments — 798 rows, newest id 813
 var milestonesDataset = [
+  {
+    "id": 813,
+    "date": "2026-09-20",
+    "theme": "Product definition",
+    "impact": 3,
+    "summary": "The console screen that ships with every Haven router was moved onto a current-generation Android with a 2025 security patch level, and the procedure to put it there was turned into a single script that runs the same way every time.",
+    "detail": "The screen now runs a current Android with a June 2025 security patch, three months newer than what it shipped with, and none of the factory-installed extras that came on it. Two candidate systems were tested on the same screen the same afternoon; the one that came up clean is what ships. Putting a screen into that exact state is now one repeatable procedure rather than a sequence someone has to remember, including the clean-out step that has to happen at one specific moment to work at all. A separate safeguard holds the screen's battery near 80 percent so it lasts under being powered all day, every day.",
+    "benefit": "The screen on your Haven runs a current, clean system with no factory leftovers, and Haven can put a replacement screen in exactly that state on demand rather than one unit at a time.",
+    "ref": "af6bb98f",
+    "features": []
+  },
   {
     "id": 812,
     "date": "2026-09-20",
