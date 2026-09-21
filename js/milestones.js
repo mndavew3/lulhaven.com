@@ -1,5 +1,38 @@
-// generated from haven_wiki.db accomplishments — 798 rows, newest id 813
+// generated from haven_wiki.db accomplishments — 801 rows, newest id 816
 var milestonesDataset = [
+  {
+    "id": 815,
+    "date": "2026-09-21",
+    "theme": "Product definition",
+    "impact": 3,
+    "summary": "The console screen that ships with every Haven router now looks after its own battery.",
+    "detail": "The screen that comes with a Haven router spends its life plugged in, and a battery kept at full charge all day is the fastest way to wear one out. The screen now starts its own charge limiter every time it powers up, and holds the battery at the level batteries survive longest at. It was restarted three times in a row and came back holding the line each time, so this is the unit's own behaviour rather than something a person has to switch on.",
+    "benefit": "The screen can sit on its charger for years without the battery swelling or dying, and there is nothing for the owner to switch on, remember, or maintain.",
+    "ref": "fb1a2ce6-a",
+    "features": []
+  },
+  {
+    "id": 814,
+    "date": "2026-09-21",
+    "theme": "Product definition",
+    "impact": 3,
+    "summary": "Worked out how the Haven crate protects the antennas in shipping: the navy-blue top shell that carries the 7-inch touch screen gets covered troughs the four antennas fold down into, so nothing sticks out of the box and nothing can be dropped inside onto the board.",
+    "detail": null,
+    "benefit": "Your Haven arrives whole. The antennas travel folded flat inside the shell instead of sticking out where they get snapped in transit, and setting it up is lifting the covers off and standing four antennas up.",
+    "ref": "a5719055",
+    "features": []
+  },
+  {
+    "id": 816,
+    "date": "2026-09-21",
+    "theme": "Product definition",
+    "impact": 2,
+    "summary": "The console screen now shows Haven's own start-up screen instead of the tablet maker's.",
+    "detail": "Switch a Haven router on and the screen carries Haven's own start-up artwork from the first instant, before anything else loads, rather than the logo of the company that made the panel. The new artwork was written onto the unit and then read back and compared byte for byte against the file that was sent, so what sits on the bench is exactly what was designed, with nothing lost on the way.",
+    "benefit": "A Haven router looks like one finished product from the first second it is switched on, not a router with someone else's tablet attached to it.",
+    "ref": "fb1a2ce6-a",
+    "features": []
+  },
   {
     "id": 813,
     "date": "2026-09-20",
