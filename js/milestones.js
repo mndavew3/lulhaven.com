@@ -1,5 +1,16 @@
-// generated from haven_wiki.db accomplishments — 801 rows, newest id 816
+// generated from haven_wiki.db accomplishments — 802 rows, newest id 817
 var milestonesDataset = [
+  {
+    "id": 817,
+    "date": "2026-09-21",
+    "theme": "Product definition",
+    "impact": 3,
+    "summary": "The Haven crate went from idea to a real, measured drawing: every dimension taken off an actual router, and the whole box now exists as a 3D model we can print and check.",
+    "detail": null,
+    "benefit": "Your router arrives in a box built around it, so nothing is bent, snapped, or rattling loose when you open it.",
+    "ref": "47dbb82ec7",
+    "features": []
+  },
   {
     "id": 815,
     "date": "2026-09-21",
