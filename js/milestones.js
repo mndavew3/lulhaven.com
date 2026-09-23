@@ -1,5 +1,16 @@
-// generated from haven_wiki.db accomplishments — 803 rows, newest id 818
+// generated from haven_wiki.db accomplishments — 804 rows, newest id 819
 var milestonesDataset = [
+  {
+    "id": 819,
+    "date": "2026-09-22",
+    "theme": "Brand & packaging",
+    "impact": 2,
+    "summary": "The first two walls of the Haven crate came off the printer, and fitting them on the real router showed the router's base is not square: it is 7 mm wider at the back than the front. The back wall was redrawn with that taper. Its reprint was stopped partway because it went out without the corner supports agreed earlier; those supports are now built into the file for the next run.",
+    "detail": null,
+    "benefit": "The case your router ships in is being fitted against the real hardware, piece by piece, so what reaches you actually fits.",
+    "ref": "bae7720",
+    "features": []
+  },
   {
     "id": 818,
     "date": "2026-09-21",
