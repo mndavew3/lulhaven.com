@@ -1,5 +1,16 @@
-// generated from haven_wiki.db accomplishments — 802 rows, newest id 817
+// generated from haven_wiki.db accomplishments — 803 rows, newest id 818
 var milestonesDataset = [
+  {
+    "id": 818,
+    "date": "2026-09-21",
+    "theme": "Brand & packaging",
+    "impact": 3,
+    "summary": "Worked out how the Haven crate breathes and how the router's status lights get out of it: air enters underneath and leaves through slats in the antenna troughs, and a light pipe carries the indicator lights to the front wall.",
+    "detail": null,
+    "benefit": "You can tell at a glance whether your router is running without opening anything, and the case it lives in can't cook it.",
+    "ref": "08cf43d",
+    "features": []
+  },
   {
     "id": 817,
     "date": "2026-09-21",
