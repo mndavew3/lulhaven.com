@@ -1,5 +1,16 @@
-// generated from haven_wiki.db accomplishments — 807 rows, newest id 822
+// generated from haven_wiki.db accomplishments — 808 rows, newest id 823
 var milestonesDataset = [
+  {
+    "id": 823,
+    "date": "2026-09-24",
+    "theme": "Brand & packaging",
+    "impact": 3,
+    "summary": "The Haven crate's seventh back wall came off the printer in 3 h 37 min and was test-fitted on the router: the antennas have room to lie flat inside the crate.",
+    "detail": null,
+    "benefit": "The router's antennas can fold down flat inside its crate for shipping instead of sticking out where they could catch and break.",
+    "ref": "e5c406b",
+    "features": []
+  },
   {
     "id": 822,
     "date": "2026-09-23",
