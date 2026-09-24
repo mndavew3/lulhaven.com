@@ -1,5 +1,27 @@
-// generated from haven_wiki.db accomplishments — 804 rows, newest id 819
+// generated from haven_wiki.db accomplishments — 806 rows, newest id 821
 var milestonesDataset = [
+  {
+    "id": 821,
+    "date": "2026-09-23",
+    "theme": "Brand & packaging",
+    "impact": 3,
+    "summary": "The Haven crate's back plate was fitted against the real base and three things came out of it: the base's rear corners stand a little proud of its sides, so the plate now carries a pocket that slips over that lip instead of fighting it; the two rear corner caps got a dead-flat bottom edge so they wrap cleanly around the seam; and the plate's top mating line was stretched to the measured 111 mm so the one piece of support material that was hardest to remove no longer needs to exist.",
+    "detail": null,
+    "benefit": "Every fitting pass on the real router takes the crate one step closer to a print that comes off the bed finished: fewer cut-away supports, a tighter fit, and no hand-trimming before a router goes in its box.",
+    "ref": "15bdc13208",
+    "features": []
+  },
+  {
+    "id": 820,
+    "date": "2026-09-23",
+    "theme": "Brand & packaging",
+    "impact": 2,
+    "summary": "The crate's back plate came off the printer near-perfect, and the run that produced it added a proven first-layer recipe to the crate's build notes: a ten-minute bed soak, a slower and thicker first layer, and a camera check at the two-minute and five-minute marks. The same night added a stand-off rule for the removable supports, so every support beside one of the part's vertical faces now breaks away cleanly.",
+    "detail": null,
+    "benefit": "The case your router ships in is being printed and fitted piece by piece, and every print run adds to a written recipe that makes the next piece more repeatable.",
+    "ref": "030ad41e",
+    "features": []
+  },
   {
     "id": 819,
     "date": "2026-09-22",
