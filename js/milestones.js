@@ -1,5 +1,16 @@
-// generated from haven_wiki.db accomplishments — 806 rows, newest id 821
+// generated from haven_wiki.db accomplishments — 807 rows, newest id 822
 var milestonesDataset = [
+  {
+    "id": 822,
+    "date": "2026-09-23",
+    "theme": "Brand & packaging",
+    "impact": 3,
+    "summary": "The Haven crate's back wall (v5) printed and mates to the unit with a seam that fits like a glove; the fit test found the four antenna-trough floors 1-2 mm too high, so all four drop 2 mm, and the mounting bosses were redrawn around the real hardware - 20 mm brass standoffs and 25 mm screws - with a fastening plan that makes the top permanent and all servicing happen from the bottom.",
+    "detail": null,
+    "benefit": "Every crate that ships closes with a clean seam, lets the antennas fold flat, and can be opened for service from the bottom without disturbing the finished top.",
+    "ref": "c7e1b77e",
+    "features": []
+  },
   {
     "id": 821,
     "date": "2026-09-23",
