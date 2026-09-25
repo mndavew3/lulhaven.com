@@ -1,5 +1,16 @@
-// generated from haven_wiki.db accomplishments — 808 rows, newest id 823
+// generated from haven_wiki.db accomplishments — 809 rows, newest id 824
 var milestonesDataset = [
+  {
+    "id": 824,
+    "date": "2026-09-24",
+    "theme": "Process & discipline",
+    "impact": 4,
+    "summary": "Groundhog: each machine's proven constraints now travel with every work session, so a lesson learned once is applied before the first command",
+    "detail": null,
+    "benefit": "Steadier engineering behind every router shipped — the workstation now remembers what it has already established about its own hardware and looks it up automatically, keeping each session's effort on new ground",
+    "ref": "76725eff-d137-46ea-852e-5a9484da8971",
+    "features": []
+  },
   {
     "id": 823,
     "date": "2026-09-24",
