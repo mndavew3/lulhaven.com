@@ -1,5 +1,16 @@
-// generated from haven_wiki.db accomplishments — 811 rows, newest id 826
+// generated from haven_wiki.db accomplishments — 812 rows, newest id 827
 var milestonesDataset = [
+  {
+    "id": 827,
+    "date": "2026-09-26",
+    "theme": "Product definition",
+    "impact": 2,
+    "summary": "Haven designed its own fold-flat stand for the console screen that ships with every router. It stores flat in the crate's tray under the screen, and a rigid ledge holds the screen so it cannot slide off or tip over backwards.",
+    "detail": null,
+    "benefit": "The customer can stand the screen next to the router instead of on top of it, where it is easy to read and blocks less of the Wi-Fi signal.",
+    "ref": "fb1a2ce6",
+    "features": []
+  },
   {
     "id": 826,
     "date": "2026-09-25",
