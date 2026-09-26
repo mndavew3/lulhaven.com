@@ -1,5 +1,16 @@
-// generated from haven_wiki.db accomplishments — 810 rows, newest id 825
+// generated from haven_wiki.db accomplishments — 811 rows, newest id 826
 var milestonesDataset = [
+  {
+    "id": 826,
+    "date": "2026-09-25",
+    "theme": "Brand & packaging",
+    "impact": 2,
+    "summary": "The Haven crate's lid tray is ready to print: it stands on a flat back edge, its locating ribs carry built-in supports that stay in the part, and every inside corner now has a small radius so stress cannot gather there. Checked in the model against the crate's wider-at-the-back shape, the lid keeps an even 0.5 mm gap front to back.",
+    "detail": null,
+    "benefit": "A lid designed to print cleanly in one pass and to match the crate's true shape from front to back, built for the first crates that ship.",
+    "ref": "fb1a2ce6",
+    "features": []
+  },
   {
     "id": 825,
     "date": "2026-09-25",
