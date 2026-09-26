@@ -1,5 +1,16 @@
-// generated from haven_wiki.db accomplishments — 809 rows, newest id 824
+// generated from haven_wiki.db accomplishments — 810 rows, newest id 825
 var milestonesDataset = [
+  {
+    "id": 825,
+    "date": "2026-09-25",
+    "theme": "Process & discipline",
+    "impact": 2,
+    "summary": "Groundhog's lookup now answers the question asked: it matches partial words and ranks a category's pages by the search terms before anything is cut",
+    "detail": null,
+    "benefit": "A lesson filed minutes ago surfaces on the next search instead of being crowded out by older pages, so the constraint that prevents a repeat actually reaches whoever is about to repeat it",
+    "ref": "9d0776bd",
+    "features": []
+  },
   {
     "id": 824,
     "date": "2026-09-24",
@@ -8,7 +19,7 @@ var milestonesDataset = [
     "summary": "Groundhog: each machine's proven constraints now travel with every work session, so a lesson learned once is applied before the first command",
     "detail": null,
     "benefit": "Steadier engineering behind every router shipped — the workstation now remembers what it has already established about its own hardware and looks it up automatically, keeping each session's effort on new ground",
-    "ref": "76725eff-d137-46ea-852e-5a9484da8971",
+    "ref": "76725eff",
     "features": []
   },
   {
@@ -3834,7 +3845,7 @@ var milestonesDataset = [
     "summary": "Strengthened our internal security practices.",
     "detail": null,
     "benefit": "Safer, leaner, more consistent operations.",
-    "ref": "b9baea50-8637-449a-8fc6-34d755d70326",
+    "ref": "b9baea50",
     "features": []
   },
   {
@@ -3845,7 +3856,7 @@ var milestonesDataset = [
     "summary": "Improved our internal development tooling and data backups.",
     "detail": null,
     "benefit": "More reliable, more efficient development behind Haven.",
-    "ref": "b9baea50-8637-449a-8fc6-34d755d70326",
+    "ref": "b9baea50",
     "features": []
   },
   {
@@ -3856,7 +3867,7 @@ var milestonesDataset = [
     "summary": "Streamlined our internal development tooling and documentation to work more efficiently, with no change in behavior.",
     "detail": "Audited the instruction files, moved the Hasta ritual to an on-demand skill, removed duplicated blocks, and documented the harness resource-cost model.",
     "benefit": "Lower per-session overhead and cleaner, more reliable instruction-following.",
-    "ref": "b9baea50-8637-449a-8fc6-34d755d70326",
+    "ref": "b9baea50",
     "features": []
   },
   {
@@ -3867,7 +3878,7 @@ var milestonesDataset = [
     "summary": "Created clean Lulhaven brand assets: a crisp LULHAVEN logo and a square gnome icon, and cleaned up the hand-drawn Live demo note for the site.",
     "detail": "Re-rendered the LULHAVEN sign as a scalable logo, built a 512px gnome icon for store branding, and redrew the demo note arrow and cut it to a transparent image on the teal band.",
     "benefit": "Consistent, professional branding for the storefront and marketing.",
-    "ref": "b9baea50-8637-449a-8fc6-34d755d70326",
+    "ref": "b9baea50",
     "features": []
   },
   {
