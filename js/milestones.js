@@ -1,5 +1,27 @@
-// generated from haven_wiki.db accomplishments — 817 rows, newest id 832
+// generated from haven_wiki.db accomplishments — 819 rows, newest id 834
 var milestonesDataset = [
+  {
+    "id": 833,
+    "date": "2026-09-27",
+    "theme": "Product definition",
+    "impact": 4,
+    "summary": "The console screen now starts straight into Haven's app and stays locked to it. On first start the owner creates their own PIN, which Haven never learns, and only that PIN opens the switch that turns the lock off.",
+    "detail": null,
+    "benefit": "The screen that ships with a Haven router shows Haven and nothing else. Nobody who picks it up can wander off into the tablet, and only the owner can change that.",
+    "ref": "0e791da1",
+    "features": []
+  },
+  {
+    "id": 834,
+    "date": "2026-09-27",
+    "theme": "Burn procedure & build station",
+    "impact": 3,
+    "summary": "Setting up another console screen is now one command: it installs the start-up pieces and the Haven app, locks the screen to Haven, restarts it, and proves each piece ran before it says done.",
+    "detail": null,
+    "benefit": "Every console screen that ships is set up the same way, and each step checks itself before the next one starts.",
+    "ref": "0e791da1",
+    "features": []
+  },
   {
     "id": 832,
     "date": "2026-09-27",
