@@ -1,5 +1,16 @@
-// generated from haven_wiki.db accomplishments — 812 rows, newest id 827
+// generated from haven_wiki.db accomplishments — 813 rows, newest id 828
 var milestonesDataset = [
+  {
+    "id": 828,
+    "date": "2026-09-26",
+    "theme": "Brand & packaging",
+    "impact": 2,
+    "summary": "The Navy crate's tablet recess now carries the Haven gnome, engraved into its floor as a sailor: redrawn from the founder's own line art with a lei and a Chief Petty Officer's sleeve badge, every line thickened to a print nozzle's width so it comes off the printer clean.",
+    "detail": null,
+    "benefit": "The screen's resting place carries the Haven mark, printed into the crate itself rather than stuck on.",
+    "ref": "3e26b61f-4c",
+    "features": []
+  },
   {
     "id": 827,
     "date": "2026-09-26",
