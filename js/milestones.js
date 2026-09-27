@@ -1,5 +1,27 @@
-// generated from haven_wiki.db accomplishments — 815 rows, newest id 830
+// generated from haven_wiki.db accomplishments — 817 rows, newest id 832
 var milestonesDataset = [
+  {
+    "id": 832,
+    "date": "2026-09-27",
+    "theme": "Product definition",
+    "impact": 2,
+    "summary": "First build of Haven's own app for the console screen: it opens straight to the Haven page and is allowed to talk to that one address only.",
+    "detail": null,
+    "benefit": "The console screen can show Haven and nothing else, without a general web browser in the way.",
+    "ref": "2026-09-27",
+    "features": []
+  },
+  {
+    "id": 831,
+    "date": "2026-09-27",
+    "theme": "Product definition",
+    "impact": 2,
+    "summary": "The console screen no longer falls into its safe mode on one start-up in three. The cause was a start-up counter the tablet's system never resets after a good start; Haven now clears it once the screen has finished starting.",
+    "detail": null,
+    "benefit": "The screen that ships with the router comes up the same way every time it is switched on, with its battery protection running.",
+    "ref": "7c8b699220",
+    "features": []
+  },
   {
     "id": 829,
     "date": "2026-09-26",
