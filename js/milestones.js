@@ -1,5 +1,16 @@
-// generated from haven_wiki.db accomplishments — 813 rows, newest id 828
+// generated from haven_wiki.db accomplishments — 815 rows, newest id 830
 var milestonesDataset = [
+  {
+    "id": 829,
+    "date": "2026-09-26",
+    "theme": "Brand & packaging",
+    "impact": 2,
+    "summary": "The console-screen stand's second revision is designed: the Haven logo on one arm and the battleship USS New Jersey on the other, with a Mark 14 torpedo and a submarine drawn along its cross-bars. Its leg is now a separate piece that turns on thin screws instead of a pressed-in plastic peg.",
+    "detail": null,
+    "benefit": "The leg turns on screws rather than printed plastic pressed into printed plastic, which loosens as it wears; the naval art matches the sailor gnome in the crate.",
+    "ref": "cc319f7",
+    "features": []
+  },
   {
     "id": 828,
     "date": "2026-09-26",
@@ -20,6 +31,17 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "The customer can stand the screen next to the router instead of on top of it, where it is easy to read and blocks less of the Wi-Fi signal.",
     "ref": "fb1a2ce6",
+    "features": []
+  },
+  {
+    "id": 830,
+    "date": "2026-09-26",
+    "theme": "Process & discipline",
+    "impact": 1,
+    "summary": "Every printed part of the Haven crate and stand now carries a version and revision number, and one table records which revision of each part is current.",
+    "detail": null,
+    "benefit": "The crate that ships is printed from the current design of every part, not an older file left over from a test print.",
+    "ref": "711e45a",
     "features": []
   },
   {
