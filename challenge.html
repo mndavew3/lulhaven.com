@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex, nofollow">
 <link rel="shortcut icon" href="assets/images/lulhaven20dock20line20art202-64x42.png" type="image/x-icon">
 <title>The Haven Halloween Challenge &mdash; Now Open</title>
 <style>
@@ -39,6 +38,12 @@
   .attn .wrap{padding:14px 22px;font-size:1rem;color:#5a4708;}
   .attn strong{color:#7a5c00;text-transform:uppercase;letter-spacing:.06em;}
   .attn a{color:var(--navy);font-weight:700;}
+  /* The reason the page exists (Dave, 2026-10-01): Submit a finding must be the BIGGEST button on the page —
+     no link or button anywhere on it may be larger. Full column width and the tallest/largest type here. */
+  .btn-submit{display:block;text-align:center;text-decoration:none;background:#b3121b;color:#fff;border-radius:12px;
+        padding:24px 20px;font-size:clamp(1.6rem,5.5vw,2.2rem);font-weight:900;letter-spacing:.01em;
+        border-bottom:5px solid var(--accent);box-shadow:0 3px 12px rgba(120,10,20,.3);margin:6px 0 22px;}
+  .btn-submit:hover,.btn-submit:focus{background:#d0182a;}
   form{background:#fff;border:1px solid var(--line);border-radius:12px;padding:22px;display:grid;gap:14px;}
   label{font-weight:600;font-size:.92rem;display:block;margin-bottom:4px;}
   input,select{width:100%;padding:11px 12px;border:1px solid #c7ccdd;border-radius:8px;font-size:1rem;font-family:inherit;}
@@ -144,7 +149,8 @@
        plain talk about what you&rsquo;re taking on, and the file is yours. No sign-up, no waiting list,
        no download codes.</p>
     <p style="margin:18px 0;"><a class="btn-cta" style="display:inline-block;text-decoration:none;background:var(--navy);color:#fff;border-radius:8px;padding:14px 30px;font-size:1.1rem;font-weight:700;" href="get-haven.html">Download Haven &rarr;</a></p>
-    <p class="note">Already set up? Read the <a href="challenge-rules.html">rules &amp; scope</a>, then <a href="challenge-submit.html">submit a finding</a>.</p>
+    <p class="note">Already set up? Read the <a href="challenge-rules.html">rules &amp; scope</a>, then:</p>
+    <a class="btn-submit" href="challenge-submit.html">Submit a finding &rarr;</a>
     <p class="note" style="margin-top:22px;"><strong>Router we don&rsquo;t build for yet?</strong> Tell us the model
        &mdash; we need the lead time &mdash; and where to reach you when an image for it exists.</p>
     <form id="tellus-form" style="max-width:560px;">
@@ -185,7 +191,7 @@
   });
 })();
 </script>
-<script src="js/kyc.js?v=f1f4ef8d"></script>
+<script src="js/kyc.js?v=d9c6d6a9"></script>
 <script src="js/countdown.js?v=4f547e3f"></script>
 <script src="js/halloween.js?v=614b4577"></script>
 </body>

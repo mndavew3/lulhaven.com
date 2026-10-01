@@ -109,8 +109,14 @@
     var id  = el.id ? '#' + el.id : '';
     var cls = (typeof el.className === 'string' && el.className.trim())
       ? '.' + el.className.trim().split(/\s+/).slice(0, 2).join('.') : '';
+    // Never log what someone typed: a text box's value can be a password or an
+    // email address (2026-10-01 a contest password landed here). Typing fields
+    // describe themselves by tag/id only; button-type inputs keep their label.
+    var type  = ((el.getAttribute && el.getAttribute('type')) || '').toLowerCase();
+    var typed = (tag === 'input' && !/^(submit|button|reset)$/.test(type)) ||
+                tag === 'textarea' || tag === 'select';
     var txt = (el.getAttribute && el.getAttribute('aria-label')) ||
-              el.textContent || el.value || '';
+              (typed ? '' : (el.textContent || el.value || ''));
     txt = String(txt).replace(/\s+/g, ' ').trim().slice(0, 60);
     return (tag + id + cls + (txt ? ' | ' + txt : '')).slice(0, 200);
   }
@@ -120,7 +126,7 @@
   // log as nav_click; buttons and controls as ui_click; anything else as
   // click. Bare taps on <html>/<body> (background whitespace) are ignored.
   function wireClicks() {
-    document.addEventListener('click', function (ev) {
+    function onClick(ev) {
       var t = ev.target;
       if (!t || t.nodeType !== 1) return;
 
@@ -168,6 +174,22 @@
       var tag = (t.tagName || '').toLowerCase();
       if (tag === 'html' || tag === 'body') return;
       logEvent('click', describe(t));
+    }
+    document.addEventListener('click', onClick, true);
+    // A middle-click opens a link in a new tab and fires 'auxclick', never
+    // 'click' (2026-10-01: Dave's new-tab opens left no click reports). Count
+    // it as the same link click; middle-clicks off links are ignored.
+    document.addEventListener('auxclick', function (ev) {
+      if (ev.button === 1 && ev.target && ev.target.closest && ev.target.closest('a[href]')) onClick(ev);
+    }, true);
+    // Right-click on a link: no page can see which menu item gets picked, so
+    // log that the menu opened on that link; kyc-stats pairs it with the visit
+    // that follows (opened in a new tab) or finds none (copied, dismissed...).
+    document.addEventListener('contextmenu', function (ev) {
+      var a = ev.target && ev.target.closest && ev.target.closest('a[href]');
+      if (!a) return;
+      var label = (a.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 60);
+      logEvent('link_menu', (a.getAttribute('href') || '') + (label ? ' | ' + label : ''));
     }, true);
   }
 
