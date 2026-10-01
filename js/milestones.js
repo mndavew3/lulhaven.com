@@ -1,4 +1,4 @@
-// generated from haven_wiki.db accomplishments — 819 rows, newest id 834
+// generated from haven_wiki.db accomplishments — 820 rows, newest id 835
 var milestonesDataset = [
   {
     "id": 833,
@@ -9,6 +9,17 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "The screen that ships with a Haven router shows Haven and nothing else. Nobody who picks it up can wander off into the tablet, and only the owner can change that.",
     "ref": "0e791da1",
+    "features": []
+  },
+  {
+    "id": 835,
+    "date": "2026-09-27",
+    "theme": "Product definition",
+    "impact": 3,
+    "summary": "Navy's console box proven in one piece: the printed crate closes with the antennas stowed and the tablet riding snug in its lid",
+    "detail": null,
+    "benefit": "Navy arrives as one tidy, closed box - router, antennas and control tablet together, nothing loose",
+    "ref": "683800a",
     "features": []
   },
   {
