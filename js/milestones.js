@@ -1,5 +1,16 @@
-// generated from haven_wiki.db accomplishments — 820 rows, newest id 835
+// generated from haven_wiki.db accomplishments — 821 rows, newest id 836
 var milestonesDataset = [
+  {
+    "id": 836,
+    "date": "2026-10-01",
+    "theme": "Marketing & website",
+    "impact": 4,
+    "summary": "The Haven Halloween Challenge opened on schedule: sign-up and claim submission switched on, and the challenge page and front-page banner now read 'Now open'",
+    "detail": null,
+    "benefit": "Anyone can now download Haven, try to break the filter, and get named credit for every confirmed finding through Halloween night",
+    "ref": "3eb4f52",
+    "features": []
+  },
   {
     "id": 833,
     "date": "2026-09-27",
