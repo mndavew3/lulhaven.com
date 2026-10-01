@@ -1,4 +1,4 @@
-// generated from haven_wiki.db accomplishments — 823 rows, newest id 838
+// generated from haven_wiki.db accomplishments — 824 rows, newest id 839
 var milestonesDataset = [
   {
     "id": 836,
@@ -9,6 +9,17 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "Anyone can now download Haven, try to break the filter, and get named credit for every confirmed finding through Halloween night",
     "ref": "3eb4f52",
+    "features": []
+  },
+  {
+    "id": 839,
+    "date": "2026-10-01",
+    "theme": "Marketing & website",
+    "impact": 2,
+    "summary": "The Haven Halloween Challenge now has one leaderboard, live from the first day: every finding ranks on the same board whichever test setup it was found on, and standings show as provisional until judged",
+    "detail": null,
+    "benefit": "Participants see where they stand from day one, and nobody is ranked lower just because of which test setup they used",
+    "ref": "18a0601",
     "features": []
   },
   {
