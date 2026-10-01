@@ -1,4 +1,4 @@
-// generated from haven_wiki.db accomplishments — 821 rows, newest id 836
+// generated from haven_wiki.db accomplishments — 823 rows, newest id 838
 var milestonesDataset = [
   {
     "id": 836,
@@ -9,6 +9,28 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "Anyone can now download Haven, try to break the filter, and get named credit for every confirmed finding through Halloween night",
     "ref": "3eb4f52",
+    "features": []
+  },
+  {
+    "id": 838,
+    "date": "2026-10-01",
+    "theme": "Marketing & website",
+    "impact": 2,
+    "summary": "lulhaven.com's visitor counter records which links and buttons are used, never what anyone types into a form",
+    "detail": null,
+    "benefit": "Your sign-in details and email address stay out of our site statistics entirely",
+    "ref": "16f42b8",
+    "features": []
+  },
+  {
+    "id": 837,
+    "date": "2026-10-01",
+    "theme": "Marketing & website",
+    "impact": 2,
+    "summary": "The Haven Challenge page now leads with one unmistakable action: Submit a finding is the largest button on the page, and the page is open to search engines",
+    "detail": null,
+    "benefit": "Contestants who find a way around Haven can report it in one click, and newcomers can find the Challenge through search",
+    "ref": "16f42b8",
     "features": []
   },
   {

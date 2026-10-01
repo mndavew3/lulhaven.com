@@ -196,7 +196,7 @@ var itemTooltips = {
   "dating_relationships/bumble":"Whitney Wolfe Herd · Women message first · Austin TX",
   "dating_relationships/eharmony":"Neil Clark Warren · Long-term relationships · Algorithm matching",
   "dating_relationships/feeld":"Open relationships · Polyamory · LGBTQ-inclusive",
-  "dating_relationships/grindr":"Gay dating · San Vincente Acquisition · Chinese ownership concerns",
+  "dating_relationships/grindr":"Gay dating · Public since 2022 (NYSE: GRND) · Chinese owner sold it in 2020 under US pressure",
   "dating_relationships/hinge":"Match Group · Justin McLeod · 'Designed to be deleted'",
   "dating_relationships/match_com":"Match Group · IAC · Pioneered online dating",
   "dating_relationships/meetme":"The Meet Group · Location-based · Predator risk",
