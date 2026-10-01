@@ -8,12 +8,12 @@
 //      `evidence_sufficient` is the judge priority gate among duplicate-bug
 //      claims (docs/CONTEST_EXPORT_IMPORT_DESIGN.md §3c) -- Haven sets it
 //      here because judges only see claims after the window closes.
-//      `tier` ('vm' | 'full', or null to clear) assigns the claim's board
-//      (tracker decision #12: tier IS the board) -- intake can't know it, so
-//      the vetting operator sets it here; the judge tool only lists claims
-//      whose tier is assigned. challenge_tasks #44 (LOCKED) reserves
+//      `tier` ('vm' | 'full', or null to clear) records which Haven the
+//      claim was found on -- a label only. There is ONE leaderboard (Dave
+//      2026-10-01, superseding #12's board-per-tier), so a claim ranks and
+//      lists whether or not this is set. challenge_tasks #44 (LOCKED) reserves
 //      RANKING/standing for the judge pool; confirming a claim, grading its
-//      evidence, and assigning its board are not ranking.
+//      evidence, and labelling it are not ranking.
 //
 // Auth-gated in _middleware.js (build_maint_token cookie, same realm as
 // /api/submissions). Never touches claim-intake's insert path or the

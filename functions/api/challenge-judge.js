@@ -1,5 +1,5 @@
 // /api/challenge-judge — judge-ranking tool for the Haven Challenge (#34 leaderboard,
-// tracker decisions #44/#45/#12). Auth-gated in _middleware.js (build_maint_token
+// tracker decisions #44/#45; #12's per-tier boards superseded 2026-10-01). Auth-gated in _middleware.js (build_maint_token
 // cookie, same realm as /api/builds/*) -- see the note there on why.
 //
 // PORTED 2026-09-02 from the orphaned challenge_findings table to contest_claims,
@@ -8,10 +8,11 @@
 // (CONTEST_EXPORT_IMPORT_DESIGN.md §3c + §3d): status='confirmed', lane='attested'
 // (manual_review is structurally excluded at the data layer), evidence_sufficient=1
 // (the vetting-side gate that stops a vague decoy outranking a real reproduction),
-// disqualified_from_priority=0, and a tier assigned at vetting time.
+// and disqualified_from_priority=0. A tier is NOT required: there is one
+// leaderboard (Dave 2026-10-01), and tier is only a label of which Haven the
+// finding was made on.
 //
-//   GET  ?tier=vm|full (optional; both if omitted)
-//        -> rankable claims for that tier, ordered unranked-first then by
+//   GET  -> all rankable claims, ordered unranked-first then by
 //           judge_rank. Reporter identity (username/email) is deliberately
 //           OMITTED -- challenge-judges.html promises judges "who reported it
 //           isn't shown to you, and neither is anything else about them."
@@ -32,32 +33,19 @@ function json(body, status = 200) {
     });
 }
 
-function validTier(t) { return t === "vm" || t === "full"; }
-
 const RANKABLE =
-    `status = 'confirmed' AND lane = 'attested'
-     AND evidence_sufficient = 1 AND disqualified_from_priority = 0
-     AND tier IS NOT NULL`;
+    `status = 'confirmed' AND lane = 'attested' AND is_test = 0
+     AND evidence_sufficient = 1 AND disqualified_from_priority = 0`;
 
 export async function onRequestGet(context) {
-    const { env, request } = context;
-    const url = new URL(request.url);
-    const tierParam = url.searchParams.get("tier");
-    if (tierParam && !validTier(tierParam)) {
-        return json({ error: "tier must be 'vm' or 'full'" }, 400);
-    }
-
-    const where = tierParam
-        ? `WHERE tier = ? AND ${RANKABLE}`
-        : `WHERE ${RANKABLE}`;
-    const stmt = env.haven_builds.prepare(
+    const { env } = context;
+    const result = await env.haven_builds.prepare(
         `SELECT id, tier, claim_title, claim_details, model,
                 haven_version, feed_build_id, created_datetime, judge_rank
            FROM contest_claims
-           ${where}
-          ORDER BY tier ASC, (judge_rank IS NULL) DESC, judge_rank ASC, id ASC`
-    );
-    const result = tierParam ? await stmt.bind(tierParam).all() : await stmt.all();
+          WHERE ${RANKABLE}
+          ORDER BY (judge_rank IS NULL) DESC, judge_rank ASC, id ASC`
+    ).all();
 
     return json({ findings: result.results || [] });
 }
@@ -91,7 +79,7 @@ export async function onRequestPost(context) {
         `SELECT id FROM contest_claims WHERE id = ? AND ${RANKABLE}`
     ).bind(id).first();
     if (!row) {
-        return json({ error: "No rankable claim with that id (needs confirmed + attested + evidence-sufficient + tier)" }, 404);
+        return json({ error: "No rankable claim with that id (needs confirmed + attested + evidence-sufficient)" }, 404);
     }
 
     await env.haven_builds.prepare(

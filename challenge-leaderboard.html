@@ -29,6 +29,9 @@
   .place.p2{background:#8f97b3;}
   .place.p3{background:#a9784b;}
   .empty{color:#7b8095;font-style:italic;padding:6px 0;}
+  .board li.open span:last-child{color:#7b8095;font-style:italic;}
+  .board li.open .place{opacity:.45;}
+  .prov{color:#7b8095;font-size:.9rem;margin:-8px 0 10px;}
   footer{padding:34px 0;text-align:center;color:#7b8095;font-size:.85rem;border-top:1px solid var(--line);margin-top:30px;}
   a{color:var(--navy);}
 </style>
@@ -55,13 +58,12 @@
 <header class="hero"><div class="wrap">
   <p class="kicker">Haven Halloween Challenge</p>
   <h1>Leaderboard</h1>
-  <p>Who's on top — not by how much. First, second, and third place on each board.
+  <p>Who's on top — not by how much. First, second, and third place.
      No point totals, ever. <a href="/challenge-rules#judging" style="color:#fff;text-decoration:underline;">Why</a>.</p>
 </div></header>
 <main><div class="wrap">
   <div class="boards" id="boards">
-    <div class="board"><h2>VM tier</h2><p class="empty">Loading…</p></div>
-    <div class="board"><h2>Full tier</h2><p class="empty">Loading…</p></div>
+    <div class="board"><h2>Top three</h2><p class="empty">Loading…</p></div>
   </div>
 </div></main>
 <footer><div class="wrap">lulhaven.com &middot; Haven runs on your network &mdash; a suite of internet tools, defined and controlled on your LAN.</div></footer>
@@ -69,25 +71,28 @@
 function esc(s) {
   return String(s == null ? "" : s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 }
-function renderBoard(title, names) {
+// Always three places. An unclaimed place reads "Your name here" so a visitor
+// can picture themselves on the board even before anyone is on it (Dave 2026-10-01).
+function renderBoard(title, names, provisional) {
   const div = document.createElement("div");
   div.className = "board";
   const h2 = document.createElement("h2");
   h2.textContent = title;
   div.appendChild(h2);
-  if (!names || names.length === 0) {
+  if (provisional) {
     const p = document.createElement("p");
-    p.className = "empty";
-    p.textContent = "No standings yet.";
+    p.className = "prov";
+    p.textContent = "Standings so far. The judges set the final order after the Challenge closes.";
     div.appendChild(p);
-    return div;
   }
   const ol = document.createElement("ol");
-  names.forEach((name, i) => {
+  for (let i = 0; i < 3; i++) {
     const li = document.createElement("li");
-    li.innerHTML = `<span class="place p${i + 1}">${i + 1}</span><span>${esc(name)}</span>`;
+    const name = names && names[i];
+    if (!name) li.className = "open";
+    li.innerHTML = `<span class="place p${i + 1}">${i + 1}</span><span>${name ? esc(name) : "Your name here"}</span>`;
     ol.appendChild(li);
-  });
+  }
   div.appendChild(ol);
   return div;
 }
@@ -96,10 +101,9 @@ function renderBoard(title, names) {
   try {
     const r = await fetch("/api/challenge-leaderboard");
     if (!r.ok) throw new Error(String(r.status));
-    const { vm, full } = await r.json();
+    const { top, provisional } = await r.json();
     boards.innerHTML = "";
-    boards.appendChild(renderBoard("VM tier", vm));
-    boards.appendChild(renderBoard("Full tier", full));
+    boards.appendChild(renderBoard("Top three", top, provisional));
   } catch (e) {
     boards.innerHTML = '<p class="empty">Leaderboard is unavailable right now.</p>';
   }
