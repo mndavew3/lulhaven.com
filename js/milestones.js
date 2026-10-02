@@ -1,4 +1,4 @@
-// generated from haven_wiki.db accomplishments — 825 rows, newest id 840
+// generated from haven_wiki.db accomplishments — 827 rows, newest id 842
 var milestonesDataset = [
   {
     "id": 836,
@@ -9,6 +9,17 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "Anyone can now download Haven, try to break the filter, and get named credit for every confirmed finding through Halloween night",
     "ref": "3eb4f52",
+    "features": []
+  },
+  {
+    "id": 841,
+    "date": "2026-10-01",
+    "theme": "Product definition",
+    "impact": 2,
+    "summary": "The Navy crate now shows the router's status light on its front: a clear printed light pipe climbs from the light on the circuit board and ends in a skeleton-key keyhole through the proudest face of the front buckle.",
+    "detail": null,
+    "benefit": "You can see at a glance that your Haven router is running without opening the crate, and the light reads as part of the design rather than a hole drilled in it.",
+    "ref": "fcb6c85",
     "features": []
   },
   {
@@ -53,6 +64,17 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "Contestants who find a way around Haven can report it in one click, and newcomers can find the Challenge through search",
     "ref": "16f42b8",
+    "features": []
+  },
+  {
+    "id": 842,
+    "date": "2026-10-01",
+    "theme": "Process & discipline",
+    "impact": 1,
+    "summary": "We added an automatic off-machine copy of Haven's design files: at every session close, the enclosure drawings, docs and research folders are copied into the backed-up project record and pushed to off-site storage.",
+    "detail": null,
+    "benefit": "Every evening of enclosure design work is protected the moment the session ends, so the crate and stand you receive are built from drawings that exist in more than one place.",
+    "ref": "2b2b9a3",
     "features": []
   },
   {
