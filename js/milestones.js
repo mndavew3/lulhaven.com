@@ -1,5 +1,16 @@
-// generated from haven_wiki.db accomplishments — 827 rows, newest id 842
+// generated from haven_wiki.db accomplishments — 828 rows, newest id 843
 var milestonesDataset = [
+  {
+    "id": 843,
+    "date": "2026-10-02",
+    "theme": "Process & discipline",
+    "impact": 2,
+    "summary": "Haven's workshop computer now keeps a nightly, dated copy of its working files on a second drive. Every night a fresh read-only snapshot is taken, and a week of nights, a month of weeks and a year of months are kept. Passwords and keys travel only in the separate encrypted backup, never in this one.",
+    "detail": null,
+    "benefit": "Everything Haven's routers are built from now has a dated copy no more than one night old, so the workshop is always a day from fully restored and the routers people are waiting for keep moving.",
+    "ref": "c9bde1e",
+    "features": []
+  },
   {
     "id": 836,
     "date": "2026-10-01",
