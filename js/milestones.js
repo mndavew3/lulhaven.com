@@ -1,5 +1,27 @@
-// generated from haven_wiki.db accomplishments — 828 rows, newest id 843
+// generated from haven_wiki.db accomplishments — 830 rows, newest id 845
 var milestonesDataset = [
+  {
+    "id": 845,
+    "date": "2026-10-02",
+    "theme": "Burn procedure & build station",
+    "impact": 3,
+    "summary": "The station that prepares each Haven router now stops if it cannot confirm the router's admin password works. Before, it only printed a warning and recorded the unit as finished, and a router in that state cannot be logged into.",
+    "detail": null,
+    "benefit": "No Haven router leaves the bench with an admin login that does not work.",
+    "ref": "99c8d4a0e8",
+    "features": []
+  },
+  {
+    "id": 844,
+    "date": "2026-10-02",
+    "theme": "Haven Helm",
+    "impact": 3,
+    "summary": "Changing your router's admin password from the Helm now always takes effect. One kind of account could have its new password saved where the login never looks: the Helm said the change worked, and the login stopped accepting it. The Helm now sets that account up properly first and checks that the new password really landed before it reports success. The simple Basic view also gains the Show Filtered button.",
+    "detail": null,
+    "benefit": "When you change your password, your next login works with the new one. A change the router reports as done is actually done.",
+    "ref": "dd384eb590",
+    "features": []
+  },
   {
     "id": 843,
     "date": "2026-10-02",
