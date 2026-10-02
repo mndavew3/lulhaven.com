@@ -1,4 +1,4 @@
-// generated from haven_wiki.db accomplishments — 824 rows, newest id 839
+// generated from haven_wiki.db accomplishments — 825 rows, newest id 840
 var milestonesDataset = [
   {
     "id": 836,
@@ -9,6 +9,17 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "Anyone can now download Haven, try to break the filter, and get named credit for every confirmed finding through Halloween night",
     "ref": "3eb4f52",
+    "features": []
+  },
+  {
+    "id": 840,
+    "date": "2026-10-01",
+    "theme": "Product definition",
+    "impact": 2,
+    "summary": "Every joint in the Navy crate is now designed to tighten as it closes: wherever two printed pieces touch, both walls lean 1 mm inward, so the parts start loose and seat snug",
+    "detail": null,
+    "benefit": "The case goes together by hand and stays tight, even when a printed part comes out slightly off size",
+    "ref": "68891872db",
     "features": []
   },
   {
