@@ -36,6 +36,12 @@ export function randomToken(bytes = 32) {
     return hex(crypto.getRandomValues(new Uint8Array(bytes)));
 }
 
+// Session tokens are stored only as their SHA-256, so a copy of wiki_sessions
+// cannot be replayed as a cookie. The cookie carries the raw token.
+export async function tokenHash(token) {
+    return hex(new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(token))));
+}
+
 function hex(buf) {
     return Array.from(buf).map(b => b.toString(16).padStart(2, "0")).join("");
 }
@@ -71,7 +77,7 @@ export async function sessionUser(request, db) {
         "SELECT u.id, u.email, u.display_name, u.role FROM wiki_sessions s " +
         "JOIN wiki_users u ON u.id = s.user_id " +
         "WHERE s.token = ?1 AND s.expires_datetime > ?2"
-    ).bind(token, now).first();
+    ).bind(await tokenHash(token), now).first();
     return row || null;
 }
 

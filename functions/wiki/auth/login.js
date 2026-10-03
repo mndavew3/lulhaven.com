@@ -1,7 +1,7 @@
 // POST /wiki/auth/login
 // Body: { email, password }
 
-import { verifyPassword, randomToken, sessionCookie, json, err, now, SESSION_LIFE_DAYS } from "../../_lib/wiki.js";
+import { verifyPassword, randomToken, tokenHash, sessionCookie, json, err, now, SESSION_LIFE_DAYS } from "../../_lib/wiki.js";
 
 export async function onRequestPost(context) {
     const { request, env } = context;
@@ -27,7 +27,7 @@ export async function onRequestPost(context) {
     const expires = new Date(Date.now() + SESSION_LIFE_DAYS * 86400 * 1000).toISOString();
     await db.prepare(
         "INSERT INTO wiki_sessions (token, user_id, expires_datetime, created_datetime) VALUES (?1, ?2, ?3, ?4)"
-    ).bind(token, user.id, expires, ts).run();
+    ).bind(await tokenHash(token), user.id, expires, ts).run();
     await db.prepare("UPDATE wiki_users SET last_login_datetime = ?1 WHERE id = ?2").bind(ts, user.id).run();
 
     return json({ ok: true, display_name: user.display_name, role: user.role }, 200, {
