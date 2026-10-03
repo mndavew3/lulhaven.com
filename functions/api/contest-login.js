@@ -6,7 +6,7 @@
 //        passwords for existing accounts is still an open item).
 // DELETE /api/contest-login  — logout (clears the cookie).
 import { verifyPassword, makeSession, sessionCookie, SESSION_COOKIE } from "../_lib/account.js";
-import { verifyTotp } from "../_lib/auth.js";
+import { verifyTotp, openTotp } from "../_lib/auth.js";
 
 const CORS = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Methods": "POST, DELETE, OPTIONS", "Access-Control-Allow-Headers": "Content-Type" };
 const RATE_WINDOW = 900, RATE_MAX = 10;
@@ -46,7 +46,7 @@ export async function onRequestPost({ request, env }) {
 
   // Generic failure for every wrong-credential case — no enumeration.
   let ok = false;
-  if (row && usingTotp && row.totp_enrolled_at) ok = await verifyTotp(row.totp_secret, b.totp);
+  if (row && usingTotp && row.totp_enrolled_at) ok = await verifyTotp(await openTotp(env, "contest", row.totp_secret), b.totp);
   else if (row && !usingTotp) ok = await verifyPassword(env, b.password, row.pw_salt, row.pw_hash);
   if (!row || !ok) return json({ error: usingTotp ? "Invalid code." : "Invalid username or password." }, 401);
   if (!row.verified) return json({ error: "Please verify your email first — check for your 6-digit code." }, 403);

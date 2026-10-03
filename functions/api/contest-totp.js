@@ -6,7 +6,7 @@
 // Body: { action: 'enroll_start' } -> { secret, uri }
 //       { action: 'enroll_confirm', totp } -> { ok:true }
 import { readSession } from "../_lib/account.js";
-import { newTotpSecret, totpUri, verifyTotp } from "../_lib/auth.js";
+import { newTotpSecret, totpUri, verifyTotp, sealTotp, openTotp } from "../_lib/auth.js";
 
 const CORS = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Methods": "POST, OPTIONS", "Access-Control-Allow-Headers": "Content-Type" };
 const json = (b, s = 200) => new Response(JSON.stringify(b), { status: s, headers: { "Content-Type": "application/json", ...CORS } });
@@ -24,14 +24,14 @@ export async function onRequestPost({ request, env }) {
     const secret = newTotpSecret();
     // Clear totp_enrolled_at: an unconfirmed secret must never be login-valid,
     // and re-enrollment must not strand the old app's still-working codes.
-    await env.haven_builds.prepare("UPDATE contest_accounts SET totp_secret=?, totp_enrolled_at=NULL WHERE username_lc=?").bind(secret, username.toLowerCase()).run();
+    await env.haven_builds.prepare("UPDATE contest_accounts SET totp_secret=?, totp_enrolled_at=NULL WHERE username_lc=?").bind(await sealTotp(env, "contest", secret), username.toLowerCase()).run();
     return json({ secret, uri: totpUri(secret, username, "Haven Challenge") });
   }
 
   if (action === "enroll_confirm") {
     const row = await env.haven_builds.prepare("SELECT totp_secret FROM contest_accounts WHERE username_lc=?").bind(username.toLowerCase()).first();
     if (!row?.totp_secret) return json({ error: "start enrollment first" }, 400);
-    const good = await verifyTotp(row.totp_secret, b.totp);
+    const good = await verifyTotp(await openTotp(env, "contest", row.totp_secret), b.totp);
     if (!good) return json({ error: "Invalid code — check your authenticator app and try again." }, 401);
     await env.haven_builds.prepare("UPDATE contest_accounts SET totp_enrolled_at=datetime('now') WHERE username_lc=?").bind(username.toLowerCase()).run();
     return json({ ok: true });

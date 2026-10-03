@@ -6,7 +6,7 @@
 //
 // Body: { action: 'enroll_start' } -> { secret, uri }
 //       { action: 'enroll_confirm', totp } -> { ok:true }
-import { readSession, newTotpSecret, totpUri, verifyTotp } from "../_lib/auth.js";
+import { readSession, newTotpSecret, totpUri, verifyTotp, sealTotp, openTotp } from "../_lib/auth.js";
 
 const CORS = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Methods": "POST, OPTIONS", "Access-Control-Allow-Headers": "Content-Type" };
 const json = (b, s = 200) => new Response(JSON.stringify(b), { status: s, headers: { "Content-Type": "application/json", ...CORS } });
@@ -26,14 +26,14 @@ export async function onRequestPost({ request, env }) {
     // cleared (it survives re-enrollment otherwise), so a half-finished
     // enrollment never becomes a usable login path and re-enrollment can't
     // strand the old app's still-working codes.
-    await env.haven_builds.prepare("UPDATE customers SET totp_secret=?, totp_enrolled_at=NULL WHERE email=?").bind(secret, email).run();
+    await env.haven_builds.prepare("UPDATE customers SET totp_secret=?, totp_enrolled_at=NULL WHERE email=?").bind(await sealTotp(env, "customer", secret), email).run();
     return json({ secret, uri: totpUri(secret, email) });
   }
 
   if (action === "enroll_confirm") {
     const row = await env.haven_builds.prepare("SELECT totp_secret FROM customers WHERE email=?").bind(email).first();
     if (!row?.totp_secret) return json({ error: "start enrollment first" }, 400);
-    const good = await verifyTotp(row.totp_secret, b.totp);
+    const good = await verifyTotp(await openTotp(env, "customer", row.totp_secret), b.totp);
     if (!good) return json({ error: "Invalid code — check your authenticator app and try again." }, 401);
     await env.haven_builds.prepare("UPDATE customers SET totp_enrolled_at=datetime('now') WHERE email=?").bind(email).run();
     return json({ ok: true });

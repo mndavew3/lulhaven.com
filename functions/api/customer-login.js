@@ -9,7 +9,7 @@
 //   'request_code' -> emails a 6-digit login code           { sent:true }
 //   'verify_code'  -> consumes the code, creates session    { ok:true }
 //   'verify_totp'  -> checks the TOTP, creates session      { ok:true }
-import { rules as authRules, issueEmailCode, verifyEmailCode, verifyTotp, makeSession, sessionCookie, clearedSessionCookie } from "../_lib/auth.js";
+import { rules as authRules, issueEmailCode, verifyEmailCode, verifyTotp, openTotp, makeSession, sessionCookie, clearedSessionCookie } from "../_lib/auth.js";
 import { findCustomerByEmail, findOrCreateCustomer } from "../_lib/pricing.js";
 import { sendEmail } from "../_lib/email.js";
 
@@ -75,7 +75,7 @@ export async function onRequestPost({ request, env }) {
   if (action === "verify_totp") {
     const customer = await findCustomerByEmail(env, email);
     if (!customer || !customer.totp_enrolled_at) return json({ error: "authenticator app is not set up for this account" }, 400);
-    const good = await verifyTotp(customer.totp_secret, b.totp);
+    const good = await verifyTotp(await openTotp(env, "customer", customer.totp_secret), b.totp);
     if (!good) return json({ error: "Invalid code." }, 401);
     const cookie = sessionCookie("customer", await makeSession(env, "customer", email));
     return json({ ok: true, email, totp_enrolled: true }, 200, { "Set-Cookie": cookie });

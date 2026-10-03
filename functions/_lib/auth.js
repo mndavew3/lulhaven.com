@@ -76,6 +76,25 @@ export async function verifyTotp(secretBase32, token, { step = 30, window = 1 } 
   return false;
 }
 
+// --- TOTP secret at rest: AES-GCM under a per-realm subkey, so a copy of the
+// database alone cannot generate anyone's codes. Stored as "v1:" + b64url(iv || ciphertext).
+async function totpKey(env, realm) {
+  return crypto.subtle.importKey("raw", await subkeyBytes(env, realm, "totp-at-rest"), "AES-GCM", false, ["encrypt", "decrypt"]);
+}
+export async function sealTotp(env, realm, secretBase32) {
+  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const ct = new Uint8Array(await crypto.subtle.encrypt({ name: "AES-GCM", iv }, await totpKey(env, realm), enc.encode(secretBase32)));
+  const out = new Uint8Array(iv.length + ct.length); out.set(iv); out.set(ct, iv.length);
+  return "v1:" + b64url(out);
+}
+export async function openTotp(env, realm, stored) {
+  // No secret was stored in the clear when this shipped (2026-10-02: 0 rows); the
+  // pass-through only covers an enrollment started during the deploy itself.
+  if (!stored || !stored.startsWith("v1:")) return stored;
+  const raw = fromB64url(stored.slice(3));
+  return dec.decode(await crypto.subtle.decrypt({ name: "AES-GCM", iv: raw.slice(0, 12) }, await totpKey(env, realm), raw.slice(12)));
+}
+
 // --- Email one-time code: 6-digit, hashed at rest, single-use, short TTL ---
 export function newEmailCode() {
   return String(crypto.getRandomValues(new Uint32Array(1))[0] % 1000000).padStart(6, "0");
