@@ -818,7 +818,7 @@ Haven Olive Green is Haven's secondary router model, based on the **Linksys E845
 
 Haven Olive Green uses a UBI (Unsorted Block Images) flash layout, which requires a specific sysupgrade procedure during firmware flashing. The Haven pre-flash process handles this correctly.
 
-Haven Olive Green has 512MB RAM vs. the Navy's 1GB. For households with very large device lists or high DNS query volumes, the Navy is recommended.
+Haven Olive Green has 512MB RAM vs. the Navy's 1GB. For larger deployments with very large device lists or high DNS query volumes, the 'Navy' option is recommended.
 
 ## Serial format
 
