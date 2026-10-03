@@ -32,7 +32,7 @@ function classifyUA(ua) {
 // Cloud/hosting/scanner ASNs never carry real household visitors — a hit from
 // one is a crawler, uptime monitor, or security scanner regardless of its UA.
 // Classify those as "bot" so "organic human" = is_owner=0 AND ua_class!='bot'.
-const DC_ORG_RE = /\b(amazon|aws|microsoft|azure|google|ahrefs|semrush|palo ?alto|fortinet|egihosting|digitalocean|linode|hetzner|ovh|vultr|leaseweb|choopa|oracle cloud|tencent|alibaba)\b/i;
+const DC_ORG_RE = /\b(amazon|aws|microsoft|azure|google|youtube|ahrefs|semrush|palo ?alto|fortinet|egihosting|digitalocean|linode|hetzner|ovh|vultr|leaseweb|choopa|oracle cloud|tencent|alibaba)\b/i;
 
 async function sha256hex16(input) {
   const buf = new TextEncoder().encode(input);
