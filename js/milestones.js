@@ -1,5 +1,49 @@
-// generated from haven_wiki.db accomplishments — 830 rows, newest id 845
+// generated from haven_wiki.db accomplishments — 837 rows, newest id 852
 var milestonesDataset = [
+  {
+    "id": 847,
+    "date": "2026-10-02",
+    "theme": "Haven Helm",
+    "impact": 4,
+    "summary": "Picking a filtering template in the Helm the moment the page opens now really applies it. Before, the screen could say a template was applied while nothing was filtered.",
+    "detail": null,
+    "benefit": "What the Helm says is on is what is on: no false reassurance that filtering is active.",
+    "ref": "b46be304d0",
+    "features": []
+  },
+  {
+    "id": 846,
+    "date": "2026-10-02",
+    "theme": "Off-network filtering",
+    "impact": 4,
+    "summary": "Filtering that follows each device off your network now survives a slow start: if the router's secure tunnel comes up late, that device's filter waits for it instead of switching off.",
+    "detail": null,
+    "benefit": "A device you filter beyond your own network stays filtered after every router restart, not just most of them.",
+    "ref": "7478aeca81",
+    "features": []
+  },
+  {
+    "id": 850,
+    "date": "2026-10-02",
+    "theme": "Marketing & website",
+    "impact": 3,
+    "summary": "lulhaven.com now has a plain-language privacy notice: what the site collects, why, who sees it, how long it is kept, and how to ask about it.",
+    "detail": null,
+    "benefit": "Before you sign up or join a challenge, you can read exactly what Haven keeps about you and confirm it is never sold or rented.",
+    "ref": "2f9a6894ab",
+    "features": []
+  },
+  {
+    "id": 849,
+    "date": "2026-10-02",
+    "theme": "Burn procedure & build station",
+    "impact": 3,
+    "summary": "The station that builds Haven's router software now refuses to overwrite work that exists nowhere else, and names the file instead of silently replacing it.",
+    "detail": null,
+    "benefit": "Improvements to the router's screens can no longer vanish in a routine rebuild; the loss that erased a Helm redesign in September cannot happen again.",
+    "ref": "db2b601",
+    "features": []
+  },
   {
     "id": 845,
     "date": "2026-10-02",
@@ -19,6 +63,39 @@ var milestonesDataset = [
     "summary": "Changing your router's admin password from the Helm now always takes effect. One kind of account could have its new password saved where the login never looks: the Helm said the change worked, and the login stopped accepting it. The Helm now sets that account up properly first and checks that the new password really landed before it reports success. The simple Basic view also gains the Show Filtered button.",
     "detail": null,
     "benefit": "When you change your password, your next login works with the new one. A change the router reports as done is actually done.",
+    "ref": "dd384eb590",
+    "features": []
+  },
+  {
+    "id": 852,
+    "date": "2026-10-02",
+    "theme": "Burn procedure & build station",
+    "impact": 2,
+    "summary": "Every firmware build now opens every image it produces, compressed disk images included, and confirms each one carries what that release claims.",
+    "detail": null,
+    "benefit": "Each Haven image is opened and checked against its release's own list before it can ship.",
+    "ref": "6036bf90d4",
+    "features": []
+  },
+  {
+    "id": 851,
+    "date": "2026-10-02",
+    "theme": "Off-network filtering",
+    "impact": 2,
+    "summary": "Added a weekly connection check to the router: it learns whether a phone away from your network can reach the router directly or should go through Haven's relay, and reports only that coarse answer, never an address.",
+    "detail": null,
+    "benefit": "Off-network filtering can choose the most direct path back to your router.",
+    "ref": "9f9493b0f0",
+    "features": []
+  },
+  {
+    "id": 848,
+    "date": "2026-10-02",
+    "theme": "Haven Helm",
+    "impact": 2,
+    "summary": "The Basic view of the Helm now has the Show Filtered button, so you can see exactly what your network blocks without switching to the advanced view.",
+    "detail": null,
+    "benefit": "Seeing what is blocked is part of the basic product, not an extra.",
     "ref": "dd384eb590",
     "features": []
   },
