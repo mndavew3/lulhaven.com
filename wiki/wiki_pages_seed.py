@@ -247,12 +247,12 @@ Haven keeps your settings in a protected area of the router's storage that a fac
 
 ## What a factory reset does affect
 
-- Your Wi-Fi name (SSID) and password reset to the default (on the router label)
-- Your Haven admin password resets (you will set a new one at first login)
 - Any OpenWrt system-level customizations outside Haven are lost
 
 ## What survives
 
+- Your Wi-Fi name (SSID) and password
+- Your Haven administrators and their passwords
 - All Haven filter category settings
 - Device list and device names
 - Templates applied to devices
@@ -260,6 +260,14 @@ Haven keeps your settings in a protected area of the router's storage that a fac
 - Always-allow domain list
 - Activity log history
 - Off-network (WireGuard) configuration
+
+## Forgot your password?
+
+A reset keeps your password, so resetting is not a way around it. After a reset, the sign-in screen shows a **Reset your Haven password** link. Prove the Haven is yours with one of these, then choose a new password:
+
+- Your six-digit recovery PIN (set it ahead of time in the Admins tab)
+- The original password that came with your Haven
+- A code sent to your email address, if you added one
 
 ## To demonstrate
 
