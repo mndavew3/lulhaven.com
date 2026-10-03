@@ -1,4 +1,4 @@
-// generated from haven_wiki.db accomplishments — 837 rows, newest id 852
+// generated from haven_wiki.db accomplishments — 842 rows, newest id 857
 var milestonesDataset = [
   {
     "id": 847,
@@ -20,6 +20,39 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "A device you filter beyond your own network stays filtered after every router restart, not just most of them.",
     "ref": "7478aeca81",
+    "features": []
+  },
+  {
+    "id": 857,
+    "date": "2026-10-02",
+    "theme": "Firmware & overlay",
+    "impact": 3,
+    "summary": "Haven 0.1.105 was built for all four routers under one version number and passed the build's own content checks; it is not released yet.",
+    "detail": null,
+    "benefit": "The next update is assembled and checked ahead of time, so releasing it is a deliberate step rather than a rush.",
+    "ref": "3847e80",
+    "features": []
+  },
+  {
+    "id": 854,
+    "date": "2026-10-02",
+    "theme": "Demo page",
+    "impact": 3,
+    "summary": "Every section of the demo now has a small question-mark button that opens the help article for that section.",
+    "detail": null,
+    "benefit": "When a screen raises a question, the answer is one click away, written in plain language.",
+    "ref": "304af87",
+    "features": []
+  },
+  {
+    "id": 853,
+    "date": "2026-10-02",
+    "theme": "Trust & transparency",
+    "impact": 3,
+    "summary": "Two-step sign-in secrets for lulhaven.com accounts are now locked (encrypted) when stored, and wiki sign-in sessions are kept only as one-way fingerprints.",
+    "detail": null,
+    "benefit": "A stolen copy of the site's database can't be used to make your six-digit sign-in codes or to slip into your wiki session.",
+    "ref": "d5f3f73",
     "features": []
   },
   {
@@ -64,6 +97,28 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "When you change your password, your next login works with the new one. A change the router reports as done is actually done.",
     "ref": "dd384eb590",
+    "features": []
+  },
+  {
+    "id": 856,
+    "date": "2026-10-02",
+    "theme": "Marketing & website",
+    "impact": 2,
+    "summary": "The challenge rules now carry the YouTube contest terms: YouTube is not a sponsor, entrants release YouTube from claims, and entries must follow YouTube's Community Guidelines.",
+    "detail": null,
+    "benefit": "The challenge can be promoted on YouTube by the platform's own rules, with nothing changed about what counts, how it is judged, or the prizes.",
+    "ref": "db86a86",
+    "features": []
+  },
+  {
+    "id": 855,
+    "date": "2026-10-02",
+    "theme": "Product definition",
+    "impact": 2,
+    "summary": "Haven's YouTube feature has its final name: U-Haven, used the same way across the site, milestones, and help pages.",
+    "detail": null,
+    "benefit": "One name for one feature, everywhere you read about it.",
+    "ref": "0cf674d",
     "features": []
   },
   {
