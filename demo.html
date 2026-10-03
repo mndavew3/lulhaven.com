@@ -26,6 +26,9 @@
 .hvn-shared-nav a { color:#e8edf2; text-decoration:none; font-size:15px; }
 .hvn-shared-nav a:hover { color:#ff6a6a; }
 .hvn-shared-nav .brand { font-weight:700; font-size:17px; color:#fff; margin-right:8px; }
+/* Help "?" beside each section heading: opens that section's wiki article (admin-only haven/ namespace). Placed before the heading and floated right, because code rewrites several headings' text. */
+.hd-help{float:right;display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;margin:0 0 4px 10px;border:1.5px solid currentColor;border-radius:50%;font:700 13px/1 system-ui,sans-serif;color:inherit;text-decoration:none;opacity:.65}
+.hd-help:hover,.hd-help:focus{opacity:1}
 </style>
 <div class="hvn-shared-nav"><div class="inner">
   <a class="brand" href="index.html">Haven</a>
@@ -385,7 +388,7 @@
     </div>
 
     <div id="hd-header" class="hd-glass">
-      <h2 class="haven-title">
+      <a class="hd-help" href="https://lulhaven.com/wiki/?view=page&amp;p=haven%2Fthe-helm" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" title="Help: opens lulhaven.com in a new tab" aria-label="Help (opens lulhaven.com)">?</a><h2 class="haven-title">
         <span class="ht-brand">Haven</span>
         <span class="ht-tag">by Lulhaven &middot; Unit 001 of 100</span>
       </h2>
@@ -439,7 +442,7 @@
 
     <div id="hd-details-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:999;align-items:center;justify-content:center;" onclick="if(event.target===this)this.style.display='none'">
       <div style="padding:24px 28px;max-width:420px;width:90%;text-align:center;background:rgba(255,255,255,0.9);backdrop-filter:blur(14px);border:1px solid rgba(0,0,0,0.12);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,0.2);">
-        <h3 style="margin:0 0 10px;font-size:1.05em;">Device-specific U-Haven enforcement</h3>
+        <a class="hd-help" href="https://lulhaven.com/wiki/?view=page&amp;p=haven%2Fyouhaven-quiet-the-feed" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" title="Help: opens lulhaven.com in a new tab" aria-label="Help (opens lulhaven.com)">?</a><h3 style="margin:0 0 10px;font-size:1.05em;">Device-specific U-Haven enforcement</h3>
         <p style="margin:0 0 16px;font-size:0.95em;color:rgba(0,0,0,0.85);line-height:1.5;">Offer curated content in the U-Haven wrapper. Works local or remote.</p>
         <button onclick="document.getElementById('hd-details-modal').style.display='none'" style="padding:8px 18px;background:#fff;color:#111;border:1px solid rgba(0,0,0,0.2);border-radius:8px;cursor:pointer;">Close</button>
       </div>
@@ -470,7 +473,7 @@
       </div>
       <div id="hd-subs" class="hd-glass">
         <div id="hd-sub-head">
-          <h3 id="hd-sub-title">Select a category</h3>
+          <a class="hd-help" href="https://lulhaven.com/wiki/?view=page&amp;p=haven%2Fblock-what-you-choose" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" title="Help: opens lulhaven.com in a new tab" aria-label="Help (opens lulhaven.com)">?</a><h3 id="hd-sub-title">Select a category</h3>
           <div id="hd-remote-conn-row" title="How this category follows a device off-network. Full = traffic comes home to Haven for thorough filtering. Fast = quick checks only, easier on battery. None = not filtered remotely.">
             <label for="hd-cat-remote-sel">Remote connection:</label>
             <select id="hd-cat-remote-sel" onchange="hdCatRemoteChanged(this)">
@@ -496,7 +499,7 @@
     </div>
 
     <div id="hd-admin-panel" class="hd-glass" style="display:none; padding:18px 20px; margin-top:14px;">
-      <h3 style="margin:0 0 6px; font-size:1.2em;">Admins</h3>
+      <a class="hd-help" href="https://lulhaven.com/wiki/?view=page&amp;p=haven%2Fmulti-administrator" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" title="Help: opens lulhaven.com in a new tab" aria-label="Help (opens lulhaven.com)">?</a><h3 style="margin:0 0 6px; font-size:1.2em;">Admins</h3>
       <p style="margin:0 0 12px; color:#555; font-size:0.92em;">
         People who can change Haven settings.
       </p>
@@ -565,7 +568,7 @@
          The seven images are real captures taken off a deck, the same files the Screen
          Haven page uses. Nothing here is wired to a backend; the router does the work. -->
     <div id="hd-shots-panel" class="hd-glass" style="display:none; padding:18px 20px; margin-top:14px;">
-      <h3 style="margin:0 0 6px; font-size:1.2em;">Deck Screenshots</h3>
+      <a class="hd-help" href="https://lulhaven.com/wiki/?view=page&amp;p=haven%2Fthe-helm" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" title="Help: opens lulhaven.com in a new tab" aria-label="Help (opens lulhaven.com)">?</a><h3 style="margin:0 0 6px; font-size:1.2em;">Deck Screenshots</h3>
       <p style="margin:0 0 12px; color:#555; font-size:0.92em; line-height:1.5;">
         Middle-click the mouse on the 3.5&Prime; deck &mdash; or click the save icon in its top
         corner &mdash; to capture the screen. Captures appear here; click any one to download the
@@ -717,7 +720,7 @@
 
 <div id="hd-pair-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:1000;align-items:center;justify-content:center;">
   <div style="padding:24px 28px;max-width:420px;width:90%;text-align:center;background:#fff;border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,0.3);">
-    <h3 style="margin:0 0 10px;color:#111;">Pair a phone</h3>
+    <a class="hd-help" href="https://lulhaven.com/wiki/?view=page&amp;p=haven%2Foff-network-filtering" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" title="Help: opens lulhaven.com in a new tab" aria-label="Help (opens lulhaven.com)">?</a><h3 style="margin:0 0 10px;color:#111;">Pair a phone</h3>
     <div id="hd-pair-qr" style="width:180px;height:180px;margin:0 auto 14px;"></div>
     <div style="display:flex;align-items:center;gap:6px;justify-content:center;margin:0 0 10px;">
       <code id="hd-pair-code" style="font-family:monospace;background:#f0f2f4;padding:6px 10px;border-radius:6px;font-size:13px;color:#0a5c4a;font-weight:bold;">&hellip;</code>
@@ -731,7 +734,7 @@
 
 <div id="hd-offnet-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:1000;align-items:center;justify-content:center;" onclick="if(event.target===this)hdCloseOffnetModal()">
   <div style="padding:24px 28px;max-width:420px;width:90%;text-align:center;background:#fff;border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,0.3);">
-    <h3 id="hd-offnet-title" style="margin-top:0;color:#111;">Deploy off-base filtering</h3>
+    <a class="hd-help" href="https://lulhaven.com/wiki/?view=page&amp;p=haven%2Foff-network-filtering" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" title="Help: opens lulhaven.com in a new tab" aria-label="Help (opens lulhaven.com)">?</a><h3 id="hd-offnet-title" style="margin-top:0;color:#111;">Deploy off-base filtering</h3>
     <div id="hd-offnet-qr" style="width:200px;height:200px;margin:0 auto 14px;"></div>
     <div style="display:flex;align-items:stretch;gap:6px;margin:0 0 14px;">
       <code id="hd-offnet-host" style="flex:1;font-family:monospace;font-size:0.9em;word-break:break-all;background:rgba(0,0,0,0.06);padding:8px 10px;border-radius:6px;display:flex;align-items:center;justify-content:center;"></code>
@@ -745,7 +748,7 @@
 <div id="hd-report-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:1000;align-items:center;justify-content:center;" onclick="if(event.target===this)hdCloseReportModal()">
   <div style="padding:20px 24px;max-width:640px;width:94%;max-height:82vh;overflow-y:auto;background:#fff;border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,0.3);text-align:left;">
     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;">
-      <h3 style="margin:0;color:#111;">Blocked-attempts report</h3>
+      <a class="hd-help" href="https://lulhaven.com/wiki/?view=page&amp;p=haven%2Factivity-log" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" title="Help: opens lulhaven.com in a new tab" aria-label="Help (opens lulhaven.com)">?</a><h3 style="margin:0;color:#111;">Blocked-attempts report</h3>
       <button onclick="hdCloseReportModal()" title="Close" style="padding:2px 8px;font-size:1rem;border:none;background:none;color:rgba(0,0,0,0.4);cursor:pointer;">&#10005;</button>
     </div>
     <p style="font-size:0.85em;color:#456;margin:0 0 12px;">Generated <span id="hd-report-date"></span> &middot; sample data for illustration</p>
@@ -759,7 +762,7 @@
 
 <div id="hd-yt-actions-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:1000;align-items:center;justify-content:center;" onclick="if(event.target===this)hdCloseYTActions()">
   <div style="padding:22px 26px;max-width:460px;width:90%;background:#fff;border-radius:12px;box-shadow:0 6px 24px rgba(0,0,0,0.25);">
-    <h3 id="hd-yt-actions-modal-title" style="margin:0 0 6px;font-size:1.05em;color:#111;">U-Haven channel actions</h3>
+    <a class="hd-help" href="https://lulhaven.com/wiki/?view=page&amp;p=haven%2Fyouhaven-quiet-the-feed" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" title="Help: opens lulhaven.com in a new tab" aria-label="Help (opens lulhaven.com)">?</a><h3 id="hd-yt-actions-modal-title" style="margin:0 0 6px;font-size:1.05em;color:#111;">U-Haven channel actions</h3>
     <p style="color:rgba(0,0,0,0.55);font-size:0.85em;margin:0 0 12px;">Requires the master switch above to be on. Off by default.</p>
     <div style="display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-top:1px solid rgba(0,0,0,0.06);">
       <input type="checkbox" id="hd-yt-act-dont-recommend" style="margin-top:3px;transform:scale(1.1);" onchange="hdToggleYTAction(this.checked)">
@@ -777,7 +780,7 @@
 <div id="hd-sched-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:1000;align-items:center;justify-content:center;" onclick="if(event.target===this)hdCloseScheduleModal()">
   <div style="padding:22px 26px;width:600px;max-width:96vw;background:#fff;border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,0.25);">
     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;">
-      <h3 id="hd-sched-title" style="margin:0;color:#111;">Access Schedule</h3>
+      <a class="hd-help" href="https://lulhaven.com/wiki/?view=page&amp;p=haven%2Fthe-helm" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" title="Help: opens lulhaven.com in a new tab" aria-label="Help (opens lulhaven.com)">?</a><h3 id="hd-sched-title" style="margin:0;color:#111;">Access Schedule</h3>
       <button onclick="hdCloseScheduleModal()" title="Close without saving changes." style="padding:2px 8px;font-size:1rem;border:none;background:none;color:rgba(0,0,0,0.4);cursor:pointer;">&#10005;</button>
     </div>
     <p style="font-size:0.8em;color:rgba(0,0,0,0.5);margin:0 0 10px;">Green = access allowed &middot; Red = access blocked &middot; Click, or click-and-drag, to toggle hours.</p>
@@ -796,7 +799,7 @@
 
 <div id="hd-apps-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:1000;align-items:center;justify-content:center;">
   <div style="padding:20px 24px;max-width:560px;width:92%;background:#fff;border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,0.3);text-align:left;">
-    <h3 style="margin:0 0 4px;color:#111;">Apps on paired phones</h3>
+    <a class="hd-help" href="https://lulhaven.com/wiki/?view=page&amp;p=haven%2Foff-network-filtering" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" title="Help: opens lulhaven.com in a new tab" aria-label="Help (opens lulhaven.com)">?</a><h3 style="margin:0 0 4px;color:#111;">Apps on paired phones</h3>
     <p style="font-size:0.85em;color:#456;margin:0 0 10px;">Apps reported by paired phones, and the remote connection each would use away from home.</p>
     <table style="width:100%;border-collapse:collapse;font-size:0.88em;">
       <thead><tr style="text-align:left;border-bottom:1px solid rgba(0,0,0,0.25);"><th style="padding:6px 8px;">App</th><th style="padding:6px 8px;">Device</th><th style="padding:6px 8px;">Remote connection</th></tr></thead>

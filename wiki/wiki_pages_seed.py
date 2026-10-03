@@ -286,7 +286,7 @@ Standard DNS filters can be bypassed by using a DoH resolver (e.g. Cloudflare 1.
 ### VPNs
 A device running a VPN tunnels all traffic through an encrypted channel, bypassing the router's DNS entirely.
 
-**Haven's response:** For mobile devices, Haven's off-network filtering enrolls the device so that Haven's filtering follows it even on cellular — which removes the incentive to use a VPN to escape the home filter. See [Filtering follows household members off-network](/wiki/?view=page&p=haven/off-network-filtering).
+**Haven's response:** For mobile devices, Haven's off-network filtering enrolls the device so that Haven's filtering follows it even on cellular — which removes the incentive to use a VPN to escape the home filter. See [Filtering follows each device off your network](/wiki/?view=page&p=haven/off-network-filtering).
 
 ### Apple Private Relay
 Apple Private Relay routes Safari traffic through Apple's relay network, obscuring the destination from the local network.
@@ -310,7 +310,7 @@ To test on a live router:
 """)
 
 # ── Off-network / Filtering follows members ────────────────────────────────
-page("haven/off-network-filtering", "Filtering follows household members off-network", """
+page("haven/off-network-filtering", "Filtering follows each device off your network", """
 ## What it is
 
 Haven can filter a phone or tablet's internet traffic even when it is away from home — on cellular, school Wi-Fi, a coffee shop, or anywhere else. The device's DNS queries are routed back through the Haven router via an encrypted tunnel.
