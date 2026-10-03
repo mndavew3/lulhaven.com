@@ -3862,7 +3862,7 @@ var milestonesDataset = [
   {
     "id": 497,
     "date": "2026-06-02",
-    "theme": "YouHaven anti-algorithm app",
+    "theme": "U-Haven anti-algorithm app",
     "impact": 3,
     "summary": "U-Haven, the YouTube content-filter companion app, built and proven for both Android and Linux — the Linux build is a self-contained desktop app.",
     "detail": "Linux desktop is an Electron AppImage; Android is an APK; one codebase, two platforms — groundwork for the companion experience to come.",
@@ -3897,7 +3897,7 @@ var milestonesDataset = [
     "date": "2026-06-01",
     "theme": "Filtering",
     "impact": 5,
-    "summary": "YouTube content filtering in the YouHaven app now covers search, home, and recommendations -- plus a desktop tool to see and verify the filtering directly.",
+    "summary": "YouTube content filtering in the U-Haven app now covers search, home, and recommendations -- plus a desktop tool to see and verify the filtering directly.",
     "detail": null,
     "benefit": "The product's core promise works again and is now visibly verifiable: over 90% of a blocked source's content is suppressed across the app",
     "ref": "4d06de6",
@@ -3906,7 +3906,7 @@ var milestonesDataset = [
   {
     "id": 494,
     "date": "2026-06-01",
-    "theme": "YouHaven anti-algorithm app",
+    "theme": "U-Haven anti-algorithm app",
     "impact": 4,
     "summary": "U-Haven now runs on the desktop as a launchable app that filters YouTube the same way.",
     "detail": "Channel-ID catalog split onto its own release train (build_yt_catalog.py -> yt-catalog.json) fetched whole by the device and intersected locally with per-device blocked items; channels no longer stored on the router; U-Haven desktop app (Linux, launchable) with router IP override box; app rebranded U-Haven",
@@ -5258,7 +5258,7 @@ var milestonesDataset = [
   {
     "id": 290,
     "date": "2026-05-23",
-    "theme": "YouHaven anti-algorithm app",
+    "theme": "U-Haven anti-algorithm app",
     "impact": 3,
     "summary": "YouTube channel blocklist now driven dynamically from category preferences.",
     "detail": "",
@@ -5340,7 +5340,7 @@ var milestonesDataset = [
   {
     "id": 291,
     "date": "2026-05-23",
-    "theme": "YouHaven anti-algorithm app",
+    "theme": "U-Haven anti-algorithm app",
     "impact": 1,
     "summary": "Improved internal tooling and reference data supporting filter accuracy.",
     "detail": null,
@@ -9498,7 +9498,7 @@ var milestonesDataset = [
   {
     "id": 255,
     "date": "2026-04-29",
-    "theme": "YouHaven anti-algorithm app",
+    "theme": "U-Haven anti-algorithm app",
     "impact": 1,
     "summary": "Simplified how the Fox News filter category groups related entries.",
     "detail": null,
@@ -9520,7 +9520,7 @@ var milestonesDataset = [
   {
     "id": 253,
     "date": "2026-04-29",
-    "theme": "YouHaven anti-algorithm app",
+    "theme": "U-Haven anti-algorithm app",
     "impact": 1,
     "summary": "Added helpful tooltips and improved filter-category organization in the website's demo.",
     "detail": null,
@@ -9700,7 +9700,7 @@ var milestonesDataset = [
   {
     "id": 266,
     "date": "2026-04-25",
-    "theme": "YouHaven anti-algorithm app",
+    "theme": "U-Haven anti-algorithm app",
     "impact": 3,
     "summary": "Improved search in the website's demo.",
     "detail": null,

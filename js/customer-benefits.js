@@ -256,7 +256,7 @@ var cbDataset = [
     "family_lead": null,
     "privacy_lead": null,
     "related_feature_ids": null,
-    "details": "<p>Filtering is only as good as the help behind it. If your Haven is ever broken, bricked, or doing something unsafe, we will always help you make it right — that is never gated behind a subscription. Your subscription adds the ongoing relationship: hands-on help setting up templates, tuning what is blocked for each person, getting YouHaven dialed in, and priority answers when you want them. Every Haven arrives with a support honeymoon alongside your first month of list updates; keep your subscription and that help keeps going.</p>",
+    "details": "<p>Filtering is only as good as the help behind it. If your Haven is ever broken, bricked, or doing something unsafe, we will always help you make it right — that is never gated behind a subscription. Your subscription adds the ongoing relationship: hands-on help setting up templates, tuning what is blocked for each person, getting U-Haven dialed in, and priority answers when you want them. Every Haven arrives with a support honeymoon alongside your first month of list updates; keep your subscription and that help keeps going.</p>",
     "link": null
   },
   {

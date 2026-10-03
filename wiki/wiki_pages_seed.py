@@ -169,27 +169,27 @@ A technically inclined user can confirm this by running a packet capture (e.g. W
 A privacy policy is a legal document that can change. A structural guarantee — where the data physically cannot leave the device — cannot be violated by a policy change, a data breach at Haven's servers, or a subpoena to Haven (there is nothing to hand over).
 """)
 
-# ── YouHaven / Quiet the feed ───────────────────────────────────────────────
-page("haven/youhaven-quiet-the-feed", "YouHaven: Quiet the feed", """
+# ── U-Haven / Quiet the feed ───────────────────────────────────────────────
+page("haven/youhaven-quiet-the-feed", "U-Haven: Quiet the feed", """
 ## What it is
 
-**YouHaven** is a companion Android app that runs YouTube through a filtering layer. It hides channels, content categories, and recommendation types that you have decided you do not want to see — not just for children, but for any adult who wants a less manipulative YouTube experience.
+**U-Haven** is a companion Android app that runs YouTube through a filtering layer. It hides channels, content categories, and recommendation types that you have decided you do not want to see — not just for children, but for any adult who wants a less manipulative YouTube experience.
 
-YouHaven is an intentional choice to take back control of your own attention. The Algorithm is designed to keep you watching. YouHaven lets you watch what you chose to watch, not what the feed decided you should watch next.
+U-Haven is an intentional choice to take back control of your own attention. The Algorithm is designed to keep you watching. U-Haven lets you watch what you chose to watch, not what the feed decided you should watch next.
 
-## What YouHaven filters
+## What U-Haven filters
 
 - **Channels by name** — block specific channels entirely
 - **Content categories** — political commentary, outrage content, reaction videos, etc.
 - **Recommendation types** — autoplay queue, "Up Next" sidebar, trending feed
-- Each category can be toggled individually in the Haven Helm under **YouHaven**
+- Each category can be toggled individually in the Haven Helm under **U-Haven**
 
 ## How to demonstrate
 
-1. Install YouHaven from [lulhaven.com/get-uhaven](https://lulhaven.com/get-uhaven).
-2. Open the Haven Helm at **http://haven.lan** → **YouHaven**.
+1. Install U-Haven from [lulhaven.com/get-uhaven](https://lulhaven.com/get-uhaven).
+2. Open the Haven Helm at **http://haven.lan** → **U-Haven**.
 3. Enable a content category filter (e.g. hide political commentary).
-4. Open YouHaven and browse YouTube — the filtered content type no longer appears in recommendations.
+4. Open U-Haven and browse YouTube — the filtered content type no longer appears in recommendations.
 5. Toggle the category off in the Helm — content reappears on the next page load.
 
 ## Platforms
@@ -204,7 +204,7 @@ YouHaven is an intentional choice to take back control of your own attention. Th
 
 ## How it works technically
 
-YouHaven loads YouTube inside a filtering layer that removes channels, content types, and recommendations matching the rules you set in the Helm — before they reach your screen. Your filter choices are managed from the Haven Helm under **YouHaven**.
+U-Haven loads YouTube inside a filtering layer that removes channels, content types, and recommendations matching the rules you set in the Helm — before they reach your screen. Your filter choices are managed from the Haven Helm under **U-Haven**.
 """)
 
 # ── Cancel anytime ──────────────────────────────────────────────────────────
@@ -497,7 +497,7 @@ The **Haven Helm** is Haven's web-based control interface. It runs directly on y
 - **Schedules** — set time windows when filtering applies (or is relaxed) per device
 - **Always-allow** — domains that are never blocked regardless of category settings
 - **Activity log** — see what is being blocked and by which device
-- **YouHaven** — manage YouTube filtering category settings
+- **U-Haven** — manage YouTube filtering category settings
 - **Off-network** — enroll devices for filtering away from home
 - **Settings** — administrators, subscription, network configuration
 
@@ -721,7 +721,7 @@ Haven is a full router replacement — not a device you add to your network alon
 - Haven Helm management interface
 - Device scheduling and per-device settings
 - Activity log
-- YouHaven (YouTube filtering)
+- U-Haven (YouTube filtering)
 - Off-network filtering via WireGuard tunnel
 
 Nothing is removed from the underlying OpenWrt router capabilities. If your old router supported a feature that OpenWrt supports, Haven supports it too (accessible via the advanced OpenWrt interface at http://192.168.1.1/cgi-bin/luci).
