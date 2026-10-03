@@ -349,7 +349,7 @@ Multiple people can have equal admin access to the Haven Helm. There is no "prim
 
 ## Typical use
 
-In a household, both parents can manage the filter settings independently. All changes made by any administrator take effect immediately and are visible to all.
+More than one administrator — two parents, or a school's IT staff — can manage the filter settings independently. All changes made by any administrator take effect immediately and are visible to all.
 
 ## How to add an administrator
 
@@ -462,7 +462,7 @@ Adult content filtering is **not enabled by default**. When you first set up Hav
 
 ## Why this matters
 
-Haven is not an "adult content blocker with other stuff." It is a general-purpose content filter where you decide what gets filtered. A household that wants to block gambling but not adult content can do that. A household that wants to filter nothing at all can do that.
+Haven is not an "adult content blocker with other stuff." It is a general-purpose content filter where you decide what gets filtered. If you want to block gambling but not adult content, you can. If you want to filter nothing at all, you can.
 
 ## To enable adult content filtering
 
@@ -588,7 +588,7 @@ Open the Haven Helm → **Activity log**.
 
 ## Filtering the log
 
-- Filter by device to see activity from one household member's device
+- Filter by device to see activity from one person's device
 - Filter by action (blocked only) to audit what is being caught
 - Filter by time range
 
