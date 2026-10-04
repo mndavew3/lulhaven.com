@@ -7,6 +7,7 @@
 import {
   SKEW_SECONDS, spkiFromRaw, sha256hex, buildMessage, verifySignature,
   extractIdentityHeaders, verifyRouterIdentity, bindIdentity,
+  releaseIdentity, RELEASE_BODY,
 } from "./haven-identity.js";
 import crypto from "node:crypto";
 
@@ -80,7 +81,7 @@ eq("extract-null-when-missing", extractIdentityHeaders(makeReq({ "X-Haven-Serial
 function makeEnv(store) {
   return {
     haven_builds: {
-      prepare: (_q) => ({
+      prepare: (q) => ({
         bind: (...args) => ({
           first: async () => {
             if (store.__throw) throw new Error("db down");
@@ -89,6 +90,11 @@ function makeEnv(store) {
           },
           run: async () => {
             if (store.__throw) throw new Error("db down");
+            if (/^UPDATE/.test(q)) {   // releaseIdentity's compare-and-swap: (new pubkey, serial, old pubkey)
+              const [np, s, op] = args;
+              if (store[s] && store[s].pubkey === op) store[s].pubkey = np;
+              return {};
+            }
             const [serial, pubkey] = args;
             if (!store[serial]) store[serial] = { pubkey };
             return {};
@@ -202,6 +208,82 @@ for (const missing of ["X-Haven-Serial", "X-Haven-Timestamp", "X-Haven-Signature
   const r = await bindIdentity(env, "BIND-SERIAL-0000004-Z", freshPubB64, "register");
   ok("bind-server-error-not-ok", r.ok === false);
   eq("bind-server-error-reason", r.reason, "server_error");
+}
+
+// 7. releaseIdentity: the owner hand-off exception ----------------------------
+// A real note first: signed by the bench Olive's own openssl (3.5.8, 2026-10-04)
+// with a throwaway key, through haven_identity_sign over RELEASE_BODY — the
+// same device-to-server proof as FIX above, for the note itself.
+const REL = {
+  pubkeyB64: "WnGgc5QreMZEJdYA1XHIVCe1mhkyZAh7yAmUZT88En0=",
+  serial: "H1-20260915-G-E84-0110-US-0000032-N",
+  ts: "1791153752",
+  sigB64: "Y08TX2lOUo99xFIp4HzKyFKjQ82drHx95ebgIyLsmC/2T3ObBNezzY5aruCsV0uJkTcUia90f5w29cvTPH+LBw==",
+  bodySha256: "76634de3211335c7cd6c417981a8b371546be7d154cd13a7b33bef325f07bdd7",
+};
+eq("release-body-hash-matches-router", await sha256hex(RELEASE_BODY), REL.bodySha256);
+ok("release-router-note-verifies", await verifySignature(REL.pubkeyB64, REL.serial, REL.ts, RELEASE_BODY, REL.sigB64));
+
+const relNote = () => ({ ts: REL.ts, sig: REL.sigB64 });
+const relStore = () => ({ [REL.serial]: { pubkey: REL.pubkeyB64 } });
+
+{
+  const store = relStore();
+  const r = await releaseIdentity(makeEnv(store), REL.serial, freshPubB64, relNote());
+  ok("release-happy-ok", r.ok === true);
+  eq("release-happy-bound", r.bound, "released");
+  eq("release-happy-store-holds-new-key", store[REL.serial].pubkey, freshPubB64);
+  // replay: the same note with a third key — the bound key is now the new one
+  const { publicKey: p3 } = crypto.generateKeyPairSync("ed25519");
+  const third = Buffer.from(p3.export({ type: "spki", format: "der" }).subarray(-32)).toString("base64");
+  const r2 = await releaseIdentity(makeEnv(store), REL.serial, third, relNote());
+  eq("release-replay-refused", r2.reason, "bad_release");
+  eq("release-replay-store-unchanged", store[REL.serial].pubkey, freshPubB64);
+  // the legitimate unit asking again is a no-op
+  const r3 = await releaseIdentity(makeEnv(store), REL.serial, freshPubB64, relNote());
+  eq("release-again-already", r3.bound, "already");
+}
+
+{
+  // a note signed by any other key (here: the new key itself) releases nothing
+  const store = relStore();
+  const msg = Buffer.from(await buildMessage(REL.serial, REL.ts, RELEASE_BODY));
+  const forged = Buffer.from(crypto.sign(null, msg, freshPriv)).toString("base64");
+  const r = await releaseIdentity(makeEnv(store), REL.serial, freshPubB64, { ts: REL.ts, sig: forged });
+  eq("release-wrong-signer", r.reason, "bad_release");
+  eq("release-wrong-signer-store-unchanged", store[REL.serial].pubkey, REL.pubkeyB64);
+}
+
+{
+  // an ordinary signed request from the bound key is NOT a release note: FIX is
+  // a real mail-relay signature, presented here as if it were one
+  const store = { [FIX.serial]: { pubkey: FIX.pubkeyB64 } };
+  const r = await releaseIdentity(makeEnv(store), FIX.serial, freshPubB64, { ts: FIX.ts, sig: FIX.sigB64 });
+  eq("release-ordinary-request-is-not-a-note", r.reason, "bad_release");
+  eq("release-ordinary-request-store-unchanged", store[FIX.serial].pubkey, FIX.pubkeyB64);
+}
+
+{
+  // no skew window: a note signed years before it is presented still releases
+  const { publicKey: oldPub, privateKey: oldPriv } = crypto.generateKeyPairSync("ed25519");
+  const oldB64 = Buffer.from(oldPub.export({ type: "spki", format: "der" }).subarray(-32)).toString("base64");
+  const ts = "1600000000";
+  const sig = Buffer.from(crypto.sign(null, Buffer.from(await buildMessage(REL.serial, ts, RELEASE_BODY)), oldPriv)).toString("base64");
+  const store = { [REL.serial]: { pubkey: oldB64 } };
+  eq("release-years-old-note", (await releaseIdentity(makeEnv(store), REL.serial, freshPubB64, { ts, sig })).bound, "released");
+}
+
+{
+  const store = relStore();
+  const other = "H1-OTHER-SERIAL-0000001-Z";
+  eq("release-other-serial", (await releaseIdentity(makeEnv({ [other]: { pubkey: REL.pubkeyB64 } }), other, freshPubB64, relNote())).reason, "bad_release");
+  eq("release-shifted-ts", (await releaseIdentity(makeEnv(store), REL.serial, freshPubB64, { ts: String(Number(REL.ts) + 1), sig: REL.sigB64 })).reason, "bad_release");
+  eq("release-no-note", (await releaseIdentity(makeEnv(store), REL.serial, freshPubB64, null)).reason, "bad_release");
+  eq("release-bad-ts-shape", (await releaseIdentity(makeEnv(store), REL.serial, freshPubB64, { ts: "soon", sig: REL.sigB64 })).reason, "bad_release");
+  eq("release-unknown-unit", (await releaseIdentity(makeEnv({}), REL.serial, freshPubB64, relNote())).reason, "unknown_unit");
+  eq("release-bad-new-key", (await releaseIdentity(makeEnv(store), REL.serial, "short", relNote())).reason, "bad_identity");
+  eq("release-server-error", (await releaseIdentity(makeEnv({ __throw: true }), REL.serial, freshPubB64, relNote())).reason, "server_error");
+  eq("release-failures-left-store-unchanged", store[REL.serial].pubkey, REL.pubkeyB64);
 }
 
 console.log(`\n${pass} pass, ${fail} fail`);

@@ -101,7 +101,7 @@ var hdSections = [
 // hdSections) — NOT in haven-tooltips.js, which the deploy regenerates from haven.db and
 // would wipe. Keys match the display names in hdSections / hdDataset.
 var hdSectionTips = {
-  "Adult & Sensitive":"Categories many customers filter for younger or more sensitive members.",
+  "Adult & Sensitive":"Categories often filtered for younger or more sensitive users.",
   "Business & Finance":"Shopping, banking, crypto, jobs, and travel.",
   "Entertainment":"Video, gaming, music, and sports.",
   "Health & Wellness":"Health information — and the fraud that imitates it.",
@@ -109,7 +109,7 @@ var hdSectionTips = {
   "News & Media":"News, politics, and misinformation.",
   "Social & Communication":"Social networks, messaging, and forums.",
   "Technology":"Ads, AI, cloud, search, and the tools that bypass filtering.",
-  "Other":"Categories that don't fit a section above."
+  "Other":"Categories that don't fit a group above."
 };
 
 var hdCatTips = {

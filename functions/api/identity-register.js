@@ -10,11 +10,17 @@
 // unit re-registering after a factory reset presents its ORIGINAL key and gets
 // {bound:"already"}.
 //
+// ONE EXCEPTION — owner hand-off (2026-10-04): that wipe destroys the old key,
+// so the unit's first registration afterwards carries a new key plus a
+// `release` note {ts, sig} the OLD key signed just before the wipe. A note that
+// verifies against the bound key swaps the binding once ({bound:"released"});
+// anything else stays a 409. See releaseIdentity in _lib/haven-identity.js.
+//
 // Squatting guard: only serials this house actually issued can be claimed
 // (issued_serials, populated at provision). Without it, anyone could pre-bind
 // keys to serials that do not exist yet and lock the real units out on their
 // first boot. Fail closed if the registry cannot be read.
-import { extractIdentityHeaders, verifySignature, bindIdentity, SKEW_SECONDS } from "../_lib/haven-identity.js";
+import { extractIdentityHeaders, verifySignature, bindIdentity, releaseIdentity, SKEW_SECONDS } from "../_lib/haven-identity.js";
 
 const CORS = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Methods": "POST, OPTIONS", "Access-Control-Allow-Headers": "Content-Type, X-Haven-Serial, X-Haven-Timestamp, X-Haven-Signature" };
 const json = (b, s = 200) => new Response(JSON.stringify(b), { status: s, headers: { "Content-Type": "application/json", "Cache-Control": "no-store", ...CORS } });
@@ -45,7 +51,9 @@ export async function onRequestPost({ request, env }) {
         if (!known) return json({ error: "unknown_serial" }, 404);
     } catch { return json({ error: "server_error" }, 500); }
 
-    const b = await bindIdentity(env, hdr.serial, pubkey, "register");
-    if (!b.ok) return json({ error: b.reason }, b.reason === "identity_mismatch" ? 409 : 500);
+    let b = await bindIdentity(env, hdr.serial, pubkey, "register");
+    if (!b.ok && b.reason === "identity_mismatch" && body.release && typeof body.release === "object")
+        b = await releaseIdentity(env, hdr.serial, pubkey, body.release);
+    if (!b.ok) return json({ error: b.reason }, (b.reason === "identity_mismatch" || b.reason === "bad_release") ? 409 : 500);
     return json({ ok: true, bound: b.bound });
 }

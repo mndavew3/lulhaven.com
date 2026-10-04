@@ -19,6 +19,6 @@
 CREATE TABLE IF NOT EXISTS unit_identities (
     serial          TEXT PRIMARY KEY,
     pubkey          TEXT NOT NULL,               -- base64 of the raw 32-byte Ed25519 public key
-    bound_via       TEXT NOT NULL,               -- 'provision' (bound at serial mint) | 'register' (bound by signed self-registration)
+    bound_via       TEXT NOT NULL,               -- 'provision' (bound at serial mint) | 'register' (bound by signed self-registration) | 'release' (re-bound after an owner hand-off, on a note signed by the previous key)
     bound_datetime  TEXT NOT NULL DEFAULT (datetime('now'))
 );

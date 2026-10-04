@@ -139,3 +139,47 @@ export async function bindIdentity(env, serial, pubkeyB64, via) {
         return { ok: false, reason: "server_error" };
     }
 }
+
+// The ONE exception to first-claim-then-immutable (Dave, 2026-10-04): an owner
+// hand-off. That wipe destroys the unit's private key on purpose, so the next
+// owner's unit mints a new one -- and without this it would be refused for
+// good. Just before the wipe the unit signs a RELEASE NOTE with the key we
+// hold: the usual three-line message, over RELEASE_BODY, stamped with the time
+// of the hand-off. The note is the only thing that survives the wipe, and it
+// is not a key -- it verifies against the bound pubkey or it is worthless.
+//   * No skew check: a unit can sit in a drawer for months between the
+//     hand-off and its next boot, and the hand-off itself needs no internet.
+//   * No replay: once honoured, the bound key is the NEW one and the note no
+//     longer verifies. The UPDATE is a compare-and-swap on the old key, so two
+//     racing presentations cannot both win.
+//   * A plain "this key was wiped" sentinel was considered and rejected:
+//     serials are printed on the unit, so anyone could send it.
+// The caller proves possession of the NEW key first, exactly as for a bind.
+export const RELEASE_BODY = '{"release":"haven-identity-key-v1"}';
+
+export async function releaseIdentity(env, serial, newPubkeyB64, note) {
+    const pub = b64ToBytes(newPubkeyB64);
+    if (!isSerial(serial) || !pub || pub.length !== 32) return { ok: false, reason: "bad_identity" };
+    if (!note || typeof note.sig !== "string" || !/^\d{1,12}$/.test(String(note.ts)))
+        return { ok: false, reason: "bad_release" };
+    try {
+        const before = await env.haven_builds
+            .prepare("SELECT pubkey FROM unit_identities WHERE serial = ?")
+            .bind(serial).first();
+        if (!before || !before.pubkey) return { ok: false, reason: "unknown_unit" };
+        if (before.pubkey === newPubkeyB64) return { ok: true, bound: "already" };
+        if (!(await verifySignature(before.pubkey, serial, String(note.ts), RELEASE_BODY, note.sig)))
+            return { ok: false, reason: "bad_release" };
+        await env.haven_builds
+            .prepare("UPDATE unit_identities SET pubkey = ?, bound_via = 'release', bound_datetime = datetime('now') WHERE serial = ? AND pubkey = ?")
+            .bind(newPubkeyB64, serial, before.pubkey).run();
+        const after = await env.haven_builds
+            .prepare("SELECT pubkey FROM unit_identities WHERE serial = ?")
+            .bind(serial).first();
+        return after && after.pubkey === newPubkeyB64
+            ? { ok: true, bound: "released" }
+            : { ok: false, reason: "identity_mismatch" };
+    } catch {
+        return { ok: false, reason: "server_error" };
+    }
+}
