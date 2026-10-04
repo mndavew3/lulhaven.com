@@ -19,7 +19,7 @@
 // A stale pin is now caught mechanically by hearst-preflight.sh, which compares this
 // constant against the newest built image before any publish — the previous audit was
 // 2026-08-13 and nothing noticed for eight days.
-var HD_CURRENT_VERSION = '0.1.104'; // audited 2026-09-15: 0.1.104 carries mods #124 (Advanced toggle answers "Coming soon" instead of switching modes — this demo already shipped the same gate, see hdToggleMode below) and #131 (Helm booted into Advanced when the browser had no saved mode — no demo surface at all: the demo persists only 'havenDemo' state, has no mode key in localStorage, and hdBasicMode is pinned true at init). Nothing else changed router UI.
+var HD_CURRENT_VERSION = '0.1.108'; // audited 2026-10-04 against 0.1.105-0.1.108: Show Filtered now shows in Basic here too (router mod #133 — the hide rule left demo.html), the "Adult & Sensitive" and "Other" section tooltips match main.htm, the per-section ? help buttons and the tooltip keys were already in step (696 of 696 shared), and the login, password, early-click, update and hand-off changes (#141-#144 among them) have no demo surface. Earlier audit, 2026-09-15 (0.1.104): #124 (Advanced toggle answers "Coming soon" — this demo already shipped the same gate, see hdToggleMode below) and #131 (no demo surface: hdBasicMode is pinned true at init).
 
 var hdNameGroups = {};
 var hdKeyNameMap = {};
