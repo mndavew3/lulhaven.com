@@ -1,5 +1,49 @@
-// generated from haven_wiki.db accomplishments — 842 rows, newest id 857
+// generated from haven_wiki.db accomplishments — 846 rows, newest id 861
 var milestonesDataset = [
+  {
+    "id": 861,
+    "date": "2026-10-03",
+    "theme": "Reliability & Updates",
+    "impact": 4,
+    "summary": "Added a safeguard to settings-keeping updates. At the first start after an update, the router now sets its large downloadable block list aside, restores the customer's settings, login and router identity from a slimmer backup, then downloads the list fresh. Written and bench-tested against a simulated backup on the bench router; proof on a real update comes with the next build.",
+    "detail": null,
+    "benefit": "A customer's settings, login and router identity are restored first after an update, ahead of anything that can simply be downloaded again.",
+    "ref": "03a23e0d63",
+    "features": []
+  },
+  {
+    "id": 858,
+    "date": "2026-10-03",
+    "theme": "Haven Helm",
+    "impact": 3,
+    "summary": "Every section of the router's own settings screens now has a small question-mark button that opens the help article for that section on lulhaven.com.",
+    "detail": null,
+    "benefit": "Help for a setting is one click away, right beside the setting you are looking at.",
+    "ref": "41a1a4cc47",
+    "features": []
+  },
+  {
+    "id": 860,
+    "date": "2026-10-03",
+    "theme": "Firmware & overlay",
+    "impact": 2,
+    "summary": "Haven 0.1.106 was built for all four routers under one version number and signed. It carries the new help buttons, the capped lookup list and the restored weekly network check. It is not released yet.",
+    "detail": null,
+    "benefit": "The next update brings in-place help and steadier long-running behavior to every Haven router at once.",
+    "ref": "48eb259",
+    "features": []
+  },
+  {
+    "id": 859,
+    "date": "2026-10-03",
+    "theme": "Reliability & Updates",
+    "impact": 2,
+    "summary": "The router's running list of recent lookups is now capped in size, so it can no longer grow without limit in the router's memory.",
+    "detail": null,
+    "benefit": "Haven keeps running smoothly however long the router stays on.",
+    "ref": "0493d7c975",
+    "features": []
+  },
   {
     "id": 847,
     "date": "2026-10-02",
