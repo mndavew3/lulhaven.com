@@ -1,4 +1,4 @@
-// generated from haven_wiki.db accomplishments — 854 rows, newest id 869
+// generated from haven_wiki.db accomplishments — 855 rows, newest id 870
 var milestonesDataset = [
   {
     "id": 868,
@@ -42,6 +42,17 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "The identity key is how a Haven router proves to our server that it is itself. A router that carries its key through an update keeps our record of it true, and its settings stay where the customer left them.",
     "ref": "d46885f993",
+    "features": []
+  },
+  {
+    "id": 870,
+    "date": "2026-10-04",
+    "theme": "Haven Helm",
+    "impact": 3,
+    "summary": "Added an Instruments page to the Helm: a live drawing of the router's back panel with a light beside each port showing its speed, and a list of every wireless connection with its band and Wi-Fi generation",
+    "detail": null,
+    "benefit": "You can see what every port and every wireless device is doing from your browser, without leaning over the router to read its lights",
+    "ref": "11782aa4",
     "features": []
   },
   {
