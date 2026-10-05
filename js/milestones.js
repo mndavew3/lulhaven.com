@@ -1,5 +1,60 @@
-// generated from haven_wiki.db accomplishments — 846 rows, newest id 861
+// generated from haven_wiki.db accomplishments — 851 rows, newest id 866
 var milestonesDataset = [
+  {
+    "id": 865,
+    "date": "2026-10-04",
+    "theme": "Trust & transparency",
+    "impact": 4,
+    "summary": "Added a signed release note to Erase and hand off, so the next owner gets a clean, working router and nobody has to be online when the button is pressed. Before the router erases itself, its old identity key signs a short release note that is kept through the erase. At the next start with internet, the router presents its new key together with that note; our server checks the note against the old key, swaps to the new one once, and marks the note used. A copied note presented with a different key is refused. On the Vanilla flavor the hand-off erases the stored copy of the settings as well, so the next owner starts fresh. The router and server halves passed 17 of 17 trials together and the server's 64 tests pass. It is built into 0.1.108. It is not released, the server half is not live, and it has not yet been run on a real router.",
+    "detail": null,
+    "benefit": "A router that changes hands gets a clean identity and none of the previous owner's settings, even with no internet at the moment of hand-off.",
+    "ref": "d46885f993",
+    "features": []
+  },
+  {
+    "id": 864,
+    "date": "2026-10-04",
+    "theme": "Reliability & Updates",
+    "impact": 4,
+    "summary": "Added two safeguards to the first start after an update, so a Haven router carries the same identity key and the same settings through it. The router keeps the key it already holds and records it, and it tells an update apart from a factory reset before restoring anything. Both passed 20 of 20 trials on a bench router and are built into 0.1.108. On a real settings-keeping update of a bench Olive router, the identity key came through unchanged and its public half was recorded. 0.1.108 is not released yet.",
+    "detail": null,
+    "benefit": "The identity key is how a Haven router proves to our server that it is itself. A router that carries its key through an update keeps our record of it true, and its settings stay where the customer left them.",
+    "ref": "d46885f993",
+    "features": []
+  },
+  {
+    "id": 863,
+    "date": "2026-10-04",
+    "theme": "Reliability & Updates",
+    "impact": 3,
+    "summary": "The publish check now refuses an update for the Olive router unless two things are true: the image carries the settings-keeping safeguard, and a settings-keeping update of that exact version has passed on a real Olive on the bench. If the bench records cannot be read, the check refuses; it never passes by default.",
+    "detail": null,
+    "benefit": "An update is the one step a customer cannot undo. No Olive update can reach customers until a real router has taken that exact version and kept its settings.",
+    "ref": "e4aba3d913",
+    "features": []
+  },
+  {
+    "id": 866,
+    "date": "2026-10-04",
+    "theme": "Firmware & overlay",
+    "impact": 2,
+    "summary": "Haven 0.1.108 was built for all four routers under one version number and signed. It is 0.1.107 plus three additions: the identity key and settings carry through an update, the Vanilla hand-off erases its stored settings copy, and the signed release note at hand-off. Each finished image was opened and its five changed scripts compared byte for byte with the source. It is not released yet.",
+    "detail": null,
+    "benefit": "All three additions are in a real build that can be tried on a real router before any customer receives it.",
+    "ref": "dc8107ca61",
+    "features": []
+  },
+  {
+    "id": 862,
+    "date": "2026-10-04",
+    "theme": "Firmware & overlay",
+    "impact": 2,
+    "summary": "Haven 0.1.107 was built for all four routers under one version number and signed. It is 0.1.106 plus one change: the safeguard that lets an Olive router keep its settings through an update. Each finished image was opened to confirm the safeguard is inside. It is not released.",
+    "detail": null,
+    "benefit": "The settings-keeping safeguard is now in a real build that can be tried on a real router, not only in the code.",
+    "ref": "a92567d45e",
+    "features": []
+  },
   {
     "id": 861,
     "date": "2026-10-03",
