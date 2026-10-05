@@ -1,4 +1,4 @@
-// generated from haven_wiki.db accomplishments — 855 rows, newest id 870
+// generated from haven_wiki.db accomplishments — 856 rows, newest id 871
 var milestonesDataset = [
   {
     "id": 868,
@@ -75,6 +75,17 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "An update is the one step a customer cannot undo. No Olive update can reach customers until a real router has taken that exact version and kept its settings.",
     "ref": "e4aba3d913",
+    "features": []
+  },
+  {
+    "id": 871,
+    "date": "2026-10-04",
+    "theme": "Haven Helm",
+    "impact": 2,
+    "summary": "Instruments in the Helm gained four more screens: Traffic, a live graph of internet use that scales itself; Devices, every device on the network with the active ones first; Internet Health, showing whether the connection is up, how long the router has run, how fast names are looked up, and how hard the router is working; and About/Help. The back-panel drawing now shows a small light beside each jack and a cable in each connected one.",
+    "detail": null,
+    "benefit": "You can see at a glance what your network is doing: how busy the connection is, which devices are on it, and whether the internet is healthy, all from the router's own page with no extra app.",
+    "ref": "11782aa4",
     "features": []
   },
   {
