@@ -1,5 +1,27 @@
-// generated from haven_wiki.db accomplishments — 851 rows, newest id 866
+// generated from haven_wiki.db accomplishments — 854 rows, newest id 869
 var milestonesDataset = [
+  {
+    "id": 868,
+    "date": "2026-10-04",
+    "theme": "Firmware & overlay",
+    "impact": 5,
+    "summary": "Haven 0.1.109 was released for all four routers under one version number. It is the first release since 0.1.104 and carries what was added in between, including a question-mark help note on every section of the router's settings screens, a size cap on the router's list of recent lookups, the safeguards that carry the identity key, the VPN server key and the settings through an update, and the router's part of the signed release note at Erase and hand off. Before release, a settings-keeping update to this exact version passed on a real Olive router on the bench, each finished image was opened and its changed scripts compared with the source, and the update list was signed. After release, each of the four firmware files was downloaded back from its public address and matched the signed list.",
+    "detail": null,
+    "benefit": "Every Haven router that checks for updates is now offered 0.1.109, and the update keeps its keys, its settings and its VPN pairings.",
+    "ref": "4529323f7d",
+    "features": []
+  },
+  {
+    "id": 867,
+    "date": "2026-10-04",
+    "theme": "Reliability & Updates",
+    "impact": 4,
+    "summary": "Added a safeguard so a Haven router keeps its VPN server key through an update. At the first start after an update, the router keeps the usable key it already holds and writes its settings record back from that key. On a real settings-keeping update of a bench Olive router to 0.1.109, started with the key on the router and its record absent, both key files came through unchanged, the record was written back to match the key, and every settings file, account and login was identical before and after. It is built into 0.1.109.",
+    "detail": null,
+    "benefit": "Phones and laptops paired to the router's VPN keep connecting after an update. Nobody has to pair them again.",
+    "ref": "bfbab8146a",
+    "features": []
+  },
   {
     "id": 865,
     "date": "2026-10-04",
@@ -20,6 +42,17 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "The identity key is how a Haven router proves to our server that it is itself. A router that carries its key through an update keeps our record of it true, and its settings stay where the customer left them.",
     "ref": "d46885f993",
+    "features": []
+  },
+  {
+    "id": 869,
+    "date": "2026-10-04",
+    "theme": "Product definition",
+    "impact": 3,
+    "summary": "The Navy console-screen stand is printed and working in its fifth revision: it folds flat and rides under the tablet inside the crate lid, and it stands the tablet up at a reading angle with a fold-out lip holding the bottom edge.",
+    "detail": null,
+    "benefit": "A Navy owner gets a stand that travels inside the crate with the tablet resting on top of it and sets up in one motion, so there is nothing extra to carry or to lose.",
+    "ref": "11782aa4",
     "features": []
   },
   {
