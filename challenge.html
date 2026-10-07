@@ -20,7 +20,15 @@
   header.hero .hero-gnome{display:block;margin:0 auto 18px;width:min(210px,52vw);height:auto;
         border-radius:14px;box-shadow:0 8px 28px rgba(0,0,0,.35);}
   header.hero .hero-twins{display:block;margin:0 auto 20px;width:min(640px,94vw);height:auto;
-        border-radius:16px;box-shadow:0 10px 34px rgba(0,0,0,.45);}
+        border-radius:16px;box-shadow:0 10px 34px rgba(0,0,0,.45);cursor:zoom-in;}
+  dialog.pic-view{padding:0;border:0;border-radius:14px;background:#111;max-width:96vw;max-height:96vh;overflow:hidden;}
+  dialog.pic-view::backdrop{background:rgba(0,0,0,.85);}
+  dialog.pic-view .pic-inner{padding:12px;text-align:center;}
+  dialog.pic-view img{display:block;max-width:calc(96vw - 24px);max-height:calc(96vh - 92px);width:auto;height:auto;margin:0 auto;border-radius:10px;}
+  dialog.pic-view .pic-actions{display:flex;gap:12px;justify-content:center;margin-top:12px;}
+  dialog.pic-view .pic-actions a,dialog.pic-view .pic-actions button{font-family:inherit;font-weight:700;font-size:1rem;line-height:1;padding:12px 22px;border-radius:10px;border:0;cursor:pointer;text-decoration:none;}
+  dialog.pic-view .pic-save{background:#f28c28;color:#111;}
+  dialog.pic-view .pic-close{background:#333;color:#eee;}
   header.hero h1{font-size:clamp(2.2rem,7vw,3.8rem);font-weight:900;letter-spacing:.03em;margin:0 0 10px;line-height:1.02;}
   header.hero p{font-size:1.12rem;opacity:.92;max-width:640px;margin:10px auto 0;}
   section{padding:46px 0;border-bottom:1px solid var(--line);}
@@ -189,6 +197,28 @@
       msg.style.color = "#b3261e"; msg.textContent = "Network error. Please try again.";
     });
   });
+})();
+</script>
+<dialog id="twins-view" class="pic-view" aria-label="The Haven twins, full size">
+  <div class="pic-inner">
+    <img src="assets/images/haven-halloween-twins.jpg" alt="Two young Haven gnomes in Viking helmets out trick-or-treating on a leaf-covered walk, carrying burlap bags marked TRICK and TREAT">
+    <div class="pic-actions">
+      <a class="pic-save" href="assets/images/haven-halloween-twins.jpg" download="haven-halloween-twins.jpg">Save picture</a>
+      <button type="button" class="pic-close">Close</button>
+    </div>
+  </div>
+</dialog>
+<script>
+// The twin picture (Dave, 2026-10-06 21:56, "A"): visitors kept tapping it (106 taps from 12 visitors in two days),
+// so a tap opens it full size with a Save button, and both are counted (picture_open, picture_save).
+(function(){
+  var pic = document.querySelector("header.hero .hero-twins"), view = document.getElementById("twins-view");
+  if (!pic || !view || !view.showModal) return;
+  function log(kind){ if (window.havenKyc) window.havenKyc.event(kind, "haven-halloween-twins.jpg"); }
+  pic.addEventListener("click", function(){ view.showModal(); log("picture_open"); });
+  view.querySelector(".pic-save").addEventListener("click", function(){ log("picture_save"); });
+  view.querySelector(".pic-close").addEventListener("click", function(){ view.close(); });
+  view.addEventListener("click", function(e){ if (e.target === view) view.close(); });
 })();
 </script>
 <script src="js/kyc.js?v=d9c6d6a9"></script>
