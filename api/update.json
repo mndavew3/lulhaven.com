@@ -2,34 +2,34 @@
   "firmware": {
     "enabled": true,
     "navy": {
-      "version": "0.1.111",
-      "url": "https://pub-37d0a3fa28b1485cbe594b4b7123c524.r2.dev/openwrt-25.12.5-haven-0.1.111-mediatek-filogic-glinet_gl-mt6000-squashfs-sysupgrade.bin",
-      "sha256": "a8a284fe4b95f91045237125b3e3a28f2312697a66bdd09aae5476709d7c6dee",
+      "version": "0.1.112",
+      "url": "https://pub-37d0a3fa28b1485cbe594b4b7123c524.r2.dev/openwrt-25.12.5-haven-0.1.112-mediatek-filogic-glinet_gl-mt6000-squashfs-sysupgrade.bin",
+      "sha256": "92decd242b6fb5297fd9a457d0a8871fd75f480adeacfe060f9407c1ea66d507",
       "size": 59822400
     },
     "olive": {
-      "version": "0.1.111",
-      "url": "https://pub-37d0a3fa28b1485cbe594b4b7123c524.r2.dev/openwrt-25.12.5-haven-0.1.111-mediatek-mt7622-linksys_e8450-ubi-squashfs-sysupgrade.itb",
-      "sha256": "416d04a8e55b1819554d74b342c50d800d2e6ee924463fed87145f6af41cd82a",
+      "version": "0.1.112",
+      "url": "https://pub-37d0a3fa28b1485cbe594b4b7123c524.r2.dev/openwrt-25.12.5-haven-0.1.112-mediatek-mt7622-linksys_e8450-ubi-squashfs-sysupgrade.itb",
+      "sha256": "757c19410980392310f05e79a84e781721275f7731c0a6c6a8185f9be9b4ec60",
       "size": 60490430
     },
     "pi": {
-      "version": "0.1.111",
-      "url": "https://pub-37d0a3fa28b1485cbe594b4b7123c524.r2.dev/openwrt-25.12.5-haven-0.1.111-bcm27xx-bcm2712-rpi-5-squashfs-sysupgrade.img.gz",
-      "sha256": "5ee00ff2df4823ab6a3cdaf3fd75cfd8b6e32d151fec150287e057d310c24e64",
-      "size": 62056703
+      "version": "0.1.112",
+      "url": "https://pub-37d0a3fa28b1485cbe594b4b7123c524.r2.dev/openwrt-25.12.5-haven-0.1.112-bcm27xx-bcm2712-rpi-5-squashfs-sysupgrade.img.gz",
+      "sha256": "307fc960ae6456e3e528d9559d300c86e84aa357a1b04b945e521c2300fa66d8",
+      "size": 62538469
     },
     "vm": {
-      "version": "0.1.111",
-      "url": "https://pub-37d0a3fa28b1485cbe594b4b7123c524.r2.dev/openwrt-25.12.5-haven-0.1.111-x86-64-generic-squashfs-combined.img.gz",
-      "sha256": "60fbfc814ffdb775a790ccfc519736a8364e4244d8145d193cec83eafafd3653",
-      "size": 65000270
+      "version": "0.1.112",
+      "url": "https://pub-37d0a3fa28b1485cbe594b4b7123c524.r2.dev/openwrt-25.12.5-haven-0.1.112-x86-64-generic-squashfs-combined.img.gz",
+      "sha256": "e7e25eb9fd842cc70c89c659a9381853f1e873c66a87bc5795c1eaae7b7db094",
+      "size": 65561228
     },
     "orange": {
-      "version": "0.1.111",
-      "url": "https://pub-37d0a3fa28b1485cbe594b4b7123c524.r2.dev/openwrt-25.12.5-haven-0.1.111-sunxi-cortexa53-xunlong_orangepi-zero3-squashfs-sdcard.img.gz",
-      "sha256": "5dfd696e2f61d7e4fb411fb12497ac155e60a2129f5ee921a5feb126652e3c9c",
-      "size": 117546202
+      "version": "0.1.112",
+      "url": "https://pub-37d0a3fa28b1485cbe594b4b7123c524.r2.dev/openwrt-25.12.5-haven-0.1.112-sunxi-cortexa53-xunlong_orangepi-zero3-squashfs-sdcard.img.gz",
+      "sha256": "4bdbf48f9a09f399cc56e749a8c5d95a171c7f32e33833f3f701682880ec087a",
+      "size": 118660368
     }
   }
 }
