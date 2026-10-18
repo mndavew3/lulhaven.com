@@ -33,3 +33,8 @@ database_id   = "926b43a0-e59f-4c7a-9a86-46901a0c5a41"
 [[r2_buckets]]
 binding     = "haven_contest_files"
 bucket_name = "haven-contest-files"
+
+[[d1_databases]]
+binding       = "ENVOY"
+database_name = "envoy-table"
+database_id   = "4cd6ca64-63e6-43da-94ad-6fbb9d134602"
