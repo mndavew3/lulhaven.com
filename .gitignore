@@ -4,3 +4,8 @@ adq/ident/insert.sql
 adq/**/.wrangler/
 adq/votes/ident-insert.sql
 adq/**/insert.sql
+# Unlisted envoy page and its code: this repo is public, so they are backed up privately
+# by ~/scripts/backup-local-repos.sh (repo haven-website-private) instead (Dave, 2026-10-22, "A").
+envoy-z2bq859o56rl/
+functions/_lib/envoy-engine.js
+functions/api/envoy/
