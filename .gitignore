@@ -16,3 +16,6 @@ functions/_lib/dd-d1-store.js
 functions/_lib/dd-engine.js
 functions/_lib/dd-map-data.js
 functions/api/dd/
+functions/_lib/dd-core.js
+functions/_lib/dd-engine-workers.js
+functions/_lib/dd-engine.wasm
