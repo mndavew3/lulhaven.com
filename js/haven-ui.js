@@ -19,7 +19,7 @@
 // A stale pin is now caught mechanically by hearst-preflight.sh, which compares this
 // constant against the newest built image before any publish — the previous audit was
 // 2026-08-13 and nothing noticed for eight days.
-var HD_CURRENT_VERSION = '0.1.109'; // the pin follows what customers are offered, and a --hold-manifest publish compares it with the live offer, so it stays 0.1.109 until 0.1.114 ships: set it to '0.1.114' in the same Hearst run that offers it (waiting list #433). The 0.1.114 audit is already done, 2026-10-28 against 0.1.110-0.1.114:the search placeholder ("Apple, YouTube, Roblox") already matched; the settings-file import summary now counts in the singular and plural with the router's own words (main.htm count()); the new Screen Haven page (Helm instruments) is not imitated here — Dave 2026-10-28 23:28 holds it until the tablet's limits are known (waiting list #432) — and the time-zone adoption, schedule route, login gate, "Working…" badge and back-end changes have no demo surface. Earlier audit, 2026-10-04 (0.1.105-0.1.109):Show Filtered now shows in Basic here too (router mod #133 — the hide rule left demo.html), the "Adult & Sensitive" and "Other" section tooltips match main.htm, the per-section ? help buttons and the tooltip keys were already in step (696 of 696 shared), and the login, password, early-click, update and hand-off changes (#141-#145 among them) have no demo surface. Earlier audit, 2026-09-15 (0.1.104): #124 (Advanced toggle answers "Coming soon" — this demo already shipped the same gate, see hdToggleMode below) and #131 (no demo surface: hdBasicMode is pinned true at init).
+var HD_CURRENT_VERSION = '0.1.114'; // the pin follows what customers are offered, and a --hold-manifest publish compares it with the live offer, so it stays 0.1.109 until 0.1.114 ships: set it to '0.1.114' in the same Hearst run that offers it (waiting list #433). The 0.1.114 audit is already done, 2026-10-28 against 0.1.110-0.1.114:the search placeholder ("Apple, YouTube, Roblox") already matched; the settings-file import summary now counts in the singular and plural with the router's own words (main.htm count()); the new Screen Haven page (Helm instruments) is not imitated here — Dave 2026-10-28 23:28 holds it until the tablet's limits are known (waiting list #432) — and the time-zone adoption, schedule route, login gate, "Working…" badge and back-end changes have no demo surface. Earlier audit, 2026-10-04 (0.1.105-0.1.109):Show Filtered now shows in Basic here too (router mod #133 — the hide rule left demo.html), the "Adult & Sensitive" and "Other" section tooltips match main.htm, the per-section ? help buttons and the tooltip keys were already in step (696 of 696 shared), and the login, password, early-click, update and hand-off changes (#141-#145 among them) have no demo surface. Earlier audit, 2026-09-15 (0.1.104): #124 (Advanced toggle answers "Coming soon" — this demo already shipped the same gate, see hdToggleMode below) and #131 (no demo surface: hdBasicMode is pinned true at init).
 
 var hdNameGroups = {};
 var hdKeyNameMap = {};
@@ -1312,6 +1312,24 @@ function hdToggleShotsPanel() {
   panel.style.display = visible ? 'block' : 'none';
   var btn = document.getElementById('hd-shots-btn');
   if (btn) btn.classList.toggle('active', visible);
+}
+
+// Screen Haven panel. Same toggle idiom; the deck program and its sample data load on first
+// open (js/screen-haven.js), and the sample readings run only while the panel is showing.
+function hdToggleScreenHavenPanel() {
+  var panel = document.getElementById('hd-sh-panel');
+  if (!panel) return;
+  var visible = (panel.style.display === 'none' || !panel.style.display);
+  panel.style.display = visible ? 'block' : 'none';
+  var btn = document.getElementById('hd-sh-btn');
+  if (btn) btn.classList.toggle('active', visible);
+  if (window.hdScreenHaven) {
+    if (visible) window.hdScreenHaven.start(); else window.hdScreenHaven.stop();
+  } else if (visible) {
+    var s = document.createElement('script');
+    s.src = 'js/screen-haven.js';
+    document.body.appendChild(s);
+  }
 }
 
 // The demo has no backend, so Clear all shows the real confirmation and then says
