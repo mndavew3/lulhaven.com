@@ -43,7 +43,9 @@
     l1.style.display = l2.style.display = l3.style.display = 'none';
     if (s === 'on') {
       l1.style.display = '';
-      l1.innerHTML = '<span class="lk-lf"><b>' + nc + '</b> categories filtered &middot; <b>' + LK.filtered_today + '</b> filtered today</span><span class="lk-ls">&middot; <b>' + nc + '</b> categories &middot; <b>' + LK.filtered_today + '</b> today</span>';
+      var cw = nc === 1 ? ' category' : ' categories';
+      l1.innerHTML = nc === 0 ? '<span class="lk-lf">No categories filtered yet</span><span class="lk-ls">&middot; none filtered yet</span>'
+        : '<span class="lk-lf"><b>' + nc + '</b>' + cw + ' filtered &middot; <b>' + LK.filtered_today + '</b> filtered today</span><span class="lk-ls">&middot; <b>' + nc + '</b>' + cw + ' &middot; <b>' + LK.filtered_today + '</b> today</span>';
       var a = Math.max(0, Math.floor(Date.now() / 1000) - LK.list_ts);
       $('lk-pl3t').textContent = 'Filter lists ' + (LK.list_synced ? 'updated ' : 'as of ') + ago(a) + ' ago'; l3.style.display = '';
     } else { l2.style.display = ''; l2.textContent = 'This device can reach everything until you switch filtering back on.'; }

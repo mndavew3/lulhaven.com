@@ -196,7 +196,6 @@ p { text-wrap: pretty; }
 }
 .hero .rotate-pause:hover, .hero .rotate-pause:focus-visible { opacity: 1; color: var(--teal); background: var(--teal-soft); }
 .hero .rotate-pause[aria-pressed="true"] .ic-pause, .hero .rotate-pause[aria-pressed="false"] .ic-play { display: none; }
-@media (prefers-reduced-motion: reduce) { .hero .rotate-pause { display: none; } }  /* phrase is already still */
 
 .hero .sub {
   max-width: 640px; margin: 0 auto 34px; color: var(--muted); font-size: 1.06rem;
@@ -657,8 +656,7 @@ p { text-wrap: pretty; }
    Real text ships in the span, so no-JS visitors and crawlers still read it. */
 (function () {
   var el = document.getElementById('hero-rotate');
-  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!el || reduce) return;  /* reduced motion: the first phrase stays put */
+  if (!el) return;  /* reduced motion still changes the phrase (Dave's desktop has animations off; 2026-10-31 00:09): the CSS below drops the fade, so it swaps instantly */
   var phrases = ['spew garbage', 'spew rage bait', 'track you', 'harvest your data',
                  'feed the algorithm', 'hijack your attention', 'autoplay all night',
                  'sell your attention', 'doomscroll your evening', 'target your children',
