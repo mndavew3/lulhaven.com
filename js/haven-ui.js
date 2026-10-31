@@ -19,7 +19,7 @@
 // A stale pin is now caught mechanically by hearst-preflight.sh, which compares this
 // constant against the newest built image before any publish — the previous audit was
 // 2026-08-13 and nothing noticed for eight days.
-var HD_CURRENT_VERSION = '0.1.114'; // the pin follows what customers are offered, and a --hold-manifest publish compares it with the live offer, so it stays 0.1.109 until 0.1.114 ships: set it to '0.1.114' in the same Hearst run that offers it (waiting list #433). The 0.1.114 audit is already done, 2026-10-28 against 0.1.110-0.1.114:the search placeholder ("Apple, YouTube, Roblox") already matched; the settings-file import summary now counts in the singular and plural with the router's own words (main.htm count()); the new Screen Haven page (Helm instruments) is not imitated here — Dave 2026-10-28 23:28 holds it until the tablet's limits are known (waiting list #432) — and the time-zone adoption, schedule route, login gate, "Working…" badge and back-end changes have no demo surface. Earlier audit, 2026-10-04 (0.1.105-0.1.109):Show Filtered now shows in Basic here too (router mod #133 — the hide rule left demo.html), the "Adult & Sensitive" and "Other" section tooltips match main.htm, the per-section ? help buttons and the tooltip keys were already in step (696 of 696 shared), and the login, password, early-click, update and hand-off changes (#141-#145 among them) have no demo surface. Earlier audit, 2026-09-15 (0.1.104): #124 (Advanced toggle answers "Coming soon" — this demo already shipped the same gate, see hdToggleMode below) and #131 (no demo surface: hdBasicMode is pinned true at init).
+var HD_CURRENT_VERSION = '0.1.115'; // 0.1.115 audit, 2026-10-30 against 0.1.110-0.1.115 (mod register #181-#186): #181 Lake view ("Helm — Lake view") is now imitated here, as the Lake view button and panel (demo.html, js/lake-view.js, on the demo's own sample data, customer copy says "filtered"); #183 (Helm colours now var(--ls-*, same fallback)) looks identical without the Lakeside theme, nothing to change; #184 (summary preview, bench routers only), #182/#186 (wall-tablet PIN, switched off) and #185 (Olive tab icon, unchanged) have no customer-visible demo surface. Previous pin note follows. 0.1.114 was: the pin follows what customers are offered, and a --hold-manifest publish compares it with the live offer, so it stays 0.1.109 until 0.1.114 ships: set it to '0.1.114' in the same Hearst run that offers it (waiting list #433). The 0.1.114 audit is already done, 2026-10-28 against 0.1.110-0.1.114:the search placeholder ("Apple, YouTube, Roblox") already matched; the settings-file import summary now counts in the singular and plural with the router's own words (main.htm count()); the new Screen Haven page (Helm instruments) is not imitated here — Dave 2026-10-28 23:28 holds it until the tablet's limits are known (waiting list #432) — and the time-zone adoption, schedule route, login gate, "Working…" badge and back-end changes have no demo surface. Earlier audit, 2026-10-04 (0.1.105-0.1.109):Show Filtered now shows in Basic here too (router mod #133 — the hide rule left demo.html), the "Adult & Sensitive" and "Other" section tooltips match main.htm, the per-section ? help buttons and the tooltip keys were already in step (696 of 696 shared), and the login, password, early-click, update and hand-off changes (#141-#145 among them) have no demo surface. Earlier audit, 2026-09-15 (0.1.104): #124 (Advanced toggle answers "Coming soon" — this demo already shipped the same gate, see hdToggleMode below) and #131 (no demo surface: hdBasicMode is pinned true at init).
 
 var hdNameGroups = {};
 var hdKeyNameMap = {};
@@ -1329,6 +1329,25 @@ function hdToggleScreenHavenPanel() {
     var s = document.createElement('script');
     s.src = 'js/screen-haven.js';
     document.body.appendChild(s);
+  }
+}
+
+// Lake view panel (router mod #181, "Helm — Lake view"). Same toggle idiom; the layout's program
+// loads on first open (js/lake-view.js) and re-reads the shared sample settings on every open.
+function hdToggleLakePanel() {
+  var panel = document.getElementById('hd-lk-panel');
+  if (!panel) return;
+  var visible = (panel.style.display === 'none' || !panel.style.display);
+  panel.style.display = visible ? 'block' : 'none';
+  var btn = document.getElementById('hd-lk-btn');
+  if (btn) btn.classList.toggle('active', visible);
+  if (visible) {
+    if (window.hdLake) window.hdLake.refresh();
+    else { var s = document.createElement('script'); s.src = 'js/lake-view.js?v=1'; document.body.appendChild(s); }
+  } else {
+    // back to the classic Helm: show what was changed in the Lake view
+    hdUpdateBadges();
+    if (hdIsFilteredView) hdRenderFilteredView(); else hdSelect(hdCurrentCat);
   }
 }
 

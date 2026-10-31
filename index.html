@@ -2,15 +2,14 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#faf7f1">
+<meta name="color-scheme" content="only light">
 <title>Haven — Zero-Tolerance Content Filtering</title>
 <meta name="description" content="Haven is software that filters content at your router for every device on your network — no apps, no cloud logging, and no workarounds. Ships ready to plug in.">
 <link rel="shortcut icon" href="assets/images/lulhaven20dock20line20art202-64x42.png" type="image/x-icon">
 
-<!-- Fonts: Instrument Sans (display sans) + Inter Tight (the site's existing UI sans) -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,600;0,700;0,800;1,500;1,600&family=Inter+Tight:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- Fonts: system stack only — no third-party requests, nothing render-blocking before first paint -->
 
 <style>
 /* ============================================================
@@ -42,12 +41,13 @@
   --shadow-md:  0 6px 18px rgba(18,32,25,.07), 0 2px 6px rgba(18,32,25,.05);
   --shadow-lg:  0 18px 50px rgba(18,32,25,.13), 0 6px 18px rgba(18,32,25,.07);
   --container:  1120px;
-  --serif:      "Instrument Sans", "Inter Tight", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; /* name kept for minimal diff — this is the display face, sans-serif now */
-  --sans:       "Inter Tight", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --serif:      system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; /* name kept for minimal diff — this is the display face, sans-serif now */
+  --sans:       system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; scroll-padding-top: 84px; }  /* WCAG 2.4.11: focus and anchors land below the sticky nav */
+@media (max-width: 720px) { html { scroll-padding-bottom: 84px; } }  /* and above the fixed bottom CTA bar */
 body {
   font-family: var(--sans);
   font-size: 1.04rem;
@@ -60,9 +60,11 @@ img { max-width: 100%; height: auto; display: block; }
 a { color: var(--teal); text-decoration: none; }
 a:hover { text-decoration: underline; }
 button { font: inherit; cursor: pointer; }
+a, button { touch-action: manipulation; }  /* no tap delay or double-tap zoom wait: faster INP on phones */
 :focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; border-radius: 4px; }
+.band-ink :focus-visible { outline-color: var(--gold); }  /* teal ring is ~2.7:1 on ink; gold is ~8.6:1 (WCAG 1.4.11) */
 
-.container { max-width: var(--container); margin: 0 auto; padding: 0 24px; }
+.container { max-width: var(--container); margin: 0 auto; padding: 0 max(24px, env(safe-area-inset-right)) 0 max(24px, env(safe-area-inset-left)); }  /* viewport-fit=cover: keep text clear of a notch in landscape */
 
 .skip-link {
   position: absolute; left: 16px; top: -80px; z-index: 200;
@@ -86,6 +88,8 @@ h1, h2, .display {
   color: var(--teal);
   margin-bottom: 14px;
 }
+h1, h2, h3 { text-wrap: balance; }
+p { text-wrap: pretty; }
 .section-head { text-align: center; max-width: 720px; margin: 0 auto 52px; }
 .section-head h2 { font-size: clamp(1.9rem, 3.6vw, 2.7rem); margin-bottom: 12px; }
 .section-head .lede { color: var(--muted); font-size: 1.1rem; }
@@ -98,22 +102,31 @@ h1, h2, .display {
   transition: transform .18s ease, box-shadow .18s ease, background .18s ease, border-color .18s ease, color .18s ease;
 }
 .btn:hover { text-decoration: none; transform: translateY(-1px); }
+.btn:active { transform: scale(.98); }
 .btn-primary { background: var(--teal); color: #fff; }
 .btn-primary:hover { background: var(--teal-dark); box-shadow: var(--shadow-md); }
-.btn-ghost { background: transparent; color: var(--text); border: 1.5px solid var(--line); }
+.sticky-cta { display: none; }
+@media (max-width: 720px) {
+  .sticky-cta { display: block; position: fixed; left: 0; right: 0; bottom: 0; z-index: 50;
+    padding: 10px max(16px, env(safe-area-inset-right)) calc(10px + env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left)); background: rgba(255,255,255,.96);
+    border-top: 1px solid var(--line); transform: translateY(110%); visibility: hidden;
+    transition: transform .2s ease, visibility .2s; }
+  .sticky-cta.show { transform: none; visibility: visible; }
+  .sticky-cta .btn { width: 100%; min-height: 44px; }
+}
+@media (prefers-reduced-motion: reduce) { .sticky-cta { transition: none; } }
+.btn-ghost { background: transparent; color: var(--text); border: 1.5px solid #7a857e; }  /* ~3.6:1 boundary on paper (WCAG 1.4.11) */
 .btn-ghost:hover { border-color: var(--teal); color: var(--teal); }
 
 /* ---------- Nav: logo left, plain links, ONE CTA ---------- */
 .nav {
   position: sticky; top: 0; z-index: 100;
-  background: rgba(250,247,241,.88);
-  backdrop-filter: saturate(160%) blur(10px);
-  -webkit-backdrop-filter: saturate(160%) blur(10px);
+  background: rgba(250,247,241,.96);  /* no backdrop blur: it repaints every scroll frame on a mid-range phone */
   border-bottom: 1px solid var(--line-soft);
 }
 .nav-inner { display: flex; align-items: center; gap: 28px; height: 68px; }
 .brand {
-  display: flex; align-items: center; gap: 10px;
+  display: flex; align-items: center; gap: 10px; min-height: 44px;  /* 44 px tap target */
   font-family: var(--serif); font-weight: 800; font-size: 1.45rem;
   color: var(--text); letter-spacing: -0.01em;
 }
@@ -122,37 +135,50 @@ h1, h2, .display {
 .nav-links { display: flex; gap: 26px; margin-left: auto; }
 .nav-links a { color: var(--text); font-weight: 600; font-size: .96rem; }
 .nav-links a:hover { color: var(--teal); text-decoration: none; }
-.nav .btn { padding: 10px 22px; font-size: .93rem; }
+.nav .btn { padding: 10px 22px; font-size: .93rem; min-height: 44px; }  /* 44 px tap target regardless of system font metrics */
 @media (max-width: 880px) {
   .nav-links { display: none; }   /* every link is repeated in the footer */
   .nav .btn { margin-left: auto; }
 }
 
 /* ---------- Hero ---------- */
-.hero { position: relative; overflow: hidden; padding: 84px 0 0; text-align: center; }
+.hero { position: relative; overflow: hidden; padding: 84px 0 50px; text-align: center; }
 .hero::before {  /* soft organic aura — teal + gold, quiet */
   content: ""; position: absolute; inset: 0; pointer-events: none;
   background:
     radial-gradient(ellipse 46% 34% at 22% 12%, var(--teal-soft), transparent 70%),
     radial-gradient(ellipse 40% 30% at 80% 22%, var(--gold-soft), transparent 70%);
 }
-.hero-inner { position: relative; max-width: 860px; margin: 0 auto; }
+.hero-inner { position: relative; max-width: 1040px; margin: 0 auto; }
 
 .pill-announce {
   display: inline-flex; align-items: center; gap: 10px;
   padding: 9px 18px; border-radius: var(--radius-pill);
   background: var(--red-soft); border: 1px solid rgba(196,0,0,.22);
   color: #9c1006; font-weight: 600; font-size: .9rem;
-  margin-bottom: 34px; transition: background .18s ease;
+  margin-bottom: 34px; transition: background .18s ease; min-height: 44px;  /* 44 px tap target */
 }
 .pill-announce:hover { background: rgba(196,0,0,.12); text-decoration: none; }
 .pill-announce .tag {
   background: var(--red); color: #fff; font-size: .68rem; font-weight: 800;
   letter-spacing: .08em; padding: 2px 8px; border-radius: 6px;
 }
-.pill-announce-enjoy { display: flex; width: fit-content; margin: -14px auto 34px; }
+/* Secondary announcements: quiet links at the foot of the page, not red pills above the headline (red is the Challenge's) */
+.hero-also {
+  display: flex; flex-wrap: wrap; gap: 0 22px; justify-content: center;
+  font-size: .9rem; margin: 22px 0 0;
+}
+.hero-also a {
+  display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 4px;
+  color: var(--muted); font-weight: 600;
+}
+.hero-also a:hover { color: var(--teal); text-decoration: none; }
+.hero-also .tag {
+  background: var(--teal-soft); color: var(--teal-dark); font-size: .66rem; font-weight: 800;
+  letter-spacing: .08em; padding: 2px 7px; border-radius: 6px;
+}
 
-.hero h1 { font-size: clamp(2.6rem, 6.4vw, 4.6rem); margin-bottom: 22px; }
+.hero h1 { font-size: clamp(2.6rem, 6.4vw, 4.4rem); margin-bottom: 22px; }
 .hero .shouldnt {
   font-family: var(--serif); font-style: italic; font-weight: 500;
   font-size: clamp(1.45rem, 3.1vw, 2.2rem);
@@ -162,37 +188,43 @@ h1, h2, .display {
   display: inline-block; color: var(--teal); font-weight: 600;
   transition: opacity .35s ease;
 }
-.hero .kicker { font-weight: 800; font-size: 1.18rem; margin-bottom: 10px; }
+.hero .shouldnt br { display: none; }  /* phones only: the phrase gets its own line so swaps never reflow the hero */
+.hero .rotate-pause {  /* WCAG 2.2.2: a way to pause the changing phrase; rotation still runs by default */
+  display: inline-flex; align-items: center; justify-content: center; vertical-align: middle;
+  width: 44px; height: 44px; margin-left: 4px; border: 0; border-radius: 50%;
+  background: transparent; color: var(--muted); opacity: .85;  /* ~4.1:1 on paper: the control must meet 3:1 (WCAG 1.4.11); .6 was ~2.5:1 */
+}
+.hero .rotate-pause:hover, .hero .rotate-pause:focus-visible { opacity: 1; color: var(--teal); background: var(--teal-soft); }
+.hero .rotate-pause[aria-pressed="true"] .ic-pause, .hero .rotate-pause[aria-pressed="false"] .ic-play { display: none; }
+@media (prefers-reduced-motion: reduce) { .hero .rotate-pause { display: none; } }  /* phrase is already still */
+
 .hero .sub {
   max-width: 640px; margin: 0 auto 34px; color: var(--muted); font-size: 1.06rem;
 }
+.hero .sub strong { color: var(--text); font-weight: 700; }  /* the what-and-who sentence reads first */
 .hero .cta-row { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; margin-bottom: 30px; }
 .trust-row {
   display: flex; flex-wrap: wrap; gap: 10px 26px; justify-content: center;
-  font-size: .9rem; color: var(--muted); margin-bottom: 64px;
+  font-size: .9rem; color: var(--muted); margin-bottom: 14px;
 }
-.trust-row span { display: inline-flex; align-items: center; gap: 8px; }
+.trust-row span { display: inline-flex; align-items: center; gap: 8px; text-align: left; }  /* a bullet that wraps on a phone keeps its dot beside its text */
 .trust-row i {
   width: 7px; height: 7px; border-radius: 50%; background: var(--teal); display: inline-block;
 }
+/* Phones: tighter hero rhythm so the primary button lands inside the first screen (~660 px tall at 390 px wide) */
+@media (max-width: 720px) {
+  .hero { padding: 36px 0 14px; }
+  .pill-announce { margin-bottom: 20px; }
+  .pill-announce .pill-more { display: none; }  /* phones: one short announcement line ahead of the headline */
+  .hero h1 { margin-bottom: 14px; }
+  .hero .shouldnt { margin-bottom: 16px; }
+  .hero .shouldnt br { display: inline; }
+  .hero .sub { font-size: 1rem; margin-bottom: 24px; }
+  .hero .cta-row { margin-bottom: 22px; }
+  .hero .cta-row .btn { flex: 1 1 100%; justify-content: center; min-height: 48px; }  /* phones: full-width, thumb-wide first-screen CTA */
+}
 
-.hero-photo { position: relative; max-width: 980px; margin: 0 auto; padding: 0 24px; }
-.hero-photo img.photo {
-  border-radius: var(--radius) var(--radius) 0 0;
-  box-shadow: var(--shadow-lg);
-  border: 1px solid var(--line);
-  border-bottom: 0;
-}
-/* Sticker treatment: the gnome art is an OPAQUE white-background PNG (no alpha),
-   so it must read as a deliberate rounded badge, not a raw white square pasted on
-   the photo. Sits inside the photo — .hero has overflow:hidden, which clipped the
-   old negative bottom offset. */
-.hero-photo .gnome-peek {
-  position: absolute; right: 3%; bottom: 14px;
-  width: clamp(84px, 13vw, 148px); transform: rotate(-3deg);
-  border-radius: 14px; border: 5px solid #fff;
-  box-shadow: 0 10px 22px rgba(18,32,25,.30);
-}
+
 
 /* ---------- Section bands ---------- */
 .band-white { background: var(--white); padding: 92px 0; }
@@ -203,7 +235,11 @@ h1, h2, .display {
 .band-ink .section-head .lede { color: rgba(242,239,231,.72); }
 .band-teal .section-head .lede { color: rgba(255,255,255,.82); }
 .band-ink .eyebrow { color: var(--gold); }
-.band-teal .eyebrow { color: var(--gold); }
+.band-teal .eyebrow { color: #f2efe7; }  /* gold on teal was ~3.7:1; cream is ~5.5:1 (WCAG AA small text) */
+@media (max-width: 720px) {  /* phones: less blank scroll between sections so pricing is closer */
+  .band-white, .band-paper, .band-ink, .band-teal { padding: 60px 0; }
+  .section-head { margin-bottom: 36px; }
+}
 
 /* ---------- Value tiles ---------- */
 .tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
@@ -223,6 +259,9 @@ h1, h2, .display {
 .tile:nth-child(3) .icon { color: #4a4ab8; background: rgba(74,74,184,.09); }
 .tile h3 { font-size: 1.12rem; font-weight: 800; margin-bottom: 8px; }
 .tile p { color: var(--muted); font-size: .97rem; }
+.tile p a { padding: 12px 0; }  /* inline padding: ~44 px tap area, no change to line height */
+.tile p a, .panel-note a { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }  /* WCAG 1.4.1: teal vs muted text is ~1.2:1, so links in prose need an underline */
+.panel-note a { padding: 12px 0; }  /* same: "Try the full demo" link reaches a 44 px tap area */
 
 /* ---------- Category control panel ---------- */
 .panel-card {
@@ -234,7 +273,7 @@ h1, h2, .display {
 .cat {
   display: inline-flex; align-items: center; gap: 9px;
   padding: 11px 20px; border-radius: var(--radius-pill);
-  border: 1.5px solid var(--line); background: var(--white); color: var(--muted);
+  border: 1.5px solid #7a857e; background: var(--white); color: var(--muted);  /* ~3.9:1 on white (WCAG 1.4.11) */
   font-weight: 600; font-size: .97rem;
   transition: background .16s ease, color .16s ease, border-color .16s ease, transform .1s ease;
 }
@@ -247,18 +286,24 @@ h1, h2, .display {
 .cat[aria-pressed="true"] .dot { background: #fff; border-color: #fff; }
 .cat-more {
   display: inline-flex; align-items: center; padding: 11px 20px;
-  border-radius: var(--radius-pill); border: 1.5px dashed var(--line);
+  border-radius: var(--radius-pill); border: 1.5px dashed #7a857e;
   color: var(--muted); font-weight: 600; font-size: .97rem;
 }
 .cat-more:hover { border-color: var(--teal); color: var(--teal); text-decoration: none; }
 .panel-status { margin: 24px 0 6px; min-height: 1.6em; font-weight: 700; color: var(--teal); }
 .panel-note { font-size: .9rem; color: var(--muted); }
+.demo-video { max-width: 780px; margin: 32px auto 0; text-align: center; }
+.demo-video video {
+  width: 100%; height: auto; display: block; border-radius: var(--radius);
+  border: 1px solid var(--line); box-shadow: var(--shadow-md); background: var(--ink);
+}
+.demo-video figcaption { margin: 0 0 12px; font-size: .9rem; color: var(--muted); }  /* lead-in above the player */
 
 /* ---------- Bypass demo (dark emphasis band) ---------- */
 .bp-chips { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 40px; }
 .bp-chip {
   padding: 10px 20px; border-radius: var(--radius-pill);
-  border: 1px solid rgba(255,255,255,.3); background: transparent; color: #f2efe7;
+  border: 1px solid rgba(255,255,255,.45); background: transparent; color: #f2efe7;  /* ~4.4:1 boundary on ink (WCAG 1.4.11) */
   font-size: .95rem; font-weight: 500; transition: all .18s ease;
 }
 .bp-chip:hover { border-color: #fff; }
@@ -287,35 +332,9 @@ h1, h2, .display {
   max-width: 700px; margin: 34px auto 0; line-height: 1.6; min-height: 3.4em;
   color: rgba(242,239,231,.88); transition: opacity .35s ease;
 }
-.bp-disc { max-width: 640px; margin: 20px auto 0; font-size: .8rem; color: rgba(242,239,231,.45); }
+.bp-disc { max-width: 640px; margin: 20px auto 0; font-size: .8rem; color: rgba(242,239,231,.55); }
 
-/* ---------- Meet Haven (the gnomes, kept large on purpose) ---------- */
-.lore {
-  font-family: var(--serif); font-style: italic; font-size: 1.15rem; color: var(--muted);
-}
-.gnomes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 34px; }
-@media (max-width: 880px) { .gnomes { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; } }
-.gnome { text-align: center; }
-.gnome img {
-  max-width: 330px; width: 100%; margin: 0 auto 18px;
-  transition: transform .25s ease;
-}
-.gnome:hover img { transform: translateY(-6px) rotate(-1deg); }
-.gnome h3 { font-family: var(--serif); font-size: 1.35rem; font-weight: 700; margin-bottom: 4px; }
-.gnome .spec { color: var(--muted); font-size: .95rem; }
-.tag-soon {
-  display: inline-block; margin-top: 8px; padding: 3px 12px;
-  border-radius: var(--radius-pill); background: var(--gold-soft);
-  color: var(--gold-text); font-size: .78rem; font-weight: 700;
-  letter-spacing: .06em; text-transform: uppercase;
-}
 
-/* ---------- Identical routers wit strip ---------- */
-.twins { margin-top: 92px; padding-top: 72px; border-top: 1px solid var(--line-soft); text-align: center; }
-.twins-row { display: flex; align-items: center; justify-content: center; gap: 26px; flex-wrap: wrap; margin-bottom: 26px; }
-.twins-row img { width: clamp(130px, 22vw, 210px); }
-.twins-row .vs { font-family: var(--serif); font-style: italic; font-size: 1.3rem; color: var(--muted); }
-.twins p { max-width: 620px; margin: 0 auto; font-weight: 700; font-size: 1.15rem; }
 
 /* ---------- Founders (elevated card on teal field) ---------- */
 .founder-card {
@@ -324,40 +343,36 @@ h1, h2, .display {
   border-radius: 22px; box-shadow: var(--shadow-lg);
   padding: 40px 42px; max-width: 840px; margin: 0 auto; text-align: left;
 }
-.founder-card img { height: 200px; width: auto; border-radius: 14px; flex: 0 0 auto; margin: 0 auto; }
+@media (max-width: 720px) {  /* phones: give the two cards' content a wider column */
+  .founder-card { padding: 28px 22px; gap: 24px; }
+  .panel-card { padding: 28px 20px; }
+}
+
 .founder-body { flex: 1 1 340px; }
 .founder-body h3 { font-family: var(--serif); font-size: 1.5rem; font-weight: 700; margin-bottom: 2px; }
 .founder-body .hw { color: var(--muted); margin-bottom: 14px; }
-.founder-body .price { font-size: 1.35rem; font-weight: 800; color: var(--teal); }
+.founder-body .price { font-size: 1.35rem; font-weight: 800; color: var(--teal); font-variant-numeric: tabular-nums; }
+.founder-costs { font-variant-numeric: tabular-nums; }
 .founder-body .price small { font-size: .9rem; font-weight: 500; color: var(--muted); }
-.founder-body .pitch { margin: 14px 0 16px; color: var(--text); }
+
 .founder-body .launch { font-weight: 700; color: var(--teal); margin-bottom: 4px; }
 .founder-body .launch-sub { font-size: .88rem; color: var(--muted); font-weight: 400; margin-bottom: 18px; }
-.btn-soon {
-  display: inline-block; padding: 14px 32px; border-radius: var(--radius-pill);
-  background: #8aa39b; color: #fff; font-weight: 700; cursor: default;
-}
-.founder-meta { margin-top: 14px; font-size: .92rem; color: var(--muted); }
-.founder-meta strong { color: var(--text); }
-.founder-fine { margin-top: 5px; font-size: .82rem; color: #9aa49e; }
 
-/* ---------- Quote + footer (single ink block) ---------- */
-.quote { padding: 100px 0 84px; text-align: center; }
-.quote blockquote {
-  font-family: var(--serif); font-style: italic; font-weight: 600;
-  font-size: clamp(1.6rem, 3.6vw, 2.5rem); line-height: 1.3;
-  max-width: 820px; margin: 0 auto; color: #f2efe7;
-}
-.quote blockquote em { color: var(--gold); font-style: inherit; }
+.founder-costs { margin: 8px 0 14px; font-size: .92rem; color: var(--muted); display: grid; gap: 6px; }
+.founder-costs div { display: grid; grid-template-columns: 78px 1fr; gap: 10px; align-items: baseline; }
+.founder-costs dt { font-weight: 700; color: var(--text); }
+.founder-costs dd { margin: 0; }
+.founder-costs dd strong { color: var(--text); font-weight: 700; }
+.founder-fine { margin-top: 5px; font-size: .82rem; color: var(--muted); }
 
 /* ---------- Notify ---------- */
 .notify-form { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; max-width: 520px; margin: 0 auto; }
 .notify-form input {
   flex: 1 1 260px; max-width: 340px; padding: 15px 20px;
-  border: 1px solid var(--line); border-radius: var(--radius-pill);
+  border: 1.5px solid #7a857e; border-radius: var(--radius-pill);  /* ~3.6:1 boundary on paper (WCAG 1.4.11) */
   font-size: 1rem; font-family: var(--sans); outline: none; background: var(--white);
 }
-.notify-form input:focus { border-color: var(--teal); box-shadow: 0 0 0 3px var(--teal-soft); }
+.notify-form input:focus { border-color: var(--teal); box-shadow: 0 0 0 2px var(--teal); }  /* solid ring ~5.9:1 on paper: the field sets outline:none (WCAG 1.4.11) */
 .notify-form button {
   padding: 15px 32px; border: 0; border-radius: var(--radius-pill);
   background: var(--teal); color: #fff; font-weight: 700; font-size: 1rem;
@@ -366,24 +381,27 @@ h1, h2, .display {
 .notify-form button:hover { background: var(--teal-dark); transform: translateY(-1px); }
 .notify-form button:disabled { opacity: .6; cursor: not-allowed; transform: none; }
 .notify-msg { margin-top: 18px; min-height: 1.5em; font-weight: 600; }
+@media (max-width: 720px) { .notify-form button { flex: 1 1 100%; min-height: 44px; } }  /* phones: full-width submit under the full-width field */
+.notify-form input[aria-invalid="true"] { border-color: #b3261e; }  /* rejected email: field marked, not just the message (WCAG 3.3.1) */
+.notify-label { display: block; text-align: center; font-weight: 600; font-size: .95rem; color: var(--text); margin-bottom: 10px; }  /* persistent visible label (WCAG 3.3.2) */
 
 /* ---------- Footer ---------- */
 .footer { padding: 0 0 56px; text-align: center; }
-.footer-links { display: flex; flex-wrap: wrap; gap: 14px 30px; justify-content: center; margin-bottom: 26px; }
-.footer-links a { color: rgba(242,239,231,.75); font-weight: 600; font-size: .95rem; }
+.footer-links { display: flex; flex-wrap: wrap; gap: 2px 18px; justify-content: center; margin-bottom: 26px; }
+.footer-links a {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 6px;  /* 44 px tap target: only nav on phones */
+  color: rgba(242,239,231,.75); font-weight: 600; font-size: .95rem;
+}
 .footer-links a:hover { color: var(--gold); text-decoration: none; }
-.footer .copy { font-size: .85rem; color: rgba(242,239,231,.4); }
+.footer .copy { font-size: .85rem; color: rgba(242,239,231,.6); }
+@media (max-width: 720px) { .footer { padding-bottom: calc(96px + env(safe-area-inset-bottom)); } }  /* clear the fixed bottom CTA bar */
 
-/* ---------- Hero entrance (CSS-only; sections are never JS-gated) ---------- */
-@keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
-.hero-inner > * { animation: rise .6s ease backwards; }
-.hero-inner > *:nth-child(2) { animation-delay: .08s; }
-.hero-inner > *:nth-child(3) { animation-delay: .16s; }
-.hero-inner > *:nth-child(4) { animation-delay: .22s; }
-.hero-inner > *:nth-child(5) { animation-delay: .28s; }
-.hero-inner > *:nth-child(6) { animation-delay: .34s; }
-.hero-inner > *:nth-child(7) { animation-delay: .4s; }
-.hero-photo { animation: rise .7s ease .3s backwards; }
+/* Hero paints immediately: no entrance animation in front of the LCP headline */
+
+@media (hover: none) {  /* touch: a tap would otherwise leave the lift/shadow stuck on until the next tap */
+  .btn:hover, .notify-form button:hover { transform: none; box-shadow: none; }
+  .tile:hover { transform: none; box-shadow: none; }
+}
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -399,7 +417,7 @@ h1, h2, .display {
 <header class="nav">
   <div class="container nav-inner">
     <a class="brand" href="index.html">
-      <img src="assets/images/lulhaven20dock20line20art202-64x42.png" alt="">
+      <img src="assets/images/lulhaven20dock20line20art202-64x42.png" alt="" width="64" height="42">
       Haven
     </a>
     <nav class="nav-links" aria-label="Main">
@@ -409,6 +427,7 @@ h1, h2, .display {
       <a href="milestones.html">Milestones</a>
       <a href="screen-haven.html">Screen Haven</a>
       <a href="about.html">About us</a>
+      <a href="#founders">Pricing</a>
     </nav>
     <a class="btn btn-primary" href="#notify">Get notified</a>
   </div>
@@ -420,35 +439,140 @@ h1, h2, .display {
 <section class="hero">
   <div class="container hero-inner">
     <a class="pill-announce" href="challenge.html">
-      <span class="tag">NEW</span> The 2026 Haven Challenge — Now open!! We invite you to break our filter <span aria-hidden="true">→</span>
-    </a>
-    <a class="pill-announce pill-announce-enjoy" href="fun.html">
-      <span class="tag">FRESH</span> Fun and games! <span aria-hidden="true">→</span>
-    </a>
-    <a class="pill-announce pill-announce-enjoy" href="head.html">
-      <span class="tag">🎃 ONLY</span> Give Haven back its head <span aria-hidden="true">→</span>
+      <span class="tag">NEW</span> The 2026 Haven Challenge — Now open!!<span class="pill-more"> We invite you to break our filter</span> <span aria-hidden="true">→</span>
     </a>
     <h1>You pay for the network.<br>You bought the phone.</h1>
-    <p class="shouldnt">It shouldn&rsquo;t <span class="rotate" id="hero-rotate">spew garbage</span>.</p>
-    <p class="kicker">There is only one Haven.</p>
-    <p class="sub">Haven is the software; a router is just a box. It filters at your router for every
-      device on your network — and the tricks that defeat ordinary filters (VPNs, encrypted DNS,
-      Private Relay) don&rsquo;t get around it. Your settings and activity stay on your router,
-      never a company&rsquo;s cloud.</p>
+    <p class="shouldnt">It shouldn&rsquo;t <br><span class="rotate" id="hero-rotate">spew garbage</span>.<button type="button" class="rotate-pause" id="hero-pause" aria-pressed="false" aria-label="Pause the changing phrase" title="Pause the changing phrase"><svg class="ic-pause" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg><svg class="ic-play" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button></p>
+    <p class="sub"><strong>Haven is content filtering for your whole home, built for parents and for anyone
+      tired of trackers.</strong> It runs on your router, so it covers every phone, tablet and TV on your
+      network — and the tricks that defeat ordinary filters (VPNs, encrypted DNS,
+      Private Relay) don&rsquo;t get around it.</p>
     <div class="cta-row">
-      <a class="btn btn-primary" href="#notify">Get notified at launch →</a>
+      <a class="btn btn-primary" href="#notify">Get notified at launch <span aria-hidden="true">→</span></a>
       <a class="btn btn-ghost" href="#bypass">Try to bypass it</a>
     </div>
     <div class="trust-row">
       <span><i></i>No apps to install</span>
       <span><i></i>No cloud logging</span>
       <span><i></i>Nothing filtered until you opt in</span>
+      <span><i></i>Available November 1 · shipping from November 25</span>
     </div>
   </div>
-  <div class="hero-photo">
-    <img class="photo" src="assets/images/hero/hero-parent-positioning-v1.png"
-         alt="A parent in profile working at a warm kitchen-table laptop in the evening, her child visible through the doorway scrolling a phone on the couch">
-    <img class="gnome-peek" src="assets/images/haven-olive-gnome.png" alt="" aria-hidden="true">
+</section>
+
+<!-- ============ CATEGORY CONTROL PANEL (off by default, like the product) ============ -->
+<section class="band-white">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Your network, your call</span>
+      <h2>One page. One click per category.</h2>
+
+    </div>
+    <div class="panel-card">
+      <div class="cat-grid" id="cat-grid" role="group" aria-label="Filter categories">
+        <button type="button" class="cat" aria-pressed="false"><span class="dot" aria-hidden="true"></span>Adult content</button>
+        <button type="button" class="cat" aria-pressed="false"><span class="dot" aria-hidden="true"></span>Violence</button>
+        <button type="button" class="cat" aria-pressed="false"><span class="dot" aria-hidden="true"></span>Gambling</button>
+        <button type="button" class="cat" aria-pressed="false"><span class="dot" aria-hidden="true"></span>Mobile game ads</button>
+        <button type="button" class="cat" aria-pressed="false"><span class="dot" aria-hidden="true"></span>Misinformation</button>
+        <button type="button" class="cat" aria-pressed="false"><span class="dot" aria-hidden="true"></span>Trackers</button>
+        <a class="cat-more" href="demo.html">and 42 more categories →</a>
+      </div>
+      <p class="panel-status" id="cat-status" aria-live="polite">Nothing is filtered until you say so — tap a category to try it.</p>
+      <p class="panel-note">Click. Save. Gone.
+         <a href="demo.html">Try the full demo →</a></p>
+    </div>
+    <figure class="demo-video">
+      <figcaption id="demo-video-cap">Watch the real Haven settings page do what you just did — pick a category, tick the filters, Save. 37 seconds, no sound.</figcaption>
+      <video controls muted playsinline preload="none" width="1280" height="720"
+             poster="assets/library/haven-demo-filter-screens-poster.jpg"
+             aria-label="Screen recording of the Haven settings page" aria-describedby="demo-video-cap">
+        <source src="assets/library/haven-demo-filter-screens.mp4" type="video/mp4">
+      </video>
+    </figure>
+    <p style="text-align:center;margin-top:28px;"><a class="btn btn-primary" id="categories-cta" href="#notify">Get notified at launch <span aria-hidden="true">→</span></a></p>
+  </div>
+</section>
+
+<!-- ============ BYPASS DEMO (the proof — one dark band) ============ -->
+<section class="band-ink" id="bypass">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Proof, not promises</span>
+      <h2>Try to bypass it.</h2>
+      <p class="lede">Pick a trick that walks right past ordinary parental controls
+        and watch what happens to a blocked site — on a normal filter, and on Haven.</p>
+    </div>
+    <div class="bp-chips" role="group" aria-label="Pick a bypass trick">
+      <button type="button" class="bp-chip active" data-m="vpn" aria-pressed="true">VPN app</button>
+      <button type="button" class="bp-chip" data-m="doh" aria-pressed="false">Encrypted DNS (DoH)</button>
+      <button type="button" class="bp-chip" data-m="relay" aria-pressed="false">Apple Private Relay</button>
+      <button type="button" class="bp-chip" data-m="dns" aria-pressed="false">Change the DNS</button>
+    </div>
+    <div class="bp-cols">
+      <div class="bp-panel ordinary">
+        <h3 class="bp-ptitle">Ordinary parental controls</h3>
+        <div class="bp-site">blocked-site.com</div>
+        <div class="bp-verdict" id="bp-left"><span aria-hidden="true">✗</span> Bypassed<span class="bp-vlabel" id="bp-left-label">the site loads through the VPN</span></div>
+      </div>
+      <div class="bp-panel haven">
+        <h3 class="bp-ptitle">Haven</h3>
+        <div class="bp-site">blocked-site.com</div>
+        <div class="bp-verdict" id="bp-right"><span aria-hidden="true">✓</span> Still blocked<span class="bp-vlabel" id="bp-right-label">the VPN tunnel is blocked</span></div>
+      </div>
+    </div>
+    <p class="bp-how" id="bp-how" aria-live="polite">A VPN app hides a device&rsquo;s traffic in an encrypted tunnel to an outside server — an ordinary filter can&rsquo;t see past it. Haven detects and blocks consumer VPN tunnels from leaving the network.</p>
+    <p class="bp-disc">Illustration of how each workaround behaves. Haven enforces filtering at the
+      network layer, so these tricks get routed back through the filter instead of around it.</p>
+    <p style="text-align:center;margin-top:28px;"><a class="btn btn-primary" id="bypass-cta" href="#notify">Get notified at launch <span aria-hidden="true">→</span></a></p>
+  </div>
+</section>
+
+<!-- Value tiles ("Why Haven") now follow the sign-up section, so pricing comes straight after the proof demo -->
+
+<!-- ============ FOUNDERS (elevated card floating on the brand field) ============ -->
+<section class="band-teal" id="founders">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Pricing · First 100</span>
+      <h2>Become a Haven Charter Member</h2>
+    </div>
+    <div class="founder-card">
+      <div class="founder-body">
+        <h3>Haven Navy — Charter Edition</h3>
+        <p class="hw">Wi&#8209;Fi 6 content filter · GL&#8209;MT6000</p>
+        <p class="price">$219.79 router <small>· one time, headless</small> + $96 a year <small>· plan, billed annually</small></p>
+        <dl class="founder-costs">
+          <div><dt>Year one</dt><dd>router $219.79, one time, plus plan <strong>$8 a month billed annually ($96 a year)</strong></dd></div>
+          <div><dt>Year two</dt><dd>plan only, <strong>$8 a month billed annually ($96 a year)</strong> · or $10 a month, month-to-month</dd></div>
+        </dl>
+        <p class="founder-fine" id="hw-range">Other hardware: from $107.30, or $0 if you bring your own router. A 5-inch touch screen adds $40, a 7-inch adds $50.</p>
+        <p class="founder-fine" style="margin-bottom:14px;">Prices are market adjusted and subject to change without notice. Any price adjustment will be verified with the buyer.</p>
+        <p class="launch" id="launch-line">Haven launches <span id="countdown">this November</span>.</p>
+        <p class="launch-sub">Available November&nbsp;1 · shipping from November&nbsp;25</p>
+        <a class="btn btn-primary" id="founders-cta" href="#notify">Get notified at launch <span aria-hidden="true">→</span></a>
+        <p class="founder-fine">Ships to US addresses · <strong>cancel anytime — filter keeps working</strong></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ NOTIFY ============ -->
+<section class="band-paper" id="notify">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Stay in the loop</span>
+      <h2>Get notified at launch</h2>
+      <p class="lede">Drop your email and we&rsquo;ll tell you the day Haven goes on sale.</p>
+    </div>
+    <label class="notify-label" for="haven-notify-email">Your email address</label>
+    <form class="notify-form" id="haven-notify-form">
+      <input id="haven-notify-email" name="email" type="email" placeholder="name@example.com" required aria-describedby="haven-notify-msg"
+             autocomplete="email" inputmode="email" autocapitalize="off" spellcheck="false" enterkeyhint="send">
+      <button type="submit">Notify me at launch</button>
+    </form>
+    <p class="notify-msg" id="haven-notify-msg" role="status" style="text-align:center;"></p>
+    <p id="notify-faq" style="text-align:center;margin-top:6px;font-size:.95rem;"><a href="faq.html" style="display:inline-flex;align-items:center;min-height:44px;text-decoration:underline;text-underline-offset:3px;">Questions first? Read the FAQ <span aria-hidden="true">→</span></a></p>
   </div>
 </section>
 
@@ -458,7 +582,6 @@ h1, h2, .display {
     <div class="section-head">
       <span class="eyebrow">Why Haven</span>
       <h2>Parental controls, or privacy,<br>or less algorithm? All three.</h2>
-      <p class="lede">Haven, for your whole network.</p>
     </div>
     <div class="tiles">
       <article class="tile">
@@ -486,166 +609,31 @@ h1, h2, .display {
            on YouTube — for you, not just the kids.</p>
       </article>
     </div>
-  </div>
-</section>
-
-<!-- ============ CATEGORY CONTROL PANEL (off by default, like the product) ============ -->
-<section class="band-paper">
-  <div class="container">
-    <div class="section-head">
-      <span class="eyebrow">Your network, your call</span>
-      <h2>One page. One click per category.</h2>
-      <p class="lede">Every category ships <strong>off</strong>. Flip one to see how simple it is.</p>
-    </div>
-    <div class="panel-card">
-      <div class="cat-grid" id="cat-grid">
-        <button type="button" class="cat" aria-pressed="false"><span class="dot" aria-hidden="true"></span>Adult content</button>
-        <button type="button" class="cat" aria-pressed="false"><span class="dot" aria-hidden="true"></span>Violence</button>
-        <button type="button" class="cat" aria-pressed="false"><span class="dot" aria-hidden="true"></span>Gambling</button>
-        <button type="button" class="cat" aria-pressed="false"><span class="dot" aria-hidden="true"></span>Mobile game ads</button>
-        <button type="button" class="cat" aria-pressed="false"><span class="dot" aria-hidden="true"></span>Misinformation</button>
-        <button type="button" class="cat" aria-pressed="false"><span class="dot" aria-hidden="true"></span>Trackers</button>
-        <a class="cat-more" href="demo.html">and dozens more →</a>
-      </div>
-      <p class="panel-status" id="cat-status" aria-live="polite">Nothing is filtered until you say so.</p>
-      <p class="panel-note">On or off — your network, your call. Click. Save. Gone.
-         <a href="demo.html">Try the full demo →</a></p>
-    </div>
-  </div>
-</section>
-
-<!-- ============ BYPASS DEMO (the proof — one dark band) ============ -->
-<section class="band-ink" id="bypass">
-  <div class="container">
-    <div class="section-head">
-      <span class="eyebrow">Proof, not promises</span>
-      <h2>Try to bypass it.</h2>
-      <p class="lede">These are the tricks that walk right past ordinary parental controls. Pick one
-        and watch what happens to a blocked site — on a normal filter, and on Haven.</p>
-    </div>
-    <div class="bp-chips">
-      <button type="button" class="bp-chip active" data-m="vpn">VPN app</button>
-      <button type="button" class="bp-chip" data-m="doh">Encrypted DNS (DoH)</button>
-      <button type="button" class="bp-chip" data-m="relay">Apple Private Relay</button>
-      <button type="button" class="bp-chip" data-m="dns">Change the DNS</button>
-    </div>
-    <div class="bp-cols">
-      <div class="bp-panel ordinary">
-        <div class="bp-ptitle">Ordinary parental controls</div>
-        <div class="bp-site">blocked-site.com</div>
-        <div class="bp-verdict" id="bp-left">✗ Bypassed<span class="bp-vlabel">the blocked site loads</span></div>
-      </div>
-      <div class="bp-panel haven">
-        <div class="bp-ptitle">Haven</div>
-        <div class="bp-site">blocked-site.com</div>
-        <div class="bp-verdict" id="bp-right">✓ Still blocked<span class="bp-vlabel">the workaround doesn&rsquo;t work</span></div>
-      </div>
-    </div>
-    <p class="bp-how" id="bp-how" aria-live="polite">A VPN app hides a device&rsquo;s traffic in an encrypted tunnel to an outside server — an ordinary filter can&rsquo;t see past it. Haven detects and blocks consumer VPN tunnels from leaving the network.</p>
-    <p class="bp-disc">Illustration of how each workaround behaves. Haven enforces filtering at the
-      network layer, so these tricks get routed back through the filter instead of around it.</p>
-  </div>
-</section>
-
-<!-- ============ MEET HAVEN (character art kept large, on purpose) ============ -->
-<section class="band-white">
-  <div class="container">
-    <div class="section-head">
-      <span class="eyebrow">Meet Haven</span>
-      <h2>Your network&rsquo;s standing guard.</h2>
-      <p class="lede lore">Tradition tells of gnomes, the domestic protectors.
-        Lulhaven brings you Haven: your tech protector.</p>
-    </div>
-    <div class="gnomes">
-      <article class="gnome">
-        <img src="assets/images/haven-router-od.png"
-             alt="Haven Olive Green — gnome in U.S. Army camouflage uniform with sergeant chevrons">
-        <h3>Haven Olive Green</h3>
-        <p class="spec">Linksys E8450 · Essential Wi&#8209;Fi 6</p>
-      </article>
-      <article class="gnome">
-        <img src="assets/images/haven-router-navy.png"
-             alt="Haven Navy — gnome in U.S. Navy uniform">
-        <h3>Haven Navy</h3>
-        <p class="spec">GL.iNet MT6000 · Performance flagship</p>
-      </article>
-      <article class="gnome">
-        <img src="assets/images/haven-router-gold.png"
-             alt="Haven Gold — U.S. Navy Seabee, the DIY maker mascot">
-        <h3>Haven Gold</h3>
-        <p class="spec">The OpenWrt burn image for makers</p>
-        <span class="tag-soon">Coming soon</span>
-      </article>
-    </div>
-
-    <div class="twins">
-      <div class="twins-row">
-        <img src="assets/images/mt6000.png" alt="An ordinary Wi-Fi router">
-        <span class="vs">vs.</span>
-        <img src="assets/images/mt6000-haven-screen.png" alt="The same router running Haven — a 3.5-inch screen on the front showing the Lulhaven dock image">
-      </div>
-      <p>These two routers are the same model. One of them is complicated to use.
-         It is weak and local. The other one has Haven.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ============ FOUNDERS (elevated card floating on the brand field) ============ -->
-<section class="band-teal" id="founders">
-  <div class="container">
-    <div class="section-head">
-      <span class="eyebrow">First 100</span>
-      <h2>Become a Haven Charter Member</h2>
-      <p class="lede">Each Charter Edition router is hand-built and shipped by the founder —
-        your network protected, the mission funded.</p>
-    </div>
-    <div class="founder-card">
-      <img src="assets/images/haven-navy-gnome.png" alt="Haven Navy Charter Edition gnome badge">
-      <div class="founder-body">
-        <h3>Haven Navy — Charter Edition</h3>
-        <p class="hw">Wi&#8209;Fi 6 content filter · GL&#8209;MT6000</p>
-        <p class="price">Pricing to be announced <small>· free updates through launch</small></p>
-        <p class="pitch">Plug it in where your old router was, click the categories you want blocked,
-          and Haven enforces them for every device on your network. Filter everything — or nothing.
-          You&rsquo;re in control.</p>
-        <p class="launch" id="launch-line">Haven launches <span id="countdown">this November</span>.</p>
-        <p class="launch-sub">Available November&nbsp;1 · shipping from November&nbsp;25</p>
-        <span class="btn-soon">Charter Member ordering opens soon</span>
-        <p class="founder-meta"><strong>0</strong> of 100 reserved · ships by November&nbsp;25,&nbsp;2026</p>
-        <p class="founder-fine">Ships to US addresses · <strong>cancel anytime — filter keeps working</strong></p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ NOTIFY ============ -->
-<section class="band-paper" id="notify">
-  <div class="container">
-    <div class="section-head">
-      <span class="eyebrow">Stay in the loop</span>
-      <h2>Not ready yet?</h2>
-      <p class="lede">Drop your email for new-batch alerts and first word when the monthly
-        list-update service goes live.</p>
-    </div>
-    <form class="notify-form" id="haven-notify-form">
-      <input id="haven-notify-email" type="email" placeholder="Your email address" required
-             autocomplete="email" aria-label="Email address">
-      <button type="submit">Keep me posted</button>
-    </form>
-    <p class="notify-msg" id="haven-notify-msg" role="status" style="display:none;text-align:center;"></p>
+    <p style="text-align:center;margin-top:28px;"><a class="btn btn-primary" id="why-cta" href="#notify">Get notified at launch <span aria-hidden="true">→</span></a></p>
+    <p class="hero-also">
+      <a href="fun.html"><span class="tag">FRESH</span> Fun and games! <span aria-hidden="true">→</span></a>
+      <a href="head.html"><span class="tag">🎃 ONLY</span> Give Haven back its head <span aria-hidden="true">→</span></a>
+    </p>
   </div>
 </section>
 
 </main>
 
+<aside class="sticky-cta" id="sticky-cta" aria-label="Sign up"><a class="btn btn-primary" href="#notify">Get notified at launch <span aria-hidden="true">→</span></a></aside>
+<script>
+(function () {
+  var bar = document.getElementById('sticky-cta'), hero = document.querySelector('main .btn-primary[href="#notify"]'),
+      form = document.getElementById('notify');
+  if (!bar || !hero || !form || !window.IntersectionObserver) return;
+  var heroSeen = true, formSeen = false;
+  function upd() { bar.classList.toggle('show', !heroSeen && !formSeen); }
+  new IntersectionObserver(function (e) { heroSeen = e[0].isIntersecting; upd(); }).observe(hero);
+  new IntersectionObserver(function (e) { formSeen = e[0].isIntersecting; upd(); }).observe(form);
+})();
+</script>
+
 <!-- ============ QUOTE + FOOTER (one ink block) ============ -->
-<div class="band-ink" style="padding:0;">
-  <section class="quote">
-    <div class="container">
-      <blockquote>Big Tech decides what you see.<br>
-        <em>Your Haven gives that decision back to you.</em></blockquote>
-    </div>
-  </section>
+<div class="band-ink" style="padding:48px 0 0;">
   <footer class="footer">
     <div class="container">
       <nav class="footer-links" aria-label="Footer">
@@ -654,6 +642,7 @@ h1, h2, .display {
         <a href="demo.html">Demo</a>
         <a href="milestones.html">Milestones</a>
         <a href="screen-haven.html">Screen Haven</a>
+        <a href="#founders">Pricing</a>
         <a href="faq.html">FAQ</a>
         <a href="about.html">About us</a>
         <a href="fun.html">Fun and games!</a>
@@ -668,8 +657,8 @@ h1, h2, .display {
    Real text ships in the span, so no-JS visitors and crawlers still read it. */
 (function () {
   var el = document.getElementById('hero-rotate');
-  if (!el) return;
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!el || reduce) return;  /* reduced motion: the first phrase stays put */
   var phrases = ['spew garbage', 'spew rage bait', 'track you', 'harvest your data',
                  'feed the algorithm', 'hijack your attention', 'autoplay all night',
                  'sell your attention', 'doomscroll your evening', 'target your children',
@@ -678,9 +667,17 @@ h1, h2, .display {
     var k = Math.floor(Math.random() * (j + 1));
     var t = phrases[j]; phrases[j] = phrases[k]; phrases[k] = t;
   }
-  var i = 0;
-  setInterval(function () {
-    if (reduce) { i = (i + 1) % phrases.length; el.textContent = phrases[i]; return; }
+  var i = 0, paused = false, hovered = false, pauseBtn = document.getElementById('hero-pause');
+  el.addEventListener('mouseenter', function () { hovered = true; });  /* Dave, 2026-10-30 22:55: hold the phrase while the pointer rests on it */
+  el.addEventListener('mouseleave', function () { hovered = false; });
+  if (pauseBtn) pauseBtn.addEventListener('click', function () {  /* WCAG 2.2.2: visitor can pause; a second press resumes; interval keeps running */
+    paused = !paused;
+    pauseBtn.setAttribute('aria-pressed', paused ? 'true' : 'false');
+    var t = paused ? 'Resume the changing phrase' : 'Pause the changing phrase';
+    pauseBtn.setAttribute('aria-label', t); pauseBtn.title = t;
+  });
+  setInterval(function () {  /* never stops: Dave, 2026-10-30 19:20, wants this phrase changing constantly (attempt 42 had stopped it) */
+    if (paused || hovered) return;  /* paused by the visitor or under the pointer: skip this swap, keep the interval alive */
     el.style.opacity = '0';
     setTimeout(function () {
       i = (i + 1) % phrases.length;
@@ -697,13 +694,14 @@ h1, h2, .display {
   if (!grid || !status) return;
   var cats = grid.querySelectorAll('.cat');
   function refresh() {
-    var n = 0;
-    cats.forEach(function (c) { if (c.getAttribute('aria-pressed') === 'true') n++; });
+    var on = [];
+    cats.forEach(function (c) { if (c.getAttribute('aria-pressed') === 'true') on.push(c.textContent.trim()); });
+    var n = on.length;
     if (n === 0) {
-      status.textContent = 'Nothing is filtered until you say so.';
+      status.textContent = 'Nothing is filtered until you say so — tap a category to try it.';
     } else {
-      status.textContent = n + (n === 1 ? ' category' : ' categories') +
-        ' blocked — for every device on your network.';
+      var names = n === 1 ? on[0] : on.slice(0, -1).join(', ') + ' and ' + on[n - 1];
+      status.innerHTML = names + ' blocked — for every device on your network. <a href="#notify" style="display:inline-block;padding:12px 0;text-decoration:underline;text-underline-offset:3px;">Get this at launch <span aria-hidden="true">→</span></a>';
     }
   }
   cats.forEach(function (c) {
@@ -723,15 +721,33 @@ h1, h2, .display {
     relay:"Apple Private Relay hides browsing from the network on iPhones and Macs. Haven sinkholes Private Relay so it can't connect, and filtering keeps working.",
     dns:  "Typing a public DNS like 8.8.8.8 into a device's settings dodges most router filters. Haven redirects all DNS back to itself, so changing it does nothing."
   };
+  var LEFT = {
+    vpn:  "the site loads through the VPN",
+    doh:  "the site loads via encrypted DNS",
+    relay:"the site loads through Private Relay",
+    dns:  "the site loads with the new DNS"
+  };
+  var RIGHT = {
+    vpn:  "the VPN tunnel is blocked",
+    doh:  "DoH is routed back through the filter",
+    relay:"Private Relay can't connect",
+    dns:  "DNS is redirected back to Haven"
+  };
+  var leftLabel = document.getElementById('bp-left-label'), rightLabel = document.getElementById('bp-right-label');
   var chips = document.querySelectorAll('.bp-chip');
   var how = document.getElementById('bp-how');
   var left = document.getElementById('bp-left'), right = document.getElementById('bp-right');
   if (!how) return;
   function pick(m, el) {
-    chips.forEach(function (c) { c.classList.toggle('active', c === el); });
+    chips.forEach(function (c) {
+      c.classList.toggle('active', c === el);
+      c.setAttribute('aria-pressed', c === el ? 'true' : 'false');
+    });
     how.style.opacity = '0'; left.style.opacity = '0'; right.style.opacity = '0';
     setTimeout(function () {
       how.textContent = HOW[m];
+      if (leftLabel)  leftLabel.textContent  = LEFT[m];
+      if (rightLabel) rightLabel.textContent = RIGHT[m];
       how.style.opacity = '1'; left.style.opacity = '1'; right.style.opacity = '1';
     }, 200);
   }
@@ -772,7 +788,8 @@ h1, h2, .display {
     var btn = form.querySelector('button[type=submit]');
     btn.disabled = true;
     btn.textContent = 'Sending…';
-    msg.style.display = 'none';
+    msg.textContent = '';
+    email.removeAttribute('aria-invalid');
     var src = null;
     try { src = sessionStorage.getItem('haven_notify_source'); } catch (e) {}
     var payload = { email: email.value.trim() };
@@ -786,13 +803,25 @@ h1, h2, .display {
     .then(function (d) {
       if (d.ok) {
         form.style.display = 'none';
+        var lbl = document.querySelector('.notify-label');
+        if (lbl) lbl.style.display = 'none';  /* no orphaned label once the field is gone */
         msg.textContent = d.message || 'You’re on the list!';
         msg.style.color = 'var(--teal)';
+        msg.setAttribute('tabindex', '-1');  /* focus lands on the confirmation, not the page top (WCAG 2.4.3) */
+        msg.focus();
+        var next = document.createElement('a');
+        next.href = 'challenge.html';
+        next.id = 'notify-next';
+        next.style.cssText = 'display:inline-flex;align-items:center;min-height:44px;margin-left:10px;text-decoration:underline;text-underline-offset:3px;';
+        next.innerHTML = 'While you wait, try to break our filter <span aria-hidden="true">&nbsp;→</span>';
+        msg.appendChild(next);
       } else {
         msg.textContent = d.error || 'Something went wrong. Please try again.';
         msg.style.color = '#b3261e';
         btn.disabled = false;
-        btn.textContent = 'Keep me posted';
+        btn.textContent = 'Notify me at launch';
+        email.setAttribute('aria-invalid', 'true');
+        email.focus();
       }
       msg.style.display = 'block';
     })
@@ -801,7 +830,7 @@ h1, h2, .display {
       msg.style.color = '#b3261e';
       msg.style.display = 'block';
       btn.disabled = false;
-      btn.textContent = 'Keep me posted';
+      btn.textContent = 'Notify me at launch';
     });
   });
 })();
