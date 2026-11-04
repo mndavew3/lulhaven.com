@@ -1,5 +1,27 @@
-// generated from haven_wiki.db accomplishments — 882 rows, newest id 897
+// generated from haven_wiki.db accomplishments — 884 rows, newest id 899
 var milestonesDataset = [
+  {
+    "id": 898,
+    "date": "2026-11-03",
+    "theme": "Reliability & Updates",
+    "impact": 4,
+    "summary": "Haven 0.1.117 is out for all five editions: Olive Green, Navy Blue, AA Maroon, Vanilla Gold and CG Orange",
+    "detail": null,
+    "benefit": "Every Haven router can take the update in place and keep its settings; the Olive Green update was proven on a real router before it was offered",
+    "ref": "",
+    "features": []
+  },
+  {
+    "id": 899,
+    "date": "2026-11-03",
+    "theme": "Reliability & Updates",
+    "impact": 3,
+    "summary": "Haven routers now carry the pictures and layouts for Haven's touch screens, so each screen loads them from its own router",
+    "detail": null,
+    "benefit": "A Haven touch screen stays in step with its router and only downloads what has changed",
+    "ref": "7c3e529",
+    "features": []
+  },
   {
     "id": 875,
     "date": "2026-10-11",
