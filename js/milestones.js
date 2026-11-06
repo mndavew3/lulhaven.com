@@ -1,5 +1,27 @@
-// generated from haven_wiki.db accomplishments — 884 rows, newest id 899
+// generated from haven_wiki.db accomplishments — 862 rows, newest id 902
 var milestonesDataset = [
+  {
+    "id": 902,
+    "date": "2026-11-06",
+    "theme": "Product definition",
+    "impact": 4,
+    "summary": "Haven's 3.5-inch screen gained a finger-sized split keyboard, sound, and pages that redraw about three times faster.",
+    "detail": null,
+    "benefit": "Typing on the smallest screen is easier, and pages change without a visible wait.",
+    "ref": "342e75511c",
+    "features": []
+  },
+  {
+    "id": 901,
+    "date": "2026-11-06",
+    "theme": "Product definition",
+    "impact": 4,
+    "summary": "Haven's 3.5-inch, 5-inch and 7-inch touch screens now all run one shared set of screens.",
+    "detail": null,
+    "benefit": "An improvement made for one screen reaches every screen, and they all look and work the same.",
+    "ref": "342e75511c",
+    "features": []
+  },
   {
     "id": 898,
     "date": "2026-11-03",
@@ -20,6 +42,17 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "A Haven touch screen stays in step with its router and only downloads what has changed",
     "ref": "7c3e529",
+    "features": []
+  },
+  {
+    "id": 900,
+    "date": "2026-11-02",
+    "theme": "Product definition",
+    "impact": 4,
+    "summary": "Haven's 7-inch touch screen now runs Haven's own screen app instead of a web browser.",
+    "detail": null,
+    "benefit": "Less software on the screen means fewer ways in, and the screens have a modern look.",
+    "ref": "0ada0f5ed1",
     "features": []
   },
   {
@@ -262,17 +295,6 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "A glance shows whether each device got the speed it should, including on Navy's 2.5 Gb sockets.",
     "ref": "1e22a43ead",
-    "features": []
-  },
-  {
-    "id": 881,
-    "date": "2026-10-06",
-    "theme": "Marketing & website",
-    "impact": 2,
-    "summary": "On the Haven Challenge page, tapping the picture at the top now opens it full size with Save picture and Close buttons, checked on desktop and phone-size screens.",
-    "detail": null,
-    "benefit": "Visitors who want the picture can keep it in one tap.",
-    "ref": "11782aa4 21:59",
     "features": []
   },
   {
@@ -562,17 +584,6 @@ var milestonesDataset = [
     "features": []
   },
   {
-    "id": 856,
-    "date": "2026-10-02",
-    "theme": "Marketing & website",
-    "impact": 2,
-    "summary": "The challenge rules now carry the YouTube contest terms: YouTube is not a sponsor, entrants release YouTube from claims, and entries must follow YouTube's Community Guidelines.",
-    "detail": null,
-    "benefit": "The challenge can be promoted on YouTube by the platform's own rules, with nothing changed about what counts, how it is judged, or the prizes.",
-    "ref": "db86a86",
-    "features": []
-  },
-  {
     "id": 855,
     "date": "2026-10-02",
     "theme": "Product definition",
@@ -628,17 +639,6 @@ var milestonesDataset = [
     "features": []
   },
   {
-    "id": 836,
-    "date": "2026-10-01",
-    "theme": "Marketing & website",
-    "impact": 4,
-    "summary": "The Haven Halloween Challenge opened on schedule: sign-up and claim submission switched on, and the challenge page and front-page banner now read 'Now open'",
-    "detail": null,
-    "benefit": "Anyone can now download Haven, try to break the filter, and get named credit for every confirmed finding through Halloween night",
-    "ref": "3eb4f52",
-    "features": []
-  },
-  {
     "id": 841,
     "date": "2026-10-01",
     "theme": "Product definition",
@@ -661,17 +661,6 @@ var milestonesDataset = [
     "features": []
   },
   {
-    "id": 839,
-    "date": "2026-10-01",
-    "theme": "Marketing & website",
-    "impact": 2,
-    "summary": "The Haven Halloween Challenge now has one leaderboard, live from the first day: every finding ranks on the same board whichever test setup it was found on, and standings show as provisional until judged",
-    "detail": null,
-    "benefit": "Participants see where they stand from day one, and nobody is ranked lower just because of which test setup they used",
-    "ref": "18a0601",
-    "features": []
-  },
-  {
     "id": 838,
     "date": "2026-10-01",
     "theme": "Marketing & website",
@@ -679,17 +668,6 @@ var milestonesDataset = [
     "summary": "lulhaven.com's visitor counter records which links and buttons are used, never what anyone types into a form",
     "detail": null,
     "benefit": "Your sign-in details and email address stay out of our site statistics entirely",
-    "ref": "16f42b8",
-    "features": []
-  },
-  {
-    "id": 837,
-    "date": "2026-10-01",
-    "theme": "Marketing & website",
-    "impact": 2,
-    "summary": "The Haven Challenge page now leads with one unmistakable action: Submit a finding is the largest button on the page, and the page is open to search engines",
-    "detail": null,
-    "benefit": "Contestants who find a way around Haven can report it in one click, and newcomers can find the Challenge through search",
     "ref": "16f42b8",
     "features": []
   },
@@ -1002,17 +980,6 @@ var milestonesDataset = [
     "features": []
   },
   {
-    "id": 807,
-    "date": "2026-09-14",
-    "theme": "Email notifications",
-    "impact": 4,
-    "summary": "Contest sign-up confirmations now arrive in your inbox, proven end to end with a live send after the site went out.",
-    "detail": "Email delivery is wired to a verified sending domain for lulhaven.com and confirmed with an actual test message delivered after the deploy — not a configuration that merely looks right.",
-    "benefit": "When you enter the build contest you get a real confirmation you can point at, instead of wondering whether your entry registered.",
-    "ref": "aa145b0a2c",
-    "features": []
-  },
-  {
     "id": 806,
     "date": "2026-09-14",
     "theme": "Marketing & website",
@@ -1021,17 +988,6 @@ var milestonesDataset = [
     "detail": "Per-flavor notes on the Get Haven gate. Olive and Navy tell you that DSL/PPPoE sign-in credentials are cleared by the flash and will need re-entering. The virtual image states plainly that Apple Silicon Macs cannot run it. The rules page also gained a straight answer on updates: they are simply free through November 1, with nothing to register.",
     "benefit": "You find out what a Haven install will and will not do on your setup before you download it, not halfway through when your internet is already down.",
     "ref": "d90739b5ba",
-    "features": []
-  },
-  {
-    "id": 805,
-    "date": "2026-09-14",
-    "theme": "Marketing & website",
-    "impact": 4,
-    "summary": "Walked the whole path a build-contest participant takes through lulhaven.com and took thirty separate opportunities to sharpen it — clearer wording, links that land where they say, and more careful handling of what people send us.",
-    "detail": "An end-to-end review of the participant journey, from the first page through the submission form, surfaced thirty confirmed opportunities and all thirty were taken: wording made more precise, navigation made to land where it promises, and tighter handling of the information people send us.",
-    "benefit": "Anyone joining the build contest gets pages that say exactly what is true, links that go where they claim, and their submitted details handled with more care.",
-    "ref": "7032d6a2e5",
     "features": []
   },
   {
@@ -1164,17 +1120,6 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "Standing commitments surface on time even when no work session is open.",
     "ref": "21cdc9a22c",
-    "features": []
-  },
-  {
-    "id": 792,
-    "date": "2026-09-08",
-    "theme": "Security & Trust",
-    "impact": 4,
-    "summary": "Adversarial review pass on the Founders contest flow: added formal dispute records for duplicate attestations, made two-factor enrollment restartable, and added clear delivery reporting to registration emails",
-    "detail": null,
-    "benefit": "Every step of the contest flow now leaves a verifiable record, giving entrants a clear, dependable path from registration to claim",
-    "ref": "0c4f69fd6a",
     "features": []
   },
   {
@@ -1629,17 +1574,6 @@ var milestonesDataset = [
     "features": []
   },
   {
-    "id": 753,
-    "date": "2026-08-28",
-    "theme": "Trust & transparency",
-    "impact": 4,
-    "summary": "Contest claims are now reviewed by a judge before they count, and the system itself refuses any outcome the published rules do not allow.",
-    "detail": null,
-    "benefit": "What the contest rules promise you is what the system will physically allow. A claim can be unconfirmed and invited back; it cannot be thrown out.",
-    "ref": "47775c7a2b",
-    "features": []
-  },
-  {
     "id": 751,
     "date": "2026-08-28",
     "theme": "Firmware & overlay",
@@ -1761,17 +1695,6 @@ var milestonesDataset = [
     "features": []
   },
   {
-    "id": 739,
-    "date": "2026-08-27",
-    "theme": "Marketing & website",
-    "impact": 3,
-    "summary": "Haven's open design contest now shows a public top-three leaderboard on the website, fed by a new scoring tool the judges use to rank entries.",
-    "detail": null,
-    "benefit": "Anyone following the contest can see which entries are leading and how they were judged, instead of waiting for a single announcement at the end.",
-    "ref": "607900ae58",
-    "features": []
-  },
-  {
     "id": 737,
     "date": "2026-08-27",
     "theme": "Firmware & overlay",
@@ -1791,17 +1714,6 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "More real-world sources customers can specifically allow or block -- sharper control over news, politics, and business content instead of one-size-fits-all filtering.",
     "ref": "2cf951b9ec",
-    "features": []
-  },
-  {
-    "id": 740,
-    "date": "2026-08-27",
-    "theme": "Trust & transparency",
-    "impact": 2,
-    "summary": "Contest entrants now record their agreement to the contest rules at the moment they submit, and that agreement is stored with the entry.",
-    "detail": null,
-    "benefit": "Everyone who enters has the same clear terms on record, so there is no argument later about what was agreed to.",
-    "ref": "b0a75c5b01",
     "features": []
   },
   {
@@ -2608,17 +2520,6 @@ var milestonesDataset = [
     "features": []
   },
   {
-    "id": 663,
-    "date": "2026-08-17",
-    "theme": "Customer features (website)",
-    "impact": 3,
-    "summary": "The Challenge download flow now runs end to end: detect your hardware, sign off, redeem a code, download — with the consent screen wired to live release metadata instead of placeholders.",
-    "detail": "'Get on the list' replaced by a 3-step flow (detect, verdict/sign-off, delivery-of-code); a manual hardware chooser covers the no-detector path; /api/redeem endpoint with a pure logic core (9/9 tests); kyc.js stripped so nothing beacons before consent. Eyes-on verified via the browser test framework. Staged, not in the publish path.",
-    "benefit": "Contestants get their firmware through one clear, consent-first path instead of a mailing-list promise.",
-    "ref": "6405234000",
-    "features": []
-  },
-  {
     "id": 662,
     "date": "2026-08-17",
     "theme": "Off-network filtering",
@@ -2671,17 +2572,6 @@ var milestonesDataset = [
     "detail": "FTS5/porter/BM25 over section-granular chunks with w2vgrep query expansion; indexes 3,376 chunks in 0.3 seconds; all three acid tests pass (reset/factory, config-inject-the DNS layer, subscription-lapse).",
     "benefit": "Design decisions stop getting remade from scratch because the earlier answer could not be found.",
     "ref": "c96bc548c8",
-    "features": []
-  },
-  {
-    "id": 657,
-    "date": "2026-08-17",
-    "theme": "Website / Marketing",
-    "impact": 2,
-    "summary": "lulhaven.com pages now share one navigation header and footer, stamped automatically at build time so no page can drift out of date.",
-    "detail": "Also added a Halloween tribute page (head.html): the Headless Horseman in monochrome with a burning jack-o'-lantern, tagline 'Do you know what your network is doing?', linked from a third pill on the home page.",
-    "benefit": "Wherever you land on the site, the same menu takes you to the demo, features, benefits, and milestones in one click.",
-    "ref": "9af4f9ec9c",
     "features": []
   },
   {
@@ -2784,17 +2674,6 @@ var milestonesDataset = [
     "features": []
   },
   {
-    "id": 645,
-    "date": "2026-08-08",
-    "theme": "Marketing & website",
-    "impact": 4,
-    "summary": "Built the customer registration and checkout flow, the system that turns a router's serial number into an active subscription, and verified the whole path end to end in a real test run: sign up, pay, and have your Haven recognized as entitled.",
-    "detail": "Register + checkout endpoints, subscription/customer schema, entitlement check wired to router-side downloads, contest-claim bridge into registration. Verified via real local Workers runtime (not code review): fresh-serial registration, checkout writing the row, entitlement read-back, squad options, already-registered handling. Not yet deployed to the live site; Stripe live keys and a Hearst publish are still needed before real customers can use it.",
-    "benefit": "This is the missing link between a Haven in a box and a Haven actually filtering your network on your plan. Once it's switched on for real customers, registering a router and starting a subscription will just work.",
-    "ref": "2ea264fbd1",
-    "features": []
-  },
-  {
     "id": 643,
     "date": "2026-08-08",
     "theme": "Reliability & safety",
@@ -2872,17 +2751,6 @@ var milestonesDataset = [
     "features": []
   },
   {
-    "id": 638,
-    "date": "2026-08-06",
-    "theme": "Product definition",
-    "impact": 4,
-    "summary": "We locked the design that makes a factory reset useless as an escape hatch: one export file that backs up your settings, moves them to a new router, enters the contest, and survives a reset — with every choice about what to share made by you, at import time.",
-    "detail": null,
-    "benefit": "Pressing the reset button hands back a router with the same filters, the same users, and the same passwords it had before — and your backups stay yours, encrypted under your passphrase.",
-    "ref": "",
-    "features": []
-  },
-  {
     "id": 636,
     "date": "2026-08-06",
     "theme": "Process & discipline",
@@ -2949,17 +2817,6 @@ var milestonesDataset = [
     "features": []
   },
   {
-    "id": 630,
-    "date": "2026-08-05",
-    "theme": "Trust & transparency",
-    "impact": 3,
-    "summary": "Thirty-six invitations went out to prospective Haven Challenge judges.",
-    "detail": null,
-    "benefit": "The Challenge needs independent judges who are not us. These are the first real invitations.",
-    "ref": "a8d7765",
-    "features": []
-  },
-  {
     "id": 629,
     "date": "2026-08-05",
     "theme": "Manga / lore",
@@ -3004,17 +2861,6 @@ var milestonesDataset = [
     "features": []
   },
   {
-    "id": 625,
-    "date": "2026-08-03",
-    "theme": "Trust & transparency",
-    "impact": 4,
-    "summary": "The full rules for the Haven Halloween Challenge are now published and readable by anyone.",
-    "detail": null,
-    "benefit": "You can see exactly what counts as a finding, how entries are judged, and what the prizes are before you decide whether to take part.",
-    "ref": "eb859bb",
-    "features": []
-  },
-  {
     "id": 624,
     "date": "2026-08-01",
     "theme": "Demo page",
@@ -3056,61 +2902,6 @@ var milestonesDataset = [
     "detail": "Both Haven models were built to the same release on the same day, so the entry model no longer trails behind.",
     "benefit": "Improvements reach your Haven without a computer, a cable, or a file to find — your Haven checks, tells you, and updates itself when you say go.",
     "ref": "c217605",
-    "features": []
-  },
-  {
-    "id": 619,
-    "date": "2026-07-29",
-    "theme": "Marketing & website",
-    "impact": 4,
-    "summary": "Improved the accuracy of the Haven Challenge pages.",
-    "detail": null,
-    "benefit": "Every finding stays credited to the version it was found on, and the published rules match the contest you actually enter.",
-    "ref": "6d81a02",
-    "features": []
-  },
-  {
-    "id": 618,
-    "date": "2026-07-29",
-    "theme": "Product definition",
-    "impact": 4,
-    "summary": "Take part in the Haven Challenge using a ready-to-run virtual machine on the computer you already have.",
-    "detail": null,
-    "benefit": "You can put Haven to the test today without buying hardware or reflashing anything you depend on",
-    "ref": "8532fbf",
-    "features": []
-  },
-  {
-    "id": 617,
-    "date": "2026-07-29",
-    "theme": "Product definition",
-    "impact": 4,
-    "summary": "The Haven Challenge was pinned to a real calendar: applications through August, Haven available to everyone from September 1, the contest running the whole of October and closing on Halloween, winners announced November 13",
-    "detail": null,
-    "benefit": "Anyone who wants to test Haven knows exactly when to sign up, when they can get it, and how long they have",
-    "ref": "91906e3",
-    "features": []
-  },
-  {
-    "id": 616,
-    "date": "2026-07-29",
-    "theme": "Marketing & website",
-    "impact": 4,
-    "summary": "Improved how the site displays the launch and Challenge dates.",
-    "detail": null,
-    "benefit": "You can see exactly how long until Haven is available and until the Challenge opens, without hunting for dates",
-    "ref": "6d81a02",
-    "features": []
-  },
-  {
-    "id": 620,
-    "date": "2026-07-29",
-    "theme": "Marketing & website",
-    "impact": 3,
-    "summary": "The Challenge now has a name and a published schedule: the Haven Halloween Challenge opens October 1, closes on Halloween night, and names winners on November 13 — with seasonal artwork and a lightning flash when the closing date scrolls into view.",
-    "detail": "The page previously showed a countdown but never stated the contest dates anywhere, and still described a superseded seven-day format.",
-    "benefit": "Anyone considering the Challenge can finally see when it starts and when it ends, instead of only a countdown with no dates attached.",
-    "ref": "0b4d435097",
     "features": []
   },
   {
@@ -3243,17 +3034,6 @@ var milestonesDataset = [
     "detail": "The Olive build had never completed. Three separate blockers: its build kit was never fetched, the kit shipped without two Haven-specific packages, and the build tool looked for the wrong output file type for this model. All three fixed; Olive 0.1.60 built and registered.",
     "benefit": "Buyers get a second hardware choice — Haven is no longer effectively a one-router product.",
     "ref": "5756b31",
-    "features": []
-  },
-  {
-    "id": 604,
-    "date": "2026-07-21",
-    "theme": "Marketing & website",
-    "impact": 3,
-    "summary": "The Challenge page is now easier to find through search engines, and we improved its page-loading reliability.",
-    "detail": "The Challenge page had been deliberately hidden from search. It is now open to indexing, which takes weeks to take effect and so had to be done well before launch. Separately, the file that tells search engines how to crawl the site had a whole web page accidentally pasted into it, and had been serving that way since the site's first commit.",
-    "benefit": "People looking for the Haven Challenge can find it through search.",
-    "ref": "3d0ecfd",
     "features": []
   },
   {
@@ -3829,17 +3609,6 @@ var milestonesDataset = [
     "features": []
   },
   {
-    "id": 550,
-    "date": "2026-06-27",
-    "theme": "Marketing & website",
-    "impact": 4,
-    "summary": "Opened public pre-registration for the Haven Challenge.",
-    "detail": null,
-    "benefit": "Early sign-up for the Challenge.",
-    "ref": "8753041",
-    "features": []
-  },
-  {
     "id": 545,
     "date": "2026-06-26",
     "theme": "Testing & quality",
@@ -3859,17 +3628,6 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "The site respects your device's accessibility settings.",
     "ref": "ab5dcc6",
-    "features": []
-  },
-  {
-    "id": 547,
-    "date": "2026-06-26",
-    "theme": "Marketing & website",
-    "impact": 4,
-    "summary": "Introduced the Haven Challenge program page with application intake.",
-    "detail": null,
-    "benefit": "A way for interested router owners to raise their hand for the Haven Challenge.",
-    "ref": "bbf313b",
     "features": []
   },
   {

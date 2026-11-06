@@ -1,6 +1,23 @@
 /wiki  /wiki/  301
 /game-haven  /lab/haven-game.html  301
-/challenge-preview       /challenge      301
-/challenge-preview.html  /challenge.html 301
-/challenge-apply         /challenge      301
-/challenge-apply.html    /challenge.html 301
+# Haven Challenge pages retired 2026-11-06 (Dave): old links land on the home page
+/challenge  /  301
+/challenge.html  /  301
+/challenge-apply  /  301
+/challenge-apply.html  /  301
+/challenge-judges  /  301
+/challenge-judges.html  /  301
+/challenge-judge-tool  /  301
+/challenge-judge-tool.html  /  301
+/challenge-leaderboard  /  301
+/challenge-leaderboard.html  /  301
+/challenge-preview  /  301
+/challenge-preview.html  /  301
+/challenge-rules  /  301
+/challenge-rules.html  /  301
+/challenge-submit  /  301
+/challenge-submit.html  /  301
+/submissions  /  301
+/submissions.html  /  301
+/get-haven  /  301
+/get-haven.html  /  301

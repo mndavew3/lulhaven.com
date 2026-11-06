@@ -14,10 +14,7 @@
     { label: "About us",  href: "about.html",    tip: "Who we are" }
   ];
   var CTA = { label: "Start now", href: "index.html#notify" };
-  var CHALLENGE = { label: "⚡ The Challenge", href: "challenge.html" };
-  // Pulled out of LINKS to get the same pill+badge treatment as Challenge
-  // (Dave, 2026-08-07): "take all of its cues from the challenge menu option" —
-  // same pill, same blinking badge, badge text FRESH instead of NEW.
+  // Pulled out of LINKS for a pill with a blinking FRESH badge (Dave, 2026-08-07).
   var ENJOY = { label: "Enjoy!", href: "fun.html" };
   // =================================================================
 
@@ -38,9 +35,6 @@
     ".hvn-nav .hvn-cta{background:" + TEAL + " !important;color:#fff !important;padding:9px 22px;border-radius:30px;" +
       "text-decoration:none;font-weight:700;}" +
     ".hvn-nav .hvn-cta:hover{background:#23624f;}" +
-    ".hvn-nav .hvn-challenge{display:inline-flex;align-items:center;gap:7px;background:#c40000 !important;color:#fff !important;" +
-      "padding:9px 18px;border-radius:30px;text-decoration:none;font-weight:800;}" +
-    ".hvn-nav .hvn-challenge:hover{background:#a30000 !important;color:#fff !important;}" +
     ".hvn-nav .hvn-enjoy{display:inline-flex;align-items:center;gap:7px;background:#c40000 !important;color:#fff !important;" +
       "padding:9px 18px;border-radius:30px;text-decoration:none;font-weight:800;}" +
     ".hvn-nav .hvn-enjoy:hover{background:#a30000 !important;color:#fff !important;}" +
@@ -57,7 +51,6 @@
         "<span>" + BRAND + "</span></a>" +
       '<span class="hvn-links">' + links +
         '<a class="hvn-enjoy" href="' + ENJOY.href + '"><span class="hvn-new">FRESH</span> ' + ENJOY.label + "</a>" +
-        '<a class="hvn-challenge" href="' + CHALLENGE.href + '"><span class="hvn-new">NEW</span> ' + CHALLENGE.label + "</a>" +
         '<a class="hvn-cta" href="' + CTA.href + '">' + CTA.label + "</a></span>";
     document.body.insertBefore(nav, document.body.firstChild);
   }

@@ -110,7 +110,7 @@
     var cls = (typeof el.className === 'string' && el.className.trim())
       ? '.' + el.className.trim().split(/\s+/).slice(0, 2).join('.') : '';
     // Never log what someone typed: a text box's value can be a password or an
-    // email address (2026-10-01 a contest password landed here). Typing fields
+    // email address (2026-10-01 a password landed here). Typing fields
     // describe themselves by tag/id only; button-type inputs keep their label.
     var type  = ((el.getAttribute && el.getAttribute('type')) || '').toLowerCase();
     var typed = (tag === 'input' && !/^(submit|button|reset)$/.test(type)) ||
