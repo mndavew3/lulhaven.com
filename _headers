@@ -31,3 +31,12 @@
 
 /api/yt-catalog.json
   Cache-Control: public, max-age=300, must-revalidate
+
+/portfolio-sandbox-u3ccpo32dpy9/*
+  X-Robots-Tag: noindex, nofollow, noarchive
+  Content-Security-Policy: default-src 'none'; script-src 'self' 'wasm-unsafe-eval'; worker-src 'self'; connect-src 'self'; style-src 'self'; img-src 'self' data:; base-uri 'none'; form-action 'none'; frame-ancestors 'none'
+  Referrer-Policy: no-referrer
+  X-Content-Type-Options: nosniff
+
+/portfolio-sandbox-u3ccpo32dpy9/pyodide/*
+  Cache-Control: public, max-age=604800
