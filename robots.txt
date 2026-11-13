@@ -58,3 +58,4 @@ Disallow: /
 
 # END Cloudflare Managed Content
 
+Sitemap: https://lulhaven.com/sitemap.xml

@@ -1,4 +1,4 @@
-// generated from haven_wiki.db accomplishments — 862 rows, newest id 902
+// generated from haven_wiki.db accomplishments — 864 rows, newest id 902
 var milestonesDataset = [
   {
     "id": 902,
@@ -546,7 +546,7 @@ var milestonesDataset = [
     "impact": 3,
     "summary": "lulhaven.com now has a plain-language privacy notice: what the site collects, why, who sees it, how long it is kept, and how to ask about it.",
     "detail": null,
-    "benefit": "Before you sign up or join a challenge, you can read exactly what Haven keeps about you and confirm it is never sold or rented.",
+    "benefit": "Before you sign up, you can read exactly what Haven keeps about you and confirm it is never sold or rented.",
     "ref": "2f9a6894ab",
     "features": []
   },
@@ -1120,17 +1120,6 @@ var milestonesDataset = [
     "detail": null,
     "benefit": "Standing commitments surface on time even when no work session is open.",
     "ref": "21cdc9a22c",
-    "features": []
-  },
-  {
-    "id": 793,
-    "date": "2026-09-08",
-    "theme": "Trust & transparency",
-    "impact": 3,
-    "summary": "Re-audited every published challenge-page claim against the shipping software: the page now states the exact firmware base version we ship (25.12.5), adds Apple Silicon guidance for VM entrants, and redeem messaging speaks each flavor to its own steps",
-    "detail": null,
-    "benefit": "What the site promises is exactly what the download delivers — down to the version number on the page",
-    "ref": "1bc766b644",
     "features": []
   },
   {
@@ -2575,6 +2564,17 @@ var milestonesDataset = [
     "features": []
   },
   {
+    "id": 657,
+    "date": "2026-08-17",
+    "theme": "Website / Marketing",
+    "impact": 2,
+    "summary": "lulhaven.com pages now share one navigation header and footer, stamped automatically at build time so no page can drift out of date.",
+    "detail": "Also added a Halloween tribute page (head.html): the Headless Horseman in monochrome with a burning jack-o'-lantern, tagline 'Do you know what your network is doing?', linked from a third pill on the home page.",
+    "benefit": "Wherever you land on the site, the same menu takes you to the demo, features, benefits, and milestones in one click.",
+    "ref": "9af4f9ec9c",
+    "features": []
+  },
+  {
     "id": 654,
     "date": "2026-08-15",
     "theme": "Reliability & safety",
@@ -2674,6 +2674,17 @@ var milestonesDataset = [
     "features": []
   },
   {
+    "id": 645,
+    "date": "2026-08-08",
+    "theme": "Marketing & website",
+    "impact": 4,
+    "summary": "Built the customer registration and checkout flow, the system that turns a router's serial number into an active subscription, and verified the whole path end to end in a real test run: sign up, pay, and have your router recognized as entitled.",
+    "detail": "Register + checkout endpoints, subscription/customer schema, entitlement check wired to router-side downloads. Verified via real local Workers runtime (not code review): fresh-serial registration, checkout writing the row, entitlement read-back, squad options, already-registered handling. Not yet deployed to the live site; Stripe live keys and a Hearst publish are still needed before real customers can use it.",
+    "benefit": "This is the missing link between a Haven in a box and a Haven actually filtering your network on your plan. Once it's switched on for real customers, registering a router and starting a subscription will just work.",
+    "ref": "2ea264fbd1",
+    "features": []
+  },
+  {
     "id": 643,
     "date": "2026-08-08",
     "theme": "Reliability & safety",
@@ -2747,6 +2758,17 @@ var milestonesDataset = [
     "summary": "We implemented the complete erase workflow for the 'Hand this unit to someone else' button and validated it works reliably before a single customer ever pressed it.",
     "detail": null,
     "benefit": "Problems get caught and fixed on our bench, before they ever reach you.",
+    "ref": "",
+    "features": []
+  },
+  {
+    "id": 638,
+    "date": "2026-08-06",
+    "theme": "Product definition",
+    "impact": 4,
+    "summary": "We locked the design that makes a factory reset useless as an escape hatch: one export file that backs up your settings, moves them to a new router, and survives a reset, with every choice about what to share made by you, at import time.",
+    "detail": null,
+    "benefit": "Pressing the reset button hands back a router with the same filters, the same users, and the same passwords it had before — and your backups stay yours, encrypted under your passphrase.",
     "ref": "",
     "features": []
   },
@@ -3580,7 +3602,7 @@ var milestonesDataset = [
     "date": "2026-06-28",
     "theme": "Marketing & website",
     "impact": 4,
-    "summary": "Added a pre-announcement page and short survey for owners of OpenWRT-compatible routers.",
+    "summary": "Added a pre-announcement page and short survey for owners of OpenWrt-compatible routers.",
     "detail": null,
     "benefit": "Owners of compatible routers can register interest and tell us what they run.",
     "ref": "b1a757d",

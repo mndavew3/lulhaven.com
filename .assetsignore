@@ -63,3 +63,6 @@ node_modules
 # --- agent instructions / notes
 CLAUDE.md
 .claude
+# 2026-11-13 (#557): archived design-contest entries, unlinked, still say "Haven Gold"
+design-contest
+design-contest/**
