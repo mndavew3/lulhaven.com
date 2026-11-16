@@ -788,6 +788,31 @@
       #hd-sh-panel .hi-panel svg, #hd-sh-panel .hi-panel canvas { display: block; width: 100%; height: auto; }
       #hd-sh-panel .hi-status { font-size: 0.9em; color: #666; }
       #hd-sh-panel .hi-status.hi-bad { color: #b3261e; font-weight: 600; }
+      /* Wi-Fi check: the rules of luci-app-haven/luasrc/view/haven/wificheck.htm, unchanged */
+      #hi-wifibox .wc { padding: 20px 24px 24px; }
+      #hi-wifibox h3 { margin: 0 0 6px; font-size: 1.3em; }
+      .wc-lead { color: var(--ls-mute,#666); margin: 0 0 12px; font-size: 0.95em; }
+      .wc-facts { font-size: 0.95em; line-height: 1.55; }
+      .wc-act { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 14px 0 10px; }
+      .wc-act button { padding: 10px 22px; border-radius: 8px; border: 1px solid #158f6b; background: #158f6b;
+        color: #fff; cursor: pointer; font-size: 1em; font-weight: 600; }
+      .wc-act button.wc-quiet { background: var(--ls-field-bg,#fff); color: #158f6b; }
+      .wc-act button:disabled { background: #9aa4ad; border-color: #9aa4ad; color: #fff; cursor: default; }
+      .wc-warn { border: 1px solid #e0b100; background: #fff8dc; color: #3b3000; border-radius: 10px; padding: 12px 16px; margin: 4px 0 12px; }
+      .wc-warn p { margin: 0 0 4px; line-height: 1.5; }
+      .wc-card { border: 1px solid var(--ls-edge-rest,rgba(0,0,0,0.12)); border-radius: 10px; padding: 12px 16px; margin: 10px 0; }
+      .wc-card h4 { margin: 0 0 8px; font-size: 1.05em; }
+      .wc-card p { margin: 6px 0 0; }
+      .wc-card table { border-collapse: collapse; width: 100%; font-size: 0.95em; }
+      .wc-card td, .wc-card th { text-align: left; padding: 4px 12px 4px 0; vertical-align: top; }
+      .wc-card th { color: var(--ls-ink-dim,#555); font-weight: 600; white-space: nowrap; }
+      .wc-good { color: #158f6b; font-weight: 600; }
+      .wc-bad { color: #b3261e; font-weight: 600; }
+      .wc-note { color: var(--ls-mute,#666); font-size: 0.88em; }
+      .wc-list { margin: 4px 0 0; padding-left: 20px; }
+      .wc-help { margin: 16px 0 0; font-size: 0.9em; color: var(--ls-ink-dim,#444); }
+      .wc-help dt { font-weight: 600; margin-top: 6px; }
+      .wc-help dd { margin: 0; }
       #hvndeck { display: block; width: 100%; height: auto; aspect-ratio: 3 / 2; background: #000; cursor: crosshair; }
       #hvnlid { position: absolute; left: 0; top: 0; right: 0; bottom: 0; background: #000; pointer-events: none; }
     </style>
@@ -801,6 +826,7 @@
       <div class="hi-dots" id="hi-dots">
         <button type="button" data-v="deck">Haven screen</button>
         <button type="button" data-v="ports">Router back (Ports)</button>
+        <button type="button" data-v="wifi">Wi-Fi check</button>
       </div>
       <div class="hi-nav">
         <button type="button" id="hi-prev" aria-label="Previous screen">&larr; Back</button>
@@ -813,6 +839,38 @@
       </div>
       <div class="hi-panel" id="hi-portsbox" style="display:none">
         <svg id="hi-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 640" role="img" aria-label="Router back panel"></svg>
+      </div>
+      <!-- Wi-Fi check. Mirrors luci-app-haven/luasrc/view/haven/wificheck.htm; js/screen-haven.js
+           answers in place of a router, with sample numbers. -->
+      <div class="hi-panel" id="hi-wifibox" style="display:none">
+        <div class="wc">
+          <h3>Wi-Fi check</h3>
+          <p class="wc-lead">This checks the Wi-Fi of the device you are using right now. <b>Test</b> measures it.
+            <b>Tune up</b> looks at the Wi-Fi around you, moves your network to the clearest channel if that would help,
+            then tests again so you can see the difference. <b>Undo</b> puts back the settings from before the last change.</p>
+          <p class="wc-note" style="margin:0 0 12px">In this demo the numbers are samples and the waits are shortened; nothing here touches a real network.</p>
+          <div class="wc-facts" id="wc-facts">Asking the router about your network&hellip;</div>
+          <div class="wc-act">
+            <button type="button" id="wc-test">Test</button>
+            <button type="button" id="wc-tune">Tune up</button>
+            <button type="button" id="wc-undo" class="wc-quiet" disabled>Undo</button>
+            <span class="hi-status" id="wc-status" role="status" aria-live="polite"></span>
+          </div>
+          <div class="wc-warn" id="wc-warn" style="display:none">
+            <p id="wc-warn-text"></p>
+            <div class="wc-act" style="margin:10px 0 0">
+              <button type="button" id="wc-go">Go ahead</button>
+              <button type="button" id="wc-cancel" class="wc-quiet">Cancel</button>
+            </div>
+          </div>
+          <div id="wc-out"></div>
+          <dl class="wc-help">
+            <dt>Link rate</dt><dd>The speed your device and the router agreed on. Real transfers usually reach about half to two-thirds of it.</dd>
+            <dt>Download and upload</dt><dd>How fast data really moved between this device and the router, for 8 seconds each way. Your internet connection is not part of this test.</dd>
+            <dt>Signal</dt><dd>How strongly your device hears the router, in dBm. Closer to zero is stronger: -50 is very good, -67 good, -75 fair, -80 weak.</dd>
+            <dt>Channel</dt><dd>The slice of the airwaves your network uses. Networks nearby on the same slice take turns with yours, which slows both.</dd>
+          </dl>
+        </div>
       </div>
       <div class="hi-foot">
         <div class="hi-status" id="hi-status">Waiting for the router&hellip;</div>
@@ -1073,7 +1131,7 @@
 
 <script src="js/haven-data.js?v=747babe0"></script>
 <script src="js/haven-tooltips.js?v=94c27dbf"></script>
-<script src="js/haven-ui.js?v=f3b33a32"></script>
+<script src="js/haven-ui.js?v=0c6f0c58"></script>
 <script src="js/kyc.js?v=bff34a19"></script>
 
 <!-- HAVEN-SHARED-FOOTER START (generated by tools/inject-nav.py; edit there) -->

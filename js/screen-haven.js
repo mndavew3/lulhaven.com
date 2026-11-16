@@ -385,14 +385,18 @@
   }
   // ---- buttons: Back/Next turn the deck's wheel (-1 next, +1 previous) ----
   // the router-back drawing is a page off to the side: Back / Next from it return to the deck
-  function wheel(n) { if (view === 'ports') show('deck'); else if (window._hvn) window._hvn.wheel += n; }
+  function wheel(n) { if (view !== 'deck') show('deck'); else if (window._hvn) window._hvn.wheel += n; }
   document.getElementById('hi-prev').onclick = function () { wheel(1); };
   document.getElementById('hi-next').onclick = function () { wheel(-1); };
   function show(v) {
     view = v;
     document.getElementById('hi-deckbox').style.display = v === 'deck' ? '' : 'none';
     document.getElementById('hi-portsbox').style.display = v === 'ports' ? '' : 'none';
-    document.getElementById('hi-where').textContent = v === 'deck' ? 'Haven screen  ·  click the screen, or Back / Next turn its wheel' : 'Router back  ·  Ports';
+    document.getElementById('hi-wifibox').style.display = v === 'wifi' ? '' : 'none';
+    document.getElementById('hi-save').style.visibility = v === 'wifi' ? 'hidden' : '';
+    document.getElementById('hi-where').textContent = v === 'deck' ? 'Haven screen  ·  click the screen, or Back / Next turn its wheel'
+      : v === 'wifi' ? 'Wi-Fi check  ·  the device you are using now' : 'Router back  ·  Ports';
+    if (v === 'wifi' && window._hvnWifi) window._hvnWifi.shown();
     var b = document.getElementById('hi-dots').getElementsByTagName('button');
     for (var i = 0; i < b.length; i++) {
       var on = b[i].getAttribute('data-v') === v;
@@ -469,4 +473,318 @@
   };
   show('deck');
   window.hdScreenHaven.start();
+})();
+
+// ---- Wi-Fi check. The page code of luci-app-haven/luasrc/view/haven/wificheck.htm, unchanged
+// except for the four functions marked DEMO, which answer with sample numbers in place of a
+// router and shorten the waits to a quarter. Nothing here touches a real network.
+(function () {
+  var BANDS = { '2g': '2.4 GHz', '5g': '5 GHz', '6g': '6 GHz' };
+  var state = null, busy = false, goFn = null;
+  function $(id) { return document.getElementById(id); }
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+    });
+  }
+  function say(msg, bad) { var e = $('wc-status'); e.textContent = msg || ''; e.className = 'hi-status' + (bad ? ' hi-bad' : ''); }
+  function wait(ms) { return new Promise(function (r) { setTimeout(r, ms / 4); }); }   // DEMO: a quarter of the real wait
+  function region(cc) { try { return new Intl.DisplayNames(['en'], { type: 'region' }).of(cc); } catch (e) { return cc; } }
+  function mins(s) { return s >= 90 ? Math.round(s / 60) + ' minutes' : s + ' seconds'; }
+
+  // DEMO: the sample network. One 5 GHz move (channel 36 to 149) that Tune up finds and Undo puts back.
+  var sim = { ch5: 36, undo: [], waiting: null, ops: 0 };
+  function simDevice() {
+    var moved = sim.ch5 !== 36;
+    return { wifi: true, ssid: 'Haven-00017-5GHz', band: '5g', channel: sim.ch5, width: 80,
+             down_mbps: moved ? 1081 : 864.7, up_mbps: moved ? 960.8 : 720.6, signal: moved ? -51 : -52 };
+  }
+  function simState() {
+    var s = { ok: true, country: 'US', zone: 'America/Chicago', drop_s: 30, rollback_s: 120, undo: sim.undo,
+              radios: [ { band: '2g', up: true, channel: '6', width: 20 }, { band: '5g', up: true, channel: String(sim.ch5), width: 80 } ],
+              device: simDevice() };
+    if (sim.waiting) s.waiting = { op: sim.waiting };
+    return s;
+  }
+  function simMeasure() {
+    var moved = sim.ch5 !== 36;
+    var m = { ok: true, changes: [], radios: [
+      { band: '2g', survey: true, pick: 6, reason: 'Channel 6 is already the best choice here.', cands: [
+        { ch: 6, current: true, words: 'Channel 6: 2 nearby networks, some traffic (in use 14% of the time).' },
+        { ch: 11, words: 'Channel 11: 3 nearby networks, some traffic (in use 22% of the time).' },
+        { ch: 1, words: 'Channel 1: 4 nearby networks, busy (in use 37% of the time).' } ] },
+      { band: '5g', survey: true, pick: 149,
+        reason: moved ? 'Channel 149 is already the best choice here.' : 'Channel 149 had the least interference.', cands: [
+        { ch: 149, current: moved, words: 'Channel 149: 1 nearby network, quiet (in use 4% of the time).' },
+        { ch: 100, words: 'Channel 100: 2 nearby networks, some traffic (in use 12% of the time).' },
+        { ch: 36, current: !moved, words: 'Channel 36: 5 nearby networks, busy (in use 41% of the time).' } ] } ] };
+    if (!moved) m.id = 'demo-plan';
+    return m;
+  }
+  // DEMO: one request to the sample router
+  function call(act) {
+    var a;
+    if (act === 'state') a = simState();
+    else if (act === 'begin') a = { ok: true, id: 'demo-test', seconds: 8, down: '', up: '' };
+    else if (act === 'measure') a = simMeasure();
+    else if (act === 'apply') {
+      sim.ch5 = 149; sim.undo = [ { band: '5g', radio: 'radio1', opt: 'channel', back_to: '36' } ];
+      sim.waiting = 'demo-' + (++sim.ops); a = { ok: true, op: sim.waiting, rollback_s: 120 };
+    } else if (act === 'undo') {
+      sim.ch5 = 36; sim.undo = [];
+      sim.waiting = 'demo-' + (++sim.ops); a = { ok: true, op: sim.waiting, rollback_s: 120 };
+    } else if (act === 'confirm') { sim.waiting = null; a = { ok: true }; }
+    else a = { ok: true };
+    return new Promise(function (r) { setTimeout(function () { r(a); }, act === 'measure' ? 1500 : 300); });
+  }
+  // DEMO: the speed test gives sample speeds for the channel the sample network is on
+  function download(url, secs) { return wait(secs * 1000).then(function () { return sim.ch5 !== 36 ? 612 : 431; }); }
+  function upload(url, secs) { return wait(secs * 1000).then(function () { return sim.ch5 !== 36 ? 498 : 352; }); }
+
+  // ---- what the router has now ----
+  function channelWords(r) {
+    if (!r.up) return 'switched off';
+    var ch = /^\d+$/.test(r.channel) ? 'channel ' + r.channel : 'a channel it picks itself';
+    return ch + (r.band !== '2g' ? ', ' + r.width + ' MHz wide' : '');
+  }
+  function undoWords(u) {
+    var b = BANDS[u.band] || u.radio;
+    if (u.opt === 'country') return b + ' region back to ' + (u.back_to && u.back_to !== '00' ? region(u.back_to) : 'not set');
+    return b + ' channel back to ' + (/^\d+$/.test(u.back_to) ? u.back_to : 'automatic');
+  }
+  function showFacts(s) {
+    var p = [];
+    if (s.country) p.push('Region: <b>' + esc(region(s.country)) + '</b>, from the router\'s time zone (' + esc(s.zone) + ').');
+    else p.push('Region: not known, because the router\'s time zone is ' + (s.zone ? esc(s.zone) : 'not set') +
+                '. Until it is, your Wi-Fi keeps to the channels allowed everywhere.');
+    (s.radios || []).forEach(function (r) { if (BANDS[r.band]) p.push(BANDS[r.band] + ': ' + esc(channelWords(r)) + '.'); });
+    if (s.undo && s.undo.length) p.push('Undo would put back: ' + esc(s.undo.map(undoWords).join('; ')) + '.');
+    $('wc-facts').innerHTML = p.join('<br>');
+    setButtons();
+  }
+  function setButtons() {
+    $('wc-test').disabled = $('wc-tune').disabled = busy;
+    $('wc-undo').disabled = busy || !(state && state.undo && state.undo.length);
+  }
+  function refresh() {
+    return call('state', null, 10000).then(function (s) {
+      if (s && s.ok) { state = s; showFacts(s); }
+      else $('wc-facts').textContent = 'The router did not answer. Reload the page to try again.';
+      return s;
+    });
+  }
+
+  function runTest(label) {
+    var res = {};
+    say(label + 'Asking the router how this device is connected…');
+    return call('state', null, 10000).then(function (s) {
+      if (!s || !s.ok) { res.err = 'The router did not answer.'; return res; }
+      state = s; showFacts(s);
+      res.device = s.device || { unknown: true };
+      if (!res.device.wifi) return res;
+      return call('begin').then(function (b) {
+        if (!b || !b.ok) {
+          res.err = b && b.busy ? 'Another speed test is running on the router. Try again in a minute.'
+                                : (b && b.why) || 'The router could not start the speed test.';
+          return res;
+        }
+        say(label + 'Measuring download, ' + b.seconds + ' seconds…');
+        return download(b.down, b.seconds).then(function (d) {
+          res.down = d;
+          say(label + 'Measuring upload, ' + b.seconds + ' seconds…');
+          return upload(b.up, b.seconds);
+        }).then(function (u) { res.up = u; call('end', { id: b.id }); return res; });
+      });
+    });
+  }
+
+  // ---- showing results ----
+  function mb(v) { return v == null ? 'not measured' : (v >= 100 ? Math.round(v) : Math.round(v * 10) / 10) + ' Mbit/s'; }
+  function sigWords(d) { return d >= -55 ? 'strong' : d >= -67 ? 'good' : d >= -75 ? 'fair' : 'weak'; }
+  function onWords(d) {
+    return (d.ssid ? esc(d.ssid) + ', ' : '') + (BANDS[d.band] || 'Wi-Fi') + (d.channel ? ', channel ' + d.channel : '') +
+           (d.width ? ', ' + d.width + ' MHz wide' : '');
+  }
+  function plainOnly(r) {
+    if (r.err && !r.device) return esc(r.err);
+    if (r.device.wired) return 'You\'re plugged in; this check measures Wi-Fi.';
+    if (r.device.unknown) return 'The router could not find this device in its lists, so it cannot tell how it is connected.';
+    return null;
+  }
+  function testCard(r, title) {
+    var only = plainOnly(r), d = r.device;
+    if (only) return '<div class="wc-card"><h4>' + title + '</h4><p>' + only + '</p></div>';
+    return '<div class="wc-card"><h4>' + title + '</h4><table>' +
+      '<tr><th>Connected to</th><td>' + onWords(d) + '</td></tr>' +
+      '<tr><th>Link rate</th><td>' + mb(d.down_mbps) + ' to this device, ' + mb(d.up_mbps) + ' from it</td></tr>' +
+      '<tr><th>Signal</th><td>' + (d.signal != null ? d.signal + ' dBm, ' + sigWords(d.signal) : 'not reported') + '</td></tr>' +
+      '<tr><th>Download</th><td>' + mb(r.down) + '</td></tr>' +
+      '<tr><th>Upload</th><td>' + mb(r.up) + '</td></tr></table>' +
+      (r.err ? '<p class="wc-bad">' + esc(r.err) + '</p>' : '') +
+      '<p class="wc-note">On some router models the router\'s own processor is the limit in this test, so ' +
+      'your Wi-Fi may be faster than the download and upload show. The link rate is the ceiling.</p></div>';
+  }
+  function pct(a, b) {
+    if (a == null || b == null || !a) return '';
+    var p = (b - a) / a * 100;
+    if (Math.abs(p) < 5) return 'about the same';
+    return p > 0 ? '<span class="wc-good">' + Math.round(p) + '% faster</span>' : '<span class="wc-bad">' + Math.round(-p) + '% slower</span>';
+  }
+  function compareCard(a, b) {
+    var oa = plainOnly(a), ob = plainOnly(b);
+    if (oa || ob) return testCard(b, 'After Tune up');
+    var da = a.device, db = b.device, sd = (da.signal != null && db.signal != null) ? db.signal - da.signal : null;
+    function row(name, x, y, change) { return '<tr><th>' + name + '</th><td>' + x + '</td><td>' + y + '</td><td>' + (change || '') + '</td></tr>'; }
+    return '<div class="wc-card"><h4>Before and after Tune up</h4><table>' +
+      '<tr><th></th><th>Before</th><th>After</th><th>Difference</th></tr>' +
+      row('Connected on', onWords(da), onWords(db), (da.band !== db.band || da.channel !== db.channel) ? 'moved' : 'same') +
+      row('Link rate to this device', mb(da.down_mbps), mb(db.down_mbps), pct(da.down_mbps, db.down_mbps)) +
+      row('Link rate from it', mb(da.up_mbps), mb(db.up_mbps), pct(da.up_mbps, db.up_mbps)) +
+      row('Signal', da.signal != null ? da.signal + ' dBm' : 'not reported', db.signal != null ? db.signal + ' dBm' : 'not reported',
+          sd == null ? '' : Math.abs(sd) < 2 ? 'about the same'
+          : sd > 0 ? '<span class="wc-good">' + sd + ' dB stronger</span>' : '<span class="wc-bad">' + (-sd) + ' dB weaker</span>') +
+      row('Download', mb(a.down), mb(b.down), pct(a.down, b.down)) +
+      row('Upload', mb(a.up), mb(b.up), pct(a.up, b.up)) + '</table>' +
+      '<p class="wc-note">Speeds move a little from one test to the next even when nothing changed, so ' +
+      'a difference under about 5% is noise.</p></div>';
+  }
+  function foundCards(m) {
+    var html = '';
+    (m.changes || []).some(function (c) {
+      if (c.opt !== 'country') return false;
+      html += '<p>Region set to <b>' + esc(region(c.new)) + '</b>, from the router\'s time zone. The region decides ' +
+              'which channels may be used and how much power each may use.</p>';
+      return true;
+    });
+    (m.radios || []).forEach(function (r) {
+      if (r.band !== '2g' && r.band !== '5g') return;
+      var body;
+      if (r.note === 'off') body = '<p>This radio is switched off, so it was left alone.</p>';
+      else if (r.note === 'could not look') body = '<p>This radio could not look at the air around it, so its channel was left alone.</p>';
+      else if (r.note === 'no channel fits') body = '<p>None of the channels your region allows fits how wide this radio is set, so its channel was left alone.</p>';
+      else if (r.note) body = '<p>The router does not know this region\'s rules, so this radio was left alone.</p>';
+      else if (r.cands) {
+        body = '<ul class="wc-list">' + r.cands.slice(0, 6).map(function (c) {
+          return '<li>' + esc(c.words) + (c.current ? ' In use before.' : '') + (c.ch === r.pick ? ' <b>Picked.</b>' : '') + '</li>';
+        }).join('') + '</ul><p>' + esc(r.reason) + '</p>' +
+          (r.survey ? '' : '<p class="wc-note">This radio cannot report how busy each channel is, so this counts ' +
+                           'the networks nearby and how loud each one is.</p>');
+      } else return;
+      html += '<div class="wc-card"><h4>' + BANDS[r.band] + ': what Tune up found</h4>' + body + '</div>';
+    });
+    return html;
+  }
+
+  // ---- restarting safely: confirm once the router can be reached again ----
+  function reconnect(op, rollbackS) {
+    var t0 = Date.now(), limit = (rollbackS + 30) * 1000;
+    function left() { return Math.max(0, Math.round(rollbackS - (Date.now() - t0) / 1000)); }
+    function waiting() {
+      say('Waiting for the router to come back. If this page cannot reach it within ' + mins(left()) +
+          ', the router puts the old settings back by itself.');
+    }
+    function poll() {
+      if (Date.now() - t0 > limit) return Promise.resolve({ lost: true });
+      waiting();
+      return call('state', null, 4000).then(function (s) {
+        if (s && s.waiting && s.waiting.op === op) {
+          return call('confirm', { op: op }, 40000).then(function (c) {
+            if (c && (c.ok || c.rolled_back)) return c;
+            return wait(3000).then(poll);
+          });
+        }
+        if (s && s.result === 'rolled_back ' + op) return { rolled_back: true, by_router: true };
+        if (s && s.result === 'confirmed ' + op) return { ok: true };
+        return wait(3000).then(poll);
+      });
+    }
+    waiting();
+    return wait(Math.min(12, rollbackS / 2) * 1000).then(poll);   // let the restart begin first
+  }
+  function afterRestart(c) {
+    if (c.ok) return true;
+    if (c.rolled_back && c.by_router)
+      say('This page could not reach the router in time, so the router put the old settings back by itself.', true);
+    else if (c.rolled_back)
+      say('A radio did not come back on the new setting, so the router put the old settings back.', true);
+    else
+      say('This page lost the router. If the change cut your device off, the router has put the old settings back ' +
+          'by itself: reconnect to your Wi-Fi and reload this page.', true);
+    return false;
+  }
+
+  // ---- the three buttons ----
+  function start(fn) {
+    busy = true; setButtons();
+    Promise.resolve().then(fn).catch(function (e) { say('Something went wrong: ' + e, true); })
+      .then(function () { busy = false; setButtons(); return refresh(); });
+  }
+  function warn(html, label, fn) {
+    $('wc-warn-text').innerHTML = html; $('wc-go').textContent = label; goFn = fn;
+    $('wc-warn').style.display = '';
+  }
+  $('wc-go').onclick = function () { $('wc-warn').style.display = 'none'; var f = goFn; goFn = null; if (f) start(f); };
+  $('wc-cancel').onclick = function () { $('wc-warn').style.display = 'none'; goFn = null; say(''); };
+
+  $('wc-test').onclick = function () {
+    start(function () {
+      return runTest('').then(function (r) {
+        $('wc-out').innerHTML = testCard(r, 'This device, ' + new Date().toLocaleTimeString());
+        say(r.err ? r.err : 'Test finished.', !!r.err);
+      });
+    });
+  };
+
+  $('wc-tune').onclick = function () {
+    var drop = (state && state.drop_s) || 30, back = (state && state.rollback_s) || 120;
+    warn('<b>Before Tune up starts.</b> It takes about a minute. First it tests this device. Then it looks at the ' +
+         'Wi-Fi around you; while it looks, devices on your Wi-Fi may pause for a second or two. If it finds a ' +
+         'clearer channel it restarts the Wi-Fi: <b>every device on your Wi-Fi drops off for about ' + drop +
+         ' seconds</b>, then reconnects by itself. If this page cannot reach the router again within ' + mins(back) +
+         ', the router puts the old settings back by itself.', 'Start Tune up', tune);
+  };
+  function tune() {
+    var before, m;
+    return runTest('Before: ').then(function (r) {
+      before = r;
+      $('wc-out').innerHTML = testCard(before, 'Before Tune up');
+      say('Looking at the Wi-Fi around you…');
+      return call('measure', null, 120000);
+    }).then(function (mm) {
+      m = mm;
+      if (!m || !m.ok) { say('The router could not look at the Wi-Fi around it. Nothing was changed.', true); return; }
+      $('wc-out').innerHTML = testCard(before, 'Before Tune up') + foundCards(m);
+      if (!m.id) { say('Nothing to change: your Wi-Fi is already on the best settings, so it was not restarted.'); return; }
+      say('Restarting the Wi-Fi with the new settings. This device will drop off and reconnect by itself…');
+      return call('apply', { id: m.id }).then(function (a) {
+        if (!a || !a.ok) { say((a && a.why) || 'The router did not make the change.', true); return; }
+        return reconnect(a.op, a.rollback_s || 120).then(function (c) {
+          if (!afterRestart(c)) return;
+          return runTest('After: ').then(function (after) {
+            $('wc-out').innerHTML = compareCard(before, after) + foundCards(m);
+            say('Tune up finished. Undo puts back the settings from before.');
+          });
+        });
+      });
+    });
+  }
+
+  $('wc-undo').onclick = function () {
+    if (!state || !state.undo || !state.undo.length) return;
+    var drop = state.drop_s || 30, back = state.rollback_s || 120;
+    warn('<b>Undo puts back:</b> ' + esc(state.undo.map(undoWords).join('; ')) + '. It restarts the Wi-Fi: ' +
+         '<b>every device on your Wi-Fi drops off for about ' + drop + ' seconds</b>, then reconnects by itself. ' +
+         'If this page cannot reach the router again within ' + mins(back) + ', the router keeps the settings it has now.',
+         'Undo now', function () {
+      say('Restarting the Wi-Fi with the earlier settings…');
+      return call('undo').then(function (a) {
+        if (!a || !a.ok) { say((a && a.why) || 'The router did not undo the change.', true); return; }
+        return reconnect(a.op, a.rollback_s || 120).then(function (c) {
+          if (afterRestart(c)) say('Undo finished: the earlier settings are back.');
+        });
+      });
+    });
+  };
+
+  window._hvnWifi = { shown: function () { if (!state && !busy) refresh(); } };
 })();

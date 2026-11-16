@@ -19,7 +19,8 @@
 // A stale pin is now caught mechanically by hearst-preflight.sh, which compares this
 // constant against the newest built image before any publish — the previous audit was
 // 2026-08-13 and nothing noticed for eight days.
-var HD_CURRENT_VERSION = '0.1.117'; // 0.1.117 audit, 2026-11-03 against 0.1.116-0.1.117 (mod register #180, #187-#189; 0.1.116 was never published): #188's menu title "Helm - Lake view" (plain hyphen) is now the Lake view button's tooltip in demo.html; #188's kiosk gate, #180 (screen product name), #187 (screen files on the router) and #189 (Olive tab icon) have no customer-visible demo surface. Previous pin note follows. 0.1.115 audit, 2026-10-30 against 0.1.110-0.1.115 (mod register #181-#186): #181 Lake view ("Helm — Lake view") is now imitated here, as the Lake view button and panel (demo.html, js/lake-view.js, on the demo's own sample data, customer copy says "filtered"); #183 (Helm colours now var(--ls-*, same fallback)) looks identical without the Lakeside theme, nothing to change; #184 (summary preview, bench routers only), #182/#186 (wall-tablet PIN, switched off) and #185 (Olive tab icon, unchanged) have no customer-visible demo surface. Previous pin note follows. 0.1.114 was: the pin follows what customers are offered, and a --hold-manifest publish compares it with the live offer, so it stays 0.1.109 until 0.1.114 ships: set it to '0.1.114' in the same Hearst run that offers it (waiting list #433). The 0.1.114 audit is already done, 2026-10-28 against 0.1.110-0.1.114:the search placeholder ("Apple, YouTube, Roblox") already matched; the settings-file import summary now counts in the singular and plural with the router's own words (main.htm count()); the new Screen Haven page (Helm instruments) is not imitated here — Dave 2026-10-28 23:28 holds it until the tablet's limits are known (waiting list #432) — and the time-zone adoption, schedule route, login gate, "Working…" badge and back-end changes have no demo surface. Earlier audit, 2026-10-04 (0.1.105-0.1.109):Show Filtered now shows in Basic here too (router mod #133 — the hide rule left demo.html), the "Adult & Sensitive" and "Other" section tooltips match main.htm, the per-section ? help buttons and the tooltip keys were already in step (696 of 696 shared), and the login, password, early-click, update and hand-off changes (#141-#145 among them) have no demo surface. Earlier audit, 2026-09-15 (0.1.104): #124 (Advanced toggle answers "Coming soon" — this demo already shipped the same gate, see hdToggleMode below) and #131 (no demo surface: hdBasicMode is pinned true at init).
+var HD_CHECK_AGE = ' (last checked 3 hours ago)'; // sample age of the last successful update check, worded as the router's havenCheckAge() words it (mod #127)
+var HD_CURRENT_VERSION = '0.1.121'; // 0.1.121 audit, 2026-11-16 against 0.1.118-0.1.121 (mod register #125-#130, #190-#198; 0.1.118-0.1.120 were never published): #127's update-check age ("last checked N ago") is now imitated on the version line and on the update banner, with a sample age; #196/#197 (Haven Lake is the default theme, Olive wears green): on a real unit the Helm now takes its colours from the theme while this demo keeps the earlier light look - KNOWN DIFFERENCE, open as waiting item #645 (it needs a signed-in view of a real Helm to copy from); #193's Wi-Fi check (the third view of Screen Haven) is now imitated in demo.html and js/screen-haven.js with the router's own page code and a sample network; #194 Games (hidden unless the bench switch file exists) and #195 Haven Charge Controller (its own menu page) sit on pages this demo does not imitate; #125-#126, #128-#130, #190-#192 and #198 have no customer-visible demo surface. Previous pin note follows. 0.1.117 audit, 2026-11-03 against 0.1.116-0.1.117 (mod register #180, #187-#189; 0.1.116 was never published): #188's menu title "Helm - Lake view" (plain hyphen) is now the Lake view button's tooltip in demo.html; #188's kiosk gate, #180 (screen product name), #187 (screen files on the router) and #189 (Olive tab icon) have no customer-visible demo surface. Previous pin note follows. 0.1.115 audit, 2026-10-30 against 0.1.110-0.1.115 (mod register #181-#186): #181 Lake view ("Helm — Lake view") is now imitated here, as the Lake view button and panel (demo.html, js/lake-view.js, on the demo's own sample data, customer copy says "filtered"); #183 (Helm colours now var(--ls-*, same fallback)) looks identical without the Lakeside theme, nothing to change; #184 (summary preview, bench routers only), #182/#186 (wall-tablet PIN, switched off) and #185 (Olive tab icon, unchanged) have no customer-visible demo surface. Previous pin note follows. 0.1.114 was: the pin follows what customers are offered, and a --hold-manifest publish compares it with the live offer, so it stays 0.1.109 until 0.1.114 ships: set it to '0.1.114' in the same Hearst run that offers it (waiting list #433). The 0.1.114 audit is already done, 2026-10-28 against 0.1.110-0.1.114:the search placeholder ("Apple, YouTube, Roblox") already matched; the settings-file import summary now counts in the singular and plural with the router's own words (main.htm count()); the new Screen Haven page (Helm instruments) is not imitated here — Dave 2026-10-28 23:28 holds it until the tablet's limits are known (waiting list #432) — and the time-zone adoption, schedule route, login gate, "Working…" badge and back-end changes have no demo surface. Earlier audit, 2026-10-04 (0.1.105-0.1.109):Show Filtered now shows in Basic here too (router mod #133 — the hide rule left demo.html), the "Adult & Sensitive" and "Other" section tooltips match main.htm, the per-section ? help buttons and the tooltip keys were already in step (696 of 696 shared), and the login, password, early-click, update and hand-off changes (#141-#145 among them) have no demo surface. Earlier audit, 2026-09-15 (0.1.104): #124 (Advanced toggle answers "Coming soon" — this demo already shipped the same gate, see hdToggleMode below) and #131 (no demo surface: hdBasicMode is pinned true at init).
 
 var hdNameGroups = {};
 var hdKeyNameMap = {};
@@ -906,7 +907,7 @@ function hdCheckUpdate() {
   hdUpdateCheckCount++;
   setTimeout(function () {
     if (hdUpdateCheckCount % 2 === 1) {
-      document.getElementById('hd-update-text').textContent = 'A Haven update is available.';
+      document.getElementById('hd-update-text').textContent = 'A Haven update is available. (last checked just now)';
       document.getElementById('hd-update-banner').style.display = '';
       s.textContent = '';
     } else {
@@ -922,7 +923,7 @@ function hdApplyHavenUpdate() {
   setTimeout(function () {
     b.style.display = 'none';
     var rv = document.getElementById('hd-running-version');
-    if (rv) rv.textContent = 'Running Haven ' + HD_CURRENT_VERSION;
+    if (rv) rv.textContent = 'Running Haven ' + HD_CURRENT_VERSION + HD_CHECK_AGE;
     hdShowMsg('Update applied. (Demo simulation — a live Haven actually reboots.)', '#007a40');
   }, 2200);
 }
@@ -1327,7 +1328,7 @@ function hdToggleScreenHavenPanel() {
     if (visible) window.hdScreenHaven.start(); else window.hdScreenHaven.stop();
   } else if (visible) {
     var s = document.createElement('script');
-    s.src = 'js/screen-haven.js';
+    s.src = 'js/screen-haven.js?v=' + HD_CURRENT_VERSION;   // /js/* is cached for a day: a new version must not meet yesterday's script
     document.body.appendChild(s);
   }
 }
@@ -1399,7 +1400,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 var _rvInit = document.getElementById('hd-running-version');
-if (_rvInit) _rvInit.textContent = 'Running Haven ' + HD_CURRENT_VERSION;
+if (_rvInit) _rvInit.textContent = 'Running Haven ' + HD_CURRENT_VERSION + HD_CHECK_AGE;
 
 hdRenderCatList();
 hdLoad();
