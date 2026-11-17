@@ -1,5 +1,115 @@
-// generated from haven_wiki.db accomplishments — 864 rows, newest id 902
+// generated from haven_wiki.db accomplishments — 874 rows, newest id 912
 var milestonesDataset = [
+  {
+    "id": 908,
+    "date": "2026-11-16",
+    "theme": "Product definition",
+    "impact": 4,
+    "summary": "Work began on BYO ScreenHaven, an installation that turns an Android phone or tablet you already own into Haven's screen.",
+    "detail": null,
+    "benefit": "A retired phone from a drawer gets a second life as the screen for your router, with no hardware to buy.",
+    "ref": "5e00faed",
+    "features": []
+  },
+  {
+    "id": 906,
+    "date": "2026-11-16",
+    "theme": "Product definition",
+    "impact": 4,
+    "summary": "The Haven Charge Controller now comes installed in every Haven image. From the router, it keeps the battery of an Android tablet or phone in a healthy range by switching a smart plug on its charger.",
+    "detail": null,
+    "benefit": "A tablet or phone that stays plugged in as Haven's screen can keep a healthy battery for years.",
+    "ref": "559d382b28",
+    "features": []
+  },
+  {
+    "id": 905,
+    "date": "2026-11-16",
+    "theme": "Reliability & Updates",
+    "impact": 4,
+    "summary": "Haven now keeps its saved history and device records in a protected folder that stays in place through a settings-kept update.",
+    "detail": null,
+    "benefit": "After an update your router still knows your devices and what it has learned, so you carry on where you left off.",
+    "ref": "5e3621fd8a",
+    "features": []
+  },
+  {
+    "id": 903,
+    "date": "2026-11-16",
+    "theme": "Reliability & Updates",
+    "impact": 4,
+    "summary": "Haven 0.1.121 is out for all five editions: Olive Green, Navy Blue, AA Maroon, Vanilla Gold and CG Orange.",
+    "detail": null,
+    "benefit": "Every Haven router, whichever edition you own, can take the newest Haven with one update.",
+    "ref": "e858cffa4a",
+    "features": []
+  },
+  {
+    "id": 904,
+    "date": "2026-11-16",
+    "theme": "Haven Helm",
+    "impact": 3,
+    "summary": "The Helm now wears Haven Lake, Haven's own look, as standard. Olive Green wears it in dark green and Navy Blue in navy, with the other editions to follow.",
+    "detail": null,
+    "benefit": "The Helm looks like Haven from the first screen, and its colours match the router on your shelf.",
+    "ref": "b4f9273c73",
+    "features": []
+  },
+  {
+    "id": 907,
+    "date": "2026-11-16",
+    "theme": "Demo page",
+    "impact": 2,
+    "summary": "The demo on lulhaven.com now matches Haven 0.1.121, including the update-check age and the Wi-Fi check view.",
+    "detail": null,
+    "benefit": "What you try on the website is what you get on the router.",
+    "ref": "404c1b2040",
+    "features": []
+  },
+  {
+    "id": 909,
+    "date": "2026-11-15",
+    "theme": "Product definition",
+    "impact": 2,
+    "summary": "A Games menu was added to Haven. It is targeted for Android-provisioned router heads, the Android phones and tablets set up as a router's screen, and it is undergoing further development.",
+    "detail": null,
+    "benefit": "The screen beside your router can offer a few games as well as the Helm.",
+    "ref": "ff7cb7845e",
+    "features": []
+  },
+  {
+    "id": 910,
+    "date": "2026-11-13",
+    "theme": "Marketing & website",
+    "impact": 2,
+    "summary": "lulhaven.com was tidied: one menu on every page, an icon on the browser tab, a sitemap, and the count of 53 categories shown throughout.",
+    "detail": null,
+    "benefit": "The website is easier to find your way around and says the same thing on every page.",
+    "ref": "5acf787a5e",
+    "features": []
+  },
+  {
+    "id": 912,
+    "date": "2026-11-12",
+    "theme": "Reliability & Updates",
+    "impact": 3,
+    "summary": "Haven now holds its local network address steady when a single unusual device joins.",
+    "detail": null,
+    "benefit": "Your devices keep their connections and their addresses when something odd is plugged in.",
+    "ref": "88e4d61dee",
+    "features": []
+  },
+  {
+    "id": 911,
+    "date": "2026-11-12",
+    "theme": "Reliability & Updates",
+    "impact": 2,
+    "summary": "Each new Wi-Fi network Haven creates is now named by its band, so the 5 GHz network is marked as such.",
+    "detail": null,
+    "benefit": "You can tell at a glance which network to join.",
+    "ref": "88e4d61dee",
+    "features": []
+  },
   {
     "id": 902,
     "date": "2026-11-06",
