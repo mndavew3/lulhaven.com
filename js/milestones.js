@@ -62,7 +62,7 @@ var milestonesDataset = [
     "impact": 2,
     "summary": "The demo on lulhaven.com now matches Haven 0.1.121, including the update-check age and the Wi-Fi check view.",
     "detail": null,
-    "benefit": "What you try on the website is what you get on the router.",
+    "benefit": "The demo shows the same update and Wi-Fi checks as the router.",
     "ref": "404c1b2040",
     "features": []
   },
